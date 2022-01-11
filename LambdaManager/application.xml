@@ -1,0 +1,839 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<main title="NJUST-SCIL多模显微镜" left="300" right="100" notice="平台上请不要放任何东西，请检查" maximize="true">
+	<component name="opencv" lib="D:\workspace\library\opencv401\opencv\build\x64\vc15\bin\opencv_world401.dll"></component>
+
+	<!--<component name="DPCAlgorithm" lib="algrithm/DPCAlgorithm.dll"></component>-->
+
+	<component name="illu232" lib="lib\RS232.dll">
+		<procedure name="OpenLED" event="OPENLED">
+			<action name="OpenLED">
+				<![CDATA[ Open LED ]]>
+			</action>
+		</procedure>
+
+		<procedure name="CloseLED" event="CLOSELED">
+			<action name="CloseLED">
+				<![CDATA[ Close LED ]]>
+			</action>
+		</procedure>
+
+		<procedure name="SendLEDSerialPortSignal" event="LEDCHANGED">
+			<action name="SendLEDSignal">
+				<input name="LEDSignal" type="String"/>
+				<![CDATA[ Send LED signal to port]]>
+			</action>
+		</procedure>
+
+		<procedure name="OpenLaser" event="OPENLASER">
+			<action name="OpenLaser">
+				<![CDATA[ Open laser ]]>
+			</action>
+		</procedure>
+
+		<procedure name="CloseLaser" event="CLOSELASER">
+			<action name="CloseLaser">
+				<![CDATA[ Close laser ]]>
+			</action>
+		</procedure>
+	</component>
+
+	<component name="Camera" lib="lib\ISCamera.dll">
+		<procedure name="OpenCamera">
+			<action name="OpenCamera" async="true">
+				<![CDATA[ Open camera ]]>
+			</action>
+		</procedure>
+
+		<procedure name="OpenCinema">
+			<action name="OpenCinema" async="true">
+				<![CDATA[ Open camera ]]>
+			</action>
+		</procedure>
+
+		<procedure name="CloseCamera" event="CLOSECAM">
+			<action name="CloseCamera">
+				<![CDATA[ Close camera ]]>
+			</action>
+		</procedure>
+
+		<procedure name="SetProperty" event="PROPERTYCHANGED">
+			<action name="SetProperty">
+				<input name="name" type="string"/>
+				<input name="value" type="string"/>
+				<![CDATA[ Set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="LoadProperty">
+			<action name="LoadProperty">
+				<input name="xmlProperties" type="string"/>
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="SaveSettings" event="SAVECAMERASETTINGS">
+			<action name="SaveSettings">
+				<![CDATA[ Save camera settings]]>
+			</action>
+		</procedure>
+
+		<procedure name="CapImage" event="CAPIMAGE" key="CamMode CAMIMG">
+			<action name="CaptureImage">
+				<input name="CamMode" type="int"/>
+				<![CDATA[ Capture and save images]]>
+				<output name="CAMIMG" type="handle" /><!--生命周期参数life=""-->
+			</action>
+		</procedure>
+	</component>
+
+	<component name="MotorControl" lib="lib\RS232.dll" init="OpenMotor">
+		<procedure name="OpenMotor">
+			<action name="OpenMotor">
+				<![CDATA[ Open Motor port]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveLeft" event="MOVELEFT" key="Step">
+			<!--MOVE event含step参数-->
+			<action name="MoveStep">
+				<!--有return：成功：0；错误码：正数-->
+				<input name="Direction" value="0" type="int"/>
+				<input name="Step" type="int"/>
+				<![CDATA[ Move left]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveRight" event="MOVERIGHT" key="Step">
+			<action name="MoveStep">
+				<input name="Direction" value="1" type="int"/>
+				<input name="Step" type="int"/>
+				<![CDATA[ Move right]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveFront" event="MOVEFRONT" key="Step">
+			<action name="MoveStep">
+				<input name="Direction" value="2" type="int"/>
+				<input name="Step" type="int"/>
+				<![CDATA[ Move front]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveRear" event="MOVEREAR" key="Step">
+			<action name="MoveStep">
+				<input name="Direction" value="3" type="int"/>
+				<input name="Step" type="int"/>
+				<![CDATA[ Move rear]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveUp" event="MOVEUP" key="Step">
+			<action name="MoveStep">
+				<input name="Direction" value="4" type="int"/>
+				<input name="Step" type="int"/>
+				<![CDATA[ Move up]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveDown" event="MOVEDOWN" key="Step">
+			<action name="MoveStep">
+				<input name="Direction" value="5" type="int"/>
+				<input name="Step" type="int"/>
+				<![CDATA[ Move down]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveZ" event="MOTORCONTROL">
+			<action name="MoveZ">
+				<input name="DefocusedDistance" type="int"/>
+				<![CDATA[ Move along z axis]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveTo" event="MOTORCONTROL" key="X Y">
+			<action name="MoveTo">
+				<input name="X" type="int"/>
+				<input name="Y" type="int"/>
+				<![CDATA[ Move to position x,y]]>
+			</action>
+		</procedure>
+
+		<procedure name="MoveTo2">
+			<action name="MoveTo2">
+				<input type="pair(int,double)"/>
+				<![CDATA[ Move to position x,y]]>
+			</action>
+		</procedure>
+
+	</component>
+
+	<component name="AutoFocus" lib="lib\DPCAutoFocus.dll" depend="opencv MotorControl Camera">
+		<procedure name="JudgeOnce" export="SobelValue">
+			<action name="MoveTo" component="MotorControl"/>
+			<action name="CapImage" component="Camera"/>
+			<action name="Sobel">
+				<input name="CAMIMG" type="handle" />
+				<![CDATA[ Calculate Sobel value]]>
+				<output type="pair(int,double)" name="SobelValue"/>
+			</action>
+		</procedure>
+
+		<procedure name="AutoFocusThread" event="AUTOFOCUS" key="X Y CamMode">
+			<action name="JudgeOnce" times="10">
+				<![CDATA[ Traverse turn_1]]>
+				<output type="SobelValue[]" name="PositionWithSobel1"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel1" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel1"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl">
+				<input name="PositionWithMaxSobel1" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+			<action name="JudgeOnce" times="10">
+				<input name="X" type="int[]" value="[11,12,13,14,15,16,17,18,19,20]" />
+				<input name="Y" type="int[]" value="[20,19,18,17,16,15,14,13,12,11]" />
+				<input name="CamMode" type="int" value="1002" />
+				<![CDATA[ Traverse turn_2]]>
+				<output type="SobelValue[]" name="PositionWithSobel2"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel2" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel2"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl" >
+				<input name="PositionWithMaxSobel2" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+			<action name="JudgeOnce" times="10">
+				<input name="X" type="int[]" value="[21,22,23,24,25,26,27,28,29,30]" />
+				<input name="Y" type="int[]" value="[30,29,28,27,26,25,24,23,22,21]" />
+				<input name="CamMode" type="int" value="1003" />
+				<![CDATA[ Traverse turn_3]]>
+				<output type="SobelValue[]" name="PositionWithSobel3"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel3" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel3"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl" >
+				<input name="PositionWithMaxSobel3" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+			<action name="JudgeOnce" times="10">
+				<input name="X" type="int[]" value="[31,32,33,34,35,36,37,38,39,40]" />
+				<input name="Y" type="int[]" value="[40,39,38,37,36,35,34,33,32,31]" />
+				<input name="CamMode" type="int" value="1004" />
+				<![CDATA[ Traverse turn_4]]>
+				<output type="SobelValue[]" name="PositionWithSobel4"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel4" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel4"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl" >
+				<input name="PositionWithMaxSobel4" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+		</procedure>
+
+	</component>
+
+	<component name="BrightDark" lib="lib\DPC.dll" depend="opencv illu232 Camera">
+		<procedure name="Load_Bright_Property" event="BRIGHT_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="Load_Dark_Property" event="DARK_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="Bright" event="BRIGHTMODE_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+			<action name="LEDBright">
+				<![CDATA[ Illuminate ]]>
+			</action>
+			<action name="CapImage" component="Camera" raise="BRIGHT_READY">
+				<![CDATA[ Capture image and show]]>
+				<output  name="BrightImg" type="handle"/>
+			</action>
+		</procedure>
+
+		<procedure name="Dark" event="DARKMODE_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+			<action name="LEDDark">
+				<![CDATA[ Illuminate ]]>
+			</action>
+			<action name="CapImage" component="Camera" raise="DARK_READY">
+				<![CDATA[ Capture image and show]]>
+				<output type="handle" name="DARKIMG"/>
+			</action>
+		</procedure>
+	</component>
+
+	<component name="DPC" lib="lib\DPC.dll" depend="opencv illu232 Camera">
+		<procedure name="Load_DPC_Property" event="DPC_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="ChangeMagnification">
+			<action name="ChangeMagnification">
+				<input name="mag" type="int"/>
+				<![CDATA[ Change Magnification]]>
+			</action>
+		</procedure>
+
+		<procedure name="ChangeDPCMode">
+			<action name="ChangeDPCMode">
+				<input name="dpc" type="int"/>
+				<![CDATA[ Change DPC Mode]]>
+			</action>
+		</procedure>
+
+		<procedure name="DPCThread" event="DPCTHREAD_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_1">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 00"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 01"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_2">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 06"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 07"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_3">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 12"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 13"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_4">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 18"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 19"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread">
+				<action name="DICImgCalculate" raise="DPC_READY">
+					<input type="handle" name="DICIMG_1"/>
+					<input type="handle" name="DICIMG_2"/>
+					<![CDATA[ Differential Image Calculate]]>
+					<output name="DICIMG" type="handle"/>
+				</action>
+			</procedure>
+		</procedure>
+	</component>
+
+	<component name="PhaseContrast" lib="lib\DPC.dll" depend="opencv illu232 MotorControl Camera DPCAlgorithm">
+		<procedure name="Load_PC_Property" event="DPC2PCTHREAD_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="DPC2PCThread" event="DPC2PCTHREAD_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 00"/>
+				<![CDATA[ Illuminate once: Up ]]>
+			</action>
+			<action name="CapImage" component="Camera">
+				<![CDATA[ Capture image once to 1]]>
+				<output type="handle" name="DICIMG_U"/>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 01"/>
+				<![CDATA[ Illuminate once: Down ]]>
+			</action>
+			<action name="CapImage" component="Camera">
+				<![CDATA[ Capture image once ]]>
+				<output type="handle" name="DICIMG_D"/>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 0C"/>
+				<![CDATA[ Illuminate once: Left ]]>
+			</action>
+			<action name="CapImage"  component="Camera">
+				<![CDATA[ Capture image once ]]>
+				<output type="handle" name="DICIMG_L"/>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 0D"/>
+				<![CDATA[ Illuminate once: Right ]]>
+			</action>
+			<action name="CapImage"  component="Camera">
+				<![CDATA[ Capture image once ]]>
+				<output type="handle" name="DICIMG_R"/>
+			</action>
+			<action name="DICImgCalculate4">
+				<input type="handle" name="DICIMG_U"/>
+				<input type="handle" name="DICIMG_D"/>
+				<input type="handle" name="DICIMG_L"/>
+				<input type="handle" name="DICIMG_R"/>
+				<![CDATA[ Calculate Contrast ]]>
+				<output type="handle" name="DPCIMG_LR"/>
+				<output type="handle" name="DPCIMG_UD"/>
+			</action>
+			<action name="CalcPhaseContrast" raise="PHASECONTRAST_READY">
+				<input type="handle" name="DPCIMG_LR"/>
+				<input type="handle" name="DPCIMG_UD"/>
+				<![CDATA[ Calculate Contrast ]]>
+				<output type="handle" name="PhaseContrast"/>
+			</action>
+		</procedure>
+	</component>
+
+	<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:设置/相机参数..."/>
+
+	<component name="Magnification" lib="ConfigObjective.dll" mount="config:0" >
+		<procedure name="GUI_ChangeMagnification" event="MAG_CHANGED" key="mag" icon="opencam.ico">
+			<action name="ChangeMagnification" component="DPC" raise="MAG_GUI_RESPONSED">
+				<![CDATA[ Send new magnification to device]]>
+			</action>
+			<action name="OpenCamera" component="Camera"></action>
+			<action name="OpenCinema" component="Camera"></action>
+		</procedure>
+	</component>
+
+	<component name="DPCMode" lib="ConfigDPCMode.dll" mount="config:1">
+		<procedure name="GUI_ChangeDPCMode" event="DPC_MODE_CHANGED" key="dpc">
+			<action name="ChangeDPCMode" component="DPC" raise="DPC_MODE_APPLIED">
+				<![CDATA[ Set DPC Mode]]>
+			</action>
+		</procedure>
+	</component>
+
+	<component name="BaseDeck" lib="ConfigDeck.dll" mount="config:2"/>
+
+	<component name="SampleContainer" lib="ConfigContainer.dll" mount="config:3"/>
+
+	<component name="SampleSpot" lib="ConfigSpot.dll" mount="config:4"/>
+
+	<component name="FocusMode" lib="ConfigFocus.dll" mount="config:5"/>
+
+	<component name="DOFMode" lib="ConfigDOFMode.dll" mount="config:6"/>
+
+	<component name="CollectInterval" lib="ConfigCollectInterval.dll" mount="config:7" >
+		<procedure name="SetCollectInterval">
+			<action name="SetCollectInterval" raise="OPENLED">
+				<![CDATA[ Send open-LED signal to illu232]]>
+			</action>
+		</procedure>
+	</component>
+
+	<component name="Interop Test" lib="lib\InteropTest.dll">
+		<procedure name="group1" async="true">
+			<action name="Test0" />
+			<action name="Test1">
+				<input name="c1a" type="char" value="'A'"/>
+			</action>
+			<action name="Test1">
+				<input name="c1b" type="char" value="-123"/>
+			</action>
+			<action name="Test1">
+				<input name="c1c" type="char" value="A"/>
+			</action>
+			<action name="Test2">
+				<input name="c2a" type="unsigned char" value="65"/>
+			</action>
+			<action name="Test2">
+				<input name="c2b" type="unsigned char" value="255"/>
+			</action>
+			<action name="Test3">
+				<input name="x3a" type="int" value="12345"/>
+			</action>
+			<action name="Test3">
+				<input name="x3b" type="int" value="-12345"/>
+			</action>
+			<action name="Test4">
+				<input name="x4" type="unsigned int" value="4294954951"/>
+			</action>
+			<action name="Test5">
+				<input name="x5" type="long" value="-1234567890"/>
+			</action>
+			<action name="Test6">
+				<input name="x6" type="unsigned long" value="1234567891"/>
+			</action>
+			<action name="Test7">
+				<input name="x7" type="float" value="1.2345"/>
+			</action>
+			<action name="Test8">
+				<input name="x8" type="double" value="1.23456789"/>
+			</action>
+			<action name="Test9">
+				<input name="x9" type="long int" value="-1234567890"/>
+			</action>
+			<action name="Test10">
+				<input name="x10" type="long long" value="12345678901235"/>
+			</action>
+			<action name="Test11">
+				<input name="x11" type="long double" value="1.234567890123456789"/>
+			</action>
+			<action name="Test12">
+				<input name="c1a" type="char*"/>
+			</action>
+			<action name="Test13">
+				<input name="c2b" type="unsigned char*"/>
+			</action>
+			<action name="PrepareStdString">
+				<output name="STD_STRING" type="string"/>
+			</action>
+			<action name="Test14">
+				<input name="STD_STRING" type="string"/>
+			</action>
+			<action name="Test15">
+				<input name="s1" type="string" value="ABC,abc"/>
+			</action>
+			<action name="PrepareCString">
+				<output name="CSTRING_V" type="wchar_t*"/>
+			</action>
+			<action name="Test15">
+				<input name="CSTRING_V" type="wchar_t*"/>
+			</action>
+			<action name="PrepareLPSTR">
+				<output name="V_S16A" type="LPSTR"/>
+			</action>
+			<action name="Test16a">
+				<input name="V_S16A" type="LPSTR"/>
+			</action>
+			<action name="PrepareLPCSTR">
+				<output name="V_S16B" type="LPCSTR"/>
+			</action>
+			<action name="Test16b">
+				<input name="V_S16B" type="LPCSTR"/>
+			</action>
+			<action name="PrepareLPTSTR">
+				<output name="V_S16C" type="LPTSTR"/>
+			</action>
+			<action name="Test16c">
+				<input name="V_S16C" type="LPTSTR"/>
+			</action>
+			<action name="PrepareLPCTSTR">
+				<output name="V_S16D" type="LPCTSTR"/>
+			</action>
+			<action name="Test16d">
+				<input name="V_S16D" type="LPCTSTR"/>
+			</action>
+			<action name="PrepareLPWSTR">
+				<output name="V_S16E" type="LPWSTR"/>
+			</action>
+			<action name="Test16e">
+				<input name="V_S16E" type="LPWSTR"/>
+			</action>
+			<action name="PrepareLPCWSTR">
+				<output name="V_S16F" type="LPCWSTR"/>
+			</action>
+			<action name="Test16f">
+				<input name="V_S16F" type="LPCWSTR"/>
+			</action>
+			<action name="Test17">
+				<input name="x3a" type="int*"/>
+			</action>
+			<action name="Test18">
+				<input name="x4" type="unsigned int*"/>
+			</action>
+			<action name="Test19">
+				<input name="x5" type="long*"/>
+			</action>
+			<action name="Test20">
+				<input name="x6" type="unsigned long*"/>
+			</action>
+			<action name="Test21">
+				<input name="x7" type="float*"/>
+			</action>
+			<action name="Test22">
+				<input name="x8" type="double*"/>
+			</action>
+			<action name="Test23">
+				<input name="x9" type="long int*"/>
+			</action>
+			<action name="Test24">
+				<input name="x10" type="long long*"/>
+			</action>
+			<action name="Test25">
+				<input name="x11" type="long double*"/>
+			</action>
+			<action name="Test26">
+				<input name="x26" type="char[]" value="[1,2,'a','b']"/>
+				<input name="size" type="int" value="4"/>
+			</action>
+			<action name="Test26x">
+				<input name="x26" type="char[]" value="[1,2,'a','b',3,'c']"/>
+			</action>
+			<action name="Test27">
+				<input name="x27" type="int[]" value="[123,0,-456]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test28">
+				<input name="x28" type="long[]" value="[1234567892,0,-1234567892]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test29">
+				<input name="x29" type="float[]" value="[1.234,0,-1.234]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test30">
+				<input name="x30" type="double[]" value="[1.23456789,0,-1.23456789]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test31">
+				<input name="x31" type="long int[]" value="[1234567893,0,-1234567893]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test32">
+				<input name="x32" type="long long[]" value="[12345678901234,0,-12345678901234]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test33">
+				<input name="x33" type="long double[]" value="[1.234567890123456789,0,-1.234567890123456789]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test34">
+				<input name="x34" type="string[]" value="[&quot;aa&quot;,&quot;bb,&quot;,&quot;cc,dd&quot;]"/>
+				<input name="size" type="int" value="3"/>
+			</action>
+			<action name="Test40">
+				<input name="c" type="char" value="A"/>
+				<input name="x1" type="int" value="123"/>
+			</action>
+			<action name="Test41">
+				<input name="x" type="long" value="1234567894"/>
+				<input name="c" type="char" value="A"/>
+			</action>
+			<action name="Test42">
+				<input name="x1" type="int*"/>
+				<input name="c" type="char" value="A"/>
+			</action>
+			<action name="Test43">
+				<input name="c" type="char" value="A"/>
+				<input name="x1" type="int*"/>
+			</action>
+			<action name="Test44">
+				<input name="x1" type="int*"/>
+				<input name="y1" type="long" value="1234567895"/>
+			</action>
+			<action name="Test45">
+				<input name="y1" type="long" value="1234567895"/>
+				<input name="x1" type="int*"/>
+			</action>
+			<action name="Test46">
+				<input name="x27" type="int[]"/>
+				<input name="n" type="int" value="3"/>
+				<input name="y1" type="long*"/>
+			</action>
+			<action name="Test50">
+				<input name="c" type="char" value="B"/>
+				<input name="x" type="long" value="1234567896"/>
+				<input name="y" type="int" value="135"/>
+			</action>
+			<action name="Test51">
+				<input name="x" type="long" value="1234567897"/>
+				<input name="c" type="char" value="C"/>
+				<input name="y" type="int" value="246"/>
+			</action>
+			<action name="Test52">
+				<input name="y" type="int*"/>
+				<input name="x" type="long*"/>
+				<input name="c" type="char*"/>
+			</action>
+			<action name="Test53">
+				<input name="a" type="char[]" value="['a','b']"/>
+				<input type="int" value="2"/>
+				<input name="c1a" type="char*"/>
+				<input name="V_S16B" type="LPCSTR"/>
+			</action>
+			<action name="Test60">
+				<input name="c" type="char" value="A"/>
+				<input name="x" type="int" value="112345"/>
+				<input name="y" type="long" value="1234567898"/>
+				<input name="x7" type="float*"/>
+			</action>
+			<action name="Test61">
+				<input name="c" type="double" value="9.87654321"/>
+				<input name="x" type="int" value="112233"/>
+				<input name="y" type="float" value="5.4321"/>
+				<input name="x7" type="char" value="A"/>
+			</action>
+			<action name="Test62">
+				<input name="ld" type="long double" value="1.234567890123456789"/>
+				<input name="x" type="int" value="12345"/>
+				<input name="lx" type="long int" value="1234567899"/>
+				<input name="ll" type="long long" value="12345678901234"/>
+			</action>
+			<action name="Test71">
+				<input name="STD_STRING" type="string"/>
+				<input name="x" type="int" value="112233"/>
+				<input name="y" type="long long" value="12345678901235"/>
+				<input type="float" value="1.2345"/>
+				<input name="d" type="double" value="1.2233445566"/>
+			</action>
+			<action name="Test72">
+				<input name="d" type="double" value="1.2233445566"/>
+				<input name="f" type="float" value="1.2345"/>
+				<input name="y" type="long long" value="12345678901236"/>
+				<input name="x" type="int" value="112233"/>
+				<input name="c1a" type="char*"/>
+			</action>
+			<action name="Test73">
+				<input type="string" value="hello"/>
+				<input name="x26" type="char[]"/>
+				<input name="V_S16D" type="LPCTSTR"/>
+				<input name="CSTRING_V" type="wchar_t*"/>
+				<input name="V_S16F" type="LPCWSTR"/>
+			</action>
+			<action name="Test80">
+				<input name="x" type="int" value="123"/>
+				<input name="y" type="long" value="1234567880"/>
+				<input name="f" type="float" value="1.23456"/>
+				<input name="d" type="double" value="1.23456789"/>
+				<input name="lx" type="long int" value="1234567888"/>
+				<input name="ld" type="long double" value="1.234567890123456789"/>
+			</action>
+			<action name="Test81">
+				<input name="x" type="int*"/>
+				<input name="y" type="long*"/>
+				<input name="f" type="float*"/>
+				<input name="d" type="double*"/>
+				<input name="lx" type="long int*"/>
+				<input name="ld" type="long double*"/>
+			</action>
+			<action name ="Test101" />
+			<action name="Test102">
+				<input name="MotorControl" type="action" value="MoveTo"/>
+				<input name="Camera" type="action" value="CaptureImage"/>
+			</action>
+
+		</procedure>
+	</component>
+
+	<component name="Event Test" lib="lib\InteropTest.dll" init="init">
+		<procedure name="init">
+			<action name="Test120" raise="TEST_EVENT_A|TEST_EVENT_B" async="true"/>
+			<action name="Test124" raise="TEST_EVENT_1"/>
+			<action name="Test124" raise="{&quot;type&quot;:&quot;TEST_EVENT_2&quot;, &quot;x&quot;:1, &quot;y&quot;:2}"/>
+			<action name="Test125" raise="TEST_EVENT_3" key="x y z" async="true">
+				<input name="x" type="int" value="123"/>
+				<input name="y" type="string" value="abc"/>
+				<output name="z" type="string"/>
+			</action>
+		</procedure>
+
+		<procedure name="proc1" event="TEST_EVENT_1">
+			<action name="Test131"/>
+		</procedure>
+		<procedure name="proc2" event="TEST_EVENT_2|TEST_EVENT_A">
+			<action name="Test132">
+				<input name="event" type="json*"/>
+			</action>
+		</procedure>
+		<procedure name="proc3" event="TEST_EVENT_3">
+			<action name="Test133">
+				<input name="event" type="string"/>
+			</action>
+		</procedure>
+
+		<procedure name="proc4" event="TEST_EVENT_B">
+			<action name="Test134"/>
+			<action name="Test135"/>
+		</procedure>
+
+	</component>
+
+	<component name="Scheduler Test" lib="lib\InteropTest.dll">
+		<procedure name="every minute job" timer="0 0/1 * * * ?">
+			<action name="Test150"/>
+		</procedure>
+	</component>
+
+</main>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application x:Class="LambdaManager.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:LambdaManager" xmlns:System="clr-namespace:System;assembly=System.Runtime">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Resources/Res.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+            <System:String x:Key="CameraClosed" xmlns:system="clr-namespace:System;assembly=System.Private.CoreLib">相机: 关闭</System:String>
+            <System:String x:Key="CameraRunning" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">相机: 运行</System:String>
+            <System:String x:Key="Shot" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">拍照</System:String>
+            <System:String x:Key="Video" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">视频</System:String>
+            <System:String x:Key="NShot" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">多维拍照</System:String>
+            <System:String x:Key="Unit" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">5 mm</System:String>
+            <System:String x:Key="Figures" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">m 0,0 v 5 h 50 v -5</System:String>
+        </ResourceDictionary>
+  </Application.Resources>
+</Application>

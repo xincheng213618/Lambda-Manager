@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>LambdaManager</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>True</UseWPF>
+    <TargetFramework>net6.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>Preview</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+    <UseWindowsForms>True</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Quartz" Version="3.3.3" />
+    <PackageReference Include="Swifter.Json" Version="1.5.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lambda\Lambda.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Quartz">
+      <HintPath>..\Lambda Manager\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="Swifter.Json">
+      <HintPath>..\Lambda Manager\Swifter.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
