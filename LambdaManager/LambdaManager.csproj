@@ -15,11 +15,41 @@
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="resources\icons\severity\debug16.png" />
+    <None Remove="resources\icons\severity\error16.png" />
+    <None Remove="resources\icons\severity\fatal16.png" />
+    <None Remove="resources\icons\severity\info16.png" />
+    <None Remove="resources\icons\severity\warning16.png" />
+    <None Remove="resources\images\backgroud.png" />
+    <None Remove="resources\images\startimage\7.png" />
+    <None Remove="resources\images\startpicture1.png" />
+    <None Remove="resources\images\startpicture2.tiff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\icons\severity\debug16.png" />
+    <Resource Include="resources\icons\severity\error16.png" />
+    <Resource Include="resources\icons\severity\fatal16.png" />
+    <Resource Include="resources\icons\severity\info16.png" />
+    <Resource Include="resources\icons\severity\warning16.png" />
+    <Resource Include="resources\images\startimage\7.png" />
+    <Resource Include="resources\images\startpicture1.png" />
+    <Resource Include="resources\images\startpicture2.tiff" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Quartz" Version="3.3.3" />
     <PackageReference Include="Swifter.Json" Version="1.5.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConfigCollectInterval\ConfigCollectInterval.csproj" />
+    <ProjectReference Include="..\ConfigContainer\ConfigContainer.csproj" />
+    <ProjectReference Include="..\ConfigDeck\ConfigDeck.csproj" />
+    <ProjectReference Include="..\ConfigDOFMode\ConfigDOFMode.csproj" />
+    <ProjectReference Include="..\ConfigDPCMode\ConfigDPCMode.csproj" />
+    <ProjectReference Include="..\ConfigFocus\ConfigFocus.csproj" />
+    <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\ConfigSpot\ConfigSpot.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
+    <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Quartz">
@@ -28,5 +58,21 @@
     <Reference Include="Swifter.Json">
       <HintPath>..\Lambda Manager\Swifter.Json.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\backgroud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

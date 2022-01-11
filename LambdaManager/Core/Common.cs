@@ -33,19 +33,19 @@ internal class Common
 
 	internal unsafe static void Init()
 	{
-        SetMessageHandler1((delegate* unmanaged[Cdecl]<int, sbyte*, void>)(delegate*<int, sbyte*, void>)(&AddMessage1));
-        SetMessageHandler2((delegate* unmanaged[Cdecl]<int, char*, void>)(delegate*<int, char*, void>)(&AddMessage2));
-        SetRoutineHandler((nint)(delegate*<int, nint, int>)(&CallBack1), 0);
-        SetRoutineHandler((nint)(delegate*<int, nint, nint, int>)(&CallBack2), 2);
-        SetRoutineHandler((nint)(delegate*<int, nint, nint, int>)(&CallBack3), 1);
-        SetRoutineHandler((nint)(delegate*<int, nint, nint, int>)(&CallBack4), 3);
-        SetGetArraySizeHandler((delegate* unmanaged[Cdecl]<nint, int>)(delegate*<nint, int>)(&GetArraySize));
-        GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(delegate*<sbyte*, void>)(&SetCppSize));
+        SetMessageHandler1((delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1));
+        SetMessageHandler2((delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2));
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int>)(&CallBack1), 0);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack2), 2);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack3), 1);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack4), 3);
+		SetGetArraySizeHandler((delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize));
+        GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
         LambdaControl.LogHandler = new LogHandler(App.Report);
 		LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
 		LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-        SetImageInitialHandler((delegate* unmanaged[Cdecl]<int, nint, int, int, int, int>)(delegate*<int, IntPtr, int, int, int, int>)(&InitialFrame));
-        SetImageHandler((delegate* unmanaged[Cdecl]<int, nint, uint, int, int>)(delegate*<int, IntPtr, uint, int, int>)(&UpdateFrame));
+        SetImageInitialHandler((delegate* unmanaged[Cdecl]<int, nint, int, int, int, int>)(&InitialFrame));
+        SetImageHandler((delegate* unmanaged[Cdecl]<int, nint, uint, int, int>)&UpdateFrame);
     }
 
 	[DllImport("lib\\common.dll")]

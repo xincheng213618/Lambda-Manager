@@ -1492,7 +1492,6 @@ internal class ConfigLibrary
 			});
 		}
 	}
-
 	private static async void InitializeScheduler()
 	{
 		LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
@@ -1506,16 +1505,9 @@ internal class ConfigLibrary
                 return;
             }
             JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
-            DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
-            defaultInterpolatedStringHandler.AppendLiteral("Job");
-            defaultInterpolatedStringHandler.AppendFormatted(i);
-            IJobDetail job = jobBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group1").Build();
+			IJobDetail job = jobBuilder.WithIdentity($"Job{i}", "group1").Build();
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-            defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(7, 1);
-            defaultInterpolatedStringHandler.AppendLiteral("Trigger");
-            defaultInterpolatedStringHandler.AppendFormatted(i);
-            ITrigger trigger = triggerBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group1").StartNow().WithCronSchedule(info.Timer)
-                .Build();
+            ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer).Build();
             await scheduler.ScheduleJob(job, trigger);
             i++;
         }

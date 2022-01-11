@@ -34,14 +34,7 @@ internal class FunctionJob : IJob
             Routine routine = scheduler.Routine;
             if (routine != null)
             {
-                DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 4);
-                defaultInterpolatedStringHandler.AppendFormatted(Resources.ScheduleStart);
-                defaultInterpolatedStringHandler.AppendLiteral("\"");
-                defaultInterpolatedStringHandler.AppendFormatted(scheduler.Name);
-                defaultInterpolatedStringHandler.AppendLiteral("\"");
-                defaultInterpolatedStringHandler.AppendFormatted(Resources.Comma);
-                defaultInterpolatedStringHandler.AppendFormatted(DateTime.Now);
-                string text = defaultInterpolatedStringHandler.ToStringAndClear();
+                string text = $"{Resources.ScheduleStart}\\{scheduler.Name}\\{Resources.Comma}\\{DateTime.Now}";
                 App.Report(new Message
                 {
                     Severity = Severity.INFO,
@@ -51,14 +44,7 @@ internal class FunctionJob : IJob
                 {
                     Routine = routine
                 });
-                defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 4);
-                defaultInterpolatedStringHandler.AppendFormatted(Resources.ScheduleEnd);
-                defaultInterpolatedStringHandler.AppendLiteral("\"");
-                defaultInterpolatedStringHandler.AppendFormatted(scheduler.Name);
-                defaultInterpolatedStringHandler.AppendLiteral("\"");
-                defaultInterpolatedStringHandler.AppendFormatted(Resources.Comma);
-                defaultInterpolatedStringHandler.AppendFormatted(DateTime.Now);
-                text = defaultInterpolatedStringHandler.ToStringAndClear();
+                text = $"{Resources.ScheduleEnd}\\{scheduler.Name}\\{Resources.Comma}\\{DateTime.Now}";
                 await Report(new Message
                 {
                     Severity = Severity.INFO,
