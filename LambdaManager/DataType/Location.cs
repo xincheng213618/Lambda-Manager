@@ -7,6 +7,8 @@ internal class Location
 
 	internal int Index { get; set; }
 
+	internal int Group { get; set; }
+
 	public override bool Equals(object? obj)
 	{
 		if (obj == null)
@@ -17,16 +19,18 @@ internal class Location
 		{
 			return false;
 		}
-		if (Function == location.Function)
+		if (Function == location.Function && Index == location.Index)
 		{
-			return Index == location.Index;
+			return Group == location.Group;
 		}
 		return false;
 	}
 
 	public override int GetHashCode()
 	{
-		int hash = Function.GetHashCode();
-		return Index.GetHashCode() ^ hash;
+		int hashCode = Function.GetHashCode();
+		int hash2 = Index << 16;
+		int hash3 = Group.GetHashCode();
+		return hashCode ^ (hash2 + hash3);
 	}
 }

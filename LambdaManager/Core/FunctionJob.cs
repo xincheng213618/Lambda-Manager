@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -22,6 +23,7 @@ internal class FunctionJob : IJob
 	{
 		return schedules;
 	}
+
     public async Task Execute(IJobExecutionContext context)
     {
         JobKey key = context.JobDetail.Key;

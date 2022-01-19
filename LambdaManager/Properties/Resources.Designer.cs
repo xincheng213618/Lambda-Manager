@@ -499,6 +499,15 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
+        ///   查找类似 OriginInputsNotMatch 的本地化字符串。
+        /// </summary>
+        internal static string OriginInputsNotMatch {
+            get {
+                return ResourceManager.GetString("OriginInputsNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 OutputType 的本地化字符串。
         /// </summary>
         internal static string OutputType {

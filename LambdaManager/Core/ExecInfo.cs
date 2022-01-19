@@ -27,6 +27,8 @@ internal class ExecInfo
 	internal int Times { get; set; } = -1;
 
 
+	internal int Group { get; set; }
+
 	public Routine GetFunctionRoutine()
 	{
 		return Function.Routine ?? LambdaManager.DataType.Routine.PLACEHOLDER;
@@ -69,7 +71,7 @@ internal class ExecInfo
 		{
 			Location location = lc!.Location;
 			List<object> arguments = ((type != 1) ? RoutineArguments : callee?.RoutineArguments);
-			object value = ((arguments == null || location.Function != Function) ? GetVariable(location) : arguments[location.Index]);
+			object value = ((!(arguments?.Count > location.Index) || location.Function != Function) ? GetVariable(location) : arguments[location.Index]);
 			if (Times != -1)
 			{
 				if (value is List<object> values)
@@ -94,17 +96,36 @@ internal class ExecInfo
 	private int FindReferring(Location key, out LocationConverter? lc)
 	{
 		Dictionary<Location, LocationConverter> referring = Function.Exports;
-		if (referring != null && referring.TryGetValue(key, out lc))
+		if (referring != null && FindReferring(referring, key, out lc))
 		{
 			return 1;
 		}
 		referring = Routine.Referring;
-		if (referring != null && referring.TryGetValue(key, out lc))
+		if (referring != null && FindReferring(referring, key, out lc))
 		{
 			return 2;
 		}
 		lc = null;
 		return -1;
+	}
+
+	private static bool FindReferring(Dictionary<Location, LocationConverter> referring, Location key, out LocationConverter? lc)
+	{
+		if (referring.TryGetValue(key, out lc))
+		{
+			return true;
+		}
+		if (key.Group > 0)
+		{
+			int temp = key.Group;
+			key.Group = 0;
+			if (referring.TryGetValue(key, out lc))
+			{
+				return true;
+			}
+			key.Group = temp;
+		}
+		return false;
 	}
 
 	public void ImportVariables()
@@ -190,7 +211,19 @@ internal class ExecInfo
 			FunctionArguments = FunctionArguments,
 			Exports = Exports,
 			Caller = Caller,
-			Times = Times
+			Times = Times,
+			Group = Group
+		};
+	}
+
+	internal ExecInfo Peek()
+	{
+		return new ExecInfo
+		{
+			Routine = GetFunctionRoutine(),
+			RoutineArguments = Function.Values,
+			Group = Group,
+			Caller = this
 		};
 	}
 }

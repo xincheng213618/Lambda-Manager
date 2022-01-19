@@ -6,15 +6,29 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="300">
+    <Window.Resources>
+        <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>
+        <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>
+        <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
+    </Window.Resources>
     <Grid>
         <Border Background="#595959">
             <ScrollViewer  ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                 <StackPanel>
                     <StackPanel >
-                        <DockPanel>
-                            <Path Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16"  Fill="Azure" Data="M535.466667 812.8l450.133333-563.2c14.933333-19.2 2.133333-49.066667-23.466667-49.066667H61.866667c-25.6 0-38.4 29.866667-23.466667 49.066667l450.133333 563.2c12.8 14.933333 34.133333 14.933333 46.933334 0z" />
-                            <Label Content="模式选择"  FontSize="20" />
-                        </DockPanel>
+                        <Button Click="Button_Click">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <DockPanel>
+
+                                        <Path Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16"  Fill="Azure" Data="{StaticResource DownArrow}" >
+
+                                        </Path>
+                                        <Label Content="模式选择" FontSize="20" />
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
                         <StackPanel Margin="15,0,0,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -98,9 +112,9 @@
                             <RadioButton Grid.Row="1" VerticalAlignment="Center" Checked="RadioButton_Click" Tag="0x02"  Margin="15,0"/>
                             <DockPanel  Grid.Row="1" Grid.Column="1" >
                                 <Label Content="层数："/>
-                                <Label Content="10" BorderThickness="1" BorderBrush="#7F7F7F" />
+                                <TextBox Text="10" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
                                 <Label Content="，层间距："/>
-                                <Label Content="0.19" BorderThickness="1" BorderBrush="#7F7F7F" />
+                                <TextBox Text="0.19" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
                                 <Label Content="um"/>
                             </DockPanel>
                         </Grid>

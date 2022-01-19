@@ -35,9 +35,13 @@ internal class Event
 		return DataMap?[routine];
 	}
 
-	internal void SetArgType(bool hasKey, bool allJsonValue, bool hasBracket)
+	internal void SetArgType(bool hasKey, bool isArg, bool allJsonValue, bool hasBracket)
 	{
-		if (hasBracket)
+		if (isArg)
+		{
+			ArgType = ArgumentType.POINTER;
+		}
+		else if (hasBracket)
 		{
 			ArgType = ArgumentType.JSON_STRING;
 		}

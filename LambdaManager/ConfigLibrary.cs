@@ -51,6 +51,7 @@ internal class ConfigLibrary
 						Icon = p.Attribute((XName?)"icon")?.Value,
 						Event = Split(p.Attribute((XName?)"event")?.Value, '|'),
 						Key = Split(p.Attribute((XName?)"key")?.Value, ' '),
+						Arg = Split(p.Attribute((XName?)"arg")?.Value, ','),
 						Timer = p.Attribute((XName?)"timer")?.Value,
 						Aysnc = p.Attribute((XName?)"async")?.Value,
 						Exports = Split(p.Attribute((XName?)"export")?.Value, ' '),
@@ -60,6 +61,7 @@ internal class ConfigLibrary
 								Name = a.Attribute((XName?)"name")?.Value,
 								Raise = Split(a.Attribute((XName?)"raise")?.Value, '|'),
 								Key = Split(a.Attribute((XName?)"key")?.Value, ' '),
+								Arg = Split(a.Attribute((XName?)"arg")?.Value, ','),
 								Value = a.Attribute((XName?)"value")?.Value,
 								Component = a.Attribute((XName?)"component")?.Value,
 								Times = Convert.ToInt32(a.Attribute((XName?)"times")?.Value ?? "1"),
@@ -973,10 +975,69 @@ internal class ConfigLibrary
 		}
 		if (origin != null)
 		{
-			action.Inputs = origin.Inputs;
+			CopyOriginInputs(action, origin.Inputs, validate);
 			action.Outputs = origin.Outputs;
 		}
 		return origin;
+	}
+
+	private static void CopyOriginInputs(LambdaManager.DataType.Action action, List<Input>? inputs, ConfigValidate validate)
+	{
+		List<Input> target = action.Inputs;
+		if (target == null)
+		{
+			action.Inputs = inputs;
+		}
+		else
+		{
+			if (inputs == null)
+			{
+				return;
+			}
+			Dictionary<int, int> exists = new Dictionary<int, int>();
+			int raw = 0;
+			for (int l = 0; l < target.Count; l++)
+			{
+				bool found = false;
+				for (int i = raw; i < inputs!.Count; i++)
+				{
+					if (inputs![i].Name == target[l].Name || inputs![i].Type == target[l].Type)
+					{
+						exists.Add(i, l);
+						raw = i + 1;
+						found = true;
+						break;
+					}
+				}
+				if (!found)
+				{
+					validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, LambdaManager.DataType.Type.Input.Description(), target[l].Name ?? ("index at " + l), Resources.OriginInputsNotMatch);
+				}
+			}
+			for (int j = 0; j < inputs!.Count; j++)
+			{
+				if (exists.TryGetValue(j, out var k))
+				{
+					if (target[k].Name == null)
+					{
+						target[k].Name = inputs![j].Name;
+					}
+					target[k].Type = inputs![j].Type;
+					if (target[k].Value == null)
+					{
+						target[k].Value = inputs![j].Value;
+					}
+				}
+				else if (j < target.Count)
+				{
+					target.Insert(j, inputs![j]);
+				}
+				else
+				{
+					target.Add(inputs![j]);
+				}
+			}
+		}
 	}
 
 	private static Link? CheckLinkedTarget(List<Link> links, LambdaManager.DataType.Action target, int index, ConfigValidate validate)
@@ -1065,23 +1126,28 @@ internal class ConfigLibrary
 				validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Action, validate.GetAction(source)?.Name, Resources.Async, null, Resources.AsyncWithOutputReferredNotSupport);
 			}
 		}
-		if (routine != null)
+		if (routine == null)
 		{
-			Location location = null;
-			if (byVariable)
-			{
-				location = ResolveVariableReferred(link, routine, source);
-			}
-			else if (source != null)
-			{
-				location = new Location
-				{
-					Function = source,
-					Index = link.SourceIndex
-				};
-			}
-			ResolveVariableReferring(link, routine, target, location);
+			return;
 		}
+		Location location = null;
+		if (byVariable)
+		{
+			location = ResolveVariableReferred(link, routine, source);
+		}
+		else if (source != null)
+		{
+			location = new Location
+			{
+				Function = source,
+				Index = link.SourceIndex
+			};
+			if (link is VirtualLink vlink)
+			{
+				location.Function = vlink.SourceFunction;
+			}
+		}
+		ResolveVariableReferring(link, routine, target, location);
 	}
 
 	private static Location? ResolveVariableReferred(Link link, Routine routine, Function? source)
@@ -1106,6 +1172,10 @@ internal class ConfigLibrary
 			Function = source,
 			Index = link.SourceIndex
 		};
+		if (link is VirtualLink vlink)
+		{
+			location.Function = vlink.SourceFunction;
+		}
 		if (locations.IndexOf(location) == -1)
 		{
 			locations.Add(location);
@@ -1141,6 +1211,10 @@ internal class ConfigLibrary
 				Function = target,
 				Index = link.TargetIndex
 			};
+			if (link is VirtualLink vlink)
+			{
+				location.Group = vlink.TargetGroup;
+			}
 			target!.MarkVariable(location.Index);
 			referring.Add(location, locationConverter);
 		}
@@ -1148,6 +1222,7 @@ internal class ConfigLibrary
 
 	private static void ResolveProcudureEvents(List<Component> components, ConfigValidate validate)
 	{
+		int group = 1;
 		foreach (Component component in components)
 		{
 			List<Procedure> procedures = component.Procedures;
@@ -1160,13 +1235,15 @@ internal class ConfigLibrary
 				List<Event> events = validate.GetDeferEvents(procedure);
 				if (events != null)
 				{
-					ResolveEventKeys(events, procedure, validate, null);
+					validate.AddEventGroup(procedure, group);
+					ResolveEventKeysAndArgs(events, procedure, validate, null, group);
+					group++;
 				}
 			}
 		}
 	}
 
-	private static bool ResolveEventKeys(List<Event> events, Procedure procedure, ConfigValidate validate, IntialFunction? initial)
+	private static bool ResolveEventKeysAndArgs(List<Event> events, Procedure procedure, ConfigValidate validate, IntialFunction? initial, int group)
 	{
 		Routine pRoutine = procedure.Routine;
 		if (pRoutine == null)
@@ -1174,12 +1251,11 @@ internal class ConfigLibrary
 			return false;
 		}
 		List<LambdaManager.DataType.Action> actions = procedure.Actions;
-		List<string> keys = initial?.Keys ?? procedure.Key;
+		List<string> keys = initial?.Keys ?? procedure.Key ?? procedure.Arg;
 		if (actions == null || keys == null)
 		{
 			return false;
 		}
-		List<string> resolvedKeys = new List<string>();
 		bool result = false;
 		foreach (LambdaManager.DataType.Action action in actions)
 		{
@@ -1203,88 +1279,86 @@ internal class ConfigLibrary
 							Keys = keys
 						};
 					}
-					if (ResolveEventKeys(events, procedure2, validate, initial))
+					if (ResolveEventKeysAndArgs(events, procedure2, validate, initial, group))
 					{
 						return true;
 					}
 				}
-				continue;
 			}
-			LambdaManager.DataType.Action action2 = CheckActionOrigin(action, validate) ?? action;
-			Dictionary<int, IO> indexKeys = action2.GetArgIndice(keys);
-			Function source = null;
-			LambdaManager.DataType.Action target = null;
-			if (initial != null)
+			else
 			{
-				source = initial!.Function;
-				target = ((function.Routine == null) ? action : action2);
-			}
-			else if (action != action2)
-			{
-				source = function;
-				target = action;
-			}
-			if (source != null && target != null)
-			{
-				indexKeys = ResolveVariables(source, target, indexKeys, validate);
-			}
-			Routine entryRoutine = initial?.Routine ?? pRoutine;
-			foreach (KeyValuePair<int, IO> indexKey in indexKeys)
-			{
-				string key = indexKey.Value.Name;
-				if (key == null || resolvedKeys.Contains(key))
+				LambdaManager.DataType.Action action2 = CheckActionOrigin(action, validate) ?? action;
+				Dictionary<int, IO> indexArgs = action2.GetArgIndice(keys);
+				Function source = null;
+				LambdaManager.DataType.Action target = null;
+				if (initial != null)
 				{
-					continue;
+					source = initial!.Function;
+					target = ((function.Routine == null) ? action : action2);
 				}
-				foreach (Event @event in events)
+				else
 				{
-					@event.AddEventMap(entryRoutine, key, indexKey.Key);
-					resolvedKeys.Add(key);
+					source = function;
+					target = action;
+				}
+				Routine entryRoutine = initial?.Routine ?? pRoutine;
+				if (source != null && target != null)
+				{
+					indexArgs = ResolveVariables(source, target, indexArgs, validate, group);
+				}
+				foreach (KeyValuePair<int, IO> indexArg in indexArgs)
+				{
+					string key = indexArg.Value.Name;
+					if (key == null)
+					{
+						continue;
+					}
+					foreach (Event @event in events)
+					{
+						@event.AddEventMap(entryRoutine, key, indexArg.Key);
+						keys.Remove(key);
+					}
+				}
+				if (indexArgs.Count > 0)
+				{
+					result = true;
 				}
 			}
-			if (indexKeys.Count > 0)
+			if (keys.Count == 0)
 			{
-				result = true;
+				return result;
 			}
 		}
 		return result;
 	}
 
-	private static Dictionary<int, IO> ResolveVariables(Function source, LambdaManager.DataType.Action target, Dictionary<int, IO> indexKeys, ConfigValidate validate)
+	private static Dictionary<int, IO> ResolveVariables(Function source, LambdaManager.DataType.Action target, Dictionary<int, IO> indexArgs, ConfigValidate validate, int group)
 	{
-		LambdaManager.DataType.Action action = validate.GetAction(source);
-		if (action == null)
-		{
-			return indexKeys;
-		}
-		Dictionary<int, IO> indexKeys2 = new Dictionary<int, IO>();
 		Routine routine = validate.GetRoutine(source);
-		foreach (KeyValuePair<int, IO> indexKey in indexKeys)
+		LambdaManager.DataType.Action action = ((source.Routine == null) ? validate.GetVirtualAction(routine) : validate.GetAction(source));
+		Function function = ((source.Routine != null) ? source : action?.Function);
+		if (action == null || function == null)
 		{
-			int sourceIndex;
-			if (source.Routine != null)
-			{
-				sourceIndex = source.Values?.Count ?? 0;
-				source.AddValue(source);
-				action.AddInput(indexKey.Value as Input);
-			}
-			else
-			{
-				sourceIndex = indexKey.Key;
-				source.MarkVariable(sourceIndex);
-			}
-			Link link = new Link
+			return indexArgs;
+		}
+		Dictionary<int, IO> indexArgs2 = new Dictionary<int, IO>();
+		foreach (KeyValuePair<int, IO> indexArg in indexArgs)
+		{
+			int sourceIndex = function.Values?.Count ?? 0;
+			function.AddValue(function);
+			action.AddIO(indexArg.Value);
+			VirtualLink link = new VirtualLink(source, group)
 			{
 				Source = action,
 				SourceIndex = sourceIndex,
 				Target = target,
-				TargetIndex = indexKey.Key
+				TargetIndex = indexArg.Key
 			};
 			link.CastTypes.Add(CastType.NO_CAST);
 			ResolveVariable(routine, link, byVariable: false, validate);
-			indexKeys2.Add(sourceIndex, indexKey.Value);
+			indexArgs2.Add(sourceIndex, indexArg.Value);
 		}
-		return indexKeys2;
+		return indexArgs2;
 	}
 
 	private static void ResolveActionRaise(List<Component> all, ConfigValidate validate)
@@ -1339,7 +1413,7 @@ internal class ConfigLibrary
 					});
 				}
 				evt.Data = raise;
-				evt.SetArgType(hasKey: false, allJsonValue: false, hasBracket: true);
+				evt.SetArgType(hasKey: false, isArg: false, allJsonValue: false, hasBracket: true);
 			}
 			else
 			{
@@ -1347,8 +1421,14 @@ internal class ConfigLibrary
 				List<string> keys = action.Key;
 				if (keys != null && keys.Count > 0)
 				{
-					evt.Keys = ResolveRaiseKeys(keys, action, null, out var isJsonString, validate);
-					evt.SetArgType(hasKey: true, isJsonString, hasBracket: false);
+					evt.Keys = ResolveRaiseKeys(keys, isKey: true, action, null, out var isJsonString, validate);
+					evt.SetArgType(hasKey: true, isArg: false, isJsonString, hasBracket: false);
+				}
+				List<string> args = action.Arg;
+				if (args != null && args.Count > 0)
+				{
+					evt.Keys = ResolveRaiseKeys(args, isKey: false, action, null, out var _, validate);
+					evt.SetArgType(hasKey: true, isArg: true, allJsonValue: false, hasBracket: false);
 				}
 			}
 			List<Event> events = function.Raise;
@@ -1360,7 +1440,7 @@ internal class ConfigLibrary
 		}
 	}
 
-	private static Dictionary<string, int>? ResolveRaiseKeys(List<string> keys, LambdaManager.DataType.Action action, LambdaManager.DataType.Action? action0, out bool isJsonString, ConfigValidate validate)
+	private static Dictionary<string, int>? ResolveRaiseKeys(List<string> keys, bool isKey, LambdaManager.DataType.Action action, LambdaManager.DataType.Action? action0, out bool isJsonString, ConfigValidate validate)
 	{
 		isJsonString = true;
 		Function function = action.Function;
@@ -1375,7 +1455,7 @@ internal class ConfigLibrary
 		{
 			IO io = pair.Value;
 			keyIndice[io.Name ?? ""] = pair.Key;
-			if (io.Type != null)
+			if (isKey && io.Type != null)
 			{
 				TypeInfo info = TypesInterop.GetTypeInfo(io.Type);
 				if (info == null || !info.IsJsonType())
@@ -1396,7 +1476,7 @@ internal class ConfigLibrary
 			{
 				foreach (LambdaManager.DataType.Action action3 in actions)
 				{
-					Dictionary<string, int> keyIndice2 = ResolveRaiseKeys(remains, action3, action0 ?? action, out isJsonString, validate);
+					Dictionary<string, int> keyIndice2 = ResolveRaiseKeys(remains, isKey, action3, action0 ?? action, out isJsonString, validate);
 					if (keyIndice2 != null)
 					{
 						keyIndice = keyIndice.Concat(keyIndice2).ToDictionary((KeyValuePair<string, int> k) => k.Key, (KeyValuePair<string, int> v) => v.Value);
@@ -1428,14 +1508,20 @@ internal class ConfigLibrary
 				List<string> key = procedure.Key;
 				if (functions.Count > 1 || key != null)
 				{
-					ArgumentType argType = ((key != null) ? ArgumentType.JSON_STRING : ArgumentType.NO_ARGS);
-					Common.AddEventHandler(type, argType, routine, once: false);
+					ArgumentType argType = ((key != null) ? ArgumentType.JSON_STRING : ((procedure.Arg != null) ? ArgumentType.POINTER : ArgumentType.NO_ARGS));
+					int group = validate.GetEventGroup(procedure);
+					if (group == -1)
+					{
+						throw new Exception("referring group error");
+					}
+					Common.AddEventHandler(type, argType, routine, once: false, group);
 					continue;
 				}
 				Function function = functions[0];
 				if (function != null)
 				{
-					ArgumentType? argType2 = FunctionResolver.GetEventArgType(procedure.Actions?[0]);
+					LambdaManager.DataType.Action action = procedure.Actions?[0];
+					ArgumentType? argType2 = ((procedure.Arg != null) ? new ArgumentType?(ArgumentType.POINTER) : FunctionResolver.GetEventArgType(action));
 					if (argType2.HasValue)
 					{
 						Common.AddEventHandler(callback: function.EntryPoint?.FuncAddr ?? IntPtr.Zero, type: type, argType: argType2.GetValueOrDefault(), once: false);
@@ -1492,24 +1578,25 @@ internal class ConfigLibrary
 			});
 		}
 	}
+
 	private static async void InitializeScheduler()
 	{
 		LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
 		IScheduler scheduler = await new StdSchedulerFactory().GetScheduler();
 		await scheduler.Start();
-        int i = 0;
-        foreach (Scheduler info in FunctionJob.GetSchedules())
-        {
-            if (info.Timer == null)
-            {
-                return;
-            }
-            JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
+		int i = 0;
+		foreach (Scheduler info in FunctionJob.GetSchedules())
+		{
+			if (info.Timer == null)
+			{
+				return;
+			}
+			JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
 			IJobDetail job = jobBuilder.WithIdentity($"Job{i}", "group1").Build();
-            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-            ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer).Build();
-            await scheduler.ScheduleJob(job, trigger);
-            i++;
-        }
-    }
+			TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+			ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer).Build();
+			await scheduler.ScheduleJob(job, trigger);
+			i++;
+		}
+	}
 }

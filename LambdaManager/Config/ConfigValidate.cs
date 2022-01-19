@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,11 +26,15 @@ internal class ConfigValidate
 
 	private readonly Dictionary<Routine, Procedure> routine_procedures = new Dictionary<Routine, Procedure>();
 
+	private readonly Dictionary<Routine, Action> virtual_actions = new Dictionary<Routine, Action>();
+
 	private readonly Dictionary<string, List<Procedure>> event_procedure = new Dictionary<string, List<Procedure>>();
 
 	private readonly Dictionary<Action, Procedure> defer_resolved_actions = new Dictionary<Action, Procedure>();
 
 	private readonly Dictionary<Procedure, List<Event>> defer_events = new Dictionary<Procedure, List<Event>>();
+
+	private readonly Dictionary<Procedure, int> procedure_event_groups = new Dictionary<Procedure, int>();
 
 	private readonly Dictionary<string, string> export_types = new Dictionary<string, string>();
 
@@ -588,6 +593,20 @@ internal class ConfigValidate
 		return events;
 	}
 
+	internal void AddEventGroup(Procedure procedure, int groupId)
+	{
+		procedure_event_groups.Add(procedure, groupId);
+	}
+
+	internal int GetEventGroup(Procedure procedure)
+	{
+		if (!procedure_event_groups.TryGetValue(procedure, out var id))
+		{
+			return -1;
+		}
+		return id;
+	}
+
 	internal void AddFunctionRoutine(Function function, Routine routine)
 	{
 		function_routines.Add(function, routine);
@@ -633,5 +652,23 @@ internal class ConfigValidate
 			}
 		}
 		return null;
+	}
+
+	internal Action GetVirtualAction(Routine entryRoutine)
+	{
+		if (virtual_actions.TryGetValue(entryRoutine, out var action))
+		{
+			return action;
+		}
+		action = new Action
+		{
+			Name = "virtual action"
+		};
+		virtual_actions.Add(entryRoutine, action);
+		Function function = (action.Function = new Function
+		{
+			Routine = entryRoutine
+		});
+		return action;
 	}
 }

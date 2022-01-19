@@ -13,7 +13,6 @@ using LambdaManager.DataType;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
 using Swifter.Json;
-using Quartz;
 
 namespace LambdaManager.Core;
 
@@ -34,20 +33,21 @@ internal class Common
 
 	internal unsafe static void Init()
 	{
-        SetMessageHandler1((delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1));
-        SetMessageHandler2((delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2));
+		SetMessageHandler1((delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1));
+		SetMessageHandler2((delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2));
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int>)(&CallBack1), 0);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack2), 2);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack3), 1);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack4), 3);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
 		SetGetArraySizeHandler((delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize));
-        GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
-        LambdaControl.LogHandler = new LogHandler(App.Report);
+		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
+		LambdaControl.LogHandler = new LogHandler(App.Report);
 		LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
 		LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-        SetImageInitialHandler((delegate* unmanaged[Cdecl]<int, nint, int, int, int, int>)(&InitialFrame));
-        SetImageHandler((delegate* unmanaged[Cdecl]<int, nint, uint, int, int>)&UpdateFrame);
-    }
+		SetImageInitialHandler((delegate* unmanaged[Cdecl]<int, nint, int, int, int, int>)(&InitialFrame));
+		SetImageHandler((delegate* unmanaged[Cdecl]<int, nint, uint, int, int>)(&UpdateFrame));
+	}
 
 	[DllImport("lib\\common.dll")]
 	public unsafe static extern void SetMessageHandler1(delegate* unmanaged[Cdecl]<int, sbyte*, void> pMessageHandler);
@@ -101,6 +101,24 @@ internal class Common
 		}
 	}
 
+	public unsafe static int CallEvent(string type, nint handle, nint sender)
+	{
+		fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+		{
+			return RaiseEvent(p, 1, handle, sender);
+		}
+	}
+
+	public unsafe static int CallEvent(string type, List<object?>? arguments, nint sender)
+	{
+		object obj = arguments?[0];
+		nint handle = ((obj == null) ? IntPtr.Zero : ((IntPtr)obj));
+		fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+		{
+			return RaiseEvent(p, 4, handle, sender);
+		}
+	}
+
 	[DllImport("lib\\common.dll")]
 	public static extern void SetRoutineHandler(nint pRoutineHandler, int argType);
 
@@ -108,7 +126,8 @@ internal class Common
 	{
 		return new ExecInfo
 		{
-			Routine = info.Routine
+			Routine = info.Routine,
+			Group = info.Group
 		};
 	}
 
@@ -190,6 +209,19 @@ internal class Common
 		return FunctionExecutor.Evaluate(info);
 	}
 
+	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+	[SuppressGCTransition]
+	private static int CallBack5(int index, nint pEventData, nint sender)
+	{
+		ExecInfo info = callbacks[index];
+		info = Clone(info);
+		if (pEventData != IntPtr.Zero)
+		{
+			info.RoutineArguments = new List<object> { pEventData };
+		}
+		return FunctionExecutor.Evaluate(info);
+	}
+
 	[DllImport("lib\\common.dll")]
 	public unsafe static extern void RegisterFunctionEvent(sbyte* type, IntPtr fn1, ArgumentType handlerType, int once);
 
@@ -207,14 +239,15 @@ internal class Common
 	[DllImport("lib\\common.dll")]
 	public unsafe static extern void RegisterRoutineEvent(sbyte* type, int rotineId, ArgumentType handlerType, int once);
 
-	public unsafe static void AddEventHandler(string type, ArgumentType argType, Routine? routine, bool once)
+	public unsafe static void AddEventHandler(string type, ArgumentType argType, Routine? routine, bool once, int group)
 	{
 		if (routine != null)
 		{
 			int index = callbacks.Count;
 			callbacks.Add(new ExecInfo
 			{
-				Routine = routine
+				Routine = routine,
+				Group = group
 			});
 			events.Add(type);
 			fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))

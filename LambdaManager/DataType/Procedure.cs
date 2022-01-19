@@ -14,6 +14,8 @@ internal class Procedure
 
 	internal List<string>? Key { get; set; }
 
+	internal List<string>? Arg { get; set; }
+
 	internal string? Timer { get; set; }
 
 	internal List<Action>? Actions { get; set; }

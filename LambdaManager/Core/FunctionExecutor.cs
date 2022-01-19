@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -92,15 +93,9 @@ internal static class FunctionExecutor
 	{
 		int result = -1;
 		int times = info.Function.Times;
-		List<object> arguments = info.Function.Values;
 		if (times == 1)
 		{
-			result = Evaluate(new ExecInfo
-			{
-				Routine = info.GetFunctionRoutine(),
-				Caller = info,
-				RoutineArguments = arguments
-			});
+			result = Evaluate(info.Peek());
 		}
 		else
 		{
@@ -108,12 +103,7 @@ internal static class FunctionExecutor
 			{
 				return -1;
 			}
-			ExecInfo info2 = new ExecInfo
-			{
-				Routine = info.GetFunctionRoutine(),
-				Caller = info,
-				RoutineArguments = arguments
-			};
+			ExecInfo info2 = info.Peek();
 			for (int i = 0; i < times; i++)
 			{
 				info.Times = i;
@@ -217,7 +207,8 @@ internal static class FunctionExecutor
 					Location location = new Location
 					{
 						Function = function,
-						Index = i
+						Index = i,
+						Group = info.Group
 					};
 					value = ResolveVariableValue(info, location);
 				}
@@ -472,6 +463,9 @@ internal static class FunctionExecutor
 						Severity = Severity.ERROR,
 						Text = Resources.STLMapNotSupport
 					});
+					break;
+				case ArgumentType.POINTER:
+					result = Common.CallEvent(type, arguments, IntPtr.Zero);
 					break;
 				}
 				if (result == -1)

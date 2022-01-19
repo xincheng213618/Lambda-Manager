@@ -262,6 +262,9 @@
   <data name="or" xml:space="preserve">
     <value>or</value>
   </data>
+  <data name="OriginInputsNotMatch" xml:space="preserve">
+    <value>OriginInputsNotMatch</value>
+  </data>
   <data name="OutputType" xml:space="preserve">
     <value>OutputType</value>
   </data>

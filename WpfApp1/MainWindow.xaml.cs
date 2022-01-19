@@ -74,5 +74,10 @@ namespace WpfApp1
         {
 
         }
+
+        private void DockPanel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

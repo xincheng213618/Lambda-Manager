@@ -63,10 +63,39 @@ namespace ConfigDPCMode
         {
             base.OnApplyTemplate();
 
+            Label label1 = (Label)Template.FindName("label1", this);
+            Label label2 = (Label)Template.FindName("label2", this);
+            Grid Grid2 = (Grid)Template.FindName("Grid2", this);
+            Grid Grid3 = (Grid)Template.FindName("Grid3", this);
+
+            StackPanel StackContent = (StackPanel)Template.FindName("StackContent", this);
+            Button buttonheader1 = (Button)Template.FindName("buttonheader1", this);
+            Path Path1 = (Path)Template.FindName("Path1", this);
+            Path Path2 = (Path)Template.FindName("Path2", this);
+
+            buttonheader1.Click += delegate
+            {
+                if (StackContent.Visibility == Visibility.Visible)
+                {
+                    StackContent.Visibility = Visibility.Collapsed;
+                    Path1.Visibility = Visibility.Collapsed;
+                    Path2.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    StackContent.Visibility = Visibility.Visible;
+                    Path1.Visibility = Visibility.Visible;
+                    Path2.Visibility = Visibility.Collapsed;
+                }
+            };
+
             if (Template.FindName("Button1", this) is ToggleButton btn1)
             {
                 btn1.Click += delegate
                 {
+                    label1.Content = "孔径";
+                    Grid2.Visibility = Visibility.Visible;
+                    Grid3.Visibility = Visibility.Collapsed;
                     Dictionary<string, object> data = new() { { "dpc", 0 } };
                     Trigger("DPC_MODE_CHANGED", btn1, data);
                 };
@@ -76,6 +105,9 @@ namespace ConfigDPCMode
             {
                 btn2.Click += delegate
                 {
+                    label1.Content = "孔径";
+                    Grid2.Visibility = Visibility.Visible;
+                    Grid3.Visibility = Visibility.Collapsed;
                     Dictionary<string, object> data = new() { { "dpc", 1 } };
                     Trigger("DPC_MODE_CHANGED", btn2, data);
                 };
@@ -85,6 +117,9 @@ namespace ConfigDPCMode
             {
                 btn3.Click += delegate
                 {
+                    label1.Content = "孔径";
+                    Grid2.Visibility = Visibility.Visible;
+                    Grid3.Visibility = Visibility.Collapsed;
                     Dictionary<string, object> data = new() { { "dpc", 2 } };
                     Trigger("DPC_MODE_CHANGED", btn3, data);
                 };
@@ -94,12 +129,22 @@ namespace ConfigDPCMode
             {
                 btn4.Click += delegate
                 {
+                    label1.Content = "内径";
+                    label2.Content = "外径";
+
+                    Grid2.Visibility = Visibility.Visible;
+                    Grid3.Visibility = Visibility.Visible;
                     Dictionary<string, object> data = new() { { "dpc", 3 } };
                     Trigger("DPC_MODE_CHANGED", btn4, data);
                 };
                 buttons[3] = btn4;
             }
             AddLambdaEventHandler("DPC_MODE_CHANGED", OnDPCModeChanged,false);
+        }
+
+         private void DockPanel_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         public bool OnDPCModeChanged(object sender, EventArgs e)

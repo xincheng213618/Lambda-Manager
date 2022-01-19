@@ -15,6 +15,8 @@ internal class Action
 
 	internal List<string>? Key { get; set; }
 
+	internal List<string>? Arg { get; set; }
+
 	internal string? Value { get; set; }
 
 	internal string? Component { get; set; }
@@ -153,6 +155,33 @@ internal class Action
 				Inputs = new List<Input>();
 			}
 			Inputs!.Add(input);
+		}
+	}
+
+	internal void AddOutput(Output? output)
+	{
+		if (output != null)
+		{
+			if (Outputs == null)
+			{
+				Outputs = new List<Output>();
+			}
+			Outputs!.Add(output);
+		}
+	}
+
+	internal void AddIO(IO? io)
+	{
+		if (io != null)
+		{
+			if (io is Input input)
+			{
+				AddInput(input);
+			}
+			else
+			{
+				AddOutput(io as Output);
+			}
 		}
 	}
 
