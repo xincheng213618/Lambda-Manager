@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaManager", "LambdaManager\LambdaManager.csproj", "{5922D944-6012-4193-8E18-050C7CEF8DF4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda", "Lambda\Lambda.csproj", "{3427B9D6-9D53-4A46-9852-EA0DE59FAE43}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RS232", "RS232\RS232.vcxproj", "{F58C6C99-CBED-44B0-B7A4-A94BD9A4EE73}"
@@ -40,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigCollectInterval", "Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MenuISCameraSetting", "MenuISCameraSetting\MenuISCameraSetting.csproj", "{6E2D445A-4586-4A25-B386-E8A1182E6EE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{A11362AE-6BFA-4D4D-B1FA-F2554943EC7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{A11362AE-6BFA-4D4D-B1FA-F2554943EC7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,18 +74,6 @@ Global
 		{565B0BC5-117E-40E4-9CF4-8E0A6543D8E4}.Release|x64.Build.0 = Release|x64
 		{565B0BC5-117E-40E4-9CF4-8E0A6543D8E4}.Release|x86.ActiveCfg = Release|Win32
 		{565B0BC5-117E-40E4-9CF4-8E0A6543D8E4}.Release|x86.Build.0 = Release|Win32
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Debug|x64.Build.0 = Debug|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Debug|x86.Build.0 = Debug|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Release|x64.ActiveCfg = Release|x64
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Release|x64.Build.0 = Release|x64
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Release|x86.ActiveCfg = Release|Any CPU
-		{5922D944-6012-4193-8E18-050C7CEF8DF4}.Release|x86.Build.0 = Release|Any CPU
 		{3427B9D6-9D53-4A46-9852-EA0DE59FAE43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3427B9D6-9D53-4A46-9852-EA0DE59FAE43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3427B9D6-9D53-4A46-9852-EA0DE59FAE43}.Debug|x64.ActiveCfg = Debug|Any CPU

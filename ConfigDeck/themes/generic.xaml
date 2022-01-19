@@ -4,19 +4,50 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:BaseDeck}">
-          <Viewbox Margin="2">
-            <StackPanel Orientation="Horizontal">
-              <StackPanel VerticalAlignment="Center" Margin="10 0">
-                <TextBlock>平</TextBlock>
-                <TextBlock>台</TextBlock>
-                <TextBlock>控</TextBlock>
-                <TextBlock>制</TextBlock>
-              </StackPanel>
-              <Image Source="/ConfigDeck;component/Themes/XY-direction.png" Margin="10 0" />
-              <Image Source="/ConfigDeck;component/Themes/Z-direction.png" Margin="10 0" />
-            </StackPanel>
-          </Viewbox>
-        </ControlTemplate>
+                    <StackPanel>
+                        <DockPanel>
+                            <DockPanel HorizontalAlignment="Left">
+                                <Label Content="X/Y(um):"/>
+                                <TextBox x:Name="TextBox1" Text="100" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
+
+                            </DockPanel>
+                            <DockPanel HorizontalAlignment="Left">
+                                <Label Content="Z(um):"/>
+                                <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
+                            </DockPanel>
+                            <DockPanel HorizontalAlignment="Left">
+                                <Label    Content="聚焦(um):"/>
+                                <TextBox x:Name="TextBox3" Text="1000" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
+                            </DockPanel>
+                        </DockPanel>
+
+
+                        <Grid>
+                            <Grid.RowDefinitions >
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="ButtonFront" Grid.Row="0" Grid.Column="1" Content="︽" Margin="5"/>
+                            <Button x:Name="ButtonRear" Grid.Row="2" Grid.Column="1" Content="︾" Margin="5"/>
+                            <Button x:Name="ButtonLeft" Grid.Row="1" Grid.Column="0" Content="&lt;&lt;" Margin="5"/>
+                            <Button x:Name="ButtonRight" Grid.Row="1" Grid.Column="2" Content=">>" Margin="5"/>
+                            <Button x:Name="ButtonRe" Grid.Row="1" Grid.Column="1" Content="原点" Margin="5"/>
+                            <Button x:Name="ButtonUp" Grid.Row="0" Grid.Column="3" Content="︽" Margin="5"/>
+                            <Button x:Name="ButtonAutoFocus" Grid.Row="1" Grid.Column="3" Content="聚焦" Margin="5"/>
+                            <Button x:Name="ButtonDown" Grid.Row="2" Grid.Column="3" Content="︾" Margin="5"/>
+
+                        </Grid>
+                    </StackPanel>
+
+                </ControlTemplate>
       </Setter.Value>
     </Setter>
   </Style>

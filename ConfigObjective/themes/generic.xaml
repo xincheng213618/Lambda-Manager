@@ -7,12 +7,12 @@
         <ControlTemplate TargetType="{x:Type local:Magnification}">
           <Viewbox Margin="2">
             <StackPanel>
-              <TextBlock Text="物镜选择测试" Margin="2" HorizontalAlignment="Center" />
+              <TextBlock Text="相机控制" Margin="2" HorizontalAlignment="Center" />
               <StackPanel Orientation="Horizontal">
-                <ToggleButton Name="Button1" Content="4X" Margin="5 0" Width="70" />
-                <ToggleButton Name="Button2" Content="10X" Margin="5 0" Width="70" />
-                <ToggleButton Name="Button3" Content="20X" Margin="5 0" Width="70" />
-                <ToggleButton Name="Button4" Content="40X" Margin="5 0" Width="70" />
+                <ToggleButton Name="Button1" Content="打开相机" Margin="5 0" Width="70" />
+                <ToggleButton Name="Button2" Content="10X" Margin="5 0" Width="70"  Visibility="Hidden"/>
+                <ToggleButton Name="Button3" Content="20X" Margin="5 0" Width="70" Visibility="Hidden" />
+                <ToggleButton Name="Button4" Content="40X" Margin="5 0" Width="70" Visibility="Hidden" />
               </StackPanel>
             </StackPanel>
           </Viewbox>

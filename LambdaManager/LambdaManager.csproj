@@ -27,16 +27,6 @@
     <None Remove="resources\images\startpicture2.tiff" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\icons\severity\debug16.png" />
-    <Resource Include="resources\icons\severity\error16.png" />
-    <Resource Include="resources\icons\severity\fatal16.png" />
-    <Resource Include="resources\icons\severity\info16.png" />
-    <Resource Include="resources\icons\severity\warning16.png" />
-    <Resource Include="resources\images\startimage\7.png" />
-    <Resource Include="resources\images\startpicture1.png" />
-    <Resource Include="resources\images\startpicture2.tiff" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Quartz" Version="3.3.3" />
     <PackageReference Include="Swifter.Json" Version="1.5.0.3" />
   </ItemGroup>
@@ -61,7 +51,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="resources\icons\severity\debug16.png" />
+    <Resource Include="resources\icons\severity\error16.png" />
+    <Resource Include="resources\icons\severity\fatal16.png" />
+    <Resource Include="resources\icons\severity\info16.png" />
+    <Resource Include="resources\icons\severity\warning16.png" />
     <Resource Include="resources\images\backgroud.png" />
+    <Resource Include="resources\images\startimage\7.png" />
+    <Resource Include="resources\images\startpicture1.png" />
+    <Resource Include="resources\images\startpicture2.tiff" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

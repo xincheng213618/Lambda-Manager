@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\xy-direction1.png" />
+    <None Remove="images\z-direction.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\xy-direction1.png" />
+    <Resource Include="images\z-direction.png" />
+  </ItemGroup>
+
+</Project>

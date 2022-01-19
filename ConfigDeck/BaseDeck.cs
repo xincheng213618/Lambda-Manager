@@ -51,5 +51,85 @@ namespace ConfigDeck
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BaseDeck), new FrameworkPropertyMetadata(typeof(BaseDeck)));
         }
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            TextBox TextBox1 = (TextBox)Template.FindName("TextBox1", this);
+            TextBox TextBox2 = (TextBox)Template.FindName("TextBox2", this);
+            TextBox TextBox3 = (TextBox)Template.FindName("TextBox3", this);
+
+            if (Template.FindName("ButtonFront", this) is Button btn1)
+            {
+                btn1.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox1.Text) } };
+                    Trigger("MOVEFRONT", btn1, data);
+                };
+            }
+            if (Template.FindName("ButtonRear", this) is Button btn2)
+            {
+                btn2.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox1.Text) } };
+                    Trigger("MOVEREAR", btn2, data);
+                };
+            }
+            if (Template.FindName("ButtonRight", this) is Button btn3)
+            {
+                
+                btn3.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox1.Text) } };
+                    Trigger("MOVERIGHT", btn3, data);
+                };
+            }
+            if (Template.FindName("ButtonLeft", this) is Button btn4)
+            {
+                btn4.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox1.Text) } };
+                    Trigger("MOVELEFT", btn4, data);
+                };
+            }
+            if (Template.FindName("ButtonUp", this) is Button btn5)
+            {
+                btn5.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox2.Text) } };
+                    Trigger("MOVEUP", btn5, data);
+                };
+            }
+            if (Template.FindName("ButtonDown", this) is Button btn6)
+            {
+                btn6.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox2.Text) } };
+                    Trigger("MOVEDOWN", btn6, data);
+                };
+            }
+            if (Template.FindName("ButtonRe", this) is Button btn7)
+            {
+                btn7.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", 0 } };
+                    Trigger("MOVEFRONT", btn7, data);
+                };
+            }
+            if (Template.FindName("ButtonAutoFocus", this) is Button btn8)
+            {
+                btn8.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox3.Text) } };
+                    Trigger("MOVEFRONT", btn8, data);
+                };
+            }
+            AddLambdaEventHandler("Move", Logssssss, false);
+
+        }
+        public bool Logssssss(object sender, EventArgs e)
+        {
+            Log(new Message() { Severity = Severity.INFO, Text = "位移台指令连接成功" });
+            return true;
+        }
     }
 }
