@@ -138,15 +138,19 @@ namespace ConfigDeck
                 btn7.Click += delegate
                 {
                     Dictionary<string, object> data = new() { { "Step", 0 } };
-                    Trigger("MOVEFRONT", btn7, data);
+                    Trigger("MOVERE", btn7, data);
+                    Dictionary<string, object> data1 = new() { { "Step", 999 } };
+
+                    Trigger("MOVEDOWN", btn7, data1);
+
                 };
             }
             if (Template.FindName("ButtonAutoFocus", this) is Button btn8)
             {
                 btn8.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox3.Text) } };
-                    Trigger("MOVEFRONT", btn8, data);
+                    Dictionary<string, object> data = new() { { "JudgeOnce", int.Parse(TextBox3.Text) } };
+                    Trigger("MOVEFRE", btn8, data);
                 };
             }
             AddLambdaEventHandler("Move", Logssssss, false);

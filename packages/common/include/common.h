@@ -30,6 +30,9 @@ typedef int (*Callback1)();
 typedef int (*Callback2)(json*);
 typedef int (*Callback3)(const char*);
 typedef int (*Callback4)(std::map<std::string, json>*);
+typedef int (*Callback5)(void*);
+typedef int (*Callback6)(void*, void*);
+typedef int (*Callback7)(void*, void*, void*, void*);
 
 enum class Severity {
 	DEBUG, INFO, WARNING, WRONG, FATAL_ERROR
@@ -56,16 +59,26 @@ public:
 	static void Trigger(std::string type, const json* event);
 	static void Trigger(std::string type, const char* event);
 	static void Trigger(std::string type, const std::map<std::string, json>* event);
+	static void Trigger(std::string type, void* object);
+	static void Trigger(std::string type, void* object1, void* object2);
+	static void Trigger(std::string type, void* object1, void* object2, void* object3, void* object4);
 
-	static void On(std::string type, Callback1 callback); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback2 callback); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback3 callback); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback4 callback); //callback return -1 to stop event propogation
+	static void Dispatch(std::string type);
+	static void Dispatch(std::string type, const json* event);
+	static void Dispatch(std::string type, const char* event);
+	static void Dispatch(std::string type, const std::map<std::string, json>* event);
+	static void Dispatch(std::string type, void* object);
+	static void Dispatch(std::string type, void* object1, void* object2);
+	static void Dispatch(std::string type, void* object1, void* object2, void* object3, void* object4);
 
-	static void Once(std::string type, Callback1 callback); //callback to be called only once
-	static void Once(std::string type, Callback2 callback); //callback to be called only once
-	static void Once(std::string type, Callback3 callback); //callback to be called only once
-	static void Once(std::string type, Callback4 callback); //callback to be called only once
+	static void On(std::string type, Callback1 callback,bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback2 callback,bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback3 callback,bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback4 callback,bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback5 callback,bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback6 callback,bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback7 callback,bool once); //callback return -1 to stop event propogation
+
 };
 
 enum ViewState {
@@ -101,4 +114,3 @@ public:
 };
 
 extern "C" COMMON_API void Trace(LPCTSTR sFormat, ...);
-

@@ -60,7 +60,7 @@
                                     <Path x:Name="Path11" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
                                     <Path  x:Name="Path21" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
 
-                                    <Label Content="模式选择" Foreground="White"  FontSize="20" Margin="30,0,0,0" />
+                                    <Label Content="模式选择" Foreground="White"  FontSize="18" Margin="30,0,0,0" />
                                     <Button x:Name="buttonheader11" >
                                         <Button.Template>
                                             <ControlTemplate>
@@ -71,10 +71,10 @@
                                 </Grid>
                                 <StackPanel x:Name="StackContent1">
                                     <DockPanel Margin="15,0,0,0">
-                                        <CheckBox IsChecked="True" Content="明场" Foreground="White"/>
-                                        <CheckBox IsChecked="True" Content="暗场" Foreground="White"/>
-                                        <CheckBox IsChecked="True" Content="相衬" Foreground="White"/>
-                                        <CheckBox IsChecked="True" Content="浮雕" Foreground="White"/>
+                                        <CheckBox IsChecked="True" Content="明场" FontSize="12"  Foreground="White"/>
+                                        <CheckBox IsChecked="True" Content="暗场" FontSize="12" Foreground="White"/>
+                                        <CheckBox IsChecked="True" Content="相衬" FontSize="12" Foreground="White"/>
+                                        <CheckBox IsChecked="True" Content="浮雕" FontSize="12" Foreground="White"/>
                                     </DockPanel>
                                 </StackPanel>
 
@@ -84,7 +84,7 @@
                                     <Path x:Name="Path12" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
                                     <Path  x:Name="Path22" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
 
-                                    <Label Content="聚焦模式" Foreground="White"  FontSize="20" Margin="30,0,0,0" />
+                                    <Label Content="聚焦模式" Foreground="White"  FontSize="18" Margin="30,0,0,0" />
                                     <Button x:Name="buttonheader12" >
                                         <Button.Template>
                                             <ControlTemplate>
@@ -94,18 +94,18 @@
                                     </Button>
                                 </Grid>
                                 <StackPanel Margin="15,0,0,0"  x:Name="StackContent2">
-                                    <RadioButton Content="不聚焦" Foreground="White"/>
-                                    <RadioButton Content="间隔聚焦" Foreground="White"/>
-                                    <RadioButton Content="全聚焦" Foreground="White"/>
+                                    <RadioButton Content="不聚焦" FontSize="12" Foreground="White"/>
+                                    <RadioButton Content="间隔聚焦" FontSize="12" Foreground="White"/>
+                                    <RadioButton Content="全聚焦"  FontSize="12" Foreground="White"/>
                                 </StackPanel>
 
                             </StackPanel>
                             <StackPanel Margin="15,0,0,0">
                                 <Grid>
                                     <Path x:Name="Path13" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                                    <Path  x:Name="Path23" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
+                                    <Path x:Name="Path23" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
 
-                                    <Label Content="时间序列" Foreground="White"  FontSize="20" Margin="30,0,0,0" />
+                                    <Label Content="时间序列" Foreground="White"  FontSize="18" Margin="30,0,0,0" />
                                     <Button x:Name="buttonheader13" >
                                         <Button.Template>
                                             <ControlTemplate>
@@ -116,8 +116,8 @@
                                 </Grid>
                                 <StackPanel x:Name="StackContent3">
                                     <StackPanel Margin="15,0,0,0" >
-                                        <CheckBox IsChecked="True" Content="明场" Foreground="White"/>
-                                        <Label Foreground="White" Content="采集间隔："/>
+                                        <CheckBox IsChecked="True" FontSize="15" Content="明场" Foreground="White"/>
+                                        <Label Foreground="White" FontSize="15" Content="采集间隔："/>
                                         <Grid >
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
@@ -129,10 +129,10 @@
                                             </Grid.ColumnDefinitions>
                                             <RadioButton Grid.Row="0" VerticalAlignment="Center"  IsChecked="True"/>
                                             <DockPanel  Grid.Row="0" Grid.Column="1" >
-                                                <TextBox Text="1" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
-                                                <Label Foreground="White" Content="时"/>
+                                                <TextBox Text="1"  Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
+                                                <Label Foreground="White"  Content="时"/>
                                                 <TextBox Text="20" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
-                                                <Label Foreground="White" Content="分"/>
+                                                <Label Foreground="White"  Content="分"/>
                                                 <TextBox Text="46" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
                                                 <Label Foreground="White" Content="秒"/>
                                             </DockPanel>
@@ -142,8 +142,8 @@
                                     </StackPanel>
 
                                     <StackPanel Margin="15,0,0,0">
-                                        <CheckBox IsChecked="True" Content="明场" Foreground="White"/>
-                                        <Label Foreground="White" Content="采集时长："/>
+                                        <CheckBox IsChecked="True" FontSize="15" Content="明场" Foreground="White"/>
+                                        <Label Foreground="White" FontSize="15" Content="采集时长："/>
                                         <Grid >
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
@@ -155,11 +155,11 @@
                                             </Grid.ColumnDefinitions>
                                             <RadioButton Grid.Row="0" VerticalAlignment="Center"  IsChecked="True"/>
                                             <DockPanel  Grid.Row="0" Grid.Column="1" >
-                                                <TextBox Text="1" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
-                                                <Label Foreground="White"  Content="时"/>
-                                                <TextBox Text="22" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
+                                                <TextBox Text="1"  Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
+                                                <Label Foreground="White" Content="时"/>
+                                                <TextBox Text="22"  Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
                                                 <Label Foreground="White"  Content="分"/>
-                                                <TextBox Text="08" Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
+                                                <TextBox Text="08"  Background="Transparent" Foreground="White" VerticalContentAlignment="Center" BorderThickness="1" BorderBrush="#7F7F7F" />
                                                 <Label Foreground="White"  Content="秒"/>
                                             </DockPanel>
                                             <RadioButton Grid.Row="1" VerticalAlignment="Center"/>

@@ -23,11 +23,12 @@
                             </Button>
                         </Grid>
                         <StackPanel x:Name="StackContent">
-                            <Canvas  x:Name="Canvas1" Height="200" Width="200"  >
-                                <Ellipse x:Name="CricalBase"  Canvas.Top="0" Width="200" Height="200"  Fill="#7F7F7F"/>
-                                <Line x:Name="Line1" Stroke="#595959" StrokeThickness="1" X1="0" Y1="100" X2="200" Y2="100"/>
+                            <Canvas x:Name="Canvas1" Height="200" Width="200"  >
+                                <Ellipse x:Name="CricalBase"  Canvas.Top="0" Width= "200" Height="200"  Fill="#7F7F7F"/>
+                                <Line Stroke="#595959" StrokeThickness="1" X1="0" Y1="100" X2="200" Y2="100"/>
                                 <Line Stroke="#595959" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
                             </Canvas>
+
                         </StackPanel>
 
 

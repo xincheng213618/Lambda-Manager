@@ -302,6 +302,7 @@ internal class Common
 			{
 				return CallEvent(type, s, GCHandle.ToIntPtr(handle));
 			}
+			//Dictionary 传进来做了一次序列化
 			if (data is Dictionary<string, object> dic)
 			{
 				string json = JsonFormatter.SerializeObject(dic);

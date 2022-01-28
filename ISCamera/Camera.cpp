@@ -6,18 +6,44 @@
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 #include "thread"
+#include "concurrent.h"
+#include "threadpool.h"
 
 using namespace std;
 
+LambdaView* pView = NULL;
+ConcurrentQueue<shared_future<cv::Mat*>> pipeline;
+ThreadPool pool;
+
 int OpenCamera()
 {
-	LambdaView* pView = LambdaView::GetIdleOrNew();
+	pView = LambdaView::GetIdleOrNew();
 	if (pView->IsState(ViewState::RUNING)) {
 		Logger::Log1(Severity::INFO, "ERROR! Camera is running");
 		return -1;
 	}
 
-	cv::Mat frame;
+	auto f = async(Start);
+	for (;;)
+	{
+		auto result = pipeline.wait_and_pop();
+		shared_future<cv::Mat*> sf = *result;
+		if (sf.valid()) {
+			cv::Mat* image = sf.get();
+			pView->Show(*image);
+			if (pView->IsState(ViewState::CLOSED)) {
+				pool.Stop();
+				break;
+			}
+		}
+		else
+			break;
+	}
+	return f.get();
+}
+
+int Start() {
+	cv::Mat frames[MAX_THREADPOOL_NUM];
 	cv::VideoCapture cap;
 	int deviceID = 0;             // 0 = open default camera
 	int apiID = cv::CAP_ANY;      // 0 = autodetect default API
@@ -27,26 +53,32 @@ int OpenCamera()
 		Logger::Log1(Severity::INFO, "ERROR! Unable to open camera");
 		return -1;
 	}
-	int count = 0;
 
-	for (;;)
-	{
+	int index = 0;
+	for (;;) {
+		cv::Mat& frame = frames[index];
 		cap.read(frame);
-
-		if (frame.empty()) {
-			Logger::Log1(Severity::INFO, "Video is end");
-			break;
-		}
-		pView->Show(frame);
-		if (pView->IsState(ViewState::CLOSED))
+		pipeline.push(pool.Commit(Filter, frame));
+		++index;
+		if (index == MAX_THREADPOOL_NUM)
+			index = 0;
+		if (pool.IsStopped())
 			break;
 	}
-	// the camera will be deinitialized automatically in VideoCapture destructor
 	return 0;
 }
 
+cv::Mat* Filter(cv::Mat& frame) {
+	if (frame.empty()) {
+		Logger::Log1(Severity::INFO, "Video is end");
+		return nullptr;
+	}
+	Event::Trigger("FILTER_START", &frame);
+	return &frame;
+}
+
 int OpenCinema() {
-	Event::Once("FILE_SELECTED", &PlayFilms);
+	Event::On("FILE_SELECTED", &PlayFilms, true);
 	Event::Trigger("OPEN_FILE_DIALOG");
 	return 0;
 }
@@ -58,8 +90,7 @@ int PlayFilms(json* eventData) {
 	for (auto& item : filenames.items()) {
 		std::string fileName = item.value().get<std::string>();
 		thread task(PlayFilm, fileName);
-		task.detach();
-
+		task.detach(); //don't block calling thread
 	}
 	return 0;
 }

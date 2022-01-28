@@ -3,13 +3,16 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>$(SolutionDir)packages\common\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)packages\spdlog\include;$(SolutionDir)packages\common\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)packages\common;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>Common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "C:\Users\Chen\Desktop\Lambda\lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

@@ -22,6 +22,12 @@ extern "C" CAMERA_API int LoadProperty(std::string xmlProperties);
 
 extern "C" CAMERA_API int SaveSettings();
 
+int Start();
+
+cv::Mat* Filter(cv::Mat& frame);
+
+int ShowImage(void* image);
+
 int PlayFilms(json* eventData);
 
 int PlayFilm(std::string fileName);

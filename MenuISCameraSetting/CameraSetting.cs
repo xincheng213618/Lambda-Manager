@@ -9,6 +9,9 @@ namespace MenuISCameraSetting
 		{
 			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(CameraSetting), new FrameworkPropertyMetadata(typeof(CameraSetting)));
 		}
+
+
+
 	}
 }
 

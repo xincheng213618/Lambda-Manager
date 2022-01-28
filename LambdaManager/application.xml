@@ -1,8 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <main title="NJUST-SCIL多模显微镜" left="300" right="100" notice="平台上请不要放任何东西，请检查" maximize="true">
-	<component name="opencv" lib="D:\workspace\library\opencv401\opencv\build\x64\vc15\bin\opencv_world401.dll"></component>
 
-	<!--<component name="DPCAlgorithm" lib="algrithm/DPCAlgorithm.dll"></component>-->
+	<component name="algorithm" lib="lib/algorithm.dll">
+		<procedure name="filter1" event="FILTER_START" arg="image">
+			<action name="Drawing_Random_Lines">
+				<input name="image" type="handle"/>
+			</action>
+			<action name="Drawing_Random_Rectangles" raise="FILTER_1" arg="image">
+				<input name="image" type="handle"/>
+			</action>
+		</procedure>
+
+		<procedure name="filter2" event="FILTER_1" arg="image">
+			<action name="Drawing_Random_Ellipses">
+				<input name="image" type="handle"/>
+			</action>
+			<action name="Drawing_Random_Polylines" raise="FILTER_2" arg="image">
+				<input name="image" type="handle"/>
+			</action>
+		</procedure>
+
+		<procedure name="filter3" event="FILTER_2" arg="image">
+			<action name="Drawing_Random_Circles">
+				<input name="image" type="handle"/>
+			</action>
+			<action name="Displaying_Random_Text" raise="FILTER_END" arg="image">
+				<input name="image" type="handle"/>
+			</action>
+		</procedure>
+
+	</component>
 
 	<component name="illu232" lib="lib\RS232.dll">
 		<procedure name="OpenLED" event="OPENLED">
@@ -143,12 +170,21 @@
 			</action>
 		</procedure>
 
+		<procedure name="MoveRe" event="MOVERE" key="Step">
+			<action name="MoveStep">
+				<input name="Direction" value="5" type="int"/>
+				<input name="Step" type="int"/>
+				<![CDATA[ Move down]]>
+			</action>
+		</procedure>
+
 		<procedure name="MoveZ" event="MOTORCONTROL">
 			<action name="MoveZ">
 				<input name="DefocusedDistance" type="int"/>
 				<![CDATA[ Move along z axis]]>
 			</action>
 		</procedure>
+		
 
 		<procedure name="MoveTo" event="MOTORCONTROL" key="X Y">
 			<action name="MoveTo">
@@ -164,6 +200,7 @@
 				<![CDATA[ Move to position x,y]]>
 			</action>
 		</procedure>
+
 
 	</component>
 
@@ -210,6 +247,7 @@
 				<input name="PositionWithMaxSobel2" type="SobelValue"/>
 				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
 			</action>
+			
 			<action name="JudgeOnce" times="10">
 				<input name="X" type="int[]" value="[21,22,23,24,25,26,27,28,29,30]" />
 				<input name="Y" type="int[]" value="[30,29,28,27,26,25,24,23,22,21]" />
@@ -476,15 +514,14 @@
 
 	<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:设置/相机参数..."/>
 
-	<component name="Magnification" lib="ConfigObjective.dll" mount="config:0" >
-		<procedure name="GUI_ChangeMagnification" event="MAG_CHANGED" key="mag" icon="opencam.ico">
-			<action name="ChangeMagnification" component="DPC" raise="MAG_GUI_RESPONSED">
-				<![CDATA[ Send new magnification to device]]>
-			</action>
-			<action name="OpenCamera" component="Camera"></action>
-			<action name="OpenCinema" component="Camera"></action>
-		</procedure>
-	</component>
+	<!-- <component name="Magnification" lib="ConfigObjective.dll" mount="config:0" > -->
+	<!-- <procedure name="GUI_ChangeMagnification" event="MAG_CHANGED" key="mag" icon="opencam.ico"> -->
+	<!-- <action name="ChangeMagnification" component="DPC" raise="MAG_GUI_RESPONSED"> -->
+	<!-- <![CDATA[ Send new magnification to device]]> -->
+	<!-- </action> -->
+	<!-- <action name="OpenCamera" component="Camera"></action> -->
+	<!-- </procedure> -->
+	<!-- </component> -->
 
 	<component name="DPCMode" lib="ConfigDPCMode.dll" mount="config:1">
 		<procedure name="GUI_ChangeDPCMode" event="DPC_MODE_CHANGED" key="dpc">
@@ -496,11 +533,11 @@
 
 	<component name="BaseDeck" lib="ConfigDeck.dll" mount="config:2"/>
 
-	<component name="SampleContainer" lib="ConfigContainer.dll" mount="config:3"/>
+	<!-- <component name="SampleContainer" lib="ConfigContainer.dll" mount="config:3"/> -->
 
 	<component name="SampleSpot" lib="ConfigSpot.dll" mount="config:4"/>
 
-	<component name="FocusMode" lib="ConfigFocus.dll" mount="config:5"/>
+	<!-- <component name="FocusMode" lib="ConfigFocus.dll" mount="config:5"/> -->
 
 	<component name="DOFMode" lib="ConfigDOFMode.dll" mount="config:6"/>
 
@@ -512,7 +549,7 @@
 		</procedure>
 	</component>
 
-	<component name="Interop Test" lib="lib\InteropTest.dll">
+	<component name="Interop Test" lib="lib\InteropTest.dll" init="group1">
 		<procedure name="group1" async="true">
 			<action name="Test0" />
 			<action name="Test1">

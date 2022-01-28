@@ -15,7 +15,7 @@ internal class UIEvents
 	{
 		foreach (KeyValuePair<string, LambdaHandler> handler in handlers)
 		{
-			//Common.AddEventHandlert(handler.Key, handler.Value, once: false);
+			Common.AddEventHandler(handler.Key, handler.Value, once: false);
 		}
 	}
 

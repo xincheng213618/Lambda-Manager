@@ -1,0 +1,21 @@
+﻿<Window  x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    
+    <Grid>
+
+
+        <Canvas x:Name="Canvas1" Height="350" Width="350"   MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseDown="Canvas1_PreviewMouseDown"  PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown">
+            <Ellipse x:Name="CricalBase"  Canvas.Top="0" Width= "350" Height="350"  Fill="#7F7F7F"/>
+            <Line Stroke="#595959" StrokeThickness="1" X1="0" Y1="175" X2="350" Y2="175"/>
+            <Line Stroke="#595959" StrokeThickness="1" X1="175" Y1="0" X2="175" Y2="350"/>
+
+        </Canvas>
+
+    </Grid>
+</Window>

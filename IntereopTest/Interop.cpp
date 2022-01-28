@@ -418,7 +418,7 @@ int Test120() {
     Event::On("TEST_EVENT_2", &Test122);
     Event::Trigger("TEST_EVENT_2", &event);
 
-    Event::On("TEST_EVENT_3", &Test123);
+    Event::Once("TEST_EVENT_3", &Test123);
     Event::Trigger("TEST_EVENT_3", event.dump().c_str());
     return 0;
 }

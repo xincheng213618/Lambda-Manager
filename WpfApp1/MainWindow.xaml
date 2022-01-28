@@ -30,18 +30,15 @@
                             </Button.Template>
                         </Button>
                         <StackPanel Margin="15,0,0,0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" Content="明场" Style="{DynamicResource ButtonStyle1}" BorderThickness="0" Background="Transparent" FontSize="18" Foreground="White" PreviewMouseLeftButtonDown  ="Button_MouseDown" MouseDown="Button_MouseDown" Click="Button_Click" Tag="0"/>
-                                <Button Grid.Column="1" Content="暗场" Style="{DynamicResource ButtonStyle1}" BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White" PreviewMouseLeftButtonDown  ="Button_MouseDown" MouseDown="Button_MouseDown"  Click="Button_Click" Tag="1"/>
-                                <Button Grid.Column="2" Content="相衬" Style="{DynamicResource ButtonStyle1}" BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White" PreviewMouseLeftButtonDown  ="Button_MouseDown" MouseDown="Button_MouseDown"  Click="Button_Click" Tag="2"/>
-                                <Button Grid.Column="3" Content="浮雕" Style="{DynamicResource ButtonStyle1}" BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White" PreviewMouseLeftButtonDown  ="Button_MouseDown" MouseDown="Button_MouseDown"  Click="Button_Click" Tag="3"/>
-                            </Grid>
+                            <DockPanel HorizontalAlignment="Left">
+
+                                <RadioButton  Style="{StaticResource ButtonStyle1}" Content="明场"  BorderThickness="0" Background="Transparent" FontSize="18" Foreground="White"  Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked"  Click="Button_Click" Tag="0" Margin="5,0"/>
+                                <RadioButton  Style="{StaticResource ButtonStyle1}" Content="暗场"  BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked" Click="Button_Click" Tag="1" Margin="5,0" />
+                                <RadioButton  Style="{StaticResource ButtonStyle1}" Content="相衬" BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked" Click="Button_Click" Tag="2" Margin="5,0"/>
+                                <RadioButton  Style="{StaticResource ButtonStyle1}" Content="浮雕"  BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White "  Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked" Click="Button_Click" Tag="3" Margin="5,0"/>
+
+                            </DockPanel>
+
                             <Grid x:Name="Grid2"  Visibility="Visible">
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="50"/>
@@ -85,7 +82,7 @@
                             <Path Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16"  Fill="Azure" Data="M535.466667 812.8l450.133333-563.2c14.933333-19.2 2.133333-49.066667-23.466667-49.066667H61.866667c-25.6 0-38.4 29.866667-23.466667 49.066667l450.133333 563.2c12.8 14.933333 34.133333 14.933333 46.933334 0z" />
                             <Label Content="区域选择"  FontSize="20" />
                         </DockPanel>
-                        <Canvas  x:Name="Canvas1" Height="200" Width="200"  >
+                        <Canvas x:Name="Canvas1" Height="200" Width="200"  >
                             <Ellipse x:Name="CricalBase"  Canvas.Top="0" Width="200" Height="200"  Fill="#7F7F7F"/>
                             <Line x:Name="Line1" Stroke="#595959" StrokeThickness="1" X1="0" Y1="100" X2="200" Y2="100"/>
                             <Line Stroke="#595959" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>

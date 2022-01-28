@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -29,7 +30,7 @@ namespace WpfApp1
         List<Button> buttons = new List<Button>();
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Button button = (Button)sender;
+            RadioButton button = (RadioButton)sender;
             switch (button.Tag.ToString())
             {
                 case "0":
@@ -56,18 +57,7 @@ namespace WpfApp1
 
         private void Button_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Button button = (Button)sender;
-            if (!buttons.Contains(button))
-            {
-                buttons.Add(button);
-            }
-            foreach (var item in buttons)
-            {
-                item.FontWeight = FontWeights.Normal;
-                item.Foreground = Brushes.White;
-            }
-            button.Foreground = (Brush)brushConverter.ConvertFrom("#2E86E1");
-            button.FontWeight = FontWeights.Bold;
+
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
@@ -78,6 +68,20 @@ namespace WpfApp1
         private void DockPanel_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton toggleButton = (RadioButton)sender;
+            toggleButton.Foreground = (Brush)brushConverter.ConvertFrom("#2E86E1");
+            toggleButton.FontWeight = FontWeights.Bold;
+        }
+
+        private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RadioButton toggleButton = (RadioButton)sender;
+            toggleButton.Foreground = Brushes.White;
+            toggleButton.FontWeight = FontWeights.Normal;
         }
     }
 }
