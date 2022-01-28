@@ -26,13 +26,13 @@ internal class FPSCounter
 		}
 		if (Counter == 30)
 		{
-			double fps = 30.0 / (DateTime.Now - Start).TotalSeconds;
-			object state = Application.Current.Resources["CameraRunning"];
+			double value = 30.0 / (DateTime.Now - Start).TotalSeconds;
+			object value2 = Application.Current.Resources["CameraRunning"];
 			TextBlock cameraStateBlock = CameraStateBlock;
 			DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(7, 2);
-			defaultInterpolatedStringHandler.AppendFormatted<object>(state);
+			defaultInterpolatedStringHandler.AppendFormatted<object>(value2);
 			defaultInterpolatedStringHandler.AppendLiteral("[fps: ");
-			defaultInterpolatedStringHandler.AppendFormatted(fps, "#.#");
+			defaultInterpolatedStringHandler.AppendFormatted(value, "#.0");
 			defaultInterpolatedStringHandler.AppendLiteral("]");
 			cameraStateBlock.Text = defaultInterpolatedStringHandler.ToStringAndClear();
 			Counter = 0;

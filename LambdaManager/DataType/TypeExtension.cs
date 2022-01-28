@@ -20,13 +20,13 @@ internal static class TypeExtension
 	private static string GetDescription(object obj)
 	{
 		System.Type type = obj.GetType();
-		MemberInfo[] infos = type.GetMember(obj.ToString() ?? "");
-		if (infos != null && infos.Length != 0)
+		MemberInfo[] member = type.GetMember(obj.ToString() ?? "");
+		if (member != null && member.Length != 0)
 		{
-			object[] attrs = infos[0].GetCustomAttributes(typeof(DescriptionAttribute), inherit: false);
-			if (attrs != null && attrs.Length != 0)
+			object[] customAttributes = member[0].GetCustomAttributes(typeof(DescriptionAttribute), inherit: false);
+			if (customAttributes != null && customAttributes.Length != 0)
 			{
-				return ((DescriptionAttribute)attrs[0]).Description;
+				return ((DescriptionAttribute)customAttributes[0]).Description;
 			}
 		}
 		return type.ToString();

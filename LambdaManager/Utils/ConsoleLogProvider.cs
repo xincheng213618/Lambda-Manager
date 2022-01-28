@@ -11,7 +11,7 @@ internal class ConsoleLogProvider : ILogProvider
 		{
 			if (level >= LogLevel.Info && func != null)
 			{
-				Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + level.ToString() + "] " + func(), parameters);	
+				Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + level.ToString() + "] " + func(), parameters);
 			}
 			return true;
 		};

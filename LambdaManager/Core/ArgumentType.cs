@@ -6,5 +6,7 @@ internal enum ArgumentType
 	JSON_STRING,
 	JSON_OBJECT,
 	STL_MAP,
-	POINTER
+	POINTER,
+	POINTER2,
+	POINTER4
 }

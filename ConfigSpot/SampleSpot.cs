@@ -15,7 +15,7 @@ public class SampleSpot : LambdaControl
 	{
 		FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(SampleSpot), new FrameworkPropertyMetadata(typeof(SampleSpot)));
 	}
-    Canvas Canvas1;
+    Canvas? Canvas1;
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -30,6 +30,7 @@ public class SampleSpot : LambdaControl
         Canvas1.MouseLeftButtonDown += MainCanvas_MouseLeftButtonDown;
         Canvas1.PreviewMouseRightButtonUp += Canvas1_PreviewMouseRightButtonUp;
         Canvas1.PreviewMouseRightButtonDown += Canvas1_PreviewMouseRightButtonDown;
+        Canvas1.PreviewMouseDown += Canvas1_PreviewMouseDown;
         buttonheader1.Click += delegate
         {
             if (StackContent.Visibility == Visibility.Visible)
@@ -55,7 +56,7 @@ public class SampleSpot : LambdaControl
     private bool isCanMove = false;//鼠标是否移动
     private Point tempStartPoint;//起始坐标
 
-    Rectangle rectangle;
+    Rectangle? rectangle;
     /// <summary>
     /// 鼠标按下记录起始点
     /// </summary>
@@ -210,7 +211,7 @@ public class SampleSpot : LambdaControl
 
     private void Border_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-        Border border = (Border)sender;
+        Border? border = (Border)sender;
         Canvas1.Children.Remove(border);
         border = null;
     }
@@ -355,6 +356,30 @@ public class SampleSpot : LambdaControl
             }
             Canvas.SetTop(border, CanvasTop);
             Canvas.SetLeft(border, CanvasLeft);
+
+        }
+
+    }
+    private void Canvas1_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ClickCount == 2)
+        {
+            if (rectangle != null)
+            {
+                Canvas1.Children.Remove(rectangle);
+                rectangle = null;
+            }
+
+            Point point = e.GetPosition(this.Canvas1);
+
+            Dictionary<string, object> data = new()
+            {
+                { "X", (int)((point.X)) },
+                { "Y", (int)(point.Y) },
+            };
+            Trigger("MOTORCONTROL", this, data);
+
+            //MessageBox.Show((point.X - 175).ToString() + (175 - point.Y).ToString());
 
         }
     }

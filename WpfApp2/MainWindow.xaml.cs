@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using ConfigDeck;
 namespace WpfApp2
 {
     /// <summary>
@@ -53,12 +53,7 @@ namespace WpfApp2
             
             isCanMove = true;
             tempStartPoint = e.GetPosition(this.Canvas1);
-
-
         }
-
-        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer();
-
 
 
 
@@ -342,14 +337,17 @@ namespace WpfApp2
             }
         }
 
-        private void Canvas1_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (e.ClickCount == 2)
-            {
-                Point point = e.GetPosition(this.Canvas1);
-                MessageBox.Show((point.X-175).ToString()+ (175 - point.Y).ToString());
 
-            }
+
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            ComboBoxItem comboBoxItem = comboBox.SelectedItem as ComboBoxItem;
+            MessageBox.Show(comboBoxItem.Tag.ToString());
         }
     }
 }

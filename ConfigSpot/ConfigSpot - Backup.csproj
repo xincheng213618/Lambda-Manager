@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Themes\container.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lambda\Lambda.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Themes\container.png" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)Bin\x64\Release\net6.0-windows\ConfigSpot.dll&quot;  &quot;C:\Users\Chen\Desktop\Lambda\ConfigSpot.dll&quot; /y&#xD;&#xA;&#xD;&#xA;" />
+  </Target>
+
+</Project>

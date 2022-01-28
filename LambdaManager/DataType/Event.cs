@@ -21,13 +21,13 @@ internal class Event
 		{
 			DataMap = new Dictionary<Routine, Dictionary<string, int>>();
 		}
-		DataMap!.TryGetValue(routine, out var map);
-		if (map == null)
+		DataMap!.TryGetValue(routine, out var value);
+		if (value == null)
 		{
-			map = new Dictionary<string, int>();
-			DataMap!.Add(routine, map);
+			value = new Dictionary<string, int>();
+			DataMap!.Add(routine, value);
 		}
-		map.Add(key, index);
+		value.Add(key, index);
 	}
 
 	internal Dictionary<string, int>? GetEventMap(Routine routine)
@@ -35,13 +35,9 @@ internal class Event
 		return DataMap?[routine];
 	}
 
-	internal void SetArgType(bool hasKey, bool isArg, bool allJsonValue, bool hasBracket)
+	internal void SetArgType(bool hasKey, bool allJsonValue, bool hasBracket)
 	{
-		if (isArg)
-		{
-			ArgType = ArgumentType.POINTER;
-		}
-		else if (hasBracket)
+		if (hasBracket)
 		{
 			ArgType = ArgumentType.JSON_STRING;
 		}

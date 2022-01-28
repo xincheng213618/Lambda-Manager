@@ -45,11 +45,11 @@ internal class ViewGrid
 		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
 		Image image = CreateView();
 		Grid grid = (Grid)image.Parent;
-		int location = Array.IndexOf(grids, index);
-		int row = 2 * (location / 10);
-		int col = 2 * (location % 10);
-		grid.SetValue(Grid.RowProperty, row);
-		grid.SetValue(Grid.ColumnProperty, col);
+		int num = Array.IndexOf(grids, index);
+		int num2 = 2 * (num / 10);
+		int num3 = 2 * (num % 10);
+		grid.SetValue(Grid.RowProperty, num2);
+		grid.SetValue(Grid.ColumnProperty, num3);
 		mainView.Children.Add(grid);
 		View view = new View(image, index);
 		Views[index] = view;
@@ -111,15 +111,15 @@ internal class ViewGrid
 		{
 			Height = new GridLength(1.0, GridUnitType.Star)
 		});
-		GridSplitter splitter = new GridSplitter
+		GridSplitter gridSplitter = new GridSplitter
 		{
 			VerticalAlignment = VerticalAlignment.Center,
 			HorizontalAlignment = HorizontalAlignment.Stretch,
 			Height = 1.0,
 			Background = new SolidColorBrush(Colors.GhostWhite)
 		};
-		splitter.SetValue(Grid.RowProperty, splitterIndex);
-		mainGrid.Children.Add(splitter);
+		gridSplitter.SetValue(Grid.RowProperty, splitterIndex);
+		mainGrid.Children.Add(gridSplitter);
 	}
 
 	private static void SplitCol(Grid mainGrid, int splitterIndex)
@@ -132,15 +132,15 @@ internal class ViewGrid
 		{
 			Width = new GridLength(1.0, GridUnitType.Star)
 		});
-		GridSplitter splitter = new GridSplitter
+		GridSplitter gridSplitter = new GridSplitter
 		{
 			HorizontalAlignment = HorizontalAlignment.Center,
 			VerticalAlignment = VerticalAlignment.Stretch,
 			Width = 1.0,
 			Background = new SolidColorBrush(Colors.White)
 		};
-		splitter.SetValue(Grid.ColumnProperty, splitterIndex);
-		mainGrid.Children.Add(splitter);
+		gridSplitter.SetValue(Grid.ColumnProperty, splitterIndex);
+		mainGrid.Children.Add(gridSplitter);
 	}
 
 	private static Image CreateView()
@@ -155,71 +155,71 @@ internal class ViewGrid
 			Stretch = Stretch.Uniform
 		};
 		obj.Children.Add(image);
-		Border toolbar = new Border
+		Border border = new Border
 		{
 			BorderBrush = SystemColors.HighlightBrush
 		};
-		BuildToolbar(toolbar);
-		obj.Children.Add(toolbar);
-		StackPanel ruler = new StackPanel
+		BuildToolbar(border);
+		obj.Children.Add(border);
+		StackPanel stackPanel = new StackPanel
 		{
 			HorizontalAlignment = HorizontalAlignment.Right,
 			VerticalAlignment = VerticalAlignment.Bottom,
 			Margin = new Thickness(0.0, 0.0, 20.0, 20.0)
 		};
-		BuildRuler(ruler);
-		obj.Children.Add(ruler);
+		BuildRuler(stackPanel);
+		obj.Children.Add(stackPanel);
 		return image;
 	}
 
 	private static void BuildToolbar(Border toolbar)
 	{
-		StackPanel pannel = (StackPanel)(toolbar.Child = new StackPanel
+		StackPanel stackPanel = (StackPanel)(toolbar.Child = new StackPanel
 		{
 			Orientation = Orientation.Horizontal,
 			Opacity = 0.5,
 			Margin = new Thickness(5.0)
 		});
 		Style style = ((MainWindow)Application.Current.MainWindow).Resources["imageButtom"] as Style;
-		TextBlock textblock1 = new TextBlock
+		TextBlock element = new TextBlock
 		{
 			Text = (Application.Current.Resources["Shot"] as string),
 			Style = style
 		};
-		TextBlock textblock2 = new TextBlock
+		TextBlock element2 = new TextBlock
 		{
 			Text = (Application.Current.Resources["Video"] as string),
 			Style = style
 		};
-		TextBlock textblock3 = new TextBlock
+		TextBlock element3 = new TextBlock
 		{
 			Text = (Application.Current.Resources["NShot"] as string),
 			Style = style
 		};
-		pannel.Children.Add(textblock1);
-		pannel.Children.Add(textblock2);
-		pannel.Children.Add(textblock3);
+		stackPanel.Children.Add(element);
+		stackPanel.Children.Add(element2);
+		stackPanel.Children.Add(element3);
 	}
 
 	private static void BuildRuler(StackPanel ruler)
 	{
-		TextBlock textblock = new TextBlock
+		TextBlock element = new TextBlock
 		{
 			HorizontalAlignment = HorizontalAlignment.Center,
 			Foreground = SystemColors.HighlightTextBrush,
 			Text = (Application.Current.Resources["Unit"] as string)
 		};
-		ruler.Children.Add(textblock);
+		ruler.Children.Add(element);
 		Path path = new Path
 		{
 			StrokeThickness = 1.0,
 			Stroke = SystemColors.HighlightTextBrush
 		};
 		ruler.Children.Add(path);
-		Binding b = new Binding
+		Binding binding = new Binding
 		{
 			Source = (Application.Current.Resources["Figures"] as string)
 		};
-		BindingOperations.SetBinding(path, Path.DataProperty, b);
+		BindingOperations.SetBinding(path, Path.DataProperty, binding);
 	}
 }

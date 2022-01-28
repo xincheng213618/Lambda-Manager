@@ -36,31 +36,31 @@ internal class ConfigLibrary
 			return false;
 		}
 		ResolveMain(root);
-		List<Component> all = (from c in root.Descendants("component")
+		List<Component> list = (from c in root.Descendants("component")
 			select new Component
 			{
 				Name = c.Attribute((XName?)"name")?.Value,
 				Lib = c.Attribute((XName?)"lib")?.Value,
-				Init = Split(c.Attribute((XName?)"init")?.Value, '|'),
+				Init = Split(c.Attribute((XName?)"init")?.Value, ','),
 				Mount = c.Attribute((XName?)"mount")?.Value,
-				Depend = Split(c.Attribute((XName?)"depend")?.Value, '|'),
+				Depend = Split(c.Attribute((XName?)"depend")?.Value, ','),
 				Procedures = (from p in c.Elements("procedure")
 					select new Procedure
 					{
 						Name = p.Attribute((XName?)"name")?.Value,
 						Icon = p.Attribute((XName?)"icon")?.Value,
 						Event = Split(p.Attribute((XName?)"event")?.Value, '|'),
-						Key = Split(p.Attribute((XName?)"key")?.Value, ' '),
+						Key = Split(p.Attribute((XName?)"key")?.Value, ','),
 						Arg = Split(p.Attribute((XName?)"arg")?.Value, ','),
 						Timer = p.Attribute((XName?)"timer")?.Value,
 						Aysnc = p.Attribute((XName?)"async")?.Value,
-						Exports = Split(p.Attribute((XName?)"export")?.Value, ' '),
+						Exports = Split(p.Attribute((XName?)"export")?.Value, ','),
 						Actions = (from a in p.Elements("action")
 							select new LambdaManager.DataType.Action
 							{
 								Name = a.Attribute((XName?)"name")?.Value,
 								Raise = Split(a.Attribute((XName?)"raise")?.Value, '|'),
-								Key = Split(a.Attribute((XName?)"key")?.Value, ' '),
+								Key = Split(a.Attribute((XName?)"key")?.Value, ','),
 								Arg = Split(a.Attribute((XName?)"arg")?.Value, ','),
 								Value = a.Attribute((XName?)"value")?.Value,
 								Component = a.Attribute((XName?)"component")?.Value,
@@ -84,53 +84,53 @@ internal class ConfigLibrary
 							}).ToList()
 					}).ToList()
 			}).ToList();
-		ConfigValidate validate = ValidateConfiguration(all);
-		LoadComponents(all, validate);
-		LoadProcedures(all, validate);
-		DeferProcessing(validate);
-		ResolveAsync(all, validate);
-		ResolveProcedureExports(validate);
-		ResolveActionImports(validate);
-		ResolveVariables(all, validate);
-		ResolveProcudureEvents(all, validate);
-		ResolveActionRaise(all, validate);
-		RegisterEventCallbacks(validate);
-		ResolveFunctionArgument(validate);
+		ConfigValidate configValidate = ValidateConfiguration(list);
+		LoadComponents(list, configValidate);
+		LoadProcedures(list, configValidate);
+		DeferProcessing(configValidate);
+		ResolveAsync(list, configValidate);
+		ResolveProcedureExports(configValidate);
+		ResolveActionImports(configValidate);
+		ResolveVariables(list, configValidate);
+		ResolveProcudureEvents(list, configValidate);
+		ResolveActionRaise(list, configValidate);
+		RegisterEventCallbacks(configValidate);
+		ResolveFunctionArgument(configValidate);
 		InitializeLibrary();
 		InitializeScheduler();
-		return validate.Severity < Severity.FATAL_ERROR;
+		return configValidate.Severity < Severity.FATAL_ERROR;
 	}
 
 	private static void ResolveMain(XElement root)
 	{
-		MainWindow main = (MainWindow)Application.Current.MainWindow;
-		string title = root.Attribute((XName?)"title")?.Value;
-		if (title != null)
+		MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+		string text = root.Attribute((XName?)"title")?.Value;
+		if (text != null)
 		{
-			main.Title = title;
+			mainWindow.Title = text;
 		}
-		string left = root.Attribute((XName?)"left")?.Value;
-		if (left != null)
+		string text2 = root.Attribute((XName?)"left")?.Value;
+		if (text2 != null)
 		{
-			int width2 = int.Parse(left);
-			if (width2 > 50)
+			int num = int.Parse(text2);
+			if (num > 50)
 			{
-				main.leftView.Width = width2;
+				mainWindow.leftView.Width = num;
 			}
 		}
-		string right = root.Attribute((XName?)"right")?.Value;
-		if (right != null)
+		string text3 = root.Attribute((XName?)"right")?.Value;
+		if (text3 != null)
 		{
-			int width = int.Parse(right);
-			if (width > 20)
+			int num2 = int.Parse(text3);
+			if (num2 > 20)
 			{
-				main.rightView.Width = width;
+				mainWindow.rightView.Width = num2;
 			}
 		}
-		main.Notice = root.Attribute((XName?)"notice")?.Value;
+		mainWindow.Notice = root.Attribute((XName?)"notice")?.Value;
 		if (root.Attribute((XName?)"maximize")?.Value == "true")
 		{
-			main.Maximize = true;
+			mainWindow.Maximize = true;
 		}
 	}
 
@@ -142,72 +142,72 @@ internal class ConfigLibrary
 		}
 		List<string> list = new List<string>();
 		string[] array = text!.Split(delimeter);
-		foreach (string e in array)
+		foreach (string text2 in array)
 		{
-			list.Add(e.Trim());
+			list.Add(text2.Trim());
 		}
 		return list;
 	}
 
 	private static ConfigValidate ValidateConfiguration(List<Component> components)
 	{
-		ConfigValidate validate = new ConfigValidate();
-		validate.CheckLibShortName(components);
+		ConfigValidate configValidate = new ConfigValidate();
+		configValidate.CheckLibShortName(components);
 		foreach (Component component in components)
 		{
-			validate.Check(component);
+			configValidate.Check(component);
 			List<Procedure> procedures = component.Procedures;
 			if (procedures == null)
 			{
 				continue;
 			}
-			foreach (Procedure procedure in procedures)
+			foreach (Procedure item in procedures)
 			{
-				validate.Check(procedure);
-				List<LambdaManager.DataType.Action> actions = procedure.Actions;
+				configValidate.Check(item);
+				List<LambdaManager.DataType.Action> actions = item.Actions;
 				if (actions == null)
 				{
 					continue;
 				}
-				int pos = 0;
-				foreach (LambdaManager.DataType.Action action in actions)
+				int num = 0;
+				foreach (LambdaManager.DataType.Action item2 in actions)
 				{
-					action.Index = pos++;
-					validate.Check(action, procedure, component, components);
-					List<Input> inputs = action.Inputs;
-					int index = 0;
+					item2.Index = num++;
+					configValidate.Check(item2, item, component, components);
+					List<Input> inputs = item2.Inputs;
+					int num2 = 0;
 					if (inputs != null)
 					{
-						foreach (Input input in inputs)
+						foreach (Input item3 in inputs)
 						{
-							validate.Check(input, index++, action, procedure, component);
+							configValidate.Check(item3, num2++, item2, item, component);
 						}
 					}
-					List<Output> outputs = action.Outputs;
+					List<Output> outputs = item2.Outputs;
 					if (outputs == null)
 					{
 						continue;
 					}
-					foreach (Output output in outputs)
+					foreach (Output item4 in outputs)
 					{
-						validate.Check(output, index++, action, procedure, component);
+						configValidate.Check(item4, num2++, item2, item, component);
 					}
 				}
 			}
 		}
-		return validate;
+		return configValidate;
 	}
 
 	private void LoadComponents(List<Component> components, ConfigValidate validate)
 	{
 		validate.CheckLocalActions();
-		ConfigUILibrary controlConfig = new ConfigUILibrary((MainWindow)Application.Current.MainWindow);
+		ConfigUILibrary configUILibrary = new ConfigUILibrary((MainWindow)Application.Current.MainWindow);
 		foreach (Component component in components)
 		{
 			string lib = component.Lib;
 			if (lib != null && !validate.Libs.Contains(lib))
 			{
-				if (!controlConfig.ResolveControl(component, validate))
+				if (!configUILibrary.ResolveControl(component, validate))
 				{
 					LoadLibrary(component, validate);
 				}
@@ -218,34 +218,34 @@ internal class ConfigLibrary
 
 	private void LoadLibrary(Component component, ConfigValidate validate)
 	{
-		string path = component.Lib;
-		if (path == null)
+		string lib = component.Lib;
+		if (lib == null)
 		{
 			return;
 		}
-		IntPtr address = NativeLibrary.Load(path);
-		Lib lib = new Lib
+		IntPtr addr = NativeLibrary.Load(lib);
+		Lib lib2 = new Lib
 		{
-			Addr = address,
-			Path = path
+			Addr = addr,
+			Path = lib
 		};
-		solution.Libs.Add(lib);
-		List<LambdaManager.DataType.Action> actions = validate.GetLocalActions(component);
-		if (actions == null)
+		solution.Libs.Add(lib2);
+		List<LambdaManager.DataType.Action> localActions = validate.GetLocalActions(component);
+		if (localActions == null)
 		{
 			return;
 		}
-		for (int i = 0; i < actions.Count; i++)
+		for (int i = 0; i < localActions.Count; i++)
 		{
-			LambdaManager.DataType.Action action = actions[i];
+			LambdaManager.DataType.Action action = localActions[i];
 			string sigName = action.GetSigName(component);
 			EntryPoint entryPoint = validate.GetEntryPoint(sigName);
 			if (entryPoint == null)
 			{
-				EntryPoint entry = ResolveFunction(action, component, lib, validate);
-				if (entry != null)
+				EntryPoint entryPoint2 = ResolveFunction(action, component, lib2, validate);
+				if (entryPoint2 != null)
 				{
-					validate.AddEntryPoint(sigName, entry, action);
+					validate.AddEntryPoint(sigName, entryPoint2, action);
 				}
 			}
 			else
@@ -257,36 +257,36 @@ internal class ConfigLibrary
 
 	private static EntryPoint? ResolveFunction(LambdaManager.DataType.Action action, Component component, Lib lib, ConfigValidate validate)
 	{
-		FunctionResolver resolver = new FunctionResolver(lib);
-		IntPtr addr = resolver.GetAddress(action, component);
-		if (addr == IntPtr.Zero)
+		FunctionResolver functionResolver = new FunctionResolver(lib);
+		IntPtr address = functionResolver.GetAddress(action, component);
+		if (address == IntPtr.Zero)
 		{
 			validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Signature, action.ToString());
 			return null;
 		}
-		string code = resolver.GetSignatureCodes();
-		List<TypeInfo> parameters = resolver.TypeInfos;
-		EntryPoint entry = new EntryPoint
+		string signatureCodes = functionResolver.GetSignatureCodes();
+		List<TypeInfo> typeInfos = functionResolver.TypeInfos;
+		EntryPoint entryPoint = new EntryPoint
 		{
-			FuncAddr = addr,
-			Code = code,
-			Paremeters = parameters,
+			FuncAddr = address,
+			Code = signatureCodes,
+			Paremeters = typeInfos,
 			InputCount = (action.Inputs?.Count ?? 0)
 		};
-		List<EntryPoint> entrypoints = lib.EntryPoints;
-		if (entrypoints == null)
+		List<EntryPoint> list = lib.EntryPoints;
+		if (list == null)
 		{
-			entrypoints = (lib.EntryPoints = new List<EntryPoint>());
+			list = (lib.EntryPoints = new List<EntryPoint>());
 		}
-		entrypoints.Add(entry);
-		List<object> defaultValues = resolver.DefaultValues;
-		Function function = (action.Function = new Function
+		list.Add(entryPoint);
+		List<object> defaultValues = functionResolver.DefaultValues;
+		Function function2 = (action.Function = new Function
 		{
-			EntryPoint = entry,
+			EntryPoint = entryPoint,
 			Values = defaultValues,
 			Times = action.Times
 		});
-		return entry;
+		return entryPoint;
 	}
 
 	private static Function SetFunction(LambdaManager.DataType.Action action, EntryPoint entryPoint)
@@ -317,22 +317,22 @@ internal class ConfigLibrary
 		{
 			return;
 		}
-		foreach (Procedure procedure in procedures)
+		foreach (Procedure item in procedures)
 		{
-			List<string> events = procedure.Event;
+			List<string> @event = item.Event;
 			Routine routine = new Routine();
-			validate.AddRoutineProcedure(routine, procedure);
-			procedure.Routine = routine;
-			procedure.IsGUIProcedure = component.IsGUIComponent();
-			ResolveRotine(routine, procedure, component, validate);
-			bool isInitial = IsInitialRotine(component, procedure);
-			if (isInitial)
+			validate.AddRoutineProcedure(routine, item);
+			item.Routine = routine;
+			item.IsGUIProcedure = component.IsGUIComponent();
+			ResolveRotine(routine, item, component, validate);
+			bool flag = IsInitialRotine(component, item);
+			if (flag)
 			{
 				RegisterCallbackRoutine(solution.InitEvent, routine);
 			}
-			if (events == null)
+			if (@event == null)
 			{
-				if (!isInitial)
+				if (!flag)
 				{
 					RegisterCallbackRoutine(solution.UndefinedEvent, routine);
 				}
@@ -340,33 +340,33 @@ internal class ConfigLibrary
 			else
 			{
 				List<Event> list = new List<Event>();
-				foreach (string type in events)
+				foreach (string item2 in @event)
 				{
-					solution.Events.TryGetValue(type, out var evt);
-					if (evt == null)
+					solution.Events.TryGetValue(item2, out var value);
+					if (value == null)
 					{
-						evt = new Event
+						value = new Event
 						{
-							Type = type
+							Type = item2
 						};
-						solution.Events.Add(type, evt);
+						solution.Events.Add(item2, value);
 					}
-					RegisterCallbackRoutine(evt, routine);
-					list.Add(evt);
+					RegisterCallbackRoutine(value, routine);
+					list.Add(value);
 				}
-				validate.AddDeferEvents(procedure, list);
+				validate.AddDeferEvents(item, list);
 			}
-			string timer = procedure.Timer;
+			string timer = item.Timer;
 			if (timer != null)
 			{
 				FunctionJob.AddSchedule(new Scheduler
 				{
-					Name = procedure.Name,
+					Name = item.Name,
 					Timer = timer,
 					Routine = routine
 				});
 			}
-			if (procedure.Aysnc == "true")
+			if (item.Aysnc == "true")
 			{
 				routine.Async = true;
 			}
@@ -376,10 +376,10 @@ internal class ConfigLibrary
 	private static bool IsInitialRotine(Component component, Procedure procedure)
 	{
 		string name = procedure.Name;
-		List<string> inits = component.Init;
-		if (name != null && inits != null)
+		List<string> init = component.Init;
+		if (name != null && init != null)
 		{
-			return inits.IndexOf(name) != -1;
+			return init.IndexOf(name) != -1;
 		}
 		return false;
 	}
@@ -391,40 +391,40 @@ internal class ConfigLibrary
 		{
 			return;
 		}
-		foreach (LambdaManager.DataType.Action action in actions)
+		foreach (LambdaManager.DataType.Action item in actions)
 		{
-			List<Function> functions = routine.Functions;
-			if (functions == null)
+			List<Function> list = routine.Functions;
+			if (list == null)
 			{
-				functions = (routine.Functions = new List<Function>());
+				list = (routine.Functions = new List<Function>());
 			}
-			Function function = ResolveActionFunction(action, procedure, component, validate);
+			Function function = ResolveActionFunction(item, procedure, component, validate);
 			if (function != null)
 			{
-				functions.Add(function);
+				list.Add(function);
 				validate.AddFunctionRoutine(function, routine);
-				validate.AddFunctionAction(function, action);
+				validate.AddFunctionAction(function, item);
 				continue;
 			}
-			string referring = FunctionResolver.GetFullName(component, procedure, action.ToString());
-			string referred = action.Name;
-			if (action.Component != null)
+			string fullName = FunctionResolver.GetFullName(component, procedure, item.ToString());
+			string value = item.Name;
+			if (item.Component != null)
 			{
-				referred = action.Component + "::" + action.Name;
+				value = item.Component + "::" + item.Name;
 			}
-			validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, referring, Resources.Referring, referred);
+			validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, fullName, Resources.Referring, value);
 		}
 	}
 
 	private void RegisterCallbackRoutine(Event evt, Routine routine)
 	{
-		solution.Routines.TryGetValue(evt, out var rountines);
-		if (rountines == null)
+		solution.Routines.TryGetValue(evt, out var value);
+		if (value == null)
 		{
-			rountines = new List<Routine>();
-			solution.Routines.Add(evt, rountines);
+			value = new List<Routine>();
+			solution.Routines.Add(evt, value);
 		}
-		rountines.Add(routine);
+		value.Add(routine);
 	}
 
 	private static Function? ResolveActionFunction(LambdaManager.DataType.Action action, Procedure procedure, Component? component, ConfigValidate validate)
@@ -432,8 +432,8 @@ internal class ConfigLibrary
 		Function function = action.Function;
 		if (function == null)
 		{
-			string componentName = action.Component;
-			if (componentName == null)
+			string component2 = action.Component;
+			if (component2 == null)
 			{
 				if (component != null)
 				{
@@ -453,12 +453,12 @@ internal class ConfigLibrary
 			}
 			else
 			{
-				function = ResolveActionToExternalFunction(componentName, action, validate);
+				function = ResolveActionToExternalFunction(component2, action, validate);
 				if (function != null)
 				{
 					return function;
 				}
-				component = validate.GetComponentOfLocalActions(componentName);
+				component = validate.GetComponentOfLocalActions(component2);
 				if (component == null)
 				{
 					throw new Exception("system error: 101");
@@ -476,18 +476,18 @@ internal class ConfigLibrary
 
 	private static Function? ResolveActionToFunction(Component component, LambdaManager.DataType.Action action, ConfigValidate validate)
 	{
-		List<LambdaManager.DataType.Action> actions = validate.GetLocalActions(component);
-		if (actions != null)
+		List<LambdaManager.DataType.Action> localActions = validate.GetLocalActions(component);
+		if (localActions != null)
 		{
 			string sigName = action.GetSigName(component);
-			foreach (LambdaManager.DataType.Action action2 in actions)
+			foreach (LambdaManager.DataType.Action item in localActions)
 			{
-				if (action2.GetSigName(component) == sigName)
+				if (item.GetSigName(component) == sigName)
 				{
-					EntryPoint entry = action2.Function?.EntryPoint;
-					if (entry != null)
+					EntryPoint entryPoint = item.Function?.EntryPoint;
+					if (entryPoint != null)
 					{
-						return SetFunction(action, entry);
+						return SetFunction(action, entryPoint);
 					}
 				}
 			}
@@ -497,31 +497,31 @@ internal class ConfigLibrary
 
 	private static Function? ResolveActionToExternalFunction(string componentName, LambdaManager.DataType.Action action, ConfigValidate validate)
 	{
-		Component component = validate.GetComponentOfLocalActions(componentName);
-		if (component == null)
+		Component componentOfLocalActions = validate.GetComponentOfLocalActions(componentName);
+		if (componentOfLocalActions == null)
 		{
 			validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, componentName, Resources.Action, action.Name, Resources.Undefined);
 			return null;
 		}
-		string sigName = action.GetSigName(component);
+		string sigName = action.GetSigName(componentOfLocalActions);
 		if (sigName != null)
 		{
-			EntryPoint entry = validate.GetEntryPoint(sigName);
-			if (entry == null)
+			EntryPoint entryPoint = validate.GetEntryPoint(sigName);
+			if (entryPoint == null)
 			{
-				string sigNameWithoutParameter = new Regex("@0$").Replace(sigName, "");
-				List<KeyValuePair<string, EntryPoint>> entries = validate.GetSimilarEntryPoints(sigNameWithoutParameter);
-				if (entries.Count != 1)
+				string sigNameWithoutParameters = new Regex("@0$").Replace(sigName, "");
+				List<KeyValuePair<string, EntryPoint>> similarEntryPoints = validate.GetSimilarEntryPoints(sigNameWithoutParameters);
+				if (similarEntryPoints.Count != 1)
 				{
 					return null;
 				}
-				entry = entries.First().Value;
+				entryPoint = similarEntryPoints.First().Value;
 			}
-			List<object> defultValues = validate.GetDefaultValues(action, entry);
+			List<object> defaultValues = validate.GetDefaultValues(action, entryPoint);
 			return action.Function = new Function
 			{
-				EntryPoint = entry,
-				Values = defultValues,
+				EntryPoint = entryPoint,
+				Values = defaultValues,
 				Times = action.Times
 			};
 		}
@@ -533,28 +533,28 @@ internal class ConfigLibrary
 		List<Procedure> procedures = component.Procedures;
 		if (procedures != null)
 		{
-			Procedure unresolved = null;
-			foreach (Procedure procedure in procedures)
+			Procedure procedure = null;
+			foreach (Procedure item in procedures)
 			{
-				if (!(procedure.Name == action.Name))
+				if (!(item.Name == action.Name))
 				{
 					continue;
 				}
-				Function function = ResolveProcedureToFunction(action, procedure);
+				Function function = ResolveProcedureToFunction(action, item);
 				if (function != null)
 				{
 					List<Input>? inputs = action.Inputs;
 					if (inputs != null && inputs!.Count > 0)
 					{
-						ResolveFunctionExports(action, function, procedure, validate);
+						ResolveFunctionExports(action, function, item, validate);
 					}
 					return function;
 				}
-				unresolved = procedure;
+				procedure = item;
 			}
-			if (unresolved != null)
+			if (procedure != null)
 			{
-				validate.AddDeferResolvedAction(action, unresolved);
+				validate.AddDeferResolvedAction(action, procedure);
 			}
 		}
 		return null;
@@ -586,69 +586,69 @@ internal class ConfigLibrary
 			return null;
 		}
 		bool sourceTimes = source.Times > 1;
-		List<Link> links = new List<Link>();
+		List<Link> list = new List<Link>();
 		for (int i = 0; i < inputs.Count; i++)
 		{
-			List<Link> matches = TraverseLinkTarget(actions, inputs[i], sourceTimes, validate);
-			if (matches != null && matches.Count > 0)
+			List<Link> list2 = TraverseLinkTarget(actions, inputs[i], sourceTimes, validate);
+			if (list2 != null && list2.Count > 0)
 			{
-				Link linked = CheckLinkedSource(matches, source, i, validate);
-				if (linked != null)
+				Link link = CheckLinkedSource(list2, source, i, validate);
+				if (link != null)
 				{
-					links.Add(linked);
+					list.Add(link);
 				}
 			}
 		}
-		return links;
+		return list;
 	}
 
 	private static List<Link>? TraverseLinkTarget(List<LambdaManager.DataType.Action> actions, IO source, bool sourceTimes, ConfigValidate validate)
 	{
-		List<Link> matches = new List<Link>();
-		foreach (LambdaManager.DataType.Action target in actions)
+		List<Link> list = new List<Link>();
+		foreach (LambdaManager.DataType.Action action in actions)
 		{
-			if (target != null && target.Component != null)
+			if (action != null && action.Component != null)
 			{
-				CheckActionOrigin(target, validate);
+				CheckActionOrigin(action, validate);
 			}
-			if (target == null)
+			if (action == null)
 			{
 				continue;
 			}
-			Routine routine = target.Function?.Routine;
-			List<LambdaManager.DataType.Action> actions2 = validate.GetProcedure(routine)?.Actions;
-			if (actions2 != null)
+			Routine routine = action.Function?.Routine;
+			List<LambdaManager.DataType.Action> list2 = validate.GetProcedure(routine)?.Actions;
+			if (list2 != null)
 			{
-				List<Link> matches2 = TraverseLinkTarget(actions2, source, sourceTimes, validate);
-				if (matches2 != null && matches2.Count > 0)
+				List<Link> list3 = TraverseLinkTarget(list2, source, sourceTimes, validate);
+				if (list3 != null && list3.Count > 0)
 				{
-					matches.AddRange(matches2);
+					list.AddRange(list3);
 				}
 				continue;
 			}
-			int i = 0;
-			foreach (IO io in target.IoRange)
+			int num = 0;
+			foreach (IO item in action.IoRange)
 			{
-				string sourceType = source.Type;
+				string text = source.Type;
 				if (sourceTimes)
 				{
-					sourceType = FunctionResolver.CleanSuffix(sourceType, "[]");
+					text = FunctionResolver.CleanSuffix(text, "[]");
 				}
-				List<CastType> castTypes = FunctionResolver.ResolveLinkCastType(io.Name, io.Type, source.Name, sourceType);
+				List<CastType> castTypes = FunctionResolver.ResolveLinkCastType(item.Name, item.Type, source.Name, text);
 				Link link = new Link
 				{
-					Target = target,
+					Target = action,
 					CastTypes = castTypes,
-					TargetIndex = i
+					TargetIndex = num
 				};
 				if (CheckLinkCastType(link))
 				{
-					matches.Add(link);
+					list.Add(link);
 				}
-				i++;
+				num++;
 			}
 		}
-		return matches;
+		return list;
 	}
 
 	private static bool CheckLinkCastType(Link link)
@@ -676,18 +676,18 @@ internal class ConfigLibrary
 
 	private static void DeferProcessing(ConfigValidate validate)
 	{
-		Dictionary<LambdaManager.DataType.Action, Procedure> remains = ResolveDeferActions(validate.GetDeferResolvedActions());
-		int count = 0;
-		while (remains.Count > 0)
+		Dictionary<LambdaManager.DataType.Action, Procedure> dictionary = ResolveDeferActions(validate.GetDeferResolvedActions());
+		int num = 0;
+		while (dictionary.Count > 0)
 		{
-			remains = ResolveDeferActions(remains);
-			count++;
-			if (count != 100)
+			dictionary = ResolveDeferActions(dictionary);
+			num++;
+			if (num != 100)
 			{
 				continue;
 			}
 			{
-				foreach (KeyValuePair<LambdaManager.DataType.Action, Procedure> item in remains)
+				foreach (KeyValuePair<LambdaManager.DataType.Action, Procedure> item in dictionary)
 				{
 					validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, item.Key.Name, Resources.EntryPoint, null);
 				}
@@ -698,29 +698,29 @@ internal class ConfigLibrary
 
 	private static Dictionary<LambdaManager.DataType.Action, Procedure> ResolveDeferActions(Dictionary<LambdaManager.DataType.Action, Procedure> defers)
 	{
-		Dictionary<LambdaManager.DataType.Action, Procedure> remains = new Dictionary<LambdaManager.DataType.Action, Procedure>();
+		Dictionary<LambdaManager.DataType.Action, Procedure> dictionary = new Dictionary<LambdaManager.DataType.Action, Procedure>();
 		foreach (KeyValuePair<LambdaManager.DataType.Action, Procedure> defer in defers)
 		{
-			LambdaManager.DataType.Action action = defer.Key;
-			Procedure procedure = defer.Value;
-			Function function = ResolveProcedureToFunction(action, procedure);
+			LambdaManager.DataType.Action key = defer.Key;
+			Procedure value = defer.Value;
+			Function function = ResolveProcedureToFunction(key, value);
 			if (function == null)
 			{
-				remains.Add(action, procedure);
+				dictionary.Add(key, value);
 				continue;
 			}
-			List<LambdaManager.DataType.Action> actions = procedure.Actions;
+			List<LambdaManager.DataType.Action> actions = value.Actions;
 			if (actions != null)
 			{
-				int index = actions.IndexOf(action);
-				if (index >= 0)
+				int num = actions.IndexOf(key);
+				if (num >= 0)
 				{
-					procedure.Routine?.Functions?.Insert(index, function);
+					value.Routine?.Functions?.Insert(num, function);
 				}
 			}
 			throw new Exception("system error: 100");
 		}
-		return remains;
+		return dictionary;
 	}
 
 	private static void ResolveAsync(List<Component> components, ConfigValidate validate)
@@ -767,17 +767,17 @@ internal class ConfigLibrary
 		{
 			return false;
 		}
-		EntryPoint entry = function.EntryPoint;
-		if (entry == null)
+		EntryPoint entryPoint = function.EntryPoint;
+		if (entryPoint == null)
 		{
 			return false;
 		}
-		LambdaManager.DataType.Action origin = validate.GetAction(entry);
-		if (origin == null || origin == action)
+		LambdaManager.DataType.Action action2 = validate.GetAction(entryPoint);
+		if (action2 == null || action2 == action)
 		{
 			return false;
 		}
-		if (ResolveActionAsync(origin, validate))
+		if (ResolveActionAsync(action2, validate))
 		{
 			function.Async = true;
 			return true;
@@ -789,17 +789,17 @@ internal class ConfigLibrary
 	{
 		foreach (KeyValuePair<Procedure, List<ExportInfo>> procedureExport in validate.GetProcedureExports())
 		{
-			foreach (ExportInfo exportInfo in procedureExport.Value)
+			foreach (ExportInfo item in procedureExport.Value)
 			{
-				EntryPoint entry = exportInfo.Action.Function?.EntryPoint;
-				if (entry != null)
+				EntryPoint entryPoint = item.Action.Function?.EntryPoint;
+				if (entryPoint != null)
 				{
-					Dictionary<int, int> exports = entry.Exports;
-					if (exports == null)
+					Dictionary<int, int> dictionary = entryPoint.Exports;
+					if (dictionary == null)
 					{
-						exports = (entry.Exports = new Dictionary<int, int>());
+						dictionary = (entryPoint.Exports = new Dictionary<int, int>());
 					}
-					exports[exportInfo.ArgumentIndex] = exportInfo.ExportIndex;
+					dictionary[item.ArgumentIndex] = item.ExportIndex;
 				}
 			}
 		}
@@ -807,62 +807,62 @@ internal class ConfigLibrary
 
 	private static void ResolveFunctionExports(LambdaManager.DataType.Action action, Function function, Procedure procedure, ConfigValidate validate)
 	{
-		FunctionResolver resolver = new FunctionResolver(null);
-		resolver.Parse(action);
-		function.Values = resolver.DefaultValues;
-		List<Link> links = ResolveProcedureInput(procedure, action, validate);
-		if (links == null)
+		FunctionResolver functionResolver = new FunctionResolver(null);
+		functionResolver.Parse(action);
+		function.Values = functionResolver.DefaultValues;
+		List<Link> list = ResolveProcedureInput(procedure, action, validate);
+		if (list == null)
 		{
 			return;
 		}
-		Routine temp = new Routine();
-		foreach (Link link in links)
+		Routine routine = new Routine();
+		foreach (Link item in list)
 		{
-			ResolveVariable(temp, link, byVariable: true, validate);
+			ResolveVariable(routine, item, byVariable: true, validate);
 		}
-		function.Exports = temp.Referring;
+		function.Exports = routine.Referring;
 	}
 
 	private static void ResolveActionImports(ConfigValidate validate)
 	{
-		foreach (KeyValuePair<LambdaManager.DataType.Action, List<ImportInfo>> pair in validate.GetActionImports())
+		foreach (KeyValuePair<LambdaManager.DataType.Action, List<ImportInfo>> actionImport in validate.GetActionImports())
 		{
-			LambdaManager.DataType.Action action = pair.Key;
-			List<ImportInfo> infos = pair.Value;
-			Routine routine = action.Function?.Routine;
+			LambdaManager.DataType.Action key = actionImport.Key;
+			List<ImportInfo> value = actionImport.Value;
+			Routine routine = key.Function?.Routine;
 			if (routine == null)
 			{
-				if (validate.CheckActionImports(infos, action).Count > 0)
+				if (validate.CheckActionImports(value, key).Count > 0)
 				{
-					validate.ReportActionImportNotSupported(action, infos);
+					validate.ReportActionImportNotSupported(key, value);
 				}
 				continue;
 			}
-			List<string> exports = validate.GetProcedure(routine)?.Exports;
-			if (exports == null)
+			List<string> list = validate.GetProcedure(routine)?.Exports;
+			if (list == null)
 			{
-				validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Export, null);
+				validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, key.Name, Resources.Export, null);
 				continue;
 			}
-			Function function = action.Function;
+			Function function = key.Function;
 			if (function == null)
 			{
 				continue;
 			}
-			foreach (ImportInfo info in infos)
+			foreach (ImportInfo item in value)
 			{
-				int exportIndex = exports.IndexOf(info.Name);
-				if (exportIndex == -1)
+				int num = list.IndexOf(item.Name);
+				if (num == -1)
 				{
-					validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Import, info.Name);
+					validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, key.Name, Resources.Import, item.Name);
 					continue;
 				}
-				Dictionary<int, int> imports = function.Imports;
-				if (imports == null)
+				Dictionary<int, int> dictionary = function.Imports;
+				if (dictionary == null)
 				{
-					imports = (function.Imports = new Dictionary<int, int>());
+					dictionary = (function.Imports = new Dictionary<int, int>());
 				}
-				imports.Add(exportIndex, info.ArgumentIndex);
+				dictionary.Add(num, item.ArgumentIndex);
 			}
 		}
 	}
@@ -890,28 +890,28 @@ internal class ConfigLibrary
 		{
 			return;
 		}
-		List<Link> links = new List<Link>();
+		List<Link> list = new List<Link>();
 		for (int i = 0; i < actions.Count; i++)
 		{
-			int j = 0;
-			LambdaManager.DataType.Action target = actions[i];
-			foreach (IO io in target.IoRange)
+			int num = 0;
+			LambdaManager.DataType.Action action = actions[i];
+			foreach (IO item in action.IoRange)
 			{
-				List<Link> matches = TraverseLinkSource(actions, io, i, validate);
-				if (matches != null && matches.Count > 0)
+				List<Link> list2 = TraverseLinkSource(actions, item, i, validate);
+				if (list2 != null && list2.Count > 0)
 				{
-					Link linked = CheckLinkedTarget(matches, target, j, validate);
-					if (linked != null)
+					Link link = CheckLinkedTarget(list2, action, num, validate);
+					if (link != null)
 					{
-						links.Add(linked);
+						list.Add(link);
 					}
 				}
-				j++;
+				num++;
 			}
 		}
-		foreach (Link link in links)
+		foreach (Link item2 in list)
 		{
-			ResolveVariable(procedure.Routine, link, byVariable: true, validate);
+			ResolveVariable(procedure.Routine, item2, byVariable: true, validate);
 		}
 	}
 
@@ -921,35 +921,35 @@ internal class ConfigLibrary
 		{
 			return null;
 		}
-		List<Link> matches = new List<Link>();
-		for (int i = targetIndex - 1; i >= 0; i--)
+		List<Link> list = new List<Link>();
+		for (int num = targetIndex - 1; num >= 0; num--)
 		{
-			LambdaManager.DataType.Action source = actions[i];
-			if (source != null && source.Component != null)
+			LambdaManager.DataType.Action action = actions[num];
+			if (action != null && action.Component != null)
 			{
-				CheckActionOrigin(source, validate);
+				CheckActionOrigin(action, validate);
 			}
-			if (source != null)
+			if (action != null)
 			{
-				int j = source.GetArgsCount() - 1;
-				foreach (IO io in source.IoReverseRange)
+				int num2 = action.GetArgsCount() - 1;
+				foreach (IO item in action.IoReverseRange)
 				{
-					List<CastType> castTypes = FunctionResolver.ResolveLinkCastType(target.Name, target.Type, io.Name, io.Type);
+					List<CastType> castTypes = FunctionResolver.ResolveLinkCastType(target.Name, target.Type, item.Name, item.Type);
 					Link link = new Link
 					{
-						Source = source,
+						Source = action,
 						CastTypes = castTypes,
-						SourceIndex = j
+						SourceIndex = num2
 					};
-					if (CheckLinkCastType(matches, link))
+					if (CheckLinkCastType(list, link))
 					{
-						return matches;
+						return list;
 					}
-					j--;
+					num2--;
 				}
 			}
 		}
-		return matches;
+		return list;
 	}
 
 	private static LambdaManager.DataType.Action? CheckActionOrigin(LambdaManager.DataType.Action action, ConfigValidate validate)
@@ -959,32 +959,32 @@ internal class ConfigLibrary
 		{
 			return null;
 		}
-		LambdaManager.DataType.Action origin = null;
+		LambdaManager.DataType.Action action2 = null;
 		Routine routine = function.Routine;
 		if (routine == null)
 		{
-			origin = validate.GetOriginalAction(function);
+			action2 = validate.GetOriginalAction(function);
 		}
 		else
 		{
-			List<LambdaManager.DataType.Action> actions2 = validate.GetProcedure(routine)?.Actions;
-			if (actions2 != null && actions2.Count > 0)
+			List<LambdaManager.DataType.Action> list = validate.GetProcedure(routine)?.Actions;
+			if (list != null && list.Count > 0)
 			{
-				origin = actions2[0];
+				action2 = list[0];
 			}
 		}
-		if (origin != null)
+		if (action2 != null)
 		{
-			CopyOriginInputs(action, origin.Inputs, validate);
-			action.Outputs = origin.Outputs;
+			CopyOriginInputs(action, action2.Inputs, validate);
+			action.Outputs = action2.Outputs;
 		}
-		return origin;
+		return action2;
 	}
 
 	private static void CopyOriginInputs(LambdaManager.DataType.Action action, List<Input>? inputs, ConfigValidate validate)
 	{
-		List<Input> target = action.Inputs;
-		if (target == null)
+		List<Input> inputs2 = action.Inputs;
+		if (inputs2 == null)
 		{
 			action.Inputs = inputs;
 		}
@@ -994,47 +994,47 @@ internal class ConfigLibrary
 			{
 				return;
 			}
-			Dictionary<int, int> exists = new Dictionary<int, int>();
-			int raw = 0;
-			for (int l = 0; l < target.Count; l++)
+			Dictionary<int, int> dictionary = new Dictionary<int, int>();
+			int num = 0;
+			for (int i = 0; i < inputs2.Count; i++)
 			{
-				bool found = false;
-				for (int i = raw; i < inputs!.Count; i++)
+				bool flag = false;
+				for (int j = num; j < inputs!.Count; j++)
 				{
-					if (inputs![i].Name == target[l].Name || inputs![i].Type == target[l].Type)
+					if (inputs![j].Name == inputs2[i].Name || inputs![j].Type == inputs2[i].Type)
 					{
-						exists.Add(i, l);
-						raw = i + 1;
-						found = true;
+						dictionary.Add(j, i);
+						num = j + 1;
+						flag = true;
 						break;
 					}
 				}
-				if (!found)
+				if (!flag)
 				{
-					validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, LambdaManager.DataType.Type.Input.Description(), target[l].Name ?? ("index at " + l), Resources.OriginInputsNotMatch);
+					validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, LambdaManager.DataType.Type.Input.Description(), inputs2[i].Name ?? ("index at " + i), Resources.OriginInputsNotMatch);
 				}
 			}
-			for (int j = 0; j < inputs!.Count; j++)
+			for (int k = 0; k < inputs!.Count; k++)
 			{
-				if (exists.TryGetValue(j, out var k))
+				if (dictionary.TryGetValue(k, out var value))
 				{
-					if (target[k].Name == null)
+					if (inputs2[value].Name == null)
 					{
-						target[k].Name = inputs![j].Name;
+						inputs2[value].Name = inputs![k].Name;
 					}
-					target[k].Type = inputs![j].Type;
-					if (target[k].Value == null)
+					inputs2[value].Type = inputs![k].Type;
+					if (inputs2[value].Value == null)
 					{
-						target[k].Value = inputs![j].Value;
+						inputs2[value].Value = inputs![k].Value;
 					}
 				}
-				else if (j < target.Count)
+				else if (k < inputs2.Count)
 				{
-					target.Insert(j, inputs![j]);
+					inputs2.Insert(k, inputs![k]);
 				}
 				else
 				{
-					target.Add(inputs![j]);
+					inputs2.Add(inputs![k]);
 				}
 			}
 		}
@@ -1047,55 +1047,55 @@ internal class ConfigLibrary
 			return null;
 		}
 		links.Sort((Link x, Link y) => CompareTo(x.CastTypes, y.CastTypes));
-		Link best = links[0];
-		if (best.CastTypes[0] == CastType.TYPE_NOT_MATCH)
+		Link link = links[0];
+		if (link.CastTypes[0] == CastType.TYPE_NOT_MATCH)
 		{
-			validate.ReportLinkNotMatch(best, target, index);
+			validate.ReportLinkNotMatch(link, target, index);
 			return null;
 		}
-		best.Target = target;
-		best.TargetIndex = index;
-		return best;
+		link.Target = target;
+		link.TargetIndex = index;
+		return link;
 	}
 
 	private static int CompareTo(List<CastType> l1, List<CastType> l2)
 	{
-		int x = l1[0].CompareTo(l2[0]);
-		if (x == 0)
+		int num = l1[0].CompareTo(l2[0]);
+		if (num == 0)
 		{
-			int c1 = l1.Count;
-			int c2 = l2.Count;
-			if (c1 == 1 && c2 > 1)
+			int count = l1.Count;
+			int count2 = l2.Count;
+			if (count == 1 && count2 > 1)
 			{
 				return -1;
 			}
-			if (c2 == 1 && c1 > 1)
+			if (count2 == 1 && count > 1)
 			{
 				return 1;
 			}
-			if (c1 == 1 && c2 == 1)
+			if (count == 1 && count2 == 1)
 			{
 				return 0;
 			}
-			x = l1[1].CompareTo(l2[1]);
-			if (x == 0)
+			num = l1[1].CompareTo(l2[1]);
+			if (num == 0)
 			{
-				if (c1 == 2 && c2 > 2)
+				if (count == 2 && count2 > 2)
 				{
 					return -1;
 				}
-				if (c2 == 2 && c1 > 2)
+				if (count2 == 2 && count > 2)
 				{
 					return 1;
 				}
-				if (c1 == 2 && c2 == 2)
+				if (count == 2 && count2 == 2)
 				{
 					return 0;
 				}
 				return l1[2].CompareTo(l2[2]);
 			}
 		}
-		return x;
+		return num;
 	}
 
 	private static bool CheckLinkCastType(List<Link> matches, Link link)
@@ -1116,14 +1116,14 @@ internal class ConfigLibrary
 
 	private static void ResolveVariable(Routine? routine, Link link, bool byVariable, ConfigValidate validate)
 	{
-		Function target = link.Target.Function;
-		Function source = link.Source.Function;
-		if (source != null)
+		Function function = link.Target.Function;
+		Function function2 = link.Source.Function;
+		if (function2 != null)
 		{
-			source.IsReferred = true;
-			if (source.Async && link.SourceIndex >= source.EntryPoint?.InputCount)
+			function2.IsReferred = true;
+			if (function2.Async && link.SourceIndex >= function2.EntryPoint?.InputCount)
 			{
-				validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Action, validate.GetAction(source)?.Name, Resources.Async, null, Resources.AsyncWithOutputReferredNotSupport);
+				validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Action, validate.GetAction(function2)?.Name, Resources.Async, null, Resources.AsyncWithOutputReferredNotSupport);
 			}
 		}
 		if (routine == null)
@@ -1133,21 +1133,21 @@ internal class ConfigLibrary
 		Location location = null;
 		if (byVariable)
 		{
-			location = ResolveVariableReferred(link, routine, source);
+			location = ResolveVariableReferred(link, routine, function2);
 		}
-		else if (source != null)
+		else if (function2 != null)
 		{
 			location = new Location
 			{
-				Function = source,
+				Function = function2,
 				Index = link.SourceIndex
 			};
-			if (link is VirtualLink vlink)
+			if (link is VirtualLink virtualLink)
 			{
-				location.Function = vlink.SourceFunction;
+				location.Function = virtualLink.SourceFunction;
 			}
 		}
-		ResolveVariableReferring(link, routine, target, location);
+		ResolveVariableReferring(link, routine, function, location);
 	}
 
 	private static Location? ResolveVariableReferred(Link link, Routine routine, Function? source)
@@ -1156,29 +1156,29 @@ internal class ConfigLibrary
 		{
 			return null;
 		}
-		Dictionary<Function, List<Location>> referred = routine.Referred;
-		if (referred == null)
+		Dictionary<Function, List<Location>> dictionary = routine.Referred;
+		if (dictionary == null)
 		{
-			referred = (routine.Referred = new Dictionary<Function, List<Location>>());
+			dictionary = (routine.Referred = new Dictionary<Function, List<Location>>());
 		}
-		referred.TryGetValue(source, out var locations);
-		if (locations == null)
+		dictionary.TryGetValue(source, out var value);
+		if (value == null)
 		{
-			locations = new List<Location>();
-			referred.Add(source, locations);
+			value = new List<Location>();
+			dictionary.Add(source, value);
 		}
 		Location location = new Location
 		{
 			Function = source,
 			Index = link.SourceIndex
 		};
-		if (link is VirtualLink vlink)
+		if (link is VirtualLink virtualLink)
 		{
-			location.Function = vlink.SourceFunction;
+			location.Function = virtualLink.SourceFunction;
 		}
-		if (locations.IndexOf(location) == -1)
+		if (value.IndexOf(location) == -1)
 		{
-			locations.Add(location);
+			value.Add(location);
 		}
 		return location;
 	}
@@ -1187,20 +1187,20 @@ internal class ConfigLibrary
 	{
 		if (source != null && target != null)
 		{
-			Dictionary<Location, LocationConverter> referring = routine.Referring;
-			if (referring == null)
+			Dictionary<Location, LocationConverter> dictionary = routine.Referring;
+			if (dictionary == null)
 			{
-				referring = (routine.Referring = new Dictionary<Location, LocationConverter>());
+				dictionary = (routine.Referring = new Dictionary<Location, LocationConverter>());
 			}
-			TypeInfo typeInfo = link.GetSourceType();
+			TypeInfo sourceType = link.GetSourceType();
 			List<CastType> castTypes = link.CastTypes;
 			Converter converter = null;
-			if (typeInfo != null)
+			if (sourceType != null)
 			{
-				converter = typeInfo.GetConverter(castTypes);
+				converter = sourceType.GetConverter(castTypes);
 			}
 			bool isGetAddress = castTypes[0] == CastType.CAST_ADDRESS;
-			LocationConverter locationConverter = new LocationConverter
+			LocationConverter value = new LocationConverter
 			{
 				Location = source,
 				Converter = converter,
@@ -1211,18 +1211,18 @@ internal class ConfigLibrary
 				Function = target,
 				Index = link.TargetIndex
 			};
-			if (link is VirtualLink vlink)
+			if (link is VirtualLink virtualLink)
 			{
-				location.Group = vlink.TargetGroup;
+				location.Group = virtualLink.TargetGroup;
 			}
 			target!.MarkVariable(location.Index);
-			referring.Add(location, locationConverter);
+			dictionary.Add(location, value);
 		}
 	}
 
 	private static void ResolveProcudureEvents(List<Component> components, ConfigValidate validate)
 	{
-		int group = 1;
+		int num = 1;
 		foreach (Component component in components)
 		{
 			List<Procedure> procedures = component.Procedures;
@@ -1230,14 +1230,14 @@ internal class ConfigLibrary
 			{
 				break;
 			}
-			foreach (Procedure procedure in procedures)
+			foreach (Procedure item in procedures)
 			{
-				List<Event> events = validate.GetDeferEvents(procedure);
-				if (events != null)
+				List<Event> deferEvents = validate.GetDeferEvents(item);
+				if (deferEvents != null)
 				{
-					validate.AddEventGroup(procedure, group);
-					ResolveEventKeysAndArgs(events, procedure, validate, null, group);
-					group++;
+					validate.AddEventGroup(item, num);
+					ResolveEventKeysAndArgs(deferEvents, item, validate, null, num);
+					num++;
 				}
 			}
 		}
@@ -1245,38 +1245,39 @@ internal class ConfigLibrary
 
 	private static bool ResolveEventKeysAndArgs(List<Event> events, Procedure procedure, ConfigValidate validate, IntialFunction? initial, int group)
 	{
-		Routine pRoutine = procedure.Routine;
-		if (pRoutine == null)
+		Routine routine = procedure.Routine;
+		if (routine == null)
 		{
 			return false;
 		}
 		List<LambdaManager.DataType.Action> actions = procedure.Actions;
-		List<string> keys = initial?.Keys ?? procedure.Key ?? procedure.Arg;
-		if (actions == null || keys == null)
+		List<string> list = initial?.Keys ?? procedure.Key ?? procedure.Arg;
+		if (actions == null || list == null)
 		{
 			return false;
 		}
+		list = StringUtils.Copy(list);
 		bool result = false;
-		foreach (LambdaManager.DataType.Action action in actions)
+		foreach (LambdaManager.DataType.Action item in actions)
 		{
-			Function function = action.Function;
+			Function function = item.Function;
 			if (function == null)
 			{
 				continue;
 			}
-			Routine routine = function.Routine;
-			if (routine != null)
+			Routine routine2 = function.Routine;
+			if (routine2 != null)
 			{
-				Procedure procedure2 = validate.GetProcedure(routine);
+				Procedure procedure2 = validate.GetProcedure(routine2);
 				if (procedure2 != null)
 				{
 					if (initial == null)
 					{
 						initial = new IntialFunction
 						{
-							Routine = pRoutine,
+							Routine = routine,
 							Function = function,
-							Keys = keys
+							Keys = list
 						};
 					}
 					if (ResolveEventKeysAndArgs(events, procedure2, validate, initial, group))
@@ -1287,44 +1288,44 @@ internal class ConfigLibrary
 			}
 			else
 			{
-				LambdaManager.DataType.Action action2 = CheckActionOrigin(action, validate) ?? action;
-				Dictionary<int, IO> indexArgs = action2.GetArgIndice(keys);
-				Function source = null;
-				LambdaManager.DataType.Action target = null;
+				LambdaManager.DataType.Action action = CheckActionOrigin(item, validate) ?? item;
+				Dictionary<int, IO> dictionary = action.GetArgIndice(list);
+				Function function2 = null;
+				LambdaManager.DataType.Action action2 = null;
 				if (initial != null)
 				{
-					source = initial!.Function;
-					target = ((function.Routine == null) ? action : action2);
+					function2 = initial!.Function;
+					action2 = ((function.Routine == null) ? item : action);
 				}
 				else
 				{
-					source = function;
-					target = action;
+					function2 = function;
+					action2 = item;
 				}
-				Routine entryRoutine = initial?.Routine ?? pRoutine;
-				if (source != null && target != null)
+				Routine routine3 = initial?.Routine ?? routine;
+				if (function2 != null && action2 != null)
 				{
-					indexArgs = ResolveVariables(source, target, indexArgs, validate, group);
+					dictionary = ResolveVariables(function2, action2, dictionary, validate, group);
 				}
-				foreach (KeyValuePair<int, IO> indexArg in indexArgs)
+				foreach (KeyValuePair<int, IO> item2 in dictionary)
 				{
-					string key = indexArg.Value.Name;
-					if (key == null)
+					string name = item2.Value.Name;
+					if (name == null)
 					{
 						continue;
 					}
 					foreach (Event @event in events)
 					{
-						@event.AddEventMap(entryRoutine, key, indexArg.Key);
-						keys.Remove(key);
+						@event.AddEventMap(routine3, name, item2.Key);
+						list.Remove(name);
 					}
 				}
-				if (indexArgs.Count > 0)
+				if (dictionary.Count > 0)
 				{
 					result = true;
 				}
 			}
-			if (keys.Count == 0)
+			if (list.Count == 0)
 			{
 				return result;
 			}
@@ -1341,24 +1342,24 @@ internal class ConfigLibrary
 		{
 			return indexArgs;
 		}
-		Dictionary<int, IO> indexArgs2 = new Dictionary<int, IO>();
+		Dictionary<int, IO> dictionary = new Dictionary<int, IO>();
 		foreach (KeyValuePair<int, IO> indexArg in indexArgs)
 		{
-			int sourceIndex = function.Values?.Count ?? 0;
+			int num = function.Values?.Count ?? 0;
 			function.AddValue(function);
 			action.AddIO(indexArg.Value);
-			VirtualLink link = new VirtualLink(source, group)
+			VirtualLink virtualLink = new VirtualLink(source, group)
 			{
 				Source = action,
-				SourceIndex = sourceIndex,
+				SourceIndex = num,
 				Target = target,
 				TargetIndex = indexArg.Key
 			};
-			link.CastTypes.Add(CastType.NO_CAST);
-			ResolveVariable(routine, link, byVariable: false, validate);
-			indexArgs2.Add(sourceIndex, indexArg.Value);
+			virtualLink.CastTypes.Add(CastType.NO_CAST);
+			ResolveVariable(routine, virtualLink, byVariable: false, validate);
+			dictionary.Add(num, indexArg.Value);
 		}
-		return indexArgs2;
+		return dictionary;
 	}
 
 	private static void ResolveActionRaise(List<Component> all, ConfigValidate validate)
@@ -1387,8 +1388,8 @@ internal class ConfigLibrary
 
 	private static void ResolveEventRaise(LambdaManager.DataType.Action action, ConfigValidate validate)
 	{
-		List<string> raises = action.Raise;
-		if (raises == null)
+		List<string> raise = action.Raise;
+		if (raise == null)
 		{
 			return;
 		}
@@ -1397,46 +1398,46 @@ internal class ConfigLibrary
 		{
 			return;
 		}
-		foreach (string raise in raises)
+		foreach (string item in raise)
 		{
-			Event evt = new Event();
-			if (raise.StartsWith('{') && raise.EndsWith('}'))
+			Event @event = new Event();
+			if (item.StartsWith('{') && item.EndsWith('}'))
 			{
-				Dictionary<string, object> eventObject = JsonFormatter.DeserializeObject<Dictionary<string, object>>(raise);
-				evt.Type = (string)eventObject["type"];
-				if (evt.Type == null)
+				Dictionary<string, object> dictionary = JsonFormatter.DeserializeObject<Dictionary<string, object>>(item);
+				@event.Type = (string)dictionary["type"];
+				if (@event.Type == null)
 				{
 					App.Report(new Message
 					{
 						Severity = Severity.FATAL_ERROR,
-						Text = raise + Resources.EventTypeNotSpecified
+						Text = item + Resources.EventTypeNotSpecified
 					});
 				}
-				evt.Data = raise;
-				evt.SetArgType(hasKey: false, isArg: false, allJsonValue: false, hasBracket: true);
+				@event.Data = item;
+				@event.SetArgType(hasKey: false, allJsonValue: false, hasBracket: true);
 			}
 			else
 			{
-				evt.Type = raise;
-				List<string> keys = action.Key;
-				if (keys != null && keys.Count > 0)
+				@event.Type = item;
+				List<string> key = action.Key;
+				if (key != null && key.Count > 0)
 				{
-					evt.Keys = ResolveRaiseKeys(keys, isKey: true, action, null, out var isJsonString, validate);
-					evt.SetArgType(hasKey: true, isArg: false, isJsonString, hasBracket: false);
+					@event.Keys = ResolveRaiseKeys(key, isKey: true, action, null, out var isJsonString, validate);
+					@event.SetArgType(hasKey: true, isJsonString, hasBracket: false);
 				}
-				List<string> args = action.Arg;
-				if (args != null && args.Count > 0)
+				List<string> arg = action.Arg;
+				if (arg != null && arg.Count > 0)
 				{
-					evt.Keys = ResolveRaiseKeys(args, isKey: false, action, null, out var _, validate);
-					evt.SetArgType(hasKey: true, isArg: true, allJsonValue: false, hasBracket: false);
+					@event.Keys = ResolveRaiseKeys(arg, isKey: false, action, null, out var _, validate);
+					@event.ArgType = GetArgumentType(arg);
 				}
 			}
-			List<Event> events = function.Raise;
-			if (events == null)
+			List<Event> list = function.Raise;
+			if (list == null)
 			{
-				events = (function.Raise = new List<Event>());
+				list = (function.Raise = new List<Event>());
 			}
-			events.Add(evt);
+			list.Add(@event);
 		}
 	}
 
@@ -1450,119 +1451,131 @@ internal class ConfigLibrary
 		}
 		LambdaManager.DataType.Action action2 = validate.GetOriginalAction(function) ?? action;
 		Dictionary<int, IO> argIndice = action2.GetArgIndice(keys);
-		Dictionary<string, int> keyIndice = new Dictionary<string, int>();
-		foreach (KeyValuePair<int, IO> pair in argIndice)
+		Dictionary<string, int> dictionary = new Dictionary<string, int>();
+		foreach (KeyValuePair<int, IO> item in argIndice)
 		{
-			IO io = pair.Value;
-			keyIndice[io.Name ?? ""] = pair.Key;
-			if (isKey && io.Type != null)
+			IO value = item.Value;
+			dictionary[value.Name ?? ""] = item.Key;
+			if (isKey && value.Type != null)
 			{
-				TypeInfo info = TypesInterop.GetTypeInfo(io.Type);
-				if (info == null || !info.IsJsonType())
+				TypeInfo typeInfo = TypesInterop.GetTypeInfo(value.Type);
+				if (typeInfo == null || !typeInfo.IsJsonType())
 				{
 					isJsonString = false;
 				}
 			}
 		}
-		List<string> remains = keys.Except(keyIndice.Keys).ToList();
-		if (remains.Count > 0)
+		List<string> list = keys.Except(dictionary.Keys).ToList();
+		if (list.Count > 0)
 		{
-			List<LambdaManager.DataType.Action> actions = validate.GetProcedure(action2.Function?.Routine)?.Actions;
-			if (actions == null)
+			List<LambdaManager.DataType.Action> list2 = validate.GetProcedure(action2.Function?.Routine)?.Actions;
+			if (list2 == null)
 			{
-				validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.RaiseKeys, remains.ToString());
+				validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.RaiseKeys, list.ToString());
 				return null;
 			}
 			{
-				foreach (LambdaManager.DataType.Action action3 in actions)
+				foreach (LambdaManager.DataType.Action item2 in list2)
 				{
-					Dictionary<string, int> keyIndice2 = ResolveRaiseKeys(remains, isKey, action3, action0 ?? action, out isJsonString, validate);
-					if (keyIndice2 != null)
+					Dictionary<string, int> dictionary2 = ResolveRaiseKeys(list, isKey, item2, action0 ?? action, out isJsonString, validate);
+					if (dictionary2 != null)
 					{
-						keyIndice = keyIndice.Concat(keyIndice2).ToDictionary((KeyValuePair<string, int> k) => k.Key, (KeyValuePair<string, int> v) => v.Value);
-						if (keyIndice.Count == keys.Count)
+						dictionary = dictionary.Concat(dictionary2).ToDictionary((KeyValuePair<string, int> k) => k.Key, (KeyValuePair<string, int> v) => v.Value);
+						if (dictionary.Count == keys.Count)
 						{
-							return keyIndice;
+							return dictionary;
 						}
 					}
 				}
-				return keyIndice;
+				return dictionary;
 			}
 		}
-		return keyIndice;
+		return dictionary;
 	}
 
 	private static void RegisterEventCallbacks(ConfigValidate validate)
 	{
-		foreach (KeyValuePair<string, List<Procedure>> pair in validate.GetEventProcedure())
+		foreach (KeyValuePair<string, List<Procedure>> item in validate.GetEventProcedure())
 		{
-			string type = pair.Key;
-			foreach (Procedure procedure in pair.Value)
+			string key = item.Key;
+			foreach (Procedure item2 in item.Value)
 			{
-				Routine routine = procedure.Routine;
-				List<Function> functions = routine?.Functions;
-				if (functions == null || functions.Count == 0)
+				Routine routine = item2.Routine;
+				List<Function> list = routine?.Functions;
+				if (list == null || list.Count == 0)
 				{
 					continue;
 				}
-				List<string> key = procedure.Key;
-				if (functions.Count > 1 || key != null)
+				List<string> key2 = item2.Key;
+				List<string> arg = item2.Arg;
+				if (list.Count > 1 || key2 != null)
 				{
-					ArgumentType argType = ((key != null) ? ArgumentType.JSON_STRING : ((procedure.Arg != null) ? ArgumentType.POINTER : ArgumentType.NO_ARGS));
-					int group = validate.GetEventGroup(procedure);
-					if (group == -1)
+					ArgumentType argType = ((key2 != null) ? ArgumentType.JSON_STRING : ((arg != null) ? GetArgumentType(arg) : ArgumentType.NO_ARGS));
+					int eventGroup = validate.GetEventGroup(item2);
+					if (eventGroup == -1)
 					{
 						throw new Exception("referring group error");
 					}
-					Common.AddEventHandler(type, argType, routine, once: false, group);
+					Common.AddEventHandler(key, argType, routine, once: false, eventGroup);
 					continue;
 				}
-				Function function = functions[0];
+				Function function = list[0];
 				if (function != null)
 				{
-					LambdaManager.DataType.Action action = procedure.Actions?[0];
-					ArgumentType? argType2 = ((procedure.Arg != null) ? new ArgumentType?(ArgumentType.POINTER) : FunctionResolver.GetEventArgType(action));
-					if (argType2.HasValue)
+					LambdaManager.DataType.Action action = item2.Actions?[0];
+					ArgumentType? argumentType = ((arg == null) ? FunctionResolver.GetEventArgType(action) : new ArgumentType?(GetArgumentType(arg)));
+					if (argumentType.HasValue)
 					{
-						Common.AddEventHandler(callback: function.EntryPoint?.FuncAddr ?? IntPtr.Zero, type: type, argType: argType2.GetValueOrDefault(), once: false);
+						Common.AddEventHandler(callback: function.EntryPoint?.FuncAddr ?? IntPtr.Zero, type: key, argType: argumentType.GetValueOrDefault(), once: false);
 					}
 				}
 			}
 		}
 	}
 
+	private static ArgumentType GetArgumentType(List<string> arg)
+	{
+		return arg.Count switch
+		{
+			1 => ArgumentType.POINTER, 
+			2 => ArgumentType.POINTER2, 
+			4 => ArgumentType.POINTER4, 
+			_ => ArgumentType.NO_ARGS, 
+		};
+	}
+
 	private static void ResolveFunctionArgument(ConfigValidate validate)
 	{
-		foreach (KeyValuePair<LambdaManager.DataType.Action, List<int>> pair in validate.GetFunctionArguments())
+		foreach (KeyValuePair<LambdaManager.DataType.Action, List<int>> functionArgument in validate.GetFunctionArguments())
 		{
-			LambdaManager.DataType.Action action = pair.Key;
-			foreach (int index in pair.Value)
+			LambdaManager.DataType.Action key = functionArgument.Key;
+			foreach (int item in functionArgument.Value)
 			{
-				Input input = action.Inputs?[index];
+				Input input = key.Inputs?[item];
 				if (input == null)
 				{
 					continue;
 				}
-				LambdaManager.DataType.Action refAction = validate.FindComponentAction(input.Name, input.Value);
-				if (refAction == null)
+				LambdaManager.DataType.Action action = validate.FindComponentAction(input.Name, input.Value);
+				if (action == null)
 				{
-					validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.ReferredAction, input.Value);
+					validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, key.Name, Resources.ReferredAction, input.Value);
 					continue;
 				}
-				EntryPoint entry = refAction.Function?.EntryPoint;
-				if (entry == null)
+				EntryPoint entryPoint = action.Function?.EntryPoint;
+				if (entryPoint == null)
 				{
 					continue;
 				}
-				Function function = action.Function;
+				Function function = key.Function;
 				if (function != null)
 				{
-					List<object> values = function.Values;
-					if (values == null)
+					List<object> list = function.Values;
+					if (list == null)
 					{
-						values = (function.Values = new List<object>());
+						list = (function.Values = new List<object>());
 					}
-					CollectionUtils.Insert(values, index, entry.FuncAddr);
+					CollectionUtils.Insert(list, item, entryPoint.FuncAddr);
 				}
 			}
 		}
@@ -1570,11 +1583,11 @@ internal class ConfigLibrary
 
 	private void InitializeLibrary()
 	{
-		foreach (Routine routine in solution.Routines[solution.InitEvent])
+		foreach (Routine item in solution.Routines[solution.InitEvent])
 		{
 			FunctionExecutor.Evaluate(new ExecInfo
 			{
-				Routine = routine
+				Routine = item
 			});
 		}
 	}
@@ -1585,16 +1598,16 @@ internal class ConfigLibrary
 		IScheduler scheduler = await new StdSchedulerFactory().GetScheduler();
 		await scheduler.Start();
 		int i = 0;
-		foreach (Scheduler info in FunctionJob.GetSchedules())
+		foreach (Scheduler schedule in FunctionJob.GetSchedules())
 		{
-			if (info.Timer == null)
+			if (schedule.Timer == null)
 			{
 				return;
 			}
 			JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
 			IJobDetail job = jobBuilder.WithIdentity($"Job{i}", "group1").Build();
 			TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-			ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer).Build();
+			ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(schedule.Timer).Build();
 			await scheduler.ScheduleJob(job, trigger);
 			i++;
 		}

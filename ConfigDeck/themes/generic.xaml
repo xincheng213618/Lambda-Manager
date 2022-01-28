@@ -4,8 +4,26 @@
     <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>
     <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
     
-    
-    
+    <ControlTemplate x:Key="imageButtonTemplate" TargetType="{x:Type Button}">
+        <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" Name="PART_Background" Border.Background="Transparent">
+            <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                <Setter Property="Border.Background" Value="Transparent" TargetName="PART_Background" />
+            </Trigger>
+            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                <Setter Property="UIElement.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="0" Color="White" Direction="0" Opacity="0" RenderingBias="Performance" ShadowDepth="0" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+
     <Style x:Key="{x:Type local:BaseDeck}" TargetType="{x:Type local:BaseDeck}">
     <Setter Property="Template">
       <Setter.Value>
@@ -42,7 +60,7 @@
                                 </DockPanel>
                             </DockPanel>
 
-                            <Grid>
+                            <Grid >
                                 <Grid.RowDefinitions >
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
@@ -55,14 +73,32 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="ButtonFront" Grid.Row="0" Grid.Column="1" Content="︽" Margin="5"/>
-                                <Button x:Name="ButtonRear" Grid.Row="2" Grid.Column="1" Content="︾" Margin="5"/>
-                                <Button x:Name="ButtonLeft" Grid.Row="1" Grid.Column="0" Content="&lt;&lt;" Margin="5"/>
-                                <Button x:Name="ButtonRight" Grid.Row="1" Grid.Column="2"  Content=">>" Margin="5"/>
-                                <Button x:Name="ButtonRe" Grid.Row="1" Grid.Column="1" Content="原点" Margin="5"/>
-                                <Button x:Name="ButtonUp" Grid.Row="0" Grid.Column="3"  Content="︽" Margin="5"/>
-                                <Button x:Name="ButtonAutoFocus" Grid.Row="1" Grid.Column="3" Content="聚焦" Margin="5"/>
-                                <Button x:Name="ButtonDown" Grid.Row="2" Grid.Column="3"  Content="︾" Margin="5"/>
+                                <Button x:Name="ButtonFront"  Template="{StaticResource imageButtonTemplate}" Grid.Row="0" Grid.Column="1"  Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/up1.png" />
+                                </Button>
+                                <Button x:Name="ButtonRear"  Template="{StaticResource imageButtonTemplate}" Grid.Row="2" Grid.Column="1" Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/down1png.png"/>
+                                </Button>
+                                <Button x:Name="ButtonLeft"  Template="{StaticResource imageButtonTemplate}" Grid.Row="1" Grid.Column="0" Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/left1.png"/>
+                                </Button>
+                                <Button x:Name="ButtonRight"  Template="{StaticResource imageButtonTemplate}" Grid.Row="1" Grid.Column="2"   Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/right1.png"/>
+                                </Button>
+                                <Button x:Name="ButtonRe"  Template="{StaticResource imageButtonTemplate}" Grid.Row="1" Grid.Column="1"  Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/cccc1.png"/>
+                                </Button>
+
+                                <Button x:Name="ButtonUp"  Template="{StaticResource imageButtonTemplate}"  Grid.Row="0" Grid.Column="3"  Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/up1.png" />
+                                </Button>
+                                <Button x:Name="ButtonAutoFocus"  Template="{StaticResource imageButtonTemplate}" Grid.Row="1" Grid.Column="3"  Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/cccc1.png"/>
+                                </Button>
+                                <!--<Button x:Name="ButtonSmallAutoFocusRun"  Template="{StaticResource imageButtonTemplate}" Grid.Row="2" Grid.Column="2"  Margin="5"/>-->
+                                <Button x:Name="ButtonDown"  Template="{StaticResource imageButtonTemplate}" Grid.Row="2" Grid.Column="3"  Margin="5">
+                                    <Image Source="/ConfigDeck;component/themes/down1png.png"/>
+                                </Button>
 
                             </Grid>
                         </StackPanel>

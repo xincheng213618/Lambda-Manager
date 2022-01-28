@@ -166,6 +166,11 @@ internal class TypeInfo
 
 	public override string ToString()
 	{
-		return $"Id:{Id},Size:{Size}";
+		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(12, 2);
+		defaultInterpolatedStringHandler.AppendLiteral("Id: ");
+		defaultInterpolatedStringHandler.AppendFormatted(Id);
+		defaultInterpolatedStringHandler.AppendLiteral(", Size: ");
+		defaultInterpolatedStringHandler.AppendFormatted(Size);
+		return defaultInterpolatedStringHandler.ToStringAndClear();
 	}
 }

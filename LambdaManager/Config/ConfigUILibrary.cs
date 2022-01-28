@@ -11,7 +11,7 @@ namespace LambdaManager.Config;
 
 internal class ConfigUILibrary
 {
-	private Dictionary<Control, int> leftOrder = new Dictionary<Control, int>();
+	private readonly Dictionary<Control, int> leftOrder = new Dictionary<Control, int>();
 
 	private MainWindow Main { get; set; }
 
@@ -39,41 +39,42 @@ internal class ConfigUILibrary
 		string name = component.Name;
 		if (name != null)
 		{
-			string fullName = lib.Replace(".dll", "") + "." + name;
-			if (IsConfigLeftView(mount))
-			{
-				int order = GetConfigPanelOrder(mount);
-				LoadConfigPanel(assembly, fullName, order, validate);
-			}
-			else if (IsConfigMenu(mount))
+			string name2 = lib.Replace(".dll", "") + "." + name;
+			Side configSide = GetConfigSide(mount);
+			if (configSide == Side.MENU)
 			{
 				string menuPath = GetMenuPath(mount);
-				LoadMenuDialog(assembly, fullName, menuPath, validate);
+				LoadMenuDialog(assembly, name2, menuPath, validate);
+			}
+			else
+			{
+				int configPanelOrder = GetConfigPanelOrder(mount);
+				LoadConfigPanel(assembly, name2, configPanelOrder, validate, configSide);
 			}
 		}
 	}
 
-	private void LoadConfigPanel(Assembly assembly, string name, int order, ConfigValidate validate)
+	private void LoadConfigPanel(Assembly assembly, string name, int order, ConfigValidate validate, Side side)
 	{
 		if (!(assembly.CreateInstance(name) is Control control))
 		{
 			validate.ReportNotExist(Severity.FATAL_ERROR, Type.Component, name, Resources.Class, null);
 			return;
 		}
-		UIElementCollection list = Main.leftView.Children;
-		bool found = false;
-		for (int i = 0; i < list.Count; i++)
+		UIElementCollection children = Main.GetConfigPanel(side).Children;
+		bool flag = false;
+		for (int i = 0; i < children.Count; i++)
 		{
-			if (list[i] is Control c && order < leftOrder[c])
+			if (children[i] is Control key && order < leftOrder[key])
 			{
-				list.Insert(i, control);
-				found = true;
+				children.Insert(i, control);
+				flag = true;
 				break;
 			}
 		}
-		if (!found)
+		if (!flag)
 		{
-			list.Add(control);
+			children.Add(control);
 		}
 		leftOrder[control] = order;
 	}
@@ -83,10 +84,10 @@ internal class ConfigUILibrary
 		Assembly assembly2 = assembly;
 		string name2 = name;
 		ConfigValidate validate2 = validate;
-		MenuItem menu = Main.AddMenuItem(path);
-		if (menu != null)
+		MenuItem menuItem = Main.AddMenuItem(path);
+		if (menuItem != null)
 		{
-			menu.Click += delegate
+			menuItem.Click += delegate
 			{
 				if (!(assembly2.CreateInstance(name2) is Window window))
 				{
@@ -106,19 +107,35 @@ internal class ConfigUILibrary
 		}
 	}
 
-	private static bool IsConfigLeftView(string mount)
+	private static Side GetConfigSide(string mount)
 	{
-		return mount.Split(':')[0].StartsWith("config");
+		string[] array = mount.Split(':');
+		if (array[0].StartsWith("top"))
+		{
+			return Side.TOP;
+		}
+		if (array[0].StartsWith("left"))
+		{
+			return Side.LEFT;
+		}
+		if (array[0].StartsWith("right"))
+		{
+			return Side.RIGHT;
+		}
+		if (array[0].StartsWith("bottom"))
+		{
+			return Side.BOTTOM;
+		}
+		if (array[0].StartsWith("menu"))
+		{
+			return Side.MENU;
+		}
+		return Side.LEFT;
 	}
 
 	private static int GetConfigPanelOrder(string mount)
 	{
 		return int.Parse(mount.Split(':')[1].Trim());
-	}
-
-	private static bool IsConfigMenu(string mount)
-	{
-		return mount.Split(':')[0].StartsWith("menu");
 	}
 
 	private static string GetMenuPath(string mount)

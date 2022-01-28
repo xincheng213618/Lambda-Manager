@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -24,39 +23,52 @@ internal class FunctionJob : IJob
 		return schedules;
 	}
 
-    public async Task Execute(IJobExecutionContext context)
-    {
-        JobKey key = context.JobDetail.Key;
-        await Task.Delay(1);
-        if (key != null)
-        {
-            string name = key.Name;
-            int index = int.Parse(name[new Range(end: name.Length, start: 3)]);
-            Scheduler scheduler = schedules[index];
-            Routine routine = scheduler.Routine;
-            if (routine != null)
-            {
-                string text = $"{Resources.ScheduleStart}\\{scheduler.Name}\\{Resources.Comma}\\{DateTime.Now}";
-                App.Report(new Message
-                {
-                    Severity = Severity.INFO,
-                    Text = text
-                });
-                FunctionExecutor.Evaluate(new ExecInfo
-                {
-                    Routine = routine
-                });
-                text = $"{Resources.ScheduleEnd}\\{scheduler.Name}\\{Resources.Comma}\\{DateTime.Now}";
-                await Report(new Message
-                {
-                    Severity = Severity.INFO,
-                    Text = text
-                });
-            }
-        }
-    }
+	public async Task Execute(IJobExecutionContext context)
+	{
+		JobKey key = context.JobDetail.Key;
+		if (key != null)
+		{
+			string name = key.Name;
+			int index = int.Parse(name[new Range(end: name.Length, start: 3)]);
+			Scheduler scheduler = schedules[index];
+			Routine routine = scheduler.Routine;
+			if (routine != null)
+			{
+				DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 4);
+				defaultInterpolatedStringHandler.AppendFormatted(Resources.ScheduleStart);
+				defaultInterpolatedStringHandler.AppendLiteral("\"");
+				defaultInterpolatedStringHandler.AppendFormatted(scheduler.Name);
+				defaultInterpolatedStringHandler.AppendLiteral("\"");
+				defaultInterpolatedStringHandler.AppendFormatted(Resources.Comma);
+				defaultInterpolatedStringHandler.AppendFormatted(DateTime.Now);
+				string text = defaultInterpolatedStringHandler.ToStringAndClear();
+				App.Report(new Message
+				{
+					Severity = Severity.INFO,
+					Text = text
+				});
+				FunctionExecutor.Evaluate(new ExecInfo
+				{
+					Routine = routine
+				});
+				defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 4);
+				defaultInterpolatedStringHandler.AppendFormatted(Resources.ScheduleEnd);
+				defaultInterpolatedStringHandler.AppendLiteral("\"");
+				defaultInterpolatedStringHandler.AppendFormatted(scheduler.Name);
+				defaultInterpolatedStringHandler.AppendLiteral("\"");
+				defaultInterpolatedStringHandler.AppendFormatted(Resources.Comma);
+				defaultInterpolatedStringHandler.AppendFormatted(DateTime.Now);
+				text = defaultInterpolatedStringHandler.ToStringAndClear();
+				await Report(new Message
+				{
+					Severity = Severity.INFO,
+					Text = text
+				});
+			}
+		}
+	}
 
-    public static async Task Report(Message message)
+	public static async Task Report(Message message)
 	{
 		Message message2 = message;
 		Task task = new Task(delegate

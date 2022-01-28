@@ -51,10 +51,16 @@ namespace ConfigDeck
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BaseDeck), new FrameworkPropertyMetadata(typeof(BaseDeck)));
         }
+        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer();
+
+
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
+            _timer.Interval = TimeSpan.FromSeconds(0.2); //wait for the other click for 200ms
+            _timer.Tick += Timer_Tick;
 
             StackPanel StackContent = (StackPanel)Template.FindName("StackContent", this);
             Button buttonheader1 = (Button)Template.FindName("buttonheader1", this);
@@ -121,7 +127,7 @@ namespace ConfigDeck
             {
                 btn5.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox2.Text) } };
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox2.Text) },{ "Direction", 4 } };
                     Trigger("MOVEUP", btn5, data);
                 };
             }
@@ -129,7 +135,7 @@ namespace ConfigDeck
             {
                 btn6.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox2.Text) } };
+                    Dictionary<string, object> data = new() { { "Step", int.Parse(TextBox2.Text) },{ "Direction",5 } };
                     Trigger("MOVEDOWN", btn6, data);
                 };
             }
@@ -137,11 +143,8 @@ namespace ConfigDeck
             {
                 btn7.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", 0 } };
+                    Dictionary<string, object> data = new() { { "Step", 0},{ "Direction", 6 } };
                     Trigger("MOVERE", btn7, data);
-                    Dictionary<string, object> data1 = new() { { "Step", 999 } };
-
-                    Trigger("MOVEDOWN", btn7, data1);
 
                 };
             }
@@ -149,13 +152,40 @@ namespace ConfigDeck
             {
                 btn8.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "JudgeOnce", int.Parse(TextBox3.Text) } };
-                    Trigger("MOVEFRE", btn8, data);
+                    Dictionary<string, object> data = new() { };
+                    Trigger("AUTO_FOCUS", btn8, data);
                 };
+                btn8.Click += delegate
+                 {
+                     Dictionary<string, object> data = new() { };
+                     Trigger("SMALL_AUTO_FOCUS_Run", btn8, data);
+                 };
             }
+
             AddLambdaEventHandler("Move", Logssssss, false);
 
         }
+        private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                _timer.Stop();
+                Dictionary<string, object> data = new() { };
+                Trigger("AUTO_FOCUS", this, data);
+            }
+            else
+            {
+                _timer.Start();
+            }
+        }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            _timer.Stop();
+
+            Dictionary<string, object> data = new() { };
+            Trigger("SMALL_AUTO_FOCUS_Run", this, data);
+        }
+
         public bool Logssssss(object sender, EventArgs e)
         {
             Log(new Message() { Severity = Severity.INFO, Text = "位移台指令连接成功" });

@@ -475,9 +475,9 @@ internal class TypesInterop
 
 	internal static void SetCppSize(string name, int size)
 	{
-		if (valueTypes.TryGetValue(name, out var typeInfo))
+		if (valueTypes.TryGetValue(name, out var value))
 		{
-			typeInfo.Size = size;
+			value.Size = size;
 		}
 	}
 
@@ -495,9 +495,9 @@ internal class TypesInterop
 		{
 			return null;
 		}
-		if (referenceTypes.TryGetValue(name, out var info))
+		if (referenceTypes.TryGetValue(name, out var value))
 		{
-			return info;
+			return value;
 		}
 		return null;
 	}
@@ -509,9 +509,9 @@ internal class TypesInterop
 
 	internal static TypeInfo? GetValueTypeInfo(string name)
 	{
-		if (valueTypes.TryGetValue(name, out var info))
+		if (valueTypes.TryGetValue(name, out var value))
 		{
-			return info;
+			return value;
 		}
 		return null;
 	}
@@ -523,12 +523,12 @@ internal class TypesInterop
 
 	internal static TypeInfo? GetTypeInfo(string name)
 	{
-		TypeInfo info = GetValueTypeInfo(name);
-		if (info == null)
+		TypeInfo typeInfo = GetValueTypeInfo(name);
+		if (typeInfo == null)
 		{
-			info = GetRefTypeInfo(name);
+			typeInfo = GetRefTypeInfo(name);
 		}
-		return info;
+		return typeInfo;
 	}
 
 	internal static string GetCodes(List<string>? argTypes)
@@ -537,12 +537,12 @@ internal class TypesInterop
 		{
 			return "";
 		}
-		string code = "";
-		foreach (string argType in argTypes!)
+		string text = "";
+		foreach (string item in argTypes!)
 		{
-			code += ToCode(argType);
+			text += ToCode(item);
 		}
-		return code;
+		return text;
 	}
 
 	internal static int ToCode(string type)
@@ -551,20 +551,20 @@ internal class TypesInterop
 		{
 			return 7;
 		}
-		TypeInfo info = GetValueTypeInfo(type);
-		if (info == null)
+		TypeInfo valueTypeInfo = GetValueTypeInfo(type);
+		if (valueTypeInfo == null)
 		{
 			return 7;
 		}
-		if (info.Id == 56 || info.Id == 62)
+		if (valueTypeInfo.Id == 56 || valueTypeInfo.Id == 62)
 		{
 			return 5;
 		}
-		if (info.Id == 51)
+		if (valueTypeInfo.Id == 51)
 		{
 			return 6;
 		}
-		return (int)Math.Log2(info.Size);
+		return (int)Math.Log2(valueTypeInfo.Size);
 	}
 
 	internal static string? ToType(int code)

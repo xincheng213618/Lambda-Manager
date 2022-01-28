@@ -207,6 +207,17 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager";
 	}
+	internal Panel GetConfigPanel(Side side)
+	{
+		return side switch
+		{
+			Side.RIGHT => rightView,
+			Side.BOTTOM => bottomView,
+			Side.TOP => throw new Exception("top view not supported"),
+			_ => leftView,
+		};
+	}
+
 
 	private void InitViewer()
 	{

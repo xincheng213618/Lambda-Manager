@@ -103,18 +103,18 @@ internal class Action
 
 	internal Dictionary<int, IO> GetArgIndice(List<string> keys)
 	{
-		Dictionary<int, IO> list = new Dictionary<int, IO>();
-		int i = 0;
-		foreach (IO io in IoRange)
+		Dictionary<int, IO> dictionary = new Dictionary<int, IO>();
+		int num = 0;
+		foreach (IO item in IoRange)
 		{
-			string name = io.Name;
+			string name = item.Name;
 			if (name != null && keys.Contains(name))
 			{
-				list.Add(i, io);
+				dictionary.Add(num, item);
 			}
-			i++;
+			num++;
 		}
-		return list;
+		return dictionary;
 	}
 
 	internal bool HasArgName(string name)
@@ -131,14 +131,14 @@ internal class Action
 
 	internal bool HasPreviousArgName(string name)
 	{
-		List<Action> actions = Parent?.Actions;
-		if (actions == null)
+		List<Action> list = Parent?.Actions;
+		if (list == null)
 		{
 			return false;
 		}
-		for (int i = Index - 1; i >= 0; i--)
+		for (int num = Index - 1; num >= 0; num--)
 		{
-			if (actions[i].HasArgName(name))
+			if (list[num].HasArgName(name))
 			{
 				return true;
 			}
@@ -187,9 +187,9 @@ internal class Action
 
 	internal string GetSigName(Component? component)
 	{
-		string libShortName = component?.GetLibShortName();
-		int count = (Inputs?.Count ?? 0) + (Outputs?.Count ?? 0);
-		return (libShortName ?? "N/A") + "::" + (Name ?? "N/A") + "@@" + count;
+		string text = component?.GetLibShortName();
+		int num = (Inputs?.Count ?? 0) + (Outputs?.Count ?? 0);
+		return (text ?? "N/A") + "::" + (Name ?? "N/A") + "@@" + num;
 	}
 
 	public override string ToString()
@@ -198,42 +198,42 @@ internal class Action
 		{
 			return "null";
 		}
-		string signature = "int " + Name + "(";
-		int count = 0;
+		string text = "int " + Name + "(";
+		int num = 0;
 		if (Inputs != null)
 		{
-			foreach (Input input in Inputs!)
+			foreach (Input item in Inputs!)
 			{
-				signature += "IN ";
-				signature = signature + (input.Type ?? "string") + " ";
-				signature += input.Name;
-				if (input.Value != null)
+				text += "IN ";
+				text = text + (item.Type ?? "string") + " ";
+				text += item.Name;
+				if (item.Value != null)
 				{
-					signature = signature + "=\"" + input.Value + "\"";
+					text = text + "=\"" + item.Value + "\"";
 				}
-				signature += ", ";
-				count++;
+				text += ", ";
+				num++;
 			}
 		}
 		if (Outputs != null)
 		{
-			foreach (Output output in Outputs!)
+			foreach (Output item2 in Outputs!)
 			{
-				signature += "OUT ";
-				signature = signature + (output.Type ?? "string") + " ";
-				signature += output.Name;
-				if (output.Value != null)
+				text += "OUT ";
+				text = text + (item2.Type ?? "string") + " ";
+				text += item2.Name;
+				if (item2.Value != null)
 				{
-					signature = signature + "=\"" + output.Value + "\"";
+					text = text + "=\"" + item2.Value + "\"";
 				}
-				signature += ", ";
-				count++;
+				text += ", ";
+				num++;
 			}
 		}
-		if (count > 0)
+		if (num > 0)
 		{
-			signature = signature[0..^2];
+			text = text[0..^2];
 		}
-		return signature + ")";
+		return text + ")";
 	}
 }

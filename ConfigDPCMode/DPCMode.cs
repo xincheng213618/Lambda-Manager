@@ -1,4 +1,5 @@
 ﻿using Lambda;
+using Swifter.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -230,7 +231,57 @@ namespace ConfigDPCMode
 
 
             AddLambdaEventHandler("DPC_MODE_CHANGED", OnDPCModeChanged,false);
+
+
+            ComboBox ComboBoxDPC = (ComboBox)Template.FindName("ComboBoxDPC", this);
+            ComboBoxDPC.SelectionChanged += ComboBoxDPC_SelectionChanged;
+
+
+            Button ButtonBackgroundDPC = (Button)Template.FindName("ButtonBackgroundDPC", this);
+            ButtonBackgroundDPC.Click += ButtonBackgroundDPC_Click;
+            Button ButtonBackgroundDIF = (Button)Template.FindName("ButtonBackgroundDIF", this);
+            ButtonBackgroundDIF.Click += ButtonBackgroundDIF_Click;
+
         }
+
+        private void ButtonBackgroundDPC_Click(object sender, RoutedEventArgs e)
+        {
+            Dictionary<string, object> data = new() { };
+            Trigger("DPC_Remove_Background", this, data);
+        }
+
+        private void ButtonBackgroundDIF_Click(object sender, RoutedEventArgs e)
+        {
+            Dictionary<string, object> data = new() { };
+            Trigger("Phase_Remove_Background", this, data);
+        }
+
+        private void ComboBoxDPC_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                ComboBoxItem comboBoxItem = comboBox.SelectedItem as ComboBoxItem;
+                if (comboBoxItem != null)
+                {
+                    nDirection = int.Parse(comboBoxItem.Tag.ToString());
+                    Dictionary<string, object> data = new()
+                    {
+                        { "nOutRadius", (int)(slider3.Value * factor) },
+                        { "nDirection", nDirection * factor },
+                        { "nGain", (int)(slider5.Value * factor) },
+                        { "nGamma", (int)(slider6.Value * factor) },
+                        { "nBrightfield", (int)(slider7.Value * factor) },
+                        { "nDpc", (int)(slider8.Value * factor) },
+                    };
+                    Trigger("DPC_FIELD_CHANGED", this, data);
+
+                }
+            }
+
+
+        }
+        int nDirection = 0;
 
         Slider slider1;
         Slider slider2;
@@ -251,40 +302,44 @@ namespace ConfigDPCMode
         Slider slider17;
         Slider slider18;
 
-
+        int factor = 10000;
         private void Slider_ValueChanged1(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Dictionary<string, object> data = new() { { "nRadius", (int)slider1.Value }, { "nColor", 6 } };
+            
+            Dictionary<string, object> data = new() { { "nRadius", (int)(slider1.Value* factor) }, { "nColor", 6* factor } };
             Trigger("BRIGHT_FIELD_CHANGED", this, data);
         }
         private void Slider_ValueChanged2(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Dictionary<string, object> data = new() { { "nRadius", (int)slider2.Value }, { "nColor", 6 } };
+            Dictionary<string, object> data = new() { { "nRadius", (int)(slider2.Value* factor) }, { "nColor", 6*factor } };
             Trigger("DARK_FIELD_CHANGED", this, data);
         }
 
         private void Slider_ValueChanged3(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Dictionary<string, object> data = new() { 
-                { "nOutRadius", (int)slider3.Value },
-                { "nDirection", 1 },
-                { "nGain", (int)slider5.Value },
-                { "nGamma", (int)slider6.Value },
-                { "nBrightfield", (int)slider7.Value },
-                { "nDpc", (int)slider8.Value },
+            Dictionary<string, object> data = new()
+            {
+                { "nOutRadius", (int)(slider3.Value * factor) },
+                { "nDirection", nDirection * factor },
+                { "nGain", (int)(slider5.Value * factor) },
+                { "nGamma", (int)(slider6.Value * factor) },
+                { "nBrightfield", (int)(slider7.Value * factor) },
+                { "nDpc", (int)(slider8.Value * factor) },
             };
             Trigger("DPC_FIELD_CHANGED", this, data);
+            //MessageBox.Show(JsonFormatter.SerializeObject(data));
+
         }
         private void Slider_ValueChanged4(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Dictionary<string, object> data = new()
             {
-                { "nOutRadius", (int)slider3.Value },
-                { "nDirection", 1 },
-                { "nGain", (int)slider5.Value },
-                { "nGamma", (int)slider6.Value },
-                { "nBrightfield", (int)slider7.Value },
-                { "nDpc", (int)slider8.Value },
+                { "nOutRadius", (int)(slider3.Value * factor) },
+                { "nDirection", nDirection * factor },
+                { "nGain", (int)(slider5.Value * factor) },
+                { "nGamma", (int)(slider6.Value * factor) },
+                { "nBrightfield", (int)(slider7.Value * factor) },
+                { "nDpc", (int)(slider8.Value * factor) },
             };
             Trigger("DPC_FIELD_CHANGED", this, data);
         }
@@ -292,12 +347,12 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nOutRadius", (int)slider3.Value },
-                { "nDirection", 1 },
-                { "nGain", (int)slider5.Value },
-                { "nGamma", (int)slider6.Value },
-                { "nBrightfield", (int)slider7.Value },
-                { "nDpc", (int)slider8.Value },
+                { "nOutRadius", (int)(slider3.Value * factor) },
+                { "nDirection", nDirection * factor },
+                { "nGain", (int)(slider5.Value * factor) },
+                { "nGamma", (int)(slider6.Value * factor) },
+                { "nBrightfield", (int)(slider7.Value * factor) },
+                { "nDpc", (int)(slider8.Value * factor) },
             };
             Trigger("DPC_FIELD_CHANGED", this, data);
         }
@@ -306,12 +361,12 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nOutRadius", (int)slider3.Value },
-                { "nDirection", 1 },
-                { "nGain", (int)slider5.Value },
-                { "nGamma", (int)slider6.Value },
-                { "nBrightfield", (int)slider7.Value },
-                { "nDpc", (int)slider8.Value },
+                { "nOutRadius", (int)(slider3.Value * factor) },
+                { "nDirection", nDirection * factor },
+                { "nGain", (int)(slider5.Value * factor) },
+                { "nGamma", (int)(slider6.Value * factor) },
+                { "nBrightfield", (int)(slider7.Value * factor) },
+                { "nDpc", (int)(slider8.Value * factor) },
             };
             Trigger("DPC_FIELD_CHANGED", this, data);
         }
@@ -319,12 +374,12 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nOutRadius", (int)slider3.Value },
-                { "nDirection", 1 },
-                { "nGain", (int)slider5.Value },
-                { "nGamma", (int)slider6.Value },
-                { "nBrightfield", (int)slider7.Value },
-                { "nDpc", (int)slider8.Value },
+                { "nOutRadius", (int)(slider3.Value * factor) },
+                { "nDirection", nDirection * factor },
+                { "nGain", (int)(slider5.Value * factor) },
+                { "nGamma", (int)(slider6.Value * factor) },
+                { "nBrightfield", (int)(slider7.Value * factor) },
+                { "nDpc", (int)(slider8.Value * factor) },
             };
             Trigger("DPC_FIELD_CHANGED", this, data);
         }
@@ -332,12 +387,12 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nOutRadius", (int)slider3.Value },
-                { "nDirection", 1 },
-                { "nGain", (int)slider5.Value },
-                { "nGamma", (int)slider6.Value },
-                { "nBrightfield", (int)slider7.Value },
-                { "nDpc", (int)slider8.Value },
+                { "nOutRadius", (int)(slider3.Value * factor) },
+                { "nDirection", nDirection * factor },
+                { "nGain", (int)(slider5.Value * factor) },
+                { "nGamma", (int)(slider6.Value * factor) },
+                { "nBrightfield", (int)(slider7.Value * factor) },
+                { "nDpc", (int)(slider8.Value * factor) },
             };
             Trigger("DPC_FIELD_CHANGED", this, data);
         }
@@ -346,25 +401,24 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nOutRadius", (int)slider3.Value },
-                { "nDirection", 1 },
-                { "nGain", (int)slider5.Value },
-                { "nGamma", (int)slider6.Value },
-                { "nBrightfield", (int)slider7.Value },
-                { "nDpc", (int)slider8.Value },
+                { "nFiler", (int)(slider9.Value* factor) },
+                { "nGamma", (int)(slider10.Value * factor) },
+                { "nGain", (int)(slider11.Value * factor) },
+                { "nBrightfield", (int)(slider12.Value * factor) },
+                { "nPhase", (int)(slider13.Value * factor) },
             };
-            Trigger("DPC_FIELD_CHANGED", this, data);
+            Trigger("QFI_FIELD_CHANGED", this, data);
         }
 
         private void Slider_ValueChanged10(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Dictionary<string, object> data = new()
             {
-                { "nFiler", (double)slider9.Value },
-                { "nGamma", (double)slider10.Value },
-                { "nGain", (double)slider11.Value },
-                { "nBrightfield", (double)slider12.Value },
-                { "nPhase", (double)slider13.Value },
+                { "nFiler", (int)(slider9.Value * factor) },
+                { "nGamma", (int)(slider10.Value * factor) },
+                { "nGain", (int)(slider11.Value * factor) },
+                { "nBrightfield", (int)(slider12.Value * factor) },
+                { "nPhase", (int)(slider13.Value * factor) },
             };
             Trigger("QFI_FIELD_CHANGED", this, data);
         }
@@ -373,11 +427,11 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nFiler", (double)slider9.Value },
-                { "nGamma", (double)slider10.Value },
-                { "nGain", (double)slider11.Value },
-                { "nBrightfield", (double)slider12.Value },
-                { "nPhase", (double)slider13.Value },
+                { "nFiler", (int)(slider9.Value * factor) },
+                { "nGamma", (int)(slider10.Value * factor) },
+                { "nGain", (int)(slider11.Value * factor) },
+                { "nBrightfield", (int)(slider12.Value * factor) },
+                { "nPhase", (int)(slider13.Value * factor) },
             };
             Trigger("QFI_FIELD_CHANGED", this, data);
         }
@@ -386,23 +440,24 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nFiler", (double)slider9.Value },
-                { "nGamma", (double)slider10.Value },
-                { "nGain", (double)slider11.Value },
-                { "nBrightfield", (double)slider12.Value },
-                { "nPhase", (double)slider13.Value },
+                { "nFiler", (int)(slider9.Value * factor) },
+                { "nGamma", (int)(slider10.Value * factor) },
+                { "nGain", (int)(slider11.Value * factor) },
+                { "nBrightfield", (int)(slider12.Value * factor) },
+                { "nPhase", (int)(slider13.Value * factor) },
             };
+           
             Trigger("QFI_FIELD_CHANGED", this, data);
         }
         private void Slider_ValueChanged13(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Dictionary<string, object> data = new()
             {
-                { "nFiler", (double)slider9.Value },
-                { "nGamma", (double)slider10.Value },
-                { "nGain", (double)slider11.Value },
-                { "nBrightfield", (double)slider12.Value },
-                { "nPhase", (double)slider13.Value },
+                { "nFiler", (int)(slider9.Value * factor) },
+                { "nGamma", (int)(slider10.Value * factor) },
+                { "nGain", (int)(slider11.Value * factor) },
+                { "nBrightfield", (int)(slider12.Value * factor) },
+                { "nPhase", (int)(slider13.Value * factor) },
             };
             Trigger("QFI_FIELD_CHANGED", this, data);
         }
@@ -411,24 +466,26 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nReg", (double)slider14.Value },
-                { "nMin", (double)slider15.Value },
-                { "nMax", (double)slider16.Value },
-                { "nDetail", (int)slider17.Value },
-                { "nGamma", (double)slider18.Value },
+                { "nReg", (int)(slider14.Value* factor) },
+                { "nMin", (int)(slider15.Value * factor) },
+                { "nMax", (int)(slider16.Value * factor) },
+                { "nDetail", (int)(slider17.Value *factor) },
+                { "nGamma", (int)(slider18.Value *factor) },
             };
-            Trigger("PHASE_FIELD_CHANGED", this, data); 
+            Trigger("PHASE_FIELD_CHANGED", this, data);
+            //MessageBox.Show(JsonFormatter.SerializeObject(data));
+
         }
 
         private void Slider_ValueChanged15(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Dictionary<string, object> data = new()
             {
-                { "nReg", (double)slider14.Value },
-                { "nMin", (double)slider15.Value },
-                { "nMax", (double)slider16.Value },
-                { "nDetail", (int)slider17.Value },
-                { "nGamma", (double)slider18.Value },
+                { "nReg", (int)(slider14.Value * factor) },
+                { "nMin", (int)(slider15.Value * factor) },
+                { "nMax", (int)(slider16.Value * factor) },
+                { "nDetail", (int)(slider17.Value * factor) },
+                { "nGamma", (int)(slider18.Value * factor) },
             };
             Trigger("PHASE_FIELD_CHANGED", this, data);
         }
@@ -437,11 +494,11 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nReg", (double)slider14.Value },
-                { "nMin", (double)slider15.Value },
-                { "nMax", (double)slider16.Value },
-                { "nDetail", (int)slider17.Value },
-                { "nGamma", (double)slider18.Value },
+                { "nReg", (int)(slider14.Value * factor) },
+                { "nMin", (int)(slider15.Value * factor) },
+                { "nMax", (int)(slider16.Value * factor) },
+                { "nDetail", (int)(slider17.Value * factor) },
+                { "nGamma", (int)(slider18.Value * factor) },
             };
             Trigger("PHASE_FIELD_CHANGED", this, data);
         }
@@ -450,11 +507,11 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nReg", (double)slider14.Value },
-                { "nMin", (double)slider15.Value },
-                { "nMax", (double)slider16.Value },
-                { "nDetail", (int)slider17.Value },
-                { "nGamma", (double)slider18.Value },
+                { "nReg", (int)(slider14.Value * factor) },
+                { "nMin", (int)(slider15.Value * factor) },
+                { "nMax", (int)(slider16.Value * factor) },
+                { "nDetail", (int)(slider17.Value * factor) },
+                { "nGamma", (int)(slider18.Value * factor) },
             };
             Trigger("PHASE_FIELD_CHANGED", this, data);
         }
@@ -463,11 +520,11 @@ namespace ConfigDPCMode
         {
             Dictionary<string, object> data = new()
             {
-                { "nReg", (double)slider14.Value },
-                { "nMin", (double)slider15.Value },
-                { "nMax", (double)slider16.Value },
-                { "nDetail", (int)slider17.Value },
-                { "nGamma", (double)slider18.Value },
+                { "nReg", (int)(slider14.Value * factor) },
+                { "nMin", (int)(slider15.Value * factor) },
+                { "nMax", (int)(slider16.Value * factor) },
+                { "nDetail", (int)(slider17.Value * factor) },
+                { "nGamma", (int)(slider18.Value * factor) },
             };
             Trigger("PHASE_FIELD_CHANGED", this, data);
         }

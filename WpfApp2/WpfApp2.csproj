@@ -5,6 +5,15 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigDeck\ConfigDeck.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="themes\" />
+  </ItemGroup>
 
 </Project>

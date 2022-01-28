@@ -18,6 +18,8 @@ internal class Function
 
 	internal List<object?>? Values { get; set; }
 
+	internal List<object?>? DefaultValues { get; set; }
+
 	internal bool IsReferred { get; set; }
 
 	internal Dictionary<Location, LocationConverter>? Exports { get; set; }
@@ -37,7 +39,15 @@ internal class Function
 		{
 			Values = new List<object>();
 		}
-		CollectionUtils.Insert(Values, index, this);
+		object obj = CollectionUtils.Insert(Values, index, this);
+		if (obj != null)
+		{
+			if (DefaultValues == null)
+			{
+				DefaultValues = new List<object>();
+			}
+			CollectionUtils.Insert(DefaultValues, index, obj);
+		}
 	}
 
 	internal void AddValue(object? value)

@@ -176,7 +176,16 @@
                                     <Slider Grid.Column="1" x:Name="slider8" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
                                     <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider8,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
-                                <ComboBox Name="combobox"/>
+                                <StackPanel>
+                                    <Button x:Name="ButtonBackgroundDPC" Content="采背景"/>
+                                    <ComboBox x:Name="ComboBoxDPC"  SelectedIndex="1"  VerticalAlignment="Top" Width="67">
+                                        <ComboBoxItem Content="水平" Tag="0"/>
+                                        <ComboBoxItem Content="垂直" Tag="1"/>
+                                        <ComboBoxItem Content="左上" Tag="2"/>
+                                        <ComboBoxItem Content="右上" Tag="3" />
+                                    </ComboBox>
+                                </StackPanel>
+
                             </StackPanel>
 
                             <StackPanel x:Name="StackPanel3" Visibility="Collapsed">
@@ -230,6 +239,7 @@
                                     <Slider Grid.Column="1" x:Name="slider13" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
                                     <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider13,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
+                                <Button x:Name="ButtonBackgroundDIF" Content="采背景"/>
                             </StackPanel>
 
                             <StackPanel x:Name="StackPanel4" Visibility="Collapsed">

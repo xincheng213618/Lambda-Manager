@@ -170,21 +170,12 @@
 			</action>
 		</procedure>
 
-		<procedure name="MoveRe" event="MOVERE" key="Step">
-			<action name="MoveStep">
-				<input name="Direction" value="5" type="int"/>
-				<input name="Step" type="int"/>
-				<![CDATA[ Move down]]>
-			</action>
-		</procedure>
-
 		<procedure name="MoveZ" event="MOTORCONTROL">
 			<action name="MoveZ">
 				<input name="DefocusedDistance" type="int"/>
 				<![CDATA[ Move along z axis]]>
 			</action>
 		</procedure>
-		
 
 		<procedure name="MoveTo" event="MOTORCONTROL" key="X Y">
 			<action name="MoveTo">
@@ -200,7 +191,6 @@
 				<![CDATA[ Move to position x,y]]>
 			</action>
 		</procedure>
-
 
 	</component>
 
@@ -247,7 +237,6 @@
 				<input name="PositionWithMaxSobel2" type="SobelValue"/>
 				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
 			</action>
-			
 			<action name="JudgeOnce" times="10">
 				<input name="X" type="int[]" value="[21,22,23,24,25,26,27,28,29,30]" />
 				<input name="Y" type="int[]" value="[30,29,28,27,26,25,24,23,22,21]" />
@@ -514,16 +503,16 @@
 
 	<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:设置/相机参数..."/>
 
-	<!-- <component name="Magnification" lib="ConfigObjective.dll" mount="config:0" > -->
-	<!-- <procedure name="GUI_ChangeMagnification" event="MAG_CHANGED" key="mag" icon="opencam.ico"> -->
-	<!-- <action name="ChangeMagnification" component="DPC" raise="MAG_GUI_RESPONSED"> -->
-	<!-- <![CDATA[ Send new magnification to device]]> -->
-	<!-- </action> -->
-	<!-- <action name="OpenCamera" component="Camera"></action> -->
-	<!-- </procedure> -->
+	<!-- <component name="Magnification" lib="ConfigObjective.dll" mount="left:0" > -->
+		<!-- <procedure name="GUI_ChangeMagnification" event="MAG_CHANGED" key="mag" icon="opencam.ico"> -->
+			<!-- <action name="ChangeMagnification" component="DPC" raise="MAG_GUI_RESPONSED"> -->
+				<!-- <![CDATA[ Send new magnification to device]]> -->
+			<!-- </action> -->
+			<!-- <action name="OpenCamera" component="Camera"></action> -->
+		<!-- </procedure> -->
 	<!-- </component> -->
 
-	<component name="DPCMode" lib="ConfigDPCMode.dll" mount="config:1">
+	<component name="DPCMode" lib="ConfigDPCMode.dll" mount="left:1">
 		<procedure name="GUI_ChangeDPCMode" event="DPC_MODE_CHANGED" key="dpc">
 			<action name="ChangeDPCMode" component="DPC" raise="DPC_MODE_APPLIED">
 				<![CDATA[ Set DPC Mode]]>
@@ -531,17 +520,17 @@
 		</procedure>
 	</component>
 
-	<component name="BaseDeck" lib="ConfigDeck.dll" mount="config:2"/>
+	<component name="BaseDeck" lib="ConfigDeck.dll" mount="left:2"/>
 
-	<!-- <component name="SampleContainer" lib="ConfigContainer.dll" mount="config:3"/> -->
+	<!-- <component name="SampleContainer" lib="ConfigContainer.dll" mount="left:3"/> -->
 
-	<component name="SampleSpot" lib="ConfigSpot.dll" mount="config:4"/>
+	<component name="SampleSpot" lib="ConfigSpot.dll" mount="left:4"/>
 
-	<!-- <component name="FocusMode" lib="ConfigFocus.dll" mount="config:5"/> -->
+	<!-- <component name="FocusMode" lib="ConfigFocus.dll" mount="left:5"/> -->
 
-	<component name="DOFMode" lib="ConfigDOFMode.dll" mount="config:6"/>
+	<component name="DOFMode" lib="ConfigDOFMode.dll" mount="left:6"/>
 
-	<component name="CollectInterval" lib="ConfigCollectInterval.dll" mount="config:7" >
+	<component name="CollectInterval" lib="ConfigCollectInterval.dll" mount="left:7" >
 		<procedure name="SetCollectInterval">
 			<action name="SetCollectInterval" raise="OPENLED">
 				<![CDATA[ Send open-LED signal to illu232]]>
