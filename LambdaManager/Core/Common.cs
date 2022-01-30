@@ -12,6 +12,7 @@ using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
+using Quartz;
 using Swifter.Json;
 
 namespace LambdaManager.Core;
@@ -28,13 +29,21 @@ internal class Common
 
 	private static readonly List<LambdaHandler> ui_handlers = new List<LambdaHandler>();
 
+	internal static IScheduler? Scheduler;
+
 	private static View[] Views { get; } = ((MainWindow)Application.Current.MainWindow).Views;
 
 
 	internal unsafe static void Init()
 	{
-		SetMessageHandler1((delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1));
-		SetMessageHandler2((delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2));
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize), 2);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, int, int, int, int>)(&InitialFrame), 3);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, uint, int, int>)(&UpdateFrame), 4);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StartService), 5);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopService), 6);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, sbyte*, sbyte*, void>)(&ScheduleEvent), 7);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int>)(&CallBack1), 0);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack2), 2);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack3), 1);
@@ -42,15 +51,19 @@ internal class Common
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
-		SetGetArraySizeHandler((delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize));
 		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 		LambdaControl.LogHandler = new LogHandler(App.Report);
 		LambdaControl.LogHandler2 = new LogHandler(App.Report2);
 		LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
 		LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-		SetImageInitialHandler((delegate* unmanaged[Cdecl]<int, nint, int, int, int, int>)(&InitialFrame));
-		SetImageHandler((delegate* unmanaged[Cdecl]<int, nint, uint, int, int>)(&UpdateFrame));
+		Initialize();
 	}
+
+	[DllImport("lib\\common.dll")]
+	public static extern void Initialize();
+
+	[DllImport("lib\\common.dll")]
+	public static extern void SetHandler(nint pRoutineHandler, int handlerType);
 
 	[DllImport("lib\\common.dll")]
 	public unsafe static extern void SetMessageHandler1(delegate* unmanaged[Cdecl]<int, sbyte*, void> pMessageHandler);
@@ -85,30 +98,30 @@ internal class Common
 
 	public unsafe static int CallEvent(string type, nint sender)
 	{
-		fixed (sbyte* type2 = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+		fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
 		{
-			return RaiseEvent(type2, 0, IntPtr.Zero, sender);
+			return RaiseEvent(p, 0, IntPtr.Zero, sender);
 		}
 	}
 
 	public unsafe static int CallEvent(string type, string json, nint sender)
 	{
 		sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes(type);
-		sbyte[] array = (sbyte[])(object)Encoding.UTF8.GetBytes(json);
-		fixed (sbyte* type2 = obj)
+		sbyte[] pStr = (sbyte[])(object)Encoding.UTF8.GetBytes(json);
+		fixed (sbyte* p = obj)
 		{
-			fixed (sbyte* eventObject = array)
+			fixed (sbyte* pData = pStr)
 			{
-				return RaiseEvent(type2, 1, (nint)eventObject, sender);
+				return RaiseEvent(p, 1, (nint)pData, sender);
 			}
 		}
 	}
 
 	public unsafe static int CallEvent(string type, nint handle, nint sender)
 	{
-		fixed (sbyte* type2 = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+		fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
 		{
-			return RaiseEvent(type2, 1, handle, sender);
+			return RaiseEvent(p, 1, handle, sender);
 		}
 	}
 
@@ -119,7 +132,7 @@ internal class Common
 			return CallEvent(type, sender);
 		}
 		int count = arguments!.Count;
-		fixed (sbyte* type2 = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+		fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
 		{
 			switch (count)
 			{
@@ -128,19 +141,50 @@ internal class Common
 			case 1:
 			{
 				object obj = arguments?[0];
-				nint eventObject = ((obj == null) ? IntPtr.Zero : ((IntPtr)obj));
-				return RaiseEvent(type2, 4, eventObject, sender);
+				nint handle = ((obj == null) ? IntPtr.Zero : ((IntPtr)obj));
+				return RaiseEvent(p, 4, handle, sender);
 			}
 			case 2:
 			case 4:
 			{
-				IntPtr[] array = List2Array(arguments);
+				IntPtr[] handles = List2Array(arguments);
 				ArgumentType argType = ((count == 2) ? ArgumentType.POINTER2 : ArgumentType.POINTER4);
-				return RaiseEvent(type2, (int)argType, array[0], sender);
+				return RaiseEvent(p, (int)argType, handles[0], sender);
 			}
 			}
 		}
 		return -1;
+	}
+
+	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+	[SuppressGCTransition]
+	public unsafe static void ScheduleEvent(sbyte* type, sbyte* cron, sbyte* json)
+	{
+		if (Scheduler != null)
+		{
+			Scheduler info = new Scheduler
+			{
+				Name = new string(type),
+				Timer = new string(cron)
+			};
+			if (json != null)
+			{
+				info.EventObject = new string(json);
+			}
+			int index = FunctionJob.AddSchedule(info);
+			JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
+			DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
+			defaultInterpolatedStringHandler.AppendLiteral("Job");
+			defaultInterpolatedStringHandler.AppendFormatted(index);
+			IJobDetail job = jobBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group2").Build();
+			TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+			defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(7, 1);
+			defaultInterpolatedStringHandler.AppendLiteral("Trigger");
+			defaultInterpolatedStringHandler.AppendFormatted(index);
+			ITrigger trigger = triggerBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group2").StartNow().WithCronSchedule(info.Timer)
+				.Build();
+			Scheduler!.ScheduleJob(job, trigger);
+		}
 	}
 
 	private static nint[] List2Array(List<object?> arguments)
@@ -150,7 +194,7 @@ internal class Common
 		for (int i = 0; i < count; i++)
 		{
 			object obj = arguments[i];
-			IntPtr intPtr = (array[i] = ((obj == null) ? IntPtr.Zero : ((IntPtr)obj)));
+			IntPtr handle = (array[i] = ((obj == null) ? IntPtr.Zero : ((IntPtr)obj)));
 		}
 		return array;
 	}
@@ -171,10 +215,10 @@ internal class Common
 	[SuppressGCTransition]
 	private static int CallBack1(int index, nint sender)
 	{
-		int? num = UICallback(index, null, sender);
-		if (num.HasValue)
+		int? result = UICallback(index, null, sender);
+		if (result.HasValue)
 		{
-			return num.Value;
+			return result.Value;
 		}
 		return FunctionExecutor.Evaluate(Clone(callbacks[index]));
 	}
@@ -196,21 +240,21 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static int CallBack3(int index, nint pEventData, nint sender)
 	{
-		string text = null;
+		string json = null;
 		if (pEventData != IntPtr.Zero)
 		{
-			text = new string((sbyte*)pEventData);
+			json = new string((sbyte*)pEventData);
 		}
-		int? num = UICallback(index, text, sender);
-		if (num.HasValue)
+		int? result = UICallback(index, json, sender);
+		if (result.HasValue)
 		{
-			return num.Value;
+			return result.Value;
 		}
 		ExecInfo info = callbacks[index];
 		info = Clone(info);
-		if (text != null)
+		if (json != null)
 		{
-			Dictionary<string, object> eventObject = JsonFormatter.DeserializeObject<Dictionary<string, object>>(text);
+			Dictionary<string, object> eventObject = JsonFormatter.DeserializeObject<Dictionary<string, object>>(json);
 			info.RoutineArguments = PrepareArguments(info.Routine, index, eventObject);
 		}
 		return FunctionExecutor.Evaluate(info);
@@ -218,18 +262,18 @@ internal class Common
 
 	private static List<object?>? PrepareArguments(Routine routine, int index, Dictionary<string, object> eventObject)
 	{
-		Dictionary<string, int> dictionary = App.GetResolvedEvents()?[events[index]].GetEventMap(routine);
-		if (dictionary == null)
+		Dictionary<string, int> dataMap = App.GetResolvedEvents()?[events[index]].GetEventMap(routine);
+		if (dataMap == null)
 		{
 			return null;
 		}
-		List<object> list = new List<object>();
-		foreach (KeyValuePair<string, int> item in dictionary)
+		List<object> args = new List<object>();
+		foreach (KeyValuePair<string, int> pair in dataMap)
 		{
-			eventObject.TryGetValue(item.Key, out var value);
-			CollectionUtils.Insert(list, item.Value, value);
+			eventObject.TryGetValue(pair.Key, out var value);
+			CollectionUtils.Insert(args, pair.Value, value);
 		}
-		return list;
+		return args;
 	}
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
@@ -291,9 +335,9 @@ internal class Common
 	{
 		if (!(callback == IntPtr.Zero))
 		{
-			fixed (sbyte* type2 = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+			fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
 			{
-				RegisterFunctionEvent(type2, callback, argType, once ? 1 : 0);
+				RegisterFunctionEvent(p, callback, argType, once ? 1 : 0);
 			}
 		}
 	}
@@ -305,27 +349,27 @@ internal class Common
 	{
 		if (routine != null)
 		{
-			int count = callbacks.Count;
+			int index = callbacks.Count;
 			callbacks.Add(new ExecInfo
 			{
 				Routine = routine,
 				Group = group
 			});
 			events.Add(type);
-			fixed (sbyte* type2 = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+			fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
 			{
-				RegisterRoutineEvent(type2, count, argType, once ? 1 : 0);
+				RegisterRoutineEvent(p, index, argType, once ? 1 : 0);
 			}
 		}
 	}
 
 	public unsafe static void AddEventHandler(string type, LambdaHandler handler, bool once)
 	{
-		int count = ui_handlers.Count;
+		int index = ui_handlers.Count;
 		ui_handlers.Add(handler);
-		fixed (sbyte* type2 = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
+		fixed (sbyte* p = (sbyte[])(object)Encoding.UTF8.GetBytes(type))
 		{
-			RegisterRoutineEvent(type2, RESERVED_EVENT_RESULT + count, ArgumentType.JSON_STRING, once ? 1 : 0);
+			RegisterRoutineEvent(p, RESERVED_EVENT_RESULT + index, ArgumentType.JSON_STRING, once ? 1 : 0);
 		}
 	}
 
@@ -334,12 +378,12 @@ internal class Common
 		GCHandle handle = GCHandle.Alloc(sender);
 		try
 		{
-			int num = CallEvent(type, handle, e);
-			if (num >= RESERVED_EVENT_RESULT)
+			int result = CallEvent(type, handle, e);
+			if (result >= RESERVED_EVENT_RESULT)
 			{
-				return (!ui_handlers[num - RESERVED_EVENT_RESULT](sender, e)) ? (-1) : 0;
+				return (!ui_handlers[result - RESERVED_EVENT_RESULT](sender, e)) ? (-1) : 0;
 			}
-			return num;
+			return result;
 		}
 		finally
 		{
@@ -353,21 +397,21 @@ internal class Common
 		{
 			return CallEvent(type, GCHandle.ToIntPtr(handle));
 		}
-		if (e is LambdaArgs lambdaArgs)
+		if (e is LambdaArgs e2)
 		{
-			object data = lambdaArgs.Data;
+			object data = e2.Data;
 			if (data == null)
 			{
 				return CallEvent(type, GCHandle.ToIntPtr(handle));
 			}
-			if (data is string json)
+			if (data is string s)
 			{
-				return CallEvent(type, json, GCHandle.ToIntPtr(handle));
+				return CallEvent(type, s, GCHandle.ToIntPtr(handle));
 			}
-			if (data is Dictionary<string, object> value)
+			if (data is Dictionary<string, object> dic)
 			{
-				string json2 = JsonFormatter.SerializeObject(value);
-				return CallEvent(type, json2, GCHandle.ToIntPtr(handle));
+				string json = JsonFormatter.SerializeObject(dic);
+				return CallEvent(type, json, GCHandle.ToIntPtr(handle));
 			}
 			App.Report(new Message
 			{
@@ -389,10 +433,10 @@ internal class Common
 		if (index >= RESERVED_EVENT_RESULT)
 		{
 			LambdaHandler lambdaHandler = ui_handlers[index - RESERVED_EVENT_RESULT];
-			Dictionary<string, object> data = ((json == null) ? null : JsonFormatter.DeserializeObject<Dictionary<string, object>>(json));
+			Dictionary<string, object> eventObject = ((json == null) ? null : JsonFormatter.DeserializeObject<Dictionary<string, object>>(json));
 			LambdaArgs e = new LambdaArgs
 			{
-				Data = data
+				Data = eventObject
 			};
 			object obj = null;
 			if (pSender != IntPtr.Zero)
@@ -403,12 +447,6 @@ internal class Common
 		}
 		return null;
 	}
-
-	[DllImport("lib\\common.dll")]
-	public unsafe static extern void SetImageInitialHandler(delegate* unmanaged[Cdecl]<int, nint, int, int, int, int> InitFrame);
-
-	[DllImport("lib\\common.dll")]
-	public unsafe static extern void SetImageHandler(delegate* unmanaged[Cdecl]<int, nint, uint, int, int> ShowFrame);
 
 	[DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
 	public static extern void CopyMemory(IntPtr Destination, IntPtr Source, uint Length);
@@ -469,21 +507,18 @@ internal class Common
 
 	private static Image? GetImage(int index)
 	{
-		MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-		if (mainWindow == null)
+		MainWindow main = (MainWindow)Application.Current.MainWindow;
+		if (main == null)
 		{
 			return null;
 		}
-		Image image = mainWindow.Views[index]?.Image;
+		Image image = main.Views[index]?.Image;
 		if (image == null)
 		{
 			image = ViewGrid.GetIdleOrNewView(index)?.Image;
 		}
 		return image;
 	}
-
-	[DllImport("lib\\common.dll")]
-	public unsafe static extern void SetGetArraySizeHandler(delegate* unmanaged[Cdecl]<nint, int> pGetArraySizeHandler);
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
@@ -500,14 +535,26 @@ internal class Common
 	private unsafe static void SetCppSize(sbyte* p)
 	{
 		string[] array = new string(p).Split(',');
-		for (int i = 0; i < array.Length; i++)
+		for (int j = 0; j < array.Length; j++)
 		{
-			string[] array2 = array[i].Split(':');
-			for (int j = 0; j < array2.Length / 2; j += 2)
+			string[] tokens = array[j].Split(':');
+			for (int i = 0; i < tokens.Length / 2; i += 2)
 			{
-				TypesInterop.SetCppSize(array2[j], int.Parse(array2[j + 1]));
+				TypesInterop.SetCppSize(tokens[i], int.Parse(tokens[i + 1]));
 			}
 		}
+	}
+
+	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+	[SuppressGCTransition]
+	private unsafe static void StartService(sbyte* serviceName)
+	{
+	}
+
+	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+	[SuppressGCTransition]
+	private unsafe static void StopService(sbyte* serviceName)
+	{
 	}
 
 	[DllImport("lib\\common.dll", EntryPoint = "ApplicationExit")]

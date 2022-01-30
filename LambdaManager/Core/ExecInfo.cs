@@ -66,24 +66,24 @@ internal class ExecInfo
 
 	public object? FindVariable(Location key, out LocationConverter? lc, ExecInfo? callee)
 	{
-		int num = FindReferring(key, out lc);
-		if (num != -1 && lc != null)
+		int type = FindReferring(key, out lc);
+		if (type != -1 && lc != null)
 		{
 			Location location = lc!.Location;
-			List<object> list = ((num != 1) ? RoutineArguments : callee?.RoutineArguments);
-			object obj = ((!(list?.Count > location.Index) || location.Function != Function) ? GetVariable(location) : list[location.Index]);
+			List<object> arguments = ((type != 1) ? RoutineArguments : callee?.RoutineArguments);
+			object value = ((!(arguments?.Count > location.Index) || location.Function != Function) ? GetVariable(location) : arguments[location.Index]);
 			if (Times != -1)
 			{
-				if (obj is List<object> list2)
+				if (value is List<object> values)
 				{
-					obj = list2[Times];
+					value = values[Times];
 				}
-				else if (obj is Array array)
+				else if (value is Array array)
 				{
-					obj = array.GetValue(Times);
+					value = array.GetValue(Times);
 				}
 			}
-			return obj;
+			return value;
 		}
 		if (Caller != null)
 		{
@@ -95,13 +95,13 @@ internal class ExecInfo
 
 	private int FindReferring(Location key, out LocationConverter? lc)
 	{
-		Dictionary<Location, LocationConverter> exports = Function.Exports;
-		if (exports != null && FindReferring(exports, key, out lc))
+		Dictionary<Location, LocationConverter> referring = Function.Exports;
+		if (referring != null && FindReferring(referring, key, out lc))
 		{
 			return 1;
 		}
-		exports = Routine.Referring;
-		if (exports != null && FindReferring(exports, key, out lc))
+		referring = Routine.Referring;
+		if (referring != null && FindReferring(referring, key, out lc))
 		{
 			return 2;
 		}
@@ -117,13 +117,13 @@ internal class ExecInfo
 		}
 		if (key.Group > 0)
 		{
-			int group = key.Group;
+			int temp = key.Group;
 			key.Group = 0;
 			if (referring.TryGetValue(key, out lc))
 			{
 				return true;
 			}
-			key.Group = group;
+			key.Group = temp;
 		}
 		return false;
 	}
@@ -135,26 +135,26 @@ internal class ExecInfo
 		{
 			return;
 		}
-		foreach (KeyValuePair<int, int> item in imports)
+		foreach (KeyValuePair<int, int> import in imports)
 		{
 			AddVariable(new Location
 			{
 				Function = Function,
-				Index = item.Value
-			}, Exports![item.Key]);
+				Index = import.Value
+			}, Exports![import.Key]);
 		}
 	}
 
 	public void ExportVariables(ExecInfo callee)
 	{
-		List<object> functionArguments = callee.FunctionArguments;
-		if (functionArguments == null)
+		List<object> args = callee.FunctionArguments;
+		if (args == null)
 		{
 			return;
 		}
 		Function function = callee.Function;
-		Dictionary<int, int> dictionary = function.EntryPoint?.Exports;
-		if (dictionary == null)
+		Dictionary<int, int> exportInfos = function.EntryPoint?.Exports;
+		if (exportInfos == null)
 		{
 			return;
 		}
@@ -163,39 +163,39 @@ internal class ExecInfo
 			Exports = new List<object>();
 		}
 		int times = Function.Times;
-		int num = function.EntryPoint?.InputCount ?? 0;
-		foreach (KeyValuePair<int, int> item in dictionary)
+		int offset = function.EntryPoint?.InputCount ?? 0;
+		foreach (KeyValuePair<int, int> export in exportInfos)
 		{
-			int key = item.Key;
-			object obj = ((key >= num) ? functionArguments[key] : function.Values?[key]);
-			if (obj == function)
+			int index = export.Key;
+			object value = ((index >= offset) ? args[index] : function.Values?[index]);
+			if (value == function)
 			{
-				obj = functionArguments[key];
+				value = args[index];
 			}
 			if (times == 1)
 			{
-				CollectionUtils.Insert(Exports, item.Value, obj);
+				CollectionUtils.Insert(Exports, export.Value, value);
 				continue;
 			}
 			if (Times == 0)
 			{
-				object[] array = new object[times];
-				array[0] = obj;
-				CollectionUtils.Insert(Exports, item.Value, array);
+				object[] values = new object[times];
+				values[0] = value;
+				CollectionUtils.Insert(Exports, export.Value, values);
 			}
-			else if (Exports![item.Value] is object[] array2)
+			else if (Exports![export.Value] is object[] values2)
 			{
-				array2[Times] = obj;
+				values2[Times] = value;
 			}
-			if (Times == times - 1 && Exports![item.Value] is object[] value)
+			if (Times == times - 1 && Exports![export.Value] is object[] values3)
 			{
-				TypeInfo typeInfo = function.EntryPoint?.Paremeters?[key];
+				TypeInfo typeInfo = function.EntryPoint?.Paremeters?[index];
 				if (typeInfo == null)
 				{
 					typeInfo = TypesInterop.GetPointerTypeInfo();
 				}
-				obj = T86.ToArrayPtr(typeInfo, value);
-				CollectionUtils.Insert(Exports, item.Value, obj);
+				value = T86.ToArrayPtr(typeInfo, values3);
+				CollectionUtils.Insert(Exports, export.Value, value);
 			}
 		}
 	}

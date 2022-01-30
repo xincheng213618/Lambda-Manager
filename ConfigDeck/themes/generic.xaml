@@ -25,7 +25,9 @@
 
 
     <Style x:Key="{x:Type local:BaseDeck}" TargetType="{x:Type local:BaseDeck}">
-    <Setter Property="Template">
+        <Setter Property="Margin" Value="-1"/>
+
+        <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:BaseDeck}">
                     <StackPanel  Background="#595959">
@@ -33,7 +35,7 @@
                             <Path x:Name="Path1" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
                             <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
 
-                            <Label Content="位移台控制" Foreground="White"  FontSize="20" Margin="30,0,0,0" />
+                            <Label Content="位移台控制" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                             <Button x:Name="buttonheader1" >
                                 <Button.Template>
                                     <ControlTemplate>
@@ -44,23 +46,9 @@
                         </Grid>
 
                         <StackPanel x:Name="StackContent">
-                            <DockPanel>
-                                <DockPanel HorizontalAlignment="Left">
-                                    <Label Content="X/Y(um):" Foreground="White"/>
-                                    <TextBox x:Name="TextBox1" Text="100"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
+  
 
-                                </DockPanel>
-                                <DockPanel HorizontalAlignment="Left">
-                                    <Label Content="Z(um):" Foreground="White"/>
-                                    <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
-                                </DockPanel>
-                                <DockPanel HorizontalAlignment="Left">
-                                    <Label    Content="聚焦(um):" Foreground="White"/>
-                                    <TextBox x:Name="TextBox3" Text="1000"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
-                                </DockPanel>
-                            </DockPanel>
-
-                            <Grid >
+                            <Grid  Margin="30,0">
                                 <Grid.RowDefinitions >
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
@@ -86,14 +74,14 @@
                                     <Image Source="/ConfigDeck;component/themes/right1.png"/>
                                 </Button>
                                 <Button x:Name="ButtonRe"  Template="{StaticResource imageButtonTemplate}" Grid.Row="1" Grid.Column="1"  Margin="5">
-                                    <Image Source="/ConfigDeck;component/themes/cccc1.png"/>
+                                    <Image Source="/ConfigDeck;component/themes/cccc1.png" Margin="10"/>
                                 </Button>
 
                                 <Button x:Name="ButtonUp"  Template="{StaticResource imageButtonTemplate}"  Grid.Row="0" Grid.Column="3"  Margin="5">
                                     <Image Source="/ConfigDeck;component/themes/up1.png" />
                                 </Button>
                                 <Button x:Name="ButtonAutoFocus"  Template="{StaticResource imageButtonTemplate}" Grid.Row="1" Grid.Column="3"  Margin="5">
-                                    <Image Source="/ConfigDeck;component/themes/cccc1.png"/>
+                                    <Image Source="/ConfigDeck;component/themes/cccc1.png" Margin="10"/>
                                 </Button>
                                 <!--<Button x:Name="ButtonSmallAutoFocusRun"  Template="{StaticResource imageButtonTemplate}" Grid.Row="2" Grid.Column="2"  Margin="5"/>-->
                                 <Button x:Name="ButtonDown"  Template="{StaticResource imageButtonTemplate}" Grid.Row="2" Grid.Column="3"  Margin="5">
@@ -101,6 +89,21 @@
                                 </Button>
 
                             </Grid>
+                            <DockPanel>
+                                <DockPanel HorizontalAlignment="Left">
+                                    <Label Content="X/Y(um):" Foreground="White"/>
+                                    <TextBox x:Name="TextBox1" Text="100"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
+
+                                </DockPanel>
+                                <DockPanel HorizontalAlignment="Left">
+                                    <Label Content="Z(um):" Foreground="White"/>
+                                    <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
+                                </DockPanel>
+                                <DockPanel HorizontalAlignment="Left">
+                                    <Label    Content="聚焦(um):" Foreground="White"/>
+                                    <TextBox x:Name="TextBox3" Text="1000"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
+                                </DockPanel>
+                            </DockPanel>
                         </StackPanel>
 
                     </StackPanel>

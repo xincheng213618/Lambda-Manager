@@ -29,8 +29,8 @@ internal class Location
 	public override int GetHashCode()
 	{
 		int hashCode = Function.GetHashCode();
-		int num = Index << 16;
-		int hashCode2 = Group.GetHashCode();
-		return hashCode ^ (num + hashCode2);
+		int hash2 = Index << 16;
+		int hash3 = Group.GetHashCode();
+		return hashCode ^ (hash2 + hash3);
 	}
 }

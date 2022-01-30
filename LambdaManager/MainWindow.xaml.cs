@@ -212,7 +212,7 @@ partial class MainWindow : Window, IComponentConnector
 		return side switch
 		{
 			Side.RIGHT => rightView,
-			Side.BOTTOM => bottomView,
+			//Side.BOTTOM => bottomView,
 			Side.TOP => throw new Exception("top view not supported"),
 			_ => leftView,
 		};

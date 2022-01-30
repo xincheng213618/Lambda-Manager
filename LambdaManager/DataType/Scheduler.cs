@@ -6,5 +6,7 @@ internal class Scheduler
 
 	internal Routine? Routine { get; set; }
 
+	internal string? EventObject { get; set; }
+
 	internal string? Timer { get; set; }
 }

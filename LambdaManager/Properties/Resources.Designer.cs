@@ -598,6 +598,15 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
+        ///   查找类似 定时触发 的本地化字符串。
+        /// </summary>
+        internal static string ScheduleTrigger {
+            get {
+                return ResourceManager.GetString("ScheduleTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 签名 的本地化字符串。
         /// </summary>
         internal static string Signature {

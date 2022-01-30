@@ -54,20 +54,20 @@ internal class Link
 
 	internal TypeInfo? GetSourceType()
 	{
-		string text = Source.GetIO(SourceIndex)?.Type;
-		if (text != null)
+		string type = Source.GetIO(SourceIndex)?.Type;
+		if (type != null)
 		{
-			return TypesInterop.GetTypeInfo(text);
+			return TypesInterop.GetTypeInfo(type);
 		}
 		return null;
 	}
 
 	internal TypeInfo? GetTargetType()
 	{
-		string text = Target.GetIO(TargetIndex)?.Type;
-		if (text != null)
+		string type = Target.GetIO(TargetIndex)?.Type;
+		if (type != null)
 		{
-			return TypesInterop.GetTypeInfo(text);
+			return TypesInterop.GetTypeInfo(type);
 		}
 		return null;
 	}

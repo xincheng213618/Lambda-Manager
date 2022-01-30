@@ -62,7 +62,8 @@
 
 
     <Style x:Key="{x:Type local:DPCMode}" TargetType="{x:Type local:DPCMode}">
-    <Setter Property="Template">
+        <Setter Property="Margin" Value="-1"/>
+        <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:DPCMode}">
                     <StackPanel Background="#595959">
@@ -70,7 +71,7 @@
                             <Path x:Name="Path1" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
                             <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
 
-                            <Label Content="模式选择" Foreground="White"  FontSize="20" Margin="30,0,0,0" />
+                            <Label Content="模式选择" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                             <Button x:Name="buttonheader1" >
                                 <Button.Template>
                                     <ControlTemplate>
@@ -82,12 +83,11 @@
 
                         <StackPanel x:Name="StackContent" Margin="5,0">
                             <DockPanel HorizontalAlignment="Left">
-                                <RadioButton x:Name="Button1"  Style="{StaticResource ButtonStyle1}" Content="明场"  BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White"  Tag="0" Margin="10,0,5,0"/>
-                                <RadioButton x:Name="Button2"  Style="{StaticResource ButtonStyle1}" Content="暗场"  BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White"  Tag="1" Margin="5,0" />
-                                <RadioButton x:Name="Button3"  Style="{StaticResource ButtonStyle1}" Content="浮雕" BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White"  Tag="2" Margin="5,0"/>
-                                <RadioButton x:Name="Button4"  Style="{StaticResource ButtonStyle1}" Content="相差"  BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White "  Tag="3" Margin="5,0"/>
-                                <RadioButton x:Name="Button5"  Style="{StaticResource ButtonStyle1}" Content="相位"  BorderThickness="0" Background="Transparent" FontSize="20" Foreground="White "  Tag="3" Margin="5,0"/>
-
+                                <RadioButton x:Name="Button1"  Style="{StaticResource ButtonStyle1}" Content="明场"  BorderThickness="0" Background="Transparent" FontSize="15" Foreground="White"  Tag="0" Margin="10,0,5,0"/>
+                                <RadioButton x:Name="Button2"  Style="{StaticResource ButtonStyle1}" Content="暗场"  BorderThickness="0" Background="Transparent" FontSize="15" Foreground="White"  Tag="1" Margin="5,0" />
+                                <RadioButton x:Name="Button3"  Style="{StaticResource ButtonStyle1}" Content="浮雕"  BorderThickness="0" Background="Transparent" FontSize="15" Foreground="White"  Tag="2" Margin="5,0"/>
+                                <RadioButton x:Name="Button4"  Style="{StaticResource ButtonStyle1}" Content="相差"  BorderThickness="0" Background="Transparent" FontSize="15" Foreground="White "  Tag="3" Margin="5,0"/>
+                                <RadioButton x:Name="Button5"  Style="{StaticResource ButtonStyle1}" Content="相位"  BorderThickness="0" Background="Transparent" FontSize="15" Foreground="White "  Tag="3" Margin="5,0"/>
                             </DockPanel>
                             <StackPanel x:Name="StackPanel0" Visibility="Visible">
                                 <Grid>
@@ -250,7 +250,7 @@
                                         <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Reg" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Slider Grid.Column="1" x:Name="slider14" Minimum="0.00001" VerticalAlignment="Center" Maximum="0.01" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.001" />
+                                    <Slider Grid.Column="1" x:Name="slider14" Minimum="0.0001" VerticalAlignment="Center" Maximum="0.01" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.0001" />
                                     <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider14,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
 

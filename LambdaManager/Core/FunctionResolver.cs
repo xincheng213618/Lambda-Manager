@@ -57,10 +57,10 @@ internal class FunctionResolver
 		List<Input> inputs = action.Inputs;
 		if (inputs != null)
 		{
-			foreach (Input item3 in inputs)
+			foreach (Input input in inputs)
 			{
-				string text = item3.Type ?? "string";
-				if (text == "action")
+				string type2 = input.Type ?? "string";
+				if (type2 == "action")
 				{
 					argTypes!.Add("pointer");
 					TypeInfos!.Add(TypesInterop.GetTypeInfo("pointer"));
@@ -68,23 +68,23 @@ internal class FunctionResolver
 				}
 				else
 				{
-					argTypes!.Add(text);
-					TypeInfos!.Add(TypesInterop.GetTypeInfo(text));
-					object item = Parse(text, item3.Value);
-					DefaultValues!.Add(item);
+					argTypes!.Add(type2);
+					TypeInfos!.Add(TypesInterop.GetTypeInfo(type2));
+					object defaultValue2 = Parse(type2, input.Value);
+					DefaultValues!.Add(defaultValue2);
 				}
 			}
 		}
 		List<Output> outputs = action.Outputs;
 		if (outputs != null)
 		{
-			foreach (Output item4 in outputs)
+			foreach (Output output in outputs)
 			{
-				string text2 = item4.Type ?? "string";
-				argTypes!.Add(text2);
-				TypeInfos!.Add(TypesInterop.GetTypeInfo(text2));
-				object item2 = Parse(text2, item4.Value);
-				DefaultValues!.Add(item2);
+				string type = output.Type ?? "string";
+				argTypes!.Add(type);
+				TypeInfos!.Add(TypesInterop.GetTypeInfo(type));
+				object defaultValue = Parse(type, output.Value);
+				DefaultValues!.Add(defaultValue);
 			}
 		}
 		if (TypeInfos!.Count == 0)
@@ -131,10 +131,10 @@ internal class FunctionResolver
 		{
 			return ArgumentType.NO_ARGS;
 		}
-		foreach (Input item in inputs)
+		foreach (Input input in inputs)
 		{
-			string type = item.Type;
-			if (type != null && item.Value == null)
+			string type = input.Type;
+			if (type != null && input.Value == null)
 			{
 				if (type == "json*")
 				{
@@ -187,15 +187,15 @@ internal class FunctionResolver
 		{
 			targetType = "string";
 		}
-		bool flag = IsGetValue(sourceType, targetType);
-		bool flag2 = IsGetAddress(sourceType, targetType);
+		bool isGetValue = IsGetValue(sourceType, targetType);
+		bool isGetAddress = IsGetAddress(sourceType, targetType);
 		sourceType = GetCleanType(sourceType);
 		targetType = GetCleanType(targetType);
-		if (flag && sourceType == targetType)
+		if (isGetValue && sourceType == targetType)
 		{
 			return new List<CastType> { CastType.CAST_VALUE };
 		}
-		if (flag2 && sourceType == targetType)
+		if (isGetAddress && sourceType == targetType)
 		{
 			return new List<CastType> { CastType.CAST_ADDRESS };
 		}
@@ -204,99 +204,99 @@ internal class FunctionResolver
 		{
 			return new List<CastType> { CastType.TYPE_NOT_MATCH };
 		}
-		List<CastType> list = new List<CastType>();
+		List<CastType> result = new List<CastType>();
 		switch (typeInfo.Id)
 		{
 		case 10:
 		case 11:
-			list.Add(CastType.CAST_BOOLEAN);
+			result.Add(CastType.CAST_BOOLEAN);
 			break;
 		case 12:
-			list.Add(CastType.CAST_BOOL);
+			result.Add(CastType.CAST_BOOL);
 			break;
 		case 13:
 		case 14:
-			list.Add(CastType.CAST_BYTE);
+			result.Add(CastType.CAST_BYTE);
 			break;
 		case 17:
 		case 18:
-			list.Add(CastType.CAST_SBYTE);
+			result.Add(CastType.CAST_SBYTE);
 			break;
 		case 20:
-			list.Add(CastType.CAST_CHAR);
+			result.Add(CastType.CAST_CHAR);
 			break;
 		case 21:
-			list.Add(CastType.CAST_SBYTE);
+			result.Add(CastType.CAST_SBYTE);
 			break;
 		case 22:
-			list.Add(CastType.CAST_BYTE);
+			result.Add(CastType.CAST_BYTE);
 			break;
 		case 23:
 		case 24:
 		case 25:
-			list.Add(CastType.CAST_INT16);
+			result.Add(CastType.CAST_INT16);
 			break;
 		case 27:
 		case 28:
-			list.Add(CastType.CAST_UINT16);
+			result.Add(CastType.CAST_UINT16);
 			break;
 		case 30:
 		case 31:
 		case 32:
-			list.Add(CastType.CAST_INT32);
+			result.Add(CastType.CAST_INT32);
 			break;
 		case 35:
 		case 36:
-			list.Add(CastType.CAST_UINT32);
+			result.Add(CastType.CAST_UINT32);
 			break;
 		case 40:
-			list.Add(CastType.CAST_INT64);
+			result.Add(CastType.CAST_INT64);
 			break;
 		case 41:
-			list.Add(CastType.CAST_INT64);
+			result.Add(CastType.CAST_INT64);
 			break;
 		case 42:
 		case 61:
-			list.Add(CastType.CAST_INT64);
+			result.Add(CastType.CAST_INT64);
 			break;
 		case 60:
-			list.Add(CastType.CAST_INT64);
+			result.Add(CastType.CAST_INT64);
 			break;
 		case 45:
-			list.Add(CastType.CAST_UINT64);
+			result.Add(CastType.CAST_UINT64);
 			break;
 		case 46:
-			list.Add(CastType.CAST_UINT64);
+			result.Add(CastType.CAST_UINT64);
 			break;
 		case 50:
 		case 51:
-			list.Add(CastType.CAST_FLOAT);
+			result.Add(CastType.CAST_FLOAT);
 			break;
 		case 55:
 		case 56:
-			list.Add(CastType.CAST_DOUBLE);
+			result.Add(CastType.CAST_DOUBLE);
 			break;
 		case 62:
-			list.Add(CastType.CAST_DECIMAL);
+			result.Add(CastType.CAST_DECIMAL);
 			break;
 		case 65:
 		case 66:
 		case 67:
-			list.Add(CastType.CAST_DECIMAL);
+			result.Add(CastType.CAST_DECIMAL);
 			break;
 		default:
-			list.Add(CastType.TYPE_NOT_MATCH);
+			result.Add(CastType.TYPE_NOT_MATCH);
 			break;
 		}
-		if (flag)
+		if (isGetValue)
 		{
-			list.Add(CastType.CAST_VALUE);
+			result.Add(CastType.CAST_VALUE);
 		}
-		if (flag2)
+		if (isGetAddress)
 		{
-			list.Add(CastType.CAST_ADDRESS);
+			result.Add(CastType.CAST_ADDRESS);
 		}
-		return list;
+		return result;
 	}
 
 	private static bool IsGetValue(string sourceType, string targetType)
@@ -360,8 +360,8 @@ internal class FunctionResolver
 		{
 			return false;
 		}
-		char value = type[type.Length - suffix.Length - 1];
-		return !suffix.Contains(value);
+		char c = type[type.Length - suffix.Length - 1];
+		return !suffix.Contains(c);
 	}
 
 	internal static string GetCleanType(string type)

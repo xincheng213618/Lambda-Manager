@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using Lambda;
+using LambdaManager.Core;
 using LambdaManager.DataType;
 using LambdaManager.Properties;
 
@@ -39,17 +41,17 @@ internal class ConfigUILibrary
 		string name = component.Name;
 		if (name != null)
 		{
-			string name2 = lib.Replace(".dll", "") + "." + name;
-			Side configSide = GetConfigSide(mount);
-			if (configSide == Side.MENU)
+			string fullName = lib.Replace(".dll", "") + "." + name;
+			Side side = GetConfigSide(mount);
+			if (side == Side.MENU)
 			{
 				string menuPath = GetMenuPath(mount);
-				LoadMenuDialog(assembly, name2, menuPath, validate);
+				LoadMenuDialog(assembly, fullName, menuPath, validate);
 			}
 			else
 			{
-				int configPanelOrder = GetConfigPanelOrder(mount);
-				LoadConfigPanel(assembly, name2, configPanelOrder, validate, configSide);
+				int order = GetConfigPanelOrder(mount);
+				LoadConfigPanel(assembly, fullName, order, validate, side);
 			}
 		}
 	}
@@ -58,23 +60,23 @@ internal class ConfigUILibrary
 	{
 		if (!(assembly.CreateInstance(name) is Control control))
 		{
-			validate.ReportNotExist(Severity.FATAL_ERROR, Type.Component, name, Resources.Class, null);
+			validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, name, Resources.Class, null);
 			return;
 		}
-		UIElementCollection children = Main.GetConfigPanel(side).Children;
-		bool flag = false;
-		for (int i = 0; i < children.Count; i++)
+		UIElementCollection list = Main.GetConfigPanel(side).Children;
+		bool found = false;
+		for (int i = 0; i < list.Count; i++)
 		{
-			if (children[i] is Control key && order < leftOrder[key])
+			if (list[i] is Control c && order < leftOrder[c])
 			{
-				children.Insert(i, control);
-				flag = true;
+				list.Insert(i, control);
+				found = true;
 				break;
 			}
 		}
-		if (!flag)
+		if (!found)
 		{
-			children.Add(control);
+			list.Add(control);
 		}
 		leftOrder[control] = order;
 	}
@@ -84,14 +86,14 @@ internal class ConfigUILibrary
 		Assembly assembly2 = assembly;
 		string name2 = name;
 		ConfigValidate validate2 = validate;
-		MenuItem menuItem = Main.AddMenuItem(path);
-		if (menuItem != null)
+		MenuItem menu = Main.AddMenuItem(path);
+		if (menu != null)
 		{
-			menuItem.Click += delegate
+			menu.Click += delegate
 			{
 				if (!(assembly2.CreateInstance(name2) is Window window))
 				{
-					validate2.ReportNotExist(Severity.FATAL_ERROR, Type.Component, name2, Resources.Class, null);
+					validate2.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, name2, Resources.Class, null);
 				}
 				else
 				{
@@ -103,30 +105,55 @@ internal class ConfigUILibrary
 		}
 		else
 		{
-			validate2.Report(Severity.ERROR, Type.Component, name2, Resources.Menu, null, Resources.CreateFailed);
+			validate2.Report(Severity.ERROR, LambdaManager.DataType.Type.Component, name2, Resources.Menu, null, Resources.CreateFailed);
+		}
+	}
+
+	internal void LoadMenuCommand(Command command, ConfigValidate validate)
+	{
+		string name = command.Name;
+		List<string> raises = command.Raise;
+		if (name == null || raises == null)
+		{
+			return;
+		}
+		MenuItem menu = Main.AddMenuItem(name);
+		if (menu != null)
+		{
+			menu.Click += delegate
+			{
+				foreach (string item in raises)
+				{
+					Common.CallEvent(item, IntPtr.Zero);
+				}
+			};
+		}
+		else
+		{
+			validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Component, name, Resources.Menu, null, Resources.CreateFailed);
 		}
 	}
 
 	private static Side GetConfigSide(string mount)
 	{
-		string[] array = mount.Split(':');
-		if (array[0].StartsWith("top"))
+		string[] tokens = mount.Split(':');
+		if (tokens[0].StartsWith("top"))
 		{
 			return Side.TOP;
 		}
-		if (array[0].StartsWith("left"))
+		if (tokens[0].StartsWith("left"))
 		{
 			return Side.LEFT;
 		}
-		if (array[0].StartsWith("right"))
+		if (tokens[0].StartsWith("right"))
 		{
 			return Side.RIGHT;
 		}
-		if (array[0].StartsWith("bottom"))
+		if (tokens[0].StartsWith("bottom"))
 		{
 			return Side.BOTTOM;
 		}
-		if (array[0].StartsWith("menu"))
+		if (tokens[0].StartsWith("menu"))
 		{
 			return Side.MENU;
 		}

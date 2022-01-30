@@ -25,16 +25,16 @@
         <StackPanel Background="#595959">
             <DockPanel >
                 <DockPanel HorizontalAlignment="Left">
-                    <Label Content="X/Y(um):"/>
+                    <Label Content="X/Y(um):" Foreground="White"/>
                     <TextBox x:Name="TextBox1" Text="100" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
 
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Left">
-                    <Label Content="Z(um):"/>
+                    <Label Content="Z(um):" Foreground="White"/>
                     <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Left">
-                    <Label  x:Name="TextBox3"  Content="聚焦(um):"/>
+                    <Label  x:Name="TextBox3"  Content="聚焦(um):" Foreground="White"/>
                     <TextBox Text="1000" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="50"/>
                 </DockPanel>
             </DockPanel>

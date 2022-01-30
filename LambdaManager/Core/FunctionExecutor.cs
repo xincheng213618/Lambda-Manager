@@ -56,10 +56,10 @@ internal static class FunctionExecutor
 				Function function = (info.Function = enumerator.Current);
 				info.FunctionArguments = null;
 				info.Times = -1;
-				int num;
+				int result;
 				if (function.Routine != null)
 				{
-					num = InvokeRoutine(info);
+					result = InvokeRoutine(info);
 				}
 				else
 				{
@@ -68,11 +68,11 @@ internal static class FunctionExecutor
 						InvokeFunctionAsync(info);
 						continue;
 					}
-					num = InvokeFunction(info);
+					result = InvokeFunction(info);
 				}
-				if (num != 0 && num < 0)
+				if (result != 0 && result < 0)
 				{
-					return num;
+					return result;
 				}
 			}
 		}
@@ -81,9 +81,9 @@ internal static class FunctionExecutor
 			info.Caller!.FunctionArguments = info.FunctionArguments;
 		}
 		Dictionary<Location, object> variables = info.Variables;
-		if (variables != null && variables.TryGetValue(RotineScope, out var value))
+		if (variables != null && variables.TryGetValue(RotineScope, out var allocs))
 		{
-			T0.ClearAddress(value);
+			T0.ClearAddress(allocs);
 		}
 		return 0;
 	}
@@ -125,11 +125,11 @@ internal static class FunctionExecutor
 
 	public static int InvokeFunction(ExecInfo info)
 	{
-		int num = -1;
+		int result = -1;
 		int times = info.Function.Times;
 		if (times == 1)
 		{
-			num = ExecuteFunction(info);
+			result = ExecuteFunction(info);
 		}
 		else
 		{
@@ -140,7 +140,7 @@ internal static class FunctionExecutor
 			for (int i = 0; i < times; i++)
 			{
 				info.Times = i;
-				num = ExecuteFunction(info);
+				result = ExecuteFunction(info);
 			}
 		}
 		AddReferredToVariable(info);
@@ -150,7 +150,7 @@ internal static class FunctionExecutor
 		{
 			RaiseEvents(raise, info.FunctionArguments, info.Function.EntryPoint);
 		}
-		if (num == -1)
+		if (result == -1)
 		{
 			string text = Resources.Execute + Resources.Action + Resources.Error;
 			App.Report(new Message
@@ -159,7 +159,7 @@ internal static class FunctionExecutor
 				Text = text
 			});
 		}
-		return num;
+		return result;
 	}
 
 	private static int ExecuteFunction(ExecInfo info)
@@ -189,20 +189,20 @@ internal static class FunctionExecutor
 	private static List<object?>? PrepareArguments(ExecInfo info)
 	{
 		Function function = info.Function;
-		List<object> values = function.Values;
-		if (values == null)
+		List<object> defaultValues = function.Values;
+		if (defaultValues == null)
 		{
 			return null;
 		}
-		List<object> defaultValues = function.DefaultValues;
-		List<object> list = new List<object>();
-		for (int i = 0; i < values.Count; i++)
+		List<object> initialValues = function.DefaultValues;
+		List<object> arguments = new List<object>();
+		for (int i = 0; i < defaultValues.Count; i++)
 		{
-			EntryPoint entryPoint = function.EntryPoint;
-			if (i < entryPoint?.InputCount)
+			EntryPoint entry = function.EntryPoint;
+			if (i < entry?.InputCount)
 			{
-				object obj = values[i];
-				if (function.IsVariable(obj) || (obj == null && info.RoutineArguments != null))
+				object value = defaultValues[i];
+				if (function.IsVariable(value) || (value == null && info.RoutineArguments != null))
 				{
 					Location location = new Location
 					{
@@ -210,64 +210,64 @@ internal static class FunctionExecutor
 						Index = i,
 						Group = info.Group
 					};
-					obj = ResolveVariableValue(info, location);
+					value = ResolveVariableValue(info, location);
 				}
-				if (obj == null && i < defaultValues?.Count)
+				if (value == null && i < initialValues?.Count)
 				{
-					obj = defaultValues[i];
+					value = initialValues[i];
 				}
-				obj = Rereinterpret(entryPoint, obj, i, list);
-				list.Add(obj);
+				value = Rereinterpret(entry, value, i, arguments);
+				arguments.Add(value);
 			}
 			else
 			{
-				IntPtr intPtr = Marshal.AllocHGlobal(TypesInterop.GetPtrSize());
-				object obj2 = info.GetVariable(OutputAlloc);
-				if (obj2 == null)
+				IntPtr p = Marshal.AllocHGlobal(TypesInterop.GetPtrSize());
+				object allocs = info.GetVariable(OutputAlloc);
+				if (allocs == null)
 				{
-					obj2 = new List<IntPtr>();
-					info.SetVariable(OutputAlloc, obj2);
+					allocs = new List<IntPtr>();
+					info.SetVariable(OutputAlloc, allocs);
 				}
-				((List<IntPtr>)obj2).Add(intPtr);
-				list.Add(intPtr);
+				((List<IntPtr>)allocs).Add(p);
+				arguments.Add(p);
 			}
 		}
-		return list;
+		return arguments;
 	}
 
 	private static object? ResolveVariableValue(ExecInfo info, Location location)
 	{
 		LocationConverter lc;
-		object obj = info.FindVariable(location, out lc, null);
-		if (obj != null && lc != null)
+		object value = info.FindVariable(location, out lc, null);
+		if (value != null && lc != null)
 		{
 			if (lc == null)
 			{
-				return obj;
+				return value;
 			}
 			Converter converter = lc.Converter;
 			if (converter != null)
 			{
-				obj = converter(obj);
-				if (obj != null && lc.IsGetAddress)
+				value = converter(value);
+				if (value != null && lc.IsGetAddress)
 				{
-					RegisterNewAddress(info, obj);
+					RegisterNewAddress(info, value);
 				}
 			}
-			return obj;
+			return value;
 		}
 		return null;
 	}
 
 	private static void RegisterNewAddress(ExecInfo info, object value)
 	{
-		object obj = info.GetVariable(InputAlloc);
-		if (obj == null)
+		object allocs = info.GetVariable(InputAlloc);
+		if (allocs == null)
 		{
-			obj = new List<IntPtr>();
-			info.AddVariable(InputAlloc, obj);
+			allocs = new List<IntPtr>();
+			info.AddVariable(InputAlloc, allocs);
 		}
-		((List<IntPtr>)obj).Add((IntPtr)value);
+		((List<IntPtr>)allocs).Add((IntPtr)value);
 	}
 
 	private static object? Rereinterpret(EntryPoint? entry, object? value, int index, List<object?>? arguments)
@@ -276,59 +276,59 @@ internal static class FunctionExecutor
 		{
 			return value;
 		}
-		TypeInfo typeInfo = entry!.Paremeters?[index];
-		if (typeInfo == null)
+		TypeInfo info = entry!.Paremeters?[index];
+		if (info == null)
 		{
 			return value;
 		}
-		switch (typeInfo.Id)
+		switch (info.Id)
 		{
 		case 10:
 		case 11:
 		{
-			bool source6 = (bool)value;
-			return Unsafe.As<bool, byte>(ref source6);
+			bool b = (bool)value;
+			return Unsafe.As<bool, byte>(ref b);
 		}
 		case 17:
 		case 18:
 		case 21:
 		{
-			sbyte source5 = (sbyte)value;
-			return Unsafe.As<sbyte, byte>(ref source5);
+			sbyte c = (sbyte)value;
+			return Unsafe.As<sbyte, byte>(ref c);
 		}
 		case 20:
 		{
-			char source3 = (char)value;
-			return Unsafe.As<char, short>(ref source3);
+			char c2 = (char)value;
+			return Unsafe.As<char, short>(ref c2);
 		}
 		case 27:
 		case 28:
 		{
-			ushort source4 = (ushort)value;
-			return Unsafe.As<ushort, short>(ref source4);
+			ushort c3 = (ushort)value;
+			return Unsafe.As<ushort, short>(ref c3);
 		}
 		case 33:
 			return T0.GetArraySize(arguments?[index - 1]);
 		case 35:
 		case 36:
 		{
-			uint source = (uint)value;
-			return Unsafe.As<uint, int>(ref source);
+			uint x = (uint)value;
+			return Unsafe.As<uint, int>(ref x);
 		}
 		case 45:
 		{
-			ulong source2 = (ulong)value;
-			return Unsafe.As<ulong, long>(ref source2);
+			ulong y = (ulong)value;
+			return Unsafe.As<ulong, long>(ref y);
 		}
 		case 46:
 		{
-			if (typeInfo.Size == 4)
+			if (info.Size == 4)
 			{
-				uint source = (uint)value;
-				return Unsafe.As<uint, int>(ref source);
+				uint x = (uint)value;
+				return Unsafe.As<uint, int>(ref x);
 			}
-			ulong source2 = (ulong)value;
-			return Unsafe.As<ulong, long>(ref source2);
+			ulong y = (ulong)value;
+			return Unsafe.As<ulong, long>(ref y);
 		}
 		case 86:
 		case 87:
@@ -340,8 +340,8 @@ internal static class FunctionExecutor
 
 	private static int Exec(Function function, List<object?>? args)
 	{
-		EntryPoint entryPoint = function.EntryPoint;
-		if (entryPoint == null)
+		EntryPoint entry = function.EntryPoint;
+		if (entry == null)
 		{
 			App.Report(new Message
 			{
@@ -350,37 +350,37 @@ internal static class FunctionExecutor
 			});
 			return -1;
 		}
-		IntPtr funcAddr = entryPoint.FuncAddr;
-		string code = entryPoint.Code;
+		IntPtr fp = entry.FuncAddr;
+		string code = entry.Code;
 		if (args == null || args!.Count == 0)
 		{
-			return S1.Invoke(funcAddr);
+			return S1.Invoke(fp);
 		}
 		return args!.Count switch
 		{
-			1 => S1.Invoke(code, funcAddr, args), 
-			2 => S2.Invoke(code, funcAddr, args), 
-			3 => S3.Invoke(code, funcAddr, args), 
+			1 => S1.Invoke(code, fp, args), 
+			2 => S2.Invoke(code, fp, args), 
+			3 => S3.Invoke(code, fp, args), 
 			4 => code[0] switch
 			{
-				'0' => S40.Invoke0(code, funcAddr, args), 
-				'1' => S41.Invoke1(code, funcAddr, args), 
-				'2' => S42.Invoke2(code, funcAddr, args), 
-				'6' => S46.Invoke6(code, funcAddr, args), 
-				'3' => S43.Invoke3(code, funcAddr, args), 
-				'5' => S45.Invoke5(code, funcAddr, args), 
-				'4' => S44.Invoke4(code, funcAddr, args), 
-				'7' => S47.Invoke7(code, funcAddr, args), 
+				'0' => S40.Invoke0(code, fp, args), 
+				'1' => S41.Invoke1(code, fp, args), 
+				'2' => S42.Invoke2(code, fp, args), 
+				'6' => S46.Invoke6(code, fp, args), 
+				'3' => S43.Invoke3(code, fp, args), 
+				'5' => S45.Invoke5(code, fp, args), 
+				'4' => S44.Invoke4(code, fp, args), 
+				'7' => S47.Invoke7(code, fp, args), 
 				_ => -1, 
 			}, 
-			5 => S5.Invoke(code, funcAddr, args), 
+			5 => S5.Invoke(code, fp, args), 
 			6 => code[0] switch
 			{
-				'2' => S62.Invoke2(code, funcAddr, args), 
-				'6' => S66.Invoke6(code, funcAddr, args), 
-				'3' => S63.Invoke3(code, funcAddr, args), 
-				'5' => S65.Invoke5(code, funcAddr, args), 
-				'7' => S67.Invoke7(code, funcAddr, args), 
+				'2' => S62.Invoke2(code, fp, args), 
+				'6' => S66.Invoke6(code, fp, args), 
+				'3' => S63.Invoke3(code, fp, args), 
+				'5' => S65.Invoke5(code, fp, args), 
+				'7' => S67.Invoke7(code, fp, args), 
 				_ => -1, 
 			}, 
 			_ => -1, 
@@ -390,22 +390,22 @@ internal static class FunctionExecutor
 	private static void AddReferredToVariable(ExecInfo info)
 	{
 		Function function = info.Function;
-		Dictionary<Function, List<Location>> dictionary = (function.IsReferred ? info.Routine.Referred : null);
-		if (dictionary == null || info.FunctionArguments == null || !dictionary.TryGetValue(function, out var value))
+		Dictionary<Function, List<Location>> referred = (function.IsReferred ? info.Routine.Referred : null);
+		if (referred == null || info.FunctionArguments == null || !referred.TryGetValue(function, out var locations))
 		{
 			return;
 		}
-		List<object> functionArguments = info.FunctionArguments;
-		int num = function.EntryPoint?.InputCount ?? 0;
-		foreach (Location item in value)
+		List<object> args = info.FunctionArguments;
+		int offset = function.EntryPoint?.InputCount ?? 0;
+		foreach (Location location in locations)
 		{
-			int index = item.Index;
-			object obj = ((index >= num) ? functionArguments[index] : function.Values?[index]);
-			if (obj == function)
+			int index = location.Index;
+			object value = ((index >= offset) ? args[index] : function.Values?[index]);
+			if (value == function)
 			{
-				obj = functionArguments[index];
+				value = args[index];
 			}
-			info.AddVariable(item, obj);
+			info.AddVariable(location, value);
 		}
 	}
 
@@ -416,49 +416,49 @@ internal static class FunctionExecutor
 		{
 			return;
 		}
-		if (variables.Remove(InputAlloc, out var value))
+		if (variables.Remove(InputAlloc, out var inputAlloc))
 		{
-			if (info.Function.IsReferred && value != null)
+			if (info.Function.IsReferred && inputAlloc != null)
 			{
-				variables.TryGetValue(RotineScope, out var value2);
-				if (value2 == null)
+				variables.TryGetValue(RotineScope, out var allocs);
+				if (allocs == null)
 				{
-					value2 = new List<IntPtr>();
-					variables[RotineScope] = value2;
+					allocs = new List<IntPtr>();
+					variables[RotineScope] = allocs;
 				}
-				((List<IntPtr>)value2).AddRange((List<IntPtr>)value);
+				((List<IntPtr>)allocs).AddRange((List<IntPtr>)inputAlloc);
 			}
 			else
 			{
-				T0.ClearAddress(value);
+				T0.ClearAddress(inputAlloc);
 			}
 		}
-		if (variables.Remove(OutputAlloc, out var value3))
+		if (variables.Remove(OutputAlloc, out var outputAlloc))
 		{
-			T0.ClearAddress(value3, args);
+			T0.ClearAddress(outputAlloc, args);
 		}
 	}
 
 	private static void RaiseEvents(List<Event> Events, List<object?>? arguments, EntryPoint? entry)
 	{
-		int num = 0;
-		foreach (Event Event in Events)
+		int result = 0;
+		foreach (Event evt in Events)
 		{
-			string type = Event.Type;
+			string type = evt.Type;
 			if (type != null)
 			{
-				switch (Event.ArgType)
+				switch (evt.ArgType)
 				{
 				case ArgumentType.NO_ARGS:
-					num = Common.CallEvent(type, IntPtr.Zero);
+					result = Common.CallEvent(type, IntPtr.Zero);
 					break;
 				case ArgumentType.JSON_STRING:
-					num = ((Event.Data != null) ? Common.CallEvent(type, Event.Data, IntPtr.Zero) : Common.CallEvent(type, IntPtr.Zero));
+					result = ((evt.Data != null) ? Common.CallEvent(type, evt.Data, IntPtr.Zero) : Common.CallEvent(type, IntPtr.Zero));
 					break;
 				case ArgumentType.JSON_OBJECT:
 				{
-					string text = PrepareEventData(Event, arguments, entry);
-					num = ((text != null) ? Common.CallEvent(type, text, IntPtr.Zero) : Common.CallEvent(type, IntPtr.Zero));
+					string data = PrepareEventData(evt, arguments, entry);
+					result = ((data != null) ? Common.CallEvent(type, data, IntPtr.Zero) : Common.CallEvent(type, IntPtr.Zero));
 					break;
 				}
 				case ArgumentType.STL_MAP:
@@ -471,10 +471,10 @@ internal static class FunctionExecutor
 				case ArgumentType.POINTER:
 				case ArgumentType.POINTER2:
 				case ArgumentType.POINTER4:
-					num = Common.CallEvent(type, arguments, IntPtr.Zero);
+					result = Common.CallEvent(type, arguments, IntPtr.Zero);
 					break;
 				}
-				if (num == -1)
+				if (result == -1)
 				{
 					break;
 				}
@@ -489,31 +489,31 @@ internal static class FunctionExecutor
 			return null;
 		}
 		Dictionary<string, int> keys = evt.Keys;
-		List<TypeInfo> paremeters = entry!.Paremeters;
-		if (keys == null || arguments == null || paremeters == null)
+		List<TypeInfo> parameters = entry!.Paremeters;
+		if (keys == null || arguments == null || parameters == null)
 		{
 			return null;
 		}
-		Dictionary<string, object> dictionary = new Dictionary<string, object>();
+		Dictionary<string, object> json = new Dictionary<string, object>();
 		int inputCount = entry!.InputCount;
-		foreach (KeyValuePair<string, int> item in keys)
+		foreach (KeyValuePair<string, int> pair in keys)
 		{
-			int value = item.Value;
-			object obj = arguments![value];
-			TypeInfo typeInfo = paremeters[value];
-			if (obj != null && typeInfo != null)
+			int index = pair.Value;
+			object value = arguments![index];
+			TypeInfo info = parameters[index];
+			if (value != null && info != null)
 			{
-				if (value >= inputCount)
+				if (index >= inputCount)
 				{
-					obj = T0.ToValue(typeInfo, obj);
+					value = T0.ToValue(info, value);
 				}
-				obj = LambdaManager.Conversion.JsonValue.From(typeInfo, obj);
-				if (obj != null)
+				value = LambdaManager.Conversion.JsonValue.From(info, value);
+				if (value != null)
 				{
-					dictionary[item.Key] = obj;
+					json[pair.Key] = value;
 				}
 			}
 		}
-		return JsonFormatter.SerializeObject(dictionary);
+		return JsonFormatter.SerializeObject(json);
 	}
 }

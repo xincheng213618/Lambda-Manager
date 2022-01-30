@@ -39,14 +39,14 @@ internal class Function
 		{
 			Values = new List<object>();
 		}
-		object obj = CollectionUtils.Insert(Values, index, this);
-		if (obj != null)
+		object oldValue = CollectionUtils.Insert(Values, index, this);
+		if (oldValue != null)
 		{
 			if (DefaultValues == null)
 			{
 				DefaultValues = new List<object>();
 			}
-			CollectionUtils.Insert(DefaultValues, index, obj);
+			CollectionUtils.Insert(DefaultValues, index, oldValue);
 		}
 	}
 

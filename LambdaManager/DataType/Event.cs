@@ -21,13 +21,13 @@ internal class Event
 		{
 			DataMap = new Dictionary<Routine, Dictionary<string, int>>();
 		}
-		DataMap!.TryGetValue(routine, out var value);
-		if (value == null)
+		DataMap!.TryGetValue(routine, out var map);
+		if (map == null)
 		{
-			value = new Dictionary<string, int>();
-			DataMap!.Add(routine, value);
+			map = new Dictionary<string, int>();
+			DataMap!.Add(routine, map);
 		}
-		value.Add(key, index);
+		map.Add(key, index);
 	}
 
 	internal Dictionary<string, int>? GetEventMap(Routine routine)

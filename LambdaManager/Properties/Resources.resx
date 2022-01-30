@@ -295,6 +295,9 @@
   <data name="ScheduleStart" xml:space="preserve">
     <value>定时执行</value>
   </data>
+  <data name="ScheduleTrigger" xml:space="preserve">
+    <value>定时触发</value>
+  </data>
   <data name="Signature" xml:space="preserve">
     <value>签名</value>
   </data>
