@@ -22,7 +22,7 @@
     
     <Grid>
         <!--<local:BaseDeck></local:BaseDeck>-->
-        <StackPanel Background="#595959">
+        <StackPanel >
             <DockPanel >
                 <DockPanel HorizontalAlignment="Left">
                     <Label Content="X/Y(um):" Foreground="White"/>

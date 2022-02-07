@@ -12,7 +12,7 @@
     <!--#region Colors-->
     <Color x:Key="WindowBackgroundColor">#444444</Color>
     <Color x:Key="DarkBackgroundColor">#333333</Color>
-    <Color x:Key="LightBackgroundColor">#595959</Color>
+    <Color x:Key="LightBackgroundColor">Transparent</Color>
     <Color x:Key="BackgroundColor">#3D3D3D</Color>
     <Color x:Key="DisabledBackgroundColor">#424242</Color>
     <Color x:Key="LightDisabledBackgroundColor">#666666</Color>

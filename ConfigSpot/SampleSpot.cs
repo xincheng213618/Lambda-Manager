@@ -295,7 +295,7 @@ public class SampleSpot : LambdaControl
         if (currentBoxSelectedBorder1 == null)
         {
             currentBoxSelectedBorder1 = new Border();
-            currentBoxSelectedBorder1.Background = new SolidColorBrush(Colors.Red);
+            //currentBoxSelectedBorder1.Background = new SolidColorBrush(Colors.Red);
             currentBoxSelectedBorder1.Opacity = 0.4;
             currentBoxSelectedBorder1.BorderThickness = new Thickness(2);
             currentBoxSelectedBorder1.BorderBrush = new SolidColorBrush(Colors.OrangeRed);

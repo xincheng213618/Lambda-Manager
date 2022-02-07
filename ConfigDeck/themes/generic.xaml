@@ -26,14 +26,13 @@
 
     <Style x:Key="{x:Type local:BaseDeck}" TargetType="{x:Type local:BaseDeck}">
         <Setter Property="Margin" Value="-1"/>
-
         <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:BaseDeck}">
-                    <StackPanel  Background="#595959">
+                    <StackPanel  Background="Transparent">
                         <Grid>
                             <Path x:Name="Path1" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                            <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
+                            <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="9"  Fill="White" Data="{StaticResource RightArrow}"/>
 
                             <Label Content="位移台控制" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                             <Button x:Name="buttonheader1" >
@@ -87,23 +86,24 @@
                                 <Button x:Name="ButtonDown"  Template="{StaticResource imageButtonTemplate}" Grid.Row="2" Grid.Column="3"  Margin="5">
                                     <Image Source="/ConfigDeck;component/themes/down1png.png"/>
                                 </Button>
-
                             </Grid>
-                            <DockPanel>
-                                <DockPanel HorizontalAlignment="Left">
-                                    <Label Content="X/Y(um):" Foreground="White"/>
-                                    <TextBox x:Name="TextBox1" Text="100"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
-
+                            
+                            <StackPanel>
+                                <DockPanel  HorizontalAlignment="Center">
+                                    <DockPanel HorizontalAlignment="Left">
+                                        <Label Content="X/Y(um):" Foreground="White"/>
+                                        <TextBox x:Name="TextBox1" Text="100"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
+                                    </DockPanel>
+                                    <DockPanel HorizontalAlignment="Left">
+                                        <Label Content="Z(um):" Foreground="White"/>
+                                        <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
+                                    </DockPanel>
                                 </DockPanel>
-                                <DockPanel HorizontalAlignment="Left">
-                                    <Label Content="Z(um):" Foreground="White"/>
-                                    <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="40"/>
-                                </DockPanel>
-                                <DockPanel HorizontalAlignment="Left">
+                                <DockPanel HorizontalAlignment="Center">
                                     <Label    Content="聚焦(um):" Foreground="White"/>
                                     <TextBox x:Name="TextBox3" Text="1000"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
                                 </DockPanel>
-                            </DockPanel>
+                            </StackPanel>
                         </StackPanel>
 
                     </StackPanel>

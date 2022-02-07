@@ -122,8 +122,8 @@
       <GridSplitter Grid.Column="3" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
       <ScrollViewer Grid.Column="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Name="rightView" DockPanel.Dock="Right">
-          <TextBlock>Workspace 1</TextBlock>
-          <TextBlock>Workspace 2</TextBlock>
+          <TextBlock Foreground="White">Workspace 1</TextBlock>
+                    <TextBlock Foreground="White">Workspace 2</TextBlock>
         </StackPanel>
       </ScrollViewer>
     </Grid>

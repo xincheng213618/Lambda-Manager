@@ -36,28 +36,28 @@ internal class Common
 
 	internal unsafe static void Init()
 	{
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize), 2);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, int, int, int, int>)(&InitialFrame), 3);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, uint, int, int>)(&UpdateFrame), 4);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StartService), 5);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopService), 6);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, sbyte*, sbyte*, void>)(&ScheduleEvent), 7);
-		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int>)(&CallBack1), 0);
-		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack2), 2);
-		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack3), 1);
-		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack4), 3);
-		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
-		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
-		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
-		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
-		LambdaControl.LogHandler = new LogHandler(App.Report);
-		LambdaControl.LogHandler2 = new LogHandler(App.Report2);
-		LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
-		LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-		Initialize();
-	}
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize), 2);
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, int, int, int, int>)(&InitialFrame), 3);
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, uint, int, int>)(&UpdateFrame), 4);
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StartService), 5);
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopService), 6);
+        SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, sbyte*, sbyte*, void>)(&ScheduleEvent), 7);
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int>)(&CallBack1), 0);
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack2), 2);
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack3), 1);
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack4), 3);
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
+        GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
+        LambdaControl.LogHandler = new LogHandler(App.Report);
+        LambdaControl.LogHandler2 = new LogHandler(App.Report2);
+        LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
+        LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
+        Initialize();
+    }
 
 	[DllImport("lib\\common.dll")]
 	public static extern void Initialize();

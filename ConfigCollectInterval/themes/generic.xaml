@@ -41,10 +41,10 @@
         <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:CollectInterval}">
-                    <StackPanel  Background="#595959">
+                    <StackPanel  Background="Transparent">
                         <Grid>
                             <Path x:Name="Path1" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                            <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
+                            <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="9"  Fill="White" Data="{StaticResource RightArrow}"/>
 
                             <Label Content="多维拍照" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                             <Button x:Name="buttonheader1" >
@@ -59,7 +59,7 @@
                             <StackPanel Margin="15,0,0,0">
                                 <Grid>
                                     <Path x:Name="Path11" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                                    <Path  x:Name="Path21" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
+                                    <Path  x:Name="Path21" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="9"  Fill="White" Data="{StaticResource RightArrow}"/>
 
                                     <Label Content="模式选择" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                                     <Button x:Name="buttonheader11" >
@@ -83,7 +83,7 @@
                             <StackPanel Margin="15,0,0,0">
                                 <Grid>
                                     <Path x:Name="Path12" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                                    <Path  x:Name="Path22" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
+                                    <Path  x:Name="Path22" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="9"  Fill="White" Data="{StaticResource RightArrow}"/>
 
                                     <Label Content="聚焦模式" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                                     <Button x:Name="buttonheader12" >
@@ -104,7 +104,7 @@
                             <StackPanel Margin="15,0,0,0">
                                 <Grid>
                                     <Path x:Name="Path13" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                                    <Path x:Name="Path23" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
+                                    <Path x:Name="Path23" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="9"  Fill="White" Data="{StaticResource RightArrow}"/>
 
                                     <Label Content="时间序列" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                                     <Button x:Name="buttonheader13" >

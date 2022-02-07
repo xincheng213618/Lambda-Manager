@@ -66,10 +66,10 @@
         <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:DPCMode}">
-                    <StackPanel Background="#595959">
+                    <StackPanel Background="Transparent">
                         <Grid>
                             <Path x:Name="Path1" Margin="5,2,5,2" Height="15" Stretch="Fill" Width="16" HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                            <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="16"  Fill="White" Data="{StaticResource RightArrow}"/>
+                            <Path  x:Name="Path2" Visibility="Collapsed" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="9"  Fill="White" Data="{StaticResource RightArrow}"/>
 
                             <Label Content="模式选择" Foreground="White"  FontSize="15" Margin="30,0,0,0" />
                             <Button x:Name="buttonheader1" >
@@ -92,89 +92,89 @@
                             <StackPanel x:Name="StackPanel0" Visibility="Visible">
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="孔径" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider1" Minimum="0" VerticalAlignment="Center" Maximum="50" IsSnapToTickEnabled="True" Value="10" TickFrequency="1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider1,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider1,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                             </StackPanel>
 
                             <StackPanel x:Name="StackPanel1" Visibility="Collapsed">
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label x:Name="label1" Foreground="White" Content="孔径" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider2" Minimum="0" VerticalAlignment="Center" Maximum="50" IsSnapToTickEnabled="True" Value="10" TickFrequency="1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider2,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider2,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                             </StackPanel>
 
                             <StackPanel x:Name="StackPanel2" Visibility="Collapsed">
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="外径" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider3" Minimum="0" VerticalAlignment="Center" Maximum="50" IsSnapToTickEnabled="True" Value="10" TickFrequency="1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider3,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider3,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid Visibility="Collapsed">
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="内径" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider4" Minimum="0" VerticalAlignment="Center" Maximum="20" IsSnapToTickEnabled="True" Value="10" TickFrequency="1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider4,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider4,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Gain" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider5" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider5,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider5,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Gamma" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider6" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider6,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider6,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="权重明场" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider7" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider7,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider7,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="权重相衬" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider8" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider8,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider8,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <StackPanel>
                                     <Button x:Name="ButtonBackgroundDPC" Content="采背景"/>
@@ -191,53 +191,53 @@
                             <StackPanel x:Name="StackPanel3" Visibility="Collapsed">
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Filer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider9" Minimum="0" VerticalAlignment="Center" Maximum="0.2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.01" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider9,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider9,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Gamma" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider10" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider10,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider10,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Gain" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider11" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider11,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider11,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="权重明场" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider12" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider12,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider12,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="权重相差" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider13" Minimum="0" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider13,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider13,Path=Value , StringFormat=C2}" BorderThickness="1"  BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Button x:Name="ButtonBackgroundDIF" Content="采背景"/>
                             </StackPanel>
@@ -245,55 +245,55 @@
                             <StackPanel x:Name="StackPanel4" Visibility="Collapsed">
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="60"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Reg" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider14" Minimum="0.0001" VerticalAlignment="Center" Maximum="0.01" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.0001" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider14,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider14,Path=Value,StringFormat=C4}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
 
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="50"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Min" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider15" Minimum="-20" VerticalAlignment="Center" Maximum="0" IsSnapToTickEnabled="True" Value="10" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider15,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider15,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Max" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider16" Minimum="0" VerticalAlignment="Center" Maximum="50" IsSnapToTickEnabled="True" Value="0" TickFrequency="0.1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider16,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider16,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Detail" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider17" Minimum="0" VerticalAlignment="Center" Maximum="50" IsSnapToTickEnabled="True" Value="0" TickFrequency="1" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider17,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider17,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
 
                                 <Grid>
                                     <Grid.ColumnDefinitions >
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="60"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Foreground="White" Content="Gamma" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Slider Grid.Column="1" x:Name="slider18" Minimum="0" VerticalAlignment="Center" Maximum="1" IsSnapToTickEnabled="True" Value="0" TickFrequency="0.01" />
-                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider18,Path=Value}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ElementName=slider18,Path=Value , StringFormat=C2}" BorderThickness="1" BorderBrush="#7F7F7F" Margin="2"/>
                                 </Grid>
 
                             </StackPanel>

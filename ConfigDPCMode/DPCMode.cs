@@ -101,7 +101,7 @@ namespace ConfigDPCMode
             RadioButton radioButton2 = (RadioButton)Template.FindName("Button2", this);
             RadioButton radioButton3 = (RadioButton)Template.FindName("Button3", this);
             RadioButton radioButton4 = (RadioButton)Template.FindName("Button4", this);
-            RadioButton radioButton5 = (RadioButton)Template.FindName("Button4", this);
+            RadioButton radioButton5 = (RadioButton)Template.FindName("Button5", this);
 
             radioButton1.Checked += RadioButton_Checked;
             radioButton1.Unchecked += RadioButton_Unchecked;

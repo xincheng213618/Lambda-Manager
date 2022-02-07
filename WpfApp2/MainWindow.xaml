@@ -7,17 +7,20 @@
         xmlns:ConfigDeck="clr-namespace:ConfigDeck;assembly=ConfigDeck"  x:Class="WpfApp2.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>
+        <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
+    </Window.Resources>
 
     <Grid>
-        <ConfigDeck:BaseDeck />
-
+        <!--<ConfigDeck:BaseDeck />-->
 
 
 
         <Canvas x:Name="Canvas1" Visibility="Hidden" Height="400" Width="400"   MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"  PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown">
             <Ellipse x:Name="CricalBase"  Canvas.Top="0" Width= "400" Height="400"  Fill="#7F7F7F"/>
-            <Line Stroke="#595959" StrokeThickness="1" X1="0" Y1="200" X2="400" Y2="200"/>
-            <Line Stroke="#595959" StrokeThickness="1" X1="200" Y1="0" X2="200" Y2="400"/>
+            <Line Stroke="Transparent" StrokeThickness="1" X1="0" Y1="200" X2="400" Y2="200"/>
+            <Line Stroke="Transparent" StrokeThickness="1" X1="200" Y1="0" X2="200" Y2="400"/>
 
 
         </Canvas>
@@ -28,6 +31,9 @@
             <ComboBoxItem Content="左上" Tag="2"/>
             <ComboBoxItem Content="右上" Tag="3" />
         </ComboBox>
+
+        <Path  x:Name="Path2" Visibility="Visible" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="10"  Fill="Black" Data="{StaticResource RightArrow}"/>
+
 
     </Grid>
 </Window>
