@@ -23,5 +23,10 @@ namespace ConfigCollectInterval
         {
             InitializeComponent();
         }
+
+        private void buttonheader11_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

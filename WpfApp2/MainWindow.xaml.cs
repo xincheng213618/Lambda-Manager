@@ -340,14 +340,54 @@ namespace WpfApp2
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
             ComboBoxItem comboBoxItem = comboBox.SelectedItem as ComboBoxItem;
-            MessageBox.Show(comboBoxItem.Tag.ToString());
+        }
+        double Frequency = 0.001;
+
+        private void Btn_ClickUp_Click(object sender, RoutedEventArgs e)
+        {
+            this.txt_NamberChange.Text = (double.Parse(this.txt_NamberChange.Text) + Frequency).ToString("F3");
+        }
+
+        private void Btn_ClickDown_Click(object sender, RoutedEventArgs e)
+        {
+            this.txt_NamberChange.Text = (double.Parse(this.txt_NamberChange.Text) - Frequency).ToString("F3");
+
+        }
+
+        private void txt_NamberChange_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        private void txt_NamberChange_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void btn_ClickUp_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+         
+        private void btn_ClickUp_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void HexTextLostFocus(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

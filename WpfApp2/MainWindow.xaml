@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
-        xmlns:ConfigDeck="clr-namespace:ConfigDeck;assembly=ConfigDeck"  x:Class="WpfApp2.MainWindow"
+        xmlns:ConfigDeck="clr-namespace:ConfigDeck;assembly=ConfigDeck" 
+        x:Class="WpfApp2.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
@@ -12,7 +13,166 @@
         <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#2D2D2D">
+        <Border Margin="5" Height="33" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#B61803" BorderThickness="1" BorderBrush="Black" CornerRadius="10" >
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="1"/>
+            </Border.Effect>
+            <DockPanel>
+                <Border x:Name="Boder1" Height="31" Width="100" HorizontalAlignment="Left" Background="#5B605E" BorderThickness="0" Margin="0" CornerRadius="8,0,0,10">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="1"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Path Fill="{Binding ElementName=Boder1,Path=Background}" Stretch="Uniform" HorizontalAlignment="Right"   Margin="15.5,0,-15.5,0" Data="M 0,0 L 0.5,0.5  L 0,1 Z" />
+                        <Label Content="Standard" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+                <Border>
+                    <Label Content="Advanced" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                </Border>
+            </DockPanel>
+
+           
+        </Border>
+        
+        <Border Height="10" Width="100" Margin="109,167,591,168" BorderBrush="#c3c3c3c3" BorderThickness="1" >
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Black" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <StackPanel>
+            <Slider x:Name="slier1" Value="100" Maximum="1000" Minimum="50"/>
+            <Viewbox  Width="{Binding ElementName=slier1,Path=Value}" HorizontalAlignment="Left">
+                <Border Padding="0,10,0,0">
+                    <Border Padding="5" CornerRadius="5" Background="#FF0A1197" Width="367" Height="201">
+                        <Grid>
+                            <Polygon Fill="#FF0A1197" StrokeThickness="5" Points="20,0 40,0 30,-10"/>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid >
+                                        <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="Red" RadiusY="2"/>
+                                        <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                    <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                                                    <GradientStop Offset="1" Color="#00FFFFFF"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+
+                                        <Rectangle x:Name="viewSelectColor2" RadiusX="2" RadiusY="2">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                    <GradientStop Offset="0" Color="#00000000"/>
+                                                    <GradientStop Offset="1" Color="#FF000000"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+
+                                    </Grid>
+                                    <Grid Grid.Column="1" Margin="5,0,0,0">
+                                        <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                            <Rectangle.Fill >
+                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                    <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
+                                                    <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
+                                                    <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
+                                                    <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
+                                                    <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
+                                                    <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
+                                                    <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Grid>
+                                    <StackPanel Grid.Column="2">
+                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center" >
+                                            <Label Foreground="White" Width="30">R</Label>
+                                            <TextBox x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" >255</TextBox>
+                                        </StackPanel>
+                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Foreground="White" Width="30">G</Label>
+                                            <TextBox x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70">255</TextBox>
+                                        </StackPanel>
+                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Foreground="White" Width="30">B</Label>
+                                            <TextBox x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70">255</TextBox>
+                                        </StackPanel>
+                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Foreground="White" Width="30">A</Label>
+                                            <TextBox x:Name="TextA" LostFocus="TextBox_LostFocus" Width="70" VerticalAlignment="Center"  >255</TextBox>
+                                            <!--<Label Foreground="White">%</Label>-->
+                                        </StackPanel>
+                                        <StackPanel  Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Foreground="White" Width="30"></Label>
+                                            <TextBox Width="70" x:Name="TextHex" LostFocus="HexTextLostFocus" Text="#FFFFFFFF" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                                <!--<Grid Grid.Row="1"  >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="4*"/>
+                                    </Grid.ColumnDefinitions>
+                                    -->
+                                <!--<Rectangle RadiusX="2" RadiusY="2" Margin="0,2" Grid.ColumnSpan="2" Fill="{Binding SelectColor,ElementName=root}" >
+
+                                    </Rectangle>-->
+                                <!--
+
+                                </Grid>-->
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                </Border>
+
+            </Viewbox>
+        </StackPanel>
+
+
+
+        <Border Width="85" Height="26" Background="#565B5A" BorderBrush="Black" BorderThickness="1" CornerRadius="3">
+            <Border.Effect>
+                <DropShadowEffect Color="White" Direction="270" Opacity="0.2" ShadowDepth="1"  />
+            </Border.Effect>
+            <DockPanel DockPanel.Dock="Top"  Visibility ="Visible"  >
+
+                <Border Width="20" Height="26" DockPanel.Dock="Right"  CornerRadius="0,8,8,0">
+                    <DockPanel >
+                        <Button x:Name="btn_ClickUp" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White" FontFamily="Marlett" Content="5" Height="13" Click="Btn_ClickUp_Click" MouseDown="btn_ClickUp_MouseDown"  MouseUp="btn_ClickUp_MouseUp">
+                        </Button>
+                        <Button x:Name="btn_ClickDown" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" Click="Btn_ClickDown_Click"/>
+                    </DockPanel>
+                </Border>
+
+                <DockPanel>
+                    <Border Background="#1B1B1A" Margin="2,1" CornerRadius="3">
+                        <TextBox x:Name="txt_NamberChange" BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059" VerticalContentAlignment="Center" TextChanged="txt_NamberChange_TextChanged"/>
+                    </Border>
+                </DockPanel>
+            </DockPanel>
+
+        </Border>
+        <local:UpDownButton Height="30" Width="85" Margin="200,0,0,0" Frequency="0.001" Precision="3" />
+
+
         <!--<ConfigDeck:BaseDeck />-->
 
 
@@ -21,19 +181,14 @@
             <Ellipse x:Name="CricalBase"  Canvas.Top="0" Width= "400" Height="400"  Fill="#7F7F7F"/>
             <Line Stroke="Transparent" StrokeThickness="1" X1="0" Y1="200" X2="400" Y2="200"/>
             <Line Stroke="Transparent" StrokeThickness="1" X1="200" Y1="0" X2="200" Y2="400"/>
-
-
         </Canvas>
         <Button Content="Button" HorizontalAlignment="Left" Margin="305,184,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <ComboBox   SelectedIndex="1" SelectionChanged="ComboBox_SelectionChanged" VerticalAlignment="Top" Width="67">
+        <ComboBox   SelectedIndex="1" SelectionChanged="ComboBox_SelectionChanged" VerticalAlignment="Top" Width="67" Margin="366,61,366,0">
             <ComboBoxItem Content="水平" Tag="0"/>
             <ComboBoxItem Content="垂直" Tag="1"/>
             <ComboBoxItem Content="左上" Tag="2"/>
             <ComboBoxItem Content="右上" Tag="3" />
         </ComboBox>
-
         <Path  x:Name="Path2" Visibility="Visible" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="10"  Fill="Black" Data="{StaticResource RightArrow}"/>
-
-
     </Grid>
 </Window>

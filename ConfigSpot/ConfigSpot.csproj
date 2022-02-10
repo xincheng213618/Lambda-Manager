@@ -8,15 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Themes\container.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Themes\container.png" />
   </ItemGroup>
 
 </Project>

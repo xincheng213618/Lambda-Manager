@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,27 +26,33 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            //this.leftView.Children.Clear();
+            List<UICofig> list = new List<UICofig>();
+            list.Add(new UICofig() { path = "ConfigDPCMode.dll", name = "DPCMode" });
+            list.Add(new UICofig() { path = "ConfigDeck.dll", name = "BaseDeck" });
+            list.Add(new UICofig() { path = "ConfigSpot.dll", name = "SampleSpot" });
+            list.Add(new UICofig() { path = "ConfigDOFMode.dll", name = "DOFMode" });
+            list.Add(new UICofig() { path = "ConfigCollectInterval.dll", name = "CollectInterval" });
+
+            foreach (var item in list)
+            {
+                Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + item.path);
+                Control control = (Control)assembly.CreateInstance($"{item.path.Replace(".dll", "")}.{item.name}");
+                leftView.Children.Add(control);
+            }
+
+
+
+
+        }
         private BrushConverter  brushConverter = new BrushConverter();
 
         List<Button> buttons = new List<Button>();
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             RadioButton button = (RadioButton)sender;
-            switch (button.Tag.ToString())
-            {
-                case "0":
-                case "1":
-                case "2":
-                    Grid2.Visibility = Visibility.Visible;
-                    Grid3.Visibility = Visibility.Collapsed;
-                    break;
-                case "3":
-                    Grid2.Visibility = Visibility.Visible;
-                    Grid3.Visibility = Visibility.Visible;
-                    break;
-                default:
-                    break;
-            }
 
         }
 
@@ -83,5 +90,11 @@ namespace WpfApp1
             toggleButton.Foreground = Brushes.White;
             toggleButton.FontWeight = FontWeights.Normal;
         }
+    }
+
+    public class UICofig
+    {
+        public string path = "";
+        public string name = "";   
     }
 }

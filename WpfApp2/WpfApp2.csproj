@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="themes\" />
+    <Page Update="themes\generic.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>

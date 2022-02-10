@@ -97,7 +97,7 @@ namespace ConfigCollectInterval
                 }
             };
 
-            StackPanel StackContent2 = (StackPanel)Template.FindName("StackContent2", this);
+            Grid StackContent2 = (Grid)Template.FindName("StackContent2", this);
             Button buttonheader12 = (Button)Template.FindName("buttonheader12", this);
             Path Path12 = (Path)Template.FindName("Path12", this);
             Path Path22 = (Path)Template.FindName("Path22", this);

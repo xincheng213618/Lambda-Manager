@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window x:Class="ConfigDeck.Example" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:ConfigDeck" Title="Example" Height="300" Width="320">
+<Window x:Class="ConfigDeck.Example" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:ConfigDeck" Title="Example" Height="auto" Width="300">
     <Window.Resources>
         <ControlTemplate x:Key="imageButtonTemplate" TargetType="{x:Type Button}">
             <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" Name="PART_Background" Border.Background="Transparent">
@@ -23,24 +23,7 @@
     <Grid>
         <!--<local:BaseDeck></local:BaseDeck>-->
         <StackPanel >
-            <DockPanel >
-                <DockPanel HorizontalAlignment="Left">
-                    <Label Content="X/Y(um):" Foreground="White"/>
-                    <TextBox x:Name="TextBox1" Text="100" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
-
-                </DockPanel>
-                <DockPanel HorizontalAlignment="Left">
-                    <Label Content="Z(um):" Foreground="White"/>
-                    <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="45"/>
-                </DockPanel>
-                <DockPanel HorizontalAlignment="Left">
-                    <Label  x:Name="TextBox3"  Content="聚焦(um):" Foreground="White"/>
-                    <TextBox Text="1000" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="50"/>
-                </DockPanel>
-            </DockPanel>
-
-
-            <Grid>
+            <Grid  Margin="5,0,15,0">
                 <Grid.RowDefinitions >
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -50,6 +33,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -66,19 +51,35 @@
                     <Image Source="themes\right1.png"/>
                 </Button>
                 <Button x:Name="ButtonRe" Template="{StaticResource imageButtonTemplate}" Grid.Row="1" Grid.Column="1" Margin="5">
-                    <Path Width="50" Height="50" Data="M512 512m-512 0a100 100 0 1 0 1024 0 100 100 0 1 0-1024 0Z" Fill="White" Opacity="1" Stretch="Fill"/>
+                    <Path Width="50" Height="50" Data="M 0,0 A 180,180 180 1 1 1,1 Z" Fill="White" Opacity="1" Stretch="Fill"/>
                 </Button>
-                <Button x:Name="ButtonUp" Template="{StaticResource imageButtonTemplate}"   Grid.Row="0" Grid.Column="3"  Margin="5">
+                <Button x:Name="ButtonUp" Template="{StaticResource imageButtonTemplate}"   Grid.Row="0" Grid.Column="4"  Margin="5">
                     <Image Source="themes\up1.png"/>
                 </Button>
-                <Button x:Name="ButtonAutoFocus" Template="{StaticResource imageButtonTemplate}"  Grid.Row="1" Grid.Column="3" Margin="5">
-                    <Path Width="50" Height="50" Data="M512 512m-512 0a100 100 0 1 0 1024 0 100 100 0 1 0-1024 0Z" Fill="White" Opacity="1" Stretch="Fill"/>
+                <Button x:Name="ButtonAutoFocus" Template="{StaticResource imageButtonTemplate}"  Grid.Row="1" Grid.Column="4" Margin="5">
+                    <Path Width="50" Height="50" Data="M 0,0 A 180,180 180 1 1 1,1 Z" Fill="White" Opacity="1" Stretch="Fill"/>
                 </Button>
-                <Button x:Name="ButtonDown" Template="{StaticResource imageButtonTemplate}"  Grid.Row="2" Grid.Column="3" Margin="5">
+                <Button x:Name="ButtonDown" Template="{StaticResource imageButtonTemplate}"  Grid.Row="2" Grid.Column="4" Margin="5">
                     <Image Source="themes\down1png.png"/>
                 </Button>
 
             </Grid>
+            <StackPanel>
+                <DockPanel  HorizontalAlignment="Left" >
+                    <DockPanel HorizontalAlignment="Left" Margin="45,0,0,0">
+                        <Label Content="X/Y(um):" Foreground="White"/>
+                        <TextBox x:Name="TextBox1" Text="100"  VerticalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1"  BorderBrush="#7F7F7F" Width="40"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Left" Margin="65,0,0,0">
+                        <Label Content="Z(um):" Foreground="White" />
+                        <TextBox x:Name="TextBox2" Text="10"  VerticalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1"  BorderBrush="#7F7F7F"  Width="40"/>
+                    </DockPanel>
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center">
+                    <Label    Content="聚焦(um):" Foreground="White"/>
+                    <TextBox x:Name="TextBox3" Text="1000"  VerticalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1"  BorderBrush="#7F7F7F"  Width="45"/>
+                </DockPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

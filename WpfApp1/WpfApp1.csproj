@@ -14,6 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConfigCollectInterval\ConfigCollectInterval.csproj" />
+    <ProjectReference Include="..\ConfigDeck\ConfigDeck.csproj" />
+    <ProjectReference Include="..\ConfigDOFMode\ConfigDOFMode.csproj" />
+    <ProjectReference Include="..\ConfigDPCMode\ConfigDPCMode.csproj" />
+    <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\ConfigSpot\ConfigSpot.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="images\xy-direction1.png" />
     <Resource Include="images\z-direction.png" />
   </ItemGroup>
