@@ -138,11 +138,9 @@
 
     <Grid Background="#2D2D2D">
         <StackPanel>
-
-
             <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1" IsSnapToTickEnabled="True" Value="100" Maximum="1000" Minimum="50" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>
             <Slider Orientation="Vertical" Height="80"/>
-            <Viewbox  Width="{Binding ElementName=slier1,Path=Value}" HorizontalAlignment="Left">
+            <Viewbox  Width="{Binding Value, ElementName=slier1}" HorizontalAlignment="Left">
                 <Border Padding="0,10,0,0">
                     <Border Padding="5" CornerRadius="5" Background="#FF0A1197" Width="367" Height="201">
                         <Grid>
@@ -197,24 +195,24 @@
                                     </Grid>
                                     <StackPanel Grid.Column="2">
                                         <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center" >
-                                            <Label Foreground="White" Width="30">R</Label>
-                                            <TextBox x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" >255</TextBox>
+                                            <Label Foreground="White" Width="30" Content="R"/>
+                                            <TextBox x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" Text="255" />
                                         </StackPanel>
                                         <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30">G</Label>
-                                            <TextBox x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70">255</TextBox>
+                                            <Label Foreground="White" Width="30" Content="G"/>
+                                            <TextBox x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" Text="255"/>
                                         </StackPanel>
                                         <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30">B</Label>
-                                            <TextBox x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70">255</TextBox>
+                                            <Label Foreground="White" Width="30" Content="B"/>
+                                            <TextBox x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" Text="255"/>
                                         </StackPanel>
                                         <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30">A</Label>
-                                            <TextBox x:Name="TextA" LostFocus="TextBox_LostFocus" Width="70" VerticalAlignment="Center"  >255</TextBox>
+                                            <Label Foreground="White" Width="30" Content="A"/>
+                                            <TextBox x:Name="TextA" LostFocus="TextBox_LostFocus" Width="70" VerticalAlignment="Center"  Text="255"  />
                                             <!--<Label Foreground="White">%</Label>-->
                                         </StackPanel>
                                         <StackPanel  Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30"></Label>
+                                            <Label Foreground="White" Width="30"/>
                                             <TextBox Width="70" x:Name="TextHex" LostFocus="HexTextLostFocus" Text="#FFFFFFFF" />
                                         </StackPanel>
                                     </StackPanel>
@@ -242,7 +240,7 @@
             </Viewbox>
             <ComboBox Width="120" />
         </StackPanel>
-        
+
         <Border Height="10" Width="100" Margin="109,167,591,168" BorderBrush="#c3c3c3c3" BorderThickness="1" >
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">

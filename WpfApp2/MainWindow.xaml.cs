@@ -188,14 +188,14 @@ namespace WpfApp2
 
         private void Border_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Border border = (Border)sender;
+            Border? border = (Border)sender;
             Canvas1.Children.Remove(border);
             border = null;
         }
 
         private void Rectangle_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Rectangle rectangle = (Rectangle)sender;
+            Rectangle? rectangle = (Rectangle)sender;
             Canvas1.Children.Remove(rectangle);
             rectangle = null;
         }

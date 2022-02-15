@@ -14,15 +14,16 @@ namespace WpfApp2
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UpDownButton1), new FrameworkPropertyMetadata(typeof(UpDownButton1)));
         }
-        TextBlock textBox;
+        TextBlock? textBox;
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            Button btn_ClickUp = (Button)Template.FindName("btn_ClickUp", this);
-            Button btn_ClickDown = (Button)Template.FindName("btn_ClickDown", this);
             textBox =(TextBlock)Template.FindName("txt_NamberChange", this);
+            Button? btn_ClickUp = (Button)Template.FindName("btn_ClickUp", this);
             btn_ClickUp.Click += Btn_ClickUp_Click;
+
+            Button? btn_ClickDown = (Button)Template.FindName("btn_ClickDown", this);
             btn_ClickDown.Click += Btn_ClickDown_Click;
             //textBox.TextChanged += txt_NamberChange_TextChanged;
         }
@@ -60,12 +61,12 @@ namespace WpfApp2
 
         private void Btn_ClickUp_Click(object sender, RoutedEventArgs e)
         {
-            this.textBox.Text = (double.Parse(this.textBox.Text) + Frequency).ToString($"F{Precision}"); 
+            textBox.Text = (double.Parse(textBox.Text) + Frequency).ToString($"F{Precision}"); 
         }
 
         private void Btn_ClickDown_Click(object sender, RoutedEventArgs e)
         {
-            this.textBox.Text = (double.Parse(this.textBox.Text) - Frequency).ToString($"F{Precision}");
+            textBox.Text = (double.Parse(textBox.Text) - Frequency).ToString($"F{Precision}");
 
         }
     }
