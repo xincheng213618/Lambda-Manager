@@ -3,23 +3,48 @@
 
 
     <Style x:Key="{x:Type local:UpDownButton}" TargetType="{x:Type local:UpDownButton}">
-        <Setter Property="Margin" Value="-1"/>
         <Setter Property="Template">
-            
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:UpDownButton}">
-                    <DockPanel DockPanel.Dock="Top" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Visibility ="Visible">
-                        <DockPanel Width="20" Height="26" DockPanel.Dock="Right">
-                            <Button x:Name="btn_ClickUp" DockPanel.Dock="Top" FontFamily="Marlett" Content="5" Height="13" />
-                            <Button x:Name="btn_ClickDown" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" />
+                    <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="#565B5A" BorderBrush="Black" BorderThickness="1" CornerRadius="3">
+                        <Border.Effect>
+                            <DropShadowEffect Color="White" Direction="270" Opacity="0.2" ShadowDepth="1"  />
+                        </Border.Effect>
+                        <DockPanel DockPanel.Dock="Right"  Visibility ="Visible">
+                            <DockPanel Width="20" Height="26" DockPanel.Dock="Right">
+                                <Button x:Name="btn_ClickUp" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White" FontFamily="Marlett" Content="5" Height="13" />
+                                <Button x:Name="btn_ClickDown"  BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" />
+                            </DockPanel>
+                            <Border Background="#1B1B1A" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3">
+                                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059"  />
+                            </Border>
                         </DockPanel>
-                        <DockPanel>
-                            <TextBox x:Name="txt_NamberChange"  Height="26" Width="85" Text="5.059" VerticalContentAlignment="Center"/>
-                        </DockPanel>
-                    </DockPanel>
-
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
     </Setter>
   </Style>
+
+    <Style x:Key="{x:Type local:UpDownButton1}" TargetType="{x:Type local:UpDownButton1}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UpDownButton1}">
+                    <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="#565B5A" BorderBrush="Black" BorderThickness="1" CornerRadius="3">
+                        <Border.Effect>
+                            <DropShadowEffect Color="White" Direction="270" Opacity="0.2" ShadowDepth="1"  />
+                        </Border.Effect>
+                        <DockPanel DockPanel.Dock="Right"  Visibility ="Visible">
+                            <DockPanel Width="20" Height="26" DockPanel.Dock="Right">
+                                <Button x:Name="btn_ClickUp" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White" FontFamily="Marlett" Content="5" Height="13" />
+                                <Button x:Name="btn_ClickDown"  BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" />
+                            </DockPanel>
+                            <Border Background="#1B1B1A" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3">
+                                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059"  />
+                            </Border>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

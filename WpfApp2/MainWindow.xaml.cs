@@ -255,7 +255,7 @@ namespace WpfApp2
             }
             return childList;
         }
-
+        
 
         private void Canvas1_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -349,16 +349,13 @@ namespace WpfApp2
         }
         double Frequency = 0.001;
 
-        private void Btn_ClickUp_Click(object sender, RoutedEventArgs e)
-        {
-            this.txt_NamberChange.Text = (double.Parse(this.txt_NamberChange.Text) + Frequency).ToString("F3");
-        }
 
-        private void Btn_ClickDown_Click(object sender, RoutedEventArgs e)
-        {
-            this.txt_NamberChange.Text = (double.Parse(this.txt_NamberChange.Text) - Frequency).ToString("F3");
+        
 
-        }
+        List<string> llllss = new List<string>()
+        {
+            "X4","X10","X20","X40","X100"
+        };
 
         private void txt_NamberChange_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -387,7 +384,48 @@ namespace WpfApp2
 
         private void HexTextLostFocus(object sender, RoutedEventArgs e)
         {
-
+            
         }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+        }
+        private List<string> comboxlist;
+        private int SelectedIndex =0;
+
+        private void Border_Initialized(object sender, EventArgs e)
+        {
+            SetList(llllss);
+        }
+        private void SetList(List<string> list)
+        {
+            comboxlist = list;
+            if (comboxlist.Count > 0)
+            {
+                Update();
+            }
+        }
+
+        private void Btn_ClickUp_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedIndex = ++SelectedIndex % comboxlist.Count;
+            Update();
+        }
+
+        private void Update()
+        {
+            this.txt_NamberChange.Text = comboxlist[SelectedIndex];
+        }
+
+
+        private void Btn_ClickDown_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedIndex = --SelectedIndex% comboxlist.Count;
+            SelectedIndex = SelectedIndex < 0 ? comboxlist.Count - 1 : SelectedIndex;
+            Update();
+        }
+
+
+
     }
 }

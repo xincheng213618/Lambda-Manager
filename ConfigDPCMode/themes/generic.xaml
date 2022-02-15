@@ -12,6 +12,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type TextBlock}">
+        <!--<Setter Property="FontFamily" Value="Calibri light"/>-->
+        <Setter Property="Foreground" Value="{StaticResource Button.Pressed.Background}"/>
+    </Style>
 
     <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
     <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>

@@ -11,41 +11,137 @@
     <Window.Resources>
         <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>
         <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
+        <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="false"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="Width" Value="18"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Grid>
+                            <Ellipse  Stroke="Black" StrokeThickness="2" Name="Ellipse" Fill="White"/>
+                            <Ellipse  Height="10" Width="10"  Name="Ellipse1" Fill="#636362"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="Orange"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border  Background="Black" Height="5" CornerRadius="2" Margin="-2,0,0,0"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border SnapsToDevicePixels="True" Background="#A2160A"   Height="5" CornerRadius="2" Margin="0,0,-2,0"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="Slider"  TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Track Grid.Row="1" Grid.Column="1" x:Name="PART_Track" ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N2}" >
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumbStyle}"  />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <Border Grid.Row="1" Grid.Column="2" Background="#1B1B1A" Margin="2,1" CornerRadius="3">
+                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2}" VerticalContentAlignment="Center" TextChanged="txt_NamberChange_TextChanged"/>
+                </Border>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="Horizontal_Slider" TargetType="Slider">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="TickFrequency" Value="10"/>
+
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="Template" Value="{StaticResource Slider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Slider" x:Key="AppSliderStyle">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" Name="row" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" Name="column" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border Name="PART_Border" BorderBrush="Black" BorderThickness="1" Padding="2" Grid.Row="1" Grid.Column="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" CornerRadius="3" Background="Red"  HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            <Track Name="PART_Track" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource SliderThumbStyle}" />
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid Background="#2D2D2D">
-        <Border Margin="5" Height="33" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#B61803" BorderThickness="1" BorderBrush="Black" CornerRadius="10" >
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="1"/>
-            </Border.Effect>
-            <DockPanel>
-                <Border x:Name="Boder1" Height="31" Width="100" HorizontalAlignment="Left" Background="#5B605E" BorderThickness="0" Margin="0" CornerRadius="8,0,0,10">
-                    <Border.Effect>
-                        <DropShadowEffect ShadowDepth="1"/>
-                    </Border.Effect>
-                    <Grid>
-                        <Path Fill="{Binding ElementName=Boder1,Path=Background}" Stretch="Uniform" HorizontalAlignment="Right"   Margin="15.5,0,-15.5,0" Data="M 0,0 L 0.5,0.5  L 0,1 Z" />
-                        <Label Content="Standard" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
-                    </Grid>
-                </Border>
-                <Border>
-                    <Label Content="Advanced" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
-                </Border>
-            </DockPanel>
-
-           
-        </Border>
-        
-        <Border Height="10" Width="100" Margin="109,167,591,168" BorderBrush="#c3c3c3c3" BorderThickness="1" >
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="Black" Offset="0" />
-                    <GradientStop Color="White" Offset="1" />
-                </LinearGradientBrush>
-            </Border.Background>
-        </Border>
         <StackPanel>
-            <Slider x:Name="slier1" Value="100" Maximum="1000" Minimum="50"/>
+
+
+            <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1" IsSnapToTickEnabled="True" Value="100" Maximum="1000" Minimum="50" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>
+            <Slider Orientation="Vertical" Height="80"/>
             <Viewbox  Width="{Binding ElementName=slier1,Path=Value}" HorizontalAlignment="Left">
                 <Border Padding="0,10,0,0">
                     <Border Padding="5" CornerRadius="5" Background="#FF0A1197" Width="367" Height="201">
@@ -144,33 +240,67 @@
                 </Border>
 
             </Viewbox>
+            <ComboBox Width="120" />
         </StackPanel>
+        
+        <Border Height="10" Width="100" Margin="109,167,591,168" BorderBrush="#c3c3c3c3" BorderThickness="1" >
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Black" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
 
 
 
-        <Border Width="85" Height="26" Background="#565B5A" BorderBrush="Black" BorderThickness="1" CornerRadius="3">
+
+        <Border Margin="5" Height="33" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#B61803" BorderThickness="1" BorderBrush="Black" CornerRadius="10" >
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="1"/>
+            </Border.Effect>
+            <DockPanel>
+                <Border x:Name="Boder1" Height="31" Width="100" HorizontalAlignment="Left" Background="#5B605E" BorderThickness="0" Margin="0" CornerRadius="8,0,0,10">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="1"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Path Fill="{Binding ElementName=Boder1,Path=Background}" Stretch="Uniform" HorizontalAlignment="Right"   Margin="15.5,0,-15.5,0" Data="M 0,0 L 0.5,0.5  L 0,1 Z" />
+                        <Label Content="Standard" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+                <Border>
+                    <Label Content="Advanced" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                </Border>
+            </DockPanel>
+
+
+        </Border>
+
+
+
+
+        <Border Width="85" Height="28" Background="#565B5A" BorderBrush="Black" BorderThickness="1" CornerRadius="3" Initialized="Border_Initialized">
             <Border.Effect>
                 <DropShadowEffect Color="White" Direction="270" Opacity="0.2" ShadowDepth="1"  />
             </Border.Effect>
-            <DockPanel DockPanel.Dock="Top"  Visibility ="Visible"  >
-
-                <Border Width="20" Height="26" DockPanel.Dock="Right"  CornerRadius="0,8,8,0">
+            <DockPanel  Visibility ="Visible"  >
+                <Border  Width="20" Height="26" DockPanel.Dock="Right"  CornerRadius="0,8,8,0">
                     <DockPanel >
-                        <Button x:Name="btn_ClickUp" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White" FontFamily="Marlett" Content="5" Height="13" Click="Btn_ClickUp_Click" MouseDown="btn_ClickUp_MouseDown"  MouseUp="btn_ClickUp_MouseUp">
+                        <Button x:Name="btn_ClickUp" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White" FontFamily="Marlett" Content="5" Height="13" Click="Btn_ClickUp_Click" MouseDown="btn_ClickUp_MouseDown"  MouseUp="btn_ClickUp_MouseUp" >
                         </Button>
                         <Button x:Name="btn_ClickDown" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" Click="Btn_ClickDown_Click"/>
                     </DockPanel>
                 </Border>
+                <Border Background="#1B1B1A" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3">
+                    <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059"  />
+                </Border>
 
-                <DockPanel>
-                    <Border Background="#1B1B1A" Margin="2,1" CornerRadius="3">
-                        <TextBox x:Name="txt_NamberChange" BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059" VerticalContentAlignment="Center" TextChanged="txt_NamberChange_TextChanged"/>
-                    </Border>
-                </DockPanel>
             </DockPanel>
 
         </Border>
-        <local:UpDownButton Height="30" Width="85" Margin="200,0,0,0" Frequency="0.001" Precision="3" />
+        <local:UpDownButton1 Width="85" Height="28" Margin="200,200,0,0" Frequency="0.001" Precision="3" />
+        <local:UpDownButton Width="85" Height="28" Margin="200,0,0,0" Frequency="0.001" Precision="3" />
 
 
         <!--<ConfigDeck:BaseDeck />-->
@@ -190,5 +320,30 @@
             <ComboBoxItem Content="右上" Tag="3" />
         </ComboBox>
         <Path  x:Name="Path2" Visibility="Visible" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="10"  Fill="Black" Data="{StaticResource RightArrow}"/>
+        <Border Height="75" Width="270" HorizontalAlignment="Left" Background="#484848" BorderBrush="White" CornerRadius="3" BorderThickness="1" VerticalAlignment="Bottom" Margin="50">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="1" BlurRadius="3" Direction="270" Color="White" Opacity="0.5" />
+            </Border.Effect>
+            <Border Background="Transparent" BorderBrush="Black" BorderThickness="1" Margin="-1" Opacity="0.9" CornerRadius="3">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="1" BlurRadius="3" Direction="270"  />
+                </Border.Effect>
+                <StackPanel Margin="5">
+                    <DockPanel Width="250" >
+                        <TextBlock   Text="Gain :"  TextAlignment ="Right" Width="90" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <Slider Name="Slider1" Style="{StaticResource Horizontal_Slider}" Value="10" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
+                    </DockPanel>
+                    <DockPanel Width="250" >
+                        <TextBlock Text="Exposure [ms] :" TextAlignment ="Right"  Width="90"   Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <Slider Name="Slider2" Style="{StaticResource Horizontal_Slider}" Value="15" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
+                    </DockPanel>
+                    <DockPanel Width="250" >
+                        <TextBlock Text="dddd [ms] :" TextAlignment ="Right"  Width="90"   Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <Slider Name="Slider3" Style="{StaticResource Horizontal_Slider}" Value="30" Maximum="250" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+
     </Grid>
 </Window>

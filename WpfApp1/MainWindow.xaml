@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
-        xmlns:ConfigDPCMode="clr-namespace:ConfigDPCMode;assembly=ConfigDPCMode" xmlns:ConfigDeck="clr-namespace:ConfigDeck;assembly=ConfigDeck" xmlns:ConfigSpot="clr-namespace:ConfigSpot;assembly=ConfigSpot" x:Class="WpfApp1.MainWindow"
+        xmlns:ConfigDPCMode="clr-namespace:ConfigDPCMode;assembly=ConfigDPCMode" 
+        xmlns:ConfigDeck="clr-namespace:ConfigDeck;assembly=ConfigDeck" 
+        xmlns:ConfigSpot="clr-namespace:ConfigSpot;assembly=ConfigSpot" 
+        x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized">
     <DockPanel>
@@ -23,7 +26,7 @@
                 <Viewbox Grid.Column="0" VerticalAlignment="Top" >
 
                     <StackPanel Name="leftView" Width="300" Margin="0,5,0,5">
-                        <RadioButton x:Name="Button6"  Content="相位"  BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#2E86E1"   Tag="3" Margin="5,0"/>
+                        <RadioButton x:Name="Button6"   Content="相位"  BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#2E86E1"   Tag="3" Margin="5,0"/>
                         <ConfigDPCMode:DPCMode/>
                         <ConfigDeck:BaseDeck />
                         <ConfigSpot:SampleSpot/>

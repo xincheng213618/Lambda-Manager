@@ -8,11 +8,11 @@ using System.Windows.Controls;
 
 namespace WpfApp2
 {
-    public class UpDownButton:UserControl
+    public class UpDownButton1:UserControl
     {
-        static UpDownButton()
+        static UpDownButton1()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(UpDownButton), new FrameworkPropertyMetadata(typeof(UpDownButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(UpDownButton1), new FrameworkPropertyMetadata(typeof(UpDownButton1)));
         }
         TextBlock textBox;
 
@@ -36,7 +36,7 @@ namespace WpfApp2
 
         // Using a DependencyProperty as the backing store for Frequency.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FrequencyProperty =
-            DependencyProperty.Register("Frequency", typeof(double), typeof(UpDownButton), new PropertyMetadata(0.1));
+            DependencyProperty.Register("Frequency", typeof(double), typeof(UpDownButton1), new PropertyMetadata(0.1));
 
 
 
@@ -54,7 +54,7 @@ namespace WpfApp2
 
         // Using a DependencyProperty as the backing store for Precision.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PrecisionProperty =
-            DependencyProperty.Register("Precision", typeof(int), typeof(UpDownButton), new PropertyMetadata(2));
+            DependencyProperty.Register("Precision", typeof(int), typeof(UpDownButton1), new PropertyMetadata(2));
 
 
 
