@@ -91,8 +91,6 @@
                                 <RadioButton x:Name="Button3"  Style="{StaticResource ButtonStyle1}" Content="浮雕"  BorderThickness="0" Background="Transparent" FontSize="14" Foreground="White"  Tag="2" Margin="5,0"/>
                                 <RadioButton x:Name="Button4"  Style="{StaticResource ButtonStyle1}" Content="相差"  BorderThickness="0" Background="Transparent" FontSize="14" Foreground="White "  Tag="3" Margin="5,0"/>
                                 <RadioButton x:Name="Button5"  Style="{StaticResource ButtonStyle1}" Content="相位"  BorderThickness="0" Background="Transparent" FontSize="14" Foreground="White "  Tag="3" Margin="5,0"/>
-                                <RadioButton x:Name="Button6"  Style="{StaticResource ButtonStyle1}" Content="相位"  BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#2E86E1"   Tag="3" Margin="5,0"/>
-
                             </DockPanel>
                             <StackPanel x:Name="StackPanel0" Visibility="Visible">
                                 <Grid>

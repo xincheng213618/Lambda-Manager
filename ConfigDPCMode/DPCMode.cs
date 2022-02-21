@@ -125,6 +125,9 @@ namespace ConfigDPCMode
                 btn1.Click += delegate
                 {
 
+                    Window targetWindow = Window.GetWindow(radioButton1);
+                    targetWindow.Height = 1000;
+
                     StackPanel0.Visibility = Visibility.Visible;
                     StackPanel1.Visibility = Visibility.Collapsed;
                     StackPanel2.Visibility = Visibility.Collapsed;

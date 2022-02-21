@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MenuISCameraSetting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -28,7 +29,7 @@ namespace WpfApp1
         }
         private void Window_Initialized(object sender, EventArgs e)
         {
-            //this.leftView.Children.Clear();
+            this.leftView.Children.Clear();
             List<UICofig> list = new List<UICofig>();
             list.Add(new UICofig() { path = "ConfigDPCMode.dll", name = "DPCMode" });
             list.Add(new UICofig() { path = "ConfigDeck.dll", name = "BaseDeck" });
@@ -89,6 +90,13 @@ namespace WpfApp1
             RadioButton toggleButton = (RadioButton)sender;
             toggleButton.Foreground = Brushes.White;
             toggleButton.FontWeight = FontWeights.Normal;
+        }
+
+        private void file_Click(object sender, RoutedEventArgs e)
+        {
+            CameraDialog  cameraDialog = new CameraDialog();
+            cameraDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;    
+            cameraDialog.Show();
         }
     }
 

@@ -126,6 +126,6 @@ public class LambdaControl : Control
 
 	public static void AddLambdaEventHandler(string type, LambdaHandler handler, bool once)
 	{
-		AddEventHandler?.Invoke(type, handler, once);
+		AddEventHandler?.Invoke(type, handler, once);   
 	}
 }

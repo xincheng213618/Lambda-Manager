@@ -236,9 +236,7 @@
                     </Border>
 
                 </Border>
-
             </Viewbox>
-            <ComboBox Width="120" />
         </StackPanel>
 
         <Border Height="10" Width="100" Margin="109,167,591,168" BorderBrush="#c3c3c3c3" BorderThickness="1" >
@@ -271,8 +269,6 @@
                     <Label Content="Advanced" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
                 </Border>
             </DockPanel>
-
-
         </Border>
 
 
@@ -290,34 +286,21 @@
                         <Button x:Name="btn_ClickDown" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" Click="Btn_ClickDown_Click"/>
                     </DockPanel>
                 </Border>
-                <Border Background="#1B1B1A" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3">
+                <Border Background="#1B1B1A" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3" >
                     <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059"  />
                 </Border>
 
             </DockPanel>
-
         </Border>
-        <local:UpDownButton1 Width="85" Height="28" Margin="200,200,0,0" Frequency="0.001" Precision="3" />
-        <local:UpDownButton Width="85" Height="28" Margin="200,0,0,0" Frequency="0.001" Precision="3" />
 
-
-        <!--<ConfigDeck:BaseDeck />-->
-
-
-
+        <local:UpDownButton1 Initialized="UpDownButton11_Initialized" Width="85" Height="28" Margin="200,200,0,0" ToolTip="1.222" />
+        <local:UpDownButton Width="85" Height="28" Margin="200,0,0,0" Value="2.5" Frequency="0.001" Precision="3" ToolTip="1.111"/>
+  
         <Canvas x:Name="Canvas1" Visibility="Hidden" Height="400" Width="400"   MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"  PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown">
             <Ellipse x:Name="CricalBase"  Canvas.Top="0" Width= "400" Height="400"  Fill="#7F7F7F"/>
             <Line Stroke="Transparent" StrokeThickness="1" X1="0" Y1="200" X2="400" Y2="200"/>
             <Line Stroke="Transparent" StrokeThickness="1" X1="200" Y1="0" X2="200" Y2="400"/>
         </Canvas>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="305,184,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <ComboBox   SelectedIndex="1" SelectionChanged="ComboBox_SelectionChanged" VerticalAlignment="Top" Width="67" Margin="366,61,366,0">
-            <ComboBoxItem Content="水平" Tag="0"/>
-            <ComboBoxItem Content="垂直" Tag="1"/>
-            <ComboBoxItem Content="左上" Tag="2"/>
-            <ComboBoxItem Content="右上" Tag="3" />
-        </ComboBox>
-        <Path  x:Name="Path2" Visibility="Visible" Margin="5,2,5,2" Height="15" HorizontalAlignment="Left" Stretch="Fill" Width="10"  Fill="Black" Data="{StaticResource RightArrow}"/>
         <Border Height="75" Width="270" HorizontalAlignment="Left" Background="#484848" BorderBrush="White" CornerRadius="3" BorderThickness="1" VerticalAlignment="Bottom" Margin="50">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="1" BlurRadius="3" Direction="270" Color="White" Opacity="0.5" />
@@ -328,15 +311,15 @@
                 </Border.Effect>
                 <StackPanel Margin="5">
                     <DockPanel Width="250" >
-                        <TextBlock   Text="Gain :"  TextAlignment ="Right" Width="90" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <TextBlock   Text="Gain"  TextAlignment ="Right" Width="80" Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <Slider Name="Slider1" Style="{StaticResource Horizontal_Slider}" Value="10" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
                     </DockPanel>
                     <DockPanel Width="250" >
-                        <TextBlock Text="Exposure [ms] :" TextAlignment ="Right"  Width="90"   Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <TextBlock Text="Exposure [ms]" TextAlignment ="Right"  Width="80"   Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <Slider Name="Slider2" Style="{StaticResource Horizontal_Slider}" Value="15" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
                     </DockPanel>
                     <DockPanel Width="250" >
-                        <TextBlock Text="dddd [ms] :" TextAlignment ="Right"  Width="90"   Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <TextBlock Text="dddd [ms]" TextAlignment ="Right"  Width="80"   Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <Slider Name="Slider3" Style="{StaticResource Horizontal_Slider}" Value="30" Maximum="250" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
                     </DockPanel>
                 </StackPanel>

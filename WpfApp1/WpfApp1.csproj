@@ -20,6 +20,7 @@
     <ProjectReference Include="..\ConfigDPCMode\ConfigDPCMode.csproj" />
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="..\ConfigSpot\ConfigSpot.csproj" />
+    <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
   </ItemGroup>
 
   <ItemGroup>

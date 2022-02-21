@@ -108,9 +108,9 @@
                                     </Grid.ColumnDefinitions>
                                     <RadioButton  FontSize="13"  VerticalAlignment="Center"  Foreground="White"  IsChecked="True"/>
                                     <Label  Foreground="White" FontSize="13" Grid.Row="0"  Grid.Column="1" Content="不聚焦"/>
-                                    <RadioButton  Grid.Row="1" FontSize="13"  VerticalAlignment="Center" />
-                                    <Label  Foreground="White"  FontSize="13" Grid.Row="1"  Grid.Column="1" Content="间隔聚焦"/>
-                                    <RadioButton Grid.Row="2"  FontSize="13" VerticalAlignment="Center"  />
+                                    <RadioButton  Grid.Row="1" FontSize="13"  VerticalAlignment="Center"/>
+                                    <Label  Foreground="White"  FontSize="13" Grid.Row="1"  Grid.Column="1" Content="每10次聚焦"/>
+                                    <RadioButton Grid.Row="2"  FontSize="13" VerticalAlignment="Center" />
                                     <Label  Foreground="White" FontSize="13" Grid.Row="2"  Grid.Column="1" Content="全聚焦"/>
 
                                 </Grid>

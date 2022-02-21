@@ -19,10 +19,13 @@ namespace WpfApp2
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            Button btn_ClickUp = (Button)Template.FindName("btn_ClickUp", this);
-            Button btn_ClickDown = (Button)Template.FindName("btn_ClickDown", this);
             textBox =(TextBlock)Template.FindName("txt_NamberChange", this);
+            textBox.Text = Value.ToString($"F{Precision}");
+
+            Button btn_ClickUp = (Button)Template.FindName("btn_ClickUp", this);
             btn_ClickUp.Click += Btn_ClickUp_Click;
+          
+            Button btn_ClickDown = (Button)Template.FindName("btn_ClickDown", this);
             btn_ClickDown.Click += Btn_ClickDown_Click;
             //textBox.TextChanged += txt_NamberChange_TextChanged;
         }
@@ -55,6 +58,24 @@ namespace WpfApp2
         // Using a DependencyProperty as the backing store for Precision.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PrecisionProperty =
             DependencyProperty.Register("Precision", typeof(int), typeof(UpDownButton), new PropertyMetadata(2));
+
+
+
+        public double Value
+        {
+            get {
+                return (double)GetValue(ValueProperty);
+            }
+            set { 
+                SetValue(ValueProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for Value.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(double), typeof(UpDownButton), new PropertyMetadata(2.0));
+
+
 
 
 

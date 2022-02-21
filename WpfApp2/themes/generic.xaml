@@ -16,7 +16,7 @@
                                 <Button x:Name="btn_ClickDown"  BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" />
                             </DockPanel>
                             <Border Background="#1B1B1A" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3">
-                                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059"  />
+                                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text=""  />
                             </Border>
                         </DockPanel>
                     </Border>
@@ -39,7 +39,7 @@
                                 <Button x:Name="btn_ClickDown"  BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6"  Width="20" />
                             </DockPanel>
                             <Border Background="#1B1B1A" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3">
-                                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="5.059"  />
+                                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text=""  />
                             </Border>
                         </DockPanel>
                     </Border>

@@ -357,10 +357,6 @@ namespace WpfApp2
             "X4","X10","X20","X40","X100"
         };
 
-        private void txt_NamberChange_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
 
         private void txt_NamberChange_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -425,7 +421,13 @@ namespace WpfApp2
             Update();
         }
 
-
-
+        private void UpDownButton11_Initialized(object sender, EventArgs e)
+        {
+            UpDownButton1? upDownButton11 = (UpDownButton1)sender;
+            if (upDownButton11 != null)
+            {
+                upDownButton11.SetList(llllss);
+            }
+        }
     }
 }
