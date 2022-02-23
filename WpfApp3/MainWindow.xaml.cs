@@ -20,7 +20,7 @@ namespace WpfApp3
         private void Window_Initialized(object sender, EventArgs e)
         {
             LoadConfig(ref config);
-            Utils.ToJsonFile(config, "config.json");
+
         }
 
 
@@ -32,7 +32,7 @@ namespace WpfApp3
         public static int LoadConfig(ref Config config)
         {
             //载入配置文件 
-            string result = Utils.LoadResource("config.json");
+            string result = Utils.LoadResource("config.lmp");
             if (!Utils.IsNullOrEmpty(result))
             {
                 //转成Json
@@ -40,7 +40,7 @@ namespace WpfApp3
             }
             else
             {
-                if (File.Exists("config.json"))
+                if (File.Exists("config.lmp"))
                 {
                     return -1;
                 }
@@ -129,6 +129,25 @@ namespace WpfApp3
             return 0;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoadConfig(ref config);
+            Text1.Text = Utils.ToJson(config);
 
+        }
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.ToJsonFile(config, "config.lmp");
+        }
+
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button3_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

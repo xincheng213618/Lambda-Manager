@@ -138,104 +138,14 @@
 
     <Grid Background="#2D2D2D">
         <StackPanel>
-            <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1" IsSnapToTickEnabled="True" Value="100" Maximum="1000" Minimum="50" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>
-            <Slider Orientation="Vertical" Height="80"/>
+            <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1" IsSnapToTickEnabled="True" Value="50" Maximum="100" Minimum="25" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>
             <Viewbox  Width="{Binding Value, ElementName=slier1}" HorizontalAlignment="Left">
-                <Border Padding="0,10,0,0">
-                    <Border Padding="5" CornerRadius="5" Background="#FF0A1197" Width="367" Height="201">
-                        <Grid>
-                            <Polygon Fill="#FF0A1197" StrokeThickness="5" Points="20,0 40,0 30,-10"/>
-
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="3*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid >
-                                        <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="Red" RadiusY="2"/>
-                                        <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                    <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                                    <GradientStop Offset="1" Color="#00FFFFFF"/>
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-
-                                        <Rectangle x:Name="viewSelectColor2" RadiusX="2" RadiusY="2">
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                    <GradientStop Offset="0" Color="#00000000"/>
-                                                    <GradientStop Offset="1" Color="#FF000000"/>
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-
-                                    </Grid>
-                                    <Grid Grid.Column="1" Margin="5,0,0,0">
-                                        <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                            <Rectangle.Fill >
-                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                    <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
-                                                    <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
-                                                    <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
-                                                    <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
-                                                    <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
-                                                    <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
-                                                    <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                    </Grid>
-                                    <StackPanel Grid.Column="2">
-                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center" >
-                                            <Label Foreground="White" Width="30" Content="R"/>
-                                            <TextBox x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" Text="255" />
-                                        </StackPanel>
-                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30" Content="G"/>
-                                            <TextBox x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" Text="255"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30" Content="B"/>
-                                            <TextBox x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" Text="255"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30" Content="A"/>
-                                            <TextBox x:Name="TextA" LostFocus="TextBox_LostFocus" Width="70" VerticalAlignment="Center"  Text="255"  />
-                                            <!--<Label Foreground="White">%</Label>-->
-                                        </StackPanel>
-                                        <StackPanel  Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Foreground="White" Width="30"/>
-                                            <TextBox Width="70" x:Name="TextHex" LostFocus="HexTextLostFocus" Text="#FFFFFFFF" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                                <!--<Grid Grid.Row="1"  >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5*"/>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="4*"/>
-                                    </Grid.ColumnDefinitions>
-                                    -->
-                                <!--<Rectangle RadiusX="2" RadiusY="2" Margin="0,2" Grid.ColumnSpan="2" Fill="{Binding SelectColor,ElementName=root}" >
-
-                                    </Rectangle>-->
-                                <!--
-
-                                </Grid>-->
-                            </Grid>
-
-                        </Grid>
-                    </Border>
-
-                </Border>
+                <UniformGrid Width="50" >
+                    <local:ColorPicker  SelectColor="Red" Height="25" Width="25" ></local:ColorPicker>
+                    <local:ColorPicker  SelectColor="Black" Height="25" Width="25" ></local:ColorPicker>
+                    <local:ColorPicker  SelectColor="Beige" Height="25" Width="25" ></local:ColorPicker>
+                    <local:ColorPicker  SelectColor="AntiqueWhite" Height="25" Width="25" ></local:ColorPicker>
+                </UniformGrid>
             </Viewbox>
         </StackPanel>
 

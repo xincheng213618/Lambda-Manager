@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:local="clr-namespace:MenuISCameraSetting" 
-        Title="Setting" Height="500" Width="450" MinWidth="440" MinHeight="300" Initialized="Window_Initialized">
+        Title="Setting" Height="500" Width="450" MinWidth="440" MinHeight="300"  Initialized="Window_Initialized">
     <Window.Resources>
         <local:BooleanToReverseConverter x:Key="BooleanToReverseConverter"/>
         <Style x:Key="SliderThumbStyle" TargetType="Thumb">

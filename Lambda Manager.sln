@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp3", "WpfApp3\WpfApp3.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaManager", "LambdaManager\LambdaManager.csproj", "{EE50A5A7-23FB-430F-BCE1-691CA08B67BD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp4", "WpfApp4\WpfApp4.csproj", "{1084C683-F6D9-49E5-ACDB-2C49110130CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grid", "Grid\Grid.csproj", "{021D4E03-82FE-4B8B-90C5-91A5AD456248}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -209,6 +213,30 @@ Global
 		{EE50A5A7-23FB-430F-BCE1-691CA08B67BD}.Release|x64.Build.0 = Release|x64
 		{EE50A5A7-23FB-430F-BCE1-691CA08B67BD}.Release|x86.ActiveCfg = Release|Any CPU
 		{EE50A5A7-23FB-430F-BCE1-691CA08B67BD}.Release|x86.Build.0 = Release|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Debug|x64.ActiveCfg = Debug|x64
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Debug|x64.Build.0 = Debug|x64
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Debug|x86.Build.0 = Debug|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Release|x64.ActiveCfg = Release|x64
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Release|x64.Build.0 = Release|x64
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Release|x86.ActiveCfg = Release|Any CPU
+		{1084C683-F6D9-49E5-ACDB-2C49110130CC}.Release|x86.Build.0 = Release|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Debug|x64.ActiveCfg = Debug|x64
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Debug|x64.Build.0 = Debug|x64
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Debug|x86.Build.0 = Debug|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|x64.ActiveCfg = Release|x64
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|x64.Build.0 = Release|x64
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|x86.ActiveCfg = Release|Any CPU
+		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
