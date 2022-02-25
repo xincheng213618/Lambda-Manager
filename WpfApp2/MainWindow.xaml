@@ -91,6 +91,8 @@
             </Grid>
         </ControlTemplate>
 
+
+
         <Style x:Key="Horizontal_Slider" TargetType="Slider">
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="SnapsToDevicePixels" Value="true" />
@@ -106,6 +108,31 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+
+        <Style x:Key="SliderThumbStyle1" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="false"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border x:Name="Border1"  Background="White" CornerRadius="5" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border1"  Property="Background" Value="Orange"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Border1" Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
 
         <Style TargetType="Slider" x:Key="AppSliderStyle">
             <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -135,9 +162,17 @@
             </Setter>
         </Style>
     </Window.Resources>
-
     <Grid Background="#2D2D2D">
         <StackPanel>
+            <DockPanel>
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100"  Content="配置" IsChecked="True"/>
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="采集"  />
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="处理"  />
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="分析"  />
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="报告"  />
+            </DockPanel>
+            <Slider Style="{StaticResource Horizontal_Slider1}" Value="10" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
+            <Slider Style="{StaticResource Horizontal_Slider1}" Height="50" Orientation="Vertical" Value="10" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
             <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1" IsSnapToTickEnabled="True" Value="50" Maximum="100" Minimum="25" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>
             <Viewbox  Width="{Binding Value, ElementName=slier1}" HorizontalAlignment="Left">
                 <UniformGrid Width="50" >

@@ -10,47 +10,58 @@
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized">
-    <DockPanel>
+    <DockPanel Background="#FF5D5D5D">
         <Menu x:Name="menu" DockPanel.Dock="Top" Padding="0,5,0,5" >
             <MenuItem x:Name="file" Header="文件" Click="file_Click"/>
         </Menu>
-       
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True">
-                <Viewbox Grid.Column="0" VerticalAlignment="Top" >
-                    <StackPanel Name="leftView" Width="300" Margin="0,5,0,5">
-                        <ConfigDPCMode:DPCMode/>
-                        <ConfigDeck:BaseDeck />
-                        <ConfigSpot:SampleSpot/>
-                        <ConfigDOFMode:DOFMode />
-                        <ConfigCollectInterval:CollectInterval />
-                    </StackPanel>
-                </Viewbox>
+        <StackPanel>
+            <DockPanel>
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="配置" IsChecked="True"/>
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="采集"  />
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="处理"  />
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="分析"  />
+                <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="报告"  />
+            </DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True">
+                    <Viewbox Grid.Column="0" VerticalAlignment="Top" >
+                        <StackPanel Name="leftView" Width="300" Margin="0,5,0,5">
+                            <ConfigDPCMode:DPCMode/>
+                            <ConfigDeck:BaseDeck />
+                            <ConfigSpot:SampleSpot/>
+                            <ConfigDOFMode:DOFMode />
+                            <ConfigCollectInterval:CollectInterval />
+                        </StackPanel>
+                    </Viewbox>
 
-            </ScrollViewer>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
-            <Grid x:Name="mainView" Grid.Column="2" Background="#FF5D5D5D">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <Grid HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
-                <StackPanel x:Name="bottomView" Orientation="Horizontal" />
+                </ScrollViewer>
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
+                <Grid x:Name="mainView" Grid.Column="2" Background="#FF5D5D5D">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
+                    <StackPanel x:Name="bottomView" Orientation="Horizontal" />
+                </Grid>
+                <GridSplitter Grid.Column="3" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
+                <ScrollViewer Grid.Column="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="rightView" DockPanel.Dock="Right"/>
+                </ScrollViewer>
             </Grid>
-            <GridSplitter Grid.Column="3" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
-            <ScrollViewer Grid.Column="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel x:Name="rightView" DockPanel.Dock="Right"/>
-            </ScrollViewer>
-        </Grid>
+        </StackPanel>
+
+
+
 
     </DockPanel>
 </Window>

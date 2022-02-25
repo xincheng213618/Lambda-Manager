@@ -77,7 +77,7 @@ namespace WpfApp1
         {
 
         }
-
+        
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton toggleButton = (RadioButton)sender;

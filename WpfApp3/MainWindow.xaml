@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Initialized="Window_Initialized">
     <Grid>
+        <DockPanel >
+
+            <Viewbox Height="40" DockPanel.Dock="Top">
+                <Button  Content="1"/>
+            </Viewbox>
+            <Viewbox Height="40" DockPanel.Dock="Bottom">
+                <Button  Content="1"/>
+            </Viewbox>
+            <Grid/>
+        </DockPanel>
         <StackPanel Orientation="Vertical">
             <Button Content="加载" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Button_Click"/>
             <Button Content="保存" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Button1_Click"/>
