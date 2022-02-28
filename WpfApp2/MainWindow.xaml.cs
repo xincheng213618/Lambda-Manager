@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -428,6 +429,19 @@ namespace WpfApp2
             if (upDownButton11 != null)
             {
                 upDownButton11.SetList(llllss);
+            }
+        }
+
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button toggleButton = (Button)sender;
+            if (toggleButton.Content == "拍照")
+            {
+                toggleButton.Content = "停止";
+            }
+            else
+            {
+                toggleButton.Content = "拍照";
             }
         }
     }

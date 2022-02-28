@@ -137,7 +137,7 @@
                             </StackPanel>
                         </DockPanel>
                         <TextBox Text="ZIRCON Grid " BorderThickness="0" FontSize="16" FontWeight="Bold" Foreground="White" Background="Transparent" Margin="0,30,0,0"/>
-                        <TextBox Text="Microscope Application Suite Version 1.0 2022-02-20" BorderThickness="0" FontSize="11.5" Foreground="White" Background="Transparent" Margin="0,0" TextWrapping="WrapWithOverflow"  AllowDrop="True"   Width="175" HorizontalAlignment="Left"/>
+                        <TextBox Text="Microscope Application Suite Version 1.0 2022-02-28" BorderThickness="0" FontSize="11.5" Foreground="White" Background="Transparent" Margin="0,0" TextWrapping="WrapWithOverflow"  AllowDrop="True"   Width="175" HorizontalAlignment="Left"/>
                     </StackPanel>
 
                     <StackPanel IsEnabled="False"  DockPanel.Dock="Bottom" Margin="0,0,50,0"  >
