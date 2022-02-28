@@ -7,27 +7,27 @@ public class StringUtils
 {
 	public static string[] SplitWithQuoteEscaped(string str)
 	{
-		Stack<string> stack = new Stack<string>();
-		int num = 0;
-		bool flag = false;
+		Stack<string> result = new Stack<string>();
+		int start = 0;
+		bool marker = false;
 		int i;
 		for (i = 0; i < str.Length; i++)
 		{
 			if (str[i] == '"')
 			{
-				flag = !flag;
+				marker = !marker;
 			}
-			if (str[i] == ',' && !flag)
+			if (str[i] == ',' && !marker)
 			{
-				stack.Push(str.Substring(num, i - num));
-				num = i + 1;
+				result.Push(str.Substring(start, i - start));
+				start = i + 1;
 			}
 		}
-		if (num <= str.Length)
+		if (start <= str.Length)
 		{
-			stack.Push(str.Substring(num, i - num));
+			result.Push(str.Substring(start, i - start));
 		}
-		return stack.Reverse().ToArray();
+		return result.Reverse().ToArray();
 	}
 
 	public static string UnWrapDoubleQuote(string text)
@@ -41,11 +41,11 @@ public class StringUtils
 
 	public static List<string> Copy(List<string> list)
 	{
-		List<string> list2 = new List<string>();
+		List<string> copy = new List<string>();
 		foreach (string item in list)
 		{
-			list2.Add(item);
+			copy.Add(item);
 		}
-		return list2;
+		return copy;
 	}
 }

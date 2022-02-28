@@ -20,6 +20,7 @@ partial class CameraDialog : Window, IComponentConnector
     }
     private void Window_Initialized(object sender, EventArgs e)
     {
+
         LambdaControl.CallEventHandler += Call;
     }
 
@@ -30,7 +31,8 @@ partial class CameraDialog : Window, IComponentConnector
 
     private int Call(string type, object sender, EventArgs e)
     {
-        TextBox1.Text += type;
+        LambdaArgs lambdaArgs = (LambdaArgs)e;
+        TextBox1.Text = type + lambdaArgs.Data.ToString();
         return 1;
     }
 

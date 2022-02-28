@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace ConfigFocus
 {
@@ -50,6 +51,93 @@ namespace ConfigFocus
         static FocusMode()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FocusMode), new FrameworkPropertyMetadata(typeof(FocusMode)));
+        }
+
+        TextBox TextBox1;
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            TextBox1 = (TextBox)Template.FindName("TextBox1", this);
+            LambdaControl.CallEventHandler += Call;
+            Button Test1 = (Button)Template.FindName("Button_Test1", this);
+            Button Test2 = (Button)Template.FindName("Button_Test2", this);
+            Button Test3 = (Button)Template.FindName("Button_Test3", this);
+            Button Test4 = (Button)Template.FindName("Button_Test4", this);
+            Button Test5 = (Button)Template.FindName("Button_Test5", this);
+            Test1.Click += Button_Test_Click;
+            Test2.Click += Button_Test_Click;
+            Test3.Click += Button_Test_Click;
+            Test4.Click += Button_Test_Click;
+            Test5.Click += Button_Test_Click;
+
+            Slider Slider1 = (Slider)Template.FindName("Slider1", this);
+            Slider Slider2 = (Slider)Template.FindName("Slider2", this);
+            Slider Slider3 = (Slider)Template.FindName("Slider3", this);
+            Slider Slider4 = (Slider)Template.FindName("Slider4", this);
+            Slider Slider5 = (Slider)Template.FindName("Slider5", this);
+            Slider Slider6 = (Slider)Template.FindName("Slider6", this);
+            Slider Slider7 = (Slider)Template.FindName("Slider7", this);
+            Slider Slider8 = (Slider)Template.FindName("Slider8", this);
+            Slider Slider9 = (Slider)Template.FindName("Slider9", this);
+
+            Slider1.ValueChanged += Slider_ValueChanged;
+            Slider2.ValueChanged += Slider_ValueChanged;
+            Slider3.ValueChanged += Slider_ValueChanged;
+            Slider4.ValueChanged += Slider_ValueChanged;
+            Slider5.ValueChanged += Slider_ValueChanged;
+            Slider6.ValueChanged += Slider_ValueChanged;
+            Slider7.ValueChanged += Slider_ValueChanged;
+            Slider8.ValueChanged += Slider_ValueChanged;
+            Slider9.ValueChanged += Slider_ValueChanged;
+
+        }
+        private int Call(string type, object sender, EventArgs e)
+        {
+            LambdaArgs? lambdaArgs = (LambdaArgs)e;
+            Dictionary<string, object> dict = LambdaArgs.GetEventData(lambdaArgs);
+            TextBox1.Text = type;
+
+            TextBox1.Text = type + JsonConvert.SerializeObject(dict, Formatting.Indented);
+            return 1;
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            Slider Slider = (Slider)sender;
+            Dictionary<string, object> data = new()
+            {
+                { "Test", Slider.Value },
+            };
+            Trigger(Slider.Name, Slider, data);
+        }
+
+
+        private void Button_Test_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            switch (button.Content)
+            {
+                case "Test1":
+                    Dictionary<string, object> data = new() { };
+                    LambdaControl.Trigger("ButtonTest1", button, data);
+                    break;
+                case "Test2":
+                    data = new() { };
+                    LambdaControl.Trigger("ButtonTest2", button, data);
+                    break;
+                case "Test3":
+                    data = new() { };
+                    LambdaControl.Trigger("ButtonTest3", button, data);
+                    break;
+                case "Test4":
+                    data = new() { };
+                    LambdaControl.Trigger("ButtonTest4", button, data);
+                    break;
+                case "Test5":
+                    data = new() { };
+                    LambdaControl.Trigger("ButtonTest5", button, data);
+                    break;
+            }
         }
     }
 }

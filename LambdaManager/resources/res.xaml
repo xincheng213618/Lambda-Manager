@@ -5,6 +5,50 @@
   <BitmapImage x:Key="WARNING" UriSource="Icons/Severity/warning16.png" />
   <BitmapImage x:Key="ERROR" UriSource="Icons/Severity/error16.png" />
   <BitmapImage x:Key="FATAL_ERROR" UriSource="Icons/Severity/fatal16.png" />
+  <BitmapImage x:Key="APPLICATION_ICON" UriSource="Icons/application-icon.png" />
+  <BitmapImage x:Key="APPLICATION_LOGO" UriSource="Icons/application-logo.png" />
+  <BitmapImage x:Key="COMPANY_LOGO" UriSource="Icons/company-logo.png" />
+  <BitmapImage x:Key="SPLITTER" UriSource="Icons/splitter.png" />
+  <BitmapImage x:Key="LEFT_COLORBAR" UriSource="Icons/left-colorbar.png" />
+  <BitmapImage x:Key="LEFT_DIVCOLOR" UriSource="Icons/left-divcolor.png" />
+  <BitmapImage x:Key="LEFT_GLITTER" UriSource="Icons/left-glitter.jpg" />
+  <BitmapImage x:Key="LEFT_HISTOGRAM" UriSource="Icons/left-histogram.png" />
+  <BitmapImage x:Key="TOP_ARROW" UriSource="Icons/top-arrow.png" />
+  <BitmapImage x:Key="TOP_CIRCLE" UriSource="Icons/top-circle.png" />
+  <BitmapImage x:Key="TOP_CURVE" UriSource="Icons/top-curve.png" />
+  <BitmapImage x:Key="TOP_DIMENSION" UriSource="Icons/top-dimension.png" />
+  <BitmapImage x:Key="TOP_ERASER" UriSource="Icons/top-eraser.png" />
+  <BitmapImage x:Key="TOP_FOCUS" UriSource="Icons/top-focus.png" />
+  <BitmapImage x:Key="TOP_INLINE" UriSource="Icons/top-inline.png" />
+  <BitmapImage x:Key="TOP_LINE" UriSource="Icons/top-line.png" />
+  <BitmapImage x:Key="TOP_MOVE" UriSource="Icons/top-move.png" />
+  <BitmapImage x:Key="TOP_OUTLINE" UriSource="Icons/top-outline.png" />
+  <BitmapImage x:Key="TOP_POLYGON" UriSource="Icons/top-polygon.png" />
+  <BitmapImage x:Key="TOP_RECTANGLE" UriSource="Icons/top-rectangle.png" />
+  <BitmapImage x:Key="TOP_RULER" UriSource="Icons/top-ruler.png" />
+  <BitmapImage x:Key="TOP_SCALE" UriSource="Icons/top-scale.png" />
+  <BitmapImage x:Key="TOP_SEARCH" UriSource="Icons/top-search.png" />
+  <BitmapImage x:Key="TOP_SELECT" UriSource="Icons/top-select.png" />
+  <BitmapImage x:Key="TOP_TEXT" UriSource="Icons/top-text.png" />
+  <BitmapImage x:Key="TOP_ZOOM_IN" UriSource="Icons/top-zoom-in.png" />
+  <BitmapImage x:Key="TOP_ZOOM_OUT" UriSource="Icons/top-zoom-out.png" />
+  <BitmapImage x:Key="RIGHT_3D" UriSource="Icons/right-3D.png" />
+  <BitmapImage x:Key="RIGHT_BF" UriSource="Icons/right-BF.png" />
+  <BitmapImage x:Key="RIGHT_CUBE" UriSource="Icons/right-cube.png" />
+  <BitmapImage x:Key="RIGHT_DF" UriSource="Icons/right-DF.png" />
+  <BitmapImage x:Key="RIGHT_DP" UriSource="Icons/right-DP.png" />
+  <BitmapImage x:Key="RIGHT_DUAL" UriSource="Icons/right-dual.png" />
+  <BitmapImage x:Key="RIGHT_FL" UriSource="Icons/right-FL.png" />
+  <BitmapImage x:Key="RIGHT_PHI" UriSource="Icons/right-Phi.png" />
+  <BitmapImage x:Key="RIGHT_QUATER" UriSource="Icons/right-quater.png" />
+  <BitmapImage x:Key="RIGHT_REPO" UriSource="Icons/right-repo.png" />
+  <BitmapImage x:Key="RIGHT_RI" UriSource="Icons/right-RI.png" />
+  <BitmapImage x:Key="RIGHT_SLIDER" UriSource="Icons/right-slider.png" />
+  <BitmapImage x:Key="BOTTOM_START" UriSource="Icons/bottom-start.png" />
+  <BitmapImage x:Key="BOTTOM_STOP" UriSource="Icons/bottom-stop.png" />
+  <BitmapImage x:Key="BOTTOM_FORWARD" UriSource="Icons/bottom-forward.png" />
+  <BitmapImage x:Key="BOTTOM_BACKWARD" UriSource="Icons/bottom-backward.png" />
+  <BitmapImage x:Key="BOTTOM_SLIDER" UriSource="Icons/bottom-slider.png" />
   <Style x:Key="styleBackground">
     <Setter Property="Control.Background">
       <Setter.Value>
@@ -14,13 +58,13 @@
   </Style>
   <Style x:Key="styleBanner">
     <Setter Property="Panel.Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0.25" EndPoint="1,0.5">
-                    <GradientStop Color="#CC0088DD" Offset="0.3" />
-                    <GradientStop Color="#3300FFFF" Offset="0.85" />
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
+      <Setter.Value>
+        <LinearGradientBrush StartPoint="0,0.25" EndPoint="1,0.5">
+          <GradientStop Color="#CC0088DD" Offset="0.3" />
+          <GradientStop Color="#3300FFFF" Offset="0.85" />
+        </LinearGradientBrush>
+      </Setter.Value>
+    </Setter>
     <Setter Property="TextBlock.Foreground" Value="#FFFFFF00" />
     <Setter Property="TextBlock.FontFamily" Value="Comic Sans MS" />
   </Style>

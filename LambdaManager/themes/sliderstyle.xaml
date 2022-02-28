@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style x:Key="SliderThumbStyle1" TargetType="{x:Type Thumb}">
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="false" />
+    <Setter Property="Height" Value="18" />
+    <Setter Property="Width" Value="10" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Thumb}">
+          <Border Name="Border1" Background="#FFFFFFFF" CornerRadius="3" />
+          <ControlTemplate.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+              <Setter TargetName="Border1" Property="Border.Background" Value="#FFFFA500" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+              <Setter TargetName="Border1" Property="Border.Background" Value="#FF808080" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="SliderRepeatButton2" TargetType="{x:Type RepeatButton}">
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="true" />
+    <Setter Property="IsTabStop" Value="false" />
+    <Setter Property="Focusable" Value="false" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border Background="#3B3838" Height="14" BorderBrush="#FFFFFFFF" BorderThickness="2" CornerRadius="0,5,5,0" Margin="-3,0,0,0" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="SliderRepeatButton3" TargetType="{x:Type RepeatButton}">
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="true" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border SnapsToDevicePixels="True" Background="#6EA646" BorderBrush="#FFFFFFFF" BorderThickness="2" Height="14" CornerRadius="5,0,0,5" Margin="0,0,-3,0" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <ControlTemplate x:Key="Slider1" TargetType="{x:Type Slider}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Track Name="PART_Track" Grid.Row="1" Grid.Column="1" ToolTip="{Binding ElementName=PART_Track, Path=Value, StringFormat=N2}">
+        <Track.DecreaseRepeatButton>
+          <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource SliderRepeatButton3}" />
+        </Track.DecreaseRepeatButton>
+        <Track.IncreaseRepeatButton>
+          <RepeatButton Command="Slider.IncreaseLarge" Style="{StaticResource SliderRepeatButton2}" />
+        </Track.IncreaseRepeatButton>
+        <Track.Thumb>
+          <Thumb Style="{StaticResource SliderThumbStyle1}" />
+        </Track.Thumb>
+      </Track>
+    </Grid>
+  </ControlTemplate>
+  <Style x:Key="SliderThumbStyle2" TargetType="{x:Type Thumb}">
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="false" />
+    <Setter Property="Height" Value="10" />
+    <Setter Property="Width" Value="18" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Thumb}">
+          <Border Name="Border1" Background="#FFFFFFFF" CornerRadius="3" />
+          <ControlTemplate.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+              <Setter TargetName="Border1" Property="Border.Background" Value="#FFFFA500" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+              <Setter TargetName="Border1" Property="Border.Background" Value="#FF808080" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="SliderRepeatButton31" TargetType="{x:Type RepeatButton}">
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="true" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border SnapsToDevicePixels="True" Background="#6EA646" BorderBrush="#FFFFFFFF" BorderThickness="2" Width="14" CornerRadius="0,0,5,5" Margin="0,-3,0,0" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="SliderRepeatButton21" TargetType="{x:Type RepeatButton}">
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="true" />
+    <Setter Property="IsTabStop" Value="false" />
+    <Setter Property="Focusable" Value="false" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border Background="#3B3838" Width="14" BorderBrush="#FFFFFFFF" BorderThickness="2" CornerRadius="5,5,0,0" Margin="0,0,0,-3" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <ControlTemplate x:Key="Slider2" TargetType="{x:Type Slider}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" MinWidth="{TemplateBinding MinWidth}" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Track Name="PART_Track" Grid.Row="1" Orientation="Vertical" Grid.Column="1" ToolTip="{Binding ElementName=PART_Track, Path=Value, StringFormat=N2}">
+        <Track.DecreaseRepeatButton>
+          <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource SliderRepeatButton31}" />
+        </Track.DecreaseRepeatButton>
+        <Track.IncreaseRepeatButton>
+          <RepeatButton Command="Slider.IncreaseLarge" Style="{StaticResource SliderRepeatButton21}" />
+        </Track.IncreaseRepeatButton>
+        <Track.Thumb>
+          <Thumb Style="{StaticResource SliderThumbStyle2}" />
+        </Track.Thumb>
+      </Track>
+    </Grid>
+  </ControlTemplate>
+  <Style x:Key="HorizontalSlider" TargetType="{x:Type Slider}">
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="true" />
+    <Setter Property="Foreground" Value="#FFFFFFFF" />
+    <Setter Property="Slider.TickFrequency" Value="10" />
+    <Style.Triggers>
+      <Trigger Property="Slider.Orientation" Value="Horizontal">
+        <Setter Property="MinHeight" Value="21" />
+        <Setter Property="MinWidth" Value="70" />
+        <Setter Property="Template" Value="{StaticResource Slider1}" />
+      </Trigger>
+      <Trigger Property="Slider.Orientation" Value="Vertical">
+        <Setter Property="MinHeight" Value="70" />
+        <Setter Property="MinWidth" Value="21" />
+        <Setter Property="Template" Value="{StaticResource Slider2}" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+</ResourceDictionary>

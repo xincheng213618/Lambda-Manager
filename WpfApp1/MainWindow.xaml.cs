@@ -31,6 +31,7 @@ namespace WpfApp1
         {
             this.leftView.Children.Clear();
             List<UICofig> list = new List<UICofig>();
+            list.Add(new UICofig() { path = "ConfigFocus.dll", name = "FocusMode" });
             list.Add(new UICofig() { path = "ConfigDPCMode.dll", name = "DPCMode" });
             list.Add(new UICofig() { path = "ConfigDeck.dll", name = "BaseDeck" });
             list.Add(new UICofig() { path = "ConfigSpot.dll", name = "SampleSpot" });

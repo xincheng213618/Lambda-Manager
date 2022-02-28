@@ -16,15 +16,90 @@
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="resources\icons\application-icon.png" />
+    <None Remove="resources\icons\application-logo.png" />
+    <None Remove="resources\icons\bottom-backward.png" />
+    <None Remove="resources\icons\bottom-forward.png" />
+    <None Remove="resources\icons\bottom-slider.png" />
+    <None Remove="resources\icons\bottom-start.png" />
+    <None Remove="resources\icons\bottom-stop.png" />
+    <None Remove="resources\icons\company-logo.png" />
+    <None Remove="resources\icons\left-colorbar.png" />
+    <None Remove="resources\icons\left-divcolor.png" />
+    <None Remove="resources\icons\left-glitter.jpg" />
+    <None Remove="resources\icons\left-histogram.png" />
+    <None Remove="resources\icons\left-monocolor.png" />
+    <None Remove="resources\icons\right-3d.png" />
+    <None Remove="resources\icons\right-bf.png" />
+    <None Remove="resources\icons\right-cube.png" />
+    <None Remove="resources\icons\right-df.png" />
+    <None Remove="resources\icons\right-dp.png" />
+    <None Remove="resources\icons\right-dual.png" />
+    <None Remove="resources\icons\right-fl.png" />
+    <None Remove="resources\icons\right-phi.png" />
+    <None Remove="resources\icons\right-quater.png" />
+    <None Remove="resources\icons\right-repo.png" />
+    <None Remove="resources\icons\right-ri.png" />
+    <None Remove="resources\icons\right-slider.png" />
     <None Remove="resources\icons\severity\debug16.png" />
     <None Remove="resources\icons\severity\error16.png" />
     <None Remove="resources\icons\severity\fatal16.png" />
     <None Remove="resources\icons\severity\info16.png" />
     <None Remove="resources\icons\severity\warning16.png" />
+    <None Remove="resources\icons\splitter.png" />
+    <None Remove="resources\icons\top-arrow.png" />
+    <None Remove="resources\icons\top-circle.png" />
+    <None Remove="resources\icons\top-curve.png" />
+    <None Remove="resources\icons\top-dimension.png" />
+    <None Remove="resources\icons\top-eraser.png" />
+    <None Remove="resources\icons\top-focus.png" />
+    <None Remove="resources\icons\top-inline.png" />
+    <None Remove="resources\icons\top-line.png" />
+    <None Remove="resources\icons\top-move.png" />
+    <None Remove="resources\icons\top-outline.png" />
+    <None Remove="resources\icons\top-polygon.png" />
+    <None Remove="resources\icons\top-rectangle.png" />
+    <None Remove="resources\icons\top-ruler.png" />
+    <None Remove="resources\icons\top-scale.png" />
+    <None Remove="resources\icons\top-search.png" />
+    <None Remove="resources\icons\top-select.png" />
+    <None Remove="resources\icons\top-text.png" />
+    <None Remove="resources\icons\top-zoom-in.png" />
+    <None Remove="resources\icons\top-zoom-out.png" />
     <None Remove="resources\images\backgroud.png" />
     <None Remove="resources\images\startimage\7.png" />
     <None Remove="resources\images\startpicture1.png" />
     <None Remove="resources\images\startpicture2.tiff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\icons\bottom-forward.png" />
+    <Resource Include="resources\icons\bottom-slider.png" />
+    <Resource Include="resources\icons\bottom-start.png" />
+    <Resource Include="resources\icons\bottom-stop.png" />
+    <Resource Include="resources\icons\company-logo.png" />
+    <Resource Include="resources\icons\left-colorbar.png" />
+    <Resource Include="resources\icons\left-divcolor.png" />
+    <Resource Include="resources\icons\left-glitter.jpg" />
+    <Resource Include="resources\icons\left-histogram.png" />
+    <Resource Include="resources\icons\left-monocolor.png" />
+    <Resource Include="resources\icons\right-3d.png" />
+    <Resource Include="resources\icons\right-bf.png" />
+    <Resource Include="resources\icons\right-cube.png" />
+    <Resource Include="resources\icons\right-df.png" />
+    <Resource Include="resources\icons\right-dp.png" />
+    <Resource Include="resources\icons\right-dual.png" />
+    <Resource Include="resources\icons\right-fl.png" />
+    <Resource Include="resources\icons\right-phi.png" />
+    <Resource Include="resources\icons\right-quater.png" />
+    <Resource Include="resources\icons\right-repo.png" />
+    <Resource Include="resources\icons\right-ri.png" />
+    <Resource Include="resources\icons\right-slider.png" />
+    <Resource Include="resources\icons\splitter.png" />
+    <Resource Include="resources\icons\top-arrow.png" />
+    <Resource Include="resources\icons\top-circle.png" />
+    <Resource Include="resources\icons\top-curve.png" />
+    <Resource Include="resources\icons\top-dimension.png" />
+    <Resource Include="resources\icons\top-eraser.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Quartz" Version="3.3.3" />
@@ -51,11 +126,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="resources\icons\application-icon.png" />
+    <Resource Include="resources\icons\application-logo.png" />
+    <Resource Include="resources\icons\bottom-backward.png" />
     <Resource Include="resources\icons\severity\debug16.png" />
     <Resource Include="resources\icons\severity\error16.png" />
     <Resource Include="resources\icons\severity\fatal16.png" />
     <Resource Include="resources\icons\severity\info16.png" />
     <Resource Include="resources\icons\severity\warning16.png" />
+    <Resource Include="resources\icons\top-focus.png" />
+    <Resource Include="resources\icons\top-inline.png" />
+    <Resource Include="resources\icons\top-line.png" />
+    <Resource Include="resources\icons\top-move.png" />
+    <Resource Include="resources\icons\top-outline.png" />
+    <Resource Include="resources\icons\top-polygon.png" />
+    <Resource Include="resources\icons\top-rectangle.png" />
+    <Resource Include="resources\icons\top-ruler.png" />
+    <Resource Include="resources\icons\top-scale.png" />
+    <Resource Include="resources\icons\top-search.png" />
+    <Resource Include="resources\icons\top-select.png" />
+    <Resource Include="resources\icons\top-text.png" />
+    <Resource Include="resources\icons\top-zoom-in.png" />
+    <Resource Include="resources\icons\top-zoom-out.png" />
     <Resource Include="resources\images\backgroud.png" />
     <Resource Include="resources\images\startimage\7.png" />
     <Resource Include="resources\images\startpicture1.png" />

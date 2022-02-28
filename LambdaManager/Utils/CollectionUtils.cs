@@ -7,10 +7,10 @@ internal class CollectionUtils
 {
 	public static object? Insert<T>(List<T?> list, int index, T? value)
 	{
-		object result = null;
+		object oldValue = null;
 		if (index < list.Count)
 		{
-			result = list[index];
+			oldValue = list[index];
 			list[index] = value;
 		}
 		else
@@ -21,7 +21,7 @@ internal class CollectionUtils
 			}
 			list.Add(value);
 		}
-		return result;
+		return oldValue;
 	}
 
 	public static void Insert2(List<KeyValuePair<Action, int>?> list, int index, KeyValuePair<Action, int> value)

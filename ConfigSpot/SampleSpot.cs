@@ -231,7 +231,7 @@ public class SampleSpot : LambdaControl
             Point tempEndPoint = e.GetPosition(this.Canvas1);
             Rect tempRect = new Rect(tempStartPoint1, tempEndPoint);
             //获取子控件
-            List<Rectangle> childList = GetChildObjects<Rectangle>(this.Canvas1);
+            List<Rectangle> childList = GetChildObjects<Rectangle>(Canvas1);
             foreach (var child in childList)
             {
                 //获取子控件矩形位置

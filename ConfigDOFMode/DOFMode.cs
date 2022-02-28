@@ -54,16 +54,7 @@ namespace ConfigDOFMode
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            Button Test1 = (Button)Template.FindName("Button_Test1", this);
-            Button Test2 = (Button)Template.FindName("Button_Test2", this);
-            Button Test3 = (Button)Template.FindName("Button_Test3", this);
-            Button Test4 = (Button)Template.FindName("Button_Test4", this);
-            Button Test5 = (Button)Template.FindName("Button_Test5", this);
-            Test1.Click += Button_Test_Click;
-            Test2.Click += Button_Test_Click;
-            Test3.Click += Button_Test_Click;
-            Test4.Click += Button_Test_Click;
-            Test5.Click += Button_Test_Click;
+
 
 
             StackPanel StackContent = (StackPanel)Template.FindName("StackContent", this);
@@ -89,32 +80,6 @@ namespace ConfigDOFMode
         }
 
 
-        private void Button_Test_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            switch (button.Content)
-            {
-                case "Test1":
-                    Dictionary<string, object> data = new() { };
-                    LambdaControl.Trigger("ButtonTest1", button, data);
-                    break;
-                case "Test2":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest2", button, data);
-                    break;
-                case "Test3":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest3", button, data);
-                    break;
-                case "Test4":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest4", button, data);
-                    break;
-                case "Test5":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest5", button, data);
-                    break;
-            }
-        }
+
     }
 }
