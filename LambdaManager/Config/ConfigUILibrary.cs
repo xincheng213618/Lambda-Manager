@@ -20,7 +20,7 @@ internal class ConfigUILibrary
 	public ConfigUILibrary(MainWindow Main)
 	{
 		this.Main = Main;
-		Main.leftView.Children.Clear();
+		Main.acquireView.Children.Clear();
 	}
 
 	internal bool ResolveControl(Component component, ConfigValidate validate)
@@ -147,7 +147,7 @@ internal class ConfigUILibrary
 		}
 		if (tokens[0].StartsWith("right"))
 		{
-			return Side.RIGHT;
+			return Side.MIDDLE;
 		}
 		if (tokens[0].StartsWith("bottom"))
 		{
@@ -156,6 +156,14 @@ internal class ConfigUILibrary
 		if (tokens[0].StartsWith("menu"))
 		{
 			return Side.MENU;
+		}
+		if (tokens[0].StartsWith("acquire"))
+		{
+			return Side.ACQUIRE;
+		}
+		if (tokens[0].StartsWith("project"))
+		{
+			return Side.PROJECT;
 		}
 		return Side.LEFT;
 	}

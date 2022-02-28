@@ -93,11 +93,11 @@ namespace ConfigFocus
         }
         private int Call(string type, object sender, EventArgs e)
         {
-            LambdaArgs? lambdaArgs = (LambdaArgs)e;
-            Dictionary<string, object> dict = LambdaArgs.GetEventData(lambdaArgs);
-            TextBox1.Text = type;
+            //LambdaArgs? lambdaArgs = (LambdaArgs)e;
+            //Dictionary<string, object> dict = LambdaArgs.GetEventData(lambdaArgs);
+            //TextBox1.Text = type;
 
-            TextBox1.Text = type + JsonConvert.SerializeObject(dict, Formatting.Indented);
+            TextBox1.Text = type;
             return 1;
         }
 

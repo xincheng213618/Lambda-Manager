@@ -19,7 +19,7 @@ namespace LambdaManager.Core;
 
 internal class Common
 {
-	private static readonly FPSCounter fps = new FPSCounter(((MainWindow)Application.Current.MainWindow).cameraState);
+	private static readonly FPSCounter fps = new FPSCounter(((MainWindow)Application.Current.MainWindow).fpsState);
 
 	private static readonly int RESERVED_EVENT_RESULT = 2147400000;
 
@@ -477,8 +477,8 @@ internal class Common
 				Views[index].State = ViewState.RUNING;
 				if (index == 0)
 				{
-					string text = Application.Current.Resources["CameraRunning"] as string;
-					mainWindow.cameraState.Text = text;
+					string text = Application.Current.Resources["FpsRunning"] as string;
+					mainWindow.fpsState.Text = text;
 				}
 				FunctionExecutor.Solution.Writer?.Flush();
 			}

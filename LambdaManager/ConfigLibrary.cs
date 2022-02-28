@@ -122,16 +122,16 @@ internal class ConfigLibrary
 			int width2 = int.Parse(left);
 			if (width2 > 50)
 			{
-				main.leftView.Width = width2;
+				main.leftView.Width = new GridLength(width2);
 			}
 		}
-		string right = root.Attribute((XName?)"right")?.Value;
-		if (right != null)
+		string middle = root.Attribute((XName?)"middle")?.Value;
+		if (middle != null)
 		{
-			int width = int.Parse(right);
+			int width = int.Parse(middle);
 			if (width > 20)
 			{
-				main.rightView.Width = width;
+				main.middleView.Width = new GridLength(width);
 			}
 		}
 		main.Notice = root.Attribute((XName?)"notice")?.Value;

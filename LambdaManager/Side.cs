@@ -4,7 +4,10 @@ internal enum Side
 {
 	TOP,
 	LEFT,
-	RIGHT,
+	MIDDLE,
 	BOTTOM,
-	MENU
+	RIGHT,
+	MENU,
+	ACQUIRE,
+	PROJECT
 }

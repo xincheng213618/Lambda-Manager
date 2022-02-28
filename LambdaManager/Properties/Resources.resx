@@ -214,6 +214,9 @@
   <data name="File" xml:space="preserve">
     <value>文件</value>
   </data>
+  <data name="FpsRunning" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="Import" xml:space="preserve">
     <value>导入</value>
   </data>
