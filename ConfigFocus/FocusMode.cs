@@ -13,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
 
 namespace ConfigFocus
 {
@@ -93,11 +92,23 @@ namespace ConfigFocus
         }
         private int Call(string type, object sender, EventArgs e)
         {
-            //LambdaArgs? lambdaArgs = (LambdaArgs)e;
-            //Dictionary<string, object> dict = LambdaArgs.GetEventData(lambdaArgs);
-            //TextBox1.Text = type;
-
-            TextBox1.Text = type;
+            if (e is LambdaArgs lambdaArgs)
+            {
+                object data = lambdaArgs.Data;
+                if (data == null)
+                {
+                    return 1;
+                }
+                if (data is string text)
+                {
+                    TextBox1.Text = type + text;
+                    return 1;
+                }
+                if (data is Dictionary<string, object> result)
+                {
+                    TextBox1.Text = type + result.ToString();
+                }
+            }
             return 1;
         }
 

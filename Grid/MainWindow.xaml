@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Grid"
         xmlns:resx="clr-namespace:Grid.Properties"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="720" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"  Background="Transparent" AllowsTransparency="True" Initialized="Window_Initialized">
     <Window.Resources>
@@ -46,12 +47,10 @@
                                 <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <Setter Property="Background" TargetName="border" Value="#3D3D3D"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                <Setter Property="Background" TargetName="border" Value="#3D3D3D"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
@@ -136,8 +135,14 @@
                                 <TextBlock Text="Grid" FontWeight="Bold" FontSize="25" Foreground="White" Margin="15,0,0,0" />
                             </StackPanel>
                         </DockPanel>
-                        <TextBox Text="ZIRCON Grid " BorderThickness="0" FontSize="16" FontWeight="Bold" Foreground="White" Background="Transparent" Margin="0,30,0,0"/>
-                        <TextBox Text="Microscope Application Suite Version 1.0 2022-02-28" BorderThickness="0" FontSize="11.5" Foreground="White" Background="Transparent" Margin="0,0" TextWrapping="WrapWithOverflow"  AllowDrop="True"   Width="175" HorizontalAlignment="Left"/>
+                        <TextBlock  Margin="0,30,0,0">
+                            <Run Text=" ZIRCON Grid&#x000A;" FontSize="16" FontWeight="Bold" Foreground="White" />
+                            <Run Text="Microscope Application Suite&#x000A;"  FontSize="11.5" Foreground="White"/>
+                            <Run Text="Version 1.0"  FontSize="11.5" Foreground="White"/>
+                            <Run Text="{Binding Source={x:Static sys:DateTime.Now},Mode=OneWay, StringFormat='yyyy-MM-dd '}"  FontSize="11.5" Foreground="White"/>
+                        </TextBlock>
+                        
+
                     </StackPanel>
 
                     <StackPanel IsEnabled="False"  DockPanel.Dock="Bottom" Margin="0,0,50,0"  >
