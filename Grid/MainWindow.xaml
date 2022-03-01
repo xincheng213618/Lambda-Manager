@@ -125,8 +125,8 @@
                 <Image Margin="0,0,0,0" Source="/Image1.png" Stretch="Fill" Visibility="Hidden"/>
                 <Image Source="Image\ZIRCON.png" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="22,15"/>
                 <DockPanel  Margin="25,20,25,22">
-                    <StackPanel DockPanel.Dock="Top" >
-                        <DockPanel>
+                    <StackPanel DockPanel.Dock="Top"  >
+                        <DockPanel HorizontalAlignment="Left">
                             <Image  Source="Image\Grid.png" Height="50" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <StackPanel >
                                 <Border Background="#669347" CornerRadius="3" Width="65" HorizontalAlignment="Left"  Margin="10,1" >
@@ -182,18 +182,8 @@
                     </Grid>
                 </DockPanel>
 
-
-
-
-
-
             </Grid>
-            
-            
-
-
-
-
+           
         </Border>
     </Border>
 </Window>
