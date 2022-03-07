@@ -299,7 +299,19 @@
 
             <Slider Style="{StaticResource Horizontal_Slider1}" Value="10" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
             <Slider Style="{StaticResource Horizontal_Slider1}" Height="50" Orientation="Vertical" Value="10" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
-            <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1" IsSnapToTickEnabled="True" Value="50" Maximum="100" Minimum="25" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>
+            <Track Grid.Row="1" Orientation="Vertical" Grid.Column="1" Value="5" Maximum="100" Minimum="0"   x:Name="PART_Track1" ToolTip="{Binding  ElementName=PART_Track1,Path=Value,StringFormat=N2}" >
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumbStyle2}"  />
+                </Track.Thumb>
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton/>
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton/>
+                </Track.IncreaseRepeatButton>
+
+            </Track>
+            <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1"  Background="Transparent" IsSnapToTickEnabled="True" Value="50" Maximum="100" Minimum="25" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>
             <Viewbox  Width="{Binding Value, ElementName=slier1}" HorizontalAlignment="Left">
                 <UniformGrid Width="50" >
                     <local:ColorPicker  SelectColor="Red" Height="25" Width="25" ></local:ColorPicker>

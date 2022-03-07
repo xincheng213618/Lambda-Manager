@@ -187,9 +187,9 @@
                 <Track.Thumb>
                     <Thumb Style="{StaticResource SliderThumbStyle2}"  />
                 </Track.Thumb>
-                
-                
+                       
             </Track>
+
         </Grid>
     </ControlTemplate>
 
