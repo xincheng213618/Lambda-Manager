@@ -10,8 +10,8 @@
         <ControlTemplate TargetType="{x:Type local:SampleSpot}">
                     <StackPanel Background="Transparent">
                         <Grid>
-                            <Path x:Name="Path1" Visibility="Visible" Margin="5,2" Height="10" Width="15" Stretch="Fill"  HorizontalAlignment="Left"  Fill="White" Data="{StaticResource DownArrow}"  />
-                            <Path  x:Name="Path2" Visibility="Hidden" Margin="7.5,2" Height="15" Width="10" HorizontalAlignment="Left" Stretch="Fill"   Fill="White" Data="{StaticResource RightArrow}"/>
+                            <Path x:Name="Path1" Visibility="Visible" Margin="5,2" Height="10" Width="15" Stretch="Fill"  HorizontalAlignment="Left"  Fill="White" Data="M 0,0 L 1,1 L 2,0 Z"  />
+                            <Path  x:Name="Path2" Visibility="Hidden" Margin="7.5,2" Height="15" Width="10" HorizontalAlignment="Left" Stretch="Fill"   Fill="White" Data="M 0,0 L 1,1 L 0,2 Z"/>
 
                             <Label Content="区域选择" Foreground="White"  FontSize="14" Margin="25,0,0,0" />
                             <Button x:Name="buttonheader1" >

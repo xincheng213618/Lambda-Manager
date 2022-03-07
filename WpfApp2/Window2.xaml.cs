@@ -1,105 +1,33 @@
-﻿using Lambda;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ConfigObjective
+namespace WpfApp2
 {
     /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ConfigObjective"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ConfigObjective;assembly=ConfigObjective"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:CustomControl1/>
-    ///
+    /// Window2.xaml 的交互逻辑
     /// </summary>
-    [TemplatePart(Name = "Button1", Type = typeof(RadioButton))]
-    [TemplatePart(Name = "Button2", Type = typeof(RadioButton))]
-    [TemplatePart(Name = "Button3", Type = typeof(RadioButton))]
-    [TemplatePart(Name = "Button4", Type = typeof(RadioButton))]
-    public class Magnification : LambdaControl
+    public partial class Window2 : Window
     {
-
-        static Magnification()
+        public Window2()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(Magnification), new FrameworkPropertyMetadata(typeof(Magnification)));
-        }
-        Canvas? Canvas1;
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            Canvas1 = (Canvas)Template.FindName("Canvas1", this);
-            Canvas1.MouseMove += MainCanvas_MouseMove;
-            Canvas1.MouseLeftButtonUp += MainCanvas_MouseLeftButtonUp;
-            Canvas1.MouseLeftButtonDown += MainCanvas_MouseLeftButtonDown;
-            Canvas1.PreviewMouseRightButtonUp += Canvas1_PreviewMouseRightButtonUp;
-            Canvas1.PreviewMouseRightButtonDown += Canvas1_PreviewMouseRightButtonDown;
-            Canvas1.PreviewMouseDown += Canvas1_PreviewMouseDown;
-
-            if (Template.FindName("Button1", this) is RadioButton btn1)
-            {
-                btn1.Click += delegate
-                {
-                    string data = "{\"mag\":4,\"selected\":0}";
-                    Trigger("MAG_CHANGED", data);
-                };
-            }
-            if (Template.FindName("Button2", this) is RadioButton btn2)
-            {
-                btn2.Click += delegate
-                {
-                    Dictionary<string, object> data = new();
-                    data["mag"] = 10;
-                    data["selected"] = 1;
-                    Trigger("MAG_CHANGED", data);
-                };
-            }
-            if (Template.FindName("Button3", this) is RadioButton btn3)
-            {
-                btn3.Click += delegate
-                {
-                    string data = "{\"mag\":20,\"selected\":2}";
-                    Trigger("MAG_CHANGED", data);
-                };
-            }
-            if (Template.FindName("Button4", this) is RadioButton btn4)
-            {
-                btn4.Click += delegate
-                {
-                    Dictionary<string, object> data = new();
-                    data["mag"] = 40;
-                    data["selected"] = 3;
-                    Trigger("MAG_CHANGED", data);
-                };
-            }
+            InitializeComponent();
         }
 
+        private void ToggleButton_Click()
+        {
+
+        }
 
 
 
@@ -429,12 +357,11 @@ namespace ConfigObjective
                     { "X", (int)((point.X)) },
                     { "Y", (int)(point.Y) },
                 };
-                Trigger("MOTORCONTROL", this, data);
+                //Trigger("MOTORCONTROL", this, data);
 
                 //MessageBox.Show((point.X - 175).ToString() + (175 - point.Y).ToString());
 
             }
         }
-
     }
 }

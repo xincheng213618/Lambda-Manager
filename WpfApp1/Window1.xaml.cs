@@ -68,6 +68,11 @@ namespace WpfApp1
             Grid grid = sender as Grid;
             ssss1.Height = 300 * (grid.ActualHeight / grid.ActualWidth);
         }
+
+
+
+
+
     }
     public static class ViewBoxExtensions
     {

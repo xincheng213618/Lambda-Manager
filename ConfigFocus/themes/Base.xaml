@@ -1,5 +1,74 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:local="clr-namespace:ConfigFocus">
+
+    <local:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
+    
+    <Style x:Key="ButtonPageControl" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <DockPanel >
+                        <Rectangle x:Name="Reg" Height="15" Width="15" Fill="Transparent" Stroke="#726C6C" StrokeThickness="2" Margin="5"/>
+                        <ContentPresenter  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Reg" Property="Fill" Value="#70AD47"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonPageControl1" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <DockPanel >
+                        <Path x:Name="path1"  Margin="7.5,2" Height="15" Width="10" Stretch="Fill" Fill="White" Data="M 0,0 L 1,1 L 0,2 Z"/>
+                        <ContentPresenter  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="path1" Property="Data" Value="M 0,0 L 1,1 L 2,0 Z"/>
+                            <Setter TargetName="path1" Property="Height" Value="10"/>
+                            <Setter TargetName="path1" Property="Width" Value="15"/>
+                            <Setter TargetName="path1" Property="Margin" Value="5,2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ToggleButtonStyle1" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="#3B3838"/>
+        <Setter Property="BorderBrush" Value="#767171"/>
+        <Setter Property="Foreground" Value="#D0CECE"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true" CornerRadius="5" >
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="#6EA646"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="SliderThumbStyle1" TargetType="Thumb">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="false"/>
@@ -78,8 +147,8 @@
 
         </Grid>
     </ControlTemplate>
-    
-    
+
+
     <ControlTemplate x:Key="Slider11"  TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
@@ -92,7 +161,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Row="1" Grid.Column="2" Background="#1B1B1A" Margin="2" CornerRadius="3" Padding="3,0">
+            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
                     <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
@@ -115,7 +184,7 @@
 
         </Grid>
     </ControlTemplate>
-    
+
 
     <Style x:Key="SliderThumbStyle2" TargetType="Thumb">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -164,7 +233,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <ControlTemplate x:Key="Slider2"  TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
@@ -187,8 +256,8 @@
                 <Track.Thumb>
                     <Thumb Style="{StaticResource SliderThumbStyle2}"  />
                 </Track.Thumb>
-                
-                
+
+
             </Track>
         </Grid>
     </ControlTemplate>
@@ -237,5 +306,4 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
 </ResourceDictionary>

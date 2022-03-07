@@ -1,0 +1,259 @@
+﻿<Window x:Class="WpfApp2.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="Window2" Background="#262626" Height="1080" Width="1920">
+
+    <Grid Margin="5">
+        <StackPanel HorizontalAlignment="Left" Background="#404040">
+            <ToggleButton x:Name="ToggleButton1"  Style="{StaticResource ButtonPageControl}" Content="物镜设置" FontSize="14" Foreground="White" IsChecked="True" />
+            <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Name="Button1" Style="{StaticResource ToggleButtonStyle1}" Content="4X" Margin="5 0" Width="55"  />
+                    <RadioButton Name="Button2" Style="{StaticResource ToggleButtonStyle1}" Content="10X" Margin="5 0" Width="55"  Visibility="Visible" IsChecked="True"/>
+                    <RadioButton Name="Button3" Style="{StaticResource ToggleButtonStyle1}" Content="20X" Margin="5 0" Width="55" Visibility="Visible" />
+                    <RadioButton Name="Button4" Style="{StaticResource ToggleButtonStyle1}" Content="40X" Margin="5 0" Width="55" Visibility="Visible" />
+                </StackPanel>
+            </Border>
+            <ToggleButton x:Name="ToggleButton2"  Style="{StaticResource ButtonPageControl}" Content="相机设置" FontSize="14" Foreground="White" IsChecked="True" />
+            <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+                <StackPanel Orientation="Horizontal">
+                    <Border  Width="300" Height="100" Background="Transparent">
+
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <ToggleButton x:Name="ToggleButton3"  Style="{StaticResource ButtonPageControl}" Content="成像模式" FontSize="14" Foreground="White" IsChecked="True" />
+            <Border CornerRadius="5"  Width="300" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Focusable="True" Background="#595959"  Padding="5" Margin="5,0">
+                <StackPanel>
+                    <UniformGrid Columns="6" >
+                        <RadioButton Name="Button31" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Width="45" />
+                        <RadioButton Name="Button32" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Width="45"  IsChecked="True"  />
+                        <RadioButton Name="Button33" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Width="45"  />
+                        <RadioButton Name="Button34" Style="{StaticResource ToggleButtonStyle1}" Content="相差" Width="45"  />
+                        <RadioButton Name="Button35" Style="{StaticResource ToggleButtonStyle1}" Content="差分" Width="45"  />
+                        <RadioButton Name="Button36" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Width="45"  />
+                    </UniformGrid>
+                    <Border  Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <DockPanel>
+                            <TextBlock Text="照明孔径" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="3" Maximum="25"  TickFrequency="1"/>
+                        </DockPanel>
+                    </Border>
+                    <Border  Visibility="{Binding ElementName=Button32 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5" >
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock Text="照明孔径" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                <Slider Style="{StaticResource Horizontal_Slider2}" Value="10" Maximum="20"  TickFrequency="0.02"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="图像对比度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                <Slider Style="{StaticResource Horizontal_Slider2}" Value="45" Maximum="255"  TickFrequency="0.02"/>
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border  Visibility="{Binding ElementName=Button33 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <StackPanel>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                        </StackPanel>
+                    </Border>
+                    <Border  Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <StackPanel>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                        </StackPanel>
+                    </Border>
+                    <Border  Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <StackPanel>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                        </StackPanel>
+                    </Border>
+                    <Border  Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <StackPanel>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                            <Slider Style="{StaticResource Horizontal_Slider2}" Value="10"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <ToggleButton x:Name="ToggleButton4"  Style="{StaticResource ButtonPageControl}" Content="载物台控制" FontSize="14" Foreground="White" IsChecked="True" />
+            <Border CornerRadius="5" Width="300"  Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+                <StackPanel>
+                    <UniformGrid Columns="5" >
+                        <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}" Content="玻片" Width="50" IsChecked="True" />
+                        <RadioButton Name="Button42" Style="{StaticResource ToggleButtonStyle1}" Content="培养皿" Width="50"  />
+                        <RadioButton Name="Button43" Style="{StaticResource ToggleButtonStyle1}" Content="六口板" Width="50"  />
+                        <RadioButton Name="Button44" Style="{StaticResource ToggleButtonStyle1}" Content="多口版" Width="50"  />
+                        <RadioButton Name="Button45" Style="{StaticResource ToggleButtonStyle1}" Content="自定义" Width="50"  />
+                    </UniformGrid>
+                    <Border Padding="0,5">
+                        <Canvas x:Name="Canvas1"  Visibility="Visible" Height="200" Width="300"   MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"  PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown">
+                            <Rectangle Height="100" Width="290" Margin="0,50" Fill="#404040" Stroke="#787878" StrokeThickness="2"/>
+                            <Ellipse x:Name="CricalBase"  Canvas.Top="0" Canvas.Left="50" Width= "200" Height="200"  Fill="#7F7F7F"  Stroke="#787878" StrokeThickness="2"/>
+                            <Line Stroke="white" Canvas.Top="0" Canvas.Left="0" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="288" Y2="100" />
+                            <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
+                        </Canvas>
+                    </Border>
+                    
+
+                    <Viewbox>
+
+                    </Viewbox>
+
+                    <ToggleButton x:Name="ToggleButton41"  Style="{StaticResource ButtonPageControl}" Content="XYZ controller" FontSize="13" Foreground="White" IsChecked="True" />
+                    <Border  Visibility="{Binding ElementName=ToggleButton41 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Grid.Row="0" Grid.Column="0" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="X-Y控制" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button x:Name="ButtonFront" Grid.Row="0" Grid.Column="1" Content="︽" Margin="5"/>
+                            <Button x:Name="ButtonRear" Grid.Row="2" Grid.Column="1" Content="︾" Margin="5"/>
+                            <Button x:Name="ButtonLeft" Grid.Row="1" Grid.Column="0" Content="&lt;&lt;" Margin="5"/>
+                            <Button x:Name="ButtonRight" Grid.Row="1" Grid.Column="2"  Content=">>" Margin="5"/>
+                            <Button x:Name="ButtonRe" Grid.Row="1" Grid.Column="1" Content="O" Margin="5"/>
+
+                            <ToggleButton Grid.Row="0" Grid.Column="3" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="3" Text="Z控制" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                            <Button x:Name="ButtonUp" Grid.Row="0" Grid.Column="4"  Content="︽" Margin="5"/>
+                            <Button x:Name="ButtonAutoFocus" Grid.Row="1" Grid.Column="4" Content="A" Margin="5"/>
+                            <Button x:Name="ButtonDown" Grid.Row="2" Grid.Column="4"  Content="︾" Margin="5"/>
+                            <Slider Grid.Row="0" Grid.RowSpan="3" Grid.Column="6"  Style="{StaticResource Horizontal_Slider1}" Orientation="Vertical" HorizontalAlignment="Center" />
+
+
+                        </Grid>
+
+
+                    </Border>
+
+
+                </StackPanel>
+
+            </Border>
+
+            <ToggleButton x:Name="ToggleButton5"  Style="{StaticResource ButtonPageControl}" Content="采集模式" FontSize="14" Foreground="White" IsChecked="True" />
+            <Border CornerRadius="5" Width="300" Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+                <StackPanel >
+                    <UniformGrid Columns="6"  >
+                        <ToggleButton Style="{StaticResource ToggleButtonStyle1}" Content="X" Width="40" IsChecked="True"/>
+                        <ToggleButton Style="{StaticResource ToggleButtonStyle1}" Content="Y" Width="40" IsChecked="True"/>
+                        <ToggleButton Style="{StaticResource ToggleButtonStyle1}" Content="Z" Width="40" IsChecked="True"/>
+                        <ToggleButton Style="{StaticResource ToggleButtonStyle1}" Content="T" Width="40" IsChecked="True"/>
+                        <ToggleButton Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" Width="40" IsChecked="False"/>
+                        <ToggleButton Style="{StaticResource ToggleButtonStyle1}" Content="自定义" Width="45" />
+                    </UniformGrid>
+                    <Border Padding="5">
+                        <UniformGrid Columns="2" >
+                            <StackPanel >
+                                <DockPanel >
+                                    <TextBlock Text="Z-Begin" Width="50" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="40" Margin="5,0"/>
+                                    <Button  Content="Set"/>
+                                </DockPanel>
+                                <DockPanel >
+                                    <TextBlock Text="Z-End"  Width="50" VerticalAlignment="Center"  Foreground="White"/>
+                                    <TextBox Text="32" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="40" Margin="5,0"/>
+                                    <Button  Content="Set"/>
+                                </DockPanel>
+                                <DockPanel >
+                                    <TextBlock Text="Z-Step"  Width="50" VerticalAlignment="Center" Foreground="White" />
+                                    <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="40" Margin="5,0"/>
+                                    <Button  Content="Set"/>
+                                </DockPanel>
+                                <DockPanel  HorizontalAlignment="Left">
+                                    <TextBlock Text="Z- Absolute"  Width="70" VerticalAlignment="Center" Foreground="White" />
+                                </DockPanel>
+                            </StackPanel>
+                            <StackPanel Margin="5,0,0,0" >
+                                <DockPanel >
+                                    <TextBlock Text="T- Number"  Width="65" VerticalAlignment="Center"  Foreground="White"/>
+                                    <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="30" Margin="5,0"/>
+                                    <Button  Content="Set"/>
+                                </DockPanel>
+                                <DockPanel >
+                                    <TextBlock Text="T- Interval"  Width="65" VerticalAlignment="Center" Foreground="White" />
+                                    <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="30" Margin="5,0"/>
+                                    <Button  Content="Set"/>
+                                </DockPanel>
+                                <DockPanel >
+                                    <TextBlock Text="∞"  Width="25" VerticalAlignment="Center" Foreground="White" />
+                                    <Slider Value="5" Maximum="10" Style="{StaticResource Horizontal_Slider1}" />
+                                    <Button  Content="Set"/>
+                                </DockPanel>
+                                <DockPanel >
+                                    <TextBlock Text=">>"  Width="25" VerticalAlignment="Center" Foreground="White" />
+                                    <Slider Value="5" Maximum="10" Style="{StaticResource Horizontal_Slider1}" />
+                                    <Button  Content="Set"/>
+                                </DockPanel>
+                               
+
+
+                            </StackPanel>
+                        </UniformGrid>
+                    </Border>
+
+                    <ToggleButton x:Name="ToggleButton51"  Style="{StaticResource ButtonPageControl}" Content="Summary" FontSize="13" Foreground="White" IsChecked="True" />
+                    <Border Visibility="{Binding ElementName=ToggleButton51 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <UniformGrid Columns="2">
+                            <StackPanel>
+                                <TextBlock Text="Number of time points: X" FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Number of z-slices: 1" FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Number of xy-positions: 1 " FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Number of Imaging modality: 1" FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Number of Fluor channels: 1" FontSize="8" Foreground="#7F7F7F"/>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Images Size: 1280×960 (5.2MB)" FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Total Images: 12345" FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Total Memory: 1.546 G" FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Total Duration: 23h 0m 0.002s" FontSize="8" Foreground="#7F7F7F"/>
+                                <TextBlock Text="Total Runtime: 0h 0m 0.002s" FontSize="10" Foreground="#7F7F7F"/>
+                            </StackPanel>
+
+
+
+                        </UniformGrid>
+                    </Border>
+
+                </StackPanel>
+            </Border>
+
+            <ToggleButton x:Name="ToggleButton6"  Style="{StaticResource ButtonPageControl}" Content="其他设置" FontSize="14" Foreground="White" IsChecked="True" />
+            <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton6 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+                <StackPanel Orientation="Horizontal">
+                    <Border  Width="300" Height="100" Background="Transparent">
+
+                    </Border>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+    </Grid>
+</Window>

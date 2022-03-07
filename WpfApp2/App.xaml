@@ -7,6 +7,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/themes/Base.xaml"/>
                 <ResourceDictionary Source="/Dictionary1.xaml"/>
                 <ResourceDictionary Source="/Dictionary2.xaml"/>
                 <ResourceDictionary Source="/Dictionary3.xaml"/>

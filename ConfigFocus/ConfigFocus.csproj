@@ -11,4 +11,12 @@
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="themes\Base.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
 </Project>

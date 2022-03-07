@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -385,9 +386,6 @@ namespace WpfApp2
             
         }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
         private List<string> comboxlist;
         private int SelectedIndex =0;
 
@@ -444,5 +442,22 @@ namespace WpfApp2
                 toggleButton.Content = "拍照";
             }
         }
+
+        private void DockPanel_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("1111");
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            border1.Visibility = border1.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
+
+
 }

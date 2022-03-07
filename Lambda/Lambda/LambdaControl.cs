@@ -15,6 +15,8 @@ public class LambdaControl : Control
 
 	public static CallEventHandler? CallEventHandler { get; set; }
 
+	public static View[]? Views { get; set; }
+
 	public static void Log(Message message)
 	{
 		LogHandler?.Invoke(message);
@@ -127,5 +129,14 @@ public class LambdaControl : Control
 	public static void AddLambdaEventHandler(string type, LambdaHandler handler, bool once)
 	{
 		AddEventHandler?.Invoke(type, handler, once);
+	}
+
+	public static View GetImageView(int index)
+	{
+		if (Views == null)
+		{
+			throw new Exception("error!");
+		}
+		return Views[index];
 	}
 }
