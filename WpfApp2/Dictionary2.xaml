@@ -50,6 +50,19 @@
         </Setter>
     </Style>
 
+    <Style x:Key="SliderRepeatButtonTransparent" TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border SnapsToDevicePixels="True" Background="Transparent"  BorderThickness="0"  Height="{TemplateBinding Height}" CornerRadius="3,0,0,3" Margin="0,0,-3,0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <ControlTemplate x:Key="Slider1"  TargetType="Slider">
         <Grid>
@@ -237,5 +250,93 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
+    <ControlTemplate x:Key="Transparent_Slider_ControlTemplate1"  TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Track Grid.Row="1" Orientation="Horizontal" Grid.Column="1" x:Name="PART_Track" ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N2}" >
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButtonTransparent}"  Command="Slider.DecreaseLarge" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButtonTransparent}" Command="Slider.IncreaseLarge" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
+                </Track.Thumb>
+
+            </Track>
+
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Transparent_Slider_ControlTemplate2"  TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="{TemplateBinding MinWidth}"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Track Grid.Row="1" Orientation="Vertical" Grid.Column="1" x:Name="PART_Track" ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N2}" >
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButtonTransparent}"  Command="Slider.DecreaseLarge" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButtonTransparent}" Command="Slider.IncreaseLarge" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumbStyle2}"  />
+                </Track.Thumb>
+
+            </Track>
+
+        </Grid>
+    </ControlTemplate>
+
+
+
+
+
+
+
+
+    <Style x:Key="Transparent_Slider" TargetType="Slider">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TickFrequency" Value="0.1"/>
+        <Setter Property="IsSnapToTickEnabled" Value="True"/>
+        <Setter Property="Orientation" Value="Horizontal"/>
+
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="MinHeight" Value="21" />
+                <Setter Property="MinWidth" Value="70" />
+                <Setter Property="Template" Value="{StaticResource Transparent_Slider_ControlTemplate1}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="MinHeight" Value="70" />
+                <Setter Property="MinWidth" Value="21" />
+                <Setter Property="Template" Value="{StaticResource Transparent_Slider_ControlTemplate2}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 
 </ResourceDictionary>
