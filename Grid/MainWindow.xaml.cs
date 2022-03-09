@@ -45,38 +45,34 @@ namespace Grid
 
         private void Set_Click(object sender, RoutedEventArgs e)
         {
-            string FileName;
-            if (FileHelper.OpenFileDialog(out FileName, "显微镜配置|*.*"))
+            OpenFileDialog dialog = new()
             {
-                TextBox1.Text = FileName;
+                Multiselect = false,//该值确定是否可以选择多个文件
+                Title = "请选择配置文件",
+                RestoreDirectory = true,
+                Filter = "显微镜配置 | *.* ",
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                TextBox1.Text = dialog.FileName;
             }
-            
+
         }
 
         private void Set_Click1(object sender, RoutedEventArgs e)
         {
-            string FileName;
-            if (FileHelper.OpenFileDialog(out FileName, "显微镜工程(*.lmp)|*.lmp"))
-            {
-                TextBox2.Text = FileName;
-            }
-        }
-    }
-    public static class FileHelper
-    {
-        public static bool OpenFileDialog(out string FileName,string Filter)
-        {
-            OpenFileDialog dialog = new OpenFileDialog
+            OpenFileDialog dialog = new()
             {
                 Multiselect = false,//该值确定是否可以选择多个文件
-                Title = "请选择文件",
+                Title = "请选择工文件",
                 RestoreDirectory = true,
-                Filter = Filter,
+                Filter = "显微镜工程(*.lmp)|*.lmp",
             };
-            bool? result = dialog.ShowDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                TextBox2.Text = dialog.FileName;
+            }
 
-            FileName = result == true ? dialog.FileName : "";
-            return (bool)result;
         }
     }
 }

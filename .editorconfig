@@ -76,6 +76,9 @@ csharp_style_namespace_declarations = block_scoped:silent
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_prefer_static_local_function = true:suggestion
 
+# CS8618: 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+dotnet_diagnostic.CS8618.severity = none
+
 [*.vb]
 #### 命名样式 ####
 
