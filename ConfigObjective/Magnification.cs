@@ -71,6 +71,13 @@ namespace ConfigObjective
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            #region  操作父类
+            UIElement parent = (UIElement)Parent;
+            if (parent is StackPanel stack)
+            {
+                stack.Width = 330;
+            }
+            #endregion
 
 
             #region ToggleButton 切换按钮
@@ -80,8 +87,6 @@ namespace ConfigObjective
             ToggleButton ToggleButton4 = (ToggleButton)Template.FindName("ToggleButton4", this);
             ToggleButton ToggleButton5 = (ToggleButton)Template.FindName("ToggleButton5", this);
             #endregion  
-
-
 
             #region ViewMode 成像模式
             RadioButton Button31  =(RadioButton)Template.FindName("Button31", this);

@@ -28,10 +28,10 @@
                             </StackPanel>
                         </Border>
 
-                        <DockPanel>
+                        <DockPanel Margin="0,5">
                             <ToggleButton x:Name="ToggleButton3"  Style="{StaticResource ButtonPageControl}" Content="成像模式" FontSize="14" Foreground="White" IsChecked="True" />
-                            <Button Content="重置" Background="#6EA646" BorderBrush="White" BorderThickness="1" Width="50" Foreground="White"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="80,0,0,0"/>
-                            <Button Content="关闭光源" Background="#6EA646" BorderBrush="White" BorderThickness="1" Width="70" Foreground="White"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Button Content="重置" Width="55" Margin="80,0,0,0" />
+                            <Button Content="关闭光源"  Margin="20,0"/>
                         </DockPanel>
                         
                         <Border CornerRadius="5"  Width="300" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Focusable="True" Background="#595959"  Padding="5" Margin="5,0">
@@ -135,7 +135,7 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton Width="50" Template="{StaticResource ToggleButton10}" IsChecked="False" />
+                                            <ToggleButton Margin="20,0" Template="{StaticResource ToggleButton10}" IsChecked="False" />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
@@ -151,7 +151,7 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton Width="50" Template="{StaticResource ToggleButton10}" IsChecked="False" />
+                                            <ToggleButton Margin="20,0" Template="{StaticResource ToggleButton10}" IsChecked="False" />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>

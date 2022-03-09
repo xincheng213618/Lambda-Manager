@@ -7,7 +7,7 @@
         xmlns:resx="clr-namespace:Grid.Properties"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="720" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"  Background="Transparent" AllowsTransparency="True" Initialized="Window_Initialized">
+        Title="MainWindow" Height="400" Width="720" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen"  Background="Transparent"  Initialized="Window_Initialized">
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -110,11 +110,11 @@
     <WindowChrome.WindowChrome>
         <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
     </WindowChrome.WindowChrome>
-    <Border CornerRadius="30">
+    <Border >
         <Border.Background>
             <ImageBrush ImageSource="Image\background.tif"/>
         </Border.Background>
-        <Border CornerRadius="30" Opacity="0.9" >
+        <Border Opacity="0.9" >
             <Border.Background>
                 <LinearGradientBrush StartPoint="0.2,0.4" EndPoint="0.9,0.8">
                     <GradientStop Offset="0" Color="#FF000000"/>

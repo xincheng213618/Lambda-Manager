@@ -14,43 +14,40 @@
         <Menu x:Name="menu" DockPanel.Dock="Top" Padding="0,5,0,5" >
             <MenuItem x:Name="file" Header="文件" Click="file_Click"/>
         </Menu>
-        
-        <StackPanel>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="800" CanContentScroll="True">
-                    <Viewbox Grid.Column="0" VerticalAlignment="Top" >
-                        <StackPanel Name="leftView" Width="330" Margin="0,5,0,5">
-                            <ConfigObjective:Magnification />
-       
-                        </StackPanel>
-                    </Viewbox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                <Viewbox Grid.Column="0" VerticalAlignment="Top" >
+                    <StackPanel Name="leftView" Width="330" Margin="0,5,0,5">
+                        <ConfigObjective:Magnification />
 
-                </ScrollViewer>
-                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
-                <Grid x:Name="mainView" Grid.Column="2" Background="#FF5D5D5D">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
-                    <StackPanel x:Name="bottomView" Orientation="Horizontal" />
-                </Grid>
-                <GridSplitter Grid.Column="3" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
-                <ScrollViewer Grid.Column="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel x:Name="rightView" DockPanel.Dock="Right"/>
-                </ScrollViewer>
+                    </StackPanel>
+                </Viewbox>
+
+            </ScrollViewer>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
+            <Grid x:Name="mainView" Grid.Column="2" Background="#FF5D5D5D">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
+                <StackPanel x:Name="bottomView" Orientation="Horizontal" />
             </Grid>
-        </StackPanel>
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
+            <ScrollViewer Grid.Column="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel x:Name="rightView" DockPanel.Dock="Right"/>
+            </ScrollViewer>
+        </Grid>
 
 
 
