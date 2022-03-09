@@ -32,8 +32,8 @@ namespace WpfApp1
 
         private void Grid1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Grid grid = sender as Grid;
-            x22222.Width = grid.ActualWidth;
+            if (sender is Grid grid)
+                x22222.Width = grid.ActualWidth;
 
         }
 
@@ -50,8 +50,8 @@ namespace WpfApp1
             foreach (var item in list)
             {
                 Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + item.path);
-                Control control = (Control)assembly.CreateInstance($"{item.path.Replace(".dll", "")}.{item.name}");
-                leftView.Children.Add(control);
+                if (assembly.CreateInstance($"{item.path.Replace(".dll", "")}.{item.name}") is Control control)
+                    leftView.Children.Add(control);
             }
         }
 
@@ -59,14 +59,13 @@ namespace WpfApp1
         {
             Viewbox viewbox = (Viewbox)sender;
             ssss1.Height = 420*viewbox.GetScaleFactor();
-            //MessageBox.Show(viewbox.GetScaleFactor().ToString());
 
         }
 
         private void Grid2_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Grid grid = sender as Grid;
-            ssss1.Height = 300 * (grid.ActualHeight / grid.ActualWidth);
+            if (sender is Grid grid)
+                ssss1.Height = 300 * (grid.ActualHeight / grid.ActualWidth);
         }
 
 
@@ -78,13 +77,10 @@ namespace WpfApp1
     {
         public static double GetScaleFactor(this Viewbox viewbox)
         {
-            if (viewbox.Child == null ||
-                (viewbox.Child is FrameworkElement) == false)
-            {
+            if (viewbox.Child is FrameworkElement child)
+                return viewbox.ActualWidth / child.ActualWidth;
+            else
                 return double.NaN;
-            }
-            FrameworkElement child = viewbox.Child as FrameworkElement;
-            return viewbox.ActualWidth / child.ActualWidth;
         }
     }
 }

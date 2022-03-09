@@ -12,9 +12,9 @@ namespace ConfigObjective
     }
     public class ObjectiveSetting
     {
-        public int? ID { get; set; }    
-        public string? Name { get; set; }   
-        public string? Magnitude { get; set; }
-        public double? NA { get; set; }
+        public int ID { get; set; }    
+        public string Name { get; set; }   
+        public string Magnitude { get; set; }
+        public double NA { get; set; }
     }
 }

@@ -50,7 +50,6 @@ namespace ConfigObjective
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Magnification), new FrameworkPropertyMetadata(typeof(Magnification)));
         }
-        Canvas? Canvas1;
         private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2) };
 
         //ObjectiveSettingList Demo ALL
@@ -103,8 +102,14 @@ namespace ConfigObjective
             {
                 item.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "dpc", int.Parse(item.Tag.ToString()) } };
-                    Trigger("DPC_MODE_CHANGED", item, data);
+                    string s = item.Tag.ToString();
+                    if (s != null)
+                    {
+                        Dictionary<string, object> data = new() { { "dpc", int.Parse(s) } };
+                        Trigger("DPC_MODE_CHANGED", item, data);
+                    }
+
+
                 };
             }
             #region slider
@@ -272,6 +277,7 @@ namespace ConfigObjective
                     Trigger("OBJECTIVE_LENS_SETTING", values);
                 };
                 ObjectiveSettingStackPanel.Children.Add(radioButton);
+
             }
             if (ObjectiveSettingList.Count < 2)
             {
@@ -412,18 +418,20 @@ namespace ConfigObjective
 
 
         #region  圆环
-        private Border currentBoxSelectedBorder = null;//拖动展示的提示框
+        private Canvas Canvas1;
+        private Border currentBoxSelectedBorder;
         private bool isCanMove = false;//鼠标是否移动
         private Point tempStartPoint;//起始坐标
 
-        Rectangle? rectangle;
+        Rectangle rectangle;
+        private BrushConverter brushConverter = new BrushConverter();
         /// <summary>
         /// 鼠标按下记录起始点
         /// </summary>
         private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             rectangle = new Rectangle();
-            rectangle.Fill = (Brush)brushConverter.ConvertFrom("#2E86E1");
+            rectangle.Fill = brushConverter.ConvertFrom("#2E86E1") as Brush; 
             rectangle.Opacity = 0.9;
             rectangle.Width = 10;
             rectangle.Height = 7;
@@ -440,7 +448,6 @@ namespace ConfigObjective
 
 
 
-        private BrushConverter brushConverter = new BrushConverter();
 
         private void MainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -478,10 +485,10 @@ namespace ConfigObjective
                 }
 
                 currentBoxSelectedBorder = new Border();
-                currentBoxSelectedBorder.Background = (Brush)brushConverter.ConvertFrom("#2E86E1");
+                currentBoxSelectedBorder.Background = brushConverter.ConvertFrom("#2E86E1") as Brush;
                 currentBoxSelectedBorder.Opacity = 0.9;
                 currentBoxSelectedBorder.BorderThickness = new Thickness(2);
-                currentBoxSelectedBorder.BorderBrush = (Brush)brushConverter.ConvertFrom("#2E86E1FF");
+                currentBoxSelectedBorder.BorderBrush = brushConverter.ConvertFrom("#2E86E1FF") as Brush;
                 currentBoxSelectedBorder.PreviewMouseRightButtonDown += Border_PreviewMouseRightButtonDown;
                 currentBoxSelectedBorder.MouseMove += Border_MouseMove;
                 currentBoxSelectedBorder.MouseLeftButtonDown += Border_MouseLeftButtonDown;
@@ -503,7 +510,6 @@ namespace ConfigObjective
                 if (rectangle != null)
                 {
                     Canvas1.Children.Remove(rectangle);
-                    rectangle = null;
                 }
             }
             else
@@ -531,10 +537,10 @@ namespace ConfigObjective
             if (currentBoxSelectedBorder == null)
             {
                 currentBoxSelectedBorder = new Border();
-                currentBoxSelectedBorder.Background = (Brush)brushConverter.ConvertFrom("#2E86E1");
+                currentBoxSelectedBorder.Background = brushConverter.ConvertFrom("#2E86E1") as Brush;
                 currentBoxSelectedBorder.Opacity = 0.9;
                 currentBoxSelectedBorder.BorderThickness = new Thickness(2);
-                currentBoxSelectedBorder.BorderBrush = (Brush)brushConverter.ConvertFrom("#2E86E1FF");
+                currentBoxSelectedBorder.BorderBrush = brushConverter.ConvertFrom("#2E86E1FF") as Brush;
                 currentBoxSelectedBorder.PreviewMouseRightButtonDown += Border_PreviewMouseRightButtonDown;
                 currentBoxSelectedBorder.MouseMove += Border_MouseMove;
                 currentBoxSelectedBorder.MouseLeftButtonDown += Border_MouseLeftButtonDown;
@@ -554,7 +560,6 @@ namespace ConfigObjective
                 if (rectangle != null)
                 {
                     Canvas1.Children.Remove(rectangle);
-                    rectangle = null;
                 }
 
             }
@@ -573,14 +578,13 @@ namespace ConfigObjective
         {
             Border? border = (Border)sender;
             Canvas1.Children.Remove(border);
-            border = null;
         }
 
         private void Rectangle_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Rectangle rectangle = (Rectangle)sender;
+            Rectangle? rectangle = (Rectangle)sender;
             Canvas1.Children.Remove(rectangle);
-            rectangle = null;
+           
         }
 
         private void Canvas1_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -612,9 +616,6 @@ namespace ConfigObjective
                     //    this.Canvas1.Children.Remove(child);
                 }
                 this.Canvas1.Children.Remove(currentBoxSelectedBorder1);
-                currentBoxSelectedBorder1 = null;
-
-
             }
             isCanMove1 = false;
         }
@@ -625,7 +626,7 @@ namespace ConfigObjective
         }
         public static List<T> GetChildObjects<T>(System.Windows.DependencyObject obj) where T : System.Windows.FrameworkElement
         {
-            System.Windows.DependencyObject child = null;
+            System.Windows.DependencyObject? child = null;
             List<T> childList = new List<T>();
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
@@ -646,7 +647,7 @@ namespace ConfigObjective
             tempStartPoint1 = e.GetPosition(this.Canvas1);
         }
 
-        private Border currentBoxSelectedBorder1 = null;//拖动展示的提示框
+        private Border? currentBoxSelectedBorder1;
         private bool isCanMove1 = false;//鼠标是否移动
         private Point tempStartPoint1;//起始坐标
 
@@ -727,7 +728,6 @@ namespace ConfigObjective
                 if (rectangle != null)
                 {
                     Canvas1.Children.Remove(rectangle);
-                    rectangle = null;
                 }
 
                 Point point = e.GetPosition(this.Canvas1);
