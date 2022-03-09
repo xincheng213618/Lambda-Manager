@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -50,10 +51,263 @@ namespace ConfigObjective
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Magnification), new FrameworkPropertyMetadata(typeof(Magnification)));
         }
         Canvas? Canvas1;
+        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2) };
+
+        //ObjectiveSettingList Demo ALL
+        //List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()
+        //{
+        //    new ObjectiveSetting (){ID =0, Name ="奥林巴斯",Magnitude="4X", NA=0.1},
+        //    new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25},
+        //    new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4},
+        //    new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65},
+        //    new ObjectiveSetting (){ID =4, Name ="奥林巴斯",Magnitude="100X", NA=1.25},
+        //};
+
+        List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()
+        {
+            new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25},
+
+        };
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+
+            #region ToggleButton 切换按钮
+            ToggleButton ToggleButton1 = (ToggleButton)Template.FindName("ToggleButton1", this);
+            ToggleButton ToggleButton2 = (ToggleButton)Template.FindName("ToggleButton2", this);
+            ToggleButton ToggleButton3 = (ToggleButton)Template.FindName("ToggleButton3", this);
+            ToggleButton ToggleButton4 = (ToggleButton)Template.FindName("ToggleButton4", this);
+            ToggleButton ToggleButton5 = (ToggleButton)Template.FindName("ToggleButton5", this);
+            #endregion  
+
+
+
+            #region ViewMode 成像模式
+            RadioButton Button31  =(RadioButton)Template.FindName("Button31", this);
+            RadioButton Button32 = (RadioButton)Template.FindName("Button32", this);
+            RadioButton Button33 = (RadioButton)Template.FindName("Button33", this);
+            RadioButton Button34 = (RadioButton)Template.FindName("Button34", this);
+            RadioButton Button35 = (RadioButton)Template.FindName("Button35", this);
+            RadioButton Button36 = (RadioButton)Template.FindName("Button36", this);
+
+            List<RadioButton> ViewModeradioButtons = new List<RadioButton>();
+            ViewModeradioButtons.Add(Button31);
+            ViewModeradioButtons.Add(Button32);
+            ViewModeradioButtons.Add(Button33);
+            ViewModeradioButtons.Add(Button34);
+            ViewModeradioButtons.Add(Button35);
+            ViewModeradioButtons.Add(Button36);
+            foreach (var item in ViewModeradioButtons)
+            {
+                item.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "dpc", int.Parse(item.Tag.ToString()) } };
+                    Trigger("DPC_MODE_CHANGED", item, data);
+                };
+            }
+            #region slider
+
+            Slider Slider311 = (Slider)Template.FindName("Slider311", this);
+            Slider311.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "diameter", (int)Slider311.Value} };
+                Trigger("DPC_MODE_CHANGED", Slider311, data);
+            };
+            Slider Slider312 = (Slider)Template.FindName("Slider312", this);
+            Slider312.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "brightness", (int)Slider312.Value } };
+                Trigger("BRIGHT_FIELD_BRIGHTNESS", Slider311, data);
+            };
+
+            Slider Slider321 = (Slider)Template.FindName("Slider321", this);
+            Slider321.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "inner", (int)Slider321.Value } };
+                Trigger("DARK_FIELD_INNER", Slider311, data);
+            };
+            Slider Slider322 = (Slider)Template.FindName("Slider322", this);
+            Slider322.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "outer", (int)Slider322.Value } };
+                Trigger("DARK_FIELD_OUTER", Slider311, data);
+            };
+            Slider Slider323 = (Slider)Template.FindName("Slider323", this);
+            Slider323.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "brightness", (int)Slider323.Value } };
+                Trigger("DARK_FIELD_BRIGHTNESS", Slider311, data);
+            };
+            Slider Slider324 = (Slider)Template.FindName("Slider324", this);
+            Slider324.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "gamma", (int)Slider323.Value*100} };
+                Trigger("DARK_FIELD_GAMMA", Slider311, data);
+            };
+
+            Slider Slider331 = (Slider)Template.FindName("Slider331", this);
+            Slider331.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "inner", (int)Slider331.Value } };
+                Trigger("RHEIN_BERG_INNER", Slider311, data);
+            };
+            Slider Slider332 = (Slider)Template.FindName("Slider332", this);
+            Slider332.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "outer", (int)Slider332.Value } };
+                Trigger("RHEIN_BERG_OUTER", Slider311, data);
+            };
+            Slider Slider333 = (Slider)Template.FindName("Slider333", this);
+            Slider333.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "brightness", (int)Slider333.Value } };
+                Trigger("RHEIN_BERG_BRIGHTNESS_BF", Slider311, data);
+            };
+
+            Slider Slider334 = (Slider)Template.FindName("Slider334", this);
+            Slider334.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "brightness", (int)Slider334.Value } };
+                Trigger("RHEIN_BERG_BRIGHTNESS_DF", Slider311, data);
+            };
+
+            Slider Slider335 = (Slider)Template.FindName("Slider335", this);
+            Slider335.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "gamma", (int)Slider335.Value * 100 } };
+                Trigger("RHEIN_BERG_GAMMA", Slider311, data);
+            };
+
+            Slider Slider341 = (Slider)Template.FindName("Slider341", this);
+            Slider341.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "filter", (int)Slider341.Value } };
+                Trigger("PHASE_CONTRAST_FILTER", Slider311, data);
+            };
+
+            Slider Slider342 = (Slider)Template.FindName("Slider342", this);
+            Slider342.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "contrast", (int)Slider342.Value } };
+                Trigger("PHASE_CONTRAST_CONTRAST", Slider311, data);
+            };
+
+            Slider Slider343 = (Slider)Template.FindName("Slider343", this);
+            Slider343.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "gain", (int)Slider343.Value } };
+                Trigger("PHASE_CONTRAST_GAIN", Slider311, data);
+            };
+
+            Slider Slider344 = (Slider)Template.FindName("Slider344", this);
+            Slider344.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "weight", (int)Slider344.Value } };
+                Trigger("PHASE_CONTRAST_BF_WEIGHT", Slider311, data);
+            };
+
+
+            Slider Slider351 = (Slider)Template.FindName("Slider351", this);
+            Slider351.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "regularization", (int)Slider351.Value } };
+                Trigger("QUANTITATIVE_PHASE_REG", Slider311, data);
+            };
+            Slider Slider352 = (Slider)Template.FindName("Slider352", this);
+            Slider352.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "detail", (int)Slider352.Value } };
+                Trigger("QUANTITATIVE_PHASE_DETAIL", Slider311, data);
+            };
+
+            Slider Slider361 = (Slider)Template.FindName("Slider361", this);
+            Slider361.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "contrast", (int)Slider361.Value } };
+                Trigger("RELIEF_CONTRAST_CONTRAST", Slider311, data);
+            };
+
+            Slider Slider362 = (Slider)Template.FindName("Slider362", this);
+            Slider362.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "gain", (int)Slider362.Value } };
+                Trigger("PHASE_CONTRAST_CONTRAST", Slider311, data);
+            };
+
+            Slider Slider363 = (Slider)Template.FindName("Slider363", this);
+            Slider363.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "weidght", (int)Slider363.Value } };
+                Trigger("RELIEF_CONTRAST_BF_WEIDGHT ", Slider311, data);
+            };
+
+
+
+           #endregion
+
+
+
+
+            #endregion
+
+
+            #region  ObjectiveSettingStackPanel
+            StackPanel ObjectiveSettingStackPanel = (StackPanel)Template.FindName("ObjectiveSettingStackPanel", this);
+            foreach (var item in ObjectiveSettingList)
+            {
+                RadioButton radioButton = new RadioButton();
+                radioButton.Style = Button31.Style;
+                radioButton.Width = 55;
+                radioButton.Margin = new Thickness(5, 0, 5, 0);
+                radioButton.Content = item.Magnitude;
+                radioButton.Click += delegate
+                {
+                    Dictionary<string, object> values = new Dictionary<string, object>()
+                    {
+                        {"magnitude",item.ID },
+                        {"na",item.NA },
+                    };
+                    Trigger("OBJECTIVE_LENS_SETTING", values);
+                };
+                ObjectiveSettingStackPanel.Children.Add(radioButton);
+            }
+            if (ObjectiveSettingList.Count < 2)
+            {
+                ToggleButton1.IsChecked = false;
+            }
+
+
+            #endregion
+
+
+            #region  滑块的效果的
+
+            int XYStep = 200;
+            int ZStep = 40;
+
+            ToggleButton ToggleButtonXYF = (ToggleButton)Template.FindName("ToggleButtonXYF", this);
+            ToggleButton ToggleButtonZF = (ToggleButton)Template.FindName("ToggleButtonXYF", this);
+            ToggleButtonXYF.Checked += delegate
+            {
+                XYStep = 1000;  
+            };
+            ToggleButtonXYF.Unchecked += delegate
+            {
+                XYStep = 200;
+            };
+            ToggleButtonZF.Checked += delegate
+            {
+                ZStep = 200;
+            };
+            ToggleButtonZF.Unchecked += delegate
+            {
+                ZStep = 40;
+            };
+
+
+
             Canvas1 = (Canvas)Template.FindName("Canvas1", this);
             Canvas1.MouseMove += MainCanvas_MouseMove;
             Canvas1.MouseLeftButtonUp += MainCanvas_MouseLeftButtonUp;
@@ -62,48 +316,102 @@ namespace ConfigObjective
             Canvas1.PreviewMouseRightButtonDown += Canvas1_PreviewMouseRightButtonDown;
             Canvas1.PreviewMouseDown += Canvas1_PreviewMouseDown;
 
-            if (Template.FindName("Button1", this) is RadioButton btn1)
+            //滑块的效果在确认一下。
+            Slider Slider1111 = (Slider)(Template.FindName("Slider1111", this));
+
+            if (Template.FindName("ButtonFront", this) is Button ButtonFront)
             {
-                btn1.Click += delegate
+                ButtonFront.Click += delegate
                 {
-                    string data = "{\"mag\":4,\"selected\":0}";
-                    Trigger("MAG_CHANGED", data);
+                    Dictionary<string, object> data = new() { { "Step", XYStep } };
+                    Trigger("MOVEFRONT", ButtonFront, data);
                 };
             }
-            if (Template.FindName("Button2", this) is RadioButton btn2)
+            if (Template.FindName("ButtonRear", this) is Button ButtonRear)
             {
-                btn2.Click += delegate
+                ButtonRear.Click += delegate
                 {
-                    Dictionary<string, object> data = new();
-                    data["mag"] = 10;
-                    data["selected"] = 1;
-                    Trigger("MAG_CHANGED", data);
+                    Dictionary<string, object> data = new() { { "Step", XYStep } };
+                    Trigger("MOVEREAR", ButtonRear, data);
                 };
             }
-            if (Template.FindName("Button3", this) is RadioButton btn3)
+            if (Template.FindName("ButtonRight", this) is Button ButtonRight)
             {
-                btn3.Click += delegate
+                ButtonRight.Click += delegate
                 {
-                    string data = "{\"mag\":20,\"selected\":2}";
-                    Trigger("MAG_CHANGED", data);
+                    Dictionary<string, object> data = new() { { "Step", XYStep } };
+                    Trigger("MOVERIGHT", ButtonRight, data);
                 };
             }
-            if (Template.FindName("Button4", this) is RadioButton btn4)
+            if (Template.FindName("ButtonLeft", this) is Button ButtonLeft)
             {
-                btn4.Click += delegate
+                ButtonLeft.Click += delegate
                 {
-                    Dictionary<string, object> data = new();
-                    data["mag"] = 40;
-                    data["selected"] = 3;
-                    Trigger("MAG_CHANGED", data);
+                    Dictionary<string, object> data = new() { { "Step", XYStep } }; 
+                    Trigger("MOVELEFT", ButtonLeft, data);
                 };
             }
+            if (Template.FindName("ButtonUp", this) is Button ButtonUp)
+            {
+                ButtonUp.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step",ZStep} };
+                    Trigger("MOVEUP", ButtonUp, data);
+                };
+            }
+            if (Template.FindName("ButtonDown", this) is Button ButtonDown)
+            {
+                ButtonDown.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", ZStep } };
+                    Trigger("MOVEDOWN", ButtonDown, data);
+                };
+            }
+            if (Template.FindName("ButtonRe", this) is Button ButtonRe)
+            {
+                ButtonRe.Click += delegate
+                {
+                    Dictionary<string, object> data = new() { { "Step", 0 }, { "Direction", 6 } };
+                    Trigger("MOVERE", ButtonRe, data);
+
+                };
+            }
+            _timer.Tick += Timer_Tick;
+            if (Template.FindName("ButtonAutoFocus", this) is Button ButtonAutoFocus)
+            {
+                ButtonAutoFocus.PreviewMouseLeftButtonDown += Button_PreviewMouseLeftButtonDown;
+            }
+
+
+        #endregion
+    }
+
+        private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                _timer.Stop();
+                Dictionary<string, object> data = new() { };
+                Trigger("AUTO_FOCUS", this, data);
+            }
+            else
+            {
+                _timer.Start();
+            }
+        }
+
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            _timer.Stop();
+            Dictionary<string, object> data = new() { };
+            Trigger("SMALL_AUTO_FOCUS_Run", this, data);
         }
 
 
 
 
-
+        #region  圆环
         private Border currentBoxSelectedBorder = null;//拖动展示的提示框
         private bool isCanMove = false;//鼠标是否移动
         private Point tempStartPoint;//起始坐标
@@ -436,5 +744,6 @@ namespace ConfigObjective
             }
         }
 
+        #endregion 
     }
 }

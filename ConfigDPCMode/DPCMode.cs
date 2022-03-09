@@ -69,10 +69,7 @@ namespace ConfigDPCMode
             StackPanel StackPanel3 = (StackPanel)Template.FindName("StackPanel3", this);
             StackPanel StackPanel4 = (StackPanel)Template.FindName("StackPanel4", this);
 
-            
-
-
-
+           
             Label label1 = (Label)Template.FindName("label1", this);
             Label label2 = (Label)Template.FindName("label2", this);
 
@@ -120,6 +117,7 @@ namespace ConfigDPCMode
             radioButton5.Unchecked += RadioButton_Unchecked;
 
             radioButton1.IsChecked = true;
+
             if (Template.FindName("Button1", this) is RadioButton btn1)
             {
                 btn1.Click += delegate

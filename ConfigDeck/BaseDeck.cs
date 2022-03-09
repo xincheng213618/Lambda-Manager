@@ -51,15 +51,13 @@ namespace ConfigDeck
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BaseDeck), new FrameworkPropertyMetadata(typeof(BaseDeck)));
         }
-        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer();
-
-
+        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2)};
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            _timer.Interval = TimeSpan.FromSeconds(0.2); //wait for the other click for 200ms
+            //大聚焦、小聚焦
             _timer.Tick += Timer_Tick;
 
             StackPanel StackContent = (StackPanel)Template.FindName("StackContent", this);
@@ -150,16 +148,7 @@ namespace ConfigDeck
             }
             if (Template.FindName("ButtonAutoFocus", this) is Button btn8)
             {
-                btn8.Click += delegate
-                {
-                    Dictionary<string, object> data = new() { };
-                    Trigger("AUTO_FOCUS", btn8, data);
-                };
-                btn8.Click += delegate
-                 {
-                     Dictionary<string, object> data = new() { };
-                     Trigger("SMALL_AUTO_FOCUS_Run", btn8, data);
-                 };
+                btn8.PreviewMouseLeftButtonDown += Button_PreviewMouseLeftButtonDown;
             }
 
             AddLambdaEventHandler("Move", Logssssss, false);
@@ -181,7 +170,6 @@ namespace ConfigDeck
         private void Timer_Tick(object sender, EventArgs e)
         {
             _timer.Stop();
-
             Dictionary<string, object> data = new() { };
             Trigger("SMALL_AUTO_FOCUS_Run", this, data);
         }

@@ -58,8 +58,8 @@
                 </Grid.ColumnDefinitions>
                 <Border Grid.Row="1" Grid.Column="1" SnapsToDevicePixels="True"  BorderBrush="#f5f5f5" BorderThickness="1"  Width="15" HorizontalAlignment="Center" CornerRadius="7" Margin="0,0,0,0">
                     <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Offset="0" Color="Red"/>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1.2">
+                            <GradientStop Offset="0" Color="#9D9D9D"/>
                             <GradientStop Offset="1" Color="Black"/>
                         </LinearGradientBrush>
                     </Border.Background>
@@ -202,7 +202,12 @@
             </Grid.RowDefinitions>
             <TextBox Style="{DynamicResource TextBoxStyle1}" Grid.Row="4" Text="{Binding ElementName=lowerSlider ,Path=Value,StringFormat=N0}" VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="3"/>
             <TextBlock Grid.Row="3" Text="{Binding ElementName=lowerSlider ,Path=Minimum}"  VerticalAlignment="Center" HorizontalAlignment="Center"   Foreground="White" Padding="5,0"/>
-            <Slider Grid.Row="2" x:Name="lowerSlider" Orientation="Vertical" Style="{StaticResource StyleSlider1}" HorizontalAlignment="Center"  Minimum="{Binding ElementName=root, Path=Minimum}" Maximum="{Binding ElementName=root, Path=Maximum}" Value="{Binding ElementName=root, Path=LowerValue, Mode=TwoWay}" IsSnapToTickEnabled="{Binding ElementName=root, Path=IsSnapToTickEnabled}" TickFrequency="{Binding ElementName=root, Path=TickFrequency}" TickPlacement="{Binding ElementName=root, Path=TickPlacement}" Ticks="{Binding ElementName=root, Path=Ticks}"/>
+            <Slider Grid.Row="2" x:Name="lowerSlider" Orientation="Vertical" Style="{StaticResource StyleSlider1}" HorizontalAlignment="Center"  Minimum="{Binding ElementName=root, Path=Minimum}" Maximum="{Binding ElementName=root, Path=Maximum}" Value="{Binding ElementName=root, Path=LowerValue, Mode=TwoWay}" IsSnapToTickEnabled="{Binding ElementName=root, Path=IsSnapToTickEnabled}" TickFrequency="{Binding ElementName=root, Path=TickFrequency}" TickPlacement="{Binding ElementName=root, Path=TickPlacement}" Ticks="{Binding ElementName=root, Path=Ticks}">
+                <Slider.Effect>
+                    <DropShadowEffect  />
+                </Slider.Effect>
+            </Slider>
+
             <Slider Grid.Row="2" x:Name="upperSlider" Orientation="Vertical" Template="{StaticResource SliderVertical}"  HorizontalAlignment="Center" Minimum="{Binding ElementName=root, Path=Minimum}" Maximum="{Binding ElementName=root, Path=Maximum}" Value="{Binding ElementName=root, Path=UpperValue, Mode=TwoWay}" IsSnapToTickEnabled="{Binding ElementName=root, Path=IsSnapToTickEnabled}" TickFrequency="{Binding ElementName=root, Path=TickFrequency}" TickPlacement="{Binding ElementName=root, Path=TickPlacement}" Ticks="{Binding ElementName=root, Path=Ticks}" />
             <TextBlock Grid.Row="1" Text="{Binding ElementName=upperSlider ,Path=Maximum}"  VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Padding="5,0"/>
             <TextBox Grid.Row="0"  Style="{DynamicResource TextBoxStyle1}"  Text="{Binding ElementName=upperSlider ,Path=Value,StringFormat=N0}" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="3"/>

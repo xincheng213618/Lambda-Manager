@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:ConfigObjective">
 
     <local:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
-    
+    <!--现在使用的-->
     <Style x:Key="ButtonPageControl" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -21,7 +21,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    <!--原来的三角形-->
     <Style x:Key="ButtonPageControl1" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -42,6 +42,26 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <ControlTemplate x:Key="ToggleButton10" TargetType="ToggleButton">
+        <!--定义视觉树-->
+        <Border x:Name="border" BorderThickness="1.5" CornerRadius="9" BorderBrush="#aaa" Background="#6DA347">
+            <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
+                <Border Width="17" Height="17" CornerRadius="9" Background="White"/>
+            </Grid>
+            <!--阴影设置-->
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" BlurRadius="5" ShadowDepth="0" Opacity="0.5" />
+            </Border.Effect>
+        </Border>
+        <!--定义触发器-->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="false">
+                <Setter TargetName="border" Property="Background" Value="#595959"/>
+                <Setter TargetName="togglebutton" Property="HorizontalAlignment" Value="Left"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
     <Style x:Key="ToggleButtonStyle1" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="#3B3838"/>

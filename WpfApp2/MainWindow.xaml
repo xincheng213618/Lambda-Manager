@@ -246,29 +246,8 @@
     </Window.Resources>
     <Grid Background="#2D2D2D">
         <StackPanel>
-            <ToggleButton Width="50" IsChecked="False">
-                <ToggleButton.Template>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <!--定义视觉树-->
-                        <Border x:Name="border" BorderThickness="1.5" CornerRadius="9" BorderBrush="#aaa" Background="#6DA347">
-                            <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
-                                <Border Width="17" Height="17" CornerRadius="9" Background="White"/>
-                            </Grid>
-                            <!--阴影设置-->
-                            <Border.Effect>
-                                <DropShadowEffect Color="Gray" BlurRadius="5" ShadowDepth="0" Opacity="0.5" />
-                            </Border.Effect>
-                        </Border>
-                        <!--定义触发器-->
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="false">
-                                <Setter TargetName="border" Property="Background" Value="#595959"/>
-                                <Setter TargetName="togglebutton" Property="HorizontalAlignment" Value="Left"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </ToggleButton.Template>
-            </ToggleButton>
+            <ToggleButton Width="50" Template="{StaticResource ToggleButton10}" IsChecked="False" />
+
             <DockPanel>
                 <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100"  Content="配置" IsChecked="True"/>
                 <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="采集"  />
@@ -299,7 +278,8 @@
 
             <Slider Style="{StaticResource Horizontal_Slider1}" Value="10" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="0.01"  ValueChanged="Slider_ValueChanged"/>
             <Grid>
-                <local:DoubleThumbSlider Minimum="0" Maximum="4095" IsSnapToTickEnabled="True" TickFrequency="1" LowerValue="10" UpperValue="100"  Width="40" Height="180"/>
+                <Button Content="DoubleThumbSlider" Click="Button_Click_1" />
+                <local:DoubleThumbSlider x:Name="DoubleThumbSlider" Minimum="0" Maximum="4095" IsSnapToTickEnabled="True" TickFrequency="1" LowerValue="17" UpperValue="3089"  Width="40" Height="300"/>
             </Grid>
 
             <Slider Style="{DynamicResource SliderStyle1}" x:Name="slier1" IsSnapToTickEnabled="True" Value="50" Maximum="100" Minimum="25" TickFrequency="0.1"   TickPlacement="None" Orientation="Horizontal"/>

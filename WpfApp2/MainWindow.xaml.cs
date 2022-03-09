@@ -239,10 +239,6 @@ namespace WpfApp2
             isCanMove1 = false;
         }
 
-        private static bool contain(Rect r,Rect l)
-        {
-            return r.Top < l.Top && r.Left < l.Left && r.Width > (l.Width + (l.Left - r.Left)) && r.Width > (l.Height + (l.Top - r.Top));
-        }
         public static List<T> GetChildObjects<T>(System.Windows.DependencyObject obj) where T : System.Windows.FrameworkElement
         {
             System.Windows.DependencyObject child = null;
@@ -456,6 +452,19 @@ namespace WpfApp2
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
+        }
+        Timer timer;
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            timer = new Timer(_ => Dispatcher.BeginInvoke(new Action(() => TimeRun())), null, 0, 10);
+        }
+        Random random = new Random();
+
+        private void TimeRun()
+        {
+            int a = random.Next(1000, 4095);
+            DoubleThumbSlider.UpperValue = a;
+            DoubleThumbSlider.LowerValue = random.Next(0, a - 1000);
         }
     }
 
