@@ -7,7 +7,10 @@
         xmlns:resx="clr-namespace:Grid.Properties"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="720" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen"  Background="Transparent"  Initialized="Window_Initialized">
+        Height="400" Width="720" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen"  Background="Transparent"  Initialized="Window_Initialized">
+    <WindowChrome.WindowChrome>
+        <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -107,14 +110,11 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <WindowChrome.WindowChrome>
-        <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
-    </WindowChrome.WindowChrome>
-    <Border >
+    <Border>
         <Border.Background>
             <ImageBrush ImageSource="Image\background.tif"/>
         </Border.Background>
-        <Border Opacity="0.9" >
+        <Border Opacity="0.9">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0.2,0.4" EndPoint="0.9,0.8">
                     <GradientStop Offset="0" Color="#FF000000"/>
@@ -122,7 +122,6 @@
                 </LinearGradientBrush>
             </Border.Background>
             <Grid>
-                <Image Margin="0,0,0,0" Source="/Image1.png" Stretch="Fill" Visibility="Hidden"/>
                 <Image Source="Image\ZIRCON.png" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="22,15"/>
                 <DockPanel  Margin="25,20,25,22">
                     <StackPanel DockPanel.Dock="Top"  >
@@ -151,7 +150,7 @@
                         <Line Stroke="White" StrokeThickness="1"  X1="0"  Y1="0" X2="500" Y2="0" Margin="3,2,3,3"/>
                         <TextBox Text="版权声明：本仪器软件为 NJUST SCIRI 「邓晖」的原创作品，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。" BorderThickness="0" FontSize="9" Foreground="White"  Background="Transparent"/>
                     </StackPanel>
-                    <StackPanel Margin="0,40,0,10">
+                    <StackPanel  VerticalAlignment="Center">
                         <DockPanel Margin="0,10">
                             <TextBlock Text="{x:Static resx:Resources.Configuration_file}" Width="110"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
                             <Button  DockPanel.Dock="Right" Style="{DynamicResource ButtonStyle1}"   Content="{x:Static resx:Resources.Set}" Foreground="White" Click="Set_Click" Width="50"/>

@@ -46,10 +46,6 @@ namespace WpfApp1
                 Control control = (Control)assembly.CreateInstance($"{item.path.Replace(".dll", "")}.{item.name}");
                 leftView.Children.Add(control);
             }
-
-
-
-
         }
         private BrushConverter  brushConverter = new BrushConverter();
 

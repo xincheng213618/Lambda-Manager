@@ -68,17 +68,29 @@ namespace ConfigObjective
 
         };
 
+        public override void BeginInit()
+        {
+            base.BeginInit();
+
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
             #region  操作父类
-            UIElement parent = (UIElement)Parent;
-            if (parent is StackPanel stack)
+            if (Parent is StackPanel stack)
             {
-                stack.Width = 330;
+                //stack.Width = 450;
+                //if (stack.Parent is Viewbox viewbox)
+                //{
+                //    viewbox.UpdateLayout();
+                //    if (viewbox.Parent is ScrollViewer scrollViewer)
+                //        scrollViewer.UpdateLayout();
+                //}
+
             }
             #endregion
-
 
             #region ToggleButton 切换按钮
             ToggleButton ToggleButton1 = (ToggleButton)Template.FindName("ToggleButton1", this);

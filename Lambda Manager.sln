@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp4", "WpfApp4\WpfApp4.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grid", "Grid\Grid.csproj", "{021D4E03-82FE-4B8B-90C5-91A5AD456248}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizard", "Wizard\Wizard.csproj", "{C359356E-F744-4B23-AA1A-14A3D9B85AAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -242,6 +244,18 @@ Global
 		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|x64.Build.0 = Release|x64
 		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|x86.ActiveCfg = Release|Any CPU
 		{021D4E03-82FE-4B8B-90C5-91A5AD456248}.Release|x86.Build.0 = Release|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Debug|x64.Build.0 = Debug|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Debug|x86.Build.0 = Debug|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Release|x64.ActiveCfg = Release|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Release|x64.Build.0 = Release|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Release|x86.ActiveCfg = Release|Any CPU
+		{C359356E-F744-4B23-AA1A-14A3D9B85AAC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

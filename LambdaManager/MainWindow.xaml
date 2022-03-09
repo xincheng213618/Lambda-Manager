@@ -113,8 +113,8 @@
                     </TabItem>
                         <TabItem Header="采集配置" FontSize="15">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <Viewbox VerticalAlignment="Top" Stretch="Uniform" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Border}}}">
-                                    <StackPanel Name="acquireView"  Margin="0,0,30,0">
+                                <Viewbox VerticalAlignment="Top">
+                                    <StackPanel Name="acquireView"  >
                                         <ConfigDPCMode:DPCMode />
                                     </StackPanel>
                                 </Viewbox>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfigObjective
 {
-    class Class
+    public class Class
     {
 
     }
@@ -16,5 +16,7 @@ namespace ConfigObjective
         public string Name { get; set; }   
         public string Magnitude { get; set; }
         public double NA { get; set; }
+        public bool isable { get; set; }
+
     }
 }
