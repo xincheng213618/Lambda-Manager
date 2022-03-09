@@ -125,30 +125,33 @@ namespace ConfigFocus
 
         private void Button_Test_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            switch (button.Content)
+           if(sender is Button button)
             {
-                case "Test1":
-                    Dictionary<string, object> data = new() { };
-                    LambdaControl.Trigger("ButtonTest1", button, data);
-                    break;
-                case "Test2":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest2", button, data);
-                    break;
-                case "Test3":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest3", button, data);
-                    break;
-                case "Test4":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest4", button, data);
-                    break;
-                case "Test5":
-                    data = new() { };
-                    LambdaControl.Trigger("ButtonTest5", button, data);
-                    break;
+                switch (button.Content)
+                {
+                    case "Test1":
+                        Dictionary<string, object> data = new() { };
+                        Trigger("ButtonTest1", button, data);
+                        break;
+                    case "Test2":
+                        data = new() { };
+                        Trigger("ButtonTest2", button, data);
+                        break;
+                    case "Test3":
+                        data = new() { };
+                        Trigger("ButtonTest3", button, data);
+                        break;
+                    case "Test4":
+                        data = new() { };
+                        Trigger("ButtonTest4", button, data);
+                        break;
+                    case "Test5":
+                        data = new() { };
+                        Trigger("ButtonTest5", button, data);
+                        break;
+                }
             }
+
         }
     }
 }

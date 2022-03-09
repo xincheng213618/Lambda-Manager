@@ -26,8 +26,7 @@ namespace Grid
         /// </summary>
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            bool ret;
-            mutex = new Mutex(true, "ElectronicNeedleTherapySystem", out ret);
+            mutex = new Mutex(true, "ElectronicNeedleTherapySystem", out bool ret);
             if (!ret)
             {
                 //MessageBox.Show("程序重复打开");

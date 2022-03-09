@@ -50,7 +50,7 @@ namespace ConfigObjective
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Magnification), new FrameworkPropertyMetadata(typeof(Magnification)));
         }
-        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2) };
+        private readonly System.Windows.Threading.DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(0.2) };
 
         //ObjectiveSettingList Demo ALL
         //List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()

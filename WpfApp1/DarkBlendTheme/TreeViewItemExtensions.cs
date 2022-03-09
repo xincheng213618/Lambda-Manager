@@ -19,12 +19,12 @@ public static class TreeViewItemExtensions
 	private static TreeViewItem? GetParent(TreeViewItem item)
 	{
 		DependencyObject parent = VisualTreeHelper.GetParent(item);
-		while (!(parent is TreeViewItem) && !(parent is TreeView))
+		if (parent == null)
 		{
-			if (parent == null)
-			{
-				return null;
-			}
+			return null;
+		}
+		while (parent is not TreeViewItem && parent is not TreeView)
+		{
 			parent = VisualTreeHelper.GetParent(parent);
 		}
 		return parent as TreeViewItem;

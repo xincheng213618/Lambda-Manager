@@ -16,22 +16,22 @@ namespace WpfApp4
         /// <summary>
         /// 当前连接的服务
         /// </summary>
-        public GattDeviceService CurrentService { get; private set; }
+        public GattDeviceService? CurrentService { get; private set; }
 
         /// <summary>
         /// 当前连接的蓝牙设备
         /// </summary>
-        public BluetoothLEDevice CurrentDevice { get; private set; }
+        public BluetoothLEDevice? CurrentDevice { get; private set; }
 
         /// <summary>
         /// 写特征对象
         /// </summary>
-        public GattCharacteristic CurrentWriteCharacteristic { get; private set; }
+        public GattCharacteristic? CurrentWriteCharacteristic { get; private set; }
 
         /// <summary>
         /// 通知特征对象
         /// </summary>
-        public GattCharacteristic CurrentNotifyCharacteristic { get; private set; }
+        public GattCharacteristic? CurrentNotifyCharacteristic { get; private set; }
 
         /// <summary>
         /// 存储检测到的设备
@@ -88,7 +88,7 @@ namespace WpfApp4
         /// <summary>
         /// 当前连接的蓝牙Mac
         /// </summary>
-        private string CurrentDeviceMAC { get; set; }
+        private string? CurrentDeviceMAC { get; set; }
 
         private BluetoothLEAdvertisementWatcher Watcher = null;
 
@@ -102,9 +102,10 @@ namespace WpfApp4
         /// </summary>
         public void StartBleDeviceWatcher()
         {
-            Watcher = new BluetoothLEAdvertisementWatcher();
-
-            Watcher.ScanningMode = BluetoothLEScanningMode.Active;
+            Watcher = new BluetoothLEAdvertisementWatcher
+            {
+                ScanningMode = BluetoothLEScanningMode.Active
+            };
 
             // only activate the watcher when we're recieving values >= -80
             Watcher.SignalStrengthFilter.InRangeThresholdInDBm = -80;
