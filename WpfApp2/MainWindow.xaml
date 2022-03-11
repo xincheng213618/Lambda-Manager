@@ -255,6 +255,7 @@
                 <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="分析"  />
                 <RadioButton Style="{StaticResource ToggleButtonStyle1}" Width="100" Content="报告"  />
             </DockPanel>
+            <TextBox  Text="222"/>
             <DockPanel>
                 <ToggleButton Style="{DynamicResource ToggleButtonStyle2}" Content="预览"/>
                 <Button Style="{DynamicResource ButtonStyle1}" Background="#3B3838" BorderBrush="#767171"  Content="拍照" Click="RadioButton_Click" Padding="10,0"/>

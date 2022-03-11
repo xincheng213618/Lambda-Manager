@@ -21,6 +21,7 @@
 
     <Color x:Key="HighlightColor">#BDBDBD</Color>
     <Color x:Key="HotColor">#525252</Color>
+    
     <!--#endregion-->
 
     <!--#region Brushes-->
@@ -133,7 +134,7 @@
     <!--#region FontStyle-->
     <Style TargetType="{x:Type TextBlock}">
         <!--<Setter Property="FontFamily" Value="Calibri light"/>-->
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style TargetType="{x:Type Control}">
         <!--<Setter Property="FontFamily" Value="Calibri light"/>-->

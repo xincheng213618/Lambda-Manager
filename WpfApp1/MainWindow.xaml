@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfApp1"
         xmlns:ConfigDPCMode="clr-namespace:ConfigDPCMode;assembly=ConfigDPCMode" 
         xmlns:ConfigDeck="clr-namespace:ConfigDeck;assembly=ConfigDeck" 
-        xmlns:ConfigSpot="clr-namespace:ConfigSpot;assembly=ConfigSpot" xmlns:ConfigFocus="clr-namespace:ConfigFocus;assembly=ConfigFocus"
+        xmlns:ConfigSpot="clr-namespace:ConfigSpot;assembly=ConfigSpot" 
+        xmlns:ConfigFocus="clr-namespace:ConfigFocus;assembly=ConfigFocus"
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized">

@@ -1,21 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window  xmlns:ConfigDPCMode="clr-namespace:ConfigDPCMode;assembly=ConfigDPCMode" x:Class="LambdaManager.MainWindow" 
+<Window x:Class="LambdaManager.MainWindow" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager"
-        Icon="/Resources/Images/StartImage/7.png" Title="λManager" Height="1080" Background="#333333" Width="1920" xmlns:lambdamanager="clr-namespace:LambdaManager;assembly=LambdaManager" xmlns:system1="clr-namespace:System;assembly=netstandard" Loaded="Window_Loaded" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Title="λManager" Height="1080" Background="#333333" Width="1920"  Loaded="Window_Loaded" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
   <FrameworkElement.Resources>
     <ResourceDictionary>
             <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
                 <Setter Property="TextBlock.Padding" Value="5,5,5,5" />
-            </Style>
-            <Style x:Key="PhaseButton" TargetType="{x:Type Button}">
-                <Setter Property="Width" Value="100" />
-                <Setter Property="Height" Value="30" />
             </Style>
             <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
                 <Setter Property="Margin" Value="5, 0, 0, 0" />
@@ -67,11 +63,11 @@
                 <Slider VerticalAlignment="Center" Width="80" Margin="20,5,0,0" Maximum="2" Value="1" Style="{StaticResource HorizontalSlider}" ValueChanged="Slider_ValueChanged" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <RadioButton Style="{DynamicResource PhaseButtonStyle}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
-                <RadioButton Style="{DynamicResource PhaseButtonStyle}" Content="采集" IsChecked="True" Checked="RadioButton_Checked_1" />
-                <RadioButton Style="{DynamicResource PhaseButtonStyle}" Content="处理" Checked="RadioButton_Checked_2" />
-                <RadioButton Style="{DynamicResource PhaseButtonStyle}" Content="分析" Checked="RadioButton_Checked_3" />
-                <RadioButton Style="{DynamicResource PhaseButtonStyle}" Content="报告" Checked="RadioButton_Checked_4" />
+                <RadioButton Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
+                <RadioButton Style="{DynamicResource PhaseButton}" Content="采集" IsChecked="True" Checked="RadioButton_Checked_1" />
+                <RadioButton Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked_2" />
+                <RadioButton Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked_3" />
+                <RadioButton Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="2">
                 <Menu Name="menu" Margin="0,5,0,5">
@@ -88,13 +84,14 @@
                 </ComboBox>
             </StackPanel>
         </Grid>
+        <Grid Name="stageConfig" Row="1" />
         <Grid Name="stageAcquisition" Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView" Width="200" />
+                <ColumnDefinition Name="leftView" Width="400" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -113,9 +110,8 @@
                     </TabItem>
                         <TabItem Header="采集配置" FontSize="15">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <Viewbox VerticalAlignment="Top">
-                                    <StackPanel Name="acquireView"  >
-                                        <ConfigDPCMode:DPCMode />
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="acquireView">
                                     </StackPanel>
                                 </Viewbox>
                             </ScrollViewer>
@@ -126,14 +122,14 @@
             </Viewbox>
 
             <DockPanel Grid.Row="1" Margin="5">
-                <Button Width="50" Height="25" DockPanel.Dock="Left" Margin="10,0,0,0" Click="Button_Click">预览</Button>
+                <ToggleButton Width="95" Height="25" DockPanel.Dock="Left" Margin="10,0,0,0" Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <Button Width="70" Margin="0,0,10,0" Click="Button_Click_1">开始采集</Button>
+                    <ToggleButton Width="95" Margin="0,0,10,0" Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
                     <Button Width="70" Height="25" DockPanel.Dock="Right" Click="Button_Click_2">拍照</Button>
                 </StackPanel>
                 <TextBlock />
             </DockPanel>
-            <GridSplitter Name="leftSplitter" Grid.Column="1" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="leftSplitter_MouseDoubleClick">
+            <GridSplitter Name="LeftSplitter" Grid.Column="1" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="LeftSplitter_MouseDoubleClick" DragCompleted="LeftSplitter_DragCompleted">
                 <Control.Background>
                     <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
                 </Control.Background>
@@ -150,7 +146,7 @@
                 <Button Width="60" Margin="10,0,10,0" Click="Button_Click_3">多模态</Button>
                 <Button Width="60" Margin="0,0,10,0" Click="Button_Click_4">多通道</Button>
             </StackPanel>
-            <GridSplitter Name="middleSplitter" Grid.Column="3" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="middleSplitter_MouseDoubleClick">
+            <GridSplitter Name="MiddleSplitter" Grid.Column="3" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="MiddleSplitter_MouseDoubleClick">
                 <Control.Background>
                     <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
                 </Control.Background>

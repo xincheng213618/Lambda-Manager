@@ -61,16 +61,6 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        public static System.Drawing.Bitmap _7 {
-            get {
-                object obj = ResourceManager.GetObject("7", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 函数 的本地化字符串。
         /// </summary>
         public static string Action {
@@ -148,16 +138,6 @@ namespace LambdaManager.Properties {
         public static string AsyncWithOutputReferredNotSupport {
             get {
                 return ResourceManager.GetString("AsyncWithOutputReferredNotSupport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        public static System.Drawing.Bitmap backgroud {
-            get {
-                object obj = ResourceManager.GetObject("backgroud", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -639,16 +619,6 @@ namespace LambdaManager.Properties {
         public static System.Drawing.Bitmap startpicture1 {
             get {
                 object obj = ResourceManager.GetObject("startpicture1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        public static System.Drawing.Bitmap startpicture2 {
-            get {
-                object obj = ResourceManager.GetObject("startpicture2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

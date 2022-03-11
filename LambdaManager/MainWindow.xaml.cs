@@ -32,21 +32,21 @@ partial class MainWindow : Window, IComponentConnector
 	internal View[] Views { get; } = new View[100];
 
 
-	internal string? Notice { get; set; }
-
-	internal bool Maximize { get; set; }
-
-	private bool isAliving;
-
-	private bool isAcquiring;
-
 	private bool multiMode;
 
 	private bool multiChannel;
 
-	private bool hideLeftSplitter;
+	internal string? Notice { get; set; }
 
-	private bool hideMiddleSplitter;
+	internal bool Maximize { get; set; }
+
+	internal bool IsLeftViewHidden { get; set; }
+
+	internal bool IsMiddleViewHidden { get; set; }
+
+	internal double LeftViewWidth { get; set; }
+
+	internal double MiddleViewWidth { get; set; }
 
 	public MainWindow()
 	{
@@ -304,21 +304,19 @@ partial class MainWindow : Window, IComponentConnector
 
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-		LambdaControl.Trigger(isAliving ? "STOP_ALIVE" : "START_ALIVE", sender, e);
-		isAliving = !isAliving;
-		if (sender is Button btn)
+		if (sender is ToggleButton toggleButton)
 		{
-			btn.Content = (isAliving ? "停止预览" : "预览");
+			LambdaControl.Trigger(toggleButton.IsChecked.GetValueOrDefault() ? "STOP_ALIVE" : "START_ALIVE", sender, e);
+			toggleButton.Content = (toggleButton.IsChecked.GetValueOrDefault() ? "停止预览" : "预览");
 		}
 	}
 
 	private void Button_Click_1(object sender, RoutedEventArgs e)
 	{
-		LambdaControl.Trigger(isAcquiring ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, e);
-		isAcquiring = !isAcquiring;
-		if (sender is Button btn)
+		if (sender is ToggleButton toggleButton)
 		{
-			btn.Content = (isAcquiring ? "停止采集" : "开始采集");
+			LambdaControl.Trigger(toggleButton.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, e);
+			toggleButton.Content = (toggleButton.IsChecked.GetValueOrDefault() ? "停止采集" : "开始采集");
 		}
 	}
 
@@ -538,29 +536,72 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		LambdaControl.Trigger("HISTOGRAM_CLICKED", sender, e);
 	}
-
-	private void leftSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+	private void Button_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 	{
-		if (hideMiddleSplitter)
+		if (IsLeftViewHidden)
 		{
-			ChangeColumnVisibility(2, visible: true);
-			ChangeColumnVisibility(3, visible: true);
-			hideMiddleSplitter = false;
+			ChangeLeftViewVisibility(visible: true);
+		}
+		if (IsMiddleViewHidden)
+		{
+			ChangeMiddleViewVisibility(visible: true);
+		}
+	}
+
+	private void LeftSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		if (IsMiddleViewHidden)
+		{
+			ChangeMiddleViewVisibility(visible: true);
 		}
 		else
 		{
-			ChangeColumnVisibility(0, visible: false);
-			ChangeColumnVisibility(1, visible: false);
-			hideLeftSplitter = true;
+			ChangeLeftViewVisibility(visible: false);
 		}
 	}
-
-	private void middleSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+	public void ChangeLeftViewVisibility(bool visible)
 	{
-		ChangeColumnVisibility(2, visible: false);
-		ChangeColumnVisibility(3, visible: false);
-		hideMiddleSplitter = true;
+		if (visible)
+		{
+			if (LeftViewWidth > 0.0)
+			{
+				leftView.Width = new GridLength(LeftViewWidth, GridUnitType.Pixel);
+			}
+		}
+		else
+		{
+			LeftViewWidth = leftView.ActualWidth;
+			leftView.Width = new GridLength(0.0, GridUnitType.Auto);
+		}
+		ChangeColumnVisibility(0, visible);
+		ChangeColumnVisibility(1, visible);
+		IsLeftViewHidden = !visible;
 	}
+
+	private void MiddleSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		ChangeMiddleViewVisibility(visible: false);
+	}
+	public void ChangeMiddleViewVisibility(bool visible)
+	{
+		if (visible)
+		{
+			if (MiddleViewWidth > 0.0)
+			{
+				middleView.Width = new GridLength(MiddleViewWidth, GridUnitType.Pixel);
+			}
+		}
+		else if (middleView.Width.GridUnitType == GridUnitType.Pixel)
+		{
+			MiddleViewWidth = middleView.ActualWidth;
+			middleView.Width = new GridLength(0.0, GridUnitType.Auto);
+		}
+		ChangeColumnVisibility(2, visible);
+		ChangeColumnVisibility(3, visible);
+		IsMiddleViewHidden = !visible;
+	}
+
+
 
 	private void ChangeColumnVisibility(int index, bool visible)
 	{
@@ -572,23 +613,25 @@ partial class MainWindow : Window, IComponentConnector
 		}
 	}
 
-	private void Button_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+
+
+
+	private void LeftSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
 	{
-		if (hideLeftSplitter)
-		{
-			ChangeColumnVisibility(0, visible: true);
-			ChangeColumnVisibility(1, visible: true);
-		}
-		if (hideMiddleSplitter)
-		{
-			ChangeColumnVisibility(2, visible: true);
-			ChangeColumnVisibility(3, visible: true);
-		}
+		LeftViewWidth = leftView.ActualWidth;
 	}
 
-    private void GridSet1_SizeChanged(object sender, SizeChangedEventArgs e)
+	private void MiddleSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
+	{
+		MiddleViewWidth = middleView.ActualWidth;
+	}
+
+
+	private void GridSet1_SizeChanged(object sender, SizeChangedEventArgs e)
     {
 		Grid grid = sender as Grid;
 		BorderAcquire.Height = 330 * (grid.ActualHeight / grid.ActualWidth);
 	}
+
 }

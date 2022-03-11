@@ -64,7 +64,9 @@ namespace ConfigObjective
 
         List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()
         {
-            new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25},
+            new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
+            new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4,IsEnabled =false},
+            new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65,IsEnabled =false},
 
         };
 
@@ -82,12 +84,12 @@ namespace ConfigObjective
             if (Parent is StackPanel stack)
             {
                 //stack.Width = 450;
-                //if (stack.Parent is Viewbox viewbox)
-                //{
-                //    viewbox.UpdateLayout();
-                //    if (viewbox.Parent is ScrollViewer scrollViewer)
-                //        scrollViewer.UpdateLayout();
-                //}
+                if (stack.Parent is Viewbox viewbox)
+                {
+                    viewbox.Width = double.NaN;
+                    //if (viewbox.Parent is ScrollViewer scrollViewer)
+                    //    scrollViewer.UpdateLayout();
+                }
 
             }
             #endregion
@@ -122,21 +124,22 @@ namespace ConfigObjective
                     string s = item.Tag.ToString();
                     if (s != null)
                     {
-                        Dictionary<string, object> data = new() { { "dpc", int.Parse(s) } };
-                        Trigger("DPC_MODE_CHANGED", item, data);
+                        Dictionary<string, object> data = new() { { "mode", int.Parse(s) } };
+                        Trigger("IMAGING_MODE_SETTING", item, data);
                     }
 
 
                 };
             }
             #region slider
-
+            //明场孔径
             Slider Slider311 = (Slider)Template.FindName("Slider311", this);
             Slider311.ValueChanged += delegate
             {
                 Dictionary<string, object> data = new() { { "diameter", (int)Slider311.Value} };
-                Trigger("DPC_MODE_CHANGED", Slider311, data);
+                Trigger("BRIGHT_FIELD_DIAMETER", Slider311, data);
             };
+            //明场亮度
             Slider Slider312 = (Slider)Template.FindName("Slider312", this);
             Slider312.ValueChanged += delegate
             {
@@ -165,7 +168,7 @@ namespace ConfigObjective
             Slider Slider324 = (Slider)Template.FindName("Slider324", this);
             Slider324.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "gamma", (int)Slider323.Value*100} };
+                Dictionary<string, object> data = new() { { "gamma", (int)Slider324.Value} };
                 Trigger("DARK_FIELD_GAMMA", Slider311, data);
             };
 
@@ -198,7 +201,7 @@ namespace ConfigObjective
             Slider Slider335 = (Slider)Template.FindName("Slider335", this);
             Slider335.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "gamma", (int)Slider335.Value * 100 } };
+                Dictionary<string, object> data = new() { { "gamma", (int)Slider335.Value  } };
                 Trigger("RHEIN_BERG_GAMMA", Slider311, data);
             };
 
@@ -284,12 +287,14 @@ namespace ConfigObjective
                 radioButton.Width = 55;
                 radioButton.Margin = new Thickness(5, 0, 5, 0);
                 radioButton.Content = item.Magnitude;
+                radioButton.IsChecked = item.IsChecked;
+                radioButton.IsEnabled = item.IsEnabled; 
                 radioButton.Click += delegate
                 {
                     Dictionary<string, object> values = new Dictionary<string, object>()
                     {
                         {"magnitude",item.ID },
-                        {"na",item.NA },
+                        {"na",(int)(item.NA*100) },
                     };
                     Trigger("OBJECTIVE_LENS_SETTING", values);
                 };
@@ -308,10 +313,10 @@ namespace ConfigObjective
             #region  滑块的效果的
 
             int XYStep = 200;
-            int ZStep = 40;
+            int ZStep = 200;
 
             ToggleButton ToggleButtonXYF = (ToggleButton)Template.FindName("ToggleButtonXYF", this);
-            ToggleButton ToggleButtonZF = (ToggleButton)Template.FindName("ToggleButtonXYF", this);
+            ToggleButton ToggleButtonZF = (ToggleButton)Template.FindName("ToggleButtonZF", this);
             ToggleButtonXYF.Checked += delegate
             {
                 XYStep = 1000;  
@@ -322,11 +327,11 @@ namespace ConfigObjective
             };
             ToggleButtonZF.Checked += delegate
             {
-                ZStep = 200;
+                ZStep = 1000;
             };
             ToggleButtonZF.Unchecked += delegate
             {
-                ZStep = 40;
+                ZStep = 200;
             };
 
 
@@ -346,56 +351,56 @@ namespace ConfigObjective
             {
                 ButtonFront.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", XYStep } };
-                    Trigger("MOVEFRONT", ButtonFront, data);
+                    Dictionary<string, object> data = new() { { "step", XYStep },{ "direction",2 } };
+                    Trigger("STAGE_MOVE_FRONT", ButtonFront, data);
                 };
             }
             if (Template.FindName("ButtonRear", this) is Button ButtonRear)
             {
                 ButtonRear.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", XYStep } };
-                    Trigger("MOVEREAR", ButtonRear, data);
+                    Dictionary<string, object> data = new() { { "step", XYStep }, { "direction", 3 } };
+                    Trigger("STAGE_MOVE_REAR", ButtonRear, data);
                 };
             }
             if (Template.FindName("ButtonRight", this) is Button ButtonRight)
             {
                 ButtonRight.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", XYStep } };
-                    Trigger("MOVERIGHT", ButtonRight, data);
+                    Dictionary<string, object> data = new() { { "step", XYStep }, { "direction", 1 } };
+                    Trigger("STAGE_MOVE_RIGHT", ButtonRight, data);
                 };
             }
             if (Template.FindName("ButtonLeft", this) is Button ButtonLeft)
             {
                 ButtonLeft.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", XYStep } }; 
-                    Trigger("MOVELEFT", ButtonLeft, data);
+                    Dictionary<string, object> data = new() { { "step", XYStep }, { "direction", 0 } }; 
+                    Trigger("STAGE_MOVE_LEFT", ButtonLeft, data);
                 };
             }
             if (Template.FindName("ButtonUp", this) is Button ButtonUp)
             {
                 ButtonUp.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step",ZStep} };
-                    Trigger("MOVEUP", ButtonUp, data);
+                    Dictionary<string, object> data = new() { { "step", ZStep}, { "direction", 4 } };
+                    Trigger("STAGE_MOVE_UP", ButtonUp, data);
                 };
             }
             if (Template.FindName("ButtonDown", this) is Button ButtonDown)
             {
                 ButtonDown.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", ZStep } };
-                    Trigger("MOVEDOWN", ButtonDown, data);
+                    Dictionary<string, object> data = new() { { "step", ZStep }, { "direction", 5 } };
+                    Trigger("STAGE_MOVE_DOWN", ButtonDown, data);
                 };
             }
             if (Template.FindName("ButtonRe", this) is Button ButtonRe)
             {
                 ButtonRe.Click += delegate
                 {
-                    Dictionary<string, object> data = new() { { "Step", 0 }, { "Direction", 6 } };
-                    Trigger("MOVERE", ButtonRe, data);
+                    Dictionary<string, object> data = new() { { "step", 0 }, { "direction", 6 } };
+                    Trigger("STAGE_MOVE_CENTRE", ButtonRe, data);
 
                 };
             }

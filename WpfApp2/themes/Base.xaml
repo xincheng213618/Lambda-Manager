@@ -3,7 +3,8 @@
                     xmlns:local="clr-namespace:WpfApp2.Converter">
 
     <local:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
-    
+    <local:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>
+
     <Style x:Key="ButtonPageControl" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>

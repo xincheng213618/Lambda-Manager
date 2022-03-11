@@ -66,10 +66,7 @@
     <None Remove="resources\icons\top-text.png" />
     <None Remove="resources\icons\top-zoom-in.png" />
     <None Remove="resources\icons\top-zoom-out.png" />
-    <None Remove="resources\images\backgroud.png" />
-    <None Remove="resources\images\startimage\7.png" />
     <None Remove="resources\images\startpicture1.png" />
-    <None Remove="resources\images\startpicture2.tiff" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\icons\bottom-forward.png" />
@@ -106,14 +103,7 @@
     <PackageReference Include="Swifter.Json" Version="1.5.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConfigCollectInterval\ConfigCollectInterval.csproj" />
-    <ProjectReference Include="..\ConfigContainer\ConfigContainer.csproj" />
-    <ProjectReference Include="..\ConfigDeck\ConfigDeck.csproj" />
-    <ProjectReference Include="..\ConfigDOFMode\ConfigDOFMode.csproj" />
-    <ProjectReference Include="..\ConfigDPCMode\ConfigDPCMode.csproj" />
-    <ProjectReference Include="..\ConfigFocus\ConfigFocus.csproj" />
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
-    <ProjectReference Include="..\ConfigSpot\ConfigSpot.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
   </ItemGroup>
@@ -148,10 +138,7 @@
     <Resource Include="resources\icons\top-text.png" />
     <Resource Include="resources\icons\top-zoom-in.png" />
     <Resource Include="resources\icons\top-zoom-out.png" />
-    <Resource Include="resources\images\backgroud.png" />
-    <Resource Include="resources\images\startimage\7.png" />
     <Resource Include="resources\images\startpicture1.png" />
-    <Resource Include="resources\images\startpicture2.tiff" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -170,5 +157,8 @@
     <None Update="application.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="resources\images\startimage\" />
   </ItemGroup>
 </Project>

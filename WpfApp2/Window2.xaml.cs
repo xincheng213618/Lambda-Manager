@@ -363,5 +363,10 @@ namespace WpfApp2
 
             }
         }
+
+        private void ToggleButton1_Checked(RoutedEventArgs e)
+        {
+
+        }
     }
 }

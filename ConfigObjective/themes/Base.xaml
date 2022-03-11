@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:local="clr-namespace:ConfigObjective">
+                    xmlns:localConverter="clr-namespace:ConfigObjective.Converter">
 
-    <local:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
+    <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
+    <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>
     <!--现在使用的-->
     <Style x:Key="ButtonPageControl" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
@@ -42,17 +43,35 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="ColorButtonStyle" TargetType="Button">
+        <Setter Property="Height" Value="13"/>
+        <Setter Property="Width" Value="13"/>
+        <Setter Property="Template"   >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}" >
+                    <Border  BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" Name="PART_Background" Border.Background="{TemplateBinding Background}">
+                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" TargetName="PART_Background" Value="#C9DEF5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <ControlTemplate x:Key="ToggleButton10" TargetType="ToggleButton">
-        <!--定义视觉树-->
-        <Border x:Name="border" BorderThickness="1.5" CornerRadius="9" BorderBrush="#aaa" Background="#6DA347">
-            <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
-                <Border Width="17" Height="17" CornerRadius="9" Background="White"/>
-            </Grid>
-            <!--阴影设置-->
-            <Border.Effect>
-                <DropShadowEffect Color="Gray" BlurRadius="5" ShadowDepth="0" Opacity="0.5" />
-            </Border.Effect>
+            <!--定义视觉树-->
+            <Border x:Name="border" BorderThickness="1.5" CornerRadius="9" BorderBrush="#aaa" Background="#6DA347">
+        <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
+            <Border Width="17" Height="17" CornerRadius="9" Background="White"/>
+        </Grid>
+        <!--阴影设置-->
+        <Border.Effect>
+            <DropShadowEffect Color="Gray" BlurRadius="5" ShadowDepth="0" Opacity="0.5" />
+        </Border.Effect>
         </Border>
         <!--定义触发器-->
         <ControlTemplate.Triggers>
@@ -62,6 +81,8 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+
+
 
     <Style x:Key="ToggleButtonStyle1" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="#3B3838"/>
@@ -183,7 +204,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2}" VerticalContentAlignment="Center" />
+                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N0,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N0}"/>

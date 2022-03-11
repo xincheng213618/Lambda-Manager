@@ -18,7 +18,7 @@
   <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
   <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
   <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
-  <Style x:Key="PhaseButtonStyle" TargetType="{x:Type ToggleButton}">
+  <Style x:Key="PhaseButton" TargetType="{x:Type ToggleButton}">
     <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />
     <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
     <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
@@ -46,6 +46,42 @@
               <Setter TargetName="border" Property="Border.Background" Value="#6EA646" />
               <Setter TargetName="border" Property="Border.BorderBrush" Value="#FFFFFFFF" />
               <Setter Property="FontWeight" Value="Bold" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+              <Setter TargetName="border" Property="Border.Background" Value="{StaticResource Button.Disabled.Background}" />
+              <Setter TargetName="border" Property="Border.BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
+              <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="IndicateButton" TargetType="{x:Type ToggleButton}">
+    <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+    <Setter Property="Background" Value="#3B3838" />
+    <Setter Property="BorderBrush" Value="#7F7F7F" />
+    <Setter Property="Foreground" Value="#FFFFFFFF" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Padding" Value="1" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ToggleButton}">
+          <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true" CornerRadius="5">
+            <DockPanel HorizontalAlignment="Center" Margin="10,0">
+              <ContentPresenter Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <Rectangle Name="rect" Margin="10,0,0,0" Height="10" Width="10" Fill="#00FFFFFF" Stroke="#767171" SnapsToDevicePixels="true" StrokeThickness="1" />
+            </DockPanel>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="Button.IsDefaulted" Value="true">
+              <Setter TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Property="Border.BorderBrush" />
+            </Trigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="true" />
+            <Trigger Property="ToggleButton.IsChecked" Value="true">
+              <Setter TargetName="rect" Property="Shape.Fill" Value="#6EA646" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
               <Setter TargetName="border" Property="Border.Background" Value="{StaticResource Button.Disabled.Background}" />

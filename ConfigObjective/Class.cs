@@ -16,7 +16,9 @@ namespace ConfigObjective
         public string Name { get; set; }   
         public string Magnitude { get; set; }
         public double NA { get; set; }
-        public bool isable { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public bool IsChecked { get; set; } = false;
+
 
     }
 }
