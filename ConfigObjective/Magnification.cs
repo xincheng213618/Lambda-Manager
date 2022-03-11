@@ -103,6 +103,20 @@ namespace ConfigObjective
             #endregion  
 
             #region ViewMode 成像模式
+
+            Button button301 = (Button)Template.FindName("button301", this);
+            Button button302 = (Button)Template.FindName("button302", this);
+            button301.Click += delegate
+            {
+                Dictionary<string, object> data = new() {   };
+                Trigger("IMAGE_MODE_RESET", button301, data);
+            };
+            button302.Click += delegate
+            {
+                Dictionary<string, object> data = new() {  };
+                Trigger("IMAGE_MODE_CLOASE", button302, data);
+            };
+
             RadioButton Button31  =(RadioButton)Template.FindName("Button31", this);
             RadioButton Button32 = (RadioButton)Template.FindName("Button32", this);
             RadioButton Button33 = (RadioButton)Template.FindName("Button33", this);
@@ -413,7 +427,7 @@ namespace ConfigObjective
 
         #endregion
     }
-
+        //双点
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -428,12 +442,12 @@ namespace ConfigObjective
             }
         }
 
-
+        //单点
         private void Timer_Tick(object? sender, EventArgs e)
         {
             _timer.Stop();
             Dictionary<string, object> data = new() { };
-            Trigger("SMALL_AUTO_FOCUS_Run", this, data);
+            Trigger("STAGE_AUTO_FOCUS", this, data);
         }
 
 

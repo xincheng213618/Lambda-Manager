@@ -51,17 +51,7 @@ partial class MainWindow : Window, IComponentConnector
 	public MainWindow()
 	{
 		InitializeComponent();
-		if (DateTime.Now > Convert.ToDateTime("2022/3/31"))
-		{
-			AddMessage(new Message
-			{
-				Severity = Severity.INFO,
-				Text = LambdaManager.Properties.Resources.Expired
-			});
-			MessageBox.Show(LambdaManager.Properties.Resources.Expired, Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
-			Application.Current.Shutdown();
-			return;
-		}
+
 		AddMessage(new Message
 		{
 			Severity = Severity.INFO,

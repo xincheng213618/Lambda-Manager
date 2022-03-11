@@ -22,14 +22,46 @@
                         <ToggleButton x:Name="ToggleButton2"  Style="{StaticResource ButtonPageControl}" Content="相机设置" FontSize="14" Foreground="White" IsChecked="True" Margin="0,5,0,0"/>
                         <Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
                             <StackPanel>
-                                <TextBox Text="11"/>
+                                <DockPanel>
+                                    <TextBlock Text="白平衡" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <Slider x:Name="Slider211" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock DockPanel.Dock="Left" Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <Button DockPanel.Dock="Right" Width="50" Content="自动" />
+                                    <Slider  DockPanel.Dock="Right" x:Name="Slider212" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="锐度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <Slider x:Name="Slider213" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Gamma" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <Slider x:Name="Slider214" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="降噪" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <Slider x:Name="Slider215" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="分辨率" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                </DockPanel>
                             </StackPanel>
                         </Border>
                         <Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="#595959" Padding="5" Margin="5,0">
                             <StackPanel>
-                                <TextBox Text="222"/>
+                                <TextBlock>
+                        <Run Text="曝光:"/>
+                        <Run Text="{Binding ElementName=Slider211,Path=Value}"/>
+                        <Run Text=", 增益："/>
+                        <Run Text="{Binding ElementName=Slider212,Path=Value}"/>
+                        <Run Text="分辨率:1920*1080"/>
+                        <Run Text="帧率：30"/>
+                                </TextBlock>
                             </StackPanel>
                         </Border>
+
 
 
 
@@ -37,8 +69,8 @@
                         <Grid Margin="0,5,5,0">
                             <ToggleButton x:Name="ToggleButton3"  Style="{StaticResource ButtonPageControl}" Content="成像模式" FontSize="14" Foreground="White" IsChecked="True" />
                             <DockPanel HorizontalAlignment="Right">
-                                <Button Content="重置"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2"/>
-                                <Button Content="关闭光源" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2"/>
+                                <Button x:Name="Button301" Content="重置"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2"/>
+                                <Button x:Name="Button302"  Content="关闭光源" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2"/>
                             </DockPanel>
 
                         </Grid>
