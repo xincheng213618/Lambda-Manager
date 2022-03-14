@@ -141,6 +141,9 @@
     <Resource Include="resources\images\startpicture1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Controls\ControlSlider2.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -160,5 +163,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="resources\images\startimage\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ControlSlider2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

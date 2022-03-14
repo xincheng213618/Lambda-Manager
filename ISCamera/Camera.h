@@ -22,6 +22,8 @@ extern "C" CAMERA_API int LoadProperty(std::string xmlProperties);
 
 extern "C" CAMERA_API int SaveSettings();
 
+extern "C" CAMERA_API int CameraSettingExposure(double exposure);
+
 int Start();
 
 cv::Mat* Filter(cv::Mat& frame);

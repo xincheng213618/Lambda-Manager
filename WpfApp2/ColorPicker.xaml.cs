@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.CompilerServices;
 
 namespace WpfApp2
 {
@@ -26,21 +27,21 @@ namespace WpfApp2
         public ColorPicker()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
-
-        double H = 0;
-        double S = 1;
-        double B = 1;
-
+        //HSB
+        double Hue = 0;
+        double Saturation = 1;
+        double Brightness = 1;
 
 
         private void ThumbPro_ValueChanged(double xpercent, double ypercent)
         {
-            H = 360 * ypercent;
-            HsbaColor Hcolor = new HsbaColor(H, 1, 1, 1);
+            Hue = 360 * ypercent;
+            HsbaColor Hcolor = new HsbaColor(Hue, 1, 1, 1);
             viewSelectColor.Fill = Hcolor.SolidColorBrush;
 
-            Hcolor = new HsbaColor(H, S, B, 1);
+            Hcolor = new HsbaColor(Hue, Saturation, Brightness, 1);
             SelectColor = Hcolor.SolidColorBrush;
 
             ColorChange(Hcolor.RgbaColor);
@@ -48,9 +49,9 @@ namespace WpfApp2
 
         private void ThumbPro_ValueChanged_1(double xpercent, double ypercent)
         {
-            S = xpercent;
-            B = 1 - ypercent;
-            HsbaColor Hcolor = new HsbaColor(H, S, B, 1);
+            Saturation = xpercent;
+            Brightness = 1 - ypercent;
+            HsbaColor Hcolor = new HsbaColor(Hue, Saturation, Brightness, 1);
 
             SelectColor = Hcolor.SolidColorBrush;
 
@@ -64,78 +65,95 @@ namespace WpfApp2
             {
                 return _SelectColor;
             }
-            set{
+            set
+            {
                 _SelectColor = value;
-                PropertyChanged?.Invoke(this,new PropertyChangedEventArgs("SelectColor"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectColor"));
             }
         }
 
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            RgbaColor Hcolor = new RgbaColor(R, G, B, A);
+            SelectColor = Hcolor.SolidColorBrush;
+            TextHex.Text = Hcolor.HexString;
+            
+            HsbaColor Hcolor1 = new HsbaColor(Hcolor.HsbaColor.H, 1, 1, 1);
 
-        int R = 255;
-        int G = 255;
-        int _B = 255;
-        int A = 255;
+            viewSelectColor.Fill = Hcolor1.SolidColorBrush;
+            UpdateThumb(Hcolor);
+        }
+
+
+
+        private int r;
+
+        public int R
+        {
+            get { return r; }
+            set {
+                r = r <= 255 ? r >= 0? value:0:255;
+
+                NotifyPropertyChanged();
+            }
+        }
+        private int b;
+
+        public int B
+        {
+            get { return b; }
+            set {
+                b = b <= 255 ? b >= 0 ? value : 0 : 255;
+                NotifyPropertyChanged();
+            }
+        }
+        private int g;
+
+        public int G
+        {
+            get { return g; }
+            set { 
+                g = g <= 255 ? g >= 0 ? value : 0 : 255;
+                NotifyPropertyChanged();
+            }
+        }
+        private int a;
+
+        public int A
+        {
+            get { return a; }
+            set {
+                a = a <= 255 ? a >= 0 ? value : 0 : 255;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        { 
-            TextBox textBox = sender as TextBox;
-            string text = textBox.Text;
-            
-            //错误的数据，则使用上次的正确数据
-            if(!int.TryParse(TextR.Text,out int Rvalue) || (Rvalue > 255 || Rvalue < 0))
-            {              
-                TextR.Text = R.ToString();
-                return;
-            }
-
-            if (!int.TryParse(TextG.Text, out int Gvalue) || (Gvalue > 255 || Gvalue < 0))
-            {
-                TextG.Text = G.ToString();
-                return;
-            }
-
-            if (!int.TryParse(TextB.Text, out int Bvalue) || (Bvalue > 255 || Bvalue < 0))
-            {
-                TextB.Text = _B.ToString();
-                return;
-            }
-            if (!int.TryParse(TextA.Text, out int Avalue) || (Avalue > 255 || Avalue < 0))
-            {
-                TextA.Text = A.ToString();
-                return;
-            }
-            R = Rvalue; G = Gvalue; _B = Bvalue; A= Avalue;
-           
-
-            RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
-            SelectColor = Hcolor.SolidColorBrush;
-
-            TextHex.Text = Hcolor.HexString;
-
-        }
 
         private void HexTextLostFocus(object sender, RoutedEventArgs e)
         {
-            
             RgbaColor Hcolor = new RgbaColor(TextHex.Text);
-
             SelectColor = Hcolor.SolidColorBrush;
-            TextR.Text = Hcolor.R.ToString();
-            TextG.Text = Hcolor.G.ToString();
-            TextB.Text = Hcolor.B.ToString();
-            TextA.Text = Hcolor.A.ToString();
+            R = Hcolor.R;
+            G = Hcolor.G;
+            B = Hcolor.B;
+            A = Hcolor.A;
+            UpdateThumb(Hcolor);
+
         }
 
         private void ColorChange(RgbaColor Hcolor)
         {
-            TextR.Text = Hcolor.R.ToString();
-            TextG.Text = Hcolor.G.ToString();
-            TextB.Text = Hcolor.B.ToString();
-            TextA.Text = Hcolor.A.ToString();
-
+            R = Hcolor.R;
+            G = Hcolor.G;
+            B = Hcolor.B;   
+            A = Hcolor.A;   
             TextHex.Text = Hcolor.HexString;
+
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
@@ -146,15 +164,24 @@ namespace WpfApp2
 
             RgbaColor Hcolor = new RgbaColor(SelectColor);
             ColorChange(Hcolor);
+            UpdateThumb(Hcolor);
 
-            var xpercent  = Hcolor.HsbaColor.S;
-            var ypercent  = 1 - Hcolor.HsbaColor.B;
+        }
 
-            var Ypercent = Hcolor.HsbaColor.H /360 ;
+        private void UpdateThumb(RgbaColor Hcolor)
+        {
+            var xpercent = Hcolor.HsbaColor.S;
+            var ypercent = 1 - Hcolor.HsbaColor.B;
+
+            var Ypercent = Hcolor.HsbaColor.H / 360;
 
             thumbH.SetTopLeftByPercent(1, Ypercent);
             thumbSB.SetTopLeftByPercent(xpercent, ypercent);
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            pop.IsOpen = false;
 
         }
     }

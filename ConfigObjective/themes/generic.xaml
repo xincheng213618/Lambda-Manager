@@ -24,12 +24,16 @@
                             <StackPanel>
                                 <DockPanel>
                                     <TextBlock Text="白平衡" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <Button  x:Name="Button311" Content="自动"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                     <Slider x:Name="Slider211" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                                 </DockPanel>
                                 <DockPanel>
-                                    <TextBlock DockPanel.Dock="Left" Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                    <TextBlock DockPanel.Dock="Left" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                     <Button DockPanel.Dock="Right" Width="50" Content="自动" />
-                                    <Slider  DockPanel.Dock="Right" x:Name="Slider212" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                    <Slider  DockPanel.Dock="Right" x:Name="Slider212" Style="{StaticResource Horizontal_Slider2}" Value="6.1" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="0.1"/>
                                 </DockPanel>
                                 <DockPanel>
                                     <TextBlock Text="锐度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -45,7 +49,7 @@
                                 </DockPanel>
                                 <DockPanel>
                                     <TextBlock Text="分辨率" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                    <Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                    <!--<Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>-->
                                 </DockPanel>
                             </StackPanel>
                         </Border>
@@ -159,24 +163,20 @@
                                 <Border  Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                                     <StackPanel>
                                         <DockPanel>
-                                            <TextBlock Text="相差滤波" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <TextBlock Text="对比度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                             <Slider x:Name="Slider341" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Text="对比度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <TextBlock Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                             <Slider x:Name="Slider342" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <TextBlock Text="明场权重" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                             <Slider x:Name="Slider343" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Text="明场权重" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <Slider x:Name="Slider344" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
-                                        </DockPanel>
-                                        <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton Margin="20,0" Template="{StaticResource ToggleButton10}" IsChecked="False" />
+                                            <ToggleButton x:Name="Button341" Width="50" Template="{StaticResource ToggleButton10}"  />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
@@ -192,27 +192,32 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton Margin="20,0" Template="{StaticResource ToggleButton10}" IsChecked="False" />
+                                            <ToggleButton  x:Name="Button351" Margin="20,0" Template="{StaticResource ToggleButton10}"  />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
                                 <Border  Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                                     <StackPanel>
+
                                         <DockPanel>
-                                            <TextBlock Text="对比度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <TextBlock Text="相差滤波" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                             <Slider x:Name="Slider361" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <TextBlock Text="对比度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                             <Slider x:Name="Slider362" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Text="明场权重" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <TextBlock Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                             <Slider x:Name="Slider363" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                                         </DockPanel>
                                         <DockPanel>
+                                            <TextBlock Text="明场权重" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <Slider x:Name="Slider364" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                                        </DockPanel>
+                                        <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton Width="50" Template="{StaticResource ToggleButton10}" IsChecked="False" />
+                                            <ToggleButton x:Name="Button361" Margin="20,0" Template="{StaticResource ToggleButton10}" />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>

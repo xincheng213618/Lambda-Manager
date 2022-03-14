@@ -100,21 +100,71 @@ namespace ConfigObjective
             ToggleButton ToggleButton3 = (ToggleButton)Template.FindName("ToggleButton3", this);
             ToggleButton ToggleButton4 = (ToggleButton)Template.FindName("ToggleButton4", this);
             ToggleButton ToggleButton5 = (ToggleButton)Template.FindName("ToggleButton5", this);
-            #endregion  
+            #endregion
+
+            #region 相机参数
+            Button Button311 = (Button)Template.FindName("Button311", this);
+            Button311.Click += delegate
+            {
+                Dictionary<string, object> data = new() {  };
+                Trigger("CAMERA_SETTING_WHITE_BALANCE", data);
+            };
+
+            //增益
+            Slider Slider211 = (Slider)Template.FindName("Slider211", this);
+            Slider211.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "gain", (int)Slider211.Value } };
+                Trigger("CAMERA_SETTING_GAIN", data);
+            };
+
+            //曝光
+            Slider Slider212 = (Slider)Template.FindName("Slider212", this);
+            Slider212.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "exposure", Slider212.Value } };
+                //string data = "{\"exposure111\":" + Slider212.Value.ToString("0") + "}";
+                Trigger("CAMERA_SETTING_EXPOSURE", data);
+            };
+            //锐度
+            Slider Slider213 = (Slider)Template.FindName("Slider213", this);
+            Slider213.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "sharpness", (int)Slider213.Value } };
+                Trigger("CAMERA_SETTING_SHARPNESS", data);
+            };
+
+            //伽马
+            Slider Slider214 = (Slider)Template.FindName("Slider214", this);
+            Slider214.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "gamma", (int)Slider214.Value } };
+                Trigger("CAMERA_SETTING_GAMMA", data);
+            };
+            //降噪
+            Slider Slider215 = (Slider)Template.FindName("Slider215", this);
+            Slider215.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "denoise", (int)Slider215.Value } };
+                Trigger("CAMERA_SETTING_DENOISE", data);
+            };
+
+
+            #endregion
 
             #region ViewMode 成像模式
 
-            Button button301 = (Button)Template.FindName("button301", this);
-            Button button302 = (Button)Template.FindName("button302", this);
+            Button button301 = (Button)Template.FindName("Button301", this);
+            Button button302 = (Button)Template.FindName("Button302", this);
             button301.Click += delegate
             {
-                Dictionary<string, object> data = new() {   };
-                Trigger("IMAGE_MODE_RESET", button301, data);
+                Dictionary<string, object> data = new() { };
+                Trigger("IMAGE_MODE_RESET", data);
             };
             button302.Click += delegate
             {
-                Dictionary<string, object> data = new() {  };
-                Trigger("IMAGE_MODE_CLOASE", button302, data);
+                Dictionary<string, object> data = new() { };
+                Trigger("IMAGE_MODE_CLOSE", data);
             };
 
             RadioButton Button31  =(RadioButton)Template.FindName("Button31", this);
@@ -219,32 +269,27 @@ namespace ConfigObjective
                 Trigger("RHEIN_BERG_GAMMA", Slider311, data);
             };
 
+            //对比度
             Slider Slider341 = (Slider)Template.FindName("Slider341", this);
             Slider341.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "filter", (int)Slider341.Value } };
-                Trigger("PHASE_CONTRAST_FILTER", Slider311, data);
+                Dictionary<string, object> data = new() { { "contrast", (int)Slider341.Value } };
+                Trigger("RELIEF_CONTRAST_CONTRAST", Slider311, data);
             };
 
+            //增益
             Slider Slider342 = (Slider)Template.FindName("Slider342", this);
             Slider342.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "contrast", (int)Slider342.Value } };
-                Trigger("PHASE_CONTRAST_CONTRAST", Slider311, data);
+                Dictionary<string, object> data = new() { { "gain", (int)Slider342.Value } };
+                Trigger("PHASE_CONTRAST_GAIN", Slider311, data);
             };
 
             Slider Slider343 = (Slider)Template.FindName("Slider343", this);
             Slider343.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "gain", (int)Slider343.Value } };
-                Trigger("PHASE_CONTRAST_GAIN", Slider311, data);
-            };
-
-            Slider Slider344 = (Slider)Template.FindName("Slider344", this);
-            Slider344.ValueChanged += delegate
-            {
-                Dictionary<string, object> data = new() { { "weight", (int)Slider344.Value } };
-                Trigger("PHASE_CONTRAST_BF_WEIGHT", Slider311, data);
+                Dictionary<string, object> data = new() { { "weight", (int)Slider343.Value } };
+                Trigger("RELIEF_CONTRAST_BF_Weight ", Slider311, data);
             };
 
 
@@ -261,30 +306,88 @@ namespace ConfigObjective
                 Trigger("QUANTITATIVE_PHASE_DETAIL", Slider311, data);
             };
 
+            //相差
+            //相差滤波
             Slider Slider361 = (Slider)Template.FindName("Slider361", this);
             Slider361.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "contrast", (int)Slider361.Value } };
-                Trigger("RELIEF_CONTRAST_CONTRAST", Slider311, data);
+                Dictionary<string, object> data = new() { { "filter", (int)Slider361.Value } };
+                Trigger("PHASE_CONTRAST_FILTER", Slider311, data);
             };
 
             Slider Slider362 = (Slider)Template.FindName("Slider362", this);
             Slider362.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "gain", (int)Slider362.Value } };
+                Dictionary<string, object> data = new() { { "contrast", (int)Slider362.Value } };
                 Trigger("PHASE_CONTRAST_CONTRAST", Slider311, data);
             };
 
             Slider Slider363 = (Slider)Template.FindName("Slider363", this);
             Slider363.ValueChanged += delegate
             {
-                Dictionary<string, object> data = new() { { "weidght", (int)Slider363.Value } };
-                Trigger("RELIEF_CONTRAST_BF_WEIDGHT ", Slider311, data);
+                Dictionary<string, object> data = new() { { "gain", (int)Slider363.Value } };
+                Trigger("PHASE_CONTRAST_GAIN", Slider311, data);
+            };
+
+            Slider Slider364 = (Slider)Template.FindName("Slider364", this);
+            Slider364.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "weight", (int)Slider364.Value } };
+                Trigger("PHASE_CONTRAST_BF_WEIGHT", Slider311, data);
             };
 
 
 
-           #endregion
+            ToggleButton Button341 = (ToggleButton)Template.FindName("Button341", this);
+            Button341.Checked += delegate
+            {
+                Dictionary<string, object> data = new() { { "collection", Button341.IsChecked } };
+                Trigger("RELIEF_CONTRAST_BG_COLLECTION ", data);
+            };
+            Button341.Unchecked += delegate
+            {
+                Dictionary<string, object> data = new() { { "collection", Button341.IsChecked } };
+                Trigger("RELIEF_CONTRAST_BG_COLLECTION ", data);
+            };
+            Button341.IsChecked = false;
+
+            ToggleButton Button351 = (ToggleButton)Template.FindName("Button351", this);
+            Button351.Checked += delegate
+            {
+                Dictionary<string, object> data = new() { { "collection", Button351.IsChecked } };
+                Trigger("QUANTITATIVE_PHASE_BG_COLLECTION ", data);
+            };
+            Button351.Unchecked += delegate
+            {
+                Dictionary<string, object> data = new() { { "collection", Button351.IsChecked } };
+                Trigger("QUANTITATIVE_PHASE_BG_COLLECTION ", data);
+            };
+
+            Button351.IsChecked = false;
+
+
+            ToggleButton Button361 = (ToggleButton)Template.FindName("Button361", this);
+            Button361.Checked += delegate
+            {
+                Dictionary<string, object> data = new() { { "collection", Button361.IsChecked } };
+                Trigger("PHASE_CONTRAST_BG_COLLECTION ", data);
+            };
+            Button361.Unchecked += delegate
+            {
+                Dictionary<string, object> data = new() { { "collection", Button361.IsChecked } };
+                Trigger("PHASE_CONTRAST_BG_COLLECTION ", data);
+            };
+
+            Button351.IsChecked = false;
+
+
+
+
+
+
+
+
+            #endregion
 
 
 

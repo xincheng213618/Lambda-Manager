@@ -71,6 +71,8 @@ public:
 	static void Dispatch(std::string type, void* object1, void* object2);
 	static void Dispatch(std::string type, void* object1, void* object2, void* object3, void* object4);
 
+	static void Schedule(std::string type, const char* cron, const char* event);
+
 	static void On(std::string type, Callback1 callback,bool once); //callback return -1 to stop event propogation
 	static void On(std::string type, Callback2 callback,bool once); //callback return -1 to stop event propogation
 	static void On(std::string type, Callback3 callback,bool once); //callback return -1 to stop event propogation
@@ -103,12 +105,21 @@ public:
 	static LambdaView* GetIdleOrNew();
 };
 
+class COMMON_API Service {
+public:
+	Service();
+	~Service();
+	static void Start(const char* serviceName);
+	static void Stop(const char* serviceName);
+};
+
 extern "C" COMMON_API int GetArraySize(void* pArray);
 
 class COMMON_API StringUtils {
 public:
 	static std::string wstring2string(const std::wstring& wstr);
-	static std::wstring string2wstring(const std::string* str);
+	static std::wstring string2wstring(const std::string& str);
+
 	static wchar_t* Multi2WideByte(const char* p);
 	static char* Wide2MultiByte(const wchar_t* p);
 };

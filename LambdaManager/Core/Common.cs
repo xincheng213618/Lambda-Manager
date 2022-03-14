@@ -378,6 +378,11 @@ internal class Common
 		GCHandle handle = GCHandle.Alloc(sender);
 		try
 		{
+			App.Report(new Message
+			{
+				Severity = Severity.INFO,
+				Text = type
+			});
 			int result = CallEvent(type, handle, e);
 			if (result >= RESERVED_EVENT_RESULT)
 			{
@@ -395,6 +400,11 @@ internal class Common
 	{
 		if (e == EventArgs.Empty)
 		{
+			App.Report(new Message
+			{
+				Severity = Severity.INFO,
+				Text = type
+			});
 			return CallEvent(type, GCHandle.ToIntPtr(handle));
 		}
 		if (e is LambdaArgs e2)
@@ -402,15 +412,30 @@ internal class Common
 			object data = e2.Data;
 			if (data == null)
 			{
+				App.Report(new Message
+				{
+					Severity = Severity.INFO,
+					Text = type
+				}); ;
 				return CallEvent(type, GCHandle.ToIntPtr(handle));
 			}
 			if (data is string s)
 			{
+				App.Report(new Message
+				{
+					Severity = Severity.INFO,
+					Text = type + s
+				});
 				return CallEvent(type, s, GCHandle.ToIntPtr(handle));
 			}
 			if (data is Dictionary<string, object> dic)
 			{
 				string json = JsonFormatter.SerializeObject(dic);
+				App.Report(new Message
+				{
+					Severity = Severity.INFO,
+					Text = type + json
+				});
 				return CallEvent(type, json, GCHandle.ToIntPtr(handle));
 			}
 			App.Report(new Message

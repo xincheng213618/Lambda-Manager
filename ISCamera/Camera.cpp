@@ -104,7 +104,7 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
-	std::wstring&& s = StringUtils::string2wstring(&fileName);
+	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
 
 	for (;;)
@@ -161,5 +161,11 @@ int LoadProperty(std::string xml)
 int SaveSettings()
 {
 	Logger::Log1(Severity::INFO, "Invoke 'SaveSettings()'");
+	return  0;
+}
+
+int CameraSettingExposure(double exposure)
+{
+	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
 	return  0;
 }

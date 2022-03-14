@@ -115,6 +115,7 @@ partial class MainWindow : Window, IComponentConnector
 		StackPanel panel = new StackPanel();
 		panel.Orientation = Orientation.Horizontal;
 		TextBlock textBlock = new TextBlock();
+
 		Image image = new Image();
 		image.BeginInit();
 		image.Source = Application.Current.Resources[message.Severity.ToString()] as BitmapImage;
@@ -122,6 +123,7 @@ partial class MainWindow : Window, IComponentConnector
 		image.Width = textBlock.FontSize;
 		image.EndInit();
 		panel.Children.Add(image);
+
 		string text = message.Text;
 		if (text != null)
 		{
