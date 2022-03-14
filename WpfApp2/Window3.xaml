@@ -6,6 +6,20 @@
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
         Title="Window3" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
     <Grid  Background="White">
         <Border >
             <Border Padding="5" CornerRadius="5" Width="365" Background="#535353" Height="205">
@@ -55,29 +69,39 @@
                     <StackPanel Grid.Column="2" Margin="10,5,5,5">
                         <DockPanel>
                             <Label Foreground="White" Width="30">R</Label>
-                            <TextBox x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Center"  >255</TextBox>
+                            <TextBox x:Name="TextR"   VerticalAlignment="Center" Text="{Binding Path=R,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                         <DockPanel >
                             <Label Foreground="White" Width="30">G</Label>
-                            <TextBox x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Text="255"/>
+                            <TextBox x:Name="TextG"  VerticalAlignment="Center" Text="{Binding Path=G,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                         <DockPanel  >
                             <Label Foreground="White" Width="30">B</Label>
-                            <TextBox x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Text="255" />
+                            <TextBox x:Name="TextB"  VerticalAlignment="Center" Text="{Binding Path=B,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                         <DockPanel >
                             <Label Foreground="White" Width="30" Content="A"/>
-                            <TextBox x:Name="TextA" LostFocus="TextBox_LostFocus"   VerticalAlignment="Center" Text="255" />
+                            <TextBox x:Name="TextA" VerticalAlignment="Center" Text="{Binding Path=A,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                         <DockPanel>
                             <Label Foreground="White" Content="#" Width="30"/>
                             <TextBox x:Name="TextHex" LostFocus="HexTextLostFocus" Width="80" VerticalAlignment="Center" Text="#FFFFFFFF" />
                         </DockPanel>
-                        <DockPanel >
-                            <Button  Content="确定"/>
+
+                        <UniformGrid x:Name="PreSetColorGrid" Rows="2" Columns="9">
+                            <Button Background="Red"  Style="{DynamicResource ButtonStyle1}" Height="10" Width="10" Margin="1,2"/>
+                            <Button Background="AntiqueWhite"  Style="{DynamicResource ButtonStyle1}" Height="10" Width="10"/>
+                            <Button Background="Blue"  Style="{DynamicResource ButtonStyle1}" Height="10" Width="10"/>
+                            <Button Background="Black"  Style="{DynamicResource ButtonStyle1}" Height="10" Width="10"/>
+                            <Button Background="DarkCyan"  Style="{DynamicResource ButtonStyle1}" Height="10" Width="10"/>
+                            <Button Background="Green"  Style="{DynamicResource ButtonStyle1}" Height="10" Width="10"/>
+                        </UniformGrid>
+
+                        <DockPanel VerticalAlignment="Bottom" >
+                            <Button  Content="确定" Click="Button_Click"/>
                         </DockPanel>
                     </StackPanel>
-                    
+
                 </Grid>
 
             </Border>

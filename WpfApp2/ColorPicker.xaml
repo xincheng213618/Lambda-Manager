@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfApp2"
              mc:Ignorable="d"  Name="root"
              
-             d:DesignHeight="17" d:DesignWidth="54" >
+             d:DesignHeight="17" d:DesignWidth="54" Initialized="root_Initialized" >
     <UserControl.Resources>
         <Style x:Key="ThumbStyle1" TargetType="{x:Type local:ThumbPro}">
             <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
@@ -92,8 +92,8 @@
 
     </UserControl.Resources>
     <Grid>
-        <Button x:Name="btn"  Background="{Binding SelectColor,ElementName=root}" Click="btn_Click" Style="{DynamicResource ButtonStyle1}">
-        </Button>
+        <Button x:Name="btn"  Background="{Binding SelectColor,ElementName=root}" Click="btn_Click" Style="{DynamicResource ButtonStyle1}"/>
+
         <Popup AllowsTransparency="True"  PlacementTarget="{Binding ElementName=btn}" Placement="Bottom" VerticalOffset="5" StaysOpen="False" Name="pop" >
             <Border Padding="5" CornerRadius="5" Width="365" Background="#535353" Height="205">
                 <Grid>
@@ -160,6 +160,9 @@
                             <Label Foreground="White" Content="#" Width="30"/>
                             <TextBox x:Name="TextHex" LostFocus="HexTextLostFocus" Width="80" VerticalAlignment="Center" Text="#FFFFFFFF" />
                         </DockPanel>
+                        <UniformGrid x:Name="PreSetColorGrid" Rows="2" Columns="5">
+                        </UniformGrid>
+
                         <DockPanel VerticalAlignment="Bottom" >
                             <Button  Content="确定" Click="Button_Click"/>
                         </DockPanel>

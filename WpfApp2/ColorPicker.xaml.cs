@@ -184,6 +184,34 @@ namespace WpfApp2
             pop.IsOpen = false;
 
         }
+        public List<Brush> brushes = new List<Brush>() { Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Pink, Brushes.Cyan, Brushes.Yellow ,Brushes.White,Brushes.Black};
+        private void root_Initialized(object sender, EventArgs e)
+        {
+            foreach (var item in brushes)
+            {
+                Button button = new Button
+                {
+                    Height = 15,
+                    Width = 15,
+                    Style = this.FindResource("ButtonStyle1") as Style,
+                    Margin = new Thickness(1, 2, 1, 2),
+                    Background = item
+                };
+                button.Click += delegate(object sender, RoutedEventArgs e)
+                {
+                    if(sender is Button button1)
+                    {
+                        SelectColor = button1.Background as SolidColorBrush;
+                        RgbaColor Hcolor = new RgbaColor(SelectColor);
+                        ColorChange(Hcolor);
+                        UpdateThumb(Hcolor);
+                    }
+
+                };
+                PreSetColorGrid.Children.Add(button);
+
+            }
+        }
     }
 
     /// <summary>
