@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Lambda;
@@ -496,6 +497,49 @@ internal class Common
 			writeableBitmap.Unlock();
 			MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 			Image image = GetImage(index);
+			if (image.Parent is Canvas canvas)
+            {
+				TransformGroup transformGroup = new();
+				TranslateTransform tlt = new();
+				ScaleTransform sfr = new();
+				transformGroup.Children.Add(sfr);
+				transformGroup.Children.Add(tlt);
+				image.RenderTransform = transformGroup;
+				image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
+				{
+					Point centerPoint = e.GetPosition(canvas);
+					if (sfr.ScaleX < 0.1 && sfr.ScaleY < 0.1 && e.Delta < 0)
+					{
+						return;
+					}
+					sfr.CenterX = centerPoint.X;
+					sfr.CenterY = centerPoint.Y;
+					sfr.ScaleX += (double)e.Delta / 3500;
+					sfr.ScaleY += (double)e.Delta / 3500;
+				};
+				bool isMouseLeftButtonDown = false;
+				Point mouseXY;
+				image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
+				{
+					isMouseLeftButtonDown = true;
+					mouseXY = e.GetPosition(image);
+				};
+				image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
+				{
+					isMouseLeftButtonDown = false;
+				};
+				image.MouseMove += delegate (object sender, MouseEventArgs e)
+				{
+					if (isMouseLeftButtonDown == true)
+					{
+						Point position = e.GetPosition(image);
+						tlt.X += position.X - mouseXY.X;
+						tlt.Y += position.Y - mouseXY.Y;
+					}
+				};
+
+			}
+
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
@@ -538,6 +582,11 @@ internal class Common
 			return null;
 		}
 		Image image = main.Views[index]?.Image;
+
+
+
+
+
 		if (image == null)
 		{
 			image = ViewGrid.GetIdleOrNewView(index)?.Image;

@@ -7,8 +7,8 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" xmlns:controls="clr-namespace:LambdaManager.Controls"
         Title="λManager" Height="1080" Background="#333333" Width="1920"  Loaded="Window_Loaded" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
-  <FrameworkElement.Resources>
-    <ResourceDictionary>
+    <FrameworkElement.Resources>
+        <ResourceDictionary>
             <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
                 <Setter Property="TextBlock.Padding" Value="5,5,5,5" />
@@ -44,7 +44,7 @@
                 <Setter Property="Height" Value="40" />
             </Style>
         </ResourceDictionary>
-  </FrameworkElement.Resources>
+    </FrameworkElement.Resources>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -60,7 +60,7 @@
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" MouseDoubleClick="Button_MouseDoubleClick">
                     <Image Source="/Resources/Icons/application-logo.png" Height="32" Stretch="Uniform" Margin="5,5,0,0" Panel.ZIndex="-1" />
                 </Button>
-                <Slider VerticalAlignment="Center" Width="80" Margin="20,5,0,0" Maximum="2" Value="1" Style="{StaticResource HorizontalSlider}" ValueChanged="Slider_ValueChanged" />
+                <Slider x:Name="SliderAll1" VerticalAlignment="Center" Width="80" Margin="20,5,0,0" Minimum="200" Maximum="500" Value="400" IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource HorizontalSlider}" ValueChanged="Slider_ValueChanged" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <RadioButton Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
@@ -91,35 +91,32 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView" Width="400" />
+                <ColumnDefinition Name="leftView"  Width="400"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid x:Name="GridSet1"  SizeChanged="GridSet1_SizeChanged" />
-            <Viewbox  VerticalAlignment="Top">
-                <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}" Width="330" VerticalAlignment="Top" Margin="0,0,0,0">
-                    <TabControl>
-                        <TabItem Header="工程" FontSize="15">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <StackPanel Name="projectView"  Width="300" Margin="10" >
-                                    
-                                </StackPanel>
+            <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5">
+                <TabControl>
+                    <TabItem Header="工程" FontSize="15">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel Name="projectView"  Margin="10" >
+                            </StackPanel>
                         </ScrollViewer>
                     </TabItem>
-                        <TabItem Header="采集配置" FontSize="15">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
-                                    <StackPanel Name="acquireView">
-                                    </StackPanel>
-                                </Viewbox>
-                            </ScrollViewer>
-                        </TabItem>
-                    </TabControl>
+                    <TabItem Header="采集配置" FontSize="15">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                <StackPanel Name="acquireView">
+                                </StackPanel>
+                            </Viewbox>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
 
             </Border>
-            </Viewbox>
+
 
             <DockPanel Grid.Row="1" Margin="5">
                 <ToggleButton Width="95" Height="25" DockPanel.Dock="Left" Margin="10,0,0,0" Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
@@ -129,12 +126,12 @@
                 </StackPanel>
                 <TextBlock />
             </DockPanel>
-            <GridSplitter Name="LeftSplitter" Grid.Column="1" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="LeftSplitter_MouseDoubleClick" DragCompleted="LeftSplitter_DragCompleted">
+            <GridSplitter Name="LeftSplitter" Grid.Column="1" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="LeftSplitter_MouseDoubleClick" >
                 <Control.Background>
                     <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
                 </Control.Background>
             </GridSplitter>
-            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
                 <Border Style="{StaticResource RadiusBorder}">
                     <StackPanel Name="materialView" Margin="2,2,4,2">
                         <TextBlock>Workspace 1</TextBlock>
@@ -360,23 +357,22 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Name="view0" Source="/Resources/Images/StartPicture1.png" Stretch="Uniform" />
-                            <StackPanel Name="ruler" VerticalAlignment="Bottom" Margin="0,0,20,20" HorizontalAlignment="Right">
-                                <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
-                                <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}">
-                                    <Path.Data>
-                                        <PathGeometry Figures="m 0,0 v 5 h 50 v -5" />
-                                    </Path.Data>
-                                </Path>
-                            </StackPanel>
-                        </Grid>
+                        <Canvas x:Name="Griddd" ClipToBounds="True" Background="#c3c3c3">
+                            <Grid>
+                                <Image Name="view0" Source="Resources/Images/StartPicture1.png" Height="1920" Width="1920" Stretch="UniformToFill" />
+                                <StackPanel Name="ruler" VerticalAlignment="Bottom" Margin="0,0,20,20" HorizontalAlignment="Right">
+                                    <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
+                                    <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Data="m 0,0 v 5 h 50 v -5"/>
+                                </StackPanel>
+                            </Grid>
+                        </Canvas>
+
                         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
                         <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal" />
                     </Grid>
                 </Grid>
             </Border>
-            <StatusBar Name="statusBar" Grid.Row="2" Grid.Column="4">
+            <StatusBar Name="statusBar" Background="Transparent" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>

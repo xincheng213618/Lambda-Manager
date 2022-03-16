@@ -611,7 +611,7 @@ partial class MainWindow : Window, IComponentConnector
 
 	private void LeftSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
 	{
-		LeftViewWidth = leftView.ActualWidth;
+		//LeftViewWidth = leftView.ActualWidth;
 	}
 
 	private void MiddleSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
@@ -622,8 +622,8 @@ partial class MainWindow : Window, IComponentConnector
 
 	private void GridSet1_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-		Grid grid = sender as Grid;
-		BorderAcquire.Height = 330 * (grid.ActualHeight / grid.ActualWidth);
-	}
+        //Grid grid = sender as Grid;
+        //BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
+    }
 
 }

@@ -131,6 +131,9 @@ namespace WpfApp3
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            List<object> args = new List<object>();
+            args.Add(1);
+            double a = double.Parse(args![0].ToString());
             LoadConfig(ref config);
             Text1.Text = Utils.ToJson(config);
 

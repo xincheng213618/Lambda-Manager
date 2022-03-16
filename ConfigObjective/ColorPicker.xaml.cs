@@ -17,7 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
 
-namespace WpfApp2
+namespace ConfigObjective
 {
     /// <summary>
     /// ColorPicker.xaml 的交互逻辑
@@ -69,13 +69,11 @@ namespace WpfApp2
             {
                 _SelectColor = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectColor"));
-                if (BrushValueChanged != null)
-                    BrushValueChanged(this,new RoutedEventArgs());
+                BrushValueChanged?.Invoke(this, new RoutedEventArgs());
             }
         }
         public delegate void ChangeEventHandler(object sender, RoutedEventArgs e);
         public event ChangeEventHandler BrushValueChanged;
-
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {

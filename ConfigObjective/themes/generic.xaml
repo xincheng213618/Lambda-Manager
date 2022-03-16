@@ -101,6 +101,7 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <local:ColorPicker SelectColor="Red" Height="20" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
@@ -124,9 +125,11 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <local:ColorPicker SelectColor="Red" Height="20" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="自动" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                                            <ToggleButton x:Name="Button321" Width="50" Template="{StaticResource ToggleButton10}"  />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>

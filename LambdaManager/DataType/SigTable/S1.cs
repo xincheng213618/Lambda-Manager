@@ -23,7 +23,7 @@ internal class S1
 			'2' => ((delegate* unmanaged[Cdecl]<int, int>)(void*)p)((int)args![0]), 
 			'6' => ((delegate* unmanaged[Cdecl]<float, int>)(void*)p)((float)args![0]), 
 			'3' => ((delegate* unmanaged[Cdecl]<long, int>)(void*)p)((long)args![0]), 
-			'5' => ((delegate* unmanaged[Cdecl]<double, int>)(void*)p)((double)args![0]), 
+			'5' => ((delegate* unmanaged[Cdecl]<double, int>)(void*)p)(double.Parse(args![0].ToString())), 
 			'4' => ((delegate* unmanaged[Cdecl]<decimal, int>)(void*)p)((decimal)args![0]), 
 			'7' => ((delegate* unmanaged[Cdecl]<IntPtr, int>)(void*)p)((IntPtr)args![0]), 
 			_ => -1, 

@@ -36,6 +36,10 @@ namespace WpfApp2
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            List<object> args = new List<object>();
+            args.Add(1);
+            double a = (double)args![0];
+
 
         }
     }

@@ -466,6 +466,13 @@ namespace WpfApp2
             DoubleThumbSlider.UpperValue = a;
             DoubleThumbSlider.LowerValue = random.Next(0, a - 1000);
         }
+
+        private void BrushValueChanged(object sender, RoutedEventArgs e)
+        {
+            ColorPicker colorPicker = sender as ColorPicker;
+
+            //MessageBox.Show(colorPicker.SelectColor.ToString());
+        }
     }
 
 
