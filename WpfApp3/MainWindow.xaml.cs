@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using WpfApp3.Mode;
+using HotKey.GlobalHotKey;
 
 namespace WpfApp3
 {
@@ -20,6 +22,11 @@ namespace WpfApp3
         private void Window_Initialized(object sender, EventArgs e)
         {
             LoadConfig(ref config);
+            GlobalHotKeyManager GlobalHotKeyManagers = new GlobalHotKeyManager(this);
+            GlobalHotKeyManagers.Register(ModifierKeys.Control, Key.L, Msg);
+        }
+        private void Msg()
+        {
 
         }
 
@@ -50,6 +57,7 @@ namespace WpfApp3
             {
                 config = new Config
                 {
+                    Hotkey = new Hotkey(Key.K,ModifierKeys.Shift|ModifierKeys.Windows),
                     Version = "1.0",
                     Modules = new Modules
                     {

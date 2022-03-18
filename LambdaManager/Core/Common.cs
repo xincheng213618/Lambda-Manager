@@ -498,7 +498,7 @@ internal class Common
 			MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 			Image image = GetImage(index);
 			if (image.Parent is Canvas canvas)
-            {
+			{
 				TransformGroup transformGroup = new();
 				TranslateTransform tlt = new();
 				ScaleTransform sfr = new();
@@ -508,7 +508,7 @@ internal class Common
 				image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
 				{
 					Point centerPoint = e.GetPosition(canvas);
-					if (sfr.ScaleX < 0.1 && sfr.ScaleY < 0.1 && e.Delta < 0)
+					if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
 					{
 						return;
 					}
@@ -537,7 +537,6 @@ internal class Common
 						tlt.Y += position.Y - mouseXY.Y;
 					}
 				};
-
 			}
 
 			if (image != null)

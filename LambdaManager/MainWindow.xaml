@@ -5,8 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-        xmlns:local ="clr-namespace:LambdaManager" xmlns:controls="clr-namespace:LambdaManager.Controls"
-        Title="λManager" Height="1080" Background="#333333" Width="1920"  Loaded="Window_Loaded" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        xmlns:local ="clr-namespace:LambdaManager" 
+        xmlns:controls="clr-namespace:LambdaManager.Controls"
+        Title="λManager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
@@ -60,7 +61,7 @@
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" MouseDoubleClick="Button_MouseDoubleClick">
                     <Image Source="/Resources/Icons/application-logo.png" Height="32" Stretch="Uniform" Margin="5,5,0,0" Panel.ZIndex="-1" />
                 </Button>
-                <Slider x:Name="SliderAll1" VerticalAlignment="Center" Width="80" Margin="20,5,0,0" Minimum="200" Maximum="500" Value="400" IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource HorizontalSlider}" ValueChanged="Slider_ValueChanged" />
+                <Slider x:Name="SliderAll1" VerticalAlignment="Center" Width="80" Margin="20,5,0,0" Minimum="1024" Maximum="3840" Value="1280" IsSnapToTickEnabled="True"  TickFrequency="1" Style="{StaticResource HorizontalSlider}" ValueChanged="Slider_ValueChanged" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <RadioButton Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
@@ -84,14 +85,13 @@
                 </ComboBox>
             </StackPanel>
         </Grid>
-        <Grid Name="stageConfig" Row="1" />
-        <Grid Name="stageAcquisition" Row="1">
+        <Grid Name="stageAcquisition" Grid.Row="1"  >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView"  Width="400"/>
+                <ColumnDefinition Name="leftView"  Width="200"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -353,18 +353,16 @@
                     </Border>
                     <Grid Name="mainView" Row="1" Column="1" Margin="6">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Canvas x:Name="Griddd" ClipToBounds="True" Background="#c3c3c3">
-                            <Grid>
-                                <Image Name="view0" Source="Resources/Images/StartPicture1.png" Height="1920" Width="1920" Stretch="UniformToFill" />
-                                <StackPanel Name="ruler" VerticalAlignment="Bottom" Margin="0,0,20,20" HorizontalAlignment="Right">
-                                    <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
-                                    <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Data="m 0,0 v 5 h 50 v -5"/>
-                                </StackPanel>
-                            </Grid>
+                            <Image Name="view0" Source="Resources/Images/StartPicture1.png" Stretch="UniformToFill" />
+                            <StackPanel Name="ruler" VerticalAlignment="Bottom" Canvas.Left="{Binding ElementName=view0,Path=ActualWidth}" Canvas.Top="{Binding ElementName=view0,Path=ActualHeight}" Margin="-60,-25,10,20" >
+                                <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
+                                <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Data="m 0,0 v 5 h 50 v -5"/>
+                            </StackPanel>
                         </Canvas>
 
                         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
@@ -419,5 +417,6 @@
                 </StatusBarItem>
             </StatusBar>
         </Grid>
+        <Grid Name="stageConfig" Grid.Row="1" />
     </Grid>
 </Window>

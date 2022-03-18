@@ -1,0 +1,30 @@
+﻿<Window x:Class="WpfApp5.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp5"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1280" SizeChanged="Window_SizeChanged" Initialized="Window_Initialized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Slider x:Name="slider1" Value="1280" ValueChanged="slider1_ValueChanged" Minimum="500" Maximum="1500"  TickFrequency="10" IsSnapToTickEnabled="True" />
+        <Viewbox Grid.Row="1">
+            <Border x:Name="border1" Background="AliceBlue" Height="733" Width="1280" >
+                <StackPanel>
+                    <TextBox Text=""  IsUndoEnabled="False"  PreviewKeyDown="TextBox_PreviewKeyDown" >
+                        <TextBox.ContextMenu>
+                            <ContextMenu Visibility="Collapsed" />
+                        </TextBox.ContextMenu>
+                    </TextBox>
+                    <TextBox  Text="{Binding Path=Sucess}"/>
+                    <Button Content="111" Click="Button_Click"/>
+                </StackPanel>
+            </Border>
+
+        </Viewbox>
+    </Grid>
+</Window>
