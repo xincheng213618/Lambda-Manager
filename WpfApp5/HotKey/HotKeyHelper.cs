@@ -1,4 +1,6 @@
 ﻿using HotKey;
+using HotKey.GlobalHotKey;
+using HotKey.WindowHotKey;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,21 +28,85 @@ namespace HotKey
             return instance;
         }
 
-        public List<HotKeys> HotKeysList = new List<HotKeys>();
+        public static Dictionary<int, HotKeys> HotKeysList = new Dictionary<int, HotKeys>();
+        static Dictionary<int, Window> WindowList = new Dictionary<int, Window>();
 
-        public void SetHotKeys(Window window, HotKeys hotKeys)
+        int vk = 0;
+        public void AddHotKeys(Window window, HotKeys hotKeys)
+        {
+            HotKeysList.Add(vk, hotKeys);
+            WindowList.Add(vk, window);
+            vk++;
+        }
+
+        public void RegisterHotKeysList()
         {
             foreach (var item in HotKeysList)
             {
-                if (item.Kinds == HotKeyKinds.Global)
+                int vk = item.Key;
+                HotKeys hotKeys = item.Value;
+                Window window = WindowList[vk];
+                if (hotKeys.Kinds == HotKeyKinds.Global)
                 {
-                    GlobalHotKeyManager.GetInstance(window).ModifiedHotkey(hotKeys.Hotkey, hotKeys.hotKeyHandler);
+                    GlobalHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
                 }
                 else
                 {
                     WindowHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey,hotKeys.hotKeyHandler);
                 }
             }       
+        }
+        public void UnRegisterHotKeysList()
+        {
+            foreach (var item in HotKeysList)
+            {
+                int vk = item.Key;
+                HotKeys hotKeys = item.Value;
+                Window window = WindowList[vk];
+                if (hotKeys.Kinds == HotKeyKinds.Global)
+                {
+                    GlobalHotKeyManager.GetInstance(window).UnRegister(hotKeys);
+                }
+                else
+                {
+                    WindowHotKeyManager.GetInstance(window).UnRegister(hotKeys);
+                }
+            }
+        }
+
+
+        public void UnRegisterHotKeys(int vk)
+        {
+            if (HotKeysList.TryGetValue(vk, out HotKeys hotKeys))
+            {
+                Window window = WindowList[vk];
+                if (hotKeys.Kinds == HotKeyKinds.Global)
+                {
+                    GlobalHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
+                }
+                else
+                {
+                    WindowHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
+                }
+            }
+        }
+
+
+        public void ModifyHotKeys(int vk)
+        {
+            if (HotKeysList.TryGetValue(vk,out HotKeys hotKeys))
+            {
+                Window window = WindowList[vk];
+                if (hotKeys.Kinds == HotKeyKinds.Global)
+                {
+                    GlobalHotKeyManager.GetInstance(window).ModifiedHotkey(hotKeys);
+                }
+                else
+                {
+                    WindowHotKeyManager.GetInstance(window).ModifiedHotkey(hotKeys);
+                }
+            }
+
         }
 
         

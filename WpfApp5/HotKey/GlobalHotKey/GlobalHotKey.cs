@@ -60,7 +60,7 @@ namespace HotKey.GlobalHotKey
         /// <param name="fsModifiers">组合键</param>
         /// <param name="key">快捷键</param>
         /// <param name="callBack">回调函数</param>
-        public static bool Regist(IntPtr hwnd, ModifierKeys fsModifiers, Key key, HotKeyCallBackHanlder callBack)
+        public static bool Register(IntPtr hwnd, ModifierKeys fsModifiers, Key key, HotKeyCallBackHanlder callBack)
         {
             HwndSource _hwndSource = HwndSource.FromHwnd(hwnd);
             if (HwndHook.TryGetValue(_hwndSource ,out bool bool1))
@@ -90,7 +90,7 @@ namespace HotKey.GlobalHotKey
         /// <summary>
         /// 可以自定义id
         /// </summary>
-        public static bool Regist(IntPtr hwnd, int id , ModifierKeys fsModifiers, Key key, HotKeyCallBackHanlder callBack)
+        public static bool Register(IntPtr hwnd, int id , ModifierKeys fsModifiers, Key key, HotKeyCallBackHanlder callBack)
         {
             HwndSource _hwndSource = HwndSource.FromHwnd(hwnd);
             if (HwndHook.TryGetValue(_hwndSource, out bool bool1))
@@ -138,7 +138,7 @@ namespace HotKey.GlobalHotKey
         /// </summary>
         /// <param name="hWnd">持有快捷键窗口的句柄</param>
         /// <param name="callBack">回调函数</param>
-        public static void UnRegist(IntPtr hWnd, HotKeyCallBackHanlder callBack)
+        public static void UnRegister(IntPtr hWnd, HotKeyCallBackHanlder callBack)
         {
             foreach (KeyValuePair<int, HotKeyCallBackHanlder> var in keymap)
             {

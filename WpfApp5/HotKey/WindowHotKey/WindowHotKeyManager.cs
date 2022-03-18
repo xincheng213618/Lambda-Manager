@@ -47,5 +47,30 @@ namespace HotKey.WindowHotKey
             return true;
         }
 
+        public bool UnRegister(HotKeys hotkeys)
+        {
+            WindowHotKey.UnRegister(hotkeys.hotKeyHandler);
+            return true;
+        }
+
+        public bool UnRegister(HotKeyCallBackHanlder callBack)
+        {
+            WindowHotKey.UnRegister(callBack);
+            return true;
+        }
+
+
+        public void ModifiedHotkey(HotKeys hotkeys)
+        {
+            WindowHotKey.UnRegister(hotkeys.hotKeyHandler);
+            WindowHotKey.Register(window, hotkeys.Hotkey, hotkeys.hotKeyHandler);
+        }
+
+        public void ModifiedHotkey(Hotkey hotkey, HotKeyCallBackHanlder callBack)
+        {
+            WindowHotKey.UnRegister(callBack);
+            WindowHotKey.Register(window, hotkey, callBack);
+        }
+
     }
 }

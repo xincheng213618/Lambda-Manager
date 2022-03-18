@@ -33,7 +33,7 @@ namespace HotKey.GlobalHotKey
             if (hotKeys == null) return false;
             if (hotKeys.Kinds == HotKeyKinds.Windows)
             {
-                return GlobalHotKey.Regist(intPtr, hotKeys.Hotkey.Modifiers, hotKeys.Hotkey.Key, hotKeys.hotKeyHandler);
+                return GlobalHotKey.Register(intPtr, hotKeys.Hotkey.Modifiers, hotKeys.Hotkey.Key, hotKeys.hotKeyHandler);
             }
             return false;
         }
@@ -41,32 +41,37 @@ namespace HotKey.GlobalHotKey
         public bool Register(Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
             if (hotkey == null) return false;
-            return GlobalHotKey.Regist(intPtr, hotkey.Modifiers, hotkey.Key, callBack);
+            return GlobalHotKey.Register(intPtr, hotkey.Modifiers, hotkey.Key, callBack);
         }
         public bool Register(ModifierKeys modifierKeys, Key key, HotKeyCallBackHanlder callBack)
         {
-            return GlobalHotKey.Regist(intPtr, modifierKeys, key, callBack);
+            return GlobalHotKey.Register(intPtr, modifierKeys, key, callBack);
         }
 
         public void UnRegister(HotKeys hotKeys)
         {
-            GlobalHotKey.UnRegist(intPtr, hotKeys.hotKeyHandler);
+            GlobalHotKey.UnRegister(intPtr, hotKeys.hotKeyHandler);
         }
         public void UnRegister(HotKeyCallBackHanlder callBack)
         {
-            GlobalHotKey.UnRegist(intPtr, callBack);
+            GlobalHotKey.UnRegister(intPtr, callBack);
         }
 
         public void ModifiedHotkey(HotKeys hotkeys)
         {
-            GlobalHotKey.UnRegist(intPtr, hotkeys.hotKeyHandler);
-            GlobalHotKey.Regist(intPtr, hotkeys.Hotkey.Modifiers, hotkeys.Hotkey.Key, hotkeys.hotKeyHandler);
+            GlobalHotKey.UnRegister(intPtr, hotkeys.hotKeyHandler);
+            if (hotkeys.Hotkey != null)
+            {
+                GlobalHotKey.Register(intPtr, hotkeys.Hotkey.Modifiers, hotkeys.Hotkey.Key, hotkeys.hotKeyHandler);
+            }
         }
 
         public void ModifiedHotkey(Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
-            GlobalHotKey.UnRegist(intPtr, callBack);
-            GlobalHotKey.Regist(intPtr, hotkey.Modifiers, hotkey.Key, callBack);
+            if (callBack == null) return;
+            GlobalHotKey.UnRegister(intPtr, callBack);
+            if (hotkey != null) GlobalHotKey.Register(intPtr, hotkey.Modifiers, hotkey.Key, callBack);
+
         }
     }
     
