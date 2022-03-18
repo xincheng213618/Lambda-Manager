@@ -1,5 +1,4 @@
-﻿using GlobalHotKey;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -14,15 +13,16 @@ namespace HotKey.GlobalHotKey
             intPtr = new WindowInteropHelper(window).EnsureHandle();
         }
 
-        public void Register(ModifierKeys fsModifiers, Key key, HotKeyManager.HotKeyCallBackHanlder callBack)
+        public bool Register(Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
-            //HotKeyManager.Regist(intPtr, fsModifiers, key, callBack);
+            if (hotkey == null) return false;
+            return GlobalHotKey.Regist(intPtr, hotkey.Modifiers, hotkey.Key, callBack);
         }
 
 
-        public void UnRegister(HotKeyManager.HotKeyCallBackHanlder callBack)
+        public void UnRegister(HotKeyCallBackHanlder callBack)
         {
-            HotKeyManager.UnRegist(intPtr, callBack);
+            GlobalHotKey.UnRegist(intPtr, callBack);
         }
         /// <summary>
         /// 修改快捷键时
@@ -30,30 +30,12 @@ namespace HotKey.GlobalHotKey
         /// <param name="fsModifiers"></param>
         /// <param name="key"></param>
         /// <param name="callBack"></param>
-        public void ReRegister(ModifierKeys fsModifiers, Key key, HotKeyManager.HotKeyCallBackHanlder callBack)
+        public void ReRegister(Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
-            HotKeyManager.UnRegist(intPtr, callBack);
-            HotKeyManager.Regist(intPtr, fsModifiers, key, callBack);
+            GlobalHotKey.UnRegist(intPtr, callBack);
+            GlobalHotKey.Regist(intPtr, hotkey.Modifiers, hotkey.Key, callBack);
         }
     }
-
-
-
-    public class HotKeyModel
-    {
-        /// <summary>
-        /// 设置项名称
-        /// </summary>
-        public string Name { get; set; }
-
-        public ModifierKeys modifierKeys { get; set; }
-
-        /// <summary>
-        /// 选中的按键
-        /// </summary>
-        public Key Key { get; set; }
-
-    }
-
+    
 
 }

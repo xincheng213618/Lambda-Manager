@@ -23,7 +23,6 @@ namespace WpfApp3
         {
             LoadConfig(ref config);
             GlobalHotKeyManager GlobalHotKeyManagers = new GlobalHotKeyManager(this);
-            GlobalHotKeyManagers.Register(ModifierKeys.Control, Key.L, Msg);
         }
         private void Msg()
         {

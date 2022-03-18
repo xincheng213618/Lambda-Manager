@@ -1,44 +1,34 @@
 ﻿using System;
-using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Input;
 
-namespace GlobalHotKey
+namespace HotKey
 {
-    public class HotKey
+    [Serializable]
+    public class Hotkey
     {
-        /// <summary>
-        /// 热键消息
-        /// </summary>
-        public const int WM_HOTKEY = 0x312;
+        public Key Key { get; }
+        public ModifierKeys Modifiers { get; }
+        public Hotkey(Key key, ModifierKeys modifiers)
+        {
+            Key = key;
+            Modifiers = modifiers;
+        }
 
-        /// <summary>
-        /// 注册热键
-        /// </summary>
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool RegisterHotKey(IntPtr hWnd, int id, ModifierKeys fsModifuers, uint vk);
+        public override string ToString()
+        {
+            var str = new StringBuilder();
+            if (Modifiers.HasFlag(ModifierKeys.Windows))
+                str.Append("Win + ");
+            if (Modifiers.HasFlag(ModifierKeys.Control))
+                str.Append("Ctrl + ");
+            if (Modifiers.HasFlag(ModifierKeys.Shift))
+                str.Append("Shift + ");
+            if (Modifiers.HasFlag(ModifierKeys.Alt))
+                str.Append("Alt + ");
 
-        /// <summary>
-        /// 注销热键
-        /// </summary>
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        /// <summary>
-        /// 向原子表中添加全局原子
-        /// </summary>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern short GlobalAddAtom(string lpString);
-
-        /// <summary>
-        /// 在表中搜索全局原子
-        /// </summary>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern short GlobalFindAtom(string lpString);
-
-        /// <summary>
-        /// 在表中删除全局原子
-        /// </summary>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern short GlobalDeleteAtom(short nAtom);
+            str.Append(Key);
+            return str.ToString();
+        }
     }
 }

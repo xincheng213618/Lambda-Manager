@@ -14,6 +14,10 @@ namespace HotKey
             Key = key;
             Modifiers = modifiers;
         }
+        public int ToInt()
+        {
+            return (int)Modifiers*256+ (int)Key;
+        }
 
         public override string ToString()
         {
