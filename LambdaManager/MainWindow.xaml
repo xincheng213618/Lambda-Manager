@@ -7,7 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
         xmlns:controls="clr-namespace:LambdaManager.Controls"
-        Title="λManager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Title="λManager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded" Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
@@ -61,7 +61,7 @@
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" MouseDoubleClick="Button_MouseDoubleClick">
                     <Image Source="/Resources/Icons/application-logo.png" Height="32" Stretch="Uniform" Margin="5,5,0,0" Panel.ZIndex="-1" />
                 </Button>
-                <Slider x:Name="SliderAll1" VerticalAlignment="Center" Width="80" Margin="20,5,0,0" Minimum="1024" Maximum="3840" Value="1280" IsSnapToTickEnabled="True"  TickFrequency="1" Style="{StaticResource HorizontalSlider}" ValueChanged="Slider_ValueChanged" />
+                <Slider x:Name="SliderAll1" VerticalAlignment="Center" Width="80" Margin="20,5,0,0" Minimum="1024" Maximum="3840" Value="1280" IsSnapToTickEnabled="True"  TickFrequency="1" Style="{StaticResource HorizontalSlider}"  />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <RadioButton Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
@@ -395,13 +395,13 @@
                 </StatusBarItem>
                 <Separator Grid.Column="1" />
                 <StatusBarItem Grid.Column="2">
-                    <TextBlock Name="imageX">位置 X:1234</TextBlock>
+                    <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
                 </StatusBarItem>
                 <StatusBarItem Grid.Column="3">
-                    <TextBlock Name="imageY">Y:1234</TextBlock>
+                    <TextBlock Name="imageY" Text="{Binding Path=ImageY}"/>
                 </StatusBarItem>
                 <StatusBarItem Grid.Column="4">
-                    <TextBlock Name="imageZ">Z:1234</TextBlock>
+                    <TextBlock Name="imageZ" Text="{Binding Path=ImageZ}"/>
                 </StatusBarItem>
                 <Separator Grid.Column="5" />
                 <StatusBarItem Grid.Column="6">
@@ -417,6 +417,7 @@
                 </StatusBarItem>
             </StatusBar>
         </Grid>
+
         <Grid Name="stageConfig" Grid.Row="1" />
     </Grid>
 </Window>

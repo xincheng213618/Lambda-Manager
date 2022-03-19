@@ -263,25 +263,32 @@ partial class MainWindow : Window, IComponentConnector
 			_ => throw new Exception("top view not supported"),
 		};
 	}
+	private void Window_Initialized(object sender, EventArgs e)
+	{
+		statusBar.DataContext = Global.GetInstance().updateStatus;
+		SliderAll1.Value = 1920;
+		//SliderAll1.ValueChanged += Slider_ValueChanged;
+
+	}
 	private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		//stageAcquisition.Width = SliderAll1.Value;
-		//stageAcquisition.Height = SliderAll1.Value * (this.Height - 100) / (this.Width);
-	}
+        //stageAcquisition.Width = SliderAll1.Value;
+        //stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
+    }
 
 	private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
 		LambdaControl.Trigger("GLOBAL_ZOOM", sender, e);
-		//try
-		//{
-		//	stageAcquisition.Width = SliderAll1.Value;
-		//	stageAcquisition.Height = SliderAll1.Value * (this.Height - 100) / (this.Width);
-		//}
-		//catch
-		//{
+        try
+        {
+            stageAcquisition.Width = SliderAll1.Value;
+            stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
+        }
+        catch
+        {
 
-		//}
-	}
+        }
+    }
 
 	private void RadioButton_Checked(object sender, RoutedEventArgs e)
 	{
@@ -639,6 +646,7 @@ partial class MainWindow : Window, IComponentConnector
         //Grid grid = sender as Grid;
         //BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
     }
+
 
 
 }

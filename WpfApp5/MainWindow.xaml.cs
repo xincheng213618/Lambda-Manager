@@ -94,16 +94,16 @@ namespace WpfApp5
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //border1.Width = slider1.Value;
-            //border1.Height = slider1.Value * (this.Height - 50) / (this.Width);
+            border1.Width = slider1.Value;
+            border1.Height = slider1.Value * (this.Height - 50) / (this.Width);
         }
 
         private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             try
             {
-                //border1.Width = slider1.Value;
-                //border1.Height = slider1.Value * (this.Height - 50) / (this.Width);
+                border1.Width = slider1.Value;
+                border1.Height = slider1.Value * (this.Height - 50) / (this.Width);
             }
             catch
             {
