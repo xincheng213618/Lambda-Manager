@@ -10,10 +10,98 @@
         xmlns:ConfigFocus="clr-namespace:ConfigFocus;assembly=ConfigFocus"
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized">
+        Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized"
+    xmlns:darkBlendTheme="clr-namespace:DarkBlendTheme">
+    <Window.Resources>
+        <Style x:Key="TreeViewItemStyle1" TargetType="{x:Type TreeViewItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="MinHeight" Value="21"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,4,2,3"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                        <ControlTemplate.Resources>
+                            <darkBlendTheme:LeftMarginMultiplierConverter x:Key="LengthConverter" Length="15"/>
+                        </ControlTemplate.Resources>
+                        <StackPanel>
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                <Grid Margin="{Binding Converter={StaticResource LengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="15"/>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <ToggleButton x:Name="Expander" Grid.Column="0" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Style="{DynamicResource TreeViewToggleButtonStyle}"/>
+                                    <ContentPresenter Grid.Column="2" x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                </Grid>
+                            </Border>
+                            <ItemsPresenter x:Name="ItemsHost"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="false">
+                                <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="HasHeader" Value="false"/>
+                                    <Condition Property="Width" Value="Auto"/>
+                                </MultiTrigger.Conditions>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="HasHeader" Value="false"/>
+                                    <Condition Property="Height" Value="Auto"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="MinHeight" TargetName="PART_Header" Value="21"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource SelectedListItem}"/>
+                                <Setter Property="Foreground" Value="{StaticResource SelectedListItemForeground}"/>
+                                <Setter Property="Style" TargetName="Expander" Value="{DynamicResource TreeViewSelectedToggleButtonStyle}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" SourceName="Bd" Value="true"/>
+                                    <Condition Property="IsSelected" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource MouseOverListItem}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{StaticResource TreeViewDisabledForeground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="style_treeViewItem_icon" TargetType="Image">
+            <Setter Property="Width" Value="16"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Margin" Value="5,0,5,0"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+
+        </Style>
+        <Style x:Key="style_treeViewItem_panel" TargetType="StackPanel">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+
+
+
+
+
+    </Window.Resources>
     <DockPanel Background="#FF5D5D5D">
         <Menu x:Name="menu" DockPanel.Dock="Top" Padding="0,5,0,5" >
-            <MenuItem x:Name="file" Header="文件" Click="file_Click"/>
+            <MenuItem x:Name="file" Header="文件"/>
         </Menu>
 
         <Grid>
@@ -28,10 +116,8 @@
                 <Viewbox Grid.Column="0" VerticalAlignment="Top" >
                     <StackPanel Name="leftView"  Margin="0,5,0,5">
                         <ConfigObjective:Magnification />
-
                     </StackPanel>
                 </Viewbox>
-
             </ScrollViewer>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
             <Grid x:Name="mainView" Grid.Column="2" Background="#FF5D5D5D">
@@ -40,9 +126,114 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Grid HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
-                <StackPanel x:Name="bottomView" Orientation="Horizontal" />
+                <StackPanel Background="#333333">
+                    <TreeView x:Name="TreeView1"   SelectedItemChanged="TreeView1_SelectedItemChanged"  >
+                        <TreeView.Resources>
+                            <HierarchicalDataTemplate  DataType="{x:Type local:SolutionExplorer}"   ItemsSource="{Binding Children}"   >
+                                <StackPanel Style="{StaticResource style_treeViewItem_panel}"   >
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="BuildSolution "  CommandParameter="{Binding .}"/>
+                                            <MenuItem Header="Rebuild Solution"  CommandParameter="{Binding .}"/>
+                                            <MenuItem Header="Clean Solution"  CommandParameter="{Binding .}"/>
+                                            <Separator/>
+                                            <MenuItem Header="添加">
+                                                <MenuItem Header="新建项目..." Click="MenuItem_Click" />
+                                                <MenuItem Header="现有项目..."  />
+                                            </MenuItem>
+                                            <Separator></Separator>
+                                            <Separator></Separator>
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/filer.png" />
+                                    <TextBlock >
+                                    <Run Text="解决方案'"/>
+                                    <Run Text="{Binding SolutionName}"/>
+                                    <Run Text="'"/>
+                                    </TextBlock>
+                                </StackPanel>
+
+                            </HierarchicalDataTemplate>
+
+
+                            <DataTemplate DataType="{x:Type local:SolutionLog}"  >
+                                <StackPanel Style="{StaticResource style_treeViewItem_panel}">
+                                    <Image Style="{StaticResource style_treeViewItem_icon}" Source="/图片3.png" />
+                                    <TextBlock>
+                                          <Run Text="{Binding FileName}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type local:SolutionConfig}">
+                                <StackPanel Style="{StaticResource style_treeViewItem_panel}">
+                                    <Image Style="{StaticResource style_treeViewItem_icon}"  Source="/图片2.png" />
+                                    <TextBlock>
+                                          <Run Text="{Binding FileName}"/>
+                                    </TextBlock>
+
+                                </StackPanel>
+                            </DataTemplate>
+
+                            <HierarchicalDataTemplate DataType="{x:Type local:ProjectMannager}" ItemsSource="{Binding Children}" >
+                                <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="新建文件夹"  Click="MenuItem2_Click"/>
+                                            <MenuItem Header="新建文件" Click="MenuItem1_Click" />
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/filer.png" />
+                                    <TextBlock >
+                                    <Run Text="{Binding ProjectName}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+
+                            <HierarchicalDataTemplate DataType="{x:Type local:ProjectFolder}" ItemsSource="{Binding Children}">
+                                <StackPanel  Style="{StaticResource style_treeViewItem_panel}">
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="新建文件夹"  Click="MenuItem4_Click"/>
+                                            <MenuItem Header="新建文件" Click="MenuItem3_Click" />
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/filer.png" />
+                                    <TextBox Background="Transparent" Text="{Binding FolderName ,Mode=TwoWay}"/>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+
+                            <DataTemplate DataType="{x:Type local:ProjectFile}"  >
+                                <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu >
+                                            <MenuItem Header="Save All"  CommandParameter="{Binding .}"/>
+                                            <MenuItem Header="Delete"  CommandParameter="{Binding .}"/>
+                                            <MenuItem Header="Cut"  CommandParameter="{Binding .}"/>
+                                            <MenuItem Header="Copy"  CommandParameter="{Binding .}"/>
+                                            <Separator/>
+                                            <MenuItem Header="Export">
+                                                <MenuItem Header="As Tiff..." />
+                                                <MenuItem Header="As Jpeg..."  />
+                                                <MenuItem Header="As png..."  />
+                                                <MenuItem Header="As avi..."  />
+                                            </MenuItem>
+                                            <Separator></Separator>
+                                            <Separator></Separator>
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/图片3.png" />
+                                    <TextBlock>
+                                        <Run Text="{Binding FileName}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </TreeView.Resources>
+
+                    </TreeView>
+
+
+                </StackPanel>
+
             </Grid>
             <GridSplitter Grid.Column="3" HorizontalAlignment="Center" Width="3" Background="#FFADD8E6" />
             <ScrollViewer Grid.Column="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">

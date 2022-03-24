@@ -102,6 +102,23 @@
                     <TabItem Header="工程" FontSize="15">
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                             <StackPanel Name="projectView"  Margin="10" >
+                                <TreeView >
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding Icon}" />
+                                                <TextBlock Text="{Binding Name}" />
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                    <TreeViewItem Header="工程目录">
+                                        <TreeViewItem Header="Image" />
+                                        <TreeViewItem Header="工程文件.log" >
+                                            
+                                        </TreeViewItem>
+
+                                    </TreeViewItem>
+                                </TreeView>
                             </StackPanel>
                         </ScrollViewer>
                     </TabItem>
@@ -352,21 +369,16 @@
                         </WrapPanel>
                     </Border>
                     <Grid Name="mainView" Row="1" Column="1" Margin="6">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <Canvas x:Name="Griddd" ClipToBounds="True" Background="#c3c3c3">
-                            <Image Name="view0" Source="Resources/Images/StartPicture1.png" Stretch="UniformToFill" />
-                            <StackPanel Name="ruler" VerticalAlignment="Bottom" Canvas.Left="{Binding ElementName=view0,Path=ActualWidth}" Canvas.Top="{Binding ElementName=view0,Path=ActualHeight}" Margin="-60,-25,10,20" >
-                                <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
-                                <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Data="m 0,0 v 5 h 50 v -5"/>
-                            </StackPanel>
-                        </Canvas>
-
-                        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
-                        <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal" />
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Canvas x:Name="Griddd" ClipToBounds="True" Background="#c3c3c3">
+                                <Image Name="view0" Source="Resources/Images/StartPicture1.png" Stretch="UniformToFill" />
+                                <StackPanel Name="ruler" VerticalAlignment="Bottom" Canvas.Left="{Binding ElementName=view0,Path=ActualWidth}" Canvas.Top="{Binding ElementName=view0,Path=ActualHeight}" Margin="-60,-25,10,20" >
+                                    <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
+                                    <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Data="m 0,0 v 5 h 50 v -5"/>
+                                </StackPanel>
+                            </Canvas>
+                            <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal" Height="0"/>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Border>

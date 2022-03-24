@@ -230,7 +230,7 @@
     <value>菜单</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>名称</value>
+    <value>Name</value>
   </data>
   <data name="NotExist" xml:space="preserve">
     <value>不存在</value>

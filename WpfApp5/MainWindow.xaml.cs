@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace WpfApp5
 {
@@ -94,21 +95,12 @@ namespace WpfApp5
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            border1.Width = slider1.Value;
-            border1.Height = slider1.Value * (this.Height - 50) / (this.Width);
+
         }
 
         private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            try
-            {
-                border1.Width = slider1.Value;
-                border1.Height = slider1.Value * (this.Height - 50) / (this.Width);
-            }
-            catch
-            {
 
-            }
         }
 
 
@@ -125,7 +117,93 @@ namespace WpfApp5
         {
             MessageBox.Show("hcuangssss");
         }
+        static GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
+        int index = 0;
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            Grid grid = new Grid()
+            {
+                Margin = new Thickness(2, 2, 2, 2),
+            };
+            Image image = new Image
+            {
+                Stretch = Stretch.Uniform
+            };
+            Canvas canvas = new Canvas()
+            {
+                Background = new SolidColorBrush(Color.FromRgb((byte)random.Next(0,155), (byte)random.Next(0, 155), (byte)random.Next(0, 155))),
+                ClipToBounds = true
+            };
+            canvas.Children.Add(image);
+            grid.Children.Add(canvas);
+
+
+            int location = Array.IndexOf(grids, index);
+            int row = (location / 10);
+            int col = (location % 10);
+            if (mainView.ColumnDefinitions.Count <= col)
+            {
+                ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
+                mainView.ColumnDefinitions.Add(columnDefinition);
+            }
+            if (mainView.RowDefinitions.Count <= row)
+            {
+                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
+                mainView.RowDefinitions.Add(rowDefinition);
+            }
+
+
+
+            grid.SetValue(Grid.RowProperty, row);
+            grid.SetValue(Grid.ColumnProperty, col);
+            mainView.Children.Add(grid);
+
+
+            //MessageBox.Show($"row:{row}col:{col}");
+
+            index++;
+        }
+       private static readonly int[] grids = new int[100]
+    {
+        0, 1, 4, 9, 16, 25, 36, 49, 64, 81,
+        2, 3, 5, 10, 17, 26, 37, 50, 65, 82,
+        6, 7, 8, 11, 18, 27, 38, 51, 66, 83,
+        12, 13, 14, 15, 19, 28, 39, 52, 67, 84,
+        20, 21, 22, 23, 24, 29, 40, 53, 68, 85,
+        30, 31, 32, 33, 34, 35, 41, 54, 69, 86,
+        42, 43, 44, 45, 46, 47, 48, 55, 70, 87,
+        56, 57, 58, 59, 60, 61, 62, 63, 71, 88,
+        72, 73, 74, 75, 76, 77, 78, 79, 80, 89,
+        90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+    };
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            Grid grid = new Grid()
+            {
+            };
+            Image image = new Image
+            {
+                Stretch = Stretch.Uniform
+            };
+            Canvas canvas = new Canvas()
+            {
+                Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
+                ClipToBounds = true
+            };
+            canvas.Children.Add(image);
+            grid.Children.Add(canvas);
+
+
+
+            ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
+            mainView.ColumnDefinitions.Add(columnDefinition);
+            grid.SetValue(Grid.RowProperty, mainView.RowDefinitions.Count);
+            grid.SetValue(Grid.ColumnProperty, mainView.ColumnDefinitions.Count);
+            mainView.Children.Add(grid);
+        }
     }
 
 

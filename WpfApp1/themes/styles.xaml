@@ -2236,7 +2236,7 @@
                                          RelativeSource={RelativeSource TemplatedParent}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="15"/>
-                                    <ColumnDefinition />
+                                    <ColumnDefinition  />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton x:Name="Expander" 
                                               Grid.Column="0"
@@ -2244,11 +2244,11 @@
                                               IsChecked="{Binding Path=IsExpanded,
                                     RelativeSource={RelativeSource TemplatedParent}}"
                                               ClickMode="Press"/>
+                                <Border Name="Bd1" Grid.Column="1">
+                                    <ContentPresenter x:Name="PART_Header"  ContentSource="Header"  Width="{Binding ElementName=Bd1,Path=ActualWidth}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                </Border>
 
-                                <ContentPresenter x:Name="PART_Header" 
-                                                  Grid.Column="1"
-                                                  ContentSource="Header"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+
                             </Grid>
                         </Border>
                         <ItemsPresenter x:Name="ItemsHost"/>

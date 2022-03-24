@@ -8,25 +8,29 @@
         Title="MainWindow" Height="768" Width="1280" SizeChanged="Window_SizeChanged" Initialized="Window_Initialized">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Slider x:Name="slider1" Value="1280" ValueChanged="slider1_ValueChanged" Minimum="500" Maximum="1500"  TickFrequency="10" IsSnapToTickEnabled="True" />
-        <Viewbox Grid.Row="1">
-            <Border x:Name="border1"  Height="733" Width="1280" >
-                <StackPanel x:Name="StackPanel1" Background="#f5f5f5">
-                    <DockPanel Width="400" >
-                        <TextBlock Text="截图" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"  TextAlignment="Center" />
-                        <TextBox Text="Alt + S" Width="200" HorizontalContentAlignment="Center" IsReadOnly="True" IsUndoEnabled ="False" >
-                            <TextBox.ContextMenu>
-                                <ContextMenu Visibility="Hidden"/>
-                            </TextBox.ContextMenu>
-                        </TextBox>
-                        <TextBlock Text="成功" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
-                    </DockPanel>
-                </StackPanel>
-            </Border>
+        <Border x:Name="border1"  Height="733" Width="1280" >
+            <StackPanel x:Name="StackPanel1">
+                <DockPanel Width="400" >
+                    <TextBlock Text="截图" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"  TextAlignment="Center" />
+                    <TextBox Text="Alt + S" Width="200" HorizontalContentAlignment="Center" IsReadOnly="True" IsUndoEnabled ="False" >
+                        <TextBox.ContextMenu>
+                            <ContextMenu Visibility="Hidden"/>
+                        </TextBox.ContextMenu>
+                    </TextBox>
+                    <TextBlock Text="成功" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
+                </DockPanel>
+            </StackPanel>
+        </Border>
+        <Grid Name="mainView" Background="Red">
+        </Grid>
+        <StackPanel>
+            <Button Content="222" Click="Button_Click"/>
+            <Button Content="222" Click="Button1_Click"/>
+        </StackPanel>
 
-        </Viewbox>
+
+
     </Grid>
 </Window>

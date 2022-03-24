@@ -9,8 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="filer.png" />
     <None Remove="images\xy-direction1.png" />
     <None Remove="images\z-direction.png" />
+    <None Remove="图片2.png" />
+    <None Remove="图片3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="filer.png" />
+    <Resource Include="图片2.png" />
+    <Resource Include="图片3.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +54,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="3333\" />
   </ItemGroup>
 
 </Project>

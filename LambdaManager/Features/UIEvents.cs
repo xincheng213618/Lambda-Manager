@@ -94,13 +94,13 @@ internal class UIEvents
 	{
 		if (data == null)
 		{
-			return null;
+			return "";
 		}
 		if (data!.TryGetValue(key, out var value) && value is string result)
 		{
 			return result;
 		}
-		return null;
+		return "";
 	}
 
 	private static int? GetIntValue(Dictionary<string, object>? data, string key)
@@ -134,101 +134,24 @@ internal class UIEvents
 		Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
 
 		Mode.UpdateStatus UpdateStatus = Global.GetInstance().updateStatus;
-		string stringValue = GetStringValue(eventData, "x");
-		UpdateStatus.ImageX = stringValue;
-
-		string stringValue1 = GetStringValue(eventData, "y");
-		UpdateStatus.ImageY = stringValue1;
-
-		string stringValue2 = GetStringValue(eventData, "z");
-		UpdateStatus.ImageZ = stringValue2;
-
-		//MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-		//string stringValue = GetStringValue(eventData, "x");
-		//if (stringValue != null)
-		//{
-		//	mainWindow.imageX.Text = stringValue;
-		//}
-		//string stringValue2 = GetStringValue(eventData, "y");
-		//if (stringValue2 != null)
-		//{
-		//	mainWindow.imageY.Text = stringValue2;
-		//}
-		//string stringValue3 = GetStringValue(eventData, "z");
-		//if (stringValue3 != null)
-		//{
-		//	mainWindow.imageZ.Text = stringValue3;
-		//}
-		//string stringValue4 = GetStringValue(eventData, "size");
-		//if (stringValue4 != null)
-		//{
-		//	mainWindow.imageSize.Text = stringValue4;
-		//}
-		//string stringValue5 = GetStringValue(eventData, "focus");
-		//if (stringValue5 != null)
-		//{
-		//	mainWindow.imageFocus.Text = stringValue5;
-		//}
-		//string stringValue6 = GetStringValue(eventData, "createTime");
-		//if (stringValue6 != null)
-		//{
-		//	mainWindow.imageCreateTime.Text = stringValue6;
-		//}
-		//string stringValue7 = GetStringValue(eventData, "frameIndex");
-		//if (stringValue7 != null)
-		//{
-		//	mainWindow.frameIndex.Text = stringValue7;
-		//}
-		//string stringValue8 = GetStringValue(eventData, "totalFrame");
-		//if (stringValue8 != null)
-		//{
-		//	mainWindow.totalFrame.Text = stringValue8;
-		//}
-		//string stringValue9 = GetStringValue(eventData, "timeElapsed");
-		//if (stringValue9 != null)
-		//{
-		//	mainWindow.timeElapsed.Text = stringValue9;
-		//}
-		//string stringValue10 = GetStringValue(eventData, "totalTime");
-		//if (stringValue10 != null)
-		//{
-		//	mainWindow.totalTime.Text = stringValue10;
-		//}
-		//string stringValue11 = GetStringValue(eventData, "sliceIndex");
-		//if (stringValue11 != null)
-		//{
-		//	mainWindow.sliceIndex.Text = stringValue11;
-		//}
-		//string stringValue12 = GetStringValue(eventData, "totalSlice");
-		//if (stringValue12 != null)
-		//{
-		//	mainWindow.totalSlice.Text = stringValue12;
-		//}
-		//string stringValue13 = GetStringValue(eventData, "zTop");
-		//if (stringValue13 != null)
-		//{
-		//	mainWindow.zTop.Text = stringValue13;
-		//}
-		//string stringValue14 = GetStringValue(eventData, "zCurrent");
-		//if (stringValue14 != null)
-		//{
-		//	mainWindow.zCurrent.Text = stringValue14;
-		//}
-		//string stringValue15 = GetStringValue(eventData, "zBottom");
-		//if (stringValue15 != null)
-		//{
-		//	mainWindow.zBottom.Text = stringValue15;
-		//}
-		//string stringValue16 = GetStringValue(eventData, "ratio");
-		//if (stringValue16 != null)
-		//{
-		//	mainWindow.ratio.Text = stringValue16;
-		//}
-		//string stringValue17 = GetStringValue(eventData, "fps");
-		//if (stringValue17 != null)
-		//{
-		//	mainWindow.fpsState.Text = stringValue17;
-		//}
+		UpdateStatus.ImageX = GetStringValue(eventData, "x");
+		UpdateStatus.ImageX = GetStringValue(eventData, "x");
+		UpdateStatus.ImageY = GetStringValue(eventData, "y");
+		UpdateStatus.ImageZ = GetStringValue(eventData, "z");
+		UpdateStatus.ImageSize = GetStringValue(eventData, "size");
+		UpdateStatus.imageFocus = GetStringValue(eventData, "focus");
+		UpdateStatus.CreateTime = GetStringValue(eventData, "createTime");
+		UpdateStatus.FrameIndex = GetStringValue(eventData, "frameIndex");
+		UpdateStatus.TotalFrame = GetStringValue(eventData, "totalFrame");
+		UpdateStatus.TimeElapsed = GetStringValue(eventData, "timeElapsed");
+		UpdateStatus.TotalTime = GetStringValue(eventData, "totalTime");
+		UpdateStatus.SliceIndex = GetStringValue(eventData, "sliceIndex");
+		UpdateStatus.TotalSlice = GetStringValue(eventData, "totalSlice");
+		UpdateStatus.ZTop = GetStringValue(eventData, "zTop");
+		UpdateStatus.ZCurrent = GetStringValue(eventData, "zCurrent");
+		UpdateStatus.ZBottom = GetStringValue(eventData, "zBottom");
+		UpdateStatus.Ratio = GetStringValue(eventData, "ratio");
+		UpdateStatus.FpsState = GetStringValue(eventData, "fps");
 		return true;
 	}
 

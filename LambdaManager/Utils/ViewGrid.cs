@@ -37,140 +37,56 @@ internal class ViewGrid
 
 	public static View? GetIdleOrNewView(int index)
 	{
-		PrepareGrid(index);
+		//PrepareGrid(index);
 		return AddView(index);
 	}
+	static GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
 	private static View AddView(int index)
 	{
 		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
-		Image image = CreateView();
-		Grid grid = (Grid)image.Parent;
-		int location = Array.IndexOf(grids, index);
-		int row = 2 * (location / 10);
-		int col = 2 * (location % 10);
-		grid.SetValue(Grid.RowProperty, row);
-		grid.SetValue(Grid.ColumnProperty, col);
-		mainView.Children.Add(grid);
-		View view = new View(image, index);
-		Views[index] = view;
-		return view;
-	}
-
-	private static void PrepareGrid(int index)
-	{
-		if (index <= split)
+		Grid grid = new Grid()
 		{
-			return;
-		}
-		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
-		for (int i = Array.IndexOf(splits, split); i < splits.Length; i++)
-		{
-			if (split >= index)
-			{
-				break;
-			}
-			AddGrid(mainView, i);
-			split = splits[i + 1];
-		}
-	}
-
-	private static void AddGrid(Grid mainView, int split)
-	{
-		switch (split)
-		{
-		case 0:
-			mainView.ColumnDefinitions.Add(new ColumnDefinition
-			{
-				Width = new GridLength(1.0, GridUnitType.Star)
-			});
-			break;
-		case 1:
-			mainView.RowDefinitions.Add(new RowDefinition
-			{
-				Height = new GridLength(1.0, GridUnitType.Star)
-			});
-			break;
-		}
-		if (split % 2 == 0)
-		{
-			SplitCol(mainView, split + 1);
-		}
-		else
-		{
-			SplitRow(mainView, split);
-		}
-	}
-
-	private static void SplitRow(Grid mainGrid, int splitterIndex)
-	{
-		mainGrid.RowDefinitions.Add(new RowDefinition
-		{
-			Height = new GridLength(1.0, GridUnitType.Auto)
-		});
-		mainGrid.RowDefinitions.Add(new RowDefinition
-		{
-			Height = new GridLength(1.0, GridUnitType.Star)
-		});
-		GridSplitter splitter = new GridSplitter
-		{
-			VerticalAlignment = VerticalAlignment.Center,
-			HorizontalAlignment = HorizontalAlignment.Stretch,
-			Height = 1.0,
-			Background = new SolidColorBrush(Colors.GhostWhite)
-		};
-		splitter.SetValue(Grid.RowProperty, splitterIndex);
-		mainGrid.Children.Add(splitter);
-	}
-
-	private static void SplitCol(Grid mainGrid, int splitterIndex)
-	{
-		mainGrid.ColumnDefinitions.Add(new ColumnDefinition
-		{
-			Width = new GridLength(1.0, GridUnitType.Auto)
-		});
-		mainGrid.ColumnDefinitions.Add(new ColumnDefinition
-		{
-			Width = new GridLength(1.0, GridUnitType.Star)
-		});
-		GridSplitter splitter = new GridSplitter
-		{
-			HorizontalAlignment = HorizontalAlignment.Center,
-			VerticalAlignment = VerticalAlignment.Stretch,
-			Width = 1.0,
-			Background = new SolidColorBrush(Colors.White)
-		};
-		splitter.SetValue(Grid.ColumnProperty, splitterIndex);
-		mainGrid.Children.Add(splitter);
-	}
-
-	private static Image CreateView()
-	{
-		Grid obj = new Grid
-		{
-			HorizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment = VerticalAlignment.Top
+			Margin = new Thickness(2,2,2,2),	
 		};
 		Image image = new Image
 		{
 			Stretch = Stretch.Uniform
 		};
-		obj.Children.Add(image);
-		Border toolbar = new Border
+		Canvas canvas = new Canvas()
 		{
-			BorderBrush = SystemColors.HighlightBrush
+			Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
+			ClipToBounds = true
 		};
-		obj.Children.Add(toolbar);
-		StackPanel ruler = new StackPanel
+		canvas.Children.Add(image);
+
+		grid.Children.Add(canvas);
+
+		int location = Array.IndexOf(grids, index);
+		int row =  (location / 10);
+		if (mainView.RowDefinitions.Count<= row)
+        {
+			RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
+			mainView.RowDefinitions.Add(rowDefinition);
+		}
+
+		int col =  (location % 10);
+		if (mainView.ColumnDefinitions.Count <= row)
 		{
-			HorizontalAlignment = HorizontalAlignment.Right,
-			VerticalAlignment = VerticalAlignment.Bottom,
-			Margin = new Thickness(0.0, 0.0, 20.0, 20.0)
-		};
-		BuildRuler(ruler);
-		obj.Children.Add(ruler);
-		return image;
+			ColumnDefinition rowDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
+			mainView.ColumnDefinitions.Add(rowDefinition);
+		}
+		grid.SetValue(Grid.RowProperty, row);
+		grid.SetValue(Grid.ColumnProperty, col);
+
+		
+		mainView.Children.Add(grid);
+
+		View view = new View(image, index);
+		Views[index] = view;
+		return view;
 	}
+
 
 	private static void BuildToolbar(Border toolbar)
 	{

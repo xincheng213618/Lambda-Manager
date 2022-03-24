@@ -10,7 +10,7 @@ namespace LambdaManager
     public class Global
     {
         private static Global instance;
-        private static readonly object locker = new object();
+        private static readonly object locker = new();
 
         public static Global GetInstance()
         {
@@ -24,7 +24,7 @@ namespace LambdaManager
             }
             return instance;
         }
-        public UpdateStatus updateStatus = new UpdateStatus();
+        public UpdateStatus updateStatus = new();
 
 
     }
