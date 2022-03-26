@@ -583,9 +583,6 @@ internal class Common
 		Image image = main.Views[index]?.Image;
 
 
-
-
-
 		if (image == null)
 		{
 			image = ViewGrid.GetIdleOrNewView(index)?.Image;

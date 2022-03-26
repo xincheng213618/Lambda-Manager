@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="3333\**" />
+    <EmbeddedResource Remove="3333\**" />
+    <None Remove="3333\**" />
+    <Page Remove="3333\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="filer.png" />
     <None Remove="images\xy-direction1.png" />
     <None Remove="images\z-direction.png" />
@@ -54,10 +61,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="3333\" />
   </ItemGroup>
 
 </Project>

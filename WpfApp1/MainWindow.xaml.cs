@@ -2,11 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Solution;
 
 namespace WpfApp1
 {
@@ -30,7 +28,35 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            //AddNewProject.InputGestures.Add(gesture);
+            CommandBindings.Add(new CommandBinding(AddNewProject, this.AddNewProject_Executed, this.AddNewProject_CanExecute));
         }
+        private void AddNewProject_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void AddNewProject_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ProjectMannager projectMannager = new ProjectMannager()
+            {
+                ProjectName = "新建工程1"
+            };
+
+            SolutionExplorers[0].AddChild(projectMannager);
+        }
+
+        public static RoutedCommand NewProject = new RoutedCommand();
+        KeyGesture gesture = new KeyGesture(Key.N, ModifierKeys.Control, "Control+N");
+        public static RoutedCommand OpenProject = new RoutedCommand();
+        public static RoutedCommand AddNewProject = new RoutedCommand();
+        public static RoutedCommand AddExistingProject = new RoutedCommand();
+        public static RoutedCommand CloseSolution = new RoutedCommand();
+        public static RoutedCommand Exit = new RoutedCommand();
+        public static RoutedCommand OpenLocalFolder = new RoutedCommand();
+
+
+
 
         private void Window_Initialized(object sender, EventArgs e)
         {
@@ -38,12 +64,12 @@ namespace WpfApp1
             List<UICofig> list = new List<UICofig>();
 
             list.Add(new UICofig() { path = "ConfigObjective.dll", name = "Magnification" });
-            //list.Add(new UICofig() { path = "ConfigFocus.dll", name = "FocusMode" });
-            list.Add(new UICofig() { path = "ConfigDPCMode.dll", name = "DPCMode" });
-            list.Add(new UICofig() { path = "ConfigDeck.dll", name = "BaseDeck" });
-            list.Add(new UICofig() { path = "ConfigSpot.dll", name = "SampleSpot" });
-            list.Add(new UICofig() { path = "ConfigDOFMode.dll", name = "DOFMode" });
-            list.Add(new UICofig() { path = "ConfigCollectInterval.dll", name = "CollectInterval" });
+            ////list.Add(new UICofig() { path = "ConfigFocus.dll", name = "FocusMode" });
+            //list.Add(new UICofig() { path = "ConfigDPCMode.dll", name = "DPCMode" });
+            //list.Add(new UICofig() { path = "ConfigDeck.dll", name = "BaseDeck" });
+            //list.Add(new UICofig() { path = "ConfigSpot.dll", name = "SampleSpot" });
+            //list.Add(new UICofig() { path = "ConfigDOFMode.dll", name = "DOFMode" });
+            //list.Add(new UICofig() { path = "ConfigCollectInterval.dll", name = "CollectInterval" });
 
             foreach (var item in list)
             {
@@ -169,8 +195,7 @@ namespace WpfApp1
             {
                 if (item != null && item.DataContext is ProjectMannager)
                 {
-                    ProjectMannager node = item.DataContext as ProjectMannager;
-                    node.DoubleClick(e);
+
                 }
 
                 return;
@@ -182,9 +207,6 @@ namespace WpfApp1
         private void TreeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             TreeView treeView = sender as TreeView;
-            //if (treeView.SelectedItem is SolutionConfig solutionConfig)
-            //{
-            //    MessageBox.Show(solutionConfig.FilePath);
             //}
             if (treeView.SelectedItem is SolutionLog solutionLog)
             {
@@ -211,15 +233,6 @@ namespace WpfApp1
 
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ProjectMannager projectMannager = new ProjectMannager()
-            {
-                ProjectName ="新建工程"
-            };
-
-            SolutionExplorers[0].AddChild(projectMannager);
-        }
 
         private void MenuItem1_Click(object sender, RoutedEventArgs e)
         {
@@ -231,7 +244,6 @@ namespace WpfApp1
                 };
                 projectMannager.AddChild(projectFile);
             }
-
         }
 
         private void MenuItem2_Click(object sender, RoutedEventArgs e)
@@ -305,169 +317,6 @@ namespace WpfApp1
 
             return FindVisualParent<T>(obj);
         }
-    }
-
-
-    public class SolutionExplorer : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public Guid SolutionGuid { get; set; }
-        public string SolutionName { get; set; }
-        public string SolutionVersion { get; set; }
-        public string SolutionPath { get; set; }
-
-        public SolutionLog SolutionLog { get; set; }
-        public SolutionConfig SolutionConfig { get; set; }
-
-        public ObservableCollection<ProjectMannager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectMannager>();
-
-        public ObservableCollection<object> Children
-        {
-            get
-            {
-                ObservableCollection<object> childNodes = new ObservableCollection<object>();
-                ProjectMannagers = new ObservableCollection<ProjectMannager>(ProjectMannagers.OrderBy(item => item.ProjectName));
-                foreach (var project in this.ProjectMannagers)
-                    childNodes.Add(project);
-                if (SolutionLog != null)
-                    childNodes.Add(SolutionLog);
-                if (SolutionConfig != null)
-                    childNodes.Add(SolutionConfig);
-                return childNodes;
-            }
-            set { }
-        }
-
-
-        public void AddChild(ProjectMannager projectMannager)
-        {
-            ProjectMannagers.Add(projectMannager);
-            NotifyPropertyChanged("Children");
-        }
-
-
-    }
-
-
-    public class SolutionLog
-    {
-        
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
-    }
-    public class SolutionConfig
-    {
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
-    }
-
-
-
-    public class ProjectMannager: INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public Guid ConfirmationID { get; set; }
-        public string ProjectName { get; set; }
-         
-        public ObservableCollection<ProjectFolder> ProjectFolders { get; set; } = new ObservableCollection<ProjectFolder>();
-        public ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
-        public virtual void DoubleClick(MouseButtonEventArgs e)
-        {
-            MessageBox.Show("22222222222222222");
-        }
-
-
-        private ObservableCollection<object> childNodes;
-        public ObservableCollection<object> Children
-        {
-            get {
-                childNodes = new ObservableCollection<object>();
-                ProjectFolders = new ObservableCollection<ProjectFolder>(ProjectFolders.OrderBy(item => item.FolderName));
-                ProjectFiles = new ObservableCollection<ProjectFile>(ProjectFiles.OrderBy(item => item.FileName));
-                foreach (var product in this.ProjectFolders)
-                    childNodes.Add(product);
-                foreach (var projectFile in this.ProjectFiles)
-                    childNodes.Add(projectFile);
-                return childNodes;
-            }
-            set { 
-            }
-        }
-        public void AddChild(ProjectFolder projectFolder)
-        {
-            ProjectFolders.Add(projectFolder);
-            NotifyPropertyChanged("Children");
-        }
-        public void AddChild(ProjectFile projectFile)
-        {
-            ProjectFiles.Add(projectFile);
-            NotifyPropertyChanged("Children");
-        }
-    }
-
-    public class ProjectFile
-    {
-        public static RoutedUICommand Rename = new RoutedUICommand();
-
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
-        
-        
-    }
-
-    public class ProjectFolder : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public string FolderName { get; set; }
-        public string Description { get; set; }
-
-        public ObservableCollection<ProjectFolder> ProjectFolders { get; set; } = new ObservableCollection<ProjectFolder>();
-
-        public ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
-
-        public ObservableCollection<object> Children
-        {
-            get
-            {
-                ObservableCollection<object> childNodes = new ObservableCollection<object>();
-                ProjectFolders = new ObservableCollection<ProjectFolder>(ProjectFolders.OrderBy(item => item.FolderName));
-                ProjectFiles = new ObservableCollection<ProjectFile>(ProjectFiles.OrderBy(item => item.FileName));
-                foreach (var product in this.ProjectFolders)
-                    childNodes.Add(product);
-                foreach (var projectFile in this.ProjectFiles)
-                    childNodes.Add(projectFile);
-                return childNodes;
-            }
-        }
-        public void AddChild(ProjectFolder projectFolder)
-        {
-            ProjectFolders.Add(projectFolder);
-            NotifyPropertyChanged("Children");
-        }
-        public void AddChild(ProjectFile projectFile)
-        {
-            ProjectFiles.Add(projectFile);
-            NotifyPropertyChanged("Children");
-        }
-
     }
 
     public class UICofig

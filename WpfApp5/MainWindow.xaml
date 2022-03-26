@@ -10,24 +10,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border x:Name="border1"  Height="733" Width="1280" >
-            <StackPanel x:Name="StackPanel1">
-                <DockPanel Width="400" >
-                    <TextBlock Text="截图" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"  TextAlignment="Center" />
-                    <TextBox Text="Alt + S" Width="200" HorizontalContentAlignment="Center" IsReadOnly="True" IsUndoEnabled ="False" >
-                        <TextBox.ContextMenu>
-                            <ContextMenu Visibility="Hidden"/>
-                        </TextBox.ContextMenu>
-                    </TextBox>
-                    <TextBlock Text="成功" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
-                </DockPanel>
-            </StackPanel>
-        </Border>
         <Grid Name="mainView" Background="Red">
         </Grid>
+
         <StackPanel>
             <Button Content="222" Click="Button_Click"/>
             <Button Content="222" Click="Button1_Click"/>
+            <Border x:Name="border1"  Height="733" Width="1280" >
+                <StackPanel x:Name="StackPanel1">
+                    <DockPanel Width="400" >
+                        <TextBlock Text="截图" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"  TextAlignment="Center" />
+                        <TextBox Text="Alt + S" Width="200" HorizontalContentAlignment="Center" IsReadOnly="True" IsUndoEnabled ="False" >
+                            <TextBox.ContextMenu>
+                                <ContextMenu Visibility="Hidden"/>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+                        <TextBlock Text="成功" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+
         </StackPanel>
 
 
