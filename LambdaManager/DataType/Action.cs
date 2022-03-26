@@ -232,7 +232,8 @@ internal class Action
 		}
 		if (count > 0)
 		{
-			signature = signature[0..^2];
+			string text = signature;
+			signature = text.Substring(0, text.Length - 2);
 		}
 		return signature + ")";
 	}

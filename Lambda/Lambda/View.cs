@@ -5,7 +5,6 @@ namespace Lambda;
 public class View
 {
 	public Image Image { get; set; }
-	
 
 	public int Index { get; set; }
 

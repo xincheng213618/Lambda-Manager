@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Swifter.Json;
+using LambdaUtils;
 
 namespace Lambda;
 
@@ -17,9 +17,9 @@ public class LambdaArgs : EventArgs
 			{
 				return null;
 			}
-			if (data is string text)
+			if (data is string json)
 			{
-				return JsonFormatter.DeserializeObject<Dictionary<string, object>>(text);
+				return (Dictionary<string, object>)JSON.Parse(json);
 			}
 			if (data is Dictionary<string, object> result)
 			{

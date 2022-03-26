@@ -13,13 +13,15 @@ using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
+using LambdaUtils;
 using Quartz;
-using Swifter.Json;
 
 namespace LambdaManager.Core;
 
 internal class Common
 {
+	private static List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
+
 	private static readonly FPSCounter fps = new FPSCounter(((MainWindow)Application.Current.MainWindow).fpsState);
 
 	private static readonly int RESERVED_EVENT_RESULT = 2147400000;
@@ -37,28 +39,31 @@ internal class Common
 
 	internal unsafe static void Init()
 	{
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize), 2);
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, int, int, int, int>)(&InitialFrame), 3);
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, uint, int, int>)(&UpdateFrame), 4);
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StartService), 5);
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopService), 6);
-        SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, sbyte*, sbyte*, void>)(&ScheduleEvent), 7);
-        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int>)(&CallBack1), 0);
-        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack2), 2);
-        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack3), 1);
-        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack4), 3);
-        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
-        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
-        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
-        GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
-        LambdaControl.LogHandler = new LogHandler(App.Report);
-        LambdaControl.LogHandler2 = new LogHandler(App.Report2);
-        LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
-        LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-        Initialize();
-    }
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize), 2);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, int, int, int, int>)(&InitialFrame), 3);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, uint, int, int>)(&UpdateFrame), 4);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, void>)(&CloseImageView), 9);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StartService), 5);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopService), 6);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, sbyte*, sbyte*, void>)(&ScheduleEvent), 7);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, void>)(&CallHandlerRaise), 8);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int>)(&CallBack1), 0);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack2), 2);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack3), 1);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack4), 3);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
+		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
+		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
+		LambdaControl.LogHandler = new LogHandler(App.Report);
+		LambdaControl.LogHandler2 = new LogHandler(App.Report2);
+		LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
+		LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
+		LambdaControl.Views = Views;
+		Initialize();
+	}
 
 	[DllImport("lib\\common.dll")]
 	public static extern void Initialize();
@@ -188,6 +193,28 @@ internal class Common
 		}
 	}
 
+	[DllImport("lib\\common.dll", EntryPoint = "SetHandlerRaise")]
+	public static extern void MarkHandlerRaise(nint handler);
+
+	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+	[SuppressGCTransition]
+	private static void CallHandlerRaise(nint fp)
+	{
+		Function function = FunctionExecutor.Solution.Functions.Find(delegate(Function f)
+		{
+			EntryPoint? entryPoint = f.EntryPoint;
+			return entryPoint != null && entryPoint!.FuncAddr == fp;
+		});
+		if (function != null)
+		{
+			List<Event> raise = function.Raise;
+			if (raise != null)
+			{
+				FunctionExecutor.RaiseEvents(raise, null, function.EntryPoint);
+			}
+		}
+	}
+
 	private static nint[] List2Array(List<object?> arguments)
 	{
 		int count = arguments.Count;
@@ -255,8 +282,11 @@ internal class Common
 		info = Clone(info);
 		if (json != null)
 		{
-			Dictionary<string, object> eventObject = JsonFormatter.DeserializeObject<Dictionary<string, object>>(json);
-			info.RoutineArguments = PrepareArguments(info.Routine, index, eventObject);
+			Dictionary<string, object> eventObject = (Dictionary<string, object>)JSON.Parse(json);
+			if (eventObject != null)
+			{
+				info.RoutineArguments = PrepareArguments(info.Routine, index, eventObject);
+			}
 		}
 		return FunctionExecutor.Evaluate(info);
 	}
@@ -431,7 +461,7 @@ internal class Common
 			}
 			if (data is Dictionary<string, object> dic)
 			{
-				string json = JsonFormatter.SerializeObject(dic);
+				string json = JSON.Stringify(dic); 
 				App.Report(new Message
 				{
 					Severity = Severity.INFO,
@@ -459,7 +489,7 @@ internal class Common
 		if (index >= RESERVED_EVENT_RESULT)
 		{
 			LambdaHandler lambdaHandler = ui_handlers[index - RESERVED_EVENT_RESULT];
-			Dictionary<string, object> eventObject = ((json == null) ? null : JsonFormatter.DeserializeObject<Dictionary<string, object>>(json));
+			Dictionary<string, object> eventObject = ((json == null) ? null : ((Dictionary<string, object>)JSON.Parse(json)));
 			LambdaArgs e = new LambdaArgs
 			{
 				Data = eventObject
@@ -496,7 +526,7 @@ internal class Common
 			writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
 			writeableBitmap.Unlock();
 			MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-			Image image = GetImage(index);
+			Image image = GetImage(index, initial: true);
 			if (image.Parent is Canvas canvas)
 			{
 				TransformGroup transformGroup = new();
@@ -538,7 +568,6 @@ internal class Common
 					}
 				};
 			}
-
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
@@ -560,7 +589,7 @@ internal class Common
 	{
 		Application.Current.Dispatcher.Invoke(delegate
 		{
-			if (GetImage(index)?.Source is WriteableBitmap writeableBitmap)
+			if (GetImage(index, initial: false)?.Source is WriteableBitmap writeableBitmap)
 			{
 				Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
 				writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
@@ -573,7 +602,14 @@ internal class Common
 		return (int)(Views[index]?.State ?? ((ViewState)(-1)));
 	}
 
-	private static Image? GetImage(int index)
+	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+	[SuppressGCTransition]
+	private static void CloseImageView(int index)
+	{
+		ViewGrid.CloseVieW(index);
+	}
+
+	private static Image? GetImage(int index, bool initial)
 	{
 		MainWindow main = (MainWindow)Application.Current.MainWindow;
 		if (main == null)
@@ -581,9 +617,7 @@ internal class Common
 			return null;
 		}
 		Image image = main.Views[index]?.Image;
-
-
-		if (image == null)
+		if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
 		{
 			image = ViewGrid.GetIdleOrNewView(index)?.Image;
 		}

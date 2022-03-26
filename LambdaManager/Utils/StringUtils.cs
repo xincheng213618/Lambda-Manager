@@ -34,7 +34,7 @@ public class StringUtils
 	{
 		if (text.StartsWith('"') && text.EndsWith('"'))
 		{
-			return text[1..^1];
+			return text.Substring(1, text.Length - 1 - 1);
 		}
 		return text;
 	}

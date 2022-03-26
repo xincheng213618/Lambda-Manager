@@ -1,6 +1,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -19,7 +20,6 @@ using LambdaManager.Core;
 using LambdaManager.DataType;
 using LambdaManager.Features;
 using LambdaManager.Properties;
-using LambdaManager.Utils;
 
 namespace LambdaManager;
 
@@ -29,12 +29,14 @@ partial class MainWindow : Window, IComponentConnector
 
 	private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
-	internal View[] Views { get; } = new View[100];
-
-
 	private bool multiMode;
 
 	private bool multiChannel;
+	internal View[] Views { get; } = new View[100];
+
+
+	internal List<int> ClosingViewIndex { get; } = new List<int>();
+
 
 	internal string? Notice { get; set; }
 
@@ -52,6 +54,7 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		InitializeComponent();
 
+		UIEvents.Initialze();
 		AddMessage(new Message
 		{
 			Severity = Severity.INFO,
@@ -75,7 +78,6 @@ partial class MainWindow : Window, IComponentConnector
 			MessageBox.Show(LambdaManager.Properties.Resources.StartFatalError + GetLogDir() + "\\lambda.log", Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
 			Application.Current.Shutdown();
 		}
-		UIEvents.Initialze();
 		InitViewer();
 	}
 
@@ -115,7 +117,6 @@ partial class MainWindow : Window, IComponentConnector
 		StackPanel panel = new StackPanel();
 		panel.Orientation = Orientation.Horizontal;
 		TextBlock textBlock = new TextBlock();
-
 		Image image = new Image();
 		image.BeginInit();
 		image.Source = Application.Current.Resources[message.Severity.ToString()] as BitmapImage;
@@ -123,12 +124,11 @@ partial class MainWindow : Window, IComponentConnector
 		image.Width = textBlock.FontSize;
 		image.EndInit();
 		panel.Children.Add(image);
-
 		string text = message.Text;
 		if (text != null)
 		{
 			textBlock.Text = text;
-			textBlock.Style = base.Resources["msgBlock"] as Style;
+			textBlock.Style = base.Resources["MessageBlock"] as Style;
 			panel.Children.Add(textBlock);
 			ItemCollection items = msgList.Items;
 			items.Add(panel);
@@ -213,10 +213,10 @@ partial class MainWindow : Window, IComponentConnector
 		return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager";
 	}
 
-
 	private void InitViewer()
 	{
 		Views[0] = new View(view0, 0);
+
 	}
 
 	private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -250,17 +250,15 @@ partial class MainWindow : Window, IComponentConnector
 		}
 	}
 
-
-
 	internal Panel GetConfigPanel(Side side)
 	{
 		return side switch
 		{
-			Side.MIDDLE => materialView,
-			Side.BOTTOM => bottomView,
-			Side.ACQUIRE => acquireView,
-			Side.PROJECT => projectView,
-			_ => throw new Exception("top view not supported"),
+			Side.MIDDLE => materialView, 
+			Side.BOTTOM => bottomView, 
+			Side.ACQUIRE => acquireView, 
+			Side.PROJECT => projectView, 
+			_ => throw new Exception("top view not supported"), 
 		};
 	}
 	private void Window_Initialized(object sender, EventArgs e)
@@ -272,23 +270,23 @@ partial class MainWindow : Window, IComponentConnector
 	}
 	private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-        //stageAcquisition.Width = SliderAll1.Value;
-        //stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
-    }
+		//stageAcquisition.Width = SliderAll1.Value;
+		//stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
+	}
 
 	private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
 		LambdaControl.Trigger("GLOBAL_ZOOM", sender, e);
-        try
-        {
-            stageAcquisition.Width = SliderAll1.Value;
-            stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
-        }
-        catch
-        {
+		try
+		{
+			stageAcquisition.Width = SliderAll1.Value;
+			stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
+		}
+		catch
+		{
 
-        }
-    }
+		}
+	}
 
 	private void RadioButton_Checked(object sender, RoutedEventArgs e)
 	{
@@ -317,19 +315,19 @@ partial class MainWindow : Window, IComponentConnector
 
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-		if (sender is ToggleButton toggleButton)
+		if (sender is ToggleButton btn)
 		{
-			LambdaControl.Trigger(toggleButton.IsChecked.GetValueOrDefault() ? "STOP_ALIVE" : "START_ALIVE", sender, e);
-			toggleButton.Content = (toggleButton.IsChecked.GetValueOrDefault() ? "ֹͣԤ��" : "Ԥ��");
+			LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ALIVE" : "START_ALIVE", sender, e);
+			btn.Content = (btn.IsChecked.GetValueOrDefault() ? "停止预览" : "预览");
 		}
 	}
 
 	private void Button_Click_1(object sender, RoutedEventArgs e)
 	{
-		if (sender is ToggleButton toggleButton)
+		if (sender is ToggleButton btn)
 		{
-			LambdaControl.Trigger(toggleButton.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, e);
-			toggleButton.Content = (toggleButton.IsChecked.GetValueOrDefault() ? "ֹͣ�ɼ�" : "��ʼ�ɼ�");
+			LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, e);
+			btn.Content = (btn.IsChecked.GetValueOrDefault() ? "停止采集" : "开始采集");
 		}
 	}
 
@@ -549,6 +547,7 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		LambdaControl.Trigger("HISTOGRAM_CLICKED", sender, e);
 	}
+
 	private void Button_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 	{
 		if (IsLeftViewHidden)
@@ -572,6 +571,12 @@ partial class MainWindow : Window, IComponentConnector
 			ChangeLeftViewVisibility(visible: false);
 		}
 	}
+
+	private void MiddleSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		ChangeMiddleViewVisibility(visible: false);
+	}
+
 	public void ChangeLeftViewVisibility(bool visible)
 	{
 		if (visible)
@@ -591,10 +596,6 @@ partial class MainWindow : Window, IComponentConnector
 		IsLeftViewHidden = !visible;
 	}
 
-	private void MiddleSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-	{
-		ChangeMiddleViewVisibility(visible: false);
-	}
 	public void ChangeMiddleViewVisibility(bool visible)
 	{
 		if (visible)
@@ -614,21 +615,15 @@ partial class MainWindow : Window, IComponentConnector
 		IsMiddleViewHidden = !visible;
 	}
 
-
-
-	private void ChangeColumnVisibility(int index, bool visible)
+	private void ChangeColumnVisibility(int col, bool visible)
 	{
 		foreach (UIElement item in from UIElement i in stageAcquisition.Children
-								   where Grid.GetColumn(i) == index
-								   select i)
+			where Grid.GetColumn(i) == col
+			select i)
 		{
 			item.Visibility = ((!visible) ? Visibility.Collapsed : Visibility.Visible);
 		}
 	}
-
-
-
-
 
 	private void LeftSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
 	{
@@ -642,10 +637,10 @@ partial class MainWindow : Window, IComponentConnector
 
 
 	private void GridSet1_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        //Grid grid = sender as Grid;
-        //BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
-    }
+	{
+		//Grid grid = sender as Grid;
+		//BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
+	}
 
 
 

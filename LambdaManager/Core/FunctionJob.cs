@@ -33,7 +33,7 @@ internal class FunctionJob : IJob
 			return;
 		}
 		string name2 = key.Name;
-		int index = int.Parse(name2[new Range(end: name2.Length, start: 3)]);
+		int index = int.Parse(name2.Substring(3, name2.Length - 3));
 		Scheduler scheduler = schedules[index];
 		Routine routine = scheduler.Routine;
 		if (routine == null)

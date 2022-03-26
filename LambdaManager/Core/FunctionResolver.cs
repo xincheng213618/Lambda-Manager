@@ -377,7 +377,8 @@ internal class FunctionResolver
 		}
 		if (IsEndsWith(type, suffix))
 		{
-			return type![..^suffix.Length];
+			int length = suffix.Length;
+			return type!.Substring(0, type!.Length - length);
 		}
 		return type;
 	}

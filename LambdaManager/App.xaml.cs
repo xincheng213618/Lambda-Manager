@@ -70,6 +70,7 @@ partial class App : Application
 		{
 			NativeLibrary.Free(lib.Addr);
 		}
+		Common.Exit();
 		StreamWriter writer = FunctionExecutor.Solution.Writer;
 		if (writer != null)
 		{

@@ -8,7 +8,7 @@ using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.DataType.SigTable;
 using LambdaManager.Properties;
-using Swifter.Json;
+using LambdaUtils;
 
 namespace LambdaManager.Core;
 
@@ -439,7 +439,7 @@ internal static class FunctionExecutor
 		}
 	}
 
-	private static void RaiseEvents(List<Event> Events, List<object?>? arguments, EntryPoint? entry)
+	internal static void RaiseEvents(List<Event> Events, List<object?>? arguments, EntryPoint? entry)
 	{
 		int result = 0;
 		foreach (Event evt in Events)
@@ -507,13 +507,13 @@ internal static class FunctionExecutor
 				{
 					value = T0.ToValue(info, value);
 				}
-				value = LambdaManager.Conversion.JsonValue.From(info, value);
+				value = JsonValue.From(info, value);
 				if (value != null)
 				{
 					json[pair.Key] = value;
 				}
 			}
 		}
-		return JsonFormatter.SerializeObject(json);
+		return JSON.Stringify(json);
 	}
 }

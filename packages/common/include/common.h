@@ -90,13 +90,14 @@ enum ViewState {
 class COMMON_API LambdaView {
 private:
 	int index; //index of visual window
-	int flag = 0; //0: initial, 1: initialized, 2: closed
+	int flag = 0; //view state
 
 	LambdaView();
 
 public:
 	~LambdaView();
 	void Show(cv::Mat mat);
+	void Close();
 	ViewState GetState();
 	void SetState(ViewState state);
 	bool IsState(ViewState state);

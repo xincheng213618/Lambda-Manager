@@ -12,10 +12,10 @@ using LambdaManager.Core;
 using LambdaManager.DataType;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
+using LambdaUtils;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
-using Swifter.Json;
 
 namespace LambdaManager;
 
@@ -103,6 +103,7 @@ internal class ConfigLibrary
 		ResolveActionRaise(all, validate);
 		RegisterEventCallbacks(validate);
 		ResolveFunctionArgument(validate);
+		RefineSolutionFunctionRaise();
 		InitializeScheduler();
 		InitializeLibrary();
 		return validate.Severity < Severity.FATAL_ERROR;
@@ -116,28 +117,79 @@ internal class ConfigLibrary
 		{
 			main.Title = title;
 		}
-		string left = root.Attribute((XName?)"left")?.Value;
-		if (left != null)
-		{
-			int width2 = int.Parse(left);
-			if (width2 > 50)
-			{
-				main.leftView.Width = new GridLength(width2);
-			}
-		}
-		string middle = root.Attribute((XName?)"middle")?.Value;
-		if (middle != null)
-		{
-			int width = int.Parse(middle);
-			if (width > 20)
-			{
-				main.middleView.Width = new GridLength(width);
-			}
-		}
 		main.Notice = root.Attribute((XName?)"notice")?.Value;
 		if (root.Attribute((XName?)"maximize")?.Value == "true")
 		{
 			main.Maximize = true;
+		}
+		InitializeSideSize(main, root);
+	}
+
+	private static void InitializeSideSize(MainWindow main, XElement root)
+	{
+		foreach (object side in Enum.GetValues(typeof(Side)))
+		{
+			string attrName = side.ToString()?.ToLower();
+			if (attrName == null)
+			{
+				continue;
+			}
+			string value = root.Attribute((XName?)attrName)?.Value;
+			if (value == null)
+			{
+				continue;
+			}
+			bool close = false;
+			if (value.Contains("closed"))
+			{
+				value = value.Replace("closed", "").Trim();
+				if (side is Side side2)
+				{
+					switch (side2)
+					{
+					case Side.LEFT:
+						main.ChangeLeftViewVisibility(visible: false);
+						main.IsLeftViewHidden = true;
+						break;
+					case Side.MIDDLE:
+						main.ChangeMiddleViewVisibility(visible: false);
+						main.IsMiddleViewHidden = true;
+						break;
+					}
+				}
+				close = true;
+			}
+			if (value.Length <= 0)
+			{
+				continue;
+			}
+			int width = int.Parse(value);
+			if (width <= 20)
+			{
+				continue;
+			}
+			GridLength gridWidth = new GridLength(width);
+			if (!(side is Side side3))
+			{
+				continue;
+			}
+			switch (side3)
+			{
+			case Side.LEFT:
+				if (!close)
+				{
+					main.leftView.Width = gridWidth;
+				}
+				main.LeftViewWidth = width;
+				break;
+			case Side.MIDDLE:
+				if (!close)
+				{
+					main.middleView.Width = gridWidth;
+				}
+				main.MiddleViewWidth = width;
+				break;
+			}
 		}
 	}
 
@@ -266,7 +318,7 @@ internal class ConfigLibrary
 		}
 	}
 
-	private static EntryPoint? ResolveFunction(LambdaManager.DataType.Action action, Component component, Lib lib, ConfigValidate validate)
+	private EntryPoint? ResolveFunction(LambdaManager.DataType.Action action, Component component, Lib lib, ConfigValidate validate)
 	{
 		FunctionResolver resolver = new FunctionResolver(lib);
 		IntPtr addr = resolver.GetAddress(action, component);
@@ -297,6 +349,7 @@ internal class ConfigLibrary
 			Values = defaultValues,
 			Times = action.Times
 		});
+		solution.Functions.Add(function);
 		return entry;
 	}
 
@@ -1414,7 +1467,11 @@ internal class ConfigLibrary
 			Event evt = new Event();
 			if (raise.StartsWith('{') && raise.EndsWith('}'))
 			{
-				Dictionary<string, object> eventObject = JsonFormatter.DeserializeObject<Dictionary<string, object>>(raise);
+				Dictionary<string, object> eventObject = (Dictionary<string, object>)JSON.Parse(raise);
+				if (eventObject == null)
+				{
+					continue;
+				}
 				evt.Type = (string)eventObject["type"];
 				if (evt.Type == null)
 				{
@@ -1621,6 +1678,21 @@ internal class ConfigLibrary
 			ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().Build();
 			await scheduler.ScheduleJob(job, trigger);
 			i++;
+		}
+	}
+
+	private void RefineSolutionFunctionRaise()
+	{
+		foreach (Function function in solution.Functions)
+		{
+			if (function.Raise != null)
+			{
+				IntPtr? fp = function.EntryPoint?.FuncAddr;
+				if (fp.HasValue)
+				{
+					Common.MarkHandlerRaise(fp ?? IntPtr.Zero);
+				}
+			}
 		}
 	}
 }

@@ -15,6 +15,9 @@ internal class Solution
 	internal Dictionary<string, Event> Events { get; set; } = new Dictionary<string, Event>();
 
 
+	internal List<Function> Functions { get; set; } = new List<Function>();
+
+
 	internal Event UndefinedEvent { get; set; } = new Event
 	{
 		Type = "UNDEFINED"
