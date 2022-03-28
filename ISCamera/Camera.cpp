@@ -148,6 +148,7 @@ int CaptureImage(int mode, void** image)
 
 int SetProperty(std::string name, std::string value)
 {
+	
 	Logger::Log2(Severity::INFO, L"Invoke 'SetProperty(mode: %s, image: %s)'", name, value);
 	return  0;
 }

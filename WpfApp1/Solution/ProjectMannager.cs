@@ -8,17 +8,10 @@ using System.Windows.Input;
 
 namespace Solution
 {
-    public class ProjectMannager : INotifyPropertyChanged
+    public class ProjectMannager : BaseObject
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public Guid ConfirmationID { get; set; }
-        public string ProjectName { get; set; }
 
         public ObservableCollection<ProjectFolder> ProjectFolders { get; set; } = new ObservableCollection<ProjectFolder>();
         public ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
@@ -34,8 +27,8 @@ namespace Solution
             get
             {
                 childNodes = new ObservableCollection<object>();
-                ProjectFolders = new ObservableCollection<ProjectFolder>(ProjectFolders.OrderBy(item => item.FolderName));
-                ProjectFiles = new ObservableCollection<ProjectFile>(ProjectFiles.OrderBy(item => item.FileName));
+                ProjectFolders = new ObservableCollection<ProjectFolder>(ProjectFolders.OrderBy(item => item.Name));
+                ProjectFiles = new ObservableCollection<ProjectFile>(ProjectFiles.OrderBy(item => item.Name));
                 foreach (var product in ProjectFolders)
                     childNodes.Add(product);
                 foreach (var projectFile in ProjectFiles)

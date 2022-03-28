@@ -56,17 +56,15 @@
                         <Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="#595959" Padding="5" Margin="5,0">
                             <StackPanel>
                                 <TextBlock>
-                        <Run Text="曝光:"/>
-                        <Run Text="{Binding ElementName=Slider211,Path=Value}"/>
-                        <Run Text=", 增益："/>
-                        <Run Text="{Binding ElementName=Slider212,Path=Value}"/>
-                        <Run Text="分辨率:1920*1080"/>
-                        <Run Text="帧率：30"/>
+                                    <Run Text="曝光:"/>
+                                    <Run Text="{Binding ElementName=Slider211,Path=Value,StringFormat=N2}"/>
+                                    <Run Text=", 增益："/>
+                                    <Run Text="{Binding ElementName=Slider212,Path=Value,StringFormat=N2}"/>
+                                    <Run Text="分辨率:1920*1080"/>
+                                    <Run Text="帧率：30"/>
                                 </TextBlock>
                             </StackPanel>
                         </Border>
-
-
 
 
 

@@ -29,8 +29,130 @@ namespace WpfApp1
         {
             InitializeComponent();
             //AddNewProject.InputGestures.Add(gesture);
-            CommandBindings.Add(new CommandBinding(AddNewProject, this.AddNewProject_Executed, this.AddNewProject_CanExecute));
+            IniCommand();
         }
+        private void IniCommand()
+        {
+            //Commands.ReName.InputGestures.Add(new KeyGesture(Key.M, (ModifierKeys.Control), "F2"));
+            CommandBindings.Add(new CommandBinding(AddNewProject, this.AddNewProject_Executed, this.AddNewProject_CanExecute));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, this.ExecutedCommand, this.CanExecuteCommand));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, this.ExecutedCommand, this.CanExecuteCommand));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, this.ExecutedCommand, this.CanExecuteCommand));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, this.ExecutedCommand, this.CanExecuteCommand));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, this.ExecutedCommand, this.CanExecuteCommand));
+            this.CommandBindings.Add(new CommandBinding(Commands.ReName, this.ExecutedCommand, this.CanExecuteCommand));
+        }
+
+        #region 通用命令执行函数
+
+        private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+            if (e.Command == ApplicationCommands.SelectAll)
+            {
+                e.CanExecute = false;
+            }
+            else if (e.Command == ApplicationCommands.Copy)
+            {
+                e.CanExecute = false;
+            }
+            else if (e.Command == ApplicationCommands.Cut)
+            {
+                e.CanExecute = false;
+            }
+            else if (e.Command == ApplicationCommands.Paste)
+            {
+                e.CanExecute = false;
+            }
+            else if (e.Command == ApplicationCommands.Delete)
+            {
+                e.CanExecute = true;
+            }
+            else if (e.Command == Commands.ReName)
+            {
+                e.CanExecute = true;
+            }
+        }
+
+
+
+        private void ExecutedCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Copy)
+            {
+                //this.DoCopy();
+            }
+            else if (e.Command == ApplicationCommands.Cut)
+            {
+                //this.DoCut();
+            }
+            else if (e.Command == ApplicationCommands.Paste)
+            {
+                //this.DoPaste();
+            }
+            else if (e.Command == ApplicationCommands.Delete)
+            {
+
+            }
+            else if (e.Command == Commands.ReName)
+            {
+                if (e.Parameter != null)
+                {
+                    if (e.Parameter is ProjectFile projectFile)
+                        projectFile.IsEditMode = true;
+                    else if (e.Parameter is ProjectFolder projectFolder)
+                        projectFolder.IsEditMode = true;
+                    else if (e.Parameter is ProjectMannager projectMannager)
+                        projectMannager.IsEditMode = true;  
+                }
+                else
+                {
+                    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
+                    if (result != null)
+                    {
+                        TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
+                        if (item.DataContext is ProjectFile projectFile)
+                            projectFile.IsEditMode = true;
+                        else if (item.DataContext is ProjectFolder projectFolder)
+                            projectFolder.IsEditMode = true;
+                        else if (item.DataContext is ProjectMannager projectMannager)
+                            projectMannager.IsEditMode = true;
+                    }
+
+                }
+            }
+            else
+            {
+
+            }
+
+        }
+
+
+
+        #endregion
+
+        public bool DoDelete(bool alert)
+        {
+            if (alert)
+            {
+                if (MessageBox.Show("dddddddd","2222222" ,MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
+                    return false;
+            }
+
+            //if (!(this.Parent as ProjectFolder).RemoveChild(this))
+            //    return false;
+
+            //if (File.Exists(this.FullName))
+            //{
+            //    return FileName.DeleteToRecycleBin(this.FullName);
+            //}
+
+            return false;
+        }
+
+
+
         private void AddNewProject_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -40,9 +162,8 @@ namespace WpfApp1
         {
             ProjectMannager projectMannager = new ProjectMannager()
             {
-                ProjectName = "新建工程1"
+                Name = "新建工程1"
             };
-
             SolutionExplorers[0].AddChild(projectMannager);
         }
 
@@ -98,17 +219,17 @@ namespace WpfApp1
                         {
                             new ProjectMannager()
                             {
-                                ProjectName ="Image",
+                                Name ="Image",
                                 ProjectFiles = new ObservableCollection<ProjectFile>
                                 {
                                     new ProjectFile()
                                     {
-                                        FileName ="1.png",
+                                        Name ="1.png",
                                         FilePath =@"C:\Users\Chen\Documents\NLG\",
                                     },
                                     new ProjectFile()
                                     {
-                                        FileName ="2.png",
+                                        Name ="2.png",
                                         FilePath ="22222",
                                     },
                                 }
@@ -117,13 +238,13 @@ namespace WpfApp1
 
                             new ProjectMannager()
                             {
-                                ProjectName ="Serial",
+                                Name ="Serial",
 
                                 ProjectFiles = new ObservableCollection<ProjectFile>
                                 {
                                     new ProjectFile()
                                     {
-                                        FileName ="1.png",
+                                        Name ="1.png",
                                         FilePath =@"C:\Users\Chen\Documents\NLG\",
                                     },
                                 },
@@ -131,17 +252,17 @@ namespace WpfApp1
                                 {
                                     new ProjectFolder()
                                     {
-                                        FolderName ="测试1",
+                                        Name ="测试1",
                                         ProjectFolders = new ObservableCollection<ProjectFolder>()
                                         {
                                             new ProjectFolder()
                                             {
-                                              FolderName ="测试2",
+                                              Name ="测试2",
                                               ProjectFiles = new ObservableCollection<ProjectFile>()
                                               {
                                                   new ProjectFile()
                                                   {
-                                                      FileName ="2222ssdsadsad.png",
+                                                      Name ="2222ssdsadsad.png",
                                                       FilePath =@"C:\Users\Chen\Documents\NLG\",
                                                   },
                                               }
@@ -151,12 +272,12 @@ namespace WpfApp1
                                         {
                                             new ProjectFile()
                                             {
-                                                FileName ="asdsadsadas.ssss",
+                                                Name ="asdsadsadas.ssss",
                                                 FilePath =@"C:\Users\Chen\Documents\NLG\",
                                             },
                                             new ProjectFile()
                                             {
-                                                FileName ="sadasdasd.jpg",
+                                                Name ="sadasdasd.jpg",
                                                 FilePath =@"C:\Users\Chen\Documents\NLG\",
                                             },
                                         },
@@ -175,12 +296,13 @@ namespace WpfApp1
         }
         public ObservableCollection<SolutionExplorer> SolutionExplorers =new ObservableCollection<SolutionExplorer>();
 
+        private Point SelectPoint;
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
 
-            Point pos = e.GetPosition(TreeView1);
-            HitTestResult result = VisualTreeHelper.HitTest(TreeView1, pos);
+            SelectPoint = e.GetPosition(TreeView1);
+            HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
             TreeViewItem item = null;
             if (result != null)
                 item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
@@ -207,7 +329,6 @@ namespace WpfApp1
         private void TreeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             TreeView treeView = sender as TreeView;
-            //}
             if (treeView.SelectedItem is SolutionLog solutionLog)
             {
                 TextBox textBox = new TextBox();
@@ -240,7 +361,7 @@ namespace WpfApp1
             {
                 ProjectFile projectFile = new ProjectFile()
                 {
-                    FileName = "新建文件"
+                    Name = "新建文件"
                 };
                 projectMannager.AddChild(projectFile);
             }
@@ -252,7 +373,7 @@ namespace WpfApp1
             {
                 ProjectFolder projectFolder = new ProjectFolder()
                 {
-                    FolderName = "新建文件夹"
+                    Name = "新建文件夹"
                 };
                 projectMannager.AddChild(projectFolder);
             }
@@ -264,7 +385,7 @@ namespace WpfApp1
             {
                 ProjectFile projectFile = new ProjectFile()
                 {
-                    FileName = "新建文件"
+                    Name = "新建文件"
                 };
                 projectFolder.AddChild(projectFile);
             }
@@ -276,12 +397,84 @@ namespace WpfApp1
             {
                 ProjectFolder projectFolder1 = new ProjectFolder()
                 {
-                    FolderName = "新建文件夹"
+                    Name = "新建文件夹"
                 };
                 projectFolder.AddChild(projectFolder1);
             }
 
         }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+
+            if (tb.Tag is ProjectFile projectFile)
+            {
+                projectFile.Name = tb.Text;
+                projectFile.IsEditMode = false;
+            }else if (tb.Tag is ProjectFolder projectFolder)
+            {
+                projectFolder.Name = tb.Text;
+                projectFolder.IsEditMode = false;
+            }
+            else if (tb.Tag is ProjectMannager projectMannager)
+            {
+                projectMannager.Name = tb.Text;
+
+                projectMannager.IsEditMode = true;
+
+            }
+
+
+        }
+
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+
+            if (tb.Tag is ProjectFile projectFile)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    projectFile.IsEditMode = false;
+                }
+                else if (e.Key == Key.Enter)
+                {
+
+                    projectFile.Name = tb.Text;
+                    projectFile.IsEditMode = false;
+                }
+            }
+            else if (tb.Tag is ProjectFolder projectFolder)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    projectFolder.IsEditMode = false;
+                }
+                else if (e.Key == Key.Enter)
+                {
+
+                    projectFolder.Name = tb.Text;
+                    projectFolder.IsEditMode = false;
+                }
+            }
+            else if (tb.Tag is ProjectMannager projectMannager)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    projectMannager.IsEditMode = false;
+                }
+                else if (e.Key == Key.Enter)
+                {
+
+                    projectMannager.Name = tb.Text;
+                    projectMannager.IsEditMode = false;
+                }
+
+            }
+
+        }
+
     }
 
     public class ViewHelper

@@ -91,8 +91,12 @@
             <Setter Property="Orientation" Value="Horizontal"/>
         </Style>
 
-
-
+        <DataTemplate x:Key="displayTemplate">
+            <TextBlock Text="{Binding Path=Name}"></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="editTemplate">
+            <TextBox Text="{Binding Path=Name, Mode=OneWay}" Focusable="true"  Tag="{Binding .}"  LostFocus="TextBox_LostFocus" KeyUp="TextBox_KeyUp"></TextBox>
+        </DataTemplate>
 
 
     </Window.Resources>
@@ -122,9 +126,13 @@
                     <TreeView.Resources>
                         <HierarchicalDataTemplate   DataType="{x:Type Solution:SolutionExplorer}"   ItemsSource="{Binding Children}"   >
                             <StackPanel Style="{StaticResource style_treeViewItem_panel}"   >
+                                <TextBlock >
+                                    <Run Text="解决方案'"/>
+                                    <Run Text="{Binding SolutionName}"/>
+                                    <Run Text="'"/>
+                                </TextBlock>
                                 <StackPanel.ContextMenu>
                                     <ContextMenu>
-      
                                         <MenuItem Header="添加(_W)">
                                             <MenuItem Header="新建项目...(_M)" Command="{Binding AddNewProject}"/>
                                             <MenuItem Header="现有项目...(_N)" Command="{x:Static local:MainWindow.AddNewProject}"  />
@@ -136,20 +144,12 @@
                                         <MenuItem Header="属性(_R)"  />
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
-                                <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/filer.png" />
-                                <TextBlock >
-                                    <Run Text="解决方案'"/>
-                                    <Run Text="{Binding SolutionName}"/>
-                                    <Run Text="'"/>
-                                </TextBlock>
                             </StackPanel>
-
                         </HierarchicalDataTemplate>
 
 
                         <DataTemplate DataType="{x:Type Solution:SolutionLog}"  >
                             <StackPanel Style="{StaticResource style_treeViewItem_panel}">
-                                <Image Style="{StaticResource style_treeViewItem_icon}" Source="/图片3.png" />
                                 <TextBlock>
                                           <Run Text="{Binding FileName}"/>
                                 </TextBlock>
@@ -157,7 +157,6 @@
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type Solution:SolutionConfig}">
                             <StackPanel Style="{StaticResource style_treeViewItem_panel}">
-                                <Image Style="{StaticResource style_treeViewItem_icon}"  Source="/图片2.png" />
                                 <TextBlock>
                                           <Run Text="{Binding FileName}"/>
                                 </TextBlock>
@@ -167,43 +166,95 @@
 
                         <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectMannager}" ItemsSource="{Binding Children}" >
                             <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
+                                <Image Style="{StaticResource style_treeViewItem_icon}" Source="/图片2.png" />
+                                <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
+                                    <local:EditableTextBlock.Style>
+                                        <Style TargetType="local:EditableTextBlock">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEditMode" Value="True">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource editTemplate}"></Setter>
+                                                </Trigger>
+                                                <Trigger Property="IsEditMode" Value="False">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource displayTemplate}"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:EditableTextBlock.Style>
+                                </local:EditableTextBlock>
                                 <StackPanel.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="新建文件夹(_P)"  Click="MenuItem2_Click"/>
                                         <MenuItem Header="新建文件(_F)" Click="MenuItem1_Click" />
                                         <MenuItem Header="打开文件夹" Click="MenuItem1_Click" />
                                         <MenuItem Header="属性" Click="MenuItem1_Click" />
-
+                                        <Separator/>
+                                        <MenuItem Header="移除(_V)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
+                                        <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
+                                        <Separator/>
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
-                                <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/filer.png" />
-                                <TextBlock >
-                                    <Run Text="{Binding ProjectName}"/>
-                                </TextBlock>
                             </StackPanel>
                         </HierarchicalDataTemplate>
 
                         <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding Children}">
                             <StackPanel  Style="{StaticResource style_treeViewItem_panel}">
+                                <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/filer.png" />
+                                <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
+                                    <local:EditableTextBlock.Style>
+                                        <Style TargetType="local:EditableTextBlock">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEditMode" Value="True">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource editTemplate}"></Setter>
+                                                </Trigger>
+                                                <Trigger Property="IsEditMode" Value="False">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource displayTemplate}"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:EditableTextBlock.Style>
+                                </local:EditableTextBlock>
                                 <StackPanel.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="新建文件夹(_P)"  Click="MenuItem4_Click"/>
                                         <MenuItem Header="新建文件(_F)" Click="MenuItem3_Click" />
+                                        <Separator/>
+                                        <MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />
+                                        <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
+                                        <MenuItem Header="删除(_D)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
+                                        <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
-                                <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/filer.png" />
-                                <TextBox Background="Transparent" Text="{Binding FolderName ,Mode=TwoWay}"/>
                             </StackPanel>
                         </HierarchicalDataTemplate>
 
                         <DataTemplate DataType="{x:Type Solution:ProjectFile}"  >
                             <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
+ 
+                                <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/图片3.png" />
+                                <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
+                                    <local:EditableTextBlock.Style>
+                                        <Style TargetType="local:EditableTextBlock">
+                                            <Style.Triggers >
+                                                <Trigger Property="IsEditMode" Value="True">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource editTemplate}"></Setter>
+                                                </Trigger>
+                                                <Trigger Property="IsEditMode" Value="False">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource displayTemplate}"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:EditableTextBlock.Style>
+                                </local:EditableTextBlock>
                                 <StackPanel.ContextMenu>
                                     <ContextMenu >
                                         <MenuItem Header="_Save All"  CommandParameter="{Binding .}"/>
-                                        <MenuItem Header="_Delete"  CommandParameter="{Binding .}"/>
-                                        <MenuItem Header="Cu_t"  CommandParameter="{Binding .}"/>
-                                        <MenuItem Header="_Copy"  CommandParameter="{Binding .}"/>
+                                        <Separator/>
+                                        <MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />
+                                        <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
+                                        <MenuItem Header="删除(_D)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
+                                        <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
+
+
                                         <Separator/>
                                         <MenuItem Header="_Export">
                                             <MenuItem Header="As _Tiff..." />
@@ -211,13 +262,9 @@
                                             <MenuItem Header="As _png..."  />
                                             <MenuItem Header="As _avi..."  />
                                         </MenuItem>
-                                        <Separator></Separator>
+                                        <Separator/>
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
-                                <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/图片3.png" />
-                                <TextBlock>
-                                        <Run Text="{Binding FileName}"/>
-                                </TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </TreeView.Resources>

@@ -32,7 +32,7 @@ namespace Solution
         {
             ProjectMannager projectMannager = new ProjectMannager()
             {
-                ProjectName = "新建工程2"
+                Name = "新建工程2"
             };
 
             AddChild(projectMannager);
@@ -53,7 +53,7 @@ namespace Solution
         {
             ProjectMannager projectMannager = new ProjectMannager()
             {
-                ProjectName = "新建工程2"
+                Name = "新建工程2"
             };
 
             AddChild(projectMannager);
@@ -82,7 +82,7 @@ namespace Solution
             get
             {
                 ObservableCollection<object> childNodes = new ObservableCollection<object>();
-                ProjectMannagers = new ObservableCollection<ProjectMannager>(ProjectMannagers.OrderBy(item => item.ProjectName));
+                ProjectMannagers = new ObservableCollection<ProjectMannager>(ProjectMannagers.OrderBy(item => item.Name));
                 foreach (var project in ProjectMannagers)
                     childNodes.Add(project);
                 if (SolutionLog != null)

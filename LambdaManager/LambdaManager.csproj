@@ -110,9 +110,6 @@
     <Reference Include="Quartz">
       <HintPath>..\Lambda Manager\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="Swifter.Json">
-      <HintPath>..\Lambda Manager\Swifter.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\icons\application-icon.png" />

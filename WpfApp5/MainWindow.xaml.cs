@@ -1,5 +1,6 @@
 ﻿using HotKey;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -103,8 +104,6 @@ namespace WpfApp5
 
         }
 
-
-
         private void MsgShow()
         {
             MessageBox.Show("2222222");
@@ -119,13 +118,27 @@ namespace WpfApp5
         }
         static GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
+        private Grid[] gridlists = new Grid[100];
+
         int index = 0;
         private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            gridlists[index] = NewGrid();
+            Gridshow.Add(index);
+            GridSort();
+            index++;
+        }
+        private Grid NewGrid()
         {
             Random random = new Random();
             Grid grid = new Grid()
             {
+                Background = new SolidColorBrush(Color.FromRgb((byte)random.Next(0, 155), (byte)random.Next(0, 155), (byte)random.Next(0, 155))),
                 Margin = new Thickness(2, 2, 2, 2),
+            };
+            Label label = new Label()
+            {
+                Content = index
             };
             Image image = new Image
             {
@@ -133,39 +146,53 @@ namespace WpfApp5
             };
             Canvas canvas = new Canvas()
             {
-                Background = new SolidColorBrush(Color.FromRgb((byte)random.Next(0,155), (byte)random.Next(0, 155), (byte)random.Next(0, 155))),
+                Background = new SolidColorBrush(Color.FromRgb((byte)random.Next(0, 155), (byte)random.Next(0, 155), (byte)random.Next(0, 155))),
                 ClipToBounds = true
             };
             canvas.Children.Add(image);
-            grid.Children.Add(canvas);
-
-
-            int location = Array.IndexOf(grids, index);
-            int row = (location / 10);
-            int col = (location % 10);
-            if (mainView.ColumnDefinitions.Count <= col)
-            {
-                ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                mainView.ColumnDefinitions.Add(columnDefinition);
-            }
-            if (mainView.RowDefinitions.Count <= row)
-            {
-                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                mainView.RowDefinitions.Add(rowDefinition);
-            }
-
-
-
-            grid.SetValue(Grid.RowProperty, row);
-            grid.SetValue(Grid.ColumnProperty, col);
-            mainView.Children.Add(grid);
-
-
-            //MessageBox.Show($"row:{row}col:{col}");
-
-            index++;
+            grid.Children.Add(label);
+            return grid;
         }
-       private static readonly int[] grids = new int[100]
+
+
+
+
+        private void GridSort()
+        {
+            mainView.Children.Clear();
+            mainView.ColumnDefinitions.Clear();
+            mainView.RowDefinitions.Clear();
+            int newlist = 0;
+            for (int i = 0; i < gridlists.Length; i++)
+            {
+                if (gridlists[i] != null)
+                {
+                    Grid grid = gridlists[i];
+                    int location = Array.IndexOf(grids, newlist);
+                    int row = (location / 10);
+                    int col = (location % 10);
+                    if (mainView.ColumnDefinitions.Count <= col)
+                    {
+                        ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
+                        mainView.ColumnDefinitions.Add(columnDefinition);
+                    }
+                    if (mainView.RowDefinitions.Count <= row)
+                    {
+                        RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
+                        mainView.RowDefinitions.Add(rowDefinition);
+                    }
+
+                    grid.SetValue(Grid.RowProperty, row);
+                    grid.SetValue(Grid.ColumnProperty, col);
+                    mainView.Children.Add(grid);
+                    newlist++;
+                }
+            }
+
+        }
+
+
+        private static readonly int[] grids = new int[100]
     {
         0, 1, 4, 9, 16, 25, 36, 49, 64, 81,
         2, 3, 5, 10, 17, 26, 37, 50, 65, 82,
@@ -178,31 +205,46 @@ namespace WpfApp5
         72, 73, 74, 75, 76, 77, 78, 79, 80, 89,
         90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     };
+        private List<int> Gridshow = new List<int>();
+        private List<int> Gridhide = new List<int>();   
+
+        private Grid[] Gridhiden = new Grid[100];
+        int index1 = 0;
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            Grid grid = new Grid()
-            {
-            };
-            Image image = new Image
-            {
-                Stretch = Stretch.Uniform
-            };
-            Canvas canvas = new Canvas()
-            {
-                Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
-                ClipToBounds = true
-            };
-            canvas.Children.Add(image);
-            grid.Children.Add(canvas);
+            Random r = new Random();
 
+            int sss = Gridshow[r.Next(0, Gridshow.Count)];
+            Gridshow.Remove(sss);
+            Gridhide.Add(sss);
 
+            Grid grid1 = gridlists[sss];
+            if (grid1 != null)
+            {
+                Gridhiden[sss] = grid1;
+                gridlists[sss] = null;
+                GridSort();
+            }
+        }
 
-            ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
-            mainView.ColumnDefinitions.Add(columnDefinition);
-            grid.SetValue(Grid.RowProperty, mainView.RowDefinitions.Count);
-            grid.SetValue(Grid.ColumnProperty, mainView.ColumnDefinitions.Count);
-            mainView.Children.Add(grid);
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        {
+            Random r = new Random();
+            if (Gridhide.Count > 0)
+            {
+                int sss = Gridhide[r.Next(0, Gridhide.Count)];
+                Gridhide.Remove(sss);
+                Gridshow.Add(sss);
+                Grid grid1 = Gridhiden[sss];
+                if (grid1 != null)
+                {
+                    gridlists[sss] = grid1;
+                    Gridhiden[sss] = null;
+                    GridSort();
+                }
+            }
+
         }
     }
 

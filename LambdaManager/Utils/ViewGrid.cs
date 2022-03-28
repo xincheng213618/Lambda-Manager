@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Lambda;
@@ -40,276 +41,144 @@ internal class ViewGrid
 	private static readonly List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
 
 	private static View?[] Views { get; set; } = ((MainWindow)Application.Current.MainWindow).Views;
-
+	
+	public static Grid[] gridsList=new Grid[100];
 
 	public static View? GetIdleOrNewView(int index)
 	{
 		//PrepareGrid(index);
+		if (Views[index] != null)
+        {
+			return Views[index];
+		}
 		return AddView(index);
 	}
 
-	static GridLengthConverter gridLengthConverter = new GridLengthConverter();
-
-	private static View AddView(int index)
-	{
-		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
+	private static Grid GetNewGrid(Image image)
+    {
 		Grid grid = new Grid()
 		{
 			Margin = new Thickness(2, 2, 2, 2),
-		};
-		Image image = new Image
-		{
-			Stretch = Stretch.Uniform
 		};
 		Canvas canvas = new Canvas()
 		{
 			Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
 			ClipToBounds = true
 		};
+
+		TransformGroup transformGroup = new();
+		TranslateTransform tlt = new();
+		ScaleTransform sfr = new();
+		transformGroup.Children.Add(sfr);
+		transformGroup.Children.Add(tlt);
+		image.RenderTransform = transformGroup;
+		image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
+		{
+			Point centerPoint = e.GetPosition(canvas);
+			if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
+			{
+				return;
+			}
+			sfr.CenterX = centerPoint.X;
+			sfr.CenterY = centerPoint.Y;
+			sfr.ScaleX += (double)e.Delta / 3500;
+			sfr.ScaleY += (double)e.Delta / 3500;
+		};
+		bool isMouseLeftButtonDown = false;
+		Point mouseXY;
+		image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
+		{
+			isMouseLeftButtonDown = true;
+			mouseXY = e.GetPosition(image);
+		};
+		image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
+		{
+			isMouseLeftButtonDown = false;
+		};
+		image.MouseMove += delegate (object sender, MouseEventArgs e)
+		{
+			if (isMouseLeftButtonDown == true)
+			{
+				Point position = e.GetPosition(image);
+				tlt.X += position.X - mouseXY.X;
+				tlt.Y += position.Y - mouseXY.Y;
+			}
+		};
+
+
 		canvas.Children.Add(image);
-
 		grid.Children.Add(canvas);
+		return grid;
+	}
+	private static void GridSort(Grid[] GridLists)
+    {
+		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
 
-		int location = Array.IndexOf( defaultViewIndexMap, index);
-		int row =  (location / 10);
-		if (mainView.RowDefinitions.Count  <= row)
+		mainView.Children.Clear();
+		mainView.ColumnDefinitions.Clear();
+		mainView.RowDefinitions.Clear();
+		int newlist = 0;
+		for (int i = 0; i < GridLists.Length; i++)
 		{
-			RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
-			mainView.RowDefinitions.Add(rowDefinition);
-		}
+			if (GridLists[i] != null)
+			{
+				Grid grid = GridLists[i];
+				int location = Array.IndexOf(defaultViewIndexMap, newlist);
+				int row = (location / 10);
+				int col = (location % 10);
+				if (mainView.ColumnDefinitions.Count <= col)
+				{
+					ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
+					mainView.ColumnDefinitions.Add(columnDefinition);
+				}
+				if (mainView.RowDefinitions.Count <= row)
+				{
+					RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
+					mainView.RowDefinitions.Add(rowDefinition);
+				}
 
-		int col =  (location % 10);
-		if (mainView.ColumnDefinitions.Count <= row)
+				grid.SetValue(Grid.RowProperty, row);
+				grid.SetValue(Grid.ColumnProperty, col);
+				mainView.Children.Add(grid);
+				newlist++;
+			}
+		}
+	}
+
+	static GridLengthConverter gridLengthConverter = new GridLengthConverter();
+
+	private static View AddView(int index)
+	{
+		Image image = new Image
 		{
-			ColumnDefinition rowDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
-			mainView.ColumnDefinitions.Add(rowDefinition);
-		}
-		grid.SetValue(Grid.RowProperty, row);
-		grid.SetValue(Grid.ColumnProperty, col);
+			Stretch = Stretch.Uniform
+		};
+		Grid grid = GetNewGrid(image);
 
-
-		mainView.Children.Add(grid);
+        gridsList[index] = grid;
+		GridSort(gridsList);
 
 		View view = new View(image, index);
 		Views[index] = view;
 		return view;
 	}
 
+	
+
 	public static void CloseVieW(int index)
 	{
 		View view = Views[index];
 		if (view == null)
-		{
 			return;
-		}
+
 		ClosingViewIndex.Add(index);
+
+		gridsList[index] = null;
+		GridSort(gridsList);
+
+		Views[index] = view;
 		Views[index] = null;
 		view.Image.Source = null;
-		List<FrameworkElement> list = new List<FrameworkElement>();
-		FrameworkElement grid = GetMainViewChild("grid" + index);
-		if (grid != null)
-		{
-			list.Add(grid);
-		}
-		list.AddRange(GetUselessSplitter(index));
-		UIElementCollection children = GetMainView().Children;
-		foreach (FrameworkElement element in list)
-		{
-			children.Remove(element);
-		}
-		split = CalcSplit();
 	}
 
-	private static FrameworkElement? GetMainViewChild(string name)
-	{
-		UIElementCollection list = GetMainView().Children;
-		for (int i = 0; i < list.Count; i++)
-		{
-			FrameworkElement child = list[i] as FrameworkElement;
-			if (child?.Name == name)
-			{
-				return child;
-			}
-		}
-		return null;
-	}
-
-
-	private static List<FrameworkElement> GetUselessSplitter(int index)
-	{
-		int num = Array.IndexOf(viewIndexMap, index);
-		int rowIndex = num / 10;
-		int colIndex = num % 10;
-		Grid mainView = GetMainView();
-		List<FrameworkElement> list = new List<FrameworkElement>();
-		bool num2 = IsRowColEmpty(rowIndex, checkRow: true);
-		bool isColEmpty = IsRowColEmpty(colIndex, checkRow: false);
-		if (num2)
-		{
-			if (CleanGridDefinition(mainView, mainView.RowDefinitions, rowIndex, mainView.ColumnDefinitions.Count, isRow: true))
-			{
-				UpdateViewLayout(rowIndex, mainView.RowDefinitions, checkRow: true);
-			}
-			FrameworkElement splitter2 = GetMainViewChild("row" + rowIndex);
-			if (splitter2 != null)
-			{
-				list.Add(splitter2);
-			}
-		}
-		if (isColEmpty)
-		{
-			if (CleanGridDefinition(mainView, mainView.ColumnDefinitions, colIndex, mainView.RowDefinitions.Count, isRow: false))
-			{
-				UpdateViewLayout(colIndex, mainView.RowDefinitions, checkRow: false);
-			}
-			FrameworkElement splitter = GetMainViewChild("col" + colIndex);
-			if (splitter != null)
-			{
-				list.Add(splitter);
-			}
-		}
-		return list;
-	}
-
-	private static bool IsRowColEmpty(int rowColIndex, bool checkRow)
-	{
-		Grid mainView = GetMainView();
-		IList list2;
-		if (!checkRow)
-		{
-			IList rowDefinitions = mainView.RowDefinitions;
-			list2 = rowDefinitions;
-		}
-		else
-		{
-			IList rowDefinitions = mainView.ColumnDefinitions;
-			list2 = rowDefinitions;
-		}
-		IList list = list2;
-		for (int i = 0; i < (list.Count + 1) / 2; i++)
-		{
-			int index = (checkRow ? (rowColIndex * 10 + i) : (i * 10 + rowColIndex));
-			if (Views[viewIndexMap[index]] != null)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private static bool CleanGridDefinition(Grid mainGrid, IList rowsOrCols, int rowOrColIndex, int colsOrRowsCount, bool isRow)
-	{
-		switch (rowsOrCols.Count)
-		{
-		case 0:
-			return false;
-		case 1:
-			rowsOrCols.RemoveAt(0);
-			return false;
-		default:
-			rowsOrCols.RemoveAt((rowOrColIndex == 0) ? 1 : (2 * rowOrColIndex));
-			rowsOrCols.RemoveAt((rowOrColIndex != 0) ? (2 * rowOrColIndex - 1) : 0);
-			return true;
-		}
-	}
-
-	private static void UpdateViewLayout(int rowColIndex, IList rowsOrCols, bool checkRow)
-	{
-		UpdateRemainSplitter(rowColIndex, rowsOrCols, checkRow);
-	}
-
-	private static void UpdateRemainSplitter(int rowColIndex, IList rowsOrCols, bool checkRow)
-	{
-		for (int i = rowColIndex; i < rowsOrCols.Count; i++)
-		{
-			if (checkRow)
-			{
-				FrameworkElement splitter = GetMainViewChild((checkRow ? "row" : "col") + i);
-				if (splitter != null)
-				{
-					splitter.Name = (checkRow ? "row" : "col") + (i - 1);
-					DependencyProperty type = (checkRow ? Grid.RowProperty : Grid.ColumnProperty);
-					int location = (int)splitter.GetValue(type);
-					splitter.SetValue(type, location - 2);
-				}
-			}
-		}
-	}
-
-	private static Image CreateView(int index)
-	{
-		Grid grid = new Grid();
-		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(4, 1);
-		defaultInterpolatedStringHandler.AppendLiteral("grid");
-		defaultInterpolatedStringHandler.AppendFormatted(index);
-		grid.Name = defaultInterpolatedStringHandler.ToStringAndClear();
-		grid.HorizontalAlignment = HorizontalAlignment.Center;
-		grid.VerticalAlignment = VerticalAlignment.Center;
-		Image image = new Image
-		{
-			Stretch = Stretch.Uniform
-		};
-		grid.Children.Add(image);
-		StackPanel ruler = new StackPanel
-		{
-			HorizontalAlignment = HorizontalAlignment.Right,
-			VerticalAlignment = VerticalAlignment.Bottom,
-			Margin = new Thickness(0.0, 0.0, 20.0, 20.0)
-		};
-		BuildRuler(ruler);
-		grid.Children.Add(ruler);
-		return image;
-	}
-
-	private static void BuildRuler(StackPanel ruler)
-	{
-		TextBlock textblock = new TextBlock
-		{
-			HorizontalAlignment = HorizontalAlignment.Center,
-			Foreground = SystemColors.HighlightTextBrush,
-			Text = (Application.Current.Resources["Unit"] as string)
-		};
-		ruler.Children.Add(textblock);
-		Path path = new Path
-		{
-			StrokeThickness = 1.0,
-			Stroke = SystemColors.HighlightTextBrush
-		};
-		ruler.Children.Add(path);
-		Binding b = new Binding
-		{
-			Source = (Application.Current.Resources["Figures"] as string)
-		};
-		BindingOperations.SetBinding(path, Path.DataProperty, b);
-	}
-
-	private static Grid GetMainView()
-	{
-		return ((MainWindow)Application.Current.MainWindow).mainView;
-	}
-
-	private static void SetViewPosition(UIElement el, int index)
-	{
-		int location = Array.IndexOf(viewIndexMap, index);
-		int row = 2 * (location / 10);
-		int col = 2 * (location % 10);
-		el.SetValue(Grid.RowProperty, row);
-		el.SetValue(Grid.ColumnProperty, col);
-	}
-
-	private static int CalcSplit()
-	{
-		Grid mainView = GetMainView();
-		int rows = (mainView.RowDefinitions.Count + 1) / 2;
-		int cols = (mainView.ColumnDefinitions.Count + 1) / 2;
-		int count = rows * cols;
-		for (int i = 0; i < splits.Length; i++)
-		{
-			if (splits[i] > count)
-			{
-				return splits[i - 1];
-			}
-		}
-		return 0;
-	}
 }

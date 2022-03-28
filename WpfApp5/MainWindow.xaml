@@ -10,12 +10,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="mainView" Background="Red">
+        <Grid Name="mainView" Background="#f3f3f3">
         </Grid>
 
-        <StackPanel>
-            <Button Content="222" Click="Button_Click"/>
-            <Button Content="222" Click="Button1_Click"/>
+        <StackPanel Width="100">
+            <Button Content="添加" Click="Button_Click"/>
+            <Button Content="移除" Click="Button1_Click"/>
+            <Button Content="还原" Click="Button2_Click"/>
+
             <Border x:Name="border1"  Height="733" Width="1280" >
                 <StackPanel x:Name="StackPanel1">
                     <DockPanel Width="400" >

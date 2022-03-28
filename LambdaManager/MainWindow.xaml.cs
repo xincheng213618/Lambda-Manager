@@ -70,7 +70,7 @@ partial class MainWindow : Window, IComponentConnector
 			AddMessage(new Message
 			{
 				Severity = Severity.INFO,
-				Text = LambdaManager.Properties.Resources.ConfigLoaded
+				Text = Properties.Resources.ConfigLoaded
 			});
 		}
 		else if (Settings.Default.ExitIfLoadFatalError)
