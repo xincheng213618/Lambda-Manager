@@ -68,6 +68,13 @@
 	</component>
 
 	<component name="Camera" lib="lib\ISCamera.dll">
+	
+		<procedure name="CameraSettingExposure" event="CAMERA_SETTING_EXPOSURE" key="exposure">
+			<action name="CameraSettingExposure">
+				<input name="exposure" type="double"/>
+			</action>
+		</procedure>
+		
 		<procedure name="OpenCamera">
 			<action name="OpenCamera" async="true">
 				<![CDATA[ Open camera ]]>
@@ -516,11 +523,11 @@
 	</component>
 
 	<!-- <component name="DPCMode" lib="ConfigDPCMode.dll" mount="acquire:1"> -->
-	<!-- <procedure name="GUI_ChangeDPCMode" event="DPC_MODE_CHANGED" key="dpc"> -->
-	<!-- <action name="ChangeDPCMode" component="DPC" raise="DPC_MODE_APPLIED"> -->
-	<!-- <![CDATA[ Set DPC Mode]]> -->
-	<!-- </action> -->
-	<!-- </procedure> -->
+		<!-- <procedure name="GUI_ChangeDPCMode" event="DPC_MODE_CHANGED" key="dpc"> -->
+			<!-- <action name="ChangeDPCMode" component="DPC" raise="DPC_MODE_APPLIED"> -->
+				<!-- <![CDATA[ Set DPC Mode]]> -->
+			<!-- </action> -->
+		<!-- </procedure> -->
 	<!-- </component> -->
 
 	<!-- <component name="BaseDeck" lib="ConfigDeck.dll" mount="acquire:2"/> -->
@@ -534,11 +541,11 @@
 	<!-- <component name="DOFMode" lib="ConfigDOFMode.dll" mount="acquire:6"/> -->
 
 	<!-- <component name="CollectInterval" lib="ConfigCollectInterval.dll" mount="acquire:7" > -->
-	<!-- <procedure name="SetCollectInterval"> -->
-	<!-- <action name="SetCollectInterval" raise="OPENLED"> -->
-	<!-- <![CDATA[ Send open-LED signal to illu232]]> -->
-	<!-- </action> -->
-	<!-- </procedure> -->
+		<!-- <procedure name="SetCollectInterval"> -->
+			<!-- <action name="SetCollectInterval" raise="OPENLED"> -->
+				<!-- <![CDATA[ Send open-LED signal to illu232]]> -->
+			<!-- </action> -->
+		<!-- </procedure> -->
 	<!-- </component> -->
 
 	<component name="Interop Test" lib="lib\InteropTest.dll" init="group1">

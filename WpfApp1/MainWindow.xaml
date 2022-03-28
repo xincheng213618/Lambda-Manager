@@ -1,4 +1,4 @@
-﻿<Window xmlns:ConfigObjective="clr-namespace:ConfigObjective;assembly=ConfigObjective"  xmlns:ConfigCollectInterval="clr-namespace:ConfigCollectInterval;assembly=ConfigCollectInterval"  xmlns:ConfigDOFMode="clr-namespace:ConfigDOFMode;assembly=ConfigDOFMode" 
+﻿<Window xmlns:ConfigObjective="clr-namespace:ConfigObjective;assembly=ConfigObjective"  
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

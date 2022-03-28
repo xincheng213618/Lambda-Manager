@@ -461,8 +461,9 @@ internal class Common
 			}
 			if (data is Dictionary<string, object> dic)
 			{
-				string json = JSON.Stringify(dic); 
-				App.Report(new Message
+				//string json= JsonFormatter.SerializeObject(dic);
+                string json = JSON.Stringify(dic);
+                App.Report(new Message
 				{
 					Severity = Severity.INFO,
 					Text = type + json

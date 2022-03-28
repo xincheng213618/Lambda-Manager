@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConfigDeck\ConfigDeck.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="themes\Base.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

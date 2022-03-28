@@ -204,10 +204,10 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N0,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
                             <Run Text="/" />
-                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N0}"/>
+                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N2}"/>
                     </TextBlock>
                 </DockPanel>
             </Border>

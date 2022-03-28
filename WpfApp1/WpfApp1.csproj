@@ -30,13 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConfigCollectInterval\ConfigCollectInterval.csproj" />
-    <ProjectReference Include="..\ConfigDeck\ConfigDeck.csproj" />
-    <ProjectReference Include="..\ConfigDOFMode\ConfigDOFMode.csproj" />
-    <ProjectReference Include="..\ConfigDPCMode\ConfigDPCMode.csproj" />
-    <ProjectReference Include="..\ConfigFocus\ConfigFocus.csproj" />
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
-    <ProjectReference Include="..\ConfigSpot\ConfigSpot.csproj" />
     <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
   </ItemGroup>
 
