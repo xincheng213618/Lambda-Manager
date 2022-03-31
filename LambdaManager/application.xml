@@ -522,15 +522,10 @@
 		</procedure>
 	</component>
 
-	<!-- <component name="DPCMode" lib="ConfigDPCMode.dll" mount="acquire:1"> -->
-		<!-- <procedure name="GUI_ChangeDPCMode" event="DPC_MODE_CHANGED" key="dpc"> -->
-			<!-- <action name="ChangeDPCMode" component="DPC" raise="DPC_MODE_APPLIED"> -->
-				<!-- <![CDATA[ Set DPC Mode]]> -->
-			<!-- </action> -->
-		<!-- </procedure> -->
-	<!-- </component> -->
+	 <component name="TreeViewControl" lib="WpfApp1.dll" mount="project:0"> 
+	 </component> 
 
-	<!-- <component name="BaseDeck" lib="ConfigDeck.dll" mount="acquire:2"/> -->
+	 <!--<component name="BaseDeck" lib="ConfigDeck.dll" mount="project:0"/>--> 
 
 	<!-- <component name="SampleContainer" lib="ConfigContainer.dll" mount="acquire:3"/> -->
 

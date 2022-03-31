@@ -81,6 +81,7 @@ partial class MainWindow : Window, IComponentConnector
 		InitViewer();
 	}
 
+
 	internal void AddMessage(Severity severity, string obj, string? name, string attr, string? value, string err)
 	{
 		string pleaseCheck = LambdaManager.Properties.Resources.PleaseCheck;
@@ -212,6 +213,7 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager";
 	}
+	
 
 	private void InitViewer()
 	{
@@ -265,14 +267,16 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		statusBar.DataContext = Global.GetInstance().updateStatus;
 		SliderAll1.Value = 1920;
-		//SliderAll1.ValueChanged += Slider_ValueChanged;
+        SliderAll1.ValueChanged += Slider_ValueChanged;
 
-	}
+    }
 	private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		//stageAcquisition.Width = SliderAll1.Value;
-		//stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
-	}
+        stageAcquisition.Width = SliderAll1.Value;
+        stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
+    }
+
+	
 
 	private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
@@ -326,7 +330,10 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		if (sender is ToggleButton btn)
 		{
-			LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, e);
+			Dictionary<string, object> dic = new Dictionary<string, object>();
+			dic.Add("Json", "ssssss");
+			LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, dic);
+
 			btn.Content = (btn.IsChecked.GetValueOrDefault() ? "停止采集" : "开始采集");
 		}
 	}
@@ -627,8 +634,8 @@ partial class MainWindow : Window, IComponentConnector
 
 	private void LeftSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
 	{
-		//LeftViewWidth = leftView.ActualWidth;
-	}
+        //LeftViewWidth = leftView.ActualWidth;
+    }
 
 	private void MiddleSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
 	{
@@ -638,9 +645,9 @@ partial class MainWindow : Window, IComponentConnector
 
 	private void GridSet1_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		//Grid grid = sender as Grid;
-		//BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
-	}
+        //Grid grid = sender as Grid;
+        //BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
+    }
 
 
 

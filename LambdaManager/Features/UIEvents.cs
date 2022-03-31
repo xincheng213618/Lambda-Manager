@@ -221,6 +221,7 @@ internal class UIEvents
         //		mainWindow.fpsState.Text = stringValue17;
         //	}
         //});
+
         Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
 
         Mode.UpdateStatus UpdateStatus = Global.GetInstance().updateStatus;

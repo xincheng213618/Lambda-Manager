@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LambdaManager 
+namespace WpfApp1
 {
     public class Global
     {
@@ -16,7 +16,7 @@ namespace LambdaManager
         {
             lock (locker)
             {
-                // 如果类的实例不存在则创建，否则直接返回  
+                // 如果类的实例不存在则创建，否则直接返回
                 if (instance == null)
                 {
                     instance = new Global();
@@ -24,6 +24,8 @@ namespace LambdaManager
             }
             return instance;
         }
-        public UpdateStatus updateStatus = new();
+        public Config Config = new();
+
+
     }
 }

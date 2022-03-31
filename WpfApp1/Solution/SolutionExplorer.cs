@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Solution
+namespace NLGSolution
 {
     public class SolutionExplorer : INotifyPropertyChanged
     {

@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace ConfigObjective
 {
-    public class Class
-    {
-
-    }
     public class ObjectiveSetting
     {
         public int ID { get; set; }    

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solution
+namespace NLGSolution
 {
     internal class IFileInfo
     {
@@ -37,10 +37,10 @@ namespace Solution
         string Key { get; }
     }
 
-    public class FileInfo
+    public class CFileInfo
     {
         string FullName ;
-        public FileInfo(String fullName) 
+        public CFileInfo(String fullName) 
         {
             this.FullName = fullName;
         }

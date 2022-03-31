@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Solution
+namespace NLGSolution
 {
     public class ProjectMannager : BaseObject
     {
@@ -21,18 +21,11 @@ namespace Solution
         }
 
 
-        private ObservableCollection<object> childNodes;
+        private ObservableCollection<object> childNodes = new ObservableCollection<object>();
         public ObservableCollection<object> Children
         {
             get
             {
-                childNodes = new ObservableCollection<object>();
-                ProjectFolders = new ObservableCollection<ProjectFolder>(ProjectFolders.OrderBy(item => item.Name));
-                ProjectFiles = new ObservableCollection<ProjectFile>(ProjectFiles.OrderBy(item => item.Name));
-                foreach (var product in ProjectFolders)
-                    childNodes.Add(product);
-                foreach (var projectFile in ProjectFiles)
-                    childNodes.Add(projectFile);
                 return childNodes;
             }
             set
@@ -42,11 +35,24 @@ namespace Solution
         public void AddChild(ProjectFolder projectFolder)
         {
             ProjectFolders.Add(projectFolder);
+            childNodes.Add(projectFolder);
+
             NotifyPropertyChanged("Children");
         }
         public void AddChild(ProjectFile projectFile)
         {
             ProjectFiles.Add(projectFile);
+            childNodes.Add(projectFile);
+
+            NotifyPropertyChanged("Children");
+        }
+        public void AddChilds(ProjectFile projectFile)
+        {
+            ProjectFiles.Add(projectFile);
+            childNodes.Add(projectFile);
+        }
+        public void AddChildsEnd()
+        {
             NotifyPropertyChanged("Children");
         }
     }

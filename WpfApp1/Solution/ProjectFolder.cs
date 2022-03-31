@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Solution
+namespace NLGSolution
 {
     public class ProjectFolder : BaseObject
     {
+
         public string Description { get; set; }
 
         public ObservableCollection<ProjectFolder> ProjectFolders { get; set; } = new ObservableCollection<ProjectFolder>();

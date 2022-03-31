@@ -1,12 +1,10 @@
 ﻿
 
-namespace Solution
+namespace NLGSolution
 {
     public class ProjectFile : BaseObject
     {
-
-        public string FilePath { get; set; }
-
+        public string Extension;
         private void DoDelete()
         {
         }

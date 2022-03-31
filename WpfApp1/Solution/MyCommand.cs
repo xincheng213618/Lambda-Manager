@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Solution
+namespace NLGSolution
 {
     public class MyCommand : ICommand
     {

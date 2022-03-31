@@ -27,84 +27,26 @@ internal class ViewGrid
 		72, 73, 74, 75, 76, 77, 78, 79, 80, 89,
 		90, 91, 92, 93, 94, 95, 96, 97, 98, 99
 	};
-
-	private static int[] viewIndexMap = defaultViewIndexMap;
-
-	private static readonly int[] splits = new int[19]
-	{
-		0, 1, 3, 5, 8, 11, 15, 19, 24, 29,
-		35, 41, 48, 55, 63, 71, 80, 89, 99
-	};
-
-	private static int split = 0;
-
 	private static readonly List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
-
 	private static View?[] Views { get; set; } = ((MainWindow)Application.Current.MainWindow).Views;
-	
 	public static Grid[] gridsList=new Grid[100];
 
 	public static View? GetIdleOrNewView(int index)
 	{
-		//PrepareGrid(index);
 		if (Views[index] != null)
-        {
 			return Views[index];
-		}
 		return AddView(index);
 	}
 
 	private static Grid GetNewGrid(Image image)
     {
-		Grid grid = new Grid()
-		{
+		Grid grid = new Grid(){
 			Margin = new Thickness(2, 2, 2, 2),
 		};
-		Canvas canvas = new Canvas()
-		{
+		Canvas canvas = new Canvas(){
 			Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
 			ClipToBounds = true
 		};
-
-		TransformGroup transformGroup = new();
-		TranslateTransform tlt = new();
-		ScaleTransform sfr = new();
-		transformGroup.Children.Add(sfr);
-		transformGroup.Children.Add(tlt);
-		image.RenderTransform = transformGroup;
-		image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
-		{
-			Point centerPoint = e.GetPosition(canvas);
-			if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
-			{
-				return;
-			}
-			sfr.CenterX = centerPoint.X;
-			sfr.CenterY = centerPoint.Y;
-			sfr.ScaleX += (double)e.Delta / 3500;
-			sfr.ScaleY += (double)e.Delta / 3500;
-		};
-		bool isMouseLeftButtonDown = false;
-		Point mouseXY;
-		image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
-		{
-			isMouseLeftButtonDown = true;
-			mouseXY = e.GetPosition(image);
-		};
-		image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
-		{
-			isMouseLeftButtonDown = false;
-		};
-		image.MouseMove += delegate (object sender, MouseEventArgs e)
-		{
-			if (isMouseLeftButtonDown == true)
-			{
-				Point position = e.GetPosition(image);
-				tlt.X += position.X - mouseXY.X;
-				tlt.Y += position.Y - mouseXY.Y;
-			}
-		};
-
 
 		canvas.Children.Add(image);
 		grid.Children.Add(canvas);
@@ -113,7 +55,6 @@ internal class ViewGrid
 	private static void GridSort(Grid[] GridLists)
     {
 		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
-
 		mainView.Children.Clear();
 		mainView.ColumnDefinitions.Clear();
 		mainView.RowDefinitions.Clear();
@@ -149,8 +90,7 @@ internal class ViewGrid
 
 	private static View AddView(int index)
 	{
-		Image image = new Image
-		{
+		Image image = new Image{
 			Stretch = Stretch.Uniform
 		};
 		Grid grid = GetNewGrid(image);
@@ -167,6 +107,10 @@ internal class ViewGrid
 
 	public static void CloseVieW(int index)
 	{
+		if (index == 0)
+        {
+			return;
+        }
 		View view = Views[index];
 		if (view == null)
 			return;

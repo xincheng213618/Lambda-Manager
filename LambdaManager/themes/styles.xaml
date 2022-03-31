@@ -21,6 +21,7 @@
 
     <Color x:Key="HighlightColor">#BDBDBD</Color>
     <Color x:Key="HotColor">#525252</Color>
+    
     <!--#endregion-->
 
     <!--#region Brushes-->
@@ -133,7 +134,7 @@
     <!--#region FontStyle-->
     <Style TargetType="{x:Type TextBlock}">
         <!--<Setter Property="FontFamily" Value="Calibri light"/>-->
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style TargetType="{x:Type Control}">
         <!--<Setter Property="FontFamily" Value="Calibri light"/>-->
@@ -2231,11 +2232,11 @@
                         <Border Name="Bd"
                                       Background="{TemplateBinding Background}"
                                       Padding="{TemplateBinding Padding}">
-                            <Grid Margin="{Binding Converter={StaticResource LengthConverter},
+                            <Grid  Margin="{Binding Converter={StaticResource LengthConverter},
                                          RelativeSource={RelativeSource TemplatedParent}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="15"/>
-                                    <ColumnDefinition />
+                                    <ColumnDefinition  />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton x:Name="Expander" 
                                               Grid.Column="0"
@@ -2243,11 +2244,10 @@
                                               IsChecked="{Binding Path=IsExpanded,
                                     RelativeSource={RelativeSource TemplatedParent}}"
                                               ClickMode="Press"/>
+                                <ContentPresenter Grid.Column="1" x:Name="PART_Header"  ContentSource="Header" />
 
-                                <ContentPresenter x:Name="PART_Header" 
-                                                  Grid.Column="1"
-                                                  ContentSource="Header"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+
+
                             </Grid>
                         </Border>
                         <ItemsPresenter x:Name="ItemsHost"/>

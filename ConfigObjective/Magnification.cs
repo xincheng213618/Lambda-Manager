@@ -67,7 +67,7 @@ namespace ConfigObjective
             new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
             new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4,IsEnabled =false},
             new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65,IsEnabled =false},
-
+            new ObjectiveSetting (){ID =4, Name ="奥林巴斯",Magnitude="100X", NA=0.65,IsEnabled =false},
         };
 
         public override void BeginInit()
@@ -281,19 +281,19 @@ namespace ConfigObjective
             ToggleButton ToggleButtonZF = (ToggleButton)Template.FindName("ToggleButtonZF", this);
             ToggleButtonXYF.Checked += delegate
             {
-                XYStep = 1000;  
+                XYStep = 200;  
             };
             ToggleButtonXYF.Unchecked += delegate
             {
-                XYStep = 200;
+                XYStep = 1000;
             };
             ToggleButtonZF.Checked += delegate
             {
-                ZStep = 1000;
+                ZStep = 200;
             };
             ToggleButtonZF.Unchecked += delegate
             {
-                ZStep = 200;
+                ZStep = 1000;
             };
 
 
@@ -373,8 +373,32 @@ namespace ConfigObjective
             }
 
 
-        #endregion
-    }
+            #endregion
+
+            ToggleButton ToggleButton503 = (ToggleButton)Template.FindName("ToggleButton503", this);
+            ToggleButton ToggleButton504 = (ToggleButton)Template.FindName("ToggleButton504", this);
+            ToggleButton ToggleButton505 = (ToggleButton)Template.FindName("ToggleButton505", this);
+
+            ToggleButton503.Checked += delegate
+            {
+                //ToggleButton504.IsChecked = true;
+            };
+            ToggleButton503.Unchecked += delegate
+            {
+                ToggleButton505.IsChecked = false;
+            };
+
+            ToggleButton505.Checked += delegate
+            {
+                ToggleButton503.IsChecked = true;
+            };
+            ToggleButton505.Unchecked += delegate
+            {
+
+            };
+
+
+        }
 
         /// <summary>
         /// Slider缩写优化

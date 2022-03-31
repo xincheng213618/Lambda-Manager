@@ -3,11 +3,11 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 
-namespace WpfApp3
+namespace Tool
 {
     public class Utils
     {
-        /// <summary>
+        /// <summary>s
         /// 文本
         /// </summary>
         /// <param name="text"></param>
@@ -133,7 +133,4 @@ namespace WpfApp3
             }
         }
     }
-
-
-
 }

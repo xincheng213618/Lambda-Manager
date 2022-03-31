@@ -6,8 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
-        xmlns:controls="clr-namespace:LambdaManager.Controls"
-        Title="λManager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded" Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        xmlns:controls="clr-namespace:LambdaManager.Controls" 
+        Title="λManager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
@@ -46,6 +46,7 @@
             </Style>
         </ResourceDictionary>
     </FrameworkElement.Resources>
+    
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -85,350 +86,336 @@
                 </ComboBox>
             </StackPanel>
         </Grid>
-        <Grid Name="stageAcquisition" Grid.Row="1"  >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView"  Width="200"/>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Name="middleView" Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5">
-                <TabControl>
-                    <TabItem Header="工程" FontSize="15">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <StackPanel Name="projectView"  Margin="10" >
-                                <TreeView >
-                                    <TreeView.ItemTemplate>
-                                        <HierarchicalDataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="{Binding Icon}" />
-                                                <TextBlock Text="{Binding Name}" />
-                                            </StackPanel>
-                                        </HierarchicalDataTemplate>
-                                    </TreeView.ItemTemplate>
-                                    <TreeViewItem Header="工程目录">
-                                        <TreeViewItem Header="Image" />
-                                        <TreeViewItem Header="工程文件.log" >
-                                            
-                                        </TreeViewItem>
-
-                                    </TreeViewItem>
-                                </TreeView>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </TabItem>
-                    <TabItem Header="采集配置" FontSize="15">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
-                                <StackPanel Name="acquireView">
+        <Viewbox Grid.Row="1" >
+            <Grid Name="stageAcquisition" Grid.Row="1"  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Name="leftView"  Width="200"/>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Name="middleView" Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5">
+                    <TabControl>
+                        <TabItem Header="工程" FontSize="15">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel Name="projectView"  Margin="10,10,10,20" >
                                 </StackPanel>
-                            </Viewbox>
-                        </ScrollViewer>
-                    </TabItem>
-                </TabControl>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="采集配置" FontSize="15">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="acquireView">
+                                    </StackPanel>
+                                </Viewbox>
+                            </ScrollViewer>
+                        </TabItem>
+                    </TabControl>
 
-            </Border>
-
-
-            <DockPanel Grid.Row="1" Margin="5">
-                <ToggleButton Width="95" Height="25" DockPanel.Dock="Left" Margin="10,0,0,0" Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <ToggleButton Width="95" Margin="0,0,10,0" Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
-                    <Button Width="70" Height="25" DockPanel.Dock="Right" Click="Button_Click_2">拍照</Button>
-                </StackPanel>
-                <TextBlock />
-            </DockPanel>
-            <GridSplitter Name="LeftSplitter" Grid.Column="1" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="LeftSplitter_MouseDoubleClick" >
-                <Control.Background>
-                    <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
-                </Control.Background>
-            </GridSplitter>
-            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
-                <Border Style="{StaticResource RadiusBorder}">
-                    <StackPanel Name="materialView" Margin="2,2,4,2">
-                        <TextBlock>Workspace 1</TextBlock>
-                        <TextBlock>Workspace 2</TextBlock>
-                    </StackPanel>
                 </Border>
-            </ScrollViewer>
-            <StackPanel Grid.Row="2" Grid.Column="2" Margin="5" Orientation="Horizontal">
-                <Button Width="60" Margin="10,0,10,0" Click="Button_Click_3">多模态</Button>
-                <Button Width="60" Margin="0,0,10,0" Click="Button_Click_4">多通道</Button>
-            </StackPanel>
-            <GridSplitter Name="MiddleSplitter" Grid.Column="3" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="MiddleSplitter_MouseDoubleClick">
-                <Control.Background>
-                    <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
-                </Control.Background>
-            </GridSplitter>
-            <Border Name="imagingView" Grid.Column="4" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="6" Margin="0,0,10,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
-                        </Border.Background>
-                        <WrapPanel Name="topToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource ToolButton}" Margin="3,0,0,0" Click="Button_Click_20">
-                                <Image Source="/Resources/Icons/top-select.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_21">
-                                <Image Source="/Resources/Icons/top-inline.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_22">
-                                <Image Source="/Resources/Icons/top-move.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_23">
-                                <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_24">
-                                <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_25">
-                                <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_26">
-                                <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
-                            </Button>
-                            <Border Height="23"  Background="#FF000000"  CornerRadius="4">
-                                <TextBox Name="ratio"  VerticalAlignment="Center" TextChanged="TextBox_TextChanged">25%</TextBox>
-                            </Border>
-                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
-                                <Control.BorderBrush>
-                                    <SolidColorBrush Color="{DynamicResource HighlightColor}" />
-                                </Control.BorderBrush>
-                            </Separator>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_27">
-                                <Image Source="/Resources/Icons/top-dimension.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_28">
-                                <Image Source="/Resources/Icons/top-focus.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_29">
-                                <Image Source="/Resources/Icons/top-ruler.png" Stretch="Fill" />
-                            </Button>
-                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
-                                <Control.BorderBrush>
-                                    <SolidColorBrush Color="{DynamicResource HighlightColor}" />
-                                </Control.BorderBrush>
-                            </Separator>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_30">
-                                <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_31">
-                                <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_32">
-                                <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_33">
-                                <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_34">
-                                <Image Source="/Resources/Icons/top-curve.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_35">
-                                <Image Source="/Resources/Icons/top-circle.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_36">
-                                <Image Source="/Resources/Icons/top-rectangle.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_37">
-                                <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" Margin="0,0,3,0" />
-                            </Button>
-                        </WrapPanel>
+
+
+                <DockPanel Grid.Row="1" Margin="5">
+                    <ToggleButton Width="95" Height="25" DockPanel.Dock="Left" Margin="10,0,0,0" Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                        <ToggleButton Width="95" Margin="0,0,10,0" Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
+                        <Button Width="70" Height="25" DockPanel.Dock="Right" Click="Button_Click_2">拍照</Button>
+                    </StackPanel>
+                    <TextBlock />
+                </DockPanel>
+                <GridSplitter Name="LeftSplitter" Grid.Column="1" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="LeftSplitter_MouseDoubleClick" >
+                    <Control.Background>
+                        <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
+                    </Control.Background>
+                </GridSplitter>
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                    <Border Style="{StaticResource RadiusBorder}">
+                        <StackPanel Name="materialView" Margin="2,2,4,2">
+                            <TextBlock>Workspace 1</TextBlock>
+                            <TextBlock>Workspace 2</TextBlock>
+                        </StackPanel>
                     </Border>
-                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
-                        </Border.Background>
-                        <WrapPanel Name="bottomToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_5">
-                                <Image Source="/Resources/Icons/bottom-start.png" Stretch="Fill" Margin="3,0,0,0" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Margin="-2,0,0,0" Click="Button_Click_6">
-                                <Image Source="/Resources/Icons/bottom-stop.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_7">
-                                <Image Source="/Resources/Icons/bottom-forward.png" Stretch="Fill" Margin="-2,0,0,0" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_8">
-                                <Image Source="/Resources/Icons/bottom-backward.png" Stretch="Fill" Margin="-2,0,0,0" />
-                            </Button>
-                            <TextBlock VerticalAlignment="Center">FPS:</TextBlock>
-                            <TextBox Name="fpsState" Text="{DynamicResource Fps}" VerticalAlignment="Center" TextChanged="fpsState_TextChanged" />
-                            <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged_1" />
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="16">
-                                <TextBlock>Frame</TextBlock>
-                                <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="4,0,0,0" Padding="2,0,2,0">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Name="frameIndex" Foreground="#FF00BFFF">0</TextBlock>
-                                        <TextBlock>/</TextBlock>
-                                        <TextBlock Name="totalFrame">0</TextBlock>
-                                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel Grid.Row="2" Grid.Column="2" Margin="5" Orientation="Horizontal">
+                    <Button Width="60" Margin="10,0,10,0" Click="Button_Click_3">多模态</Button>
+                    <Button Width="60" Margin="0,0,10,0" Click="Button_Click_4">多通道</Button>
+                </StackPanel>
+                <GridSplitter Name="MiddleSplitter" Grid.Column="3" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="MiddleSplitter_MouseDoubleClick">
+                    <Control.Background>
+                        <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
+                    </Control.Background>
+                </GridSplitter>
+                <Border Name="imagingView" Grid.Column="4" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="6" Margin="0,0,10,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
+                            </Border.Background>
+                            <WrapPanel Name="topToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Style="{StaticResource ToolButton}" Margin="3,0,0,0" Click="Button_Click_20">
+                                    <Image Source="/Resources/Icons/top-select.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_21">
+                                    <Image Source="/Resources/Icons/top-inline.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_22">
+                                    <Image Source="/Resources/Icons/top-move.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_23">
+                                    <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_24">
+                                    <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_25">
+                                    <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_26">
+                                    <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
+                                </Button>
+                                <Border Height="23"  Background="#FF000000"  CornerRadius="4">
+                                    <TextBox Name="ratio"  VerticalAlignment="Center" TextChanged="TextBox_TextChanged">25%</TextBox>
                                 </Border>
-                                <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="50" Margin="4,0,2,0" Padding="2,0,2,0">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Name="timeElapsed" Foreground="#FF00BFFF">00:00:00</TextBlock>
-                                        <TextBlock>/</TextBlock>
-                                        <TextBlock Name="totalTime">00:00:00</TextBlock>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                        </WrapPanel>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource RadiusBorder}"  BorderThickness="1">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
-                        </Border.Background>
-                        <DockPanel Name="leftToolbar">
-                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" DockPanel.Dock="Top">
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_38">
-                                    <Image Source="/Resources/Icons/left-colorbar.png" Stretch="Fill" Margin="0,3,0,0" />
+                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
+                                    <Control.BorderBrush>
+                                        <SolidColorBrush Color="{DynamicResource HighlightColor}" />
+                                    </Control.BorderBrush>
+                                </Separator>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_27">
+                                    <Image Source="/Resources/Icons/top-dimension.png" Stretch="Fill" />
                                 </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_39">
-                                    <Image Source="/Resources/Icons/left-monocolor.png" Stretch="Fill" />
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_28">
+                                    <Image Source="/Resources/Icons/top-focus.png" Stretch="Fill" />
                                 </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_40">
-                                    <Image Source="/Resources/Icons/left-divcolor.png" Stretch="Fill" />
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_29">
+                                    <Image Source="/Resources/Icons/top-ruler.png" Stretch="Fill" />
                                 </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_41">
-                                    <Image Source="/Resources/Icons/left-histogram.png" Stretch="Fill" />
+                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
+                                    <Control.BorderBrush>
+                                        <SolidColorBrush Color="{DynamicResource HighlightColor}" />
+                                    </Control.BorderBrush>
+                                </Separator>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_30">
+                                    <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_31">
+                                    <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_32">
+                                    <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_33">
+                                    <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_34">
+                                    <Image Source="/Resources/Icons/top-curve.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_35">
+                                    <Image Source="/Resources/Icons/top-circle.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_36">
+                                    <Image Source="/Resources/Icons/top-rectangle.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_37">
+                                    <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" Margin="0,0,3,0" />
                                 </Button>
                             </WrapPanel>
-                            <controls:DoubleThumbSlider DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="400" Minimum="0" Maximum="4095" LowerValue="200" UpperValue="1500" />
-                        </DockPanel>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
-                        </Border.Background>
-                        <WrapPanel Name="rightToolbar" Orientation="Vertical" VerticalAlignment="Center">
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_9">
-                                <Image Source="/Resources/Icons/right-quater.png" Stretch="Fill" Margin="0,3,0,0" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_10">
-                                <Image Source="/Resources/Icons/right-dual.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_11">
-                                <Image Source="/Resources/Icons/right-BF.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_12">
-                                <Image Source="/Resources/Icons/right-DF.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_13">
-                                <Image Source="/Resources/Icons/right-RI.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_14">
-                                <Image Source="/Resources/Icons/right-DP.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_15">
-                                <Image Source="/Resources/Icons/right-Phi.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_16">
-                                <Image Source="/Resources/Icons/right-FL.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_17">
-                                <Image Source="/Resources/Icons/right-3D.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_18">
-                                <Image Source="/Resources/Icons/right-cube.png" Stretch="Fill" />
-                            </Button>
-                            <Button Style="{StaticResource ToolButton}" Click="Button_Click_19">
-                                <Image Source="/Resources/Icons/right-repo.png" Stretch="Fill" />
-                            </Button>
-                            <TextBlock>Slice</TextBlock>
-                            <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="0,2,0,2" Padding="2,0,2,0">
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" MinHeight="12">
-                                    <TextBlock Name="sliceIndex" Foreground="#FF00BFFF" Background="#FF000000" FontSize="6" VerticalAlignment="Center">0</TextBlock>
-                                    <TextBlock FontSize="6" VerticalAlignment="Center">/</TextBlock>
-                                    <TextBlock Name="totalSlice" FontSize="6" VerticalAlignment="Center">0</TextBlock>
+                        </Border>
+                        <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
+                            </Border.Background>
+                            <WrapPanel Name="bottomToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_5">
+                                    <Image Source="/Resources/Icons/bottom-start.png" Stretch="Fill" Margin="3,0,0,0" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Margin="-2,0,0,0" Click="Button_Click_6">
+                                    <Image Source="/Resources/Icons/bottom-stop.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_7">
+                                    <Image Source="/Resources/Icons/bottom-forward.png" Stretch="Fill" Margin="-2,0,0,0" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_8">
+                                    <Image Source="/Resources/Icons/bottom-backward.png" Stretch="Fill" Margin="-2,0,0,0" />
+                                </Button>
+                                <TextBlock VerticalAlignment="Center">FPS:</TextBlock>
+                                <TextBox Name="fpsState" Text="{DynamicResource Fps}" VerticalAlignment="Center" TextChanged="fpsState_TextChanged" />
+                                <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged_1" />
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="16">
+                                    <TextBlock>Frame</TextBlock>
+                                    <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="4,0,0,0" Padding="2,0,2,0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Name="frameIndex" Foreground="#FF00BFFF">0</TextBlock>
+                                            <TextBlock>/</TextBlock>
+                                            <TextBlock Name="totalFrame">0</TextBlock>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="50" Margin="4,0,2,0" Padding="2,0,2,0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Name="timeElapsed" Foreground="#FF00BFFF">00:00:00</TextBlock>
+                                            <TextBlock>/</TextBlock>
+                                            <TextBlock Name="totalTime">00:00:00</TextBlock>
+                                        </StackPanel>
+                                    </Border>
                                 </StackPanel>
-                            </Border>
-                            <Slider Width="20" Height="180" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" Orientation="Vertical" />
-                            <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="24" Margin="0,2,0,2" Padding="2,0,2,0">
-                                <StackPanel HorizontalAlignment="Right">
-                                    <TextBlock Name="zTop" FontSize="6">0μm</TextBlock>
-                                    <TextBlock Name="zCurrent" Foreground="#FF00BFFF" FontSize="6">0μm</TextBlock>
-                                    <TextBlock Name="zBottom" FontSize="6">0μm</TextBlock>
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
-                    </Border>
-                    <Grid Name="mainView" Row="1" Column="1" Margin="6">
-                        <Grid Grid.Row="0" Grid.Column="0">
-                            <Canvas x:Name="Griddd" ClipToBounds="True" Background="#c3c3c3">
-                                <Image Name="view0" Source="Resources/Images/StartPicture1.png" Stretch="UniformToFill" />
-                                <StackPanel Name="ruler" VerticalAlignment="Bottom" Canvas.Left="{Binding ElementName=view0,Path=ActualWidth}" Canvas.Top="{Binding ElementName=view0,Path=ActualHeight}" Margin="-60,-25,10,20" >
-                                    <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
-                                    <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Data="m 0,0 v 5 h 50 v -5"/>
-                                </StackPanel>
-                            </Canvas>
-                            <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal" Height="0"/>
+                            </WrapPanel>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource RadiusBorder}"  BorderThickness="1">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
+                            </Border.Background>
+                            <DockPanel Name="leftToolbar">
+                                <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" DockPanel.Dock="Top">
+                                    <Button Style="{StaticResource ToolButton}" Click="Button_Click_38">
+                                        <Image Source="/Resources/Icons/left-colorbar.png" Stretch="Fill" Margin="0,3,0,0" />
+                                    </Button>
+                                    <Button Style="{StaticResource ToolButton}" Click="Button_Click_39">
+                                        <Image Source="/Resources/Icons/left-monocolor.png" Stretch="Fill" />
+                                    </Button>
+                                    <Button Style="{StaticResource ToolButton}" Click="Button_Click_40">
+                                        <Image Source="/Resources/Icons/left-divcolor.png" Stretch="Fill" />
+                                    </Button>
+                                    <Button Style="{StaticResource ToolButton}" Click="Button_Click_41">
+                                        <Image Source="/Resources/Icons/left-histogram.png" Stretch="Fill" />
+                                    </Button>
+                                </WrapPanel>
+                                <controls:DoubleThumbSlider DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="400" Minimum="0" Maximum="4095" LowerValue="200" UpperValue="1500" />
+                            </DockPanel>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
+                            </Border.Background>
+                            <WrapPanel Name="rightToolbar" Orientation="Vertical" VerticalAlignment="Center">
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_9">
+                                    <Image Source="/Resources/Icons/right-quater.png" Stretch="Fill" Margin="0,3,0,0" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_10">
+                                    <Image Source="/Resources/Icons/right-dual.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_11">
+                                    <Image Source="/Resources/Icons/right-BF.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_12">
+                                    <Image Source="/Resources/Icons/right-DF.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_13">
+                                    <Image Source="/Resources/Icons/right-RI.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_14">
+                                    <Image Source="/Resources/Icons/right-DP.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_15">
+                                    <Image Source="/Resources/Icons/right-Phi.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_16">
+                                    <Image Source="/Resources/Icons/right-FL.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_17">
+                                    <Image Source="/Resources/Icons/right-3D.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_18">
+                                    <Image Source="/Resources/Icons/right-cube.png" Stretch="Fill" />
+                                </Button>
+                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_19">
+                                    <Image Source="/Resources/Icons/right-repo.png" Stretch="Fill" />
+                                </Button>
+                                <TextBlock>Slice</TextBlock>
+                                <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="0,2,0,2" Padding="2,0,2,0">
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" MinHeight="12">
+                                        <TextBlock Name="sliceIndex" Foreground="#FF00BFFF" Background="#FF000000" FontSize="6" VerticalAlignment="Center">0</TextBlock>
+                                        <TextBlock FontSize="6" VerticalAlignment="Center">/</TextBlock>
+                                        <TextBlock Name="totalSlice" FontSize="6" VerticalAlignment="Center">0</TextBlock>
+                                    </StackPanel>
+                                </Border>
+                                <Slider Width="20" Height="180" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" Orientation="Vertical" />
+                                <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="24" Margin="0,2,0,2" Padding="2,0,2,0">
+                                    <StackPanel HorizontalAlignment="Right">
+                                        <TextBlock Name="zTop" FontSize="6">0μm</TextBlock>
+                                        <TextBlock Name="zCurrent" Foreground="#FF00BFFF" FontSize="6">0μm</TextBlock>
+                                        <TextBlock Name="zBottom" FontSize="6">0μm</TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            </WrapPanel>
+                        </Border>
+                        <Grid Name="mainView" Row="1" Column="1" Margin="6">
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Canvas x:Name="Griddd" ClipToBounds="True" Background="#c3c3c3">
+                                    <Image Name="view0" Source="Resources/Images/StartPicture1.png" Stretch="UniformToFill" />
+                                    <StackPanel Name="ruler" VerticalAlignment="Bottom" Canvas.Left="{Binding ElementName=view0,Path=ActualWidth}" Canvas.Top="{Binding ElementName=view0,Path=ActualHeight}" Margin="-60,-25,10,20" >
+                                        <TextBlock Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalAlignment="Center" Text="{DynamicResource Unit}" />
+                                        <Path StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Data="m 0,0 v 5 h 50 v -5"/>
+                                    </StackPanel>
+                                </Canvas>
+                                <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal" Height="0"/>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Border>
-            <StatusBar Name="statusBar" Background="Transparent" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                        </Grid>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <StatusBarItem>
-                    <TextBlock Name="imageUnit">单位:μm</TextBlock>
-                </StatusBarItem>
-                <Separator Grid.Column="1" />
-                <StatusBarItem Grid.Column="2">
-                    <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="3">
-                    <TextBlock Name="imageY" Text="{Binding Path=ImageY}"/>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="4">
-                    <TextBlock Name="imageZ" Text="{Binding Path=ImageZ}"/>
-                </StatusBarItem>
-                <Separator Grid.Column="5" />
-                <StatusBarItem Grid.Column="6">
-                    <TextBlock Name="imageSize">图像尺寸：12345μm*1234μm</TextBlock>
-                </StatusBarItem>
-                <Separator Grid.Column="7" />
-                <StatusBarItem Grid.Column="8">
-                    <TextBlock Name="imageFocus">焦面：123μm</TextBlock>
-                </StatusBarItem>
-                <Separator Grid.Column="9" />
-                <StatusBarItem Grid.Column="10">
-                    <TextBlock Name="imageCreateTime">拍摄时间：2022年2月22日 22:22：22</TextBlock>
-                </StatusBarItem>
-            </StatusBar>
-        </Grid>
+                </Border>
+                <StatusBar Name="statusBar" Background="Transparent" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <StatusBarItem>
+                        <TextBlock Name="imageUnit">单位:μm</TextBlock>
+                    </StatusBarItem>
+                    <Separator Grid.Column="1" />
+                    <StatusBarItem Grid.Column="2">
+                        <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
+                    </StatusBarItem>
+                    <StatusBarItem Grid.Column="3">
+                        <TextBlock Name="imageY" Text="{Binding Path=ImageY}"/>
+                    </StatusBarItem>
+                    <StatusBarItem Grid.Column="4">
+                        <TextBlock Name="imageZ" Text="{Binding Path=ImageZ}"/>
+                    </StatusBarItem>
+                    <Separator Grid.Column="5" />
+                    <StatusBarItem Grid.Column="6">
+                        <TextBlock Name="imageSize">图像尺寸：12345μm*1234μm</TextBlock>
+                    </StatusBarItem>
+                    <Separator Grid.Column="7" />
+                    <StatusBarItem Grid.Column="8">
+                        <TextBlock Name="imageFocus">焦面：123μm</TextBlock>
+                    </StatusBarItem>
+                    <Separator Grid.Column="9" />
+                    <StatusBarItem Grid.Column="10">
+                        <TextBlock Name="imageCreateTime">拍摄时间：2022年2月22日 22:22：22</TextBlock>
+                    </StatusBarItem>
+                </StatusBar>
+            </Grid>
+
+        </Viewbox>
 
         <Grid Name="stageConfig" Grid.Row="1" />
     </Grid>

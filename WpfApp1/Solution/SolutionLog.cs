@@ -1,4 +1,4 @@
-﻿namespace Solution
+﻿namespace NLGSolution
 {
     public class SolutionLog
     {

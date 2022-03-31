@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Solution
+namespace NLGSolution
 {
     public class BaseObject :INotifyPropertyChanged
     {
@@ -23,15 +24,39 @@ namespace Solution
         }
 
         private string name;
+        private string oldname;
         public string Name
         {
             get { return name; }
             set
             {
                 name = value;
+                if (oldname != null)
+                {
+                    try
+                    {
+
+                        string oldpath = FilePath;
+                        FilePath = FilePath.Replace(oldname, name);
+                        File.Move(oldpath, FilePath);
+                    }
+                    catch { }   
+                }
+                oldname = name;
                 NotifyPropertyChanged();
             }
         }
+
+        private string filePath;
+
+        public string FilePath
+        {
+            get { return filePath; }
+            set {
+                filePath = value; 
+            }
+        }
+
 
 
     }

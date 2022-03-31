@@ -30,11 +30,6 @@ namespace WpfApp3
         }
 
 
-        /// <summary>
-        /// 载入配置文件
-        /// </summary>
-        /// <param name="config"></param>
-        /// <returns></returns>
         public static int LoadConfig(ref Config config)
         {
             //载入配置文件 
@@ -135,6 +130,7 @@ namespace WpfApp3
             }
             return 0;
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
