@@ -110,7 +110,7 @@ namespace ConfigObjective
             };
 
             //增益
-            SliderAbbreviation("Slider211", "CAMERA_SETTING_GAIN", "gain");
+            SliderAbbreviation1("Slider211", "CAMERA_SETTING_GAIN", "gain");
 
             //曝光
             //SliderAbbreviation("Slider212", "CAMERA_SETTING_EXPOSURE", "exposure");
@@ -124,7 +124,7 @@ namespace ConfigObjective
             //锐度
             SliderAbbreviation("Slider213", "CAMERA_SETTING_SHARPNESS", "sharpness");
             //伽马
-            SliderAbbreviation("Slider214", "CAMERA_SETTING_GAMMA", "gamma");
+            SliderAbbreviation1("Slider214", "CAMERA_SETTING_GAMMA", "gamma");
             //降噪
             SliderAbbreviation("Slider215", "CAMERA_SETTING_DENOISE", "denoise");
 
@@ -185,7 +185,7 @@ namespace ConfigObjective
             //照明亮度
             SliderAbbreviation("Slider323", "DARK_FIELD_BRIGHTNESS", "brightness");
             //伽马
-            SliderAbbreviation("Slider324", "DARK_FIELD_GAMMA", "gamma");
+            SliderAbbreviation1("Slider324", "DARK_FIELD_GAMMA", "gamma");
             //自动模式
             ToggleButtonAbbreviation("Button321", "DARK_FIELD_AUTO", "auto");
 
@@ -202,32 +202,32 @@ namespace ConfigObjective
             SliderAbbreviation("Slider335", "RHEIN_BERG_GAMMA", "gamma");
 
             //对比度
-            SliderAbbreviation("Slider341", "RELIEF_CONTRAST_CONTRAST", "contrast");
+            SliderAbbreviation1("Slider341", "RELIEF_CONTRAST_CONTRAST", "contrast");
             //增益
-            SliderAbbreviation("Slider342", "RELIEF_CONTRAST_GAIN", "gain");
+            SliderAbbreviation1("Slider342", "RELIEF_CONTRAST_GAIN", "gain");
             //明场权重
-            SliderAbbreviation("Slider343", "RELIEF_CONTRAST_BF_Weight", "weight");
+            SliderAbbreviation1("Slider343", "RELIEF_CONTRAST_BF_Weight", "weight");
             //差分背景校正
             ToggleButton Button341 = ToggleButtonAbbreviation("Button341", "RELIEF_CONTRAST_BG_COLLECTION", "collection");
             Button341.IsChecked = false;
 
             //正则化参数
-            SliderAbbreviation("Slider351", "QUANTITATIVE_PHASE_REG", "regularization");
+            SliderAbbreviation1("Slider351", "QUANTITATIVE_PHASE_REG", "regularization");
 
             //细节增强
-            SliderAbbreviation("Slider352", "QUANTITATIVE_PHASE_DETAIL", "detail");
+            SliderAbbreviation1("Slider352", "QUANTITATIVE_PHASE_DETAIL", "detail");
             //相位背景校正
             ToggleButton Button351 = ToggleButtonAbbreviation("Button351", "QUANTITATIVE_PHASE_BG_COLLECTION", "collection");
             Button351.IsChecked = false;
 
             //相差滤波
-            SliderAbbreviation("Slider361", "PHASE_CONTRAST_FILTER", "filter");
+            SliderAbbreviation1("Slider361", "PHASE_CONTRAST_FILTER", "filter");
             //对比度
-            SliderAbbreviation("Slider362", "PHASE_CONTRAST_CONTRAST", "contrast");
+            SliderAbbreviation1("Slider362", "PHASE_CONTRAST_CONTRAST", "contrast");
             //增益
-            SliderAbbreviation("Slider363", "PHASE_CONTRAST_GAIN", "gain");
+            SliderAbbreviation1("Slider363", "PHASE_CONTRAST_GAIN", "gain");
             //明场权重
-            SliderAbbreviation("Slider364", "PHASE_CONTRAST_BF_WEIGHT", "weight");
+            SliderAbbreviation1("Slider364", "PHASE_CONTRAST_BF_WEIGHT", "weight");
 
             //相差背景校正
             ToggleButton Button361 = ToggleButtonAbbreviation("Button361", "PHASE_CONTRAST_BG_COLLECTION", "collection");
@@ -412,6 +412,16 @@ namespace ConfigObjective
             slider.ValueChanged += delegate
             {
                 Dictionary<string, object> data = new() { { TriggerParameter, (int)slider.Value } };
+                Trigger(TriggerName, data);
+            };
+            return slider;
+        }
+        private Slider SliderAbbreviation1(string FindName, string TriggerName, string TriggerParameter)
+        {
+            Slider slider = (Slider)Template.FindName(FindName, this);
+            slider.ValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { TriggerParameter, (double)slider.Value } };
                 Trigger(TriggerName, data);
             };
             return slider;

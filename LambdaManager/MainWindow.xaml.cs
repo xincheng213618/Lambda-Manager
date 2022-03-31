@@ -217,8 +217,7 @@ partial class MainWindow : Window, IComponentConnector
 
 	private void InitViewer()
 	{
-		Views[0] = new View(view0, 0);
-
+		//Views[0] = new View(view0, 0);
 	}
 
 	private void Window_Loaded(object sender, RoutedEventArgs e)

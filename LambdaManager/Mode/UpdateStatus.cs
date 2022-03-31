@@ -10,8 +10,6 @@ namespace Mode
 {
     public class UpdateStatus :INotifyPropertyChanged
     {
-
-
         public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -24,9 +22,13 @@ namespace Mode
 
         {
             get { return imageX; }
-            set { 
-                imageX = value;
-                NotifyPropertyChanged();
+            set {
+                if (value != null)
+                {
+                    imageX = value;
+                    NotifyPropertyChanged();
+                }
+
             }
         }
 
@@ -38,8 +40,11 @@ namespace Mode
             get { return imageY; }
             set
             {
-                imageY = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    imageY = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         private string imageZ = "Z:1234";
@@ -50,8 +55,12 @@ namespace Mode
             get { return imageZ; }
             set
             {
-                imageZ = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    imageZ = value;
+                    NotifyPropertyChanged();
+                }
+
             }
         }
         private string imageSize = "1280";
@@ -62,8 +71,12 @@ namespace Mode
             get { return imageSize; }
             set
             {
-                imageSize = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    imageSize = value;
+                    NotifyPropertyChanged();
+                }
+
             }
         }
 
@@ -74,8 +87,11 @@ namespace Mode
             get { return imageFocus; }
             set
             {
-                imageFocus = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    imageFocus = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string createTime;
@@ -85,8 +101,11 @@ namespace Mode
             get { return createTime; }
             set
             {
-                createTime = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    createTime = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         
@@ -97,8 +116,11 @@ namespace Mode
             get { return frameIndex; }
             set
             {
-                frameIndex = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    frameIndex = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string totalFrame;
@@ -108,8 +130,11 @@ namespace Mode
             get { return totalFrame; }
             set
             {
-                totalFrame = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    totalFrame = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string timeElapsed;
@@ -119,8 +144,11 @@ namespace Mode
             get { return timeElapsed; }
             set
             {
-                timeElapsed = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    timeElapsed = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -131,8 +159,11 @@ namespace Mode
             get { return totalTime; }
             set
             {
-                totalTime = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    totalTime = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string sliceIndex;
@@ -142,8 +173,11 @@ namespace Mode
             get { return sliceIndex; }
             set
             {
-                sliceIndex = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    sliceIndex = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string totalSlice;
@@ -153,8 +187,11 @@ namespace Mode
             get { return totalSlice; }
             set
             {
-                totalSlice = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    totalSlice = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string zTop;
@@ -164,8 +201,11 @@ namespace Mode
             get { return zTop; }
             set
             {
-                zTop = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    zTop = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string zCurrent;
@@ -175,8 +215,11 @@ namespace Mode
             get { return zCurrent; }
             set
             {
-                zCurrent = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    zCurrent = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         public string zBottom;
@@ -186,8 +229,11 @@ namespace Mode
             get { return zBottom; }
             set
             {
-                zBottom = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    zBottom = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         
@@ -197,8 +243,11 @@ namespace Mode
             get { return ratio; }
             set
             {
-                ratio = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    ratio = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -211,8 +260,11 @@ namespace Mode
             get { return fpsState; }
             set
             {
-                fpsState = value;
-                NotifyPropertyChanged();
+                if (value != null)
+                {
+                    fpsState = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 

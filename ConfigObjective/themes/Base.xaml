@@ -65,13 +65,13 @@
 
     <ControlTemplate x:Key="ToggleButton10" TargetType="ToggleButton">
             <!--定义视觉树-->
-            <Border x:Name="border" BorderThickness="1.5" CornerRadius="9" BorderBrush="#aaa" Background="#6DA347">
+            <Border x:Name="border" BorderThickness="1.5" CornerRadius="7" BorderBrush="#aaa" Background="#6DA347">
         <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
-            <Border Width="17" Height="17" CornerRadius="9" Background="White"/>
+            <Border Width="15" Height="15" CornerRadius="7" Background="White"/>
         </Grid>
         <!--阴影设置-->
         <Border.Effect>
-            <DropShadowEffect Color="Gray" BlurRadius="5" ShadowDepth="0" Opacity="0.5" />
+            <DropShadowEffect Color="Gray" BlurRadius="7" ShadowDepth="0" Opacity="0.5" />
         </Border.Effect>
         </Border>
         <!--定义触发器-->
@@ -82,6 +82,12 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+
+    <Style x:Key="CheckButton1" TargetType="ToggleButton">
+        <Setter Property="Template" Value="{StaticResource ToggleButton10}"/>
+
+
+    </Style>
 
 
 

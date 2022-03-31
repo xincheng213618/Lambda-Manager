@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Lambda;
 
 namespace LambdaManager.Utils;
@@ -33,8 +28,8 @@ internal class ViewGrid
 
 	public static View? GetIdleOrNewView(int index)
 	{
-		if (Views[index] != null)
-			return Views[index];
+		//if (Views[index] != null)
+		//	return Views[index];
 		return AddView(index);
 	}
 
@@ -55,9 +50,11 @@ internal class ViewGrid
 	private static void GridSort(Grid[] GridLists)
     {
 		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
+
 		mainView.Children.Clear();
 		mainView.ColumnDefinitions.Clear();
 		mainView.RowDefinitions.Clear();
+
 		int newlist = 0;
 		for (int i = 0; i < GridLists.Length; i++)
 		{
@@ -93,9 +90,9 @@ internal class ViewGrid
 		Image image = new Image{
 			Stretch = Stretch.Uniform
 		};
-		Grid grid = GetNewGrid(image);
 
-        gridsList[index] = grid;
+		Grid grid = GetNewGrid(image);
+		gridsList[index] = grid;
 		GridSort(gridsList);
 
 		View view = new View(image, index);
@@ -107,15 +104,12 @@ internal class ViewGrid
 
 	public static void CloseVieW(int index)
 	{
-		if (index == 0)
-        {
-			return;
-        }
 		View view = Views[index];
 		if (view == null)
 			return;
 
 		ClosingViewIndex.Add(index);
+
 
 		gridsList[index] = null;
 		GridSort(gridsList);

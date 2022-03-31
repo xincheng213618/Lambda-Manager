@@ -194,7 +194,7 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton x:Name="Button341" Width="50" Template="{StaticResource ToggleButton10}"  />
+                                            <ToggleButton x:Name="Button341" Margin="20,0"  Style="{StaticResource CheckButton1}" />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
@@ -222,7 +222,9 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton  x:Name="Button351" Margin="20,0" Template="{StaticResource ToggleButton10}"  />
+                                            <ToggleButton Template="{StaticResource ToggleButton10}"  />
+                                            <ToggleButton   x:Name="Button351" Margin="20,0"  Style="{StaticResource CheckButton1}" />
+
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
@@ -251,7 +253,7 @@
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                            <ToggleButton x:Name="Button361" Margin="20,0" Template="{StaticResource ToggleButton10}" />
+                                            <ToggleButton x:Name="Button361" Margin="20,0"  Style="{StaticResource CheckButton1}" />
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
@@ -354,19 +356,19 @@
                                         <StackPanel   IsEnabled="{Binding ElementName=ToggleButton503,Path=IsChecked}" >
                                             <DockPanel  >
                                                 <TextBlock Text="Z-Begin" Width="50" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="40" Margin="5,0"/>
-                                                <Button  Content="Set"/>
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
                                             <DockPanel   >
                                                 <TextBlock Text="Z-End"  Width="50" VerticalAlignment="Center"  Foreground="White"/>
-                                                <TextBox Text="32" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="40" Margin="5,0"/>
-                                                <Button  Content="Set"/>
+                                                <TextBox Text="32" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
-                                            <DockPanel >
+                                            <DockPanel>
                                                 <TextBlock Text="Z-Step"  Width="50" VerticalAlignment="Center" Foreground="White" />
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="40" Margin="5,0"/>
-                                                <Button  Content="Set"/>
-                                            </DockPanel >
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <Button DockPanel.Dock="Right"  Content="设置"/>
+                                            </DockPanel>
                                             <DockPanel   HorizontalAlignment="Left">
                                                 <TextBlock Text="Z- Absolute"  Width="70" VerticalAlignment="Center" Foreground="White" />
                                             </DockPanel>
@@ -374,23 +376,23 @@
                                         <StackPanel Margin="5,0,0,0"  IsEnabled="{Binding ElementName=ToggleButton504,Path=IsChecked}" >
                                             <DockPanel >
                                                 <TextBlock Text="T- Number"  Width="65" VerticalAlignment="Center"  Foreground="White"/>
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="30" Margin="5,0"/>
-                                                <Button  Content="Set"/>
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
-                                            <DockPanel >
+                                            <DockPanel>
                                                 <TextBlock Text="T- Interval"  Width="65" VerticalAlignment="Center" Foreground="White" />
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="30" Margin="5,0"/>
-                                                <Button  Content="Set"/>
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
-                                            <DockPanel >
+                                            <DockPanel>
                                                 <TextBlock Text="∞"  Width="25" VerticalAlignment="Center" Foreground="White" />
-                                                <Slider Value="5" Maximum="10" Style="{StaticResource Horizontal_Slider1}" />
-                                                <Button  Content="Set"/>
+                                                <ToggleButton  Style="{StaticResource CheckButton1}" Width="90" Margin="2"/>
+                                                <Button DockPanel.Dock="Right"  Content="设置" />
                                             </DockPanel>
-                                            <DockPanel >
+                                            <DockPanel>
                                                 <TextBlock Text=">>"  Width="25" VerticalAlignment="Center" Foreground="White" />
-                                                <Slider Value="5" Maximum="10" Style="{StaticResource Horizontal_Slider1}" />
-                                                <Button  Content="Set"/>
+                                                <ToggleButton  Style="{StaticResource CheckButton1}"  Width="90" Margin="2"/>
+                                                <Button DockPanel.Dock="Right"  Content="设置" />
                                             </DockPanel>
 
 
