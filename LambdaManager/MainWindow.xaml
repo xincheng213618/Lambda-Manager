@@ -7,14 +7,15 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
         xmlns:controls="clr-namespace:LambdaManager.Controls" 
-        Title="λManager" Background="#333333" Width="1920"  Height="1080" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Title="Manager" Background="#333333" Width="1920"  Height="1080" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <WindowChrome.WindowChrome>
         <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
     </WindowChrome.WindowChrome>
     <Window.Resources>
         <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
         <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
-        <SolidColorBrush x:Key="CaptionButtonhoiceBackgrouundBrush">white</SolidColorBrush>
+        <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#333333</SolidColorBrush>
+        
         <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
         <Style x:Key="CaptionButtonStyleDefault" TargetType="Button">
             <Setter Property="Template">
@@ -25,7 +26,7 @@
                             <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="12" 
                                    Foreground="{StaticResource CaptionButtonBrush}" FontWeight="{TemplateBinding FontWeight}" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
-                        </Grid>
+                        </Grid> 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource CaptionButtonChoiceBackgrouundBrush}"/>
@@ -140,7 +141,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{TemplateBinding Icon}" Margin="10,0,0,0" Height="18" Width="18"  />
                         </StackPanel>
-                        <ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,20,0" />
+                        <!--<ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,20,0" />-->
                         <StackPanel x:Name="WindowCommandButtonsPanel" Grid.Column="1"  HorizontalAlignment="Center" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,-1,0" >
                             <Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="40" Command="{x:Static local:MainWindow.WindowTopMost}"/>
                             <Button x:Name="MinimizeButton" Style="{DynamicResource MinimizeButtonStyle}" Width="40"  Command="{x:Static local:MainWindow.WindowMin}" />
@@ -177,16 +178,17 @@
     </Window.Template>
 
     
-    <Grid >
+    <Grid Margin="0,-26,0,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Row="0" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="350" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" MouseDoubleClick="Button_MouseDoubleClick">
@@ -201,12 +203,12 @@
                 <RadioButton Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked_3" />
                 <RadioButton Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <Menu Name="menu" Margin="0,5,0,5">
+            <DockPanel  Grid.Column="2">
+                <Menu DockPanel.Dock="Right" Name="menu" Margin="0,5,0,5" >
                     <MenuItem Name="file" Header="文件" />
                     <MenuItem Name="help" Header="帮助" />
                 </Menu>
-                <ComboBox Name="msgList" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center">
+                <ComboBox Name="msgList" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" >
                     <ComboBoxItem HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource INFO}" Width="12" Height="12" />
@@ -214,7 +216,7 @@
                         </StackPanel>
                     </ComboBoxItem>
                 </ComboBox>
-            </StackPanel>
+            </DockPanel>
         </Grid>
         <Viewbox Grid.Row="1" >
             <Grid Name="stageAcquisition" Grid.Row="1"  >
