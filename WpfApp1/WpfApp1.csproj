@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GLobalData\GLobal.csproj" />
+    <ProjectReference Include="..\Global\Global.csproj" />
     <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
   </ItemGroup>
 

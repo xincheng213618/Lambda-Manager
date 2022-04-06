@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tool;
-using GLobal;
+using Global;
 
 namespace WpfApp1
 {
@@ -337,7 +337,7 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Global global = Global.GetInstance();
+            Global.Global global = Global.Global.GetInstance();
             if (Utils.OpenFileDialog(out string FilePath))
             {
                 if (LoadConfig(FilePath, ref global.Config) == 0)

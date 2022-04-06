@@ -3,6 +3,7 @@
     <AssemblyName>LambdaUtils</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TargetFramework>netcoreapp6.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>Preview</LangVersion>

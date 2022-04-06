@@ -1,4 +1,4 @@
-﻿using GLobal;
+﻿using Global;
 using Lambda;
 using System;
 using System.Collections.Generic;
