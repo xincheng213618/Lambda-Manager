@@ -29,10 +29,7 @@ namespace WpfApp2
             InitializeComponent();
             this.DataContext = this;
         }
-        //HSB
-        double Hue = 0;
-        double Saturation = 1;
-        double Brightness = 1;
+
 
 
         private void ThumbPro_ValueChanged(double xpercent, double ypercent)
@@ -69,27 +66,83 @@ namespace WpfApp2
             {
                 _SelectColor = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectColor"));
-                if (BrushValueChanged != null)
-                    BrushValueChanged(this,new RoutedEventArgs());
+                BrushValueChanged?.Invoke(this, new RoutedEventArgs());
             }
         }
         public delegate void ChangeEventHandler(object sender, RoutedEventArgs e);
         public event ChangeEventHandler BrushValueChanged;
 
 
+        bool UpdateHSB = false;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             RgbaColor Hcolor = new RgbaColor(R, G, B, A);
+            if (!UpdateHSB)
+            {
+                Brightness = Hcolor.HsbaColor.B;
+                Saturation = Hcolor.HsbaColor.S;
+            }
             SelectColor = Hcolor.SolidColorBrush;
             TextHex.Text = Hcolor.HexString;
-            
             HsbaColor Hcolor1 = new HsbaColor(Hcolor.HsbaColor.H, 1, 1, 1);
 
             viewSelectColor.Fill = Hcolor1.SolidColorBrush;
             UpdateThumb(Hcolor);
         }
+
+        private void NotifyPropertyChanged1([CallerMemberName] string propertyName = null)
+        {
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            HsbaColor Hcolor = new HsbaColor(Hue, Saturation, Brightness, A);
+            SelectColor = Hcolor.SolidColorBrush;
+            UpdateHSB = true;
+            R = Hcolor.RgbaColor.R;
+            G = Hcolor.RgbaColor.G;
+            B = Hcolor.RgbaColor.B;
+            UpdateHSB = false;
+        }
+        //HSB
+
+        private double hue = 0;
+        public double Hue
+        {
+            get { return hue; }
+            set
+            {
+                hue = value;
+                //NotifyPropertyChanged1();
+            }
+
+        }
+
+        private double saturation = 1;
+        public double Saturation
+        {
+            get { return saturation; }
+            set
+            {
+                saturation = value;
+                NotifyPropertyChanged1();
+            }
+        }
+
+        private double brightness;
+        public double Brightness
+        {
+            get { return brightness; }
+            set
+            {
+                brightness = value;
+                NotifyPropertyChanged1();
+            }
+        }
+
+
+
 
 
 
@@ -99,7 +152,14 @@ namespace WpfApp2
         {
             get { return r; }
             set {
-                r = r <= 255 ? r >= 0? value:0:255;
+                r = r <= 255 ? r >= 0 ? value : 0 : 255;
+
+                //if (value < 0)
+                //    r = 0;
+                //else if (value > 255)
+                //    r = 255;
+                //else
+                //    r = value;
 
                 NotifyPropertyChanged();
             }
@@ -153,12 +213,15 @@ namespace WpfApp2
 
         private void ColorChange(RgbaColor Hcolor)
         {
-            R = Hcolor.R;
-            G = Hcolor.G;
-            B = Hcolor.B;   
-            A = Hcolor.A;   
+            if (R != Hcolor.R)
+                R = Hcolor.R;
+            if (G != Hcolor.G)
+                G = Hcolor.G;
+            if (B != Hcolor.B)
+                B = Hcolor.B;
+            if (A != Hcolor.A)
+                A = Hcolor.A;
             TextHex.Text = Hcolor.HexString;
-
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
@@ -179,8 +242,8 @@ namespace WpfApp2
             var ypercent = 1 - Hcolor.HsbaColor.B;
 
             var Ypercent = Hcolor.HsbaColor.H / 360;
-
             thumbH.SetTopLeftByPercent(1, Ypercent);
+
             thumbSB.SetTopLeftByPercent(xpercent, ypercent);
         }
 

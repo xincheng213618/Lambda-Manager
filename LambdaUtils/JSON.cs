@@ -115,7 +115,7 @@ public class JSON
 		}
 		if (value is double num)
 		{
-			string text = num.ToString();
+			string text = num.ToString("0.###########");
 			if (!text.Contains('.'))
 			{
 				text += ".0";

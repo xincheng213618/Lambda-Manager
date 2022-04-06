@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ConfigObjective"
+             xmlns:local="clr-namespace:ConfigObjective" 
              mc:Ignorable="d"  Name="root"
-             
-             d:DesignHeight="17" d:DesignWidth="54" Initialized="root_Initialized" >
+           
+             d:DesignHeight="17" d:DesignWidth="54" Initialized="root_Initialized"  Loaded="root_Loaded" >
     <UserControl.Resources>
         <Style x:Key="ThumbStyle1" TargetType="{x:Type local:ThumbPro}">
             <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
@@ -95,82 +95,89 @@
         <Button x:Name="btn"  Background="{Binding SelectColor,ElementName=root}" Click="btn_Click" Style="{DynamicResource ButtonStyle1}"/>
 
         <Popup AllowsTransparency="True"  PlacementTarget="{Binding ElementName=btn}" Placement="Bottom" VerticalOffset="5" StaysOpen="False" Name="pop" >
-            <Border Padding="5" CornerRadius="5" Width="365" Background="#535353" BorderBrush="#3D3D3D" BorderThickness="2" >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid >
-                        <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="Red" RadiusY="2"/>
-                        <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
-                            <Rectangle.Fill>
-                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                    <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                    <GradientStop Offset="1" Color="#00FFFFFF"/>
-                                </LinearGradientBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                        <Rectangle x:Name="viewSelectColor2" RadiusX="2" RadiusY="2">
-                            <Rectangle.Fill>
-                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                    <GradientStop Offset="0" Color="#00000000"/>
-                                    <GradientStop Offset="1" Color="#FF000000"/>
-                                </LinearGradientBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                        <local:ThumbPro x:Name="thumbSB" ValueChanged="ThumbPro_ValueChanged_1"  Style="{StaticResource ThumbStyle2}" Xoffset="10"  Yoffset="10"  />
-
-                    </Grid>
-                    <Grid Grid.Column="1" Margin="5,0,0,0">
-                        <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                            <Rectangle.Fill >
-                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                    <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
-                                    <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
-                                    <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
-                                    <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
-                                    <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
-                                    <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
-                                    <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                        <local:ThumbPro x:Name="thumbH" ValueChanged="ThumbPro_ValueChanged"  Style="{StaticResource ThumbStyle1}" Xoffset="30"  VerticalOnly="True" Yoffset="5" />
-                    </Grid>
-                    <StackPanel Grid.Column="2" Margin="10,5,5,5">
-                        <DockPanel>
-                            <Label Foreground="White" Width="30">R</Label>
-                            <TextBox x:Name="TextR"   VerticalAlignment="Center" Text="{Binding Path=R,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                        </DockPanel>
-                        <DockPanel >
-                            <Label Foreground="White" Width="30">G</Label>
-                            <TextBox x:Name="TextG"  VerticalAlignment="Center" Text="{Binding Path=G,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                        </DockPanel>
-                        <DockPanel  >
-                            <Label Foreground="White" Width="30">B</Label>
-                            <TextBox x:Name="TextB"  VerticalAlignment="Center" Text="{Binding Path=B,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                        </DockPanel>
-                        <DockPanel >
-                            <Label Foreground="White" Width="30" Content="A"/>
-                            <TextBox x:Name="TextA" VerticalAlignment="Center" Text="{Binding Path=A,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        </DockPanel>
-                        <DockPanel>
-                            <Label Foreground="White" Content="#" Width="30"/>
-                            <TextBox x:Name="TextHex" LostFocus="HexTextLostFocus" Width="90" VerticalAlignment="Center" Text="#FFFFFFFF" />
-                        </DockPanel>
-                        <UniformGrid x:Name="PreSetColorGrid" Rows="2" Columns="5">
+            <Grid>
+                <Grid x:Name="Grid1">
+                    <Border Padding="5" CornerRadius="5" Width="200" Background="#535353" BorderBrush="#3D3D3D" BorderThickness="2" >
+                        <UniformGrid x:Name="PreSetColorGrid1" Rows="1" Columns="8">
                         </UniformGrid>
+                    </Border>
+                </Grid>
+                <Grid x:Name="Grid2">
+                    <Border Padding="5" CornerRadius="5" Width="365" Background="#535353" BorderBrush="#3D3D3D" BorderThickness="2" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid >
+                                <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="Red" RadiusY="2"/>
+                                <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                            <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                                            <GradientStop Offset="1" Color="#00FFFFFF"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle x:Name="viewSelectColor2" RadiusX="2" RadiusY="2">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Offset="0" Color="#00000000"/>
+                                            <GradientStop Offset="1" Color="#FF000000"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <local:ThumbPro x:Name="thumbSB" ValueChanged="ThumbPro_ValueChanged_1"  Style="{StaticResource ThumbStyle2}" Xoffset="10"  Yoffset="10"  />
 
-                        <!--<DockPanel VerticalAlignment="Bottom" >
-                            <Button  Content="确定" Click="Button_Click"/>
-                        </DockPanel>-->
-                    </StackPanel>
+                            </Grid>
+                            <Grid Grid.Column="1" Margin="5,0,0,0">
+                                <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                    <Rectangle.Fill >
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
+                                            <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
+                                            <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
+                                            <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
+                                            <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
+                                            <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
+                                            <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <local:ThumbPro x:Name="thumbH" ValueChanged="ThumbPro_ValueChanged"  Style="{StaticResource ThumbStyle1}" Xoffset="30"  VerticalOnly="True" Yoffset="5" />
+                            </Grid>
+                            <StackPanel Grid.Column="2" Margin="10,5,5,5">
+                                <DockPanel>
+                                    <Label Foreground="White" Width="30">R</Label>
+                                    <TextBox x:Name="TextR"   VerticalAlignment="Center" Text="{Binding Path=R,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
+                                <DockPanel >
+                                    <Label Foreground="White" Width="30">G</Label>
+                                    <TextBox x:Name="TextG"  VerticalAlignment="Center" Text="{Binding Path=G,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
+                                <DockPanel  >
+                                    <Label Foreground="White" Width="30">B</Label>
+                                    <TextBox x:Name="TextB"  VerticalAlignment="Center" Text="{Binding Path=B,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
+                                <DockPanel >
+                                    <Label Foreground="White" Width="30" Content="A"/>
+                                    <TextBox x:Name="TextA" VerticalAlignment="Center" Text="{Binding Path=A,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <Label Foreground="White" Content="#" Width="30"/>
+                                    <TextBox x:Name="TextHex" LostFocus="HexTextLostFocus" Width="90" VerticalAlignment="Center" Text="#FFFFFFF" />
+                                </DockPanel>
+
+                                <UniformGrid x:Name="PreSetColorGrid" Rows="2" Columns="5">
+                                </UniformGrid>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
 
                 </Grid>
-
-            </Border>
+                
+            </Grid>
         </Popup>
     </Grid>
 

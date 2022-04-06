@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1
+namespace GLobal
 {
+
     public class Global
     {
         private static Global instance;
         private static readonly object locker = new();
-
         public static Global GetInstance()
         {
             lock (locker)
@@ -20,12 +20,13 @@ namespace WpfApp1
                 if (instance == null)
                 {
                     instance = new Global();
+
                 }
             }
             return instance;
         }
+
         public Config Config = new();
-
-
     }
+
 }

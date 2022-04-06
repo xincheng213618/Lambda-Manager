@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GLobalData\GLobal.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
   </ItemGroup>
 

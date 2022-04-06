@@ -85,8 +85,6 @@
 
     <Style x:Key="CheckButton1" TargetType="ToggleButton">
         <Setter Property="Template" Value="{StaticResource ToggleButton10}"/>
-
-
     </Style>
 
 

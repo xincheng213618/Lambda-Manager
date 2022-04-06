@@ -1,6 +1,8 @@
-﻿using Lambda;
+﻿using GLobal;
+using Lambda;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -45,7 +47,6 @@ namespace ConfigObjective
     [TemplatePart(Name = "Button4", Type = typeof(RadioButton))]
     public class Magnification : LambdaControl
     {
-
         static Magnification()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Magnification), new FrameworkPropertyMetadata(typeof(Magnification)));
@@ -64,6 +65,7 @@ namespace ConfigObjective
 
         List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()
         {
+            new ObjectiveSetting (){ID =0, Name ="奥林巴斯",Magnitude="4X", NA=0.1,IsEnabled =false},
             new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
             new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4,IsEnabled =false},
             new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65,IsEnabled =false},
@@ -75,10 +77,54 @@ namespace ConfigObjective
             base.BeginInit();
         }
 
+        static void Window_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            ModifierKeys modifiers = Keyboard.Modifiers;
+            if (Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
+                modifiers |= ModifierKeys.Windows;
+            Key key = e.Key;
+
+            if (key == Key.System)
+                key = e.SystemKey;
+
+
+            // Pressing delete, backspace or escape without modifiers clears the current value
+            if (modifiers == ModifierKeys.None && (key == Key.Delete || key == Key.Back || key == Key.Escape))
+            {
+                return;
+            }
+
+            // If no actual key was pressed - retur
+            if (key == Key.LeftCtrl || key == Key.RightCtrl || key == Key.LeftAlt || key == Key.RightAlt || key == Key.LeftShift || key == Key.RightShift || key == Key.LWin || key == Key.RWin || key == Key.Clear || key == Key.OemClear || key == Key.Apps)
+            {
+
+                MessageBox.Show("Ctrl");
+                return;
+            }
+
+            // Update the value
+            //Hotkey hotkey = new Hotkey(key, modifiers);
+            //if (keymap.TryGetValue(hotkey.ToInt(), out var callback))
+            //{
+            //    callback();
+            //}
+        }
+        List<double> expose = new List<double> { 40000, 35714, 31250, 27778, 25000, 21739, 19608, 17241, 15385, 13514, 12048, 10753, 10000, 8403, 7463, 6623, 5882, 5208, 4630, 4000, 3636, 3226, 2865, 2545, 2252, 2000, 1773, 1575, 1397, 1239, 1099, 1000, 864, 767, 680, 604, 535, 500, 421, 374, 331, 294, 250, 231, 205, 182, 161, 143, 120, 113, 100, 89, 79, 70, 60, 55, 49, 43, 38, 34, 30, 27, 24, 21, 19, 17, 15, 13, 12, 10, 9, 8, 7, 6, 5, 4 };
+        List<double> expose1 = new List<double> { 0.287, 0.323, 0.364, 0.410, 0.463, 0.500, 0.588, 0.663, 0.747, 0.842, 1, 1.071, 1.207, 1.360, 1.534, 1.729, 2.000, 2.197, 2.477, 2.792, 3.148, 3.548, 4.000 };
+
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            WindowStatus windowStatus = WindowStatus.GetInstance();
+            Window MainWindow = Window.GetWindow(this);
+            MainWindow.PreviewKeyDown += Window_PreviewKeyUp;
 
+            for (int i = 0; i < expose.Count; i++)
+            {
+                expose[i] = 1 / expose[i];
+            }
+            expose.AddRange(expose1);
             #region  操作父类
             if (Parent is StackPanel stack)
             {
@@ -101,36 +147,6 @@ namespace ConfigObjective
             ToggleButton ToggleButton5 = (ToggleButton)Template.FindName("ToggleButton5", this);
             #endregion
 
-            #region 相机参数
-            Button Button311 = (Button)Template.FindName("Button311", this);
-            Button311.Click += delegate
-            {
-                Dictionary<string, object> data = new() {  };
-                Trigger("CAMERA_SETTING_WHITE_BALANCE", data);
-            };
-
-            //增益
-            SliderAbbreviation1("Slider211", "CAMERA_SETTING_GAIN", "gain");
-
-            //曝光
-            //SliderAbbreviation("Slider212", "CAMERA_SETTING_EXPOSURE", "exposure");
-            Slider Slider212 = (Slider)Template.FindName("Slider212", this);
-            Slider212.ValueChanged += delegate
-            {
-                Dictionary<string, object> data = new() { { "exposure", Slider212.Value } };
-                //string data = "{\"exposure111\":" + Slider212.Value.ToString("0") + "}";
-                Trigger("CAMERA_SETTING_EXPOSURE", data);
-            };
-            //锐度
-            SliderAbbreviation("Slider213", "CAMERA_SETTING_SHARPNESS", "sharpness");
-            //伽马
-            SliderAbbreviation1("Slider214", "CAMERA_SETTING_GAMMA", "gamma");
-            //降噪
-            SliderAbbreviation("Slider215", "CAMERA_SETTING_DENOISE", "denoise");
-
-
-            #endregion
-
             #region ViewMode 成像模式
 
             Button button301 = (Button)Template.FindName("Button301", this);
@@ -146,7 +162,7 @@ namespace ConfigObjective
                 Trigger("IMAGE_MODE_CLOSE", data);
             };
 
-            RadioButton Button31  =(RadioButton)Template.FindName("Button31", this);
+            RadioButton Button31 = (RadioButton)Template.FindName("Button31", this);
             RadioButton Button32 = (RadioButton)Template.FindName("Button32", this);
             RadioButton Button33 = (RadioButton)Template.FindName("Button33", this);
             RadioButton Button34 = (RadioButton)Template.FindName("Button34", this);
@@ -175,8 +191,95 @@ namespace ConfigObjective
             #region slider
             //照明孔径
             SliderAbbreviation("Slider311", "BRIGHT_FIELD_DIAMETER", "diameter");
+            Slider Slider312 = (Slider)Template.FindName("Slider312", this);
+            ColorPicker ColorPciker1 = (ColorPicker)Template.FindName("ColorPciker1", this);
+
+            Slider312.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+            {
+                if (!WindowStatus.GetInstance().ACQUIRE)
+                {
+                    int bright = (int)Slider312.Value;
+
+                    string hexString = ColorPciker1.SelectColor.ToString();
+                    hexString = hexString.Substring(1, hexString.Length - 1);
+                    byte[] returnBytes = new byte[hexString.Length / 2];
+                    for (int i = 0; i < returnBytes.Length; i++)
+                        returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+
+                    int a1 = (returnBytes[1] >> 4) * bright/15;
+                    int a2 = (returnBytes[2] >> 4) *bright/15;
+                    int a3 = (returnBytes[3] >> 4) * bright/15;
+
+                    int result = a1 * 256 + a2 * 16 + a3;
+                    //int r = result / 256;
+                    //int g = (result % 256)/16;
+                    //int b = (result % 256)%16;
+                    Dictionary<string, object> data = new() { { "brightness", result } };
+                    Trigger("BRIGHT_FIELD_BRIGHTNESS", data);
+                }
+                else
+                {
+                    if (sliderfirst)
+                    {
+                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
+                        {
+                            sliderfirst = false;
+                            Slider312.Value = e.OldValue;
+                        }
+                    }
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+            };
+
+
             //照明亮度
-            SliderAbbreviation("Slider312", "BRIGHT_FIELD_BRIGHTNESS", "brightness");
+            //SliderAbbreviation("Slider312", "BRIGHT_FIELD_BRIGHTNESS", "brightness");
+
+
+            ColorPciker1.BrushValueChanged += delegate
+            {
+                int bright = (int)Slider312.Value;
+                string hexString = ColorPciker1.SelectColor.ToString();
+                hexString = hexString.Substring(1, hexString.Length - 1);
+                byte[] returnBytes = new byte[hexString.Length / 2];
+                for (int i = 0; i < returnBytes.Length; i++)
+                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+
+                int a1 = (returnBytes[1] >> 4) * bright / 15;
+                int a2 = (returnBytes[2] >> 4) * bright / 15;
+                int a3 = (returnBytes[3] >> 4) * bright / 15;
+
+                int result = a1 * 256 + a2 * 16 + a3;
+
+                Dictionary<string, object> data = new() { { "brightness", result } };
+                Trigger("BRIGHT_FIELD_BRIGHTNESS", data);
+            };
+            ColorPicker ColorPciker11 = (ColorPicker)Template.FindName("ColorPciker11", this);
+            ColorPciker11.BrushValueChanged += delegate
+            {
+                string hexString = ColorPciker11.SelectColor.ToString();
+                hexString = hexString.Substring(1, hexString.Length-1);
+                byte[] returnBytes = new byte[hexString.Length / 2];
+                for (int i = 0; i < returnBytes.Length; i++)
+                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+
+                int a1 = returnBytes[1] >> 4;
+                int a2 = returnBytes[2] >> 4;
+                int a3 = returnBytes[3] >> 4;
+
+                int result = a1*256 + a2*16 + a3;
+
+                Dictionary<string, object> data = new() { { "brightness", result } };
+                Trigger("BRIGHT_FIELD_BRIGHTNESS", data);
+            };
+
+
+
+
 
             //照明内径
             SliderAbbreviation("Slider321", "DARK_FIELD_INNER", "inner");
@@ -188,6 +291,13 @@ namespace ConfigObjective
             SliderAbbreviation1("Slider324", "DARK_FIELD_GAMMA", "gamma");
             //自动模式
             ToggleButtonAbbreviation("Button321", "DARK_FIELD_AUTO", "auto");
+
+            ColorPicker colorPciker2 = (ColorPicker)Template.FindName("ColorPciker2", this);
+            colorPciker2.BrushValueChanged += delegate
+            {
+                Dictionary<string, object> data = new() { { "color", colorPciker2.SelectColor.ToString() } };
+                Trigger("colorPciker2", this, data);
+            };
 
 
             //照明内径
@@ -201,24 +311,49 @@ namespace ConfigObjective
             //伽马
             SliderAbbreviation("Slider335", "RHEIN_BERG_GAMMA", "gamma");
 
+            //差分
+
             //对比度
             SliderAbbreviation1("Slider341", "RELIEF_CONTRAST_CONTRAST", "contrast");
             //增益
             SliderAbbreviation1("Slider342", "RELIEF_CONTRAST_GAIN", "gain");
             //明场权重
-            SliderAbbreviation1("Slider343", "RELIEF_CONTRAST_BF_Weight", "weight");
+            SliderAbbreviation1("Slider343", "RELIEF_CONTRAST_BF_WEIGHT", "weight");
+            //测试附加
+            //外径
+            SliderAbbreviation("Slider344", "RELIEF_CONTRAST_OUTER", "outer");
+            //内径
+            SliderAbbreviation("Slider345", "RELIEF_CONTRAST_INNER", "inner");
+            //Gamma
+            SliderAbbreviation1("Slider346", "RELIEF_CONTRAST_GAMMA", "gamma");
+            //相衬权重
+            SliderAbbreviation1("Slider347", "RELIEF_CONTRAST_DP_WEIGHT", "weight");
+
             //差分背景校正
             ToggleButton Button341 = ToggleButtonAbbreviation("Button341", "RELIEF_CONTRAST_BG_COLLECTION", "collection");
             Button341.IsChecked = false;
+
+            //相位
 
             //正则化参数
             SliderAbbreviation1("Slider351", "QUANTITATIVE_PHASE_REG", "regularization");
 
             //细节增强
-            SliderAbbreviation1("Slider352", "QUANTITATIVE_PHASE_DETAIL", "detail");
+            SliderAbbreviation("Slider352", "QUANTITATIVE_PHASE_DETAIL", "detail");
+            //测试附加
+            //Min
+            SliderAbbreviation1("Slider353", "QUANTITATIVE_PHASE_MIN", "min");
+            // Max
+            SliderAbbreviation1("Slider354", "QUANTITATIVE_PHASE_MAX", "max");
+            // Gamma
+            SliderAbbreviation1("Slider355", "QUANTITATIVE_PHASE_GAMMA", "gamma");
+
+
             //相位背景校正
             ToggleButton Button351 = ToggleButtonAbbreviation("Button351", "QUANTITATIVE_PHASE_BG_COLLECTION", "collection");
             Button351.IsChecked = false;
+
+            //相差
 
             //相差滤波
             SliderAbbreviation1("Slider361", "PHASE_CONTRAST_FILTER", "filter");
@@ -228,6 +363,11 @@ namespace ConfigObjective
             SliderAbbreviation1("Slider363", "PHASE_CONTRAST_GAIN", "gain");
             //明场权重
             SliderAbbreviation1("Slider364", "PHASE_CONTRAST_BF_WEIGHT", "weight");
+            //测试附加
+            //伽马
+            SliderAbbreviation1("Slider365", "PHASE_CONTRAST_GAMMA", "gamma");
+            //相差权重
+            SliderAbbreviation1("Slider366", "PHASE_CONTRAST_PC_WEIGHT", "weight");
 
             //相差背景校正
             ToggleButton Button361 = ToggleButtonAbbreviation("Button361", "PHASE_CONTRAST_BG_COLLECTION", "collection");
@@ -236,7 +376,6 @@ namespace ConfigObjective
             #endregion
 
             #endregion
-
 
             #region  ObjectiveSettingStackPanel
             StackPanel ObjectiveSettingStackPanel = (StackPanel)Template.FindName("ObjectiveSettingStackPanel", this);
@@ -256,12 +395,11 @@ namespace ConfigObjective
                     Dictionary<string, object> values = new Dictionary<string, object>()
                     {
                         {"magnitude",item.ID },
-                        {"na",(int)(item.NA*100) },
+                        {"na",(double)(item.NA) },
                     };
                     Trigger("OBJECTIVE_LENS_SETTING", values);
                 };
                 ObjectiveSettingStackPanel.Children.Add(radioButton);
-
             }
             if (ObjectiveSettingList.Count < 2)
             {
@@ -271,8 +409,85 @@ namespace ConfigObjective
 
             #endregion
 
+            #region 相机参数
+            Button Button201 =(Button)Template.FindName("Button201", this);
+            Button201.Click += delegate
+            {
+                Dictionary<string, object> data = new() { };
+                Trigger("CAMERA_SETTING_WHITE_BALANCE", data);
+            };
+            Button Button211 = (Button)Template.FindName("Button211", this);
+            Button211.Click += delegate
+            {
+                Dictionary<string, object> data = new() {  };
+                Trigger("CAMERA_SETTING_WHITE_BALANCE", data);
+            };
+
+            //增益
+            SliderAbbreviation1("Slider211", "CAMERA_SETTING_GAIN", "gain");
+
+            //曝光
+            //SliderAbbreviation("Slider212", "CAMERA_SETTING_EXPOSURE", "exposure");
+
+            Slider Slider212 = (Slider)Template.FindName("Slider212", this);
+            Slider212.ValueChanged += delegate(object sender, RoutedPropertyChangedEventArgs<double> e)
+            {
+                if (!WindowStatus.GetInstance().ACQUIRE)
+                {
+                    if (Slider212.Value < expose.Count)
+                    {
+                        Dictionary<string, object> data = new() { { "exposure", expose[(int)Slider212.Value] } };
+                        //string data = "{\"exposure111\":" + Slider212.Value.ToString("0") + "}";
+                        Trigger("CAMERA_SETTING_EXPOSURE", data);
+                    }
+                }
+                else
+                {
+                    if (sliderfirst)
+                    {
+                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
+                        {
+                            sliderfirst = false;
+                            Slider212.Value = e.OldValue;
+                        }
+                    }
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+
+
+
+            };
+
+
+            //锐度
+            SliderAbbreviation("Slider213", "CAMERA_SETTING_SHARPNESS", "sharpness");
+            //伽马
+            SliderAbbreviation1("Slider214", "CAMERA_SETTING_GAMMA", "gamma");
+            //降噪
+            SliderAbbreviation("Slider215", "CAMERA_SETTING_DENOISE", "denoise");
+
+
+            #endregion
+
+
+
+
+
+
 
             #region  滑块的效果的
+
+            Button Button401 = (Button)Template.FindName("Button401", this);
+            Button401.Click += delegate
+            {
+                Dictionary<string, object> data = new() { };
+                Trigger("STAGE_SETTING_RESET", data);
+            };
+            
 
             int XYStep = 200;
             int ZStep = 200;
@@ -363,13 +578,30 @@ namespace ConfigObjective
                 {
                     Dictionary<string, object> data = new() { { "step", 0 }, { "direction", 6 } };
                     Trigger("STAGE_MOVE_CENTRE", ButtonRe, data);
-
                 };
             }
-            _timer.Tick += Timer_Tick;
+
+            //单击双击的逻辑移除
+            //_timer.Tick += Timer_Tick;
             if (Template.FindName("ButtonAutoFocus", this) is Button ButtonAutoFocus)
             {
-                ButtonAutoFocus.PreviewMouseLeftButtonDown += Button_PreviewMouseLeftButtonDown;
+                //ButtonAutoFocus.PreviewMouseLeftButtonDown += Button_PreviewMouseLeftButtonDown;
+                ButtonAutoFocus.Click += delegate
+                {
+                    if ((bool)ToggleButtonZF.IsChecked)
+                    {
+                        Dictionary<string, object> data = new() { { "mode", 0 } };
+                        Trigger("STAGE_AUTO_FOCUS", this, data);
+                    }
+                    else
+                    {
+                        Dictionary<string, object> data = new() { { "mode", 1 } };
+                        Trigger("STAGE_AUTO_FOCUS", this, data);
+                    }
+
+                };
+
+
             }
 
 
@@ -400,29 +632,73 @@ namespace ConfigObjective
 
         }
 
+        bool sliderfirst = true;
         /// <summary>
-        /// Slider缩写优化
+        /// SliderAbbreviation(int)
         /// </summary>
-        /// <param name="FindName"></param>
-        /// <param name="TriggerName"></param>
-        /// <param name="TriggerParameter"></param>
         private Slider SliderAbbreviation(string FindName, string TriggerName,string TriggerParameter)
         {
             Slider slider = (Slider)Template.FindName(FindName, this);
-            slider.ValueChanged += delegate
+            slider.ValueChanged += delegate(object sender, RoutedPropertyChangedEventArgs<double> e)
             {
-                Dictionary<string, object> data = new() { { TriggerParameter, (int)slider.Value } };
-                Trigger(TriggerName, data);
+                
+                if (!WindowStatus.GetInstance().ACQUIRE)
+                {
+                    Dictionary<string, object> data = new() { { TriggerParameter, (int)slider.Value } };
+                    Trigger(TriggerName, data);
+                }
+                else
+                {
+                    if (sliderfirst)
+                    {
+                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
+                        {
+                            sliderfirst = false;
+                            slider.Value = e.OldValue;
+                        }
+                    }
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+
             };
             return slider;
         }
+
+        /// <summary>
+        /// SliderAbbreviation(double)
+        /// </summary>
         private Slider SliderAbbreviation1(string FindName, string TriggerName, string TriggerParameter)
         {
             Slider slider = (Slider)Template.FindName(FindName, this);
-            slider.ValueChanged += delegate
+           
+            slider.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
             {
-                Dictionary<string, object> data = new() { { TriggerParameter, (double)slider.Value } };
-                Trigger(TriggerName, data);
+                if (!WindowStatus.GetInstance().ACQUIRE)
+                {
+                    Dictionary<string, object> data = new() { { TriggerParameter, (double)slider.Value } };
+                    Trigger(TriggerName, data);
+                }
+                else
+                {
+                    if (sliderfirst)
+                    {
+                        var result = MessageBox.Show("是否修改当前多维采集设置","显微镜",MessageBoxButton.YesNo);
+                       if (result == MessageBoxResult.No)
+                        {
+                            sliderfirst = false;
+                            slider.Value = e.OldValue;
+                        }
+                    }
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+
             };
             return slider;
         }
@@ -440,6 +716,7 @@ namespace ConfigObjective
             {
                 Dictionary<string, object> data = new() { { TriggerParameter, toggleButton.IsChecked } };
                 Trigger(TriggerName, data);
+                MessageBox.Show("test");
             };
             toggleButton.Unchecked += delegate
             {
@@ -457,7 +734,7 @@ namespace ConfigObjective
             if (e.ClickCount == 2)
             {
                 _timer.Stop();
-                Dictionary<string, object> data = new() { };
+                Dictionary<string, object> data = new() { { "mode", 1 } };
                 Trigger("AUTO_FOCUS", this, data);
             }
             else
@@ -470,7 +747,7 @@ namespace ConfigObjective
         private void Timer_Tick(object? sender, EventArgs e)
         {
             _timer.Stop();
-            Dictionary<string, object> data = new() { };
+            Dictionary<string, object> data = new() { { "mode", 0 } };
             Trigger("STAGE_AUTO_FOCUS", this, data);
         }
 

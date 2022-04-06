@@ -17,8 +17,6 @@
 
   <ItemGroup>
     <None Remove="filer.png" />
-    <None Remove="images\xy-direction1.png" />
-    <None Remove="images\z-direction.png" />
     <None Remove="图片2.png" />
     <None Remove="图片3.png" />
   </ItemGroup>
@@ -28,19 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="filer.png" />
-    <Resource Include="图片2.png" />
-    <Resource Include="图片3.png" />
+    <Resource Include="images\filer.png" />
+    <Resource Include="images\图片2.png" />
+    <Resource Include="images\图片3.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\GLobalData\GLobal.csproj" />
     <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="images\xy-direction1.png" />
-    <Resource Include="images\z-direction.png" />
   </ItemGroup>
 
   <ItemGroup>

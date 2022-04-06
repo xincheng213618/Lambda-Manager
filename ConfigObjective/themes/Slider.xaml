@@ -165,7 +165,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     <ControlTemplate x:Key="Slider2"  TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
@@ -195,51 +194,9 @@
     </ControlTemplate>
 
 
-    <Style x:Key="Horizontal_Slider1" TargetType="Slider">
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="TickFrequency" Value="0.1"/>
-        <Setter Property="IsSnapToTickEnabled" Value="True"/>
 
-        <Style.Triggers>
-            <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="MinHeight" Value="21" />
-                <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource Slider1}" />
-            </Trigger>
-            <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="MinHeight" Value="70" />
-                <Setter Property="MinWidth" Value="21" />
-                <Setter Property="Template" Value="{StaticResource Slider2}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
 
-    <Style x:Key="Horizontal_Slider2" TargetType="Slider">
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="TickFrequency" Value="0.1"/>
-        <Setter Property="IsSnapToTickEnabled" Value="True"/>
 
-        <Style.Triggers>
-            <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="MinHeight" Value="21" />
-                <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource Slider11}" />
-            </Trigger>
-            <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="MinHeight" Value="70" />
-                <Setter Property="MinWidth" Value="21" />
-                <Setter Property="Template" Value="{StaticResource Slider2}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
-    
     <ControlTemplate x:Key="LM_SliderControlTemplate"  TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
@@ -254,14 +211,14 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N0,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#######\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
                             <Run Text="/" />
-                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N0}"/>
+                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#######\}}"/>
                     </TextBlock>
                 </DockPanel>
             </Border>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N0}" >
+            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#######\}}" >
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
                 </Track.DecreaseRepeatButton>
@@ -276,185 +233,6 @@
         </Grid>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="LM_SliderControlTemplate1"  TargetType="Slider">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
-                <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N1,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
-                            <Run Text="/" />
-                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N1}"/>
-                    </TextBlock>
-                </DockPanel>
-            </Border>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N1}" >
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
-                </Track.DecreaseRepeatButton>
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton2}"  Height="10"  Command="Slider.IncreaseLarge" />
-                </Track.IncreaseRepeatButton>
-                <Track.Thumb>
-                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
-                </Track.Thumb>
-            </Track>
-
-        </Grid>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="LM_SliderControlTemplate2"  TargetType="Slider">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
-                <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
-                            <Run Text="/" />
-                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N2}"/>
-                    </TextBlock>
-                </DockPanel>
-            </Border>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N2}" >
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
-                </Track.DecreaseRepeatButton>
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton2}"  Height="10"  Command="Slider.IncreaseLarge" />
-                </Track.IncreaseRepeatButton>
-                <Track.Thumb>
-                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
-                </Track.Thumb>
-            </Track>
-
-        </Grid>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="LM_SliderControlTemplate3"  TargetType="Slider">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
-                <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N3,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
-                            <Run Text="/" />
-                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N3}"/>
-                    </TextBlock>
-                </DockPanel>
-            </Border>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N3}" >
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
-                </Track.DecreaseRepeatButton>
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton2}"  Height="10"  Command="Slider.IncreaseLarge" />
-                </Track.IncreaseRepeatButton>
-                <Track.Thumb>
-                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
-                </Track.Thumb>
-            </Track>
-
-        </Grid>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="LM_SliderControlTemplate4"  TargetType="Slider">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
-                <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N4,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
-                            <Run Text="/" />
-                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N4}"/>
-                    </TextBlock>
-                </DockPanel>
-            </Border>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N4}" >
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
-                </Track.DecreaseRepeatButton>
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton2}"  Height="10"  Command="Slider.IncreaseLarge" />
-                </Track.IncreaseRepeatButton>
-                <Track.Thumb>
-                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
-                </Track.Thumb>
-            </Track>
-
-        </Grid>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="LM_SliderControlTemplate5"  TargetType="Slider">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
-                <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N5,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
-                            <Run Text="/" />
-                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N5}"/>
-                    </TextBlock>
-                </DockPanel>
-            </Border>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1" ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N5}" >
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
-                </Track.DecreaseRepeatButton>
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton2}"  Height="10"  Command="Slider.IncreaseLarge" />
-                </Track.IncreaseRepeatButton>
-                <Track.Thumb>
-                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
-                </Track.Thumb>
-            </Track>
-
-        </Grid>
-    </ControlTemplate>
 
 
 
@@ -494,7 +272,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate1}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />
@@ -516,7 +294,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate2}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />
@@ -538,7 +316,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate3}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />
@@ -561,7 +339,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate4}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />
@@ -584,7 +362,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate5}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />

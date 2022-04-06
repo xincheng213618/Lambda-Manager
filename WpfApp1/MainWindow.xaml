@@ -1,5 +1,4 @@
-﻿<Window xmlns:ConfigObjective="clr-namespace:ConfigObjective;assembly=ConfigObjective"  
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,8 +7,7 @@
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized" >
-    <Window.Resources>
-    </Window.Resources>
+
     <DockPanel Background="#FF5D5D5D">
         <Menu x:Name="menu" DockPanel.Dock="Top" Padding="0,5,0,5" >
             <MenuItem x:Name="file" Header="文件"/>
@@ -26,7 +24,6 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
                 <Viewbox Grid.Column="0" VerticalAlignment="Top" >
                     <StackPanel Name="leftView"  Margin="0,5,0,5">
-                        <ConfigObjective:Magnification />
                     </StackPanel>
                 </Viewbox>
             </ScrollViewer>

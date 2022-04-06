@@ -105,6 +105,7 @@
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
+    <ProjectReference Include="..\WpfApp1\WpfApp1.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Quartz">

@@ -30,7 +30,7 @@
     </UserControl.Resources>
     <StackPanel x:Name="mainView"  Background="#FF5D5D5D" >
         <UniformGrid Columns="7">
-            <Button Content="导出"/>
+            <Button Content="导出" Click="Button_Click_1"/>
             <Button Content="新建"/>
             <Button Content="打开" Click="Button_Click"/>
             <Button Content="保存"/>
@@ -82,7 +82,7 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectMannager}" ItemsSource="{Binding Children}" >
                     <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
-                        <Image Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/图片2.png" />
+                        <Image Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/图片2.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
                             <local:EditableTextBlock.Style>
                                 <Style TargetType="local:EditableTextBlock">
@@ -114,7 +114,7 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding Children}">
                     <StackPanel  Style="{StaticResource style_treeViewItem_panel}">
-                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/filer.png" />
+                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/filer.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
                             <local:EditableTextBlock.Style>
                                 <Style TargetType="local:EditableTextBlock">
@@ -146,7 +146,7 @@
                 <DataTemplate DataType="{x:Type Solution:ProjectFile}"  >
                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
 
-                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/图片3.png" />
+                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/图片3.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
                             <local:EditableTextBlock.Style>
                                 <Style TargetType="local:EditableTextBlock">

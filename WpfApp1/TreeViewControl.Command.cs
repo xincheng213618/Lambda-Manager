@@ -132,7 +132,6 @@ namespace WpfApp1
         }
 
         public static RoutedCommand NewProject = new RoutedCommand();
-        KeyGesture gesture = new KeyGesture(Key.N, ModifierKeys.Control, "Control+N");
         public static RoutedCommand OpenProject = new RoutedCommand();
         public static RoutedCommand AddNewProject = new RoutedCommand();
         public static RoutedCommand AddExistingProject = new RoutedCommand();

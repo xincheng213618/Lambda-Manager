@@ -26,7 +26,7 @@ partial class CameraDialog : Window, IComponentConnector
 
     private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-
+        e.Handled = false;   
     }
 
     private int Call(string type, object sender, EventArgs e)

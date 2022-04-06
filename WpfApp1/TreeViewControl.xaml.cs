@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tool;
+using GLobal;
 
 namespace WpfApp1
 {
@@ -278,7 +279,7 @@ namespace WpfApp1
 
                 FirmwareSetting = new FirmwareSetting
                 {
-                    ObjectiveSetting = new ObjectiveSetting
+                    ObjectiveSetting = new Mode.ObjectiveSetting
                     {
                         Magnitude = 20,
                         NA = 1.23
@@ -337,7 +338,7 @@ namespace WpfApp1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Global global = Global.GetInstance();
-            if (FileHelper.OpenFileDialog(out string FilePath))
+            if (Utils.OpenFileDialog(out string FilePath))
             {
                 if (LoadConfig(FilePath, ref global.Config) == 0)
                 {
@@ -428,10 +429,12 @@ namespace WpfApp1
             SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
             TreeView1.ItemsSource = SolutionExplorers;
-
-
         }
 
-
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            WindowStatus windowStatus = WindowStatus.GetInstance();
+            MessageBox.Show(windowStatus.ACQUIRE.ToString());
+        }
     }
 }

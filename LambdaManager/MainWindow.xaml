@@ -7,45 +7,175 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
         xmlns:controls="clr-namespace:LambdaManager.Controls" 
-        Title="λManager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
-    <FrameworkElement.Resources>
-        <ResourceDictionary>
-            <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
-                <Setter Property="TextBlock.Padding" Value="5,5,5,5" />
-            </Style>
-            <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="5, 0, 0, 0" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="TextWrapping" Value="Wrap" />
-                <Setter Property="MaxWidth" Value="800" />
-            </Style>
-            <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                <Setter Property="VerticalContentAlignment" Value="Top" />
-            </Style>
-            <Style x:Key="RadiusBorder" TargetType="{x:Type Border}">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource HighlightColor}" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="BorderThickness" Value="2" />
-                <Setter Property="Border.CornerRadius" Value="7,7,7,7" />
-            </Style>
-            <Style x:Key="ToolButton" TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{x:Null}" />
-                <Setter Property="Width" Value="28" />
-                <Setter Property="Height" Value="24" />
-                <Setter Property="BorderBrush" Value="{x:Null}" />
-                <Setter Property="Padding" Value="0,0,0,0" />
-            </Style>
-            <Style x:Key="WorkButton" TargetType="{x:Type Button}">
-                <Setter Property="Width" Value="60" />
-                <Setter Property="Height" Value="40" />
-            </Style>
-        </ResourceDictionary>
-    </FrameworkElement.Resources>
+        Title="λManager" Background="#333333" Width="1920"  Height="1080" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+    <WindowChrome.WindowChrome>
+        <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
+    </WindowChrome.WindowChrome>
+    <Window.Resources>
+        <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
+        <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
+        <SolidColorBrush x:Key="CaptionButtonhoiceBackgrouundBrush">white</SolidColorBrush>
+        <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
+        <Style x:Key="CaptionButtonStyleDefault" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Width="40" Height="30">
+                            <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" Opacity="0.3"/>
+                            <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="12" 
+                                   Foreground="{StaticResource CaptionButtonBrush}" FontWeight="{TemplateBinding FontWeight}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource CaptionButtonChoiceBackgrouundBrush}"/>
+                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource CaptionButtonChoiceBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CaptionButtonStyleClose" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" Width="40" Height="30">
+                            <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="12" 
+                                   Foreground="{StaticResource CaptionButtonBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LayoutRoot" Property="Background" Value="Red"/>
+                                <Setter TargetName="txt" Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleDefault}">
+            <Setter Property="Content" Value="&#xE949;"/>
+            <Setter Property="ToolTip" Value="最小化"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleDefault}">
+            <Setter Property="Content" Value="&#xE739;"/>
+            <Setter Property="ToolTip" Value="最大化"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="TopMostButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleDefault}">
+            <Setter Property="Content" Value="&#xE718;"/>
+            <Setter Property="ToolTip" Value="置顶"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="RestoreButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleDefault}">
+            <Setter Property="Content" Value="&#xE923;"/>
+            <Setter Property="ToolTip" Value="向下还原"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleClose}">
+            <Setter Property="Content" Value="&#xE8BB;"/>
+            <Setter Property="ToolTip" Value="关闭"/>
+            <Setter Property="Background" Value="Transparent"/>
+
+        </Style>
+        <Style x:Key="FullButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleClose}">
+            <Setter Property="Content" Value="&#xE740;"/>
+            <Setter Property="ToolTip" Value="关闭"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            <Setter Property="TextBlock.Padding" Value="5,5,5,5" />
+        </Style>
+        <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5, 0, 0, 0" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="MaxWidth" Value="800" />
+        </Style>
+        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+        </Style>
+        <Style x:Key="RadiusBorder" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="{StaticResource HighlightColor}" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Border.CornerRadius" Value="7,7,7,7" />
+        </Style>
+        <Style x:Key="ToolButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Padding" Value="0,0,0,0" />
+        </Style>
+        <Style x:Key="WorkButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="60" />
+            <Setter Property="Height" Value="40" />
+        </Style>
+    </Window.Resources>
+    <Window.Template>
+        <ControlTemplate TargetType="Window">
+            <Border Padding="0 29 0 0"  BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}"  >
+                <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Background="{TemplateBinding Background}" VerticalAlignment="Top" Height="30" Margin="0 -29 0 0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="160" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{TemplateBinding Icon}" Margin="10,0,0,0" Height="18" Width="18"  />
+                        </StackPanel>
+                        <ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,20,0" />
+                        <StackPanel x:Name="WindowCommandButtonsPanel" Grid.Column="1"  HorizontalAlignment="Center" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,-1,0" >
+                            <Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="40" Command="{x:Static local:MainWindow.WindowTopMost}"/>
+                            <Button x:Name="MinimizeButton" Style="{DynamicResource MinimizeButtonStyle}" Width="40"  Command="{x:Static local:MainWindow.WindowMin}" />
+                            <Grid Margin="1,0,1,0">
+                                <Button x:Name="MaximizeButton" Style="{DynamicResource MaximizeButtonStyle}" Width="40" Command="{x:Static local:MainWindow.WindowMax}" />
+                                <Button x:Name="RestoreButton" Style ="{DynamicResource RestoreButtonStyle}" Width="40" Command="{x:Static local:MainWindow.WindowRestore}"  Visibility="Hidden" />
+                            </Grid>
+                            <Button x:Name="CloseButton" Style="{DynamicResource CloseButtonStyle}" Command="{x:Static local:MainWindow.WindowClose}" Width="40" />
+                        </StackPanel>
+                    </Grid>
+                    <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="0" Grid.ColumnSpan="1" />
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="WindowState" Value="Maximized">
+                    <Setter TargetName="RootGrid" Property="Margin" Value="6" />
+                    <Setter TargetName="MaximizeButton" Property="Visibility" Value="Hidden"/>
+                    <Setter TargetName="RestoreButton" Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="Topmost" Value="True">
+                    <Setter TargetName="TopMostButton" Property="Background" Value="{DynamicResource CaptionButtonChoiceBackgrouundBrush}" />
+                    <Setter TargetName="TopMostButton" Property="FontWeight" Value="Bold" />
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="ResizeMode" Value="CanResizeWithGrip" />
+                        <Condition Property="WindowState" Value="Normal" />
+                    </MultiTrigger.Conditions>
+                    <Setter TargetName="MaximizeButton" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="RestoreButton" Property="Visibility" Value="Hidden"/>
+                </MultiTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Template>
+
     
     <Grid >
         <Grid.RowDefinitions>
@@ -400,15 +530,15 @@
                     </StatusBarItem>
                     <Separator Grid.Column="5" />
                     <StatusBarItem Grid.Column="6">
-                        <TextBlock Name="imageSize">图像尺寸：12345μm*1234μm</TextBlock>
+                        <TextBlock Name="imageSize" Text="{Binding Path=ImageSize}"/>
                     </StatusBarItem>
                     <Separator Grid.Column="7" />
                     <StatusBarItem Grid.Column="8">
-                        <TextBlock Name="imageFocus">焦面：123μm</TextBlock>
+                        <TextBlock Name="imageFocus" Text="{Binding Path=ImageFocus}" />
                     </StatusBarItem>
                     <Separator Grid.Column="9" />
                     <StatusBarItem Grid.Column="10">
-                        <TextBlock Name="imageCreateTime">拍摄时间：2022年2月22日 22:22：22</TextBlock>
+                        <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" /> 
                     </StatusBarItem>
                 </StatusBar>
             </Grid>

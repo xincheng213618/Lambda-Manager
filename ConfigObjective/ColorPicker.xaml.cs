@@ -28,11 +28,21 @@ namespace ConfigObjective
         {
             InitializeComponent();
             this.DataContext = this;
+
         }
-        //HSB
-        double Hue = 0;
-        double Saturation = 1;
-        double Brightness = 1;
+
+        private bool basic =false;
+
+        public bool Basic
+        {
+            get { return basic; }
+            set { basic =value; }
+        }
+
+
+
+
+
 
 
         private void ThumbPro_ValueChanged(double xpercent, double ypercent)
@@ -43,7 +53,6 @@ namespace ConfigObjective
 
             Hcolor = new HsbaColor(Hue, Saturation, Brightness, 1);
             SelectColor = Hcolor.SolidColorBrush;
-
             ColorChange(Hcolor.RgbaColor);
         }
 
@@ -82,12 +91,50 @@ namespace ConfigObjective
             RgbaColor Hcolor = new RgbaColor(R, G, B, A);
             SelectColor = Hcolor.SolidColorBrush;
             TextHex.Text = Hcolor.HexString;
-            
+            Brightness = Hcolor.HsbaColor.B;
+            Saturation = Hcolor.HsbaColor.S;
+            hue = Hcolor.HsbaColor.H;
+
             HsbaColor Hcolor1 = new HsbaColor(Hcolor.HsbaColor.H, 1, 1, 1);
 
             viewSelectColor.Fill = Hcolor1.SolidColorBrush;
             UpdateThumb(Hcolor);
         }
+        //HSB
+
+        private double hue = 0;
+        public double Hue
+        {
+            get { return hue; }
+            set
+            {
+                hue = value;
+            }
+
+        }
+
+        private double saturation = 1;
+        public double Saturation
+        {
+            get { return saturation; }
+            set
+            {
+                saturation = value;
+            }
+        }
+
+        private double brightness;
+        public double Brightness
+        {
+            get { return brightness; }
+            set
+            {
+                brightness = value;
+            }
+        }
+
+
+
 
 
 
@@ -187,8 +234,13 @@ namespace ConfigObjective
             pop.IsOpen = false;
 
         }
-        public List<Brush> brushes = new List<Brush>() { Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Pink, Brushes.Cyan, Brushes.Yellow ,Brushes.White,Brushes.Black};
+        public List<Brush> brushes = new List<Brush>() { Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Yellow, Brushes.Cyan, Brushes.Magenta, Brushes.White,Brushes.Black};
         private void root_Initialized(object sender, EventArgs e)
+        {
+
+        }
+
+        private void root_Loaded(object sender, RoutedEventArgs e)
         {
             foreach (var item in brushes)
             {
@@ -200,9 +252,9 @@ namespace ConfigObjective
                     Margin = new Thickness(1, 2, 1, 2),
                     Background = item
                 };
-                button.Click += delegate(object sender, RoutedEventArgs e)
+                button.Click += delegate (object sender, RoutedEventArgs e)
                 {
-                    if(sender is Button button1)
+                    if (sender is Button button1)
                     {
                         SelectColor = button1.Background as SolidColorBrush;
                         RgbaColor Hcolor = new RgbaColor(SelectColor);
@@ -211,9 +263,17 @@ namespace ConfigObjective
                     }
 
                 };
-                PreSetColorGrid.Children.Add(button);
-
+                if (Basic)
+                {
+                    PreSetColorGrid1.Children.Add(button);
+                }
+                else
+                {
+                    PreSetColorGrid.Children.Add(button);
+                }
             }
+            Grid1.Visibility = Basic ? Visibility.Visible : Visibility.Collapsed;
+            Grid2.Visibility = Basic ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 

@@ -95,7 +95,7 @@
         <Button x:Name="btn"  Background="{Binding SelectColor,ElementName=root}" Click="btn_Click" Style="{DynamicResource ButtonStyle1}"/>
 
         <Popup AllowsTransparency="True"  PlacementTarget="{Binding ElementName=btn}" Placement="Bottom" VerticalOffset="5" StaysOpen="False" Name="pop" >
-            <Border Padding="5" CornerRadius="5" Width="365" Background="#535353" Height="205">
+            <Border Padding="5" CornerRadius="5" Width="365" Background="#535353" BorderBrush="#3D3D3D" BorderThickness="2" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -158,14 +158,26 @@
                         </DockPanel>
                         <DockPanel>
                             <Label Foreground="White" Content="#" Width="30"/>
-                            <TextBox x:Name="TextHex" LostFocus="HexTextLostFocus" Width="80" VerticalAlignment="Center" Text="#FFFFFFFF" />
+                            <TextBox x:Name="TextHex" LostFocus="HexTextLostFocus" Width="90" VerticalAlignment="Center" Text="#FFFFFFF" />
+                        </DockPanel>
+                        <DockPanel>
+                            <Label Foreground="White" Content="H" Width="30"/>
+                            <TextBox x:Name="TextH" LostFocus="HexTextLostFocus" Width="90" VerticalAlignment="Center" Text="{Binding Path=Hue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                        <DockPanel>
+                            <Label Foreground="White" Content="S" Width="30"/>
+                            <TextBox x:Name="TextS" LostFocus="HexTextLostFocus" Width="90" VerticalAlignment="Center" Text="{Binding Path=Saturation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                        <DockPanel>
+                            <Label Foreground="White" Content="B" Width="30"/>
+                            <TextBox x:Name="TextBrightness" LostFocus="HexTextLostFocus" Width="90" VerticalAlignment="Center" Text="{Binding Path=Brightness,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                         <UniformGrid x:Name="PreSetColorGrid" Rows="2" Columns="5">
                         </UniformGrid>
 
-                        <DockPanel VerticalAlignment="Bottom" >
+                        <!--<DockPanel VerticalAlignment="Bottom" >
                             <Button  Content="确定" Click="Button_Click"/>
-                        </DockPanel>
+                        </DockPanel>-->
                     </StackPanel>
 
                 </Grid>

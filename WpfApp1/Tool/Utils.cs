@@ -1,12 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 
 namespace Tool
 {
-    public class Utils
+    public static class Utils
     {
+        public static bool OpenFileDialog(out string FileName)
+        {
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,//该值确定是否可以选择多个文件
+                Title = "请选择文件",
+                RestoreDirectory = true,
+                Filter = "显微镜工程(*.lmp)|*.lmp",
+            };
+            bool? result = dialog.ShowDialog();
+            FileName = dialog.FileName;
+            return result == true;
+        }
+
         /// <summary>s
         /// 文本
         /// </summary>

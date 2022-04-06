@@ -53,7 +53,7 @@ partial class MainWindow : Window, IComponentConnector
 	public MainWindow()
 	{
 		InitializeComponent();
-
+		Command_Initialized();
 		UIEvents.Initialze();
 		AddMessage(new Message
 		{
@@ -79,6 +79,7 @@ partial class MainWindow : Window, IComponentConnector
 			Application.Current.Shutdown();
 		}
 		InitViewer();
+
 	}
 
 
@@ -329,9 +330,9 @@ partial class MainWindow : Window, IComponentConnector
 	{
 		if (sender is ToggleButton btn)
 		{
-			Dictionary<string, object> dic = new Dictionary<string, object>();
-			dic.Add("Json", "ssssss");
-			LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, dic);
+			//Dictionary<string, object> dic = new Dictionary<string, object>();
+			//dic.Add("Json", "ssssss");
+			LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, e);
 
 			btn.Content = (btn.IsChecked.GetValueOrDefault() ? "停止采集" : "开始采集");
 		}
