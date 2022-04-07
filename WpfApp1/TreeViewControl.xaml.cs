@@ -95,67 +95,7 @@ namespace WpfApp1
                 Window window = new Window();
                 window.Content = grid;
                 window.ShowDialog();
-
             }
-        }
-
-
-        private void MenuItem1_Click(object sender, RoutedEventArgs e)
-        {
-            if (TreeView1.SelectedItem is ProjectMannager projectMannager)
-            {
-                ProjectFile projectFile = new ProjectFile()
-                {
-                    Name = "新建文件"
-                };
-                projectMannager.AddChild(projectFile);
-            }
-        }
-
-        private void MenuItem2_Click(object sender, RoutedEventArgs e)
-        {
-            if (TreeView1.SelectedItem is ProjectMannager projectMannager)
-            {
-                ProjectFolder projectFolder = new ProjectFolder()
-                {
-                    Name = "新建文件夹"
-                };
-                projectMannager.AddChild(projectFolder);
-            }
-        }
-
-        private void MenuItem3_Click(object sender, RoutedEventArgs e)
-        {
-            if (TreeView1.SelectedItem is ProjectFolder projectFolder)
-            {
-                ProjectFile projectFile = new ProjectFile()
-                {
-                    Name = "新建文件"
-                };
-                projectFolder.AddChild(projectFile);
-            }
-        }
-        private void MenuItem4_Click(object sender, RoutedEventArgs e)
-        {
-            if (TreeView1.SelectedItem is ProjectFolder projectFolder)
-            {
-                string Name = "新建文件夹";
-                string FilePath = projectFolder.FilePath + "\\" + Name;
-
-                ProjectFolder projectFolder1 = new ProjectFolder()
-                {
-                    Name = Name,
-                    FilePath = projectFolder.FilePath+"\\"+Name
-
-                };
-                if (Directory.Exists(projectFolder1.FilePath))
-                {
-                    projectFolder1.IsEditMode = true;
-                }
-                projectFolder.AddChild(projectFolder1);
-
-            }
-
         }
 
 
@@ -225,7 +165,6 @@ namespace WpfApp1
 
         }
 
-        Config Config;
         public int LoadConfig(string ConfigFileName, ref Config config)
         {
             //载入配置文件 
@@ -242,7 +181,6 @@ namespace WpfApp1
                     }
                 }
             }
-
             if (config == null)
             {
                 config = ConfigInitialized();
@@ -380,7 +318,6 @@ namespace WpfApp1
             {
                 SolutionGuid = Guid.NewGuid(),
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
-
                 //SolutionConfig = new SolutionConfig
                 //{
                 //    FileName = "工程文件.gprj",
@@ -424,8 +361,6 @@ namespace WpfApp1
                 projectMannager.AddChildsEnd();
                 solutionExplorer.AddChild(projectMannager);
             }
-
-
             SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
             TreeView1.ItemsSource = SolutionExplorers;
@@ -434,7 +369,7 @@ namespace WpfApp1
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WindowStatus windowStatus = WindowStatus.GetInstance();
-            MessageBox.Show(windowStatus.ACQUIRE.ToString());
+            MessageBox.Show(windowStatus.mulDimensional.ZEnable.ToString());
         }
     }
 }

@@ -7,14 +7,14 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
         xmlns:controls="clr-namespace:LambdaManager.Controls" 
-        Title="Manager" Background="#333333" Width="1920"  Height="1080" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Title="Manager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <WindowChrome.WindowChrome>
         <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
     </WindowChrome.WindowChrome>
     <Window.Resources>
         <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
         <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
-        <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#333333</SolidColorBrush>
+        <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>
         
         <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
         <Style x:Key="CaptionButtonStyleDefault" TargetType="Button">
@@ -136,14 +136,14 @@
                     <Grid Background="{TemplateBinding Background}" VerticalAlignment="Top" Height="30" Margin="0 -29 0 0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="120" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{TemplateBinding Icon}" Margin="10,0,0,0" Height="18" Width="18"  />
                         </StackPanel>
                         <!--<ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,20,0" />-->
                         <StackPanel x:Name="WindowCommandButtonsPanel" Grid.Column="1"  HorizontalAlignment="Center" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,-1,0" >
-                            <Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="40" Command="{x:Static local:MainWindow.WindowTopMost}"/>
+                            <!--<Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="40" Command="{x:Static local:MainWindow.WindowTopMost}"/>-->
                             <Button x:Name="MinimizeButton" Style="{DynamicResource MinimizeButtonStyle}" Width="40"  Command="{x:Static local:MainWindow.WindowMin}" />
                             <Grid Margin="1,0,1,0">
                                 <Button x:Name="MaximizeButton" Style="{DynamicResource MaximizeButtonStyle}" Width="40" Command="{x:Static local:MainWindow.WindowMax}" />
@@ -160,10 +160,6 @@
                     <Setter TargetName="RootGrid" Property="Margin" Value="6" />
                     <Setter TargetName="MaximizeButton" Property="Visibility" Value="Hidden"/>
                     <Setter TargetName="RestoreButton" Property="Visibility" Value="Visible"/>
-                </Trigger>
-                <Trigger Property="Topmost" Value="True">
-                    <Setter TargetName="TopMostButton" Property="Background" Value="{DynamicResource CaptionButtonChoiceBackgrouundBrush}" />
-                    <Setter TargetName="TopMostButton" Property="FontWeight" Value="Bold" />
                 </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
@@ -183,9 +179,9 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0" >
+        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350" />
+                <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="200" />

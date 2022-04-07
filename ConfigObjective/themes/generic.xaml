@@ -287,9 +287,8 @@
                         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
                             <StackPanel>
                                 <UniformGrid Columns="6" >
-                                    <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}" Content="玻片" Margin="5,0" IsChecked="True" />
-                                    <RadioButton Name="Button42" Style="{StaticResource ToggleButtonStyle1}" Content="培养皿" Margin="5,0" />
-                                    <RadioButton  Style="{StaticResource ToggleButtonStyle1}" Content="培养皿" Margin="5,0" />
+                                    <RadioButton Name="Button42" Style="{StaticResource ToggleButtonStyle1}" Content="培养皿" Margin="5,0" IsChecked="True" />
+                                    <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}" Content="玻片" Margin="5,0"  />
                                     <RadioButton Name="Button43" Style="{StaticResource ToggleButtonStyle1}" Content="六孔板" Margin="5,0" />
                                     <RadioButton Name="Button44" Style="{StaticResource ToggleButtonStyle1}" Content="多孔版" Margin="5,0"  />
                                     <RadioButton Name="Button45" Style="{StaticResource ToggleButtonStyle1}" Content="自定义" Margin="5,0"/>
@@ -360,7 +359,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <Border CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+                        <Border x:Name="Border5" CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
                             <StackPanel>
                                 <DockPanel >
                                     <ToggleButton x:Name="ToggleButton506" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10,2" Margin="5,0">
@@ -372,51 +371,51 @@
                                     <UniformGrid Columns="4"  >
                                         <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
                                         <ToggleButton x:Name="ToggleButton502" Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
-                                        <ToggleButton x:Name="ToggleButton503"  Style="{StaticResource ToggleButtonStyle1}" Content="Z" IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
-                                        <ToggleButton x:Name="ToggleButton504"  Style="{StaticResource ToggleButtonStyle1}" Content="T" IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
+                                        <ToggleButton x:Name="ToggleButton503"  Style="{StaticResource ToggleButtonStyle1}" Content="Z" IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding Path=ZEnable,Mode=TwoWay}"/>
+                                        <ToggleButton x:Name="ToggleButton504"  Style="{StaticResource ToggleButtonStyle1}" Content="T" IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding Path=TEnable,Mode=TwoWay}"/>
                                     </UniformGrid>
                                 </DockPanel>
 
                                 <Border Padding="5">
                                     <UniformGrid Columns="2"  >
-                                        <StackPanel   IsEnabled="{Binding ElementName=ToggleButton503,Path=IsChecked}" >
+                                        <StackPanel  IsEnabled="{Binding ElementName=ToggleButton503,Path=IsChecked}" >
                                             <DockPanel  >
-                                                <TextBlock Text="Z-Begin" Width="50" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <TextBlock Text="Z-Begin" Width="65" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                                 <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
                                             <DockPanel   >
-                                                <TextBlock Text="Z-End"  Width="50" VerticalAlignment="Center"  Foreground="White"/>
-                                                <TextBox Text="32" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <TextBlock Text="Z-End"  Width="65" VerticalAlignment="Center"  Foreground="White"/>
+                                                <TextBox Text="32" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                                 <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
                                             <DockPanel>
-                                                <TextBlock Text="Z-Step"  Width="50" VerticalAlignment="Center" Foreground="White" />
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
-                                                <Button DockPanel.Dock="Right"  Content="设置"/>
+                                                <TextBlock Text="Z-Step"  Width="65" VerticalAlignment="Center" Foreground="White" />
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                                <Button DockPanel.Dock="Right" Content="设置"/>
                                             </DockPanel>
                                             <DockPanel   HorizontalAlignment="Left">
-                                                <TextBlock Text="Z- Absolute"  Width="70" VerticalAlignment="Center" Foreground="White" />
+                                                <TextBlock Text="Z- Absolute"  Width="65" VerticalAlignment="Center" Foreground="White" />
                                                 <ToggleButton  Style="{StaticResource CheckButton1}" Width="90" Margin="2"/>
                                             </DockPanel>
                                         </StackPanel>
                                         <StackPanel Margin="5,0,0,0"  IsEnabled="{Binding ElementName=ToggleButton504,Path=IsChecked}" >
                                             <DockPanel >
-                                                <TextBlock Text="T- Number"  Width="65" VerticalAlignment="Center"  Foreground="White"/>
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <TextBlock Text="T-Number"  Width="70" VerticalAlignment="Center"  Foreground="White"/>
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                                 <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
                                             <DockPanel>
-                                                <TextBlock Text="T- Interval"  Width="65" VerticalAlignment="Center" Foreground="White" />
-                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="50" Margin="5,0"/>
+                                                <TextBlock Text="T-Interval"  Width="70" VerticalAlignment="Center" Foreground="White" />
+                                                <TextBox Text="16" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                                 <Button DockPanel.Dock="Right"  Content="设置"/>
                                             </DockPanel>
                                             <DockPanel>
-                                                <TextBlock Text="∞"  Width="25" VerticalAlignment="Center" Foreground="White" />
+                                                <TextBlock Text="∞"  Width="70" VerticalAlignment="Center" Foreground="White" />
                                                 <ToggleButton  Style="{StaticResource CheckButton1}" Width="90" Margin="2"/>
                                             </DockPanel>
                                             <DockPanel>
-                                                <TextBlock Text=">>"  Width="25" VerticalAlignment="Center" Foreground="White" />
+                                                <TextBlock Text=">>"  Width="70" VerticalAlignment="Center" Foreground="White" />
                                                 <ToggleButton  Style="{StaticResource CheckButton1}"  Width="90" Margin="2"/>
                                             </DockPanel>
 

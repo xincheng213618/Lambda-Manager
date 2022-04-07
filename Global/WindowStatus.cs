@@ -1,4 +1,5 @@
-﻿using Lambda;
+﻿using GLobal.Mode.Config;
+using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,17 @@ using System.Threading.Tasks;
 
 namespace Global
 {
+    public delegate void UpdateEventHandler(MulDimensional mulDimensional);
+
+    public static class Update
+    {
+        public static event UpdateEventHandler UpdateEventHandler;
+        public static void UpdateMulDimensional(MulDimensional mulDimensional)
+        {
+            UpdateEventHandler?.Invoke(mulDimensional);
+        }
+    } 
+
     public class WindowStatus
     {
         private static WindowStatus instance;
@@ -27,6 +39,12 @@ namespace Global
         private WindowStatus()
         {
             LambdaControl.CallEventHandler += Call;
+            Update.UpdateEventHandler += Call1;
+        }
+        public MulDimensional mulDimensional = new MulDimensional();
+        private void Call1(MulDimensional mulDimensional)
+        {
+            this.mulDimensional = mulDimensional;
         }
         private int Call(string type, object sender, EventArgs e)
         {
@@ -46,7 +64,6 @@ namespace Global
             {
                 ACQUIRE = false;
             }
-
             return 1;
         }
 

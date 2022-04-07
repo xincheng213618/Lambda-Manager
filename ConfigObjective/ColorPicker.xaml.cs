@@ -261,7 +261,6 @@ namespace ConfigObjective
                         ColorChange(Hcolor);
                         UpdateThumb(Hcolor);
                     }
-
                 };
                 if (Basic)
                 {

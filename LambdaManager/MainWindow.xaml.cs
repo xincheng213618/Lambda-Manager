@@ -273,7 +273,7 @@ partial class MainWindow : Window, IComponentConnector
 	private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
         stageAcquisition.Width = SliderAll1.Value;
-        stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
+        stageAcquisition.Height = SliderAll1.Value * (this.Height - 60) / (this.Width);
     }
 
 	
@@ -284,7 +284,7 @@ partial class MainWindow : Window, IComponentConnector
 		try
 		{
 			stageAcquisition.Width = SliderAll1.Value;
-			stageAcquisition.Height = SliderAll1.Value * (this.Height - 80) / (this.Width);
+			stageAcquisition.Height = SliderAll1.Value * (this.Height - 60) / (this.Width);
 		}
 		catch
 		{

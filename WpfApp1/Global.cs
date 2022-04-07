@@ -25,7 +25,6 @@ namespace Global
             }
             return instance;
         }
-
         public Config Config = new();
     }
 

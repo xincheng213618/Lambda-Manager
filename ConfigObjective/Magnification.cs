@@ -1,4 +1,5 @@
 ﻿using Global;
+using GLobal.Mode.Config;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -12,39 +13,6 @@ using System.Windows.Shapes;
 
 namespace ConfigObjective
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ConfigObjective"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:ConfigObjective;assembly=ConfigObjective"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:CustomControl1/>
-    ///
-    /// </summary>
-    [TemplatePart(Name = "Button1", Type = typeof(RadioButton))]
-    [TemplatePart(Name = "Button2", Type = typeof(RadioButton))]
-    [TemplatePart(Name = "Button3", Type = typeof(RadioButton))]
-    [TemplatePart(Name = "Button4", Type = typeof(RadioButton))]
     public class Magnification : LambdaControl
     {
         static Magnification()
@@ -52,16 +20,6 @@ namespace ConfigObjective
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Magnification), new FrameworkPropertyMetadata(typeof(Magnification)));
         }
         private readonly System.Windows.Threading.DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(0.2) };
-
-        //ObjectiveSettingList Demo ALL
-        //List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()
-        //{
-        //    new ObjectiveSetting (){ID =0, Name ="奥林巴斯",Magnitude="4X", NA=0.1},
-        //    new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25},
-        //    new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4},
-        //    new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65},
-        //    new ObjectiveSetting (){ID =4, Name ="奥林巴斯",Magnitude="100X", NA=1.25},
-        //};
 
         List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()
         {
@@ -97,8 +55,6 @@ namespace ConfigObjective
             // If no actual key was pressed - retur
             if (key == Key.LeftCtrl || key == Key.RightCtrl || key == Key.LeftAlt || key == Key.RightAlt || key == Key.LeftShift || key == Key.RightShift || key == Key.LWin || key == Key.RWin || key == Key.Clear || key == Key.OemClear || key == Key.Apps)
             {
-
-                MessageBox.Show("Ctrl");
                 return;
             }
 
@@ -111,7 +67,7 @@ namespace ConfigObjective
         }
         List<double> expose = new List<double> { 40000, 35714, 31250, 27778, 25000, 21739, 19608, 17241, 15385, 13514, 12048, 10753, 10000, 8403, 7463, 6623, 5882, 5208, 4630, 4000, 3636, 3226, 2865, 2545, 2252, 2000, 1773, 1575, 1397, 1239, 1099, 1000, 864, 767, 680, 604, 535, 500, 421, 374, 331, 294, 250, 231, 205, 182, 161, 143, 120, 113, 100, 89, 79, 70, 60, 55, 49, 43, 38, 34, 30, 27, 24, 21, 19, 17, 15, 13, 12, 10, 9, 8, 7, 6, 5, 4 };
         List<double> expose1 = new List<double> { 0.287, 0.323, 0.364, 0.410, 0.463, 0.500, 0.588, 0.663, 0.747, 0.842, 1, 1.071, 1.207, 1.360, 1.534, 1.729, 2.000, 2.197, 2.477, 2.792, 3.148, 3.548, 4.000 };
-
+        MulDimensional mulDimensional;
 
         public override void OnApplyTemplate()
         {
@@ -121,21 +77,12 @@ namespace ConfigObjective
             MainWindow.PreviewKeyDown += Window_PreviewKeyUp;
 
             for (int i = 0; i < expose.Count; i++)
-            {
                 expose[i] = 1 / expose[i];
-            }
+
             expose.AddRange(expose1);
             #region  操作父类
             if (Parent is StackPanel stack)
             {
-                //stack.Width = 450;
-                if (stack.Parent is Viewbox viewbox)
-                {
-                    viewbox.Width = double.NaN;
-                    //if (viewbox.Parent is ScrollViewer scrollViewer)
-                    //    scrollViewer.UpdateLayout();
-                }
-
             }
             #endregion
 
@@ -473,6 +420,13 @@ namespace ConfigObjective
 
             #endregion
 
+            #region MulDimensional
+            Border border = (Border)Template.FindName("Border5", this);
+            mulDimensional = new MulDimensional() { };
+            border.DataContext = WindowStatus.GetInstance().mulDimensional;
+
+            #endregion
+
 
 
 
@@ -488,9 +442,8 @@ namespace ConfigObjective
                 Trigger("STAGE_SETTING_RESET", data);
             };
             
-
-            int XYStep = 200;
-            int ZStep = 200;
+            int XYStep = 1000;
+            int ZStep = 1000;
 
             ToggleButton ToggleButtonXYF = (ToggleButton)Template.FindName("ToggleButtonXYF", this);
             ToggleButton ToggleButtonZF = (ToggleButton)Template.FindName("ToggleButtonZF", this);
@@ -613,6 +566,7 @@ namespace ConfigObjective
 
             ToggleButton503.Checked += delegate
             {
+                Update.UpdateMulDimensional(WindowStatus.GetInstance().mulDimensional);
                 //ToggleButton504.IsChecked = true;
             };
             ToggleButton503.Unchecked += delegate
@@ -675,7 +629,7 @@ namespace ConfigObjective
         {
             Slider slider = (Slider)Template.FindName(FindName, this);
            
-            slider.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+            slider.ValueChanged += delegate(object sender, RoutedPropertyChangedEventArgs<double> e)
             {
                 if (!WindowStatus.GetInstance().ACQUIRE)
                 {

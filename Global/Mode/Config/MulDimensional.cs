@@ -11,28 +11,39 @@ namespace GLobal.Mode.Config
     {
         public MulDimensionalArea[] mulDimensionalAreas { get; set; }
 
-        public bool ZEnable { get; set; }
+        public bool ZEnable { get; set; } = false;
 
-        public int ZStart { get; set; }
+        public int ZStart { get; set; } = 16;
 
-        public int ZEnd { get; set; }
+        public int ZEnd { get; set; } = 32;
 
-        public int Zstep { get; set; }
+        public int Zstep { get; set; } = 200;
 
-        public bool ZAbsolute { get; set; }
+        public bool ZAbsolute { get; set; } = false;
 
-        public bool TEnable { get; set; }
+        public bool TEnable { get; set; } = false;
 
-        public bool TNumberEnable { get; set; }
-        public int TNumber { get; set; }
-        public bool TIntervalEnable { get; set; }
+        public bool TNumberEnable { get; set; } = false;
+        public int TNumber { get; set; } = 15;
+        public bool TIntervalEnable { get; set; } = false;
 
-        public int TInterval { get; set; }
+        public int TInterval { get; set; } = 16;
 
-        public bool FocusEnable { get; set; }
+        public bool FocusEnable { get; set; } = true;
 
-        public bool FocusMode { get; set; }
+        public int FocusMode { get; set; } = 0;
 
+    }
+    public class MulDimensionalPoint
+    {
+        public MulDimensionalPoint(Point point)
+        {
+            X = point.X;
+            Y = point.Y;
+
+        }
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 
     public class MulDimensionalArea
