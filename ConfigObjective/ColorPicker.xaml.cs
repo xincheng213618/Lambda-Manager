@@ -2,19 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
 
 namespace ConfigObjective
@@ -38,12 +29,6 @@ namespace ConfigObjective
             get { return basic; }
             set { basic =value; }
         }
-
-
-
-
-
-
 
         private void ThumbPro_ValueChanged(double xpercent, double ypercent)
         {
@@ -234,14 +219,18 @@ namespace ConfigObjective
             pop.IsOpen = false;
 
         }
-        public List<Brush> brushes = new List<Brush>() { Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Yellow, Brushes.Cyan, Brushes.Magenta, Brushes.White,Brushes.Black};
         private void root_Initialized(object sender, EventArgs e)
         {
+
 
         }
 
         private void root_Loaded(object sender, RoutedEventArgs e)
         {
+            List<Brush> brushes = new List<Brush>() { Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Yellow, Brushes.Cyan, Brushes.Magenta, Brushes.White, Brushes.Black };
+
+            UniformGrid uniformGrid = Basic ? PreSetColorGrid1 : PreSetColorGrid;
+            uniformGrid.Children.Clear();
             foreach (var item in brushes)
             {
                 Button button = new Button
@@ -261,15 +250,10 @@ namespace ConfigObjective
                         ColorChange(Hcolor);
                         UpdateThumb(Hcolor);
                     }
+
                 };
-                if (Basic)
-                {
-                    PreSetColorGrid1.Children.Add(button);
-                }
-                else
-                {
-                    PreSetColorGrid.Children.Add(button);
-                }
+                uniformGrid.Children.Add(button);   
+
             }
             Grid1.Visibility = Basic ? Visibility.Visible : Visibility.Collapsed;
             Grid2.Visibility = Basic ? Visibility.Collapsed : Visibility.Visible;

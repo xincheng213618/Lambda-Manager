@@ -513,7 +513,7 @@
 
 	<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:文件/弹出对话框..."/>
 
-	<component name="Magnification" lib="ConfigObjective.dll" mount="acquire:0" >
+	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" >
 		<procedure name="GUI_ChangeMagnification" event="MAG_CHANGED" key="mag" icon="opencam.ico">
 			<action name="ChangeMagnification" component="DPC" raise="MAG_GUI_RESPONSED">
 				<![CDATA[ Send new magnification to device]]>

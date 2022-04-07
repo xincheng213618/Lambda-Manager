@@ -71,12 +71,7 @@ namespace WpfApp1
 
             //if (e.ClickCount == 2)
             //{
-            //    if (item != null && item.DataContext is ProjectMannager)
-            //    {
 
-            //    }
-
-            //    return;
             //}
         }
 
