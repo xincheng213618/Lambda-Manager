@@ -1,5 +1,4 @@
 ﻿using Global;
-using GLobal.Mode.Config;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -33,6 +32,7 @@ namespace ConfigObjective
             rectangle.Width = 10;
             rectangle.Height = 7;
             rectangle.PreviewMouseRightButtonDown += Rectangle_PreviewMouseRightButtonDown;
+
             Canvas element = (Canvas)sender;
             Point dragStart = e.GetPosition(element);
             Canvas.SetLeft(rectangle, dragStart.X - 3.5);
@@ -76,9 +76,6 @@ namespace ConfigObjective
                             this.Canvas1.Children.Remove(child);
                     }
                     this.Canvas1.Children.Add(currentBoxSelectedBorder);
-
-
-
                 }
 
                 currentBoxSelectedBorder = new Border();
@@ -91,8 +88,6 @@ namespace ConfigObjective
                 currentBoxSelectedBorder.MouseLeftButtonDown += Border_MouseLeftButtonDown;
                 currentBoxSelectedBorder.MouseLeftButtonUp += Border_MouseLeftButtonUp;
                 this.Canvas1.Children.Add(currentBoxSelectedBorder);
-
-
             }
             isCanMove = false;
 
@@ -205,7 +200,6 @@ namespace ConfigObjective
                 List<Border> childList1 = GetChildObjects<Border>(this.Canvas1);
                 foreach (var child in childList1)
                 {
-
                     Rect childRect = new Rect(Canvas.GetLeft(child), Canvas.GetTop(child), child.Width, child.Height);
                     if (tempRect.Contains(childRect))
                         this.Canvas1.Children.Remove(child);

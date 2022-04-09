@@ -28,15 +28,29 @@
             <TextBox Text="{Binding Path=Name, Mode=OneWay}"  Tag="{Binding .}"  LostFocus="TextBox_LostFocus" KeyUp="TextBox_KeyUp"/>
         </DataTemplate>
     </UserControl.Resources>
-    <StackPanel x:Name="mainView"   >
-        <UniformGrid Columns="7">
-            <Button Content="导出" Click="Button_Click_1"/>
-            <Button Content="新建"/>
-            <Button Content="打开" Click="Button_Click"/>
-            <Button Content="保存"/>
-            <Button Content="应用"/>
-            <Button Content="查找"/>
-            <Button Content="导入"/>
+    <StackPanel x:Name="mainView">
+        <UniformGrid Columns="7" Margin="10,0">
+            <Button  Click="Button_Click_1" Margin="5,0" Background="Transparent" BorderThickness="0">
+                <Image Source="/WpfApp1;component/images/资源 1.png"/>
+            </Button>
+            <Button  Margin="8,0" Background="Transparent" BorderThickness="0">
+                <Image Source="/WpfApp1;component/images/资源 2.png" />
+            </Button>
+            <Button  Click="Button_Click" Margin="6,0" Background="Transparent" BorderThickness="0">
+                <Image Source="/WpfApp1;component/images/资源 3.png" />
+            </Button>
+            <Button Tag="保存" Margin="9,0" Background="Transparent" BorderThickness="0">
+                <Image Source="/WpfApp1;component/images/资源 4.png" />
+            </Button>
+            <Button Tag="应用" Margin="8,0" Background="Transparent" BorderThickness="0">
+                <Image Source="/WpfApp1;component/images/资源 5.png" />
+            </Button>
+            <Button Tag="查找" Margin="11,0" Background="Transparent" BorderThickness="0">
+                <Image Source="/WpfApp1;component/images/资源 6.png" />
+            </Button>
+            <Button Tag="导入" Margin="12,0" Background="Transparent" BorderThickness="0">
+                <Image Source="/WpfApp1;component/images/资源 7.png" />
+            </Button>
         </UniformGrid>
         <TreeView x:Name="TreeView1"  SelectedItemChanged="TreeView1_SelectedItemChanged"  >
             <TreeView.Resources>

@@ -1,5 +1,4 @@
 ﻿using Global;
-using GLobal.Mode.Config;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -7,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Lambda;
 using System.Windows.Input;
+using Global.Mode.Config;
 
 namespace ConfigObjective
 {
@@ -30,10 +30,58 @@ namespace ConfigObjective
         List<double> expose = new List<double> { 40000, 35714, 31250, 27778, 25000, 21739, 19608, 17241, 15385, 13514, 12048, 10753, 10000, 8403, 7463, 6623, 5882, 5208, 4630, 4000, 3636, 3226, 2865, 2545, 2252, 2000, 1773, 1575, 1397, 1239, 1099, 1000, 864, 767, 680, 604, 535, 500, 421, 374, 331, 294, 250, 231, 205, 182, 161, 143, 120, 113, 100, 89, 79, 70, 60, 55, 49, 43, 38, 34, 30, 27, 24, 21, 19, 17, 15, 13, 12, 10, 9, 8, 7, 6, 5, 4 };
         List<double> expose1 = new List<double> { 0.287, 0.323, 0.364, 0.410, 0.463, 0.500, 0.588, 0.663, 0.747, 0.842, 1, 1.071, 1.207, 1.360, 1.534, 1.729, 2.000, 2.197, 2.477, 2.792, 3.148, 3.548, 4.000 };
 
+        private int LambdaControlCall(string type, object sender, EventArgs e)
+        {
+            if (type == "STOP_ACQUIRE")
+            {
+                string filePath = "222.json";
+                List<System.Windows.Shapes.Rectangle> childList = GetChildObjects<System.Windows.Shapes.Rectangle>(this.Canvas1);
+                var mulDimensional = WindowStatus.GetInstance().mulDimensional;
+                mulDimensional.mulDimensionalAreas.Clear();
+                mulDimensional.mulDimensionalPoints.Clear();
+
+                foreach (var child in childList)
+                {
+                    if (Canvas.GetLeft(child)>=0)
+                        if (child.Width == 0 || child.Height == 0)
+                        {
+                            mulDimensional.mulDimensionalPoints.Add(new MulDimensionalPoint(new Point(Canvas.GetLeft(child), Canvas.GetTop(child))));
+                        }
+                        else
+                        {
+                            if (child.Width > 10)
+                                mulDimensional.mulDimensionalAreas.Add(new MulDimensionalArea(new Rect(Canvas.GetLeft(child), Canvas.GetTop(child), child.Width, child.Height)));
+
+                        }
+
+                }
+                List<Border> childList1 = GetChildObjects<Border>(this.Canvas1);
+                foreach (var child in childList1)
+                {
+                    if (Canvas.GetLeft(child) >= 0)
+                        if (child.Width ==0|| child.Height == 0)
+                        {
+                            mulDimensional.mulDimensionalPoints.Add(new MulDimensionalPoint(new Point(Canvas.GetLeft(child), Canvas.GetTop(child))));
+                        }
+                        else
+                        {
+                            if (child.Width > 10)
+                                mulDimensional.mulDimensionalAreas.Add(new MulDimensionalArea(new Rect(Canvas.GetLeft(child), Canvas.GetTop(child), child.Width, child.Height)));
+                        }
+
+                }
+                Update.UpdateMulDimensional(WindowStatus.GetInstance().mulDimensional);
+                WindowStatus.GetInstance().mulDimensional.ToJsonFile(filePath);
+                Dictionary<string, object> data = new() { { "data", filePath } };
+                LambdaControl.Trigger("START_ACQUIRE1", this, data);
+            }
+            return 1;
+        }
         private void UserControl_Initialized(object sender, System.EventArgs e)
         {
+            LambdaControl.CallEventHandler += LambdaControlCall;
             Border5.DataContext = WindowStatus.GetInstance().mulDimensional;
-
+            UniformGrid.DataContext = WindowStatus.GetInstance().mulDimensional;    
             WindowStatus windowStatus = WindowStatus.GetInstance();
             Window MainWindow = Window.GetWindow(this);
             for (int i = 0; i < expose.Count; i++)
@@ -127,24 +175,7 @@ namespace ConfigObjective
             {
                 if (!WindowStatus.GetInstance().ACQUIRE)
                 {
-                    int bright = (int)Slider312.Value;
-
-                    string hexString = ColorPciker1.SelectColor.ToString();
-                    hexString = hexString.Substring(1, hexString.Length - 1);
-                    byte[] returnBytes = new byte[hexString.Length / 2];
-                    for (int i = 0; i < returnBytes.Length; i++)
-                        returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-
-                    int a1 = (returnBytes[1] >> 4) * bright / 15;
-                    int a2 = (returnBytes[2] >> 4) * bright / 15;
-                    int a3 = (returnBytes[3] >> 4) * bright / 15;
-
-                    int result = a1 * 256 + a2 * 16 + a3;
-                    //int r = result / 256;
-                    //int g = (result % 256)/16;
-                    //int b = (result % 256)%16;
-                    Dictionary<string, object> data = new() { { "brightness", result } };
-                    LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS",this, data);
+                    ColorAbbreviation("BRIGHT_FIELD_BRIGHTNESS", "brightness", ColorPciker311.SelectColor.ToString(), (int)Slider312.Value);
                 }
                 else
                 {
@@ -164,44 +195,13 @@ namespace ConfigObjective
                 }
             };
 
-            //照明亮度
-            //SliderAbbreviation("Slider312", "BRIGHT_FIELD_BRIGHTNESS", "brightness");
-
-
-            ColorPciker1.BrushValueChanged += delegate
+            ColorPciker311.BrushValueChanged += delegate
             {
-                int bright = (int)Slider312.Value;
-                string hexString = ColorPciker1.SelectColor.ToString();
-                hexString = hexString.Substring(1, hexString.Length - 1);
-                byte[] returnBytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < returnBytes.Length; i++)
-                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-
-                int a1 = (returnBytes[1] >> 4) * bright / 15;
-                int a2 = (returnBytes[2] >> 4) * bright / 15;
-                int a3 = (returnBytes[3] >> 4) * bright / 15;
-
-                int result = a1 * 256 + a2 * 16 + a3;
-
-                Dictionary<string, object> data = new() { { "brightness", result } };
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS",this, data);
+                ColorAbbreviation("BRIGHT_FIELD_BRIGHTNESS", "brightness", ColorPciker311.SelectColor.ToString(), (int)Slider312.Value);
             };
-            ColorPciker11.BrushValueChanged += delegate
+            ColorPciker312.BrushValueChanged += delegate
             {
-                string hexString = ColorPciker11.SelectColor.ToString();
-                hexString = hexString.Substring(1, hexString.Length - 1);
-                byte[] returnBytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < returnBytes.Length; i++)
-                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-
-                int a1 = returnBytes[1] >> 4;
-                int a2 = returnBytes[2] >> 4;
-                int a3 = returnBytes[3] >> 4;
-
-                int result = a1 * 256 + a2 * 16 + a3;
-
-                Dictionary<string, object> data = new() { { "brightness", result } };
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this,data);
+                ColorAbbreviation("BRIGHT_FIELD_BRIGHTNESS", "brightness", ColorPciker312.SelectColor.ToString());
             };
 
             foreach (var item in ObjectiveSettingList)
@@ -237,12 +237,44 @@ namespace ConfigObjective
             SliderAbbreviation(Slider321, "DARK_FIELD_INNER", "inner");
             //照明外径
             SliderAbbreviation(Slider322, "DARK_FIELD_OUTER", "outer");
-            //照明亮度
-            SliderAbbreviation(Slider323, "DARK_FIELD_BRIGHTNESS", "brightness");
             //伽马
-            SliderAbbreviation1(Slider324, "DARK_FIELD_GAMMA", "gamma");
+            SliderAbbreviation1(Slider323, "DARK_FIELD_GAMMA", "gamma");
             //自动模式
             ToggleButtonAbbreviation(Button321, "DARK_FIELD_AUTO", "auto");
+            //亮度
+
+            Slider324.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+            {
+                if (!WindowStatus.GetInstance().ACQUIRE)
+                {
+                    ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker321.SelectColor.ToString(), (int)Slider324.Value);
+                }
+                else
+                {
+                    if (sliderfirst)
+                    {
+                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
+                        {
+                            sliderfirst = false;
+                            Slider324.Value = e.OldValue;
+                        }
+                    }
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+            };
+
+            ColorPciker321.BrushValueChanged += delegate
+            {
+                ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker321.SelectColor.ToString(), (int)Slider324.Value);
+            };
+            ColorPciker322.BrushValueChanged += delegate
+            {
+                ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker322.SelectColor.ToString());
+            };
 
 
             //照明内径
@@ -250,11 +282,64 @@ namespace ConfigObjective
             //照明外径
             SliderAbbreviation(Slider332, "RHEIN_BERG_OUTER", "outer");
             //明场照明亮度
-            SliderAbbreviation(Slider333, "RHEIN_BERG_BRIGHTNESS_BF", "brightness");
+            Slider333.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+            {
+                if (!WindowStatus.GetInstance().ACQUIRE)
+                {
+                    ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_BF", "brightness", ColorPciker331.SelectColor.ToString(), (int)Slider333.Value);
+                }
+                else
+                {
+                    if (sliderfirst)
+                    {
+                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
+                        {
+                            sliderfirst = false;
+                            Slider333.Value = e.OldValue;
+                        }
+                    }
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+            };
+            ColorPciker331.BrushValueChanged += delegate
+            {
+                ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_BF", "brightness", ColorPciker331.SelectColor.ToString(), (int)Slider333.Value);
+            };
+
             //暗场照明亮度
-            SliderAbbreviation(Slider334, "RHEIN_BERG_BRIGHTNESS_DF", "brightness");
+            Slider334.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+            {
+                if (!WindowStatus.GetInstance().ACQUIRE)
+                {
+                    ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_DF", "brightness", ColorPciker332.SelectColor.ToString(), (int)Slider334.Value);
+                }
+                else
+                {
+                    if (sliderfirst)
+                    {
+                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
+                        {
+                            sliderfirst = false;
+                            Slider334.Value = e.OldValue;
+                        }
+                    }
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+            };
+            ColorPciker332.BrushValueChanged += delegate
+            {
+                ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_DF", "brightness", ColorPciker332.SelectColor.ToString(), (int)Slider334.Value);
+            };
             //伽马
-            SliderAbbreviation(Slider335, "RHEIN_BERG_GAMMA", "gamma");
+            SliderAbbreviation1(Slider335, "RHEIN_BERG_GAMMA", "gamma");
 
             //差分
 
@@ -328,41 +413,40 @@ namespace ConfigObjective
                 LambdaControl.Trigger("STAGE_SETTING_RESET", this,data);
             };
 
-            int XYStep = 1000;
-            int ZStep = 1000;
-
+            WindowStatus windowStatus1 = WindowStatus.GetInstance();
             ButtonFront.Click += delegate
             {
-                Dictionary<string, object> data = new() { { "step", XYStep }, { "direction", 2 } };
+                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.XYStep }, { "direction", 2 } };
                 LambdaControl.Trigger("STAGE_MOVE_FRONT", ButtonFront, data);
             };
 
             ButtonRear.Click += delegate
             {
-                Dictionary<string, object> data = new() { { "step", XYStep }, { "direction", 3 } };
+                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.XYStep }, { "direction", 3 } };
                 LambdaControl.Trigger("STAGE_MOVE_REAR", ButtonRear, data);
             };
+            
             ButtonRight.Click += delegate
             {
-                Dictionary<string, object> data = new() { { "step", XYStep }, { "direction", 1 } };
+                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.XYStep }, { "direction", 1 } };
                 LambdaControl.Trigger("STAGE_MOVE_RIGHT", ButtonRight, data);
             };
 
             ButtonLeft.Click += delegate
             {
-                Dictionary<string, object> data = new() { { "step", XYStep }, { "direction", 0 } };
+                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.XYStep }, { "direction", 0 } };
                 LambdaControl.Trigger("STAGE_MOVE_LEFT", ButtonLeft, data);
             };
 
             ButtonUp.Click += delegate
             {
-                Dictionary<string, object> data = new() { { "step", ZStep }, { "direction", 4 } };
+                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.ZStep }, { "direction", 4 } };
                 LambdaControl.Trigger("STAGE_MOVE_UP", ButtonUp, data);
             };
 
             ButtonDown.Click += delegate
             {
-                Dictionary<string, object> data = new() { { "step", ZStep }, { "direction", 5 } };
+                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.ZStep }, { "direction", 5 } };
                 LambdaControl.Trigger("STAGE_MOVE_DOWN", ButtonDown, data);
             };
 
@@ -388,19 +472,23 @@ namespace ConfigObjective
 
             ToggleButtonXYF.Checked += delegate
             {
-                XYStep = 200;
+                windowStatus1.STAGE.XYStep = 200;
+                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
             ToggleButtonXYF.Unchecked += delegate
             {
-                XYStep = 1000;
+                windowStatus1.STAGE.XYStep = 1000;
+                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
             ToggleButtonZF.Checked += delegate
             {
-                ZStep = 200;
+                windowStatus1.STAGE.ZStep = 200;
+                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
             ToggleButtonZF.Unchecked += delegate
             {
-                ZStep = 1000;
+                windowStatus1.STAGE.ZStep = 1000;
+                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
 
 
@@ -433,6 +521,37 @@ namespace ConfigObjective
 
 
 
+        private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
+        {
+            int result;
+            if (bright > -1)
+            {
+                hexString = hexString[1..];
+                byte[] returnBytes = new byte[hexString.Length / 2];
+                for (int i = 0; i < returnBytes.Length; i++)
+                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+
+                int a1 = (returnBytes[1] >> 4) * bright / 15;
+                int a2 = (returnBytes[2] >> 4) * bright / 15;
+                int a3 = (returnBytes[3] >> 4) * bright / 15;
+
+                 result = a1 * 256 + a2 * 16 + a3;
+            }
+            else
+            {
+                hexString = hexString[1..];
+                byte[] returnBytes = new byte[hexString.Length / 2];
+                for (int i = 0; i < returnBytes.Length; i++)
+                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+
+                int a1 = returnBytes[1] >> 4;
+                int a2 = returnBytes[2] >> 4;
+                int a3 = returnBytes[3] >> 4;
+                result = a1 * 256 + a2 * 16 + a3;
+            }
+            Dictionary<string, object> data = new() { { TriggerParameter, result } };
+            LambdaControl.Trigger(TriggerName, this, data);
+        }
 
 
         bool sliderfirst = true;
@@ -524,6 +643,14 @@ namespace ConfigObjective
             return toggleButton;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void UpdateMul_Click(object sender, RoutedEventArgs e)
+        {
+            Update.UpdateMulDimensional(WindowStatus.GetInstance().mulDimensional);
+        }
     }
 }

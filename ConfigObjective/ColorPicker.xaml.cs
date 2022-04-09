@@ -166,7 +166,7 @@ namespace ConfigObjective
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
 
         private void HexTextLostFocus(object sender, RoutedEventArgs e)

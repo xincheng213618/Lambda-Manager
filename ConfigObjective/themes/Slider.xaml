@@ -102,7 +102,7 @@
                     </TextBlock>
                 </DockPanel>
             </Border>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N2}" >
+            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2}" >
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
                 </Track.DecreaseRepeatButton>

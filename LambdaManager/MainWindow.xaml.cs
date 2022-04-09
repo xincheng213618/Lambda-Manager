@@ -20,10 +20,9 @@ using LambdaManager.Core;
 using LambdaManager.DataType;
 using LambdaManager.Features;
 using LambdaManager.Properties;
-
 namespace LambdaManager;
 
-partial class MainWindow : Window, IComponentConnector
+partial class MainWindow : Window
 {
 	private readonly StreamWriter logger = InitLogger();
 

@@ -204,7 +204,7 @@
                     <MenuItem Name="file" Header="文件" />
                     <MenuItem Name="help" Header="帮助" />
                 </Menu>
-                <ComboBox Name="msgList" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" >
+                <ComboBox Name="msgList" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" Height="30">
                     <ComboBoxItem HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource INFO}" Width="12" Height="12" />

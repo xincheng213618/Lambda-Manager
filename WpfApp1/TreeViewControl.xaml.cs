@@ -30,6 +30,7 @@ namespace WpfApp1
         {
             InitializeComponent();
             IniCommand();
+            var stage = WindowStatus.GetInstance().STAGE;
         }
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
@@ -163,12 +164,12 @@ namespace WpfApp1
         public int LoadConfig(string ConfigFileName, ref Config config)
         {
             //载入配置文件 
-            string result = Utils.LoadResource(ConfigFileName);
-            if (!Utils.IsNullOrEmpty(result))
+            string result = Tool.Utils.LoadResource(ConfigFileName);
+            if (!Tool.Utils.IsNullOrEmpty(result))
             {
                 if (File.Exists(ConfigFileName))
                 {
-                    config = Utils.FromJson<Config>(result);
+                    config = Tool.Utils.FromJson<Config>(result);
                     if (config == null)
                     {
                         MessageBox.Show("配置文件加载失败");
@@ -270,8 +271,8 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Global.Global global = Global.Global.GetInstance();
-            if (Utils.OpenFileDialog(out string FilePath))
+            var global = WindowStatus.GetInstance();
+            if (Tool.Utils.OpenFileDialog(out string FilePath))
             {
                 if (LoadConfig(FilePath, ref global.Config) == 0)
                 {
@@ -364,7 +365,12 @@ namespace WpfApp1
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WindowStatus windowStatus = WindowStatus.GetInstance();
-            MessageBox.Show(windowStatus.mulDimensional.ZEnable.ToString());
+            MessageBox.Show(windowStatus.mulDimensional.ToJson());
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(WindowStatus.GetInstance().STAGE.ToJson());
         }
     }
 }

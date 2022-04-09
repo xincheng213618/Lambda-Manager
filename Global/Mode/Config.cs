@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Global.Mode;
+using Newtonsoft.Json;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Mode
@@ -12,7 +9,7 @@ namespace Mode
     /// 本软件配置文件实体类
     /// </summary>
     [Serializable]
-    public class Config
+    public class Config: ModeBaseObject
     {
         [JsonProperty("version")]
         public string? Version { get; set; }
