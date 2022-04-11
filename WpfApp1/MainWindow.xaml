@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp1"
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized" >
+        Title="MainWindow" Height="1080" Width="1920" Initialized="Window_Initialized" Closed="Window_Closed" >
 
     <DockPanel Background="#FF5D5D5D">
         <Menu x:Name="menu" DockPanel.Dock="Top" Padding="0,5,0,5" >

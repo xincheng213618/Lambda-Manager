@@ -1,4 +1,5 @@
 ﻿using Global.Mode;
+using Global.Mode.Config;
 using Newtonsoft.Json;
 using System.Text;
 using System.Windows.Input;

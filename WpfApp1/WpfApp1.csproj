@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <Compile Remove="3333\**" />
+    <Compile Remove="Mode\**" />
     <EmbeddedResource Remove="3333\**" />
+    <EmbeddedResource Remove="Mode\**" />
     <None Remove="3333\**" />
+    <None Remove="Mode\**" />
     <Page Remove="3333\**" />
+    <Page Remove="Mode\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,10 +70,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mode\" />
   </ItemGroup>
 
 </Project>

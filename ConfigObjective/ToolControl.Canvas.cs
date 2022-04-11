@@ -44,8 +44,6 @@ namespace ConfigObjective
         }
 
 
-
-
         private void MainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 

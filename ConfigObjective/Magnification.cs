@@ -420,7 +420,7 @@ namespace ConfigObjective
 
             #region MulDimensional
             Border border = (Border)Template.FindName("Border5", this);
-            border.DataContext = WindowStatus.GetInstance().mulDimensional;
+            border.DataContext = WindowStatus.GetInstance().MulDimensional;
             #endregion
 
 
@@ -558,7 +558,7 @@ namespace ConfigObjective
 
             ToggleButton503.Checked += delegate
             {
-                Update.UpdateMulDimensional(WindowStatus.GetInstance().mulDimensional);
+                Update.UpdateMulDimensional(WindowStatus.GetInstance().MulDimensional);
                 //ToggleButton504.IsChecked = true;
             };
             ToggleButton503.Unchecked += delegate

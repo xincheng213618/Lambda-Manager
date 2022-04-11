@@ -22,7 +22,6 @@ namespace WpfApp3
         private void Window_Initialized(object sender, EventArgs e)
         {
             LoadConfig(ref config);
-            GlobalHotKeyManager GlobalHotKeyManagers = new GlobalHotKeyManager(this);
         }
         private void Msg()
         {

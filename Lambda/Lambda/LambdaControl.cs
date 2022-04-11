@@ -15,6 +15,8 @@ public class LambdaControl : Control
 
 	public static CallEventHandler? CallEventHandler { get; set; }
 
+	public static RegisterImageViewHandler? RegisterImageViewHandler { get; set; }
+
 	public static View[]? Views { get; set; }
 
 	public static void Log(Message message)
@@ -138,5 +140,10 @@ public class LambdaControl : Control
 			throw new Exception("error!");
 		}
 		return Views[index];
+	}
+
+	public static int RegisterImageView(Image image)
+	{
+		return RegisterImageViewHandler?.Invoke(image) ?? 0;
 	}
 }

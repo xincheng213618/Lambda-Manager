@@ -16,6 +16,12 @@
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="resources\images\startimage\**" />
+    <EmbeddedResource Remove="resources\images\startimage\**" />
+    <None Remove="resources\images\startimage\**" />
+    <Page Remove="resources\images\startimage\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="resources\icons\application-icon.png" />
     <None Remove="resources\icons\application-logo.png" />
     <None Remove="resources\icons\bottom-backward.png" />
@@ -157,9 +163,6 @@
     <None Update="application.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="resources\images\startimage\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\ControlSlider2.xaml">

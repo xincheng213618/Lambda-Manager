@@ -11,7 +11,6 @@ namespace Global.Mode
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
         public string ToJson()
         {
             return Utils.ToJson(this);

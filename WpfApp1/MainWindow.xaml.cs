@@ -76,13 +76,10 @@ namespace WpfApp1
 
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
 
-
-
-
-
-
-
+        }
     }
 
     public class ViewHelper

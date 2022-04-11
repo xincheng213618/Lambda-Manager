@@ -67,7 +67,7 @@
             <!--定义视觉树-->
             <Border x:Name="border" BorderThickness="1.5" CornerRadius="7" BorderBrush="#aaa" Background="#6DA347">
         <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
-            <Border Width="15" Height="15" CornerRadius="7" Background="White"/>
+            <Border x:Name="border1" Width="15" Height="15" CornerRadius="7" Background="White"/>
         </Grid>
         <!--阴影设置-->
         <Border.Effect>
@@ -79,6 +79,9 @@
             <Trigger Property="IsChecked" Value="false">
                 <Setter TargetName="border" Property="Background" Value="#595959"/>
                 <Setter TargetName="togglebutton" Property="HorizontalAlignment" Value="Left"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter TargetName="border1" Property="Background" Value="#333333"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -108,6 +111,9 @@
                             <Setter Property="Background" TargetName="border" Value="#6EA646"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="White"/>
                             <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="border" Value="#333333"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

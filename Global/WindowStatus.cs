@@ -47,15 +47,18 @@ namespace Global
             LambdaControl.CallEventHandler += Call;
             Update.UpdateEventHandler += Call1;
         }
+        public string FilePath;
+        public MulDimensional MulDimensional = new MulDimensional();
 
-        public MulDimensional mulDimensional = new MulDimensional();
         public STAGE STAGE = new STAGE() { XYStep =1000,ZStep=1000};
         public Config Config = new();
 
         private void Call1(Object object1)
         {
             if (object1 is MulDimensional mulDimensional)
-                this.mulDimensional = mulDimensional;
+            {
+                this.MulDimensional = mulDimensional;
+            }
             if (object1 is STAGE sTAGE)
                 this.STAGE = sTAGE; 
 

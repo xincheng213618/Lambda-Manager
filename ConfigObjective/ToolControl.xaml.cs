@@ -36,7 +36,7 @@ namespace ConfigObjective
             {
                 string filePath = "222.json";
                 List<System.Windows.Shapes.Rectangle> childList = GetChildObjects<System.Windows.Shapes.Rectangle>(this.Canvas1);
-                var mulDimensional = WindowStatus.GetInstance().mulDimensional;
+                var mulDimensional = WindowStatus.GetInstance().MulDimensional;
                 mulDimensional.mulDimensionalAreas.Clear();
                 mulDimensional.mulDimensionalPoints.Clear();
 
@@ -70,8 +70,8 @@ namespace ConfigObjective
                         }
 
                 }
-                Update.UpdateMulDimensional(WindowStatus.GetInstance().mulDimensional);
-                WindowStatus.GetInstance().mulDimensional.ToJsonFile(filePath);
+                Update.UpdateMulDimensional(WindowStatus.GetInstance().MulDimensional);
+                WindowStatus.GetInstance().MulDimensional.ToJsonFile(filePath);
                 Dictionary<string, object> data = new() { { "data", filePath } };
                 LambdaControl.Trigger("START_ACQUIRE1", this, data);
             }
@@ -80,8 +80,8 @@ namespace ConfigObjective
         private void UserControl_Initialized(object sender, System.EventArgs e)
         {
             LambdaControl.CallEventHandler += LambdaControlCall;
-            Border5.DataContext = WindowStatus.GetInstance().mulDimensional;
-            UniformGrid.DataContext = WindowStatus.GetInstance().mulDimensional;    
+            Border5.DataContext = WindowStatus.GetInstance().MulDimensional;
+            UniformGrid.DataContext = WindowStatus.GetInstance().MulDimensional;
             WindowStatus windowStatus = WindowStatus.GetInstance();
             Window MainWindow = Window.GetWindow(this);
             for (int i = 0; i < expose.Count; i++)
@@ -494,7 +494,7 @@ namespace ConfigObjective
 
             ToggleButton503.Checked += delegate
             {
-                Update.UpdateMulDimensional(WindowStatus.GetInstance().mulDimensional);
+                Update.UpdateMulDimensional(WindowStatus.GetInstance().MulDimensional);
             };
             ToggleButton503.Unchecked += delegate
             {
@@ -650,7 +650,7 @@ namespace ConfigObjective
 
         private void UpdateMul_Click(object sender, RoutedEventArgs e)
         {
-            Update.UpdateMulDimensional(WindowStatus.GetInstance().mulDimensional);
+            Update.UpdateMulDimensional(WindowStatus.GetInstance().MulDimensional);
         }
     }
 }

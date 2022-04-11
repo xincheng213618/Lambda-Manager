@@ -5,28 +5,122 @@ namespace Global.Mode.Config
 {
     public class MulDimensional: ModeBaseObject
     {
+        public void Set(MulDimensional mulDimensional)
+        {
+            ZEnable = mulDimensional.ZEnable;
+            ZStart = mulDimensional.ZStart;
+            ZEnd = mulDimensional.ZEnd;
+            Zstep=mulDimensional.Zstep;
+            ZAbsolute=mulDimensional.ZAbsolute;
+            TEnable = mulDimensional.TEnable;
+
+        }
+        
         public List<MulDimensionalArea> mulDimensionalAreas { get; set; } = new List<MulDimensionalArea> { };
         public List<MulDimensionalPoint> mulDimensionalPoints { get; set; } = new List<MulDimensionalPoint> { };
+
         [JsonProperty("Z-Enable")]
         public bool ZEnable { get; set; } = false;
 
-        public int ZStart { get; set; } = 16;
+        
+
+        private int zStart = 16;
+        [JsonProperty("Z-Start")]
+        public int ZStart
+        {
+            get { return zStart; }
+            set
+            {
+                zStart = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int zEnd = 32;
 
         [JsonProperty("Z-End")]
-        public int ZEnd { get; set; } = 32;
+        public int ZEnd
+        {
+            get { return zEnd; }
+            set 
+            { 
+                zEnd = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int zstep = 200;
         [JsonProperty("Z-step")]
-        public int Zstep { get; set; } = 200;
+        public int Zstep
+        {
+            get { return zstep; }
+            set
+            {
+                zstep = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private bool zAbsolute = false;
 
-        public bool ZAbsolute { get; set; } = false;
+        public bool ZAbsolute
+        {
+            get { return zAbsolute; }
+            set
+            { 
+                zAbsolute = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public bool TEnable { get; set; } = false;
+        private bool tEnable = false;
+
+        public bool TEnable
+        {
+            get { return tEnable; }
+            set { 
+                tEnable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool tNumberEnable
+        {
+
+        }
 
         public bool TNumberEnable { get; set; } = false;
+
+        private int tNumber = 15;
+
         [JsonProperty("T-Number")]
-        public int TNumber { get; set; } = 15;
+        public int TNumber
+        {
+            get { return tNumber ; }
+            set { 
+                tNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+        public bool TBooleanEnable { get; set; }    
+
         public bool TIntervalEnable { get; set; } = false;
+
+
+        private int tInterval = 16;
+
         [JsonProperty("T-Interva")]
-        public int TInterval { get; set; } = 16;
+        public int TInterval
+        {
+            get { return tInterval; }
+            set {
+                tInterval = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         public bool FocusEnable { get; set; } = true;
 

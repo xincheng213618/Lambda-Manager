@@ -30,11 +30,21 @@ namespace WpfApp1
         {
             InitializeComponent();
             IniCommand();
+            UniformGrid.DataContext = WindowStatus.GetInstance().MulDimensional;
             var stage = WindowStatus.GetInstance().STAGE;
         }
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
         private TreeViewItem LastSelectItem;
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            WindowStatus windowStatus = WindowStatus.GetInstance();
+            if (windowStatus.FilePath != null)
+            {
+                Global.Utils.ToJsonFile(windowStatus.Config, windowStatus.FilePath);
+            }
+        }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
@@ -163,18 +173,23 @@ namespace WpfApp1
 
         public int LoadConfig(string ConfigFileName, ref Config config)
         {
+            Window window = Window.GetWindow(this);
+            if (window != null)
+                window.Closing += Window_Closed;
+
             //载入配置文件 
-            string result = Tool.Utils.LoadResource(ConfigFileName);
-            if (!Tool.Utils.IsNullOrEmpty(result))
+            string result = Global.Utils.LoadResource(ConfigFileName);
+            if (!Global.Utils.IsNullOrEmpty(result))
             {
                 if (File.Exists(ConfigFileName))
                 {
-                    config = Tool.Utils.FromJson<Config>(result);
+                    config = Global.Utils.FromJson<Config>(result);
                     if (config == null)
                     {
                         MessageBox.Show("配置文件加载失败");
                         return 0;
                     }
+                    
                 }
             }
             if (config == null)
@@ -276,6 +291,7 @@ namespace WpfApp1
             {
                 if (LoadConfig(FilePath, ref global.Config) == 0)
                 {
+                    global.FilePath = FilePath;
                     TreeViewInitialized(FilePath, global.Config);
                 }
             };
@@ -365,12 +381,32 @@ namespace WpfApp1
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WindowStatus windowStatus = WindowStatus.GetInstance();
-            MessageBox.Show(windowStatus.mulDimensional.ToJson());
+
+            MessageBox.Show(windowStatus.MulDimensional.ToJson());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(WindowStatus.GetInstance().STAGE.ToJson());
+        }
+
+        private void UserControl_ContextMenuClosing(object sender, ContextMenuEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            WindowStatus windowStatus = WindowStatus.GetInstance();
+            if (windowStatus.FilePath != null)
+            {
+                Global.Utils.ToJsonFile(windowStatus.Config, windowStatus.FilePath);
+            }
+        }
+
+        private void UpdateMul_Click(object sender, RoutedEventArgs e)
+        {
+            Update.UpdateMulDimensional(WindowStatus.GetInstance().MulDimensional);
         }
     }
 }
