@@ -29,57 +29,8 @@
         </DataTemplate>
     </UserControl.Resources>
     <StackPanel x:Name="mainView">
-        <Border Padding="5">
-            <UniformGrid x:Name="UniformGrid" Columns="2"  >
-                <StackPanel  IsEnabled="{Binding ElementName=ToggleButton503,Path=IsChecked}" >
-                    <DockPanel  >
-                        <TextBlock Text="Z-Begin" Width="65" VerticalAlignment="Center" Foreground="White"/>
-                        <TextBox  Text="{Binding Path=ZStart,Mode=TwoWay}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                        <Button DockPanel.Dock="Right"  Content="设置" Click="UpdateMul_Click"/>
-                    </DockPanel>
-                    <DockPanel   >
-                        <TextBlock Text="Z-End"  Width="65" VerticalAlignment="Center"  Foreground="White"/>
-                        <TextBox  Text="{Binding Path=ZEnd,Mode=TwoWay}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                        <Button DockPanel.Dock="Right"  Content="设置" Click="UpdateMul_Click"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Z-Step"  Width="65" VerticalAlignment="Center" Foreground="White" />
-                        <TextBox Text="{Binding Path=Zstep,Mode=TwoWay}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                        <Button DockPanel.Dock="Right" Content="设置" Click="UpdateMul_Click"/>
-                    </DockPanel>
-                    <DockPanel   HorizontalAlignment="Left">
-                        <TextBlock Text="Z- Absolute"  Width="65" VerticalAlignment="Center" Foreground="White" />
-                        <ToggleButton   IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}" Width="90" Margin="2"/>
-                    </DockPanel>
-                </StackPanel>
-                <StackPanel Margin="5,0,0,0"  IsEnabled="{Binding ElementName=ToggleButton504,Path=IsChecked}" >
-                    <DockPanel >
-                        <TextBlock Text="T-Number"  Width="70" VerticalAlignment="Center"  Foreground="White"/>
-                        <TextBox Text="{Binding TNumber,Mode=TwoWay}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                        <Button DockPanel.Dock="Right"  Content="设置" Click="UpdateMul_Click"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="T-Interval"  Width="70" VerticalAlignment="Center" Foreground="White" />
-                        <TextBox Text="{Binding TInterval,Mode=TwoWay}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                        <Button DockPanel.Dock="Right"  Content="设置" Click="UpdateMul_Click"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="∞"  Width="70" VerticalAlignment="Center" Foreground="White" />
-                        <ToggleButton  IsChecked="{Binding TNumberEnable,Mode=TwoWay}"  Width="90" Margin="2"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text=">>"  Width="70" VerticalAlignment="Center" Foreground="White" />
-                        <ToggleButton   IsChecked="{Binding TIntervalEnable,Mode=TwoWay}"  Width="90" Margin="2"/>
-                    </DockPanel>
-                </StackPanel>
-            </UniformGrid>
-        </Border>
 
-        <UniformGrid x:Name="TestUniformGrid" Columns="5">
-            <TextBlock Text="{Binding Path=XYStep,Mode=TwoWay}"/>
-            <TextBlock Text="{Binding Path=ZStep,Mode=TwoWay}"/>
-            <Button Click="Button_Click_2"/>
-        </UniformGrid>
+
         <UniformGrid Columns="7">
             <Button Content="导出" Click="Button_Click_1"/>
             <Button Content="新建"/>

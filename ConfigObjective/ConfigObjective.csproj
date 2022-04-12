@@ -8,7 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Grid.ico" />
     <None Remove="image\B3-5B5.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="image\Grid.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +29,9 @@
     <Page Update="ColorPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\themes\generic.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="themes\Base.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

@@ -48,9 +48,9 @@ namespace Global
             Update.UpdateEventHandler += Call1;
         }
         public string FilePath;
-        public MulDimensional MulDimensional = new MulDimensional();
+        public MulDimensional MulDimensional = new();
 
-        public STAGE STAGE = new STAGE() { XYStep =1000,ZStep=1000};
+        public STAGE STAGE = new STAGE() { MoveStep = new MoveStep() { XStep = 1000, ZStep = 1000 } };
         public Config Config = new();
 
         private void Call1(Object object1)
@@ -66,21 +66,17 @@ namespace Global
         private int Call(string type, object sender, EventArgs e)
         {
             if(type == "STOP_ALIVE")
-            {
                 ALIVE = false;
-            }
+
             if (type == "START_ALIVE")
-            {
                 ALIVE = true;
-            }
+
             if (type == "STOP_ACQUIRE")
-            {
                 ACQUIRE = true;
-            }
+
             if (type == "START_ACQUIRE")
-            {
                 ACQUIRE = false;
-            }
+
             return 1;
         }
 

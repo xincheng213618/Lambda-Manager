@@ -10,19 +10,66 @@ namespace Global.Mode.Config
     [Serializable]
     public class STAGE : ModeBaseObject
     {
-        private int xyStep;
-        [JsonProperty("XYStep")]
-        public int XYStep
+        [JsonProperty("moving-step")]
+        public MoveStep MoveStep { get; set; }
+
+        private bool coarsefocus = true;
+        [JsonProperty("coarse-focus")]
+        public bool CoarseFocus
         {
-            get { return xyStep; }
-            set {
-                xyStep = value;
+            get { return coarsefocus; }
+            set { coarsefocus = value; NotifyPropertyChanged(); }
+        }
+
+        private bool finefocus =false;
+        [JsonProperty("fine-focus")]
+        public bool FineFocus
+        {
+            get { return finefocus; }
+            set { finefocus = value; NotifyPropertyChanged(); }
+        }
+        
+        private int focusingscope;
+        [JsonProperty("focusing-scope")]
+        public int FocusingScope
+        {
+            get { return focusingscope; }
+            set { focusingscope = value; NotifyPropertyChanged(); }
+        }
+
+
+
+    }
+
+    [Serializable]
+    public class MoveStep : ModeBaseObject
+    {
+        private int xstep;
+        [JsonProperty("x-step")]
+        public int XStep
+        {
+            get { return xstep; }
+            set
+            {
+                xstep = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int ystep;
+        [JsonProperty("y-step")]
+        public int YStep
+        {
+            get { return ystep; }
+            set
+            {
+                ystep = value;
                 NotifyPropertyChanged();
             }
         }
 
         private int zStep;
-        [JsonProperty("ZStep")]
+        [JsonProperty("z-step")]
         public int ZStep
         {
             get { return zStep; }
@@ -32,6 +79,7 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
     }
+
+
 }

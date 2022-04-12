@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace Global.Mode.Config
 {
+    [Serializable]
     public class MulDimensional: ModeBaseObject
     {
         public void Set(MulDimensional mulDimensional)
@@ -13,7 +14,6 @@ namespace Global.Mode.Config
             Zstep=mulDimensional.Zstep;
             ZAbsolute=mulDimensional.ZAbsolute;
             TEnable = mulDimensional.TEnable;
-
         }
         
         public List<MulDimensionalArea> mulDimensionalAreas { get; set; } = new List<MulDimensionalArea> { };
@@ -83,10 +83,6 @@ namespace Global.Mode.Config
             }
         }
 
-        private bool tNumberEnable
-        {
-
-        }
 
         public bool TNumberEnable { get; set; } = false;
 

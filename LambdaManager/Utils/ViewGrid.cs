@@ -28,8 +28,6 @@ internal class ViewGrid
 
 	public static View? GetIdleOrNewView(int index)
 	{
-		//if (Views[index] != null)
-		//	return Views[index];
 		return AddView(index);
 	}
 
@@ -84,6 +82,25 @@ internal class ViewGrid
 	}
 
 	static GridLengthConverter gridLengthConverter = new GridLengthConverter();
+
+	public static View AddView(Image image)
+    {
+		Grid grid = GetNewGrid(image);
+		int index = 0;
+        for (int i = 0; i < gridsList.Length; i++)
+        {
+			if (gridsList[i] != null)
+            {
+				i = index;
+			}
+		}
+		gridsList[index] = grid;
+		GridSort(gridsList);
+		View view = new View(image, index);
+		Views[index] = view;
+		return view;
+	}
+
 
 	private static View AddView(int index)
 	{

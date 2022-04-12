@@ -42,7 +42,12 @@
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <Button DockPanel.Dock="Right" Width="50" Content="自动" />
-                    <Slider  DockPanel.Dock="Right" x:Name="Slider212"  Style="{StaticResource LM_Slider}" Value="1" Minimum="0" Maximum="100" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                    <local:UpDownControl DockPanel.Dock="Right" x:Name="UpDownControl1" Loaded="UpDownControl_Loaded"  Width="95"/>
+
+                    <Slider  x:Name="Slider212"  Template="{StaticResource LM_SliderControlTemplate1}" VerticalAlignment="Center" ValueChanged="Slider212_ValueChanged" Value="1" Minimum="0" Maximum="100" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+
+                </DockPanel>
+                <DockPanel>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="锐度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -54,10 +59,14 @@
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="降噪" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+
                     <Slider x:Name="Slider215" Style="{StaticResource LM_Slider}" Value="0" Minimum="0" Maximum="25" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="分辨率" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <ComboBox x:Name="ComboBox1" SelectionChanged="ComboBox1_SelectionChanged"/>
+
+
                     <!--<Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>-->
                 </DockPanel>
             </StackPanel>
@@ -182,7 +191,7 @@
                             <Slider x:Name="Slider335" Style="{StaticResource LM_Slider2}" Value="1.67" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="选择图案" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <Button Content="选择图案"  Foreground="White"  Click="Button331_Click" />
                         </DockPanel>
                         <DockPanel>
                             <TextBlock Text="自动旋转" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -373,6 +382,16 @@
 
         <Border x:Name="Border5" CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel>
+                <UniformGrid Margin="10" Columns="6">
+                    <CheckBox x:Name="checkbox51" IsChecked="True" Content="明场" FontSize="15"/>
+                    <CheckBox x:Name="checkbox52" IsChecked="True" Content="暗场" FontSize="15" />
+                    <CheckBox x:Name="checkbox53" IsChecked="True" Content="莱茵" FontSize="15" />
+                    <CheckBox x:Name="checkbox54" IsChecked="True" Content="相差" FontSize="15" />
+                    <CheckBox x:Name="checkbox55" IsChecked="True" Content="相位" FontSize="15" />
+                    <CheckBox x:Name="checkbox56" IsChecked="True" Content="差分" FontSize="15" />
+
+
+                </UniformGrid>
                 <DockPanel >
                     <ToggleButton x:Name="ToggleButton506" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10,2" Margin="5,0">
                         <ToggleButton.Content>

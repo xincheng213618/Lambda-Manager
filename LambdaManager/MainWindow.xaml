@@ -15,7 +15,6 @@
         <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
         <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
         <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>
-        
         <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
         <Style x:Key="CaptionButtonStyleDefault" TargetType="Button">
             <Setter Property="Template">
@@ -26,7 +25,7 @@
                             <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="12" 
                                    Foreground="{StaticResource CaptionButtonBrush}" FontWeight="{TemplateBinding FontWeight}" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
-                        </Grid> 
+                        </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource CaptionButtonChoiceBackgrouundBrush}"/>
@@ -37,7 +36,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
         <Style x:Key="CaptionButtonStyleClose" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -57,7 +55,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
 
         <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleDefault}">
             <Setter Property="Content" Value="&#xE949;"/>

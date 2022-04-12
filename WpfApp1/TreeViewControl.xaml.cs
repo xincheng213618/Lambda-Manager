@@ -30,8 +30,8 @@ namespace WpfApp1
         {
             InitializeComponent();
             IniCommand();
-            UniformGrid.DataContext = WindowStatus.GetInstance().MulDimensional;
-            var stage = WindowStatus.GetInstance().STAGE;
+            //UniformGrid.DataContext = WindowStatus.GetInstance().MulDimensional;
+            //var stage = WindowStatus.GetInstance().STAGE;
         }
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;

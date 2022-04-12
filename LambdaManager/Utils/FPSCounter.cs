@@ -27,9 +27,7 @@ internal class FPSCounter
 		{
 			double fps = 30.0 / (DateTime.Now - Start).TotalSeconds;
 			TextBox cameraStateBlock = CameraStateBlock;
-			DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(0, 1);
-			defaultInterpolatedStringHandler.AppendFormatted(fps, "#.0");
-			cameraStateBlock.Text = defaultInterpolatedStringHandler.ToStringAndClear();
+			cameraStateBlock.Text = fps.ToString("0.0");
 			Counter = 0;
 			Start = DateTime.Now;
 		}

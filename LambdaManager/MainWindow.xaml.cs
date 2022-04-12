@@ -20,6 +20,8 @@ using LambdaManager.Core;
 using LambdaManager.DataType;
 using LambdaManager.Features;
 using LambdaManager.Properties;
+using LambdaManager.Utils;
+
 namespace LambdaManager;
 
 partial class MainWindow : Window
@@ -49,11 +51,19 @@ partial class MainWindow : Window
 
 	internal double MiddleViewWidth { get; set; }
 
+	private int RegisterImageView(Image image)
+    {
+		ViewGrid.AddView(image);
+		return 1;
+    }
+
+
 	public MainWindow()
 	{
 		InitializeComponent();
 		Command_Initialized();
-		UIEvents.Initialze();
+		LambdaControl.RegisterImageViewHandler += RegisterImageView;
+	UIEvents.Initialze();
 		AddMessage(new Message
 		{
 			Severity = Severity.INFO,
