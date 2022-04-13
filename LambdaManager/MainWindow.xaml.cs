@@ -26,7 +26,7 @@ namespace LambdaManager;
 
 partial class MainWindow : Window
 {
-	private readonly StreamWriter logger = InitLogger();
+private readonly StreamWriter logger = InitLogger();
 
 	private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 

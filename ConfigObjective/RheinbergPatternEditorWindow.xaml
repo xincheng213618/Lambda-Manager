@@ -4,12 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConfigObjective"
+        xmlns:localConverter="clr-namespace:ConfigObjective.Converter"
         mc:Ignorable="d"
-        Title="莱茵伯格图案编辑器" Icon="/ConfigObjective;component/image/Grid.ico" ResizeMode="NoResize" Height="450" Width="800" Background="#333333" >
+        Title="莱茵伯格图案编辑器" Icon="/ConfigObjective;component/image/Grid.ico" ResizeMode="NoResize" Closed="Window_Closed" Initialized="Window_Initialized" Height="450" Width="400" Background="Black" >
     <WindowChrome.WindowChrome>
         <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
     </WindowChrome.WindowChrome>
     <Window.Resources>
+        <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
+        <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>
+        <Style x:Key="ButtonPageControl11" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid HorizontalAlignment="Center"  VerticalAlignment="Center">
+                            <Border x:Name="Dock1" Background="Transparent" />
+                            <ContentPresenter  />
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="Dock1" Property="Background" Value="#5A5A59"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
         <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
         <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>
@@ -100,8 +122,8 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{TemplateBinding Icon}" Margin="10,0,0,0" Height="18" Width="18"  />
+                            <ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="20,0,0,0" />
                         </StackPanel>
-                        <ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,20,0" />
                         <StackPanel x:Name="WindowCommandButtonsPanel" Grid.Column="1"  HorizontalAlignment="Center" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,-1,0" >
                             <!--<Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="40" Command="{x:Static local:MainWindow.WindowTopMost}"/>-->
                             <Button x:Name="MinimizeButton" Style="{DynamicResource MinimizeButtonStyle}" Width="40"  Command="{x:Static local:RheinbergPatternEditorWindow.WindowMin}" />
@@ -132,37 +154,143 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Template>
-    <Grid>
-        <UniformGrid Columns="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="15,10">
-            <Button  Content="确定" Height="20" Width="75" Click="Button_Click" Margin="15,0"/>
-            <Button Content="取消" Height="20" Width="75" Click="Button_Click"/>
-        </UniformGrid>
+    <Grid Background="#353535">
+        <Border Background="#595959" BorderBrush="White" CornerRadius="3" BorderThickness="1" Margin="5">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="1" BlurRadius="3" Direction="270" Color="White" Opacity="0.5" />
+            </Border.Effect>
+            <Border Background="Transparent" BorderBrush="Black" BorderThickness="1" Margin="-1" Opacity="0.9" CornerRadius="3">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="1" BlurRadius="3" Direction="270" Opacity="0.4" />
+                </Border.Effect>
+                <Grid>
+                    <StackPanel Margin="15,10">
+                        <TextBlock Foreground="White"  Text="预设图案："/>
+                        <UniformGrid Columns="6">
+                            <RadioButton x:Name="RadioButton1" Style="{StaticResource ButtonPageControl11}" IsChecked="True"  Checked="RadioButton1_Checked">
+                                <Canvas  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0">
+                                    <Ellipse Width="40" Height="40" Fill="{Binding ElementName=ColorPciker11,Path=SelectColor}"/>
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker10,Path=SelectColor}"/>
+                                </Canvas>
+                            </RadioButton>
+                            <RadioButton x:Name="RadioButton2" Style="{StaticResource ButtonPageControl11}"  Checked="RadioButton2_Checked">
+                                <Canvas   Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0" RenderTransformOrigin="0.5,0.5">
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="45"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Canvas.Left="0" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 2,0z" Fill="{Binding ElementName=ColorPciker21,Path=SelectColor}" Stretch="Fill" Width="40" Height="20"/>
+                                    <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 1 -2,0z" Fill="{Binding ElementName=ColorPciker22,Path=SelectColor}" Stretch="Fill" Width="40" Height="20"/>
+                                    <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker20,Path=SelectColor}"/>
+                                </Canvas>
+                            </RadioButton>
+                            <RadioButton x:Name="RadioButton3" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton3_Checked">
+                                <Canvas   Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0"  RenderTransformOrigin="0.5,0.5" >
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="45"/>
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
 
-        <StackPanel Margin="15,10">
-            <TextBlock Text="预设图案："/>
-            <DockPanel>
-                <Canvas Background="Black"  Height="40" Width="40" HorizontalAlignment="Left">
-                    <Ellipse Width="40" Height="40" Fill="Green"/>
-                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="Red"/>
-                </Canvas>
-                <Canvas Background="Black"  Height="40" Width="40" HorizontalAlignment="Left">
-                    <Path Canvas.Left="0" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 2,0z" Fill="Red" Stretch="Fill" Width="40" Height="20"/>
-                    <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 1 -2,0z" Fill="Green" Stretch="Fill" Width="40" Height="20"/>
-                    <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
-                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="#0000FF"/>
-                </Canvas>
-                <Canvas Background="Black"  Height="40" Width="40" HorizontalAlignment="Left">
-                    <Path Canvas.Left="0" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 2,0z" Fill="Red" Stretch="Fill" Width="40" Height="20"/>
-                    <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 1 -2,0z" Fill="Green" Stretch="Fill" Width="40" Height="20"/>
-                    <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
-                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="#0000FF"/>
-                </Canvas>
-            </DockPanel>
+                                    <Path Canvas.Left="20" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 1,1 L0,1z" Fill="{Binding ElementName=ColorPciker32,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
 
-            <TextBlock Text="预设图案："/>
-            <TextBlock Text="预设图案："/>
+                                    <Path Canvas.Left="0" Canvas.Top="0" Data="M 1,0 A 1,1 1 0 0 0,1 L1,1z" Fill="{Binding ElementName=ColorPciker31,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
 
-        </StackPanel>
-        
+                                    <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 0 1,1 L1,0z" Fill="{Binding ElementName=ColorPciker32,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
+                                    <Path Canvas.Left="20" Canvas.Top="20" Data="M 1,0 A 1,1 1 0 1 0,1 L0,0z" Fill="{Binding ElementName=ColorPciker31,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
+
+                                    <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker30,Path=SelectColor}"/>
+                                </Canvas>
+
+                            </RadioButton>
+                            <RadioButton x:Name="RadioButton4" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton4_Checked">
+                                <Canvas Height="40" Width="40" HorizontalAlignment="Left" Margin="5.0" RenderTransformOrigin="0.5,0.5">
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="45"/>
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="40" Height="40">
+                                        <Ellipse.Fill>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
+                                                <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
+                                                <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
+                                                <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
+                                                <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
+                                                <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
+                                                <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="Black"/>
+                                </Canvas>
+
+                            </RadioButton>
+
+                        </UniformGrid>
+                        <TextBlock Foreground="White"    Text="自定义图案：" />
+                        <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="内径："/>
+                                <local:ColorPicker x:Name="ColorPciker10" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径："/>
+                                <local:ColorPicker x:Name="ColorPciker11" SelectColor="Lime" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="内径："/>
+                                <local:ColorPicker x:Name="ColorPciker20" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径1："/>
+                                <local:ColorPicker x:Name="ColorPciker21" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径2："/>
+                                <local:ColorPicker x:Name="ColorPciker22" SelectColor="Lime" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="内径："/>
+                                <local:ColorPicker x:Name="ColorPciker30" SelectColor="Black" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径1："/>
+                                <local:ColorPicker x:Name="ColorPciker31" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径2："/>
+                                <local:ColorPicker x:Name="ColorPciker32" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <UniformGrid Columns="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="15,10">
+                        <Button  Content="恢复缺省设置" Height="20" Width="100" Click="Default_Click" />
+
+                        <Button  Content="确定" Height="20" Width="75" Click="Button_Click" />
+                        <Button Content="取消" Height="20" Width="75" Click="Button_Click"/>
+
+                    </UniformGrid>
+                </Grid>
+            </Border>
+            
+
+        </Border>
+
+
+
     </Grid>
 </Window>

@@ -4,7 +4,8 @@
     
     <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
     <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>
-    
+
+
     <!--现在使用的-->
     <Style x:Key="ButtonPageControl" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">

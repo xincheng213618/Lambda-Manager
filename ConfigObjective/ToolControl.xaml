@@ -98,9 +98,9 @@
         <Border CornerRadius="5"   Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Focusable="True" Background="#595959"  Padding="5" Margin="5,0">
             <StackPanel>
                 <UniformGrid Columns="6" >
-                    <RadioButton Name="Button31" Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0" IsChecked="True" />
+                    <RadioButton Name="Button31" Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  />
                     <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"/>
-                    <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0"/>
+                    <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0" IsChecked="True"/>
                     <RadioButton Name="Button34" Tag="3" Style="{StaticResource ToggleButtonStyle1}" Content="差分" Margin="5,0"/>
                     <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"/>
                     <RadioButton Name="Button36" Tag="5" Style="{StaticResource ToggleButtonStyle1}" Content="相差" Margin="5,0"/>
@@ -153,6 +153,7 @@
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}">
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <local:ColorPicker x:Name="ColorPciker321" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
                         </DockPanel>
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -176,7 +177,8 @@
                         </DockPanel>
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}">
                             <TextBlock Text="明场颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <local:ColorPicker x:Name="ColorPciker331" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Rectangle  x:Name="Color330" DockPanel.Dock="Right" Fill="Red" Height="20" Width="20"   VerticalAlignment="Center"  HorizontalAlignment="Right"/>
+
                         </DockPanel>
                         <DockPanel>
                             <TextBlock Text="暗场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -184,7 +186,9 @@
                         </DockPanel>
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}">
                             <TextBlock Text="暗场颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <local:ColorPicker x:Name="ColorPciker332" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Rectangle x:Name="Color331" DockPanel.Dock="Right" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            <Rectangle x:Name="Color332" DockPanel.Dock="Right" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
+
                         </DockPanel>
                         <DockPanel>
                             <TextBlock Text="背景抑制" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>

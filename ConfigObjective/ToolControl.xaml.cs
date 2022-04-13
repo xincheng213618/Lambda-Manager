@@ -254,7 +254,7 @@ namespace ConfigObjective
             {
                 if (!WindowStatus.GetInstance().ACQUIRE)
                 {
-                    ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_BF", "brightness", ColorPciker331.SelectColor.ToString(), (int)Slider333.Value);
+                    ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_BF", "brightness", Color330.Fill.ToString(), (int)Slider333.Value);
                 }
                 else
                 {
@@ -273,17 +273,13 @@ namespace ConfigObjective
                     }
                 }
             };
-            ColorPciker331.BrushValueChanged += delegate
-            {
-                ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_BF", "brightness", ColorPciker331.SelectColor.ToString(), (int)Slider333.Value);
-            };
 
             //暗场照明亮度
             Slider334.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
             {
                 if (!WindowStatus.GetInstance().ACQUIRE)
                 {
-                    ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_DF", "brightness", ColorPciker332.SelectColor.ToString(), (int)Slider334.Value);
+                    ColorAbbreviation1("RHEIN_BERG_BRIGHTNESS_DF", "brightness", Color331.Fill.ToString(),Color332.Fill.ToString(), (int)Slider334.Value);
                 }
                 else
                 {
@@ -302,10 +298,7 @@ namespace ConfigObjective
                     }
                 }
             };
-            ColorPciker332.BrushValueChanged += delegate
-            {
-                ColorAbbreviation("RHEIN_BERG_BRIGHTNESS_DF", "brightness", ColorPciker332.SelectColor.ToString(), (int)Slider334.Value);
-            };
+  
             //伽马
             SliderAbbreviation1(Slider335, "RHEIN_BERG_GAMMA", "gamma");
 
@@ -491,35 +484,61 @@ namespace ConfigObjective
         private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
         {
             int result;
+            if (hexString.Substring(0, 1) == "#")
+                hexString = hexString[1..];
+            byte[] returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+            int a1, a2, a3;
             if (bright > -1)
             {
-                hexString = hexString[1..];
-                byte[] returnBytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < returnBytes.Length; i++)
-                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-
-                int a1 = (returnBytes[1] >> 4) * bright / 15;
-                int a2 = (returnBytes[2] >> 4) * bright / 15;
-                int a3 = (returnBytes[3] >> 4) * bright / 15;
-
-                 result = a1 * 256 + a2 * 16 + a3;
+                 a1 = (returnBytes[1] >> 4) * bright / 15;
+                 a2 = (returnBytes[2] >> 4) * bright / 15;
+                 a3 = (returnBytes[3] >> 4) * bright / 15;
             }
             else
             {
-                hexString = hexString[1..];
-                byte[] returnBytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < returnBytes.Length; i++)
-                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-
-                int a1 = returnBytes[1] >> 4;
-                int a2 = returnBytes[2] >> 4;
-                int a3 = returnBytes[3] >> 4;
-                result = a1 * 256 + a2 * 16 + a3;
+                 a1 = returnBytes[1] >> 4;
+                 a2 = returnBytes[2] >> 4;
+                 a3 = returnBytes[3] >> 4;
             }
+            result = (a1 << 8) + (a2 << 4) + a3;
+
             Dictionary<string, object> data = new() { { TriggerParameter, result } };
             LambdaControl.Trigger(TriggerName, this, data);
         }
 
+
+        private void ColorAbbreviation1(string TriggerName, string TriggerParameter, string hexString, string hexString1, int bright)
+        {
+            int result;
+            if (hexString.Substring(0, 1) == "#")
+                hexString = hexString[1..];
+            if (hexString1.Substring(0, 1) == "#")
+                hexString1 = hexString1[1..];
+            byte[] returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+
+            int a1 = (returnBytes[1] >> 4) * bright / 15;
+            int a2 = (returnBytes[2] >> 4) * bright / 15;
+            int a3 = (returnBytes[3] >> 4) * bright / 15;
+
+            byte[] returnBytes1 = new byte[hexString1.Length / 2];
+            for (int i = 0; i < returnBytes1.Length; i++)
+                returnBytes1[i] = Convert.ToByte(hexString1.Substring(i * 2, 2).Trim(), 16);
+
+            int a4 = (returnBytes1[1] >> 4) * bright / 15;
+            int a5 = (returnBytes1[2] >> 4) * bright / 15;
+            int a6 = (returnBytes1[3] >> 4) * bright / 15;
+
+
+            result = (a1 << 8)  + (a2 << 4) + a3;
+            result = (result << 16) + (a4 << 8) + (a5 << 4) + a6;
+
+            Dictionary<string, object> data = new() { { TriggerParameter, result } };
+            LambdaControl.Trigger(TriggerName, this, data);
+        }
 
         bool sliderfirst = true;
         /// <summary>
@@ -770,10 +789,26 @@ namespace ConfigObjective
 
         }
 
+        List<RheinbergPattern> rheinbergPatterns;
+
         private void Button331_Click(object sender, RoutedEventArgs e)
         {
-            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new RheinbergPatternEditorWindow();
+            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new RheinbergPatternEditorWindow(rheinbergPatterns);
+            rheinbergPatternEditorWindow.Closed += RheinbergAdd;
             rheinbergPatternEditorWindow.ShowDialog();
+        }
+        public RheinbergPattern SelectColor;
+
+        private void RheinbergAdd(object sender, EventArgs e)
+        {
+            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = sender as RheinbergPatternEditorWindow;
+            SelectColor = rheinbergPatternEditorWindow.SelectColor;
+            Color330.Fill = SelectColor.Rheinberg0;
+            Color331.Fill = SelectColor.Rheinberg1;
+            Color332.Fill = SelectColor.Rheinberg2;
+
+            rheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
+            rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
         }
     }
 }
