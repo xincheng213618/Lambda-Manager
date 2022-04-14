@@ -483,64 +483,48 @@ namespace ConfigObjective
 
         private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
         {
-            int result;
-            if (hexString.Substring(0, 1) == "#")
-                hexString = hexString[1..];
-            byte[] returnBytes = new byte[hexString.Length / 2];
-            for (int i = 0; i < returnBytes.Length; i++)
-                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-            int a1, a2, a3;
-            if (bright > -1)
-            {
-                 a1 = (returnBytes[1] >> 4) * bright / 15;
-                 a2 = (returnBytes[2] >> 4) * bright / 15;
-                 a3 = (returnBytes[3] >> 4) * bright / 15;
-            }
-            else
-            {
-                 a1 = returnBytes[1] >> 4;
-                 a2 = returnBytes[2] >> 4;
-                 a3 = returnBytes[3] >> 4;
-            }
-            result = (a1 << 8) + (a2 << 4) + a3;
+            int result = HexToInt(hexString, bright);
 
             Dictionary<string, object> data = new() { { TriggerParameter, result } };
             LambdaControl.Trigger(TriggerName, this, data);
         }
 
-
-        private void ColorAbbreviation1(string TriggerName, string TriggerParameter, string hexString, string hexString1, int bright)
+        private int HexToInt(string hexString, int bright=-1)
         {
-            int result;
-            if (hexString.Substring(0, 1) == "#")
+            if (hexString[..1] == "#")
                 hexString = hexString[1..];
-            if (hexString1.Substring(0, 1) == "#")
-                hexString1 = hexString1[1..];
             byte[] returnBytes = new byte[hexString.Length / 2];
             for (int i = 0; i < returnBytes.Length; i++)
                 returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
+            int a1, a2, a3;
 
-            int a1 = (returnBytes[1] >> 4) * bright / 15;
-            int a2 = (returnBytes[2] >> 4) * bright / 15;
-            int a3 = (returnBytes[3] >> 4) * bright / 15;
+            if (bright > -1)
+            {
+                a1 = (returnBytes[1] >> 4) * bright / 15;
+                a2 = (returnBytes[2] >> 4) * bright / 15;
+                a3 = (returnBytes[3] >> 4) * bright / 15;
+            }
+            else
+            {
+                a1 = returnBytes[1] >> 4;
+                a2 = returnBytes[2] >> 4;
+                a3 = returnBytes[3] >> 4;
+            }
+            return (a1 << 8) + (a2 << 4) + a3;
+        }
 
-            byte[] returnBytes1 = new byte[hexString1.Length / 2];
-            for (int i = 0; i < returnBytes1.Length; i++)
-                returnBytes1[i] = Convert.ToByte(hexString1.Substring(i * 2, 2).Trim(), 16);
 
-            int a4 = (returnBytes1[1] >> 4) * bright / 15;
-            int a5 = (returnBytes1[2] >> 4) * bright / 15;
-            int a6 = (returnBytes1[3] >> 4) * bright / 15;
-
-
-            result = (a1 << 8)  + (a2 << 4) + a3;
-            result = (result << 16) + (a4 << 8) + (a5 << 4) + a6;
+        private void ColorAbbreviation1(string TriggerName, string TriggerParameter, string hexString, string hexString1, int bright)
+        {
+            int result = HexToInt(hexString, bright);
+            result = (result << 12) + HexToInt(hexString, bright);
 
             Dictionary<string, object> data = new() { { TriggerParameter, result } };
             LambdaControl.Trigger(TriggerName, this, data);
         }
 
         bool sliderfirst = true;
+
         /// <summary>
         /// SliderAbbreviation(int)
         /// </summary>

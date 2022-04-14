@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="Grid.ico" />
     <None Remove="image\B3-5B5.png" />
+    <None Remove="image\Rheinberg.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
 
   <ItemGroup>
     <Resource Include="image\B3-5B5.png" />
+    <Resource Include="image\Rheinberg.png" />
   </ItemGroup>
 
   <ItemGroup>

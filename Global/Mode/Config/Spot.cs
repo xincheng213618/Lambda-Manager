@@ -65,9 +65,6 @@ namespace Global.Mode.Config
     }
 
 
-
-
-
     [Serializable]
     public class TimeWiseSerial : ModeBaseObject
     {
