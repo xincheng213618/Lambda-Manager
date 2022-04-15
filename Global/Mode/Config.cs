@@ -17,13 +17,23 @@ namespace Mode
        
         [JsonProperty("modules")]
         public Modules? Modules { get; set; }
-       
+        [JsonProperty("last-visit-time")]
+        public string LastOpenTime { get; set; } = DateTime.Now.ToString("YYYY-MM-dd HH:mm:ss");
+
         [JsonProperty("lambda-manager")]
         public LambdaManager? LambdaManager { get; set; }
         
         [JsonProperty("firmware-setting")]
         public FirmwareSetting? FirmwareSetting { get; set; }
-       
+
+        [JsonProperty("config-stage")]
+        public STAGE STAGE { get; set; } = new();
+        [JsonProperty("config-spot")]
+        public Spot Spot { get; set; } = new();
+
+        [JsonProperty("config-multi-dimensional")]
+        public Dimensional Dimensional { get; set; } = new();
+
         [JsonProperty("log-file")]
         public string? LogFile { get; set; }
         public Hotkey Hotkey { get; set; }

@@ -16,7 +16,7 @@ namespace HotKey
         }
         public int ToInt()
         {
-            return (int)Modifiers*256+ (int)Key;
+            return (int)Modifiers>>8+ (int)Key;
         }
 
         public override string ToString()

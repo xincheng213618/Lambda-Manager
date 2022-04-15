@@ -9,6 +9,8 @@
     <LangVersion>Preview</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
   <ItemGroup />
 </Project>

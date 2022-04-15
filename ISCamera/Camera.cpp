@@ -165,8 +165,66 @@ int SaveSettings()
 	return  0;
 }
 
+
+string UtfToGbk(string strValue)
+{
+	int len = MultiByteToWideChar(CP_UTF8, 0, strValue.c_str(), -1, NULL, 0);
+	wchar_t* wstr = new wchar_t[len + 1];
+	memset(wstr, 0, len + 1);
+	MultiByteToWideChar(CP_UTF8, 0, strValue.c_str(), -1, wstr, len);
+	len = WideCharToMultiByte(CP_ACP, 0, wstr, -1, NULL, 0, NULL, NULL);
+	char* str = new char[len + 1];
+	memset(str, 0, len + 1);
+	WideCharToMultiByte(CP_ACP, 0, wstr, -1, str, len, NULL, NULL);
+	if (wstr) delete[] wstr;
+	return string(str);
+}
+
+
+string UtfToString(string strValue)
+
+{
+	int nwLen = ::MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), -1, NULL, 0);
+	wchar_t* pwBuf = new wchar_t[nwLen + 1];//加上末尾'\0'
+	ZeroMemory(pwBuf, nwLen * 2 + 2);
+	::MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), strValue.length(), pwBuf, nwLen);
+	int nLen = ::WideCharToMultiByte(CP_UTF8, 0, pwBuf, -1, NULL, NULL, NULL, NULL);
+	char* pBuf = new char[nLen + 1];
+	ZeroMemory(pBuf, nLen + 1);
+	::WideCharToMultiByte(CP_UTF8, 0, pwBuf, nwLen, pBuf, nLen, NULL, NULL);
+	std::string retStr(pBuf);
+	delete[]pwBuf;
+	delete[]pBuf;
+	pwBuf = NULL;
+	pBuf = NULL;
+	return retStr;
+}
+string StringToUtf(string strValue)
+{
+	int nwLen = MultiByteToWideChar(CP_UTF8, 0, strValue.c_str(), -1, NULL, 0);
+	wchar_t* pwBuf = new wchar_t[nwLen + 1];//加上末尾'\0'
+	memset(pwBuf, 0, nwLen * 2 + 2);
+	MultiByteToWideChar(CP_UTF8, 0, strValue.c_str(), strValue.length(), pwBuf, nwLen);
+	int nLen = WideCharToMultiByte(CP_UTF7, 0, pwBuf, -1, NULL, NULL, NULL, NULL);
+	char* pBuf = new char[nLen + 1];
+	memset(pBuf, 0, nLen + 1);
+	WideCharToMultiByte(CP_ACP, 0, pwBuf, nwLen, pBuf, nLen, NULL, NULL);
+	std::string retStr = pBuf;
+	delete[]pBuf;
+	delete[]pwBuf;
+	return retStr;
+}
+
+
+
+
+
 int CameraSettingExposure(double exposure)
 {
-	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
+	//name = json2string("中文");
+
+	std::string name = "a中文";
+	//name = StringToUtf(name);
+	Logger::Log2(Severity::INFO, L"%s'", StringUtils::string2wstring(name.c_str()));
 	return  0;
 }

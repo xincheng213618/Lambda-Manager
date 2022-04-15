@@ -14,7 +14,5 @@ namespace ConfigObjective
         public double NA { get; set; }
         public bool IsEnabled { get; set; } = true;
         public bool IsChecked { get; set; } = false;
-
-
     }
 }

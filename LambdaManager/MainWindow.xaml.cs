@@ -26,12 +26,10 @@ namespace LambdaManager;
 
 partial class MainWindow : Window
 {
-private readonly StreamWriter logger = InitLogger();
-
+	private readonly StreamWriter logger = InitLogger();
 	private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
 	private bool multiMode;
-
 	private bool multiChannel;
 	internal View[] Views { get; } = new View[100];
 
@@ -63,7 +61,7 @@ private readonly StreamWriter logger = InitLogger();
 		InitializeComponent();
 		Command_Initialized();
 		LambdaControl.RegisterImageViewHandler += RegisterImageView;
-	UIEvents.Initialze();
+	    UIEvents.Initialze();
 		AddMessage(new Message
 		{
 			Severity = Severity.INFO,
@@ -121,6 +119,7 @@ private readonly StreamWriter logger = InitLogger();
 
 	internal void AddMessage(Message message)
 	{
+		LambdaControl.Log(message);
 		if (message.Severity < logLevel)
 		{
 			return;

@@ -22,8 +22,6 @@ namespace Global.Mode.Config
         [JsonProperty("Z-Enable")]
         public bool ZEnable { get; set; } = false;
 
-        
-
         private int zStart = 16;
         [JsonProperty("Z-Start")]
         public int ZStart

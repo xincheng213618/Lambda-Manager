@@ -40,7 +40,7 @@ namespace Global
                     result = reader.ReadToEnd();
                 }
             }
-            catch (Exception ex)
+            catch 
             {
 
             }
@@ -80,7 +80,7 @@ namespace Global
                                            Formatting.Indented,
                                            new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             }
-            catch (Exception ex)
+            catch
             {
             }
             return result;
@@ -113,7 +113,7 @@ namespace Global
                 }
                 result = 0;
             }
-            catch (Exception ex)
+            catch 
             {
                 result = -1;
             }
@@ -127,7 +127,7 @@ namespace Global
                 JObject obj = JObject.Parse(strJson);
                 return obj;
             }
-            catch (Exception ex)
+            catch
             {
 
                 return null;

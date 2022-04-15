@@ -10,7 +10,9 @@
     <LangVersion>Preview</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Microsoft.CodeAnalysis\**" />
     <Compile Remove="System.Runtime.CompilerServices\**" />

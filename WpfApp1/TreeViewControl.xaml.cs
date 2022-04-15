@@ -39,10 +39,9 @@ namespace WpfApp1
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            WindowStatus windowStatus = WindowStatus.GetInstance();
-            if (windowStatus.FilePath != null)
+            if (windowData.FilePath != null)
             {
-                Global.Utils.ToJsonFile(windowStatus.Config, windowStatus.FilePath);
+                windowData.SetClose();
             }
         }
 
@@ -173,9 +172,7 @@ namespace WpfApp1
 
         public int LoadConfig(string ConfigFileName, ref Config config)
         {
-            Window window = Window.GetWindow(this);
-            if (window != null)
-                window.Closing += Window_Closed;
+
 
             //载入配置文件 
             string result = Global.Utils.LoadResource(ConfigFileName);
@@ -280,21 +277,23 @@ namespace WpfApp1
                 },
                 LogFile = "D:\\Data\\上皮细胞观察组1.log",
             };
-
         }
 
+        WindowData windowData = Global.WindowData.GetInstance();
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var global = WindowStatus.GetInstance();
             if (Tool.Utils.OpenFileDialog(out string FilePath))
             {
-                if (LoadConfig(FilePath, ref global.Config) == 0)
+                if (windowData.ReadConfig(FilePath) == 0)
                 {
-                    global.FilePath = FilePath;
-                    TreeViewInitialized(FilePath, global.Config);
+                    windowData.FilePath = FilePath;
+                    TreeViewInitialized(FilePath, windowData.Config);
                 }
             };
+            Window window = Window.GetWindow(this);
+            if (window != null)
+                window.Closing += Window_Closed;
             TreeView1.ItemsSource = SolutionExplorers;
         }
         public ProjectFolder GetFile(ProjectFolder projectFolder, string Path)
@@ -380,14 +379,14 @@ namespace WpfApp1
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            WindowStatus windowStatus = WindowStatus.GetInstance();
+            WindowData windowStatus = Global.WindowData.GetInstance();
 
             MessageBox.Show(windowStatus.MulDimensional.ToJson());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(WindowStatus.GetInstance().STAGE.ToJson());
+            MessageBox.Show(Global.WindowData.GetInstance().STAGE.ToJson());
         }
 
         private void UserControl_ContextMenuClosing(object sender, ContextMenuEventArgs e)
@@ -397,16 +396,20 @@ namespace WpfApp1
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            WindowStatus windowStatus = WindowStatus.GetInstance();
-            if (windowStatus.FilePath != null)
+            if (windowData.FilePath != null)
             {
-                Global.Utils.ToJsonFile(windowStatus.Config, windowStatus.FilePath);
+                windowData.SetClose();
             }
         }
 
         private void UpdateMul_Click(object sender, RoutedEventArgs e)
         {
-            Update.UpdateMulDimensional(WindowStatus.GetInstance().MulDimensional);
+            Update.UpdateMulDimensional(Global.WindowData.GetInstance().MulDimensional);
+        }
+
+        private void Config_Set_Click(object sender, RoutedEventArgs e)
+        {
+            windowData.SetValue();
         }
     }
 }

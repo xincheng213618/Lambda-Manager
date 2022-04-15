@@ -1,12 +1,41 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace NLGSolution
 {
     public class ProjectFolder : BaseObject
     {
+        public ProjectFolder()
+        {
+            if (FilePath != null)
+            {
+                FileSystemWatcher watcher = new FileSystemWatcher(FilePath);
+                watcher.IncludeSubdirectories = true;
+                watcher.Deleted += Watcher_Deleted;
+                watcher.Created += Watcher_Created;
+                watcher.Renamed += Watcher_Renamed;
+                watcher.EnableRaisingEvents = true;
+            }
+        }
+
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            MessageBox.Show(e.FullPath);
+        }
+
+        private static void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            MessageBox.Show(e.FullPath);
+        }
+
+        private static void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            MessageBox.Show(e.FullPath);
+        }
 
         public string Description { get; set; }
 
@@ -26,6 +55,13 @@ namespace NLGSolution
                 return childNodes;
             }
         }
+
+
+        private void FileWatch()
+        {
+
+        }
+
         public void AddChild(ProjectFolder projectFolder)
         {
             ProjectFolders.Add(projectFolder);

@@ -14,6 +14,7 @@
   <PropertyGroup>
     <RootNamespace />
     <UseWindowsForms>True</UseWindowsForms>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="resources\images\startimage\**" />

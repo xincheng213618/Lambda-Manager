@@ -17,9 +17,6 @@ namespace Global.Mode.Config
 
         [JsonProperty("config-multi-dimensional")]
         public Dimensional Dimensional { get; set; }    
-
-
-
     }
 
 
