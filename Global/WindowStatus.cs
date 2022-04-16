@@ -9,21 +9,6 @@ using System.Threading.Tasks;
 
 namespace Global
 {
-    public delegate void UpdateEventHandler(Object object1);
-
-    public static class Update
-    {
-        public static event UpdateEventHandler UpdateEventHandler;
-        public static void UpdateMulDimensional(MulDimensional mulDimensional)
-        {           
-            UpdateEventHandler?.Invoke(mulDimensional);
-        }
-        public static void UpdateSTAGE(STAGE sTAGE)
-        {
-            UpdateEventHandler?.Invoke(sTAGE);
-        }
-        
-    } 
 
     public class WindowData
     {
@@ -42,23 +27,38 @@ namespace Global
             }
             return instance;
         }
+        public List<ObjectiveSetting> ObjectiveSettingList = new()
+        {
+            new ObjectiveSetting (){ID =0, Name ="奥林巴斯",Magnitude="4X", NA=0.1,IsEnabled =false},
+            new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
+            new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4,IsEnabled =false},
+            new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65,IsEnabled =false},
+            new ObjectiveSetting (){ID =4, Name ="奥林巴斯",Magnitude="100X", NA=0.65,IsEnabled =false},
+        };
         private WindowData()
         {
             LambdaControl.CallEventHandler += Call;
-            Update.UpdateEventHandler += Call1;
+            Update.UpdateEventHandler1 += Call1;
+            Update.UpdateEventHandler += UpdateGlobal;
         }
         public string FilePath;
         public MulDimensional MulDimensional = new();
 
-        public STAGE STAGE = new STAGE() { MoveStep = new MoveStep() { XStep = 1000, ZStep = 1000 } };
+        public STAGE STAGE = new() { MoveStep = new MoveStep() { XStep = 1000,YStep =1000, ZStep = 1000 } };
         public Config Config = new();
 
+        public void UpdateGlobal()
+        {
+
+        }
 
         public void SetValue()
         {
             MulDimensional.ZStart = Config.Dimensional.ZstackWiseSerial.ZBegin;
             MulDimensional.Zstep = Config.Dimensional.ZstackWiseSerial.ZStep;
             MulDimensional.ZEnd = Config.Dimensional.ZstackWiseSerial.ZEnd;
+
+            Update.UpdateGlobal();
         }
 
         public void SetClose()
@@ -70,15 +70,14 @@ namespace Global
             Utils.ToJsonFile(Config, FilePath);
         }
         
-
         public int ReadConfig(string ConfigFileName)
         {
-            string result = Global.Utils.LoadResource(ConfigFileName);
-            if (!Global.Utils.IsNullOrEmpty(result))
+            string result = Utils.LoadResource(ConfigFileName);
+            if (!Utils.IsNullOrEmpty(result))
             {
                 if (File.Exists(ConfigFileName))
                 {
-                    Config = Global.Utils.FromJson<Config>(result);
+                    Config = Utils.FromJson<Config>(result);
                     if (Config != null)
                     {
                         return 0;
@@ -111,20 +110,15 @@ namespace Global
                 LambdaManager = new LambdaManager
                 {
                     LatestClosed = new List<string>()
-                        {
-                            "C:\\Program Files\\NJUST-SCIL\\Lambda Manager\\Data\\上皮细胞观察组1.lmp",
-                            "D:\\Data\\Images\\picture2.jpg"
-                        },
+                    {
+                        "C:\\Program Files\\NJUST-SCIL\\Lambda Manager\\Data\\上皮细胞观察组1.lmp",
+                        "D:\\Data\\Images\\picture2.jpg"
+                    },
                     DefaultDirectory = "D:\\Data\\",
                 },
 
                 FirmwareSetting = new FirmwareSetting
                 {
-                    ObjectiveSetting = new()
-                    {
-                        Magnitude = 20,
-                        NA = 1.23
-                    },
                     CameraSetting = new CameraSetting
                     {
                         VideoFormat = "RGB (1280*960)",
@@ -203,26 +197,9 @@ namespace Global
             return 1;
         }
 
-        private bool aCQUIRE= false;
 
-        public bool ACQUIRE
-        {
-            get { return aCQUIRE; }
-            set { aCQUIRE = value; }
-        }
-
-
-        private bool aLIVE=false;
-
-        public bool ALIVE
-        {
-            get { return aLIVE; }
-            set { aLIVE = value; }
-        }
-
-        
-
-
+        public bool ACQUIRE { get; set; } = false;
+        public bool ALIVE { get; set; } = false;
 
     }
 }

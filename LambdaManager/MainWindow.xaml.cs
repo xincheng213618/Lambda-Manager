@@ -61,7 +61,9 @@ partial class MainWindow : Window
 		InitializeComponent();
 		Command_Initialized();
 		LambdaControl.RegisterImageViewHandler += RegisterImageView;
-	    UIEvents.Initialze();
+		ChangeMiddleViewVisibility(false);
+
+		UIEvents.Initialze();
 		AddMessage(new Message
 		{
 			Severity = Severity.INFO,

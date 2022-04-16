@@ -13,19 +13,25 @@ namespace ConfigObjective
 
     public partial class ToolControl : UserControl
     {
+        WindowData WindowData = WindowData.GetInstance();
         public ToolControl()
         {
+            Update.UpdateEventHandler += UpdateGlobal;
             InitializeComponent();
         }
-
-        List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>()
+        bool first = true;
+        private void UpdateGlobal()
         {
-            new ObjectiveSetting (){ID =0, Name ="奥林巴斯",Magnitude="4X", NA=0.1,IsEnabled =false},
-            new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
-            new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4,IsEnabled =false},
-            new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65,IsEnabled =false},
-            new ObjectiveSetting (){ID =4, Name ="奥林巴斯",Magnitude="100X", NA=0.65,IsEnabled =false},
-        };
+            if (!first)
+                MessageBox.Show("根据参数更新");
+            else
+                first= false;
+
+            ObjectiveSetting_Initialized();
+            ViewMode_Initialized();
+            MulDimensional_Initialized();
+        }
+
         List<double> expose = new List<double> { 40000, 35714, 31250, 27778, 25000, 21739, 19608, 17241, 15385, 13514, 12048, 10753, 10000, 8403, 7463, 6623, 5882, 5208, 4630, 4000, 3636, 3226, 2865, 2545, 2252, 2000, 1773, 1575, 1397, 1239, 1099, 1000, 864, 767, 680, 604, 535, 500, 421, 374, 331, 294, 250, 231, 205, 182, 161, 143, 120, 113, 100, 89, 79, 70, 60, 55, 49, 43, 38, 34, 30, 27, 24, 21, 19, 17, 15, 13, 12, 10, 9, 8, 7, 6, 5, 4 };
         List<double> expose1 = new List<double> { 0.287, 0.323, 0.364, 0.410, 0.463, 0.500, 0.588, 0.663, 0.747, 0.842, 1, 1.071, 1.207, 1.360, 1.534, 1.729, 2.000, 2.197, 2.477, 2.792, 3.148, 3.548, 4.000 };
         List<string> data = new();
@@ -40,34 +46,32 @@ namespace ConfigObjective
             //    Dictionary<string, object> data = new() { { "mode", ViewMode } };
             //    LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
             //}
-
         }
+
+
         public int ViewMode = 0;
         List<RadioButton> ViewModeradioButtons;
-        private void UserControl_Initialized(object sender, System.EventArgs e)
+        private void UserControl_Initialized(object sender, EventArgs e)
         {
+            Update.UpdateGlobal();
             //初始化硬件
             LambdaControl.LogHandler += LambdaLog;
             LambdaControl.CallEventHandler += LambdaControlCall;
-            Border5.DataContext = WindowData.GetInstance().MulDimensional;
             UniformGrid.DataContext = WindowData.GetInstance().MulDimensional;
-            WindowData windowStatus = WindowData.GetInstance();
-            Window MainWindow = Window.GetWindow(this);
             ComboBox1.ItemsSource = data1;
-            ComboBox1.SelectedIndex = 0;
             foreach (var item in expose)
-            {
-                data.Add("1/"+item.ToString());
-            }
+                data.Add("1/" + item.ToString());
+
 
             foreach (var item in expose1)
-            {
                 data.Add(item.ToString("0.######"));
-            }
+
 
             for (int i = 0; i < expose.Count; i++)
                 expose[i] = 1 / expose[i];
             expose.AddRange(expose1);
+
+
             Button301.Click += delegate
             {
                 LambdaControl.Trigger("IMAGE_MODE_RESET", this, new Dictionary<string, object>() { });
@@ -166,33 +170,7 @@ namespace ConfigObjective
             {
                 ColorAbbreviation("BRIGHT_FIELD_BRIGHTNESS", "brightness", ColorPciker312.SelectColor.ToString());
             };
-
-            foreach (var item in ObjectiveSettingList)
-            {
-                RadioButton radioButton = new RadioButton
-                {
-                    Style = FindResource("ToggleButtonStyle1") as Style,
-                    Width = 55,
-                    Margin = new Thickness(5, 0, 5, 0),
-                    Content = item.Magnitude,
-                    IsChecked = item.IsChecked,
-                    IsEnabled = item.IsEnabled
-                };
-                radioButton.Click += delegate
-                {
-                    Dictionary<string, object> values = new Dictionary<string, object>()
-                    {
-                        {"magnitude",item.ID },
-                        {"na",(double)(item.NA) },
-                    };
-                    LambdaControl.Trigger("OBJECTIVE_LENS_SETTING",this,values);
-                };
-                ObjectiveSettingStackPanel.Children.Add(radioButton);
-            }
-            if (ObjectiveSettingList.Count < 2)
-            {
-                ToggleButton1.IsChecked = false;
-            }
+            
 
 
 
@@ -740,7 +718,9 @@ namespace ConfigObjective
                 testMean.Dimensional.Dimensions = Dimensions;
 
                 testMean.STAGE = WindowData.GetInstance().STAGE;
-
+                WindowData.Config.Dimensional = testMean.Dimensional;
+                WindowData.Config.Spot = testMean.Spot;
+                WindowData.Config.STAGE = testMean.STAGE;
                 testMean.ToJsonFile(filePath);
                 Update.UpdateMulDimensional(WindowData.GetInstance().MulDimensional);
                 Dictionary<string, object> data = new() { { "data", filePath } };

@@ -41,7 +41,7 @@ namespace Global.Mode.Config
         [JsonProperty("time-wise-serial")]
         public TimeWiseSerial TimeWiseSerial { get; set; } = new TimeWiseSerial();
         [JsonProperty("dimensions")]
-        public string Dimensions { get; set; }
+        public string Dimensions { get; set; } = "xy";
 
         [JsonProperty("zstack-wise-serial")]
         public ZstackWiseSerial ZstackWiseSerial { get; set; } = new ZstackWiseSerial();    

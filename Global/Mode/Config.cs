@@ -106,14 +106,6 @@ namespace Mode
     }
 
     [Serializable]
-    public class ObjectiveSetting
-    {
-        [JsonProperty("magnitude")]
-        public int? Magnitude { get; set; }
-        [JsonProperty("N.A")]
-        public double? NA { get; set; } 
-    }
-    [Serializable]
     public class CameraSetting
     {
         [JsonProperty("vedio-format")]
