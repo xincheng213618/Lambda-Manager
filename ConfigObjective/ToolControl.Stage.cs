@@ -15,5 +15,6 @@ namespace ConfigObjective
             LambdaControl.Trigger("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
         }
 
+
     }
 }

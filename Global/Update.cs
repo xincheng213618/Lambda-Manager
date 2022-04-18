@@ -10,6 +10,9 @@ namespace Global
         public static event UpdateEventHandler UpdateEventHandler;
         public static event UpdateEventHandler1 UpdateEventHandler1;
 
+        /// <summary>
+        /// 更新参数的
+        /// </summary>
         public static void UpdateGlobal()
         {
             UpdateEventHandler?.Invoke();

@@ -29,6 +29,7 @@ namespace ConfigObjective
 
             ObjectiveSetting_Initialized();
             ViewMode_Initialized();
+            CameraSetting_Initialized();
             MulDimensional_Initialized();
         }
 
@@ -50,7 +51,6 @@ namespace ConfigObjective
 
 
         public int ViewMode = 0;
-        List<RadioButton> ViewModeradioButtons;
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             Update.UpdateGlobal();
@@ -72,21 +72,6 @@ namespace ConfigObjective
             expose.AddRange(expose1);
 
 
-            Button301.Click += delegate
-            {
-                LambdaControl.Trigger("IMAGE_MODE_RESET", this, new Dictionary<string, object>() { });
-            };
-            Button302.Click += delegate
-            {
-                LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
-            };
-            ViewModeradioButtons = new List<RadioButton>() { Button31, Button32 , Button33 , Button34, Button35, Button36};
-
-            Button201.Click += delegate
-            {
-                Dictionary<string, object> data = new() { };
-                LambdaControl.Trigger("CAMERA_SETTING_RESET ", this, data);
-            };
             Button211.Click += delegate
             {
                 Dictionary<string, object> data = new() { };
@@ -433,22 +418,18 @@ namespace ConfigObjective
             ToggleButtonXYF.Checked += delegate
             {
                 windowStatus1.STAGE.MoveStep.XStep = 200;
-                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
             ToggleButtonXYF.Unchecked += delegate
             {
                 windowStatus1.STAGE.MoveStep.XStep = 1000;
-                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
             ToggleButtonZF.Checked += delegate
             {
                 windowStatus1.STAGE.MoveStep.ZStep = 200;
-                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
             ToggleButtonZF.Unchecked += delegate
             {
                 windowStatus1.STAGE.MoveStep.ZStep = 1000;
-                Update.UpdateSTAGE(windowStatus1.STAGE);
             };
 
 
@@ -469,14 +450,6 @@ namespace ConfigObjective
             {
 
             };
-
-            Canvas1.MouseMove += MainCanvas_MouseMove;
-            Canvas1.MouseLeftButtonUp += MainCanvas_MouseLeftButtonUp;
-            Canvas1.MouseLeftButtonDown += MainCanvas_MouseLeftButtonDown;
-            Canvas1.PreviewMouseRightButtonUp += Canvas1_PreviewMouseRightButtonUp;
-            Canvas1.PreviewMouseRightButtonDown += Canvas1_PreviewMouseRightButtonDown;
-            Canvas1.PreviewMouseDown += Canvas1_PreviewMouseDown;
-
         }
 
 
@@ -722,7 +695,6 @@ namespace ConfigObjective
                 WindowData.Config.Spot = testMean.Spot;
                 WindowData.Config.STAGE = testMean.STAGE;
                 testMean.ToJsonFile(filePath);
-                Update.UpdateMulDimensional(WindowData.GetInstance().MulDimensional);
                 Dictionary<string, object> data = new() { { "data", filePath } };
                 LambdaControl.Trigger("START_ACQUIRE1", this, data);
             }
@@ -755,6 +727,7 @@ namespace ConfigObjective
                 ToggleButton210.IsChecked = false;
             }
         }
+
 
         private void UpDownControl1_SelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -844,20 +817,6 @@ namespace ConfigObjective
             ToggleButton radioButton = sender as ToggleButton;
             Dictionary<string, object> data = new() { { "auto", radioButton.IsChecked } };
             LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE_AUTO", this, data);
-        }
-
-
-
-        private void ViewMode_Checked(object sender, RoutedEventArgs e)
-        {
-            RadioButton radioButton = sender as RadioButton;
-            string s = radioButton.Tag.ToString();
-            if (s != null)
-            {
-                ViewMode = int.Parse(s);
-                Dictionary<string, object> data = new() { { "mode", ViewMode } };
-                LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
-            }
         }
 
 
