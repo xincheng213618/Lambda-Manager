@@ -27,15 +27,19 @@ namespace Mode
         public FirmwareSetting? FirmwareSetting { get; set; }
 
         [JsonProperty("config-stage")]
-        public STAGE STAGE { get; set; } = new();
+        public Stage Stage { get; set; } = new();
         [JsonProperty("config-spot")]
         public Spot Spot { get; set; } = new();
+
+        [JsonProperty("config-imaging-mode")]
+        public ViewMode ViewMode { get; set; } = new ViewMode();
 
         [JsonProperty("config-multi-dimensional")]
         public Dimensional Dimensional { get; set; } = new();
 
         [JsonProperty("log-file")]
         public string? LogFile { get; set; }
+
         public Hotkey Hotkey { get; set; }
     }
 

@@ -8,17 +8,21 @@ using System.Threading.Tasks;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class STAGE : ModeBaseObject
+    public class Stage : ModeBaseObject
     {
         [JsonProperty("moving-step")]
-        public MoveStep MoveStep { get; set; }
+        public MoveStep MoveStep { get; set; }= new MoveStep();
 
         private bool coarsefocus = true;
         [JsonProperty("coarse-focus")]
         public bool CoarseFocus
         {
             get { return coarsefocus; }
-            set { coarsefocus = value; NotifyPropertyChanged(); }
+            set 
+            { 
+                coarsefocus = value;
+                NotifyPropertyChanged(); 
+            }
         }
 
         private bool finefocus =false;
@@ -26,7 +30,11 @@ namespace Global.Mode.Config
         public bool FineFocus
         {
             get { return finefocus; }
-            set { finefocus = value; NotifyPropertyChanged(); }
+            set 
+            { 
+                finefocus = value; 
+                NotifyPropertyChanged(); 
+            }
         }
         
         private int focusingscope;
@@ -34,17 +42,27 @@ namespace Global.Mode.Config
         public int FocusingScope
         {
             get { return focusingscope; }
-            set { focusingscope = value; NotifyPropertyChanged(); }
+            set 
+            { 
+                focusingscope = value;
+                NotifyPropertyChanged(); 
+            }
         }
 
-
+        public void SetValue(Stage stage)
+        {
+            this.MoveStep.SetValue(stage.MoveStep);
+            this.CoarseFocus=stage.CoarseFocus;
+            this.FineFocus=stage.FineFocus; 
+            this.FocusingScope =stage.FocusingScope;
+        }
 
     }
 
     [Serializable]
     public class MoveStep : ModeBaseObject
     {
-        private int xstep;
+        private int xstep =200 ;
         [JsonProperty("x-step")]
         public int XStep
         {
@@ -56,7 +74,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private int ystep;
+        private int ystep = 200;
         [JsonProperty("y-step")]
         public int YStep
         {
@@ -68,7 +86,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private int zStep;
+        private int zStep = 200;
         [JsonProperty("z-step")]
         public int ZStep
         {
@@ -79,6 +97,15 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+
+        public void SetValue(MoveStep  moveStep)
+        {
+            this.XStep = moveStep.XStep;
+            this.YStep = moveStep.YStep;
+            this.ZStep = moveStep.ZStep;
+        }
+
+
     }
 
 

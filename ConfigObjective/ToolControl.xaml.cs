@@ -19,6 +19,7 @@ namespace ConfigObjective
             Update.UpdateEventHandler += UpdateGlobal;
             InitializeComponent();
         }
+
         bool first = true;
         private void UpdateGlobal()
         {
@@ -30,6 +31,7 @@ namespace ConfigObjective
             ObjectiveSetting_Initialized();
             ViewMode_Initialized();
             CameraSetting_Initialized();
+            Stage_Initialized();
             MulDimensional_Initialized();
         }
 
@@ -37,6 +39,10 @@ namespace ConfigObjective
         List<double> expose1 = new List<double> { 0.287, 0.323, 0.364, 0.410, 0.463, 0.500, 0.588, 0.663, 0.747, 0.842, 1, 1.071, 1.207, 1.360, 1.534, 1.729, 2.000, 2.197, 2.477, 2.792, 3.148, 3.548, 4.000 };
         List<string> data = new();
 
+        /// <summary>
+        /// 日志监听
+        /// </summary>
+        /// <param name="message"></param>
         private void LambdaLog(Message message)
         {
             //MessageBox.Show(message.Text);
@@ -49,39 +55,38 @@ namespace ConfigObjective
             //}
         }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
 
-        public int ViewMode = 0;
+        }
+
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            Update.UpdateGlobal();
             //初始化硬件
+            Update.UpdateGlobal();
+            //日志监听
             LambdaControl.LogHandler += LambdaLog;
+            //事件监听
             LambdaControl.CallEventHandler += LambdaControlCall;
+
             UniformGrid.DataContext = WindowData.GetInstance().MulDimensional;
             ComboBox1.ItemsSource = data1;
             foreach (var item in expose)
                 data.Add("1/" + item.ToString());
 
-
             foreach (var item in expose1)
                 data.Add(item.ToString("0.######"));
-
 
             for (int i = 0; i < expose.Count; i++)
                 expose[i] = 1 / expose[i];
             expose.AddRange(expose1);
 
 
-            Button211.Click += delegate
-            {
-                Dictionary<string, object> data = new() { };
-                LambdaControl.Trigger("CAMERA_SETTING_WHITE_BALANCE",this, data);
-            };
-
             //增益
             SliderAbbreviation1(Slider211, "CAMERA_SETTING_GAIN", "gain");
             UpDownControl1.SelectionChanged += UpDownControl1_SelectionChanged;
             UpDownControl1.SelectedIndex = 60;
+
             Slider212.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
             {
                 if (!WindowData.GetInstance().ACQUIRE)
@@ -118,45 +123,9 @@ namespace ConfigObjective
             SliderAbbreviation(Slider215, "CAMERA_SETTING_DENOISE", "denoise");
 
 
-
             #region slider
             //照明孔径
             SliderAbbreviation(Slider311, "BRIGHT_FIELD_DIAMETER", "diameter");
-
-            Slider312.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
-            {
-                if (!WindowData.GetInstance().ACQUIRE)
-                {
-                    ColorAbbreviation("BRIGHT_FIELD_BRIGHTNESS", "brightness", ColorPciker311.SelectColor.ToString(), (int)Slider312.Value);
-                }
-                else
-                {
-                    if (sliderfirst)
-                    {
-                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
-                        if (result == MessageBoxResult.No)
-                        {
-                            sliderfirst = false;
-                            Slider312.Value = e.OldValue;
-                        }
-                    }
-                    else
-                    {
-                        sliderfirst = true;
-                    }
-                }
-            };
-
-            ColorPciker311.BrushValueChanged += delegate
-            {
-                ColorAbbreviation("BRIGHT_FIELD_BRIGHTNESS", "brightness", ColorPciker311.SelectColor.ToString(), (int)Slider312.Value);
-            };
-            ColorPciker312.BrushValueChanged += delegate
-            {
-                ColorAbbreviation("BRIGHT_FIELD_BRIGHTNESS", "brightness", ColorPciker312.SelectColor.ToString());
-            };
-            
-
 
 
             //照明内径
@@ -201,6 +170,10 @@ namespace ConfigObjective
             {
                 ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker322.SelectColor.ToString());
             };
+
+            //背景校正
+            ToggleButtonAbbreviation(Button322, "DARK _FIELD _BG_COLLECTION", "collection");
+            Button322.IsChecked = false;
 
 
             //照明内径
@@ -357,145 +330,8 @@ namespace ConfigObjective
 
             #endregion
 
-
-            WindowData windowStatus1 = WindowData.GetInstance();
-            ButtonFront.Click += delegate
-            {
-                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.MoveStep.XStep }, { "direction", 2 } };
-                LambdaControl.Trigger("STAGE_MOVE_FRONT", ButtonFront, data);
-            };
-
-            ButtonRear.Click += delegate
-            {
-                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.MoveStep.XStep }, { "direction", 3 } };
-                LambdaControl.Trigger("STAGE_MOVE_REAR", ButtonRear, data);
-            };
-            
-            ButtonRight.Click += delegate
-            {
-                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.MoveStep.XStep }, { "direction", 1 } };
-                LambdaControl.Trigger("STAGE_MOVE_RIGHT", ButtonRight, data);
-            };
-
-            ButtonLeft.Click += delegate
-            {
-                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.MoveStep.XStep }, { "direction", 0 } };
-                LambdaControl.Trigger("STAGE_MOVE_LEFT", ButtonLeft, data);
-            };
-
-            ButtonUp.Click += delegate
-            {
-                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.MoveStep.ZStep }, { "direction", 4 } };
-                LambdaControl.Trigger("STAGE_MOVE_UP", ButtonUp, data);
-            };
-
-            ButtonDown.Click += delegate
-            {
-                Dictionary<string, object> data = new() { { "step", windowStatus1.STAGE.MoveStep.ZStep }, { "direction", 5 } };
-                LambdaControl.Trigger("STAGE_MOVE_DOWN", ButtonDown, data);
-            };
-
-            ButtonRe.Click += delegate
-            {
-                Dictionary<string, object> data = new() { { "step", 0 }, { "direction", 6 } };
-                LambdaControl.Trigger("STAGE_MOVE_CENTRE", ButtonRe, data);
-            };
-            ButtonAutoFocus.Click += delegate
-            {
-                if ((bool)ToggleButtonZF.IsChecked)
-                {
-                    Dictionary<string, object> data = new() { { "mode", 0 } };
-                    LambdaControl.Trigger("STAGE_AUTO_FOCUS", this, data);
-                }
-                else
-                {
-                    Dictionary<string, object> data = new() { { "mode", 1 } };
-                    LambdaControl.Trigger("STAGE_AUTO_FOCUS", this, data);
-                }
-
-            };
-
-            ToggleButtonXYF.Checked += delegate
-            {
-                windowStatus1.STAGE.MoveStep.XStep = 200;
-            };
-            ToggleButtonXYF.Unchecked += delegate
-            {
-                windowStatus1.STAGE.MoveStep.XStep = 1000;
-            };
-            ToggleButtonZF.Checked += delegate
-            {
-                windowStatus1.STAGE.MoveStep.ZStep = 200;
-            };
-            ToggleButtonZF.Unchecked += delegate
-            {
-                windowStatus1.STAGE.MoveStep.ZStep = 1000;
-            };
-
-
-            ToggleButton503.Checked += delegate
-            {
-                Update.UpdateMulDimensional(WindowData.GetInstance().MulDimensional);
-            };
-            ToggleButton503.Unchecked += delegate
-            {
-                ToggleButton505.IsChecked = false;
-            };
-
-            ToggleButton505.Checked += delegate
-            {
-                ToggleButton503.IsChecked = true;
-            };
-            ToggleButton505.Unchecked += delegate
-            {
-
-            };
         }
 
-
-
-
-        private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
-        {
-            int result = HexToInt(hexString, bright);
-
-            Dictionary<string, object> data = new() { { TriggerParameter, result } };
-            LambdaControl.Trigger(TriggerName, this, data);
-        }
-
-        private int HexToInt(string hexString, int bright=-1)
-        {
-            if (hexString[..1] == "#")
-                hexString = hexString[1..];
-            byte[] returnBytes = new byte[hexString.Length / 2];
-            for (int i = 0; i < returnBytes.Length; i++)
-                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-            int a1, a2, a3;
-
-            if (bright > -1)
-            {
-                a1 = (returnBytes[1] >> 4) * bright / 15;
-                a2 = (returnBytes[2] >> 4) * bright / 15;
-                a3 = (returnBytes[3] >> 4) * bright / 15;
-            }
-            else
-            {
-                a1 = returnBytes[1] >> 4;
-                a2 = returnBytes[2] >> 4;
-                a3 = returnBytes[3] >> 4;
-            }
-            return (a1 << 8) + (a2 << 4) + a3;
-        }
-
-
-        private void ColorAbbreviation1(string TriggerName, string TriggerParameter, string hexString, string hexString1, int bright)
-        {
-            int result = HexToInt(hexString, bright);
-            result = (result << 12) + HexToInt(hexString, bright);
-
-            Dictionary<string, object> data = new() { { TriggerParameter, result } };
-            LambdaControl.Trigger(TriggerName, this, data);
-        }
 
         bool sliderfirst = true;
 
@@ -640,6 +476,7 @@ namespace ConfigObjective
                 }
                 TestMean testMean = new TestMean();
                 testMean.Spot = spot;
+
                 List<int> Mode = new();
                 if (checkbox51.IsChecked == true)
                     Mode.Add(0);
@@ -670,6 +507,7 @@ namespace ConfigObjective
                 zstackWiseSerial.ZBegin = mulDimensional.ZStart;
                 zstackWiseSerial.ZEnd = mulDimensional.ZEnd;
                 testMean.Dimensional.ZstackWiseSerial = zstackWiseSerial;
+
                 string Dimensions = "xy";
                 if (ToggleButton503.IsChecked == true)
                 {
@@ -690,20 +528,20 @@ namespace ConfigObjective
 
                 testMean.Dimensional.Dimensions = Dimensions;
 
-                testMean.STAGE = WindowData.GetInstance().STAGE;
+                testMean.Stage = WindowData.GetInstance().Stage;
                 WindowData.Config.Dimensional = testMean.Dimensional;
                 WindowData.Config.Spot = testMean.Spot;
-                WindowData.Config.STAGE = testMean.STAGE;
+                WindowData.Config.Stage = testMean.Stage;
                 testMean.ToJsonFile(filePath);
-                Dictionary<string, object> data = new() { { "data", filePath } };
-                LambdaControl.Trigger("START_ACQUIRE1", this, data);
+
+                LambdaControl.Trigger("START_ACQUIRE1", this, new Dictionary<string, object>() { { "data", filePath } });
             }
             return 1;
         }
 
         private void UpdateMul_Click(object sender, RoutedEventArgs e)
         {
-            Update.UpdateMulDimensional(WindowData.GetInstance().MulDimensional);
+
         }
 
 
@@ -713,10 +551,6 @@ namespace ConfigObjective
             upDownButton1.SetList(data);
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         private void Slider212_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -734,29 +568,23 @@ namespace ConfigObjective
             Slider212.Value = UpDownControl1.SelectedIndex;
         }
 
+
         //List<string> data1 = new() { "RGB64 (256x4)", "RGB64 (320x240)", "RGB64 (320x480)", "RGB64 (352x240)", "RGB64 (352x288)", "RGB64 (384x288)", "RGB64 (640x240)", "RGB64 (640x288)", "RGB64 (640x480)", "RGB64 (704x576)", "RGB64 (720x240)", "RGB64 (720x288)", "RGB64 (720x480)", "RGB64 (720x576)", "RGB64 (768x576)", "RGB64 (1024x768)", "RGB64 (1280x960)", "RGB64 (1280x1024)", "RGB64 (1600x1200)", "RGB64 (1920x1080)", "RGB64 (2048x1536)", "RGB64 (2048x2048)", "RGB64 (2448x2048)", "Y16 (256x4)", "Y16 (320x240)", "Y16 (320x480)", "Y16 (352x240)", "Y16 (352x288)", "Y16 (384x288)", "Y16 (640x240)", "Y16 (640x288)", "Y16 (640x480)", "Y16 (704x576)", "Y16 (720x240)", "Y16 (720x288)", "Y16 (720x480)", "Y16 (720x576)", "Y16 (768x576)", "Y16 (1024x768)", "Y16 (1280x960)", "Y16 (1280x1024)", "Y16 (1600x1200)", "Y16 (1920x1080)", "Y16 (2048x1536)", "Y16 (2048x2048)", "Y16 (2448x2048)", "Y411 (256x4)", "Y411 (320x240)", "Y411 (320x480)", "Y411 (352x240)", "Y411 (352x288)", "Y411 (384x288)", "Y411 (640x240)", "Y411 (640x288)", "Y411 (640x480)", "Y411 (704x576)", "Y411 (720x240)", "Y411 (720x288)", "Y411 (720x480)", "Y411 (720x576)", "Y411 (768x576)", "Y411 (1024x768)", "Y411 (1280x960)", "Y411 (1280x1024)", "Y411 (1600x1200)", "Y411 (1920x1080)", "Y411 (2048x1536)", "Y411 (2048x2048)", "Y411 (2448x2048)", "Y800 (256x4)", "Y800 (320x240)", "Y800 (320x480)", "Y800 (352x240)", "Y800 (352x288)", "Y800 (384x288)", "Y800 (640x240)", "Y800 (640x288)", "Y800 (640x480)", "Y800 (704x576)", "Y800 (720x240)", "Y800 (720x288)", "Y800 (720x480)", "Y800 (720x576)", "Y800 (768x576)", "Y800 (1024x768)", "Y800 (1280x960)", "Y800 (1280x1024)", "Y800 (1600x1200)", "Y800 (1920x1080)", "Y800 (2048x1536)", "Y800 (2048x2048)", "Y800 (2448x2048)", "YUY2 (256x4)", "YUY2 (320x240)", "YUY2 (320x480)", "YUY2 (352x240)", "YUY2 (352x288)", "YUY2 (384x288)", "YUY2 (640x240)", "YUY2 (640x288)", "YUY2 (640x480)", "YUY2 (704x576)", "YUY2 (720x240)", "YUY2 (720x288)", "YUY2 (720x480)", "YUY2 (720x576)", "YUY2 (768x576)", "YUY2 (1024x768)", "YUY2 (1280x960)", "YUY2 (1280x1024)", "YUY2 (1600x1200)", "YUY2 (1920x1080)", "YUY2 (2048x1536)", "YUY2 (2048x2048)", "YUY2 (2448x2048)", "RGB24 (256x4)", "RGB24 (320x240)", "RGB24 (320x480)", "RGB24 (352x240)", "RGB24 (352x288)", "RGB24 (384x288)", "RGB24 (640x240)", "RGB24 (640x288)", "RGB24 (640x480)", "RGB24 (704x576)", "RGB24 (720x240)", "RGB24 (720x288)", "RGB24 (720x480)", "RGB24 (720x576)", "RGB24 (768x576)", "RGB24 (1024x768)", "RGB24 (1280x960)", "RGB24 (1280x1024)", "RGB24 (1600x1200)", "RGB24 (1920x1080)", "RGB24 (2048x1536)", "RGB24 (2048x2048)", "RGB24 (2448x2048)", "RGB32 (256x4)", "RGB32 (320x240)", "RGB32 (320x480)", "RGB32 (352x240)", "RGB32 (352x288)", "RGB32 (384x288)", "RGB32 (640x240)", "RGB32 (640x288)", "RGB32 (640x480)", "RGB32 (704x576)", "RGB32 (720x240)", "RGB32 (720x288)", "RGB32 (720x480)", "RGB32 (720x576)", "RGB32 (768x576)", "RGB32 (1024x768)", "RGB32 (1280x960)", "RGB32 (1280x1024)", "RGB32 (1600x1200)", "RGB32 (1920x1080)", "RGB32 (2048x1536)", "RGB32 (2048x2048)", "RGB32 (2448x2048)" };
+
 
         List<string> data1 = new() { "RGB32 (640x480)", "RGB32 (1280x960)" , "RGB64 (2448x2048)" };
 
+
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender is ComboBox combobox)
-            {
-                Dictionary<string, object> data = new() { { "format", combobox.SelectedItem } };
-                LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, data);
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+            LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "format", ComboBox1.SelectedItem } });
         }
 
         List<RheinbergPattern> rheinbergPatterns;
 
         private void Button331_Click(object sender, RoutedEventArgs e)
         {
-            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new RheinbergPatternEditorWindow(rheinbergPatterns);
+            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new(rheinbergPatterns);
             rheinbergPatternEditorWindow.Closed += RheinbergAdd;
             rheinbergPatternEditorWindow.ShowDialog();
         }
@@ -799,18 +627,14 @@ namespace ConfigObjective
             }
 
 
-            Dictionary<string, object> data = new() { { "mode", RheinbergSelectMode },{ "bright", bright }, { "darkness1", darkness1 },{ "darkness2", darkness2 } };
+            Dictionary<string, object> data = new Dictionary<string, object>() { { "mode", RheinbergSelectMode },{ "bright", bright }, { "darkness1", darkness1 },{ "darkness2", darkness2 } };
             LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, data);
             
-
             rheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
             rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
 
-        }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

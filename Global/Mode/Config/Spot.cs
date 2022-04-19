@@ -11,7 +11,7 @@ namespace Global.Mode.Config
     public class  TestMean : ModeBaseObject
     {
         [JsonProperty("config-stage")]
-        public STAGE STAGE { get; set; }    
+        public Stage Stage { get; set; }    
         [JsonProperty("config-spot")]
         public Spot Spot { get; set; }
 

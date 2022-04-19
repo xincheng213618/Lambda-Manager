@@ -409,11 +409,11 @@ internal class Common
 		GCHandle handle = GCHandle.Alloc(sender);
 		try
 		{
-			App.Report(new Message
-			{
-				Severity = Severity.INFO,
-				Text = type
-			});
+			//App.Report(new Message
+			//{
+			//	Severity = Severity.INFO,
+			//	Text = type
+			//});
 			int result = CallEvent(type, handle, e);
 			if (result >= RESERVED_EVENT_RESULT)
 			{
@@ -429,6 +429,8 @@ internal class Common
 
 	private static int CallEvent(string type, GCHandle handle, EventArgs e)
 	{
+		type = type.Trim();
+
 		if (e == EventArgs.Empty)
 		{
 			App.Report(new Message
@@ -447,7 +449,7 @@ internal class Common
 				{
 					Severity = Severity.INFO,
 					Text = type
-				}); ;
+				});
 				return CallEvent(type, GCHandle.ToIntPtr(handle));
 			}
 			if (data is string s)

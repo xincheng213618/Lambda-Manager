@@ -44,7 +44,9 @@ namespace Global
         public string FilePath;
         public MulDimensional MulDimensional = new();
 
-        public STAGE STAGE = new() { MoveStep = new MoveStep() { XStep = 1000,YStep =1000, ZStep = 1000 } };
+        public Stage Stage = new() { MoveStep = new MoveStep() { XStep = 1000,YStep =1000, ZStep = 1000 } };
+        public ViewMode ViewMode = new ViewMode();
+
         public Config Config = new();
 
         public void UpdateGlobal()
@@ -58,15 +60,19 @@ namespace Global
             MulDimensional.Zstep = Config.Dimensional.ZstackWiseSerial.ZStep;
             MulDimensional.ZEnd = Config.Dimensional.ZstackWiseSerial.ZEnd;
 
+            ViewMode.SetValue(Config.ViewMode);
+            Stage.SetValue(Config.Stage);
             Update.UpdateGlobal();
         }
 
-        public void SetClose()
+        public void SaveConfig()
         {
             Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
             Config.Dimensional.ZstackWiseSerial.ZStep = MulDimensional.Zstep;
             Config.Dimensional.ZstackWiseSerial.ZEnd = MulDimensional.ZEnd;
 
+            Config.ViewMode.SetValue(ViewMode);
+            Config.Stage.SetValue(Stage);
             Utils.ToJsonFile(Config, FilePath);
         }
         
@@ -176,8 +182,8 @@ namespace Global
             {
                 this.MulDimensional = mulDimensional;
             }
-            if (object1 is STAGE sTAGE)
-                this.STAGE = sTAGE; 
+            if (object1 is Stage sTAGE)
+                this.Stage = sTAGE; 
 
         }
         private int Call(string type, object sender, EventArgs e)

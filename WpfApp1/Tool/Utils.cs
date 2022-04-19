@@ -22,6 +22,20 @@ namespace Tool
             return result == true;
         }
 
+        public static bool SelectFileDialog(out string FileName)
+        {
+            SaveFileDialog dialog = new()
+            {
+                Title = "请选择文件",
+                RestoreDirectory = true,
+                Filter = "显微镜工程(*.lmp)|*.lmp",
+            };
+            bool? result = dialog.ShowDialog();
+            FileName = dialog.FileName;
+            return result == true;
+        }
+
+
         /// <summary>s
         /// 文本
         /// </summary>

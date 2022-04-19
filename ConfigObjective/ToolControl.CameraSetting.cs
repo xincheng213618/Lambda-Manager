@@ -16,7 +16,12 @@ namespace ConfigObjective
         }
         private void Button201_Click(object sender, RoutedEventArgs e)
         {
-            LambdaControl.Trigger("CAMERA_SETTING_RESET ", this, new Dictionary<string, object>() { });
+            LambdaControl.Trigger("CAMERA_SETTING_RESET", this, new Dictionary<string, object>() { });
+        }
+
+        private void Button211_Click(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("CAMERA_SETTING_WHITE_BALANCE", this, new Dictionary<string, object> { });
         }
 
     }

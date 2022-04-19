@@ -28,6 +28,9 @@ namespace WpfApp1
     {
         public TreeViewControl()
         {
+            Window window = Window.GetWindow(this);
+            if (window != null)
+                window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
             //UniformGrid.DataContext = WindowStatus.GetInstance().MulDimensional;
@@ -41,7 +44,7 @@ namespace WpfApp1
         {
             if (windowData.FilePath != null)
             {
-                windowData.SetClose();
+                windowData.SaveConfig();
             }
         }
 
@@ -181,13 +184,12 @@ namespace WpfApp1
                 {
                     windowData.FilePath = FilePath;
                     TreeViewInitialized(FilePath, windowData.Config);
+                    TreeView1.ItemsSource = SolutionExplorers;
                 }
             };
-            Window window = Window.GetWindow(this);
-            if (window != null)
-                window.Closing += Window_Closed;
-            TreeView1.ItemsSource = SolutionExplorers;
         }
+
+       
         public ProjectFolder GetFile(ProjectFolder projectFolder, string Path)
         {
             var root = new DirectoryInfo(Path);
@@ -278,7 +280,7 @@ namespace WpfApp1
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Global.WindowData.GetInstance().STAGE.ToJson());
+            MessageBox.Show(Global.WindowData.GetInstance().Stage.ToJson());
         }
 
         private void UserControl_ContextMenuClosing(object sender, ContextMenuEventArgs e)
@@ -290,7 +292,22 @@ namespace WpfApp1
         {
             if (windowData.FilePath != null)
             {
-                windowData.SetClose();
+                windowData.SaveConfig();
+            }
+            else
+            {
+                if (Tool.Utils.SelectFileDialog(out windowData.FilePath))
+                {
+                    windowData.SaveConfig();
+                    TreeViewInitialized(windowData.FilePath, windowData.Config);
+                    TreeView1.ItemsSource = SolutionExplorers;
+                }
+                else
+                {
+                    windowData.FilePath = null;
+                }
+
+
             }
         }
 

@@ -23,10 +23,6 @@ namespace Global
         {
             UpdateEventHandler1?.Invoke(mulDimensional);
         }
-        public static void UpdateSTAGE(STAGE sTAGE)
-        {
-            UpdateEventHandler1?.Invoke(sTAGE);
-        }
-        
+       
     } 
 }

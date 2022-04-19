@@ -224,8 +224,9 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0">
-                    <TabControl>
+                
+                <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
+                    <TabControl  >
                         <TabItem Header="工程" FontSize="15">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                 <StackPanel Name="projectView"  Margin="10,10,10,20" >
