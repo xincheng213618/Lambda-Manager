@@ -33,7 +33,7 @@
 
         <UniformGrid Columns="7">
             <Button Content="导出" Click="Button_Click_1"/>
-            <Button Content="新建"/>
+            <Button Content="新建" Click="Button_Click_3"/>
             <Button Content="打开" Click="Button_Click"/>
             <Button Content="保存" Click="Save_Click"/>
             <Button Content="应用" Click="Config_Set_Click"/>

@@ -271,17 +271,7 @@ namespace WpfApp1
             TreeView1.ItemsSource = SolutionExplorers;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            WindowData windowStatus = Global.WindowData.GetInstance();
 
-            MessageBox.Show(windowStatus.MulDimensional.ToJson());
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(Global.WindowData.GetInstance().Stage.ToJson());
-        }
 
         private void UserControl_ContextMenuClosing(object sender, ContextMenuEventArgs e)
         {
@@ -311,14 +301,24 @@ namespace WpfApp1
             }
         }
 
-        private void UpdateMul_Click(object sender, RoutedEventArgs e)
-        {
-            Update.UpdateMulDimensional(Global.WindowData.GetInstance().MulDimensional);
-        }
 
         private void Config_Set_Click(object sender, RoutedEventArgs e)
         {
             windowData.SetValue();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(WindowData.GetInstance().MulDimensional.ToJson());
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(Global.WindowData.GetInstance().Stage.ToJson());
+        }
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(WindowData.GetInstance().ViewMode.ToJson());
         }
     }
 }

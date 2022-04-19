@@ -20,7 +20,9 @@ namespace ConfigObjective
         private Point tempStartPoint;//起始坐标
 
         Rectangle rectangle;
+
         private BrushConverter brushConverter = new BrushConverter();
+
         /// <summary>
         /// 鼠标按下记录起始点
         /// </summary>

@@ -53,15 +53,17 @@ namespace ConfigObjective
         {
             LambdaControl.Trigger("STAGE_MOVE_LEFT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 0 } });
         }
+
         private void ButtonRight_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
         }
+
         private void ButtonFront_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("STAGE_MOVE_FRONT", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 2 } });
-
         }
+
         private void ButtonRear_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("STAGE_MOVE_REAR", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 3 } });
@@ -76,6 +78,7 @@ namespace ConfigObjective
         {
             LambdaControl.Trigger("STAGE_MOVE_DOWN", this, new Dictionary<string, object> { { "step", MoveStep.ZStep }, { "direction", 5 } });
         }
+
         private void ButtonRe_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("STAGE_MOVE_CENTRE", this, new Dictionary<string, object> { { "step", 0 }, { "direction", 6 } });

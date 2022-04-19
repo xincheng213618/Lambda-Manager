@@ -24,5 +24,10 @@ namespace ConfigObjective
             LambdaControl.Trigger("CAMERA_SETTING_WHITE_BALANCE", this, new Dictionary<string, object> { });
         }
 
+        private void ToggleButton210_Click(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE_AUTO", this, new Dictionary<string, object>() { { "auto", ToggleButton210.IsChecked } });
+        }
+
     }
 }

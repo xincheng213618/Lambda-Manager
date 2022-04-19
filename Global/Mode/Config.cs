@@ -21,10 +21,10 @@ namespace Mode
         public string LastOpenTime { get; set; } = DateTime.Now.ToString("YYYY-MM-dd HH:mm:ss");
 
         [JsonProperty("lambda-manager")]
-        public LambdaManager? LambdaManager { get; set; }
+        public LambdaManager LambdaManager { get; set; }
         
-        [JsonProperty("firmware-setting")]
-        public FirmwareSetting? FirmwareSetting { get; set; }
+        [JsonProperty("firmware")]
+        public Firmware FirmwareSetting { get; set; }
 
         [JsonProperty("config-stage")]
         public Stage Stage { get; set; } = new();
@@ -78,19 +78,19 @@ namespace Mode
     public class Modules
     {
         [JsonProperty("lambda_manager")]
-        public string? LambdaManager { get; set; }
+        public string? LambdaManager { get; set; } = "1.0";
         [JsonProperty("config-dpc-mode")]
-        public string? ConfigDpcMode { get; set; }
+        public string? ConfigDpcMode { get; set; } = "1.0";
         [JsonProperty("config-stage")]
-        public string? ConfigStage { get; set; }
+        public string? ConfigStage { get; set; } = "1.0";
         [JsonProperty("config-spot")]
-        public string? ConfigSpot { get; set; }
+        public string? ConfigSpot { get; set; } = "1.0";
         [JsonProperty("config-dof")]
-        public string? ConfigDof { get; set; }
+        public string? ConfigDof { get; set; } = "1.0";
         [JsonProperty("config-multi-dimensional")]
-        public string? ConfigMultiDimensional { get; set; } 
+        public string? ConfigMultiDimensional { get; set; } = "1.0";
         [JsonProperty("dpc-algorithm")]
-        public string? DpcAlgorithm { get; set; }
+        public string? DpcAlgorithm { get; set; } = "1.0";
     }
     [Serializable]
     public class LambdaManager
@@ -101,58 +101,27 @@ namespace Mode
         public string?  DefaultDirectory { get; set; }   
     }
     [Serializable]
-    public class FirmwareSetting
+    public class Firmware
     {
         [JsonProperty("objective")]
         public ObjectiveSetting? ObjectiveSetting { get; set; }
-        [JsonProperty("camera")]
-        public CameraSetting? CameraSetting { get; set; }
-    }
 
-    [Serializable]
-    public class CameraSetting
-    {
-        [JsonProperty("vedio-format")]
-        public string? VideoFormat { get; set; }
-        [JsonProperty("fps")]
-        public double? Fps { get; set; }
-        [JsonProperty("brightness")]
-        public double? Brightness { get; set; }
-        [JsonProperty("contrast")]
-        public double? Contrast { get; set; }
-        [JsonProperty("hue")]
-        public double? Hue { get; set; }
-        [JsonProperty("saturation")]
-        public double? Saturation { get; set; }
-        [JsonProperty("sharpness")]
-        public double? Sharpness { get; set; }
-        [JsonProperty("gamma")]
-        public double? Gamma { get; set; }
-        [JsonProperty("white-balance")]
-        public WhiteBalance? WhiteBalance { get; set; }
-        [JsonProperty("gain")]
-        public Gain? gain { get; set; }
-        [JsonProperty("exposure")]
-        public Exposure? Exposure { get; set; }
-        [JsonProperty("trigger")]
-        public Trigger? Trigger { get; set; }
-        [JsonProperty("denoise")]
-        public bool? Denoise { get; set; }
-        [JsonProperty("strobe")]
-        public bool? Strobe { get; set; }
+        [JsonProperty("camera")]
+        public Camera? CameraSetting { get; set; } = new ();
+
         [JsonProperty("source")]
         public Source? Source { get; set; }
-
-
-
     }
+
+
+
     [Serializable]
     public class Source
     {
         [JsonProperty("fpga-version")]
-        public double FpgaVersion { get; set; }
+        public string FpgaVersion { get; set; } = "1.0";
         [JsonProperty("max-bright")]
-        public int MaxBright { get; set; }
+        public int MaxBright { get; set; } = new();
 
     }
 

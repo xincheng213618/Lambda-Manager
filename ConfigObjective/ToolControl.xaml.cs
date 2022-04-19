@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using Lambda;
 using System.Windows.Input;
 using Global.Mode.Config;
+using System.Text;
 
 namespace ConfigObjective
 {
@@ -428,11 +429,11 @@ namespace ConfigObjective
             if (type == "STOP_ACQUIRE")
             {
                 string filePath = "222.json";
-                List<System.Windows.Shapes.Rectangle> childList = GetChildObjects<System.Windows.Shapes.Rectangle>(this.Canvas1);
                 var mulDimensional = WindowData.GetInstance().MulDimensional;
                 mulDimensional.mulDimensionalAreas.Clear();
                 mulDimensional.mulDimensionalPoints.Clear();
 
+                List<System.Windows.Shapes.Rectangle> childList = GetChildObjects<System.Windows.Shapes.Rectangle>(this.Canvas1);
                 foreach (var child in childList)
                 {
                     if (Canvas.GetLeft(child) >= 0)
@@ -463,7 +464,7 @@ namespace ConfigObjective
                         }
 
                 }
-                Global.Mode.Config.Spot spot = new Global.Mode.Config.Spot();
+                var spot = new Global.Mode.Config.Spot();
                 foreach (var item in mulDimensional.mulDimensionalPoints)
                 {
                     List<int> points = new List<int>() { item.X, item.Y };
@@ -508,25 +509,20 @@ namespace ConfigObjective
                 zstackWiseSerial.ZEnd = mulDimensional.ZEnd;
                 testMean.Dimensional.ZstackWiseSerial = zstackWiseSerial;
 
-                string Dimensions = "xy";
-                if (ToggleButton503.IsChecked == true)
-                {
-                    Dimensions += "z";
-                }
-                if (ToggleButton504.IsChecked == true)
-                {
-                    Dimensions += "t";
-                }
-                if (ToggleButton506.IsChecked == true)
-                {
-                    Dimensions += "p";
-                }
-                if (ToggleButton505.IsChecked == true)
-                {
-                    Dimensions += "edof";
-                }
+                var Dimensions = new StringBuilder();
 
-                testMean.Dimensional.Dimensions = Dimensions;
+                Dimensions.Append("xy");
+                if (ToggleButton503.IsChecked == true)
+                    Dimensions.Append('z');
+                if (ToggleButton504.IsChecked == true)
+                    Dimensions.Append('t');
+                if (ToggleButton506.IsChecked == true)
+                    Dimensions.Append('p');
+                if (ToggleButton505.IsChecked == true)
+                    Dimensions.Append("edof");
+
+
+                testMean.Dimensional.Dimensions = Dimensions.ToString();
 
                 testMean.Stage = WindowData.GetInstance().Stage;
                 WindowData.Config.Dimensional = testMean.Dimensional;
@@ -596,6 +592,7 @@ namespace ConfigObjective
         {
             RheinbergPatternEditorWindow rheinbergPatternEditorWindow = sender as RheinbergPatternEditorWindow;
             SelectColor = rheinbergPatternEditorWindow.SelectColor;
+
             Color330.Fill = SelectColor.Rheinberg0;
             Color331.Fill = SelectColor.Rheinberg1;
             Color332.Fill = SelectColor.Rheinberg2;
@@ -626,23 +623,11 @@ namespace ConfigObjective
                 Color332.Visibility = Visibility.Collapsed;
             }
 
-
-            Dictionary<string, object> data = new Dictionary<string, object>() { { "mode", RheinbergSelectMode },{ "bright", bright }, { "darkness1", darkness1 },{ "darkness2", darkness2 } };
-            LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, data);
+            LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, new Dictionary<string, object>() { { "mode", RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } });
             
             rheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
             rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
         }
-
-
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            ToggleButton radioButton = sender as ToggleButton;
-            Dictionary<string, object> data = new() { { "auto", radioButton.IsChecked } };
-            LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE_AUTO", this, data);
-        }
-
 
     }
 }

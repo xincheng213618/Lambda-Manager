@@ -8,16 +8,19 @@ namespace Global.Mode.Config
 {
     public class ViewMode : ModeBaseObject
     {
-        private int selectViewMode = 0;
-        public int SelectViewMode
-        {
-            get { return selectViewMode; }
-            set
-            {
-                selectViewMode = value;
-                NotifyPropertyChanged();
-            }
-        }
+        //private int selectViewMode = 0;
+        //public int SelectViewMode
+        //{
+        //    get => selectViewMode; 
+        //    set
+        //    {
+        //        selectViewMode = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
+        public int SelectViewMode = 0;
+
+
 
         public BrightField BrightField { get; set; } = new();
         public DarkField DarkField { get; set; } = new();
@@ -41,7 +44,8 @@ namespace Global.Mode.Config
 
     public class BrightField : ModeBaseObject
     {
-        private int aperture = 10;
+        public Camera CameraSetting { get; set; } = new Camera();
+        private int aperture = 9;
 
         public int Aperture
         {
@@ -65,6 +69,7 @@ namespace Global.Mode.Config
         }
         public void SetValue(BrightField brightField)
         {
+            CameraSetting.SetValue(brightField.CameraSetting);
             this.Aperture = brightField.aperture;
             this.color = brightField.color;
         }
@@ -72,7 +77,9 @@ namespace Global.Mode.Config
 
     public class DarkField : ModeBaseObject
     {
-        private int innerAperture = 10;
+        public Camera CameraSetting { get; set; } = new Camera();
+
+        private int innerAperture = 13;
         public int InnerAperture
         {
             get { return innerAperture; }
@@ -108,7 +115,7 @@ namespace Global.Mode.Config
         }
 
 
-        public double gamma = 1.67;
+        private double gamma = 1.67;
 
         public double Gamma
         {
@@ -120,11 +127,11 @@ namespace Global.Mode.Config
             }
         }
 
-        public bool auto = false;
+        private bool auto = false;
 
         public bool Auto
         {
-            get { return auto; }
+            get => auto;
             set
             {
                 auto = value;
@@ -132,7 +139,7 @@ namespace Global.Mode.Config
             }
         }
 
-        public bool bgCollection = false;
+        private bool bgCollection = false;
 
         public bool BgCollection
         {
@@ -147,6 +154,8 @@ namespace Global.Mode.Config
 
         public void SetValue(DarkField  darkField)
         {
+            CameraSetting.SetValue(darkField.CameraSetting);
+
             this.InnerAperture = darkField.InnerAperture;
             this.OutAperture = darkField.OutAperture;
             this.Color = darkField.Color;   
@@ -158,6 +167,9 @@ namespace Global.Mode.Config
 
     public class Reinberg : ModeBaseObject
     {
+
+        public Camera CameraSetting { get; set; } = new Camera();
+
         private int innerAperture = 10;
         public int InnerAperture
         {
@@ -199,6 +211,8 @@ namespace Global.Mode.Config
 
         public void SetValue(Reinberg reinberg)
         {
+            CameraSetting.SetValue(reinberg.CameraSetting);
+
             this.InnerAperture = reinberg.InnerAperture;
             this.OutAperture = reinberg.OutAperture;
             this.Mode = reinberg.Mode;
@@ -208,6 +222,8 @@ namespace Global.Mode.Config
 
     public class ReliefContrast : ModeBaseObject
     {
+        public Camera CameraSetting { get; set; } = new Camera();
+
         private int innerAperture = 10;
         public int InnerAperture
         {
@@ -220,7 +236,7 @@ namespace Global.Mode.Config
         }
 
 
-        private int outAperture = 32;
+        private int outAperture = 31;
 
         public int OutAperture
         {
@@ -232,22 +248,95 @@ namespace Global.Mode.Config
             }
         }
 
-        public double Gamma = 1.67;
-        public double Gain = 2.0;
+        private double gamma = 1;
+        public double Gamma
+        {
+            get { return gamma; }
+            set
+            {
+                gamma = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public int Contrast = 5;
-        public double BFWeight = 1;
-        public double DPWeight = 1;
+
+        private double gain = 2.0;
+        public double Gain
+        {
+            get { return gain; }
+            set
+            {
+                gain = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+        private int contrast = 5;
+        public int Contrast
+        {
+            get { return contrast; }
+            set
+            {
+                contrast = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private double bFWeight = 1;
+        public double BFWeight
+        {
+            get { return bFWeight; }
+            set
+            {
+                bFWeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+        private double dPWeight = 1;
+        public double DPWeight
+        {
+            get { return dPWeight; }
+            set
+            {
+                dPWeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private bool bgCollection = false;
+
+        public bool BgCollection
+        {
+            get { return bgCollection; }
+            set
+            {
+                bgCollection = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
 
         public void SetValue(ReliefContrast  reliefContrast)
         {
+            CameraSetting.SetValue(reliefContrast.CameraSetting);
+
             this.InnerAperture = reliefContrast.InnerAperture;
             this.OutAperture = reliefContrast.OutAperture;
+            this.Gamma = reliefContrast.Gamma;
+            this.Gain = reliefContrast.Gain;
+            this.Contrast = reliefContrast.Contrast;
+            this.BFWeight = reliefContrast.BFWeight;
+            this.DPWeight = reliefContrast.DPWeight;
+            this.BgCollection = reliefContrast.BgCollection;
         }
     }
 
     public class PhaseContrast : ModeBaseObject
     {
+        public Camera CameraSetting { get; set; } = new Camera();
 
         private double filter = 0.07;
         public double Filter
@@ -288,7 +377,7 @@ namespace Global.Mode.Config
 
 
 
-        private double gamma = 1.67;
+        private double gamma = 1    ;
 
         public double Gamma
         {
@@ -299,22 +388,60 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-        public double BFWeight = 1;
+        private double bFWeight = 1;
+        public double BFWeight
+        {
+            get { return bFWeight; }
+            set
+            {
+                bFWeight = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public double PCWeight = 1;
+        private double pCWeight = 1;
 
+        public double PCWeight
+        {
+            get { return pCWeight; }
+            set
+            {
+                pCWeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool bgCollection = false;
+
+        public bool BgCollection
+        {
+            get { return bgCollection; }
+            set
+            {
+                bgCollection = value;
+                NotifyPropertyChanged();
+            }
+        }
         public void SetValue(PhaseContrast phaseContrast)
         {
+            CameraSetting.SetValue(phaseContrast.CameraSetting);
+
             this.Filter = phaseContrast.Filter;
             this.Gamma = phaseContrast.Gamma;
+            this.Contrast = phaseContrast.Contrast;
+            this.Gain = phaseContrast.Gain;
+            this.BFWeight = phaseContrast.BFWeight;
+            this.PCWeight = phaseContrast.PCWeight;
+            this.BgCollection = phaseContrast.BgCollection;
         }
     }
 
 
     public class QuantitativePhase : ModeBaseObject
     {
+        public Camera CameraSetting { get; set; } = new Camera();
 
-        public double regularization = 0.0001;
+        private double regularization = 0.0001;
 
         public double Regularization
         {
@@ -349,7 +476,7 @@ namespace Global.Mode.Config
         }
 
 
-        public double max = 21.3;
+        private double max = 21.3;
         public double Max
         {
             get { return max; }
@@ -370,14 +497,28 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        private bool bgCollection = false;
+
+        public bool BgCollection
+        {
+            get { return bgCollection; }
+            set
+            {
+                bgCollection = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public void SetValue(QuantitativePhase  quantitativePhase)
         {
+            CameraSetting.SetValue(quantitativePhase.CameraSetting);
+
             this.Regularization = quantitativePhase.Regularization;
             this.Detail = quantitativePhase.Detail;
             this.Gamma = quantitativePhase.Gamma;
             this.Min = quantitativePhase.Min;
             this.max = quantitativePhase.Max;
+            this.BgCollection = quantitativePhase.BgCollection;
 
         }
     }

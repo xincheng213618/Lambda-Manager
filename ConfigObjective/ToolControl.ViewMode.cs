@@ -76,6 +76,8 @@ namespace ConfigObjective
                 Border31.DataContext = ViewMode.BrightField;
                 ColorPciker311.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color, out int bright));
                 Slider312.Value = bright;
+                Border2.DataContext = ViewMode.BrightField.CameraSetting;
+
 
             }
             if (ViewMode.SelectViewMode == 1)
@@ -86,29 +88,39 @@ namespace ConfigObjective
 
                 ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color, out int bright1));
                 Slider324.Value = bright1;
+                Border2.DataContext = ViewMode.DarkField.CameraSetting;
+
             }
 
             if (ViewMode.SelectViewMode == 2)
             {
                 ViewMode.Reinberg = new Global.Mode.Config.Reinberg();
                 Border33.DataContext = ViewMode.Reinberg;
+                Border2.DataContext = ViewMode.Reinberg.CameraSetting;
+
             }
 
             if (ViewMode.SelectViewMode == 3)
             {
                 ViewMode.ReliefContrast = new Global.Mode.Config.ReliefContrast();
                 Border34.DataContext = ViewMode.ReliefContrast;
+                Border2.DataContext = ViewMode.ReliefContrast.CameraSetting;
+
             }
 
             if (ViewMode.SelectViewMode == 4)
             {
                 ViewMode.QuantitativePhase = new Global.Mode.Config.QuantitativePhase();
                 Border35.DataContext = ViewMode.QuantitativePhase;
+                Border2.DataContext = ViewMode.QuantitativePhase.CameraSetting;
+
             }
             if (ViewMode.SelectViewMode == 5)
             {
                 ViewMode.PhaseContrast = new Global.Mode.Config.PhaseContrast();
                 Border36.DataContext = ViewMode.PhaseContrast;
+                Border2.DataContext = ViewMode.PhaseContrast.CameraSetting;
+
             }
 
 
@@ -129,6 +141,34 @@ namespace ConfigObjective
             if (s != null)
             {
                 ViewMode.SelectViewMode = int.Parse(s);
+
+
+                if (ViewMode.SelectViewMode == 0)
+                {
+                    Border2.DataContext = ViewMode.BrightField.CameraSetting;
+                }
+                if (ViewMode.SelectViewMode == 1)
+                {
+                    Border2.DataContext = ViewMode.DarkField.CameraSetting;
+                }
+                if (ViewMode.SelectViewMode == 2)
+                {
+                    Border2.DataContext = ViewMode.Reinberg.CameraSetting;
+                }
+
+                if (ViewMode.SelectViewMode == 3)
+                {
+                    Border2.DataContext = ViewMode.ReliefContrast.CameraSetting;
+                }
+                if (ViewMode.SelectViewMode == 4)
+                {
+                    Border2.DataContext = ViewMode.QuantitativePhase.CameraSetting;
+                }
+                if (ViewMode.SelectViewMode == 5)
+                {
+                    Border2.DataContext = ViewMode.PhaseContrast.CameraSetting;
+                }
+
                 Dictionary<string, object> data = new() { { "mode", ViewMode.SelectViewMode } };
                 LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
             }

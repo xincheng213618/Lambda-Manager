@@ -19,10 +19,6 @@ namespace Global
         }
 
 
-        public static void UpdateMulDimensional(MulDimensional mulDimensional)
-        {
-            UpdateEventHandler1?.Invoke(mulDimensional);
-        }
        
     } 
 }

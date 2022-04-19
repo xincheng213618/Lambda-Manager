@@ -73,6 +73,8 @@ namespace ConfigObjective
             comboxlist = list;
             if (comboxlist != null)
             {
+                if (SelectedIndex > comboxlist.Count)
+                    SelectedIndex = comboxlist.Count;
                 SelectValue = comboxlist[SelectedIndex];
             }
         }

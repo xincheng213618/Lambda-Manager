@@ -29,30 +29,27 @@ namespace Global
         }
         public List<ObjectiveSetting> ObjectiveSettingList = new()
         {
-            new ObjectiveSetting (){ID =0, Name ="奥林巴斯",Magnitude="4X", NA=0.1,IsEnabled =false},
-            new ObjectiveSetting (){ID =1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
-            new ObjectiveSetting (){ID =2, Name ="奥林巴斯",Magnitude="20X", NA=0.4,IsEnabled =false},
-            new ObjectiveSetting (){ID =3, Name ="奥林巴斯",Magnitude="40X", NA=0.65,IsEnabled =false},
-            new ObjectiveSetting (){ID =4, Name ="奥林巴斯",Magnitude="100X", NA=0.65,IsEnabled =false},
+            new ObjectiveSetting (){ID = 0, Name ="奥林巴斯",Magnitude="4X", NA=0.1, IsEnabled =false},
+            new ObjectiveSetting (){ID = 1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
+            new ObjectiveSetting (){ID = 2, Name ="奥林巴斯",Magnitude="20X", NA=0.4, IsEnabled =false},
+            new ObjectiveSetting (){ID = 3, Name ="奥林巴斯",Magnitude="40X", NA=0.65, IsEnabled =false},
+            new ObjectiveSetting (){ID = 4, Name ="奥林巴斯",Magnitude="100X", NA=0.65, IsEnabled =false},
         };
         private WindowData()
         {
             LambdaControl.CallEventHandler += Call;
-            Update.UpdateEventHandler1 += Call1;
-            Update.UpdateEventHandler += UpdateGlobal;
         }
+
         public string FilePath;
+
         public MulDimensional MulDimensional = new();
 
-        public Stage Stage = new() { MoveStep = new MoveStep() { XStep = 1000,YStep =1000, ZStep = 1000 } };
+        public Stage Stage = new() {};
+
         public ViewMode ViewMode = new ViewMode();
 
         public Config Config = new();
 
-        public void UpdateGlobal()
-        {
-
-        }
 
         public void SetValue()
         {
@@ -62,6 +59,7 @@ namespace Global
 
             ViewMode.SetValue(Config.ViewMode);
             Stage.SetValue(Config.Stage);
+
             Update.UpdateGlobal();
         }
 
@@ -103,16 +101,7 @@ namespace Global
             return new Config
             {
                 Version = "1.0",
-                Modules = new Modules
-                {
-                    LambdaManager = "1.0",
-                    ConfigDpcMode = "1.0",
-                    ConfigStage = "1.0",
-                    ConfigSpot = "1.0",
-                    ConfigDof = "1.0",
-                    ConfigMultiDimensional = "1.0",
-                    DpcAlgorithm = "1.0",
-                },
+                Modules = new Modules(),
                 LambdaManager = new LambdaManager
                 {
                     LatestClosed = new List<string>()
@@ -122,10 +111,10 @@ namespace Global
                     },
                     DefaultDirectory = "D:\\Data\\",
                 },
-
-                FirmwareSetting = new FirmwareSetting
+                FirmwareSetting = new Firmware
                 {
-                    CameraSetting = new CameraSetting
+                    Source = new(),
+                    CameraSetting = new ()
                     {
                         VideoFormat = "RGB (1280*960)",
                         Fps = 15,
@@ -135,7 +124,7 @@ namespace Global
                         Saturation = 0,
                         Sharpness = 0,
                         Gamma = 1,
-                        WhiteBalance = new WhiteBalance
+                        WhiteBalance = new ()
                         {
                             Auto = false,
                             Mode = 0,
@@ -143,12 +132,8 @@ namespace Global
                             WhiteBalanceBlue = 77,
                             WhiteBalanceRed = 91,
                         },
-                        gain = new Gain
-                        {
-                            Auto = false,
-                            Value = 0.0,
-                        },
-                        Exposure = new Exposure
+
+                        Exposure = new ()
                         {
                             Auto = false,
                             Value = 0.0667,
@@ -162,12 +147,7 @@ namespace Global
                             Delay = 15.0
                         },
                         Denoise = false,
-                        Strobe = false,
-                        Source = new Source
-                        {
-                            FpgaVersion = 0.1,
-                            MaxBright = 32,
-                        }
+                        Strobe = false
                     }
                 },
                 LogFile = "D:\\Data\\上皮细胞观察组1.log",
@@ -176,16 +156,7 @@ namespace Global
 
 
 
-        private void Call1(Object object1)
-        {
-            if (object1 is MulDimensional mulDimensional)
-            {
-                this.MulDimensional = mulDimensional;
-            }
-            if (object1 is Stage sTAGE)
-                this.Stage = sTAGE; 
 
-        }
         private int Call(string type, object sender, EventArgs e)
         {
             if(type == "STOP_ALIVE")

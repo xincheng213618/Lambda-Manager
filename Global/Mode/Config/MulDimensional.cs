@@ -116,9 +116,30 @@ namespace Global.Mode.Config
         }
 
 
-        public bool FocusEnable { get; set; } = true;
+        private bool focusEnable = true;
 
-        public int FocusMode { get; set; } = 0;
+        public bool FocusEnable
+        {
+            get { return focusEnable; }
+            set
+            {
+                focusEnable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int focusMode  = 0;
+        public int FocusMode
+        {
+            get { return focusMode; }
+            set
+            {
+                focusMode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
 
     }
     public class MulDimensionalPoint
