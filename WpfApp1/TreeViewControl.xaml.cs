@@ -139,7 +139,6 @@ namespace WpfApp1
                 }
                 else if (e.Key == Key.Enter)
                 {
-
                     projectFile.IsEditMode = false;
                 }
             }
@@ -195,19 +194,17 @@ namespace WpfApp1
             var root = new DirectoryInfo(Path);
             foreach (var item in root.GetDirectories())
             {
-                ProjectFolder projectFolder1 = new ProjectFolder()
+                ProjectFolder projectFolder1 = new ProjectFolder(item.FullName)
                 {
                     Name = item.Name,
-                    FilePath = item.FullName,
                 };
                 projectFolder.AddChild(GetFile(projectFolder1, item.FullName));
             }
             foreach (var item in root.GetFiles())
             {
-                ProjectFile projectFile = new ProjectFile()
+                ProjectFile projectFile = new ProjectFile(item.FullName)
                 {
                     Name = item.Name,
-                    FilePath = item.FullName,
                 };
                 projectFolder.AddChild(projectFile);
             }
@@ -240,26 +237,23 @@ namespace WpfApp1
             var dics = root.GetDirectories();
             foreach (var dic in dics)
             {
-                ProjectMannager projectMannager = new ProjectMannager()
+                ProjectMannager projectMannager = new ProjectMannager(dic.FullName)
                 {
                     Name = dic.Name,
-                    FilePath = dic.FullName,
                 };
                 foreach (var item in dic.GetDirectories())
                 {
-                    ProjectFolder projectFolder = new ProjectFolder()
+                    ProjectFolder projectFolder = new ProjectFolder(item.FullName)
                     {
                         Name = item.Name,
-                        FilePath = item.FullName,
                     };
                     projectMannager.AddChild(GetFile(projectFolder, item.FullName));
                 }
                 foreach (var item in dic.GetFiles())
                 {
-                    ProjectFile projectFile = new ProjectFile()
+                    ProjectFile projectFile = new ProjectFile(item.FullName)
                     {
                         Name = item.Name,
-                        FilePath = item.FullName,
                     };
                     projectMannager.AddChilds(projectFile);
                 }

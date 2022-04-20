@@ -30,12 +30,12 @@ namespace NLGSolution
 
         private void OnAddNewProject()
         {
-            ProjectMannager projectMannager = new ProjectMannager()
-            {
-                Name = "新建工程2"
-            };
+            //ProjectMannager projectMannager = new ProjectMannager()
+            //{
+            //    Name = "新建工程2"
+            //};
 
-            AddChild(projectMannager);
+            //AddChild(projectMannager);
         }
 
 
@@ -51,12 +51,12 @@ namespace NLGSolution
 
         private void AddNewProject_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ProjectMannager projectMannager = new ProjectMannager()
-            {
-                Name = "新建工程2"
-            };
+            //ProjectMannager projectMannager = new ProjectMannager()
+            //{
+            //    Name = "新建工程2"
+            //};
 
-            AddChild(projectMannager);
+            //AddChild(projectMannager);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

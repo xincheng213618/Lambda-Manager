@@ -15,6 +15,7 @@ namespace ConfigObjective
     public partial class ToolControl : UserControl
     {
         WindowData WindowData = WindowData.GetInstance();
+
         public ToolControl()
         {
             Update.UpdateEventHandler += UpdateGlobal;
@@ -43,17 +44,14 @@ namespace ConfigObjective
         /// <summary>
         /// 日志监听
         /// </summary>
-        /// <param name="message"></param>
         private void LambdaLog(Message message)
         {
             //MessageBox.Show(message.Text);
             //if (message.Text.Contains("[MotorControl]: Connect success"))
             //    LambdaControl.Trigger("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
             //if (message.Text.Contains("应用组件加载完毕"))
-            //{
-            //    Dictionary<string, object> data = new() { { "mode", ViewMode } };
-            //    LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
-            //}
+            //    LambdaControl.Trigger("IMAGING_MODE_SETTING", this, new Dictionary<string, object>() { { "mode", ViewMode } });
+
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -535,18 +533,11 @@ namespace ConfigObjective
             return 1;
         }
 
-        private void UpdateMul_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
         private void UpDownControl_Loaded(object sender, RoutedEventArgs e)
         {
             UpDownControl upDownButton1 = sender as UpDownControl;
             upDownButton1.SetList(data);
         }
-
 
         private void Slider212_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -569,7 +560,6 @@ namespace ConfigObjective
 
 
         List<string> data1 = new() { "RGB32 (640x480)", "RGB32 (1280x960)" , "RGB64 (2448x2048)" };
-
 
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

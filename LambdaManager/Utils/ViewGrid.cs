@@ -41,8 +41,8 @@ internal class ViewGrid
 			ClipToBounds = true
 		};
 
-		canvas.Children.Add(image);
-		grid.Children.Add(canvas);
+        canvas.Children.Add(image);
+        grid.Children.Add(canvas);
 		return grid;
 	}
 	private static void GridSort(Grid[] GridLists)

@@ -76,7 +76,7 @@
                 <DataTemplate DataType="{x:Type Solution:SolutionConfig}">
                     <StackPanel Style="{StaticResource style_treeViewItem_panel}">
                         <TextBlock>
-                                          <Run Text="{Binding FileName}"/>
+                            <Run Text="{Binding FileName}"/>
                         </TextBlock>
 
                     </StackPanel>

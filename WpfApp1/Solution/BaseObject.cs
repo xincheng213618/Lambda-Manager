@@ -6,6 +6,11 @@ namespace NLGSolution
 {
     public class BaseObject :INotifyPropertyChanged
     {
+        public BaseObject(string FullPath)
+        {
+            this.FullPath = FullPath;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -25,6 +30,7 @@ namespace NLGSolution
 
         private string name;
         private string oldname;
+
         public string Name
         {
             get { return name; }
@@ -36,9 +42,9 @@ namespace NLGSolution
                     try
                     {
 
-                        string oldpath = FilePath;
-                        FilePath = FilePath.Replace(oldname, name);
-                        File.Move(oldpath, FilePath);
+                        string oldpath = FullPath;
+                        FullPath = FullPath.Replace(oldname, name);
+                        File.Move(oldpath, FullPath);
                     }
                     catch { }   
                 }
@@ -47,13 +53,14 @@ namespace NLGSolution
             }
         }
 
-        private string filePath;
+        private string fullPath;
 
-        public string FilePath
+        public string FullPath
         {
-            get { return filePath; }
+            get { return fullPath; }
             set {
-                filePath = value; 
+                fullPath = value;
+                NotifyPropertyChanged();
             }
         }
 

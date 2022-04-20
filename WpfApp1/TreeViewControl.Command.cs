@@ -124,11 +124,11 @@ namespace WpfApp1
 
         private void AddNewProject_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ProjectMannager projectMannager = new ProjectMannager()
-            {
-                Name = "新建工程1"
-            };
-            SolutionExplorers[0].AddChild(projectMannager);
+            //ProjectMannager projectMannager = new ProjectMannager()
+            //{
+            //    Name = "新建工程1"
+            //};
+            //SolutionExplorers[0].AddChild(projectMannager);
         }
 
         public static RoutedCommand NewProject = new RoutedCommand();

@@ -9,33 +9,84 @@ namespace NLGSolution
 {
     public class ProjectFolder : BaseObject
     {
-        public ProjectFolder()
+        FileSystemWatcher watcher;
+        public ProjectFolder(string FolderPath) :base(FolderPath)
         {
-            if (FilePath != null)
-            {
-                FileSystemWatcher watcher = new FileSystemWatcher(FilePath);
-                watcher.IncludeSubdirectories = true;
-                watcher.Deleted += Watcher_Deleted;
-                watcher.Created += Watcher_Created;
-                watcher.Renamed += Watcher_Renamed;
-                watcher.EnableRaisingEvents = true;
-            }
+            watcher = new FileSystemWatcher(FolderPath);
+            watcher.IncludeSubdirectories = false;
+            watcher.Deleted += Watcher_Deleted;
+            watcher.Created += Watcher_Created;
+            watcher.Renamed += Watcher_Renamed;
+            watcher.EnableRaisingEvents = true;
         }
 
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            MessageBox.Show(e.FullPath);
+            if (File.Exists(e.FullPath))
+            {
+                var projectFile = ProjectFiles.ToList().Find(t => t.FullPath == e.OldFullPath);
+                if (projectFile != null)
+                {
+                    projectFile.Name = e.Name;
+                    projectFile.FullPath = e.FullPath;
+                }
+            }
+            if (Directory.Exists(e.FullPath))
+            {
+                var projectFolder = ProjectFolders.ToList().Find(t => t.FullPath == e.OldFullPath);
+                if (projectFolder != null)
+                {
+                    projectFolder.Name = e.Name;
+                    projectFolder.FullPath = e.FullPath;
+                }
+
+            }
         }
 
-        private static void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            MessageBox.Show(e.FullPath);
+            if (!File.Exists(e.FullPath))
+            {
+                var projectFile = ProjectFiles.ToList().Find(t => t.FullPath == e.FullPath);
+                if (projectFile != null)
+                {
+                    ProjectFiles.Remove(projectFile);
+                    NotifyPropertyChanged("Children");
+                }
+            }
+            if (!Directory.Exists(e.FullPath))
+            {
+                var projectFolder = ProjectFolders.ToList().Find(t => t.FullPath == e.FullPath);
+                if (projectFolder != null)
+                {
+                    ProjectFolders.Remove(projectFolder);
+                    NotifyPropertyChanged("Children");
+                }
+            }
+
         }
 
-        private static void Watcher_Created(object sender, FileSystemEventArgs e)
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
         {
-            MessageBox.Show(e.FullPath);
+            if (File.Exists(e.FullPath))
+            {
+                ProjectFile projectFile = new ProjectFile(e.FullPath)
+                {
+                    Name = e.Name,
+                };
+                AddChild(projectFile);
+            }
+            else if (Directory.Exists(e.FullPath))
+            {
+                ProjectFolder projectFolder = new ProjectFolder(e.FullPath)
+                {
+                    Name = e.Name,
+                };
+                AddChild(projectFolder);
+            }
         }
+
+
 
         public string Description { get; set; }
 
@@ -57,10 +108,6 @@ namespace NLGSolution
         }
 
 
-        private void FileWatch()
-        {
-
-        }
 
         public void AddChild(ProjectFolder projectFolder)
         {
