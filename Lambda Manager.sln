@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotKey", "HotKey\HotKey.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Global", "Global\Global.csproj", "{C6D8A524-9FB5-4668-AD38-53A87448B8E3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InteropTest", "IntereopTest\InteropTest.vcxproj", "{07E63B9A-05D4-4769-8642-2D43A169EE8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -200,6 +202,18 @@ Global
 		{C6D8A524-9FB5-4668-AD38-53A87448B8E3}.Release|x64.Build.0 = Release|x64
 		{C6D8A524-9FB5-4668-AD38-53A87448B8E3}.Release|x86.ActiveCfg = Release|Any CPU
 		{C6D8A524-9FB5-4668-AD38-53A87448B8E3}.Release|x86.Build.0 = Release|Any CPU
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Debug|Any CPU.Build.0 = Debug|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Debug|x64.ActiveCfg = Debug|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Debug|x64.Build.0 = Debug|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Debug|x86.ActiveCfg = Debug|Win32
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Debug|x86.Build.0 = Debug|Win32
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Release|Any CPU.ActiveCfg = Release|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Release|Any CPU.Build.0 = Release|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Release|x64.ActiveCfg = Release|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Release|x64.Build.0 = Release|x64
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Release|x86.ActiveCfg = Release|Win32
+		{07E63B9A-05D4-4769-8642-2D43A169EE8E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

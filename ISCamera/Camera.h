@@ -24,6 +24,9 @@ extern "C" CAMERA_API int SaveSettings();
 
 extern "C" CAMERA_API int CameraSettingExposure(double exposure);
 
+extern "C" CAMERA_API int OpenSerial(std::string FullPath);
+
+
 int Start();
 
 cv::Mat* Filter(cv::Mat& frame);

@@ -123,9 +123,7 @@ namespace ConfigObjective
 
             }
 
-
             //ViewMode_Initialized();
-
         }
 
         private void Button302_Click(object sender, RoutedEventArgs e)
@@ -141,8 +139,6 @@ namespace ConfigObjective
             if (s != null)
             {
                 ViewMode.SelectViewMode = int.Parse(s);
-
-
                 if (ViewMode.SelectViewMode == 0)
                 {
                     Border2.DataContext = ViewMode.BrightField.CameraSetting;
@@ -183,7 +179,26 @@ namespace ConfigObjective
 
         private void Slider312_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            BrightFieldColor();
+            if (!WindowData.GetInstance().ACQUIRE)
+            {
+                BrightFieldColor();
+            }
+            else
+            {
+                if (sliderfirst)
+                {
+                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                    {
+                        sliderfirst = false;
+                        Slider312.Value = e.OldValue;
+                    }
+                }
+                else
+                {
+                    sliderfirst = true;
+                }
+            }
         }
         private void BrightFieldColor()
         {
@@ -193,14 +208,44 @@ namespace ConfigObjective
                 ViewMode.BrightField.Color = result;
                 LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, new Dictionary<string, object>() { { "brightness", result } });
             }
+        }
 
+        private void Slider324_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!WindowData.GetInstance().ACQUIRE)
+            {
+                DarkFieldColor();          
+            }
+            else
+            {
+                if (sliderfirst)
+                {
+                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                    {
+                        sliderfirst = false;
+                        Slider324.Value = e.OldValue;
+                    }
+                }
+                else
+                {
+                    sliderfirst = true;
+                }
+            }
+        }
+        private void DarkFieldColor()
+        {
+            if (ColorPciker321 != null && Slider324 != null)
+            {
+                int result = HexToInt(ColorPciker321.SelectColor.ToString(), (int)Slider324.Value);
+                ViewMode.DarkField.Color = result;
+                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new Dictionary<string, object>() { { "brightness", result } });
+            }
         }
 
         private void ColorPciker312_BrushValueChanged(object sender, RoutedEventArgs e)
         {
-            int result = HexToInt(ColorPciker312.SelectColor.ToString(), -1);
-            ViewMode.BrightField.Color = result;
-            LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, new Dictionary<string, object> (){ { "brightness", result } });
+            DarkFieldColor();
         }
 
         private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)

@@ -381,14 +381,14 @@
                                 </Button>
                                 <TextBlock VerticalAlignment="Center">FPS:</TextBlock>
                                 <TextBox Name="fpsState" Text="{DynamicResource Fps}" VerticalAlignment="Center" TextChanged="fpsState_TextChanged" />
-                                <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged_1" />
+                                <Slider Width="180" Height="20"  Style="{StaticResource HorizontalSlider}" Minimum="1" Value="{Binding Path=FrameIndex1}" Maximum="{Binding Path=TotalFrame1}" IsSnapToTickEnabled="True"  TickFrequency="1" VerticalAlignment="Center"  ValueChanged="Slider_ValueChanged_1" />
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="16">
                                     <TextBlock>Frame</TextBlock>
                                     <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="4,0,0,0" Padding="2,0,2,0">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock Name="frameIndex" Foreground="#FF00BFFF">0</TextBlock>
+                                            <TextBlock Name="frameIndex" Text="{Binding Path=FrameIndex}" Foreground="#FF00BFFF"/> 
                                             <TextBlock>/</TextBlock>
-                                            <TextBlock Name="totalFrame">0</TextBlock>
+                                            <TextBlock Name="totalFrame" Text="{Binding Path=TotalFrame}"/>
                                         </StackPanel>
                                     </Border>
                                     <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="50" Margin="4,0,2,0" Padding="2,0,2,0">
@@ -464,12 +464,12 @@
                                 <TextBlock>Slice</TextBlock>
                                 <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="0,2,0,2" Padding="2,0,2,0">
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" MinHeight="12">
-                                        <TextBlock Name="sliceIndex" Foreground="#FF00BFFF" Background="#FF000000" FontSize="6" VerticalAlignment="Center">0</TextBlock>
+                                        <TextBlock Name="sliceIndex" Text="{Binding TotalSlice}" Foreground="#FF00BFFF" Background="#FF000000" FontSize="6" VerticalAlignment="Center">0</TextBlock>
                                         <TextBlock FontSize="6" VerticalAlignment="Center">/</TextBlock>
                                         <TextBlock Name="totalSlice" FontSize="6" VerticalAlignment="Center">0</TextBlock>
                                     </StackPanel>
                                 </Border>
-                                <Slider Width="20" Height="180" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" Orientation="Vertical" />
+                                <Slider Width="20" Height="180" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" Orientation="Vertical" ValueChanged="Slider_ValueChanged_2" />
                                 <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="24" Margin="0,2,0,2" Padding="2,0,2,0">
                                     <StackPanel HorizontalAlignment="Right">
                                         <TextBlock Name="zTop" FontSize="6">0μm</TextBlock>

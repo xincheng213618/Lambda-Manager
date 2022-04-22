@@ -216,8 +216,11 @@ string StringToUtf(string strValue)
 }
 
 
-
-
+int OpenSerial(std::string FullPath)
+{
+	Logger::Log2(Severity::INFO, L"≤‚ ‘: Test14(s=\"%s\")", FullPath);
+	return  0;
+}
 
 int CameraSettingExposure(double exposure)
 {

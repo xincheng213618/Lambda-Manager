@@ -223,15 +223,23 @@ extern "C" INTEROP_API int Test132(json * event);
 extern "C" INTEROP_API int Test133(const char* event);
 extern "C" INTEROP_API int Test134();
 extern "C" INTEROP_API int Test135();
+extern "C" INTEROP_API int Test136(double value);
 
 //scheduler
 extern "C" INTEROP_API int Test150();
+extern "C" INTEROP_API int Test151();
+int Test152(const char* event);
+int Test153();
+
+//event async dispatcher
+extern "C" INTEROP_API int Test160();
+extern "C" INTEROP_API int Test161(const char*);
+
+//command
+extern "C" INTEROP_API int Test200();
+extern "C" INTEROP_API int CameraSettingReset();
+extern "C" INTEROP_API int UpdateDisplayMode();
 
 template <typename T>CString format(T a[]);
 template <typename T>CString format(T a[], size_t size);
 CString formatStringArray(wchar_t* a[], int size);
-
-std::string wstring2string(const std::wstring& wstr);
-std::wstring string2wstring(const std::string* str);
-wchar_t* Multi2WideByte(const char* p);
-char* Wide2MultiByte(const wchar_t* p);

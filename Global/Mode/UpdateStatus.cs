@@ -109,10 +109,48 @@ namespace Mode
                 if (value != null)
                 {
                     frameIndex = value;
+                    try
+                    {
+                        FrameIndex1 = int.Parse(frameIndex);
+                    }
+                    catch
+                    {
+
+                    }
                     NotifyPropertyChanged();
                 }
             }
         }
+        public int frameIndex1 = 0;
+        public int FrameIndex1
+
+        {
+            get { return frameIndex1; }
+            set
+            {
+                if (value != null)
+                {
+                    frameIndex1 = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public int totalFrame1 = 4;
+        public int TotalFrame1
+
+        {
+            get { return totalFrame1; }
+            set
+            {
+                if (value != null)
+                {
+                    totalFrame1 = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public string totalFrame;
         public string TotalFrame
 
@@ -123,10 +161,20 @@ namespace Mode
                 if (value != null)
                 {
                     totalFrame = value;
+                    try
+                    {
+                        TotalFrame1 = int.Parse(totalFrame);
+                    }
+                    catch
+                    {
+
+                    }
                     NotifyPropertyChanged();
                 }
             }
         }
+
+
         public string timeElapsed;
         public string TimeElapsed
 

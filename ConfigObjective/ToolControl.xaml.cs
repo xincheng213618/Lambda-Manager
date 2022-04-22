@@ -139,34 +139,7 @@ namespace ConfigObjective
             ToggleButtonAbbreviation(Button321, "DARK_FIELD_AUTO", "auto");
             //亮度
 
-            Slider324.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
-            {
-                if (!WindowData.GetInstance().ACQUIRE)
-                {
-                    ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker321.SelectColor.ToString(), (int)Slider324.Value);
-                }
-                else
-                {
-                    if (sliderfirst)
-                    {
-                        var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
-                        if (result == MessageBoxResult.No)
-                        {
-                            sliderfirst = false;
-                            Slider324.Value = e.OldValue;
-                        }
-                    }
-                    else
-                    {
-                        sliderfirst = true;
-                    }
-                }
-            };
 
-            ColorPciker321.BrushValueChanged += delegate
-            {
-                ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker321.SelectColor.ToString(), (int)Slider324.Value);
-            };
             ColorPciker322.BrushValueChanged += delegate
             {
                 ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker322.SelectColor.ToString());

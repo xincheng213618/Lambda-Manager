@@ -177,10 +177,8 @@ namespace WpfApp1
                 }
                 else if (e.Key == Key.Enter)
                 {
-
                     projectMannager.IsEditMode = false;
                 }
-
             }
 
         }

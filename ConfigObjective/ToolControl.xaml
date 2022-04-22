@@ -186,7 +186,7 @@
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}">
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <local:ColorPicker x:Name="ColorPciker321"  Height="20" Width="20" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0"/>
-                            <Slider x:Name="Slider324" Style="{StaticResource LM_Slider}" Value="15" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                            <Slider x:Name="Slider324" Style="{StaticResource LM_Slider}" Value="15" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1" ValueChanged="Slider324_ValueChanged"/>
                         </DockPanel>
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" >
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
