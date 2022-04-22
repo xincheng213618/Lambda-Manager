@@ -22,9 +22,6 @@ namespace ConfigObjective
             MulDimensional.TIntervalEnable = timeWiseSerial.Duration == 0;
             MulDimensional.TInterval = timeWiseSerial.Duration;
 
-            TextBoxTNumber.Text = MulDimensional.TNumber.ToString();
-            TextBoxTInterval.Text = MulDimensional.TInterval.ToString();
-
             var Dimensions = WindowData.Config.Dimensional.Dimensions;
             if (Dimensions != null)
             {
@@ -45,74 +42,26 @@ namespace ConfigObjective
 
             var mode = WindowData.Config.Dimensional.Mode;
 
-            checkbox51.IsChecked = mode.Contains(0);
-            checkbox52.IsChecked = mode.Contains(1);
-            checkbox53.IsChecked = mode.Contains(2);
-            checkbox54.IsChecked = mode.Contains(3);
-            checkbox55.IsChecked = mode.Contains(4);
-            checkbox56.IsChecked = mode.Contains(5);
+            checkbox51.IsChecked = mode.Contains("bright-field");
+            checkbox52.IsChecked = mode.Contains("dark-field");
+            checkbox53.IsChecked = mode.Contains("rheinberg");
+            checkbox54.IsChecked = mode.Contains("relief-contrast");
+            checkbox55.IsChecked = mode.Contains("quantitative-phase");
+            checkbox56.IsChecked = mode.Contains("phase-contrast");
 
-        }
-        private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
-        {
-            var MulDimensional = WindowData.MulDimensional;
-            try
-            {
-                MulDimensional.ZStart = int.Parse(TextBoxZstart.Text);
-            }
-            catch
-            {
-                TextBoxZstart.Text = MulDimensional.ZStart.ToString();
-            }
         }
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
-            var MulDimensional = WindowData.MulDimensional;
-            try
-            {
-                MulDimensional.ZEnd = int.Parse(TextBoxZend.Text);
-            }
-            catch
-            {
-                TextBoxZend.Text = MulDimensional.ZEnd.ToString();
-            }
-        }
-        private void UpdateMulZStep_Click(object sender, RoutedEventArgs e)
-        {
-            var MulDimensional = WindowData.MulDimensional;
-            try
-            {
-                MulDimensional.Zstep = int.Parse(TextBoxZStep.Text);
-            }
-            catch
-            {
-                TextBoxZStep.Text = MulDimensional.Zstep.ToString();
-            }
-        }
-        private void UpdateTIntervalMul_Click(object sender, RoutedEventArgs e)
-        {
-            var MulDimensional = WindowData.MulDimensional;
-            try
-            {
-                MulDimensional.TInterval = int.Parse(TextBoxTInterval.Text);
-            }
-            catch
-            {
-                TextBoxTInterval.Text = MulDimensional.TInterval.ToString();
-            }
+
         }
 
-        private void UpdateTNumberMul_Click(object sender, RoutedEventArgs e)
+        private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
         {
-            var MulDimensional = WindowData.MulDimensional;
-            try
-            {
-                MulDimensional.TNumber = int.Parse(TextBoxTNumber.Text);
-            }
-            catch
-            {
-                TextBoxTNumber.Text = MulDimensional.TNumber.ToString();
-            }
+
+        }
+
+        private void UpdateMulZStep_Click(object sender, RoutedEventArgs e)
+        {
 
         }
 

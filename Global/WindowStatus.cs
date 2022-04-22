@@ -41,6 +41,15 @@ namespace Global
             LambdaControl.CallEventHandler += Call;
         }
 
+        public string SolutionDir { get
+            {
+                if (FilePath != null)
+                {
+                    return FilePath.Substring(0, FilePath.LastIndexOf("\\") + 1);
+                }
+                return null;    
+            } 
+        }
         public string FilePath;
 
         public MulDimensional MulDimensional = new();

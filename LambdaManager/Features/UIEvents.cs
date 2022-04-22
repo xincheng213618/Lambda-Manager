@@ -256,6 +256,7 @@ internal class UIEvents
         UpdateStatus.ZBottom = GetStringValue(eventData, "zBottom");
         UpdateStatus.Ratio = GetStringValue(eventData, "ratio");
         UpdateStatus.FpsState = GetStringValue(eventData, "fps");
+
         return true;
 	}
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,12 +22,22 @@ namespace Global.Mode.Config
         public int SelectViewMode = 0;
 
 
-
+        [JsonProperty("bright-field")]
         public BrightField BrightField { get; set; } = new();
+
+        [JsonProperty("dark-field")]    
         public DarkField DarkField { get; set; } = new();
+
+        [JsonProperty("rheinberg")]
         public Reinberg Reinberg { get; set; } = new();
+
+        [JsonProperty("relief-contrast")]
         public ReliefContrast ReliefContrast { get; set; } = new();
+
+        [JsonProperty("phase-contrast")]
         public PhaseContrast PhaseContrast { get; set; } = new();
+
+        [JsonProperty("quantitative-phase")]
         public QuantitativePhase QuantitativePhase { get; set; } = new();
 
         public void SetValue(ViewMode ViewMode)
@@ -47,6 +58,7 @@ namespace Global.Mode.Config
         public Camera CameraSetting { get; set; } = new Camera();
         private int aperture = 9;
 
+        [JsonProperty("led-diameter")]
         public int Aperture
         {
             get {return aperture; }
@@ -67,6 +79,8 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+
+
         public void SetValue(BrightField brightField)
         {
             CameraSetting.SetValue(brightField.CameraSetting);
@@ -80,6 +94,8 @@ namespace Global.Mode.Config
         public Camera CameraSetting { get; set; } = new Camera();
 
         private int innerAperture = 13;
+
+        [JsonProperty("led-diameter-inner")]
         public int InnerAperture
         {
             get { return innerAperture; }
@@ -92,7 +108,7 @@ namespace Global.Mode.Config
 
 
         private int outAperture = 32;
-
+        [JsonProperty("led-diameter-outer")]
         public int OutAperture
         {
             get { return outAperture; }
@@ -116,7 +132,6 @@ namespace Global.Mode.Config
 
 
         private double gamma = 1.67;
-
         public double Gamma
         {
             get { return gamma; }

@@ -225,6 +225,6 @@ int CameraSettingExposure(double exposure)
 
 	std::string name = "aÖÐÎÄ";
 	//name = StringToUtf(name);
-	Logger::Log2(Severity::INFO, L"%s'", StringUtils::string2wstring(name.c_str()));
+	Logger::Log2(Severity::INFO, L"%s'", exposure);
 	return  0;
 }

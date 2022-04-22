@@ -54,30 +54,48 @@ namespace WpfApp1
             base.OnPreviewMouseDown(e);
 
             SelectPoint = e.GetPosition(TreeView1);
-            if (LastSelectItem != null)
+            HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
+            if (result != null)
             {
-                HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
-                if (result != null)
+                TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
+                if (LastSelectItem != null && item != null)
                 {
-                    TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
-                    if (item != null)
+                    if (LastSelectItem != item)
                     {
-                        if (LastSelectItem != item)
-                        {
-                            if (LastSelectItem.DataContext is ProjectFile projectFile)
-                                projectFile.IsEditMode = false;
-                            else if (LastSelectItem.DataContext is ProjectFolder projectFolder)
-                                projectFolder.IsEditMode = false;
-                            else if (LastSelectItem.DataContext is ProjectMannager projectMannager)
-                                projectMannager.IsEditMode = false;
-                            LastSelectItem = null;
-                        }
-
+                        if (LastSelectItem.DataContext is ProjectFile projectFile)
+                            projectFile.IsEditMode = false;
+                        else if (LastSelectItem.DataContext is ProjectFolder projectFolder)
+                            projectFolder.IsEditMode = false;
+                        else if (LastSelectItem.DataContext is ProjectMannager projectMannager)
+                            projectMannager.IsEditMode = false;
+                        LastSelectItem = null;
                     }
+
+                }
+                if (item.DataContext is ProjectFile projectFile1)
+                {
+                    LambdaControl.Trigger("projectFile", this, new Dictionary<string, object>() { { "FullPath", projectFile1.FullPath } });
+                }
+                if (item.DataContext is ProjectFolder projectFolder1)
+                {
+                    LambdaControl.Trigger("projectFolder", this, new Dictionary<string, object>() { { "FullPath", projectFolder1.FullPath } });
+                }
+                if (item.DataContext is ProjectMannager projectMannager1)
+                {
+                    LambdaControl.Trigger("projectMannager", this, new Dictionary<string, object>() { { "FullPath", projectMannager1.FullPath } });
                 }
             }
 
-   
+            //if (e.ClickCount == 2)
+            //{
+            //    if (item != null && item.DataContext is ProjectMannager)
+            //    {
+
+            //    }
+
+            //    return;
+            //}
+
             //if (e.RightButton == MouseButtonState.Pressed)
             //{
             //    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);

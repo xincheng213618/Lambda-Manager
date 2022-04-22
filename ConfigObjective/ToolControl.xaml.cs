@@ -116,8 +116,10 @@ namespace ConfigObjective
 
             //锐度
             SliderAbbreviation(Slider213, "CAMERA_SETTING_SHARPNESS", "sharpness");
+
             //伽马
             SliderAbbreviation1(Slider214, "CAMERA_SETTING_GAMMA", "gamma");
+
             //降噪
             SliderAbbreviation(Slider215, "CAMERA_SETTING_DENOISE", "denoise");
 
@@ -476,19 +478,19 @@ namespace ConfigObjective
                 TestMean testMean = new TestMean();
                 testMean.Spot = spot;
 
-                List<int> Mode = new();
+                List<string> Mode = new();
                 if (checkbox51.IsChecked == true)
-                    Mode.Add(0);
+                    Mode.Add("bright-field");
                 if (checkbox52.IsChecked == true)
-                    Mode.Add(1);
+                    Mode.Add("dark-field");
                 if (checkbox53.IsChecked == true)
-                    Mode.Add(2);
+                    Mode.Add("rheinberg");
                 if (checkbox54.IsChecked == true)
-                    Mode.Add(3);
+                    Mode.Add("relief-contrast");
                 if (checkbox55.IsChecked == true)
-                    Mode.Add(4);
+                    Mode.Add("quantitative-phase");
                 if (checkbox56.IsChecked == true)
-                    Mode.Add(5);
+                    Mode.Add("phase-contras");
 
                 testMean.Dimensional = new Global.Mode.Config.Dimensional() { Mode = Mode };
 
@@ -521,6 +523,7 @@ namespace ConfigObjective
 
 
                 testMean.Dimensional.Dimensions = Dimensions.ToString();
+                testMean.Dimensional.Savedir = WindowData.SolutionDir;
 
                 testMean.Stage = WindowData.GetInstance().Stage;
                 WindowData.Config.Dimensional = testMean.Dimensional;
@@ -548,7 +551,6 @@ namespace ConfigObjective
                 ToggleButton210.IsChecked = false;
             }
         }
-
 
         private void UpDownControl1_SelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -618,6 +620,7 @@ namespace ConfigObjective
             rheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
             rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
         }
+
 
     }
 }

@@ -463,7 +463,7 @@ internal class Common
 			}
 			if (data is Dictionary<string, object> dic)
 			{
-				//string json= JsonFormatter.SerializeObject(dic);
+                //string json = JsonConvert.SerializeObject(dic);
                 string json = JSON.Stringify(dic);
                 App.Report(new Message
 				{

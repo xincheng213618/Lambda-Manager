@@ -33,22 +33,44 @@ namespace Global.Mode.Config
     public class Dimensional : ModeBaseObject
     {
         [JsonProperty("imaging-mode")]
-        public List<int> Mode { get; set; } = new List<int>();
+        public List<string> Mode { get; set; } = new List<string>();
 
         [JsonProperty("focus-mode")]
-        public int Focusmode { get; set; } = 0;
+        public FocusMode Focusmode { get; set; } = new();
 
         [JsonProperty("time-wise-serial")]
         public TimeWiseSerial TimeWiseSerial { get; set; } = new TimeWiseSerial();
-        [JsonProperty("dimensions")]
+        [JsonProperty("dimensions")]  
         public string Dimensions { get; set; } = "xy";
 
         [JsonProperty("zstack-wise-serial")]
         public ZstackWiseSerial ZstackWiseSerial { get; set; } = new ZstackWiseSerial();    
-        [JsonProperty("serial-dir")]
-        public string Savedir { get; set; } = "D:\\Data\\上皮细胞观察组1\\Serial";
-
+        [JsonProperty("serial-prefix")]
+        public string Saveprefix { get; set; } = "Serial";
+        [JsonProperty("save-dir")]
+        public string Savedir { get; set; }
     }
+
+    [Serializable]
+    public class FocusMode
+    {
+        [JsonProperty("t-wise")]
+        public Twise Twise { get; set; } = new();
+
+        [JsonProperty("p-wise")]
+        public Pwise Pwise { get; set; } = new();
+    }
+    [Serializable]
+    public class Twise
+    {
+        public string Interval { get; set; } = "first";
+    }
+    [Serializable]
+    public class Pwise
+    {
+        public string Interval { get; set; } = "first";
+    }
+
     [Serializable]
     public class ZstackWiseSerial : ModeBaseObject
     {
