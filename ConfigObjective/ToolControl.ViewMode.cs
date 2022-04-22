@@ -69,10 +69,10 @@ namespace ConfigObjective
         private void Button301_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("IMAGE_MODE_RESET", this, new Dictionary<string, object>() { });
+
             if (ViewMode.SelectViewMode == 0)
             {
                 ViewMode.BrightField = new Global.Mode.Config.BrightField();
-
                 Border31.DataContext = ViewMode.BrightField;
                 ColorPciker311.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color, out int bright));
                 Slider312.Value = bright;

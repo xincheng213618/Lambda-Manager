@@ -10,7 +10,7 @@ namespace NLGSolution
     public class ProjectFolder : BaseObject
     {
         FileSystemWatcher watcher;
-        public ProjectFolder(string FolderPath) :base(FolderPath)
+        public ProjectFolder(string FolderPath) :base(FolderPath, Type.Directory)
         {
             watcher = new FileSystemWatcher(FolderPath);
             watcher.IncludeSubdirectories = false;
@@ -39,7 +39,6 @@ namespace NLGSolution
                     projectFolder.Name = e.Name;
                     projectFolder.FullPath = e.FullPath;
                 }
-
             }
         }
 

@@ -479,6 +479,11 @@ internal class Common
 			});
 			return -1;
 		}
+		App.Report(new Message
+		{
+			Severity = Severity.INFO,
+			Text = type
+		});
 		return CallEvent(type, GCHandle.ToIntPtr(handle));
 	}
 

@@ -139,7 +139,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private bool bgCollection = false;
+        private bool bgCollection = true;
 
         public bool BgCollection
         {
@@ -305,7 +305,7 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-        private bool bgCollection = false;
+        private bool bgCollection = true;
 
         public bool BgCollection
         {
@@ -411,7 +411,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private bool bgCollection = false;
+        private bool bgCollection = true;
 
         public bool BgCollection
         {
@@ -497,7 +497,7 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-        private bool bgCollection = false;
+        private bool bgCollection = true;
 
         public bool BgCollection
         {

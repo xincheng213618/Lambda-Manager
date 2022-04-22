@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tool;
 using Global;
+using Lambda;
 
 namespace WpfApp1
 {
@@ -76,15 +77,10 @@ namespace WpfApp1
                 }
             }
 
+   
             //if (e.RightButton == MouseButtonState.Pressed)
             //{
-            //    if (item != null)
-            //        item.IsSelected = true;
-            //}
-
-            //if (e.ClickCount == 2)
-            //{
-
+            //    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
             //}
         }
 
@@ -129,7 +125,6 @@ namespace WpfApp1
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
-
             if (tb.Tag is ProjectFile projectFile)
             {
                 projectFile.Name = tb.Text;
@@ -188,7 +183,7 @@ namespace WpfApp1
             };
         }
 
-       
+
         public ProjectFolder GetFile(ProjectFolder projectFolder, string Path)
         {
             var root = new DirectoryInfo(Path);
@@ -313,6 +308,16 @@ namespace WpfApp1
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(WindowData.GetInstance().ViewMode.ToJson());
+        }
+
+        private void MenuItem3_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem4_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

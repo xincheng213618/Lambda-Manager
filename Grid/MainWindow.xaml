@@ -172,8 +172,7 @@
                 <DockPanel>
 
                     <DockPanel  DockPanel.Dock="Bottom" HorizontalAlignment="Right"  Margin="20" >
-                        <Button Style="{DynamicResource ButtonStyle1}"  Margin="5,0" Content="{x:Static resx:Resources.OK}" Foreground="White" Click="Button_Click" Width="60">
-                        </Button>
+                        <Button Style="{DynamicResource ButtonStyle1}"  Margin="5,0" Content="{x:Static resx:Resources.OK}" Foreground="White" Click="Button_Click" Width="60"/>
                         <Button  Style="{DynamicResource ButtonStyle1}"  Margin="5,0" Content="{x:Static resx:Resources.Cancel}" Foreground="White" Click="Button_Click" Width="60"/>
                     </DockPanel>
                     <Grid>

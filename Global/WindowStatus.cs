@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Global
 {
@@ -53,14 +54,22 @@ namespace Global
 
         public void SetValue()
         {
-            MulDimensional.ZStart = Config.Dimensional.ZstackWiseSerial.ZBegin;
-            MulDimensional.Zstep = Config.Dimensional.ZstackWiseSerial.ZStep;
-            MulDimensional.ZEnd = Config.Dimensional.ZstackWiseSerial.ZEnd;
+            if (!ACQUIRE)
+            {
+                MulDimensional.ZStart = Config.Dimensional.ZstackWiseSerial.ZBegin;
+                MulDimensional.Zstep = Config.Dimensional.ZstackWiseSerial.ZStep;
+                MulDimensional.ZEnd = Config.Dimensional.ZstackWiseSerial.ZEnd;
 
-            ViewMode.SetValue(Config.ViewMode);
-            Stage.SetValue(Config.Stage);
+                ViewMode.SetValue(Config.ViewMode);
+                Stage.SetValue(Config.Stage);
 
-            Update.UpdateGlobal();
+                Update.UpdateGlobal();
+            }
+            else
+            {
+                MessageBox.Show("请先暂停采集模式，在对参数进行赋值");
+            }
+
         }
 
         public void SaveConfig()
@@ -132,7 +141,6 @@ namespace Global
                             WhiteBalanceBlue = 77,
                             WhiteBalanceRed = 91,
                         },
-
                         Exposure = new ()
                         {
                             Auto = false,

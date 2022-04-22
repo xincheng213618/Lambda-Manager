@@ -36,8 +36,9 @@ internal class ViewGrid
 		Grid grid = new Grid(){
 			Margin = new Thickness(2, 2, 2, 2),
 		};
-		Canvas canvas = new Canvas(){
-			Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
+		Canvas canvas = new Canvas() {
+			//Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
+			Background = Brushes.Black,
 			ClipToBounds = true
 		};
 

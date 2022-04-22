@@ -43,6 +43,8 @@ namespace Mode
         public Hotkey Hotkey { get; set; }
     }
 
+
+
     [Serializable]
     public class Hotkey
     {

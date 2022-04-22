@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Global.Mode;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mode
 {
-    public class UpdateStatus :INotifyPropertyChanged
+    public class UpdateStatus : ModeBaseObject
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
         private string imageX = "X:1234";
 
         public string ImageX

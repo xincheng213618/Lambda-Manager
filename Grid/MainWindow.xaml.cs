@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -27,17 +29,18 @@ namespace Grid
             InitializeComponent();
         }
 
+
         private void Window_Initialized(object sender, EventArgs e)
         {
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (File.Exists("LambdaManager.exe")){
+                StartWindow startWindow = new StartWindow();
+                startWindow.Show();
+            }
             Close();
         }
 
@@ -56,7 +59,6 @@ namespace Grid
             {
                 TextBox1.Text = dialog.FileName;
             }
-
         }
 
         private void Set_Click1(object sender, RoutedEventArgs e)

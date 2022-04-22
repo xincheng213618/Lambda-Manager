@@ -13,7 +13,7 @@ namespace NLGSolution
     {
         FileSystemWatcher watcher;
 
-        public ProjectMannager(string ProjectPath):base(ProjectPath)
+        public ProjectMannager(string ProjectPath):base(ProjectPath, Type.Directory)
         {
             watcher = new FileSystemWatcher(ProjectPath);
             watcher.IncludeSubdirectories = false;
@@ -27,15 +27,20 @@ namespace NLGSolution
             if (File.Exists(e.FullPath))
             {
                 var projectFile = ProjectFiles.ToList().Find(t => t.FullPath == e.OldFullPath);
-                projectFile.FullPath = e.FullPath;
-                NotifyPropertyChanged("Children");
-
+                if (projectFile != null)
+                {
+                    projectFile.Name = e.Name;
+                    projectFile.FullPath = e.FullPath;
+                }
             }
             if (Directory.Exists(e.FullPath))
             {
                 var projectFolder = ProjectFolders.ToList().Find(t => t.FullPath == e.OldFullPath);
-                projectFolder.FullPath = e.FullPath;
-                NotifyPropertyChanged("Children");
+                if (projectFolder != null)
+                {
+                    projectFolder.Name = e.Name;
+                    projectFolder.FullPath = e.FullPath;
+                }
             }
         }
 
