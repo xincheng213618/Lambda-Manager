@@ -245,12 +245,39 @@ internal class UIEvents
         UpdateStatus.ImageSize = GetStringValue(eventData, "size");
         UpdateStatus.imageFocus = GetStringValue(eventData, "focus");
         UpdateStatus.CreateTime = GetStringValue(eventData, "createTime");
-        UpdateStatus.FrameIndex = GetStringValue(eventData, "frameIndex");
-        UpdateStatus.TotalFrame = GetStringValue(eventData, "totalFrame");
-        UpdateStatus.TimeElapsed = GetStringValue(eventData, "timeElapsed");
+		string frameIndex = GetStringValue(eventData, "frameIndex"); 
+		if (frameIndex != null)
+        {
+			UpdateStatus.FrameIndex = int.Parse(frameIndex);
+
+		}
+
+		string totalFrame = GetStringValue(eventData, "totalFrame");
+		if (totalFrame != null)
+        {
+            try
+            {
+				UpdateStatus.TotalFrame = int.Parse(totalFrame);
+			}
+            catch
+            {
+				UpdateStatus.TotalFrame = 0;
+            }
+		}
+
+		UpdateStatus.TimeElapsed = GetStringValue(eventData, "timeElapsed");
         UpdateStatus.TotalTime = GetStringValue(eventData, "totalTime");
-        UpdateStatus.SliceIndex = GetStringValue(eventData, "sliceIndex");
-        UpdateStatus.TotalSlice = GetStringValue(eventData, "totalSlice");
+		string sliceIndex = GetStringValue(eventData, "sliceIndex");
+		if (sliceIndex != null)
+        {
+			UpdateStatus.SliceIndex = int.Parse(sliceIndex);	
+		}
+		string totalSlice = GetStringValue(eventData, "totalSlice");
+		if (totalSlice != null)
+        {
+			UpdateStatus.TotalSlice = int.Parse(totalSlice);
+		}
+		
         UpdateStatus.ZTop = GetStringValue(eventData, "zTop");
         UpdateStatus.ZCurrent = GetStringValue(eventData, "zCurrent");
         UpdateStatus.ZBottom = GetStringValue(eventData, "zBottom");

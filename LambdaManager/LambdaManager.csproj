@@ -162,7 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="application.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

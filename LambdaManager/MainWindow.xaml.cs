@@ -277,6 +277,7 @@ partial class MainWindow : Window
 	{
 		statusBar.DataContext = Global.GetInstance().updateStatus;
 		bottomToolbar.DataContext = Global.GetInstance().updateStatus;
+		rightToolbar.DataContext = Global.GetInstance().updateStatus;
 		SliderAll1.Value = 1920;
         SliderAll1.ValueChanged += Slider_ValueChanged;
 
@@ -395,8 +396,11 @@ partial class MainWindow : Window
 	{
 		Slider slider = sender as Slider;
 		LambdaControl.Trigger("TSERIES_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)slider.Value -1} });
-		if (frameIndex!=null)
-			frameIndex.Text = slider.Value.ToString();
+	}
+	private void Slider_ValueChanged_2(object sender, RoutedPropertyChangedEventArgs<double> e)
+	{
+		Slider slider = sender as Slider;
+		LambdaControl.Trigger("TSERIES_CHANGED1", sender, new Dictionary<string, object>() { { "num", (int)slider.Value - 1 } });
 	}
 
 	private void Button_Click_9(object sender, RoutedEventArgs e)
@@ -663,8 +667,5 @@ partial class MainWindow : Window
         //BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
     }
 
-    private void Slider_ValueChanged_2(object sender, RoutedPropertyChangedEventArgs<double> e)
-    {
 
-    }
 }

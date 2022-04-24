@@ -99,8 +99,8 @@ namespace Mode
             }
         }
         
-        public string frameIndex;
-        public string FrameIndex
+        public int frameIndex;
+        public int FrameIndex
 
         {
             get { return frameIndex; }
@@ -109,50 +109,15 @@ namespace Mode
                 if (value != null)
                 {
                     frameIndex = value;
-                    try
-                    {
-                        FrameIndex1 = int.Parse(frameIndex);
-                    }
-                    catch
-                    {
 
-                    }
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public int frameIndex1 = 0;
-        public int FrameIndex1
-
-        {
-            get { return frameIndex1; }
-            set
-            {
-                if (value != null)
-                {
-                    frameIndex1 = value;
                     NotifyPropertyChanged();
                 }
             }
         }
 
-        public int totalFrame1 = 4;
-        public int TotalFrame1
 
-        {
-            get { return totalFrame1; }
-            set
-            {
-                if (value != null)
-                {
-                    totalFrame1 = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public string totalFrame;
-        public string TotalFrame
+        public int totalFrame = 4;
+        public int TotalFrame
 
         {
             get { return totalFrame; }
@@ -161,14 +126,6 @@ namespace Mode
                 if (value != null)
                 {
                     totalFrame = value;
-                    try
-                    {
-                        TotalFrame1 = int.Parse(totalFrame);
-                    }
-                    catch
-                    {
-
-                    }
                     NotifyPropertyChanged();
                 }
             }
@@ -204,8 +161,8 @@ namespace Mode
                 }
             }
         }
-        public string sliceIndex;
-        public string SliceIndex
+        public int sliceIndex =0;
+        public int SliceIndex
 
         {
             get { return sliceIndex; }
@@ -218,8 +175,8 @@ namespace Mode
                 }
             }
         }
-        public string totalSlice;
-        public string TotalSlice
+        public int totalSlice = 4;
+        public int TotalSlice
 
         {
             get { return totalSlice; }

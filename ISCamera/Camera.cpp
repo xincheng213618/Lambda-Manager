@@ -224,10 +224,8 @@ int OpenSerial(std::string FullPath)
 
 int CameraSettingExposure(double exposure)
 {
-	//name = json2string("中文");
-
 	std::string name = "a中文";
 	//name = StringToUtf(name);
-	Logger::Log2(Severity::INFO, L"%s'", exposure);
+	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
 	return  0;
 }
