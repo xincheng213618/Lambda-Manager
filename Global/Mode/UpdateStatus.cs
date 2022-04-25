@@ -106,12 +106,8 @@ namespace Mode
             get { return frameIndex; }
             set
             {
-                if (value != null)
-                {
-                    frameIndex = value;
-
-                    NotifyPropertyChanged();
-                }
+                frameIndex = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -123,11 +119,8 @@ namespace Mode
             get { return totalFrame; }
             set
             {
-                if (value != null)
-                {
-                    totalFrame = value;
-                    NotifyPropertyChanged();
-                }
+                totalFrame = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -168,11 +161,8 @@ namespace Mode
             get { return sliceIndex; }
             set
             {
-                if (value != null)
-                {
-                    sliceIndex = value;
-                    NotifyPropertyChanged();
-                }
+                sliceIndex = value;
+                NotifyPropertyChanged();
             }
         }
         public int totalSlice = 4;
@@ -182,11 +172,8 @@ namespace Mode
             get { return totalSlice; }
             set
             {
-                if (value != null)
-                {
-                    totalSlice = value;
-                    NotifyPropertyChanged();
-                }
+                totalSlice = value;
+                NotifyPropertyChanged();
             }
         }
         public string zTop;

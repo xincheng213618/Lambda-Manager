@@ -7,7 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
         xmlns:controls="clr-namespace:LambdaManager.Controls" 
-        Title="Manager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"  Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Title="Manager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <WindowChrome.WindowChrome>
         <WindowChrome  GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"  />
     </WindowChrome.WindowChrome>
@@ -393,9 +393,9 @@
                                     </Border>
                                     <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="50" Margin="4,0,2,0" Padding="2,0,2,0">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock Name="timeElapsed" Foreground="#FF00BFFF">00:00:00</TextBlock>
+                                            <TextBlock Name="timeElapsed" Text="{Binding Path=TimeElapsed}"  Foreground="#FF00BFFF"/>
                                             <TextBlock>/</TextBlock>
-                                            <TextBlock Name="totalTime">00:00:00</TextBlock>
+                                            <TextBlock Name="totalTime" Text="{Binding Path=TotalTime}"/>
                                         </StackPanel>
                                     </Border>
                                 </StackPanel>
@@ -472,9 +472,9 @@
                                 <Slider Width="20" Height="180" Minimum="1" Maximum="{Binding Path=TotalSlice,Mode=TwoWay}" Value="{Binding Path=SliceIndex ,Mode=TwoWay}" Style="{StaticResource HorizontalSlider}" IsSnapToTickEnabled="True"  TickFrequency="1" VerticalAlignment="Center" Orientation="Vertical" ValueChanged="Slider_ValueChanged_2" />
                                 <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="24" Margin="0,2,0,2" Padding="2,0,2,0">
                                     <StackPanel HorizontalAlignment="Right">
-                                        <TextBlock Name="zTop" FontSize="6">0μm</TextBlock>
-                                        <TextBlock Name="zCurrent" Foreground="#FF00BFFF" FontSize="6">0μm</TextBlock>
-                                        <TextBlock Name="zBottom" FontSize="6">0μm</TextBlock>
+                                        <TextBlock Name="zTop" Text="{Binding Path=ZTop}" FontSize="6"/>
+                                        <TextBlock Name="zCurrent" Text="{Binding Path=ZCurrent}" Foreground="#FF00BFFF" FontSize="6"/>
+                                        <TextBlock Name="zBottom" Text="{Binding Path=ZBottom}" FontSize="6"/>
                                     </StackPanel>
                                 </Border>
                             </WrapPanel>

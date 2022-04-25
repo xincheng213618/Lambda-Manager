@@ -41,7 +41,6 @@ namespace ConfigObjective
         private void ToggleButtonZF_Checked(object sender, RoutedEventArgs e)
         {
             MoveStep.ZStep = 200;
-
         }
 
         private void ToggleButtonZF_Unchecked(object sender, RoutedEventArgs e)

@@ -59,6 +59,19 @@ namespace Global.Mode.Config
             }
         }
 
+        private int exposure = 60;
+        [JsonProperty("exposure")]
+        public int Exposure
+        {
+            get => exposure;
+            set
+            {
+                exposure = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         [JsonProperty("vedio-format")]
         public string? VideoFormat { get; set; }
         [JsonProperty("fps")]
@@ -74,8 +87,7 @@ namespace Global.Mode.Config
         [JsonProperty("white-balance")]
         public WhiteBalance? WhiteBalance { get; set; }
 
-        [JsonProperty("exposure")]
-        public Exposure? Exposure { get; set; }
+
         [JsonProperty("trigger")]
         public Trigger? Trigger { get; set; }
         [JsonProperty("denoise")]

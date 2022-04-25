@@ -251,8 +251,7 @@ namespace ConfigObjective
         private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
         {
             int result = HexToInt(hexString, bright);
-            Dictionary<string, object> data = new() { { TriggerParameter, result } };
-            LambdaControl.Trigger(TriggerName, this, data);
+            LambdaControl.Trigger(TriggerName, this, new Dictionary<string, object>() { { TriggerParameter, result } });
         }
 
 

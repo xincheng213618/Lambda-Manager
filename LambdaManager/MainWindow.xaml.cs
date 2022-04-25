@@ -285,7 +285,7 @@ partial class MainWindow : Window
 	private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
         stageAcquisition.Width = SliderAll1.Value;
-        stageAcquisition.Height = SliderAll1.Value * (this.Height - 60) / (this.Width);
+        stageAcquisition.Height = SliderAll1.Value * (this.Height - 47) / (this.Width);
     }
 
 	
@@ -296,7 +296,7 @@ partial class MainWindow : Window
 		try
 		{
 			stageAcquisition.Width = SliderAll1.Value;
-			stageAcquisition.Height = SliderAll1.Value * (this.Height - 60) / (this.Width);
+			stageAcquisition.Height = SliderAll1.Value * (this.Height - 47) / (this.Width);
 		}
 		catch
 		{
@@ -400,7 +400,7 @@ partial class MainWindow : Window
 	private void Slider_ValueChanged_2(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
 		Slider slider = sender as Slider;
-		LambdaControl.Trigger("TSERIES_CHANGED1", sender, new Dictionary<string, object>() { { "num", (int)slider.Value - 1 } });
+		LambdaControl.Trigger("ZINDEX_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)slider.Value - 1 } });
 	}
 
 	private void Button_Click_9(object sender, RoutedEventArgs e)
@@ -661,11 +661,7 @@ partial class MainWindow : Window
 	}
 
 
-	private void GridSet1_SizeChanged(object sender, SizeChangedEventArgs e)
-	{
-        //Grid grid = sender as Grid;
-        //BorderAcquire.Height = 400 * (grid.ActualHeight / grid.ActualWidth);
-    }
+
 
 
 }

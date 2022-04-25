@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows;
 
 namespace Global
 {
@@ -40,9 +41,9 @@ namespace Global
                     result = reader.ReadToEnd();
                 }
             }
-            catch 
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
             return result;
         }
@@ -60,8 +61,9 @@ namespace Global
                 T obj = JsonConvert.DeserializeObject<T>(strJson);
                 return obj;
             }
-            catch
+            catch(Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 return JsonConvert.DeserializeObject<T>("");
             }
         }
@@ -76,12 +78,11 @@ namespace Global
             string result = string.Empty;
             try
             {
-                result = JsonConvert.SerializeObject(obj,
-                                           Formatting.Indented,
-                                           new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                result = JsonConvert.SerializeObject(obj, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             }
-            catch
+            catch(Exception ex)
             {
+                MessageBox.Show(ex.Message);
             }
             return result;
         }

@@ -58,7 +58,9 @@ namespace WpfApp1
             if (result != null)
             {
                 TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
-                if (LastSelectItem != null && item != null)
+                if (item == null)
+                    return;
+                if (LastSelectItem != null)
                 {
                     if (LastSelectItem != item)
                     {
@@ -70,8 +72,8 @@ namespace WpfApp1
                             projectMannager.IsEditMode = false;
                         LastSelectItem = null;
                     }
-
                 }
+
                 if (item.DataContext is ProjectFile projectFile1)
                 {
                     LambdaControl.Trigger("projectFile", this, new Dictionary<string, object>() { { "FullPath", projectFile1.FullPath } });
@@ -196,6 +198,7 @@ namespace WpfApp1
                     TreeViewInitialized(FilePath, windowData.Config);
                     TreeView1.ItemsSource = SolutionExplorers;
                 }
+
             };
         }
 

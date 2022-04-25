@@ -75,11 +75,11 @@
 			</action>
 		</procedure>
 		
-		<procedure name="OpenSerial" event="projectMannager" key="FullPath">
+		<!--<procedure name="OpenSerial" event="projectMannager" key="FullPath">
 			<action name="OpenSerial">
 				<input name="FullPath" type="string" />
 			</action>
-		</procedure>
+		</procedure>-->
 		
 		
 		<procedure name="OpenCamera">

@@ -1,6 +1,7 @@
 ﻿using Global.Mode.Config;
 using Lambda;
 using Mode;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace Global
             {
                 if (FilePath != null)
                 {
-                    return FilePath.Substring(0, FilePath.LastIndexOf("\\") + 1);
+                    return FilePath[..(FilePath.LastIndexOf("\\") + 1)];
                 }
                 return null;    
             } 
@@ -56,7 +57,7 @@ namespace Global
 
         public Stage Stage = new() {};
 
-        public ViewMode ViewMode = new ViewMode();
+        public ViewMode ViewMode = new();
 
         public Config Config = new();
 
@@ -94,22 +95,27 @@ namespace Global
         
         public int ReadConfig(string ConfigFileName)
         {
-            string result = Utils.LoadResource(ConfigFileName);
-            if (!Utils.IsNullOrEmpty(result))
+            if (!File.Exists(ConfigFileName))
             {
-                if (File.Exists(ConfigFileName))
-                {
-                    Config = Utils.FromJson<Config>(result);
-                    if (Config != null)
-                    {
-                        return 0;
-                    }
-
-                }
+                MessageBox.Show("找不到工程文件。");
+                return -1;
             }
-            if (Config == null)
+
+            string result = Utils.LoadResource(ConfigFileName);
+            if (Utils.IsNullOrEmpty(result))
             {
-                Config = ConfigInitialized();
+                MessageBox.Show("未能加载项目文件。 缺少根元素");
+                return -1;
+            }
+ 
+            try
+            {
+                Config = JsonConvert.DeserializeObject<Config>(result);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("未能加载项目文件。" + ex.Message);
+                return -1;
             }
             return 0;
         }
@@ -149,13 +155,6 @@ namespace Global
                             WhiteBalanceGreen = 64,
                             WhiteBalanceBlue = 77,
                             WhiteBalanceRed = 91,
-                        },
-                        Exposure = new ()
-                        {
-                            Auto = false,
-                            Value = 0.0667,
-                            AutoMax = 1,
-                            AutoReference = 128,
                         },
                         Trigger = new ()
                         {

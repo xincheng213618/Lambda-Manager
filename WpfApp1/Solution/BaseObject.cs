@@ -51,9 +51,9 @@ namespace NLGSolution
                                 Directory.Move(oldpath, newpath);
                             }
                         }
-                        catch
+                        catch(Exception ex)
                         {
-                            MessageBox.Show("文件名冲突");
+                            MessageBox.Show("文件名冲突" + ex.Message);
                             isEditMode = true;
                         }
                     }

@@ -93,7 +93,7 @@ namespace Global.Mode.Config
     {
         public Camera CameraSetting { get; set; } = new Camera();
 
-        private int innerAperture = 13;
+        private int innerAperture = 12;
 
         [JsonProperty("led-diameter-inner")]
         public int InnerAperture
@@ -131,13 +131,14 @@ namespace Global.Mode.Config
         }
 
 
-        private double gamma = 1.67;
+        private double gamma = 1;
         public double Gamma
         {
             get { return gamma; }
             set
             {
                 gamma = value;
+                CameraSetting.Gamma = gamma+1;    
                 NotifyPropertyChanged();
             }
         }
@@ -185,7 +186,7 @@ namespace Global.Mode.Config
 
         public Camera CameraSetting { get; set; } = new Camera();
 
-        private int innerAperture = 10;
+        private int innerAperture = 0;
         public int InnerAperture
         {
             get { return innerAperture; }
@@ -239,7 +240,8 @@ namespace Global.Mode.Config
     {
         public Camera CameraSetting { get; set; } = new Camera();
 
-        private int innerAperture = 10;
+        //修改为0
+        private int innerAperture = 0;
         public int InnerAperture
         {
             get { return innerAperture; }

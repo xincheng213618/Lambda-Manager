@@ -134,6 +134,7 @@
     <!--#region FontStyle-->
     <Style TargetType="{x:Type TextBlock}">
         <!--<Setter Property="FontFamily" Value="Calibri light"/>-->
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style TargetType="{x:Type Control}">

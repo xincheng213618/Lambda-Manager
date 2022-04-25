@@ -557,6 +557,23 @@ namespace ConfigObjective
         {
             RheinbergPatternEditorWindow rheinbergPatternEditorWindow = sender as RheinbergPatternEditorWindow;
             SelectColor = rheinbergPatternEditorWindow.SelectColor;
+            RadioButton radioButton = rheinbergPatternEditorWindow.SelectRadionButton;
+
+            if (radioButton.Parent is UniformGrid uniform)
+            {
+                uniform.Children.Remove(radioButton);
+                DockPanel331.Children.Clear();
+                DockPanel331.Children.Add(radioButton);
+
+                //if (radioButton.Content is Canvas canvas)
+                //{
+                //    radioButton.Content = null;
+
+                //}
+
+            }
+
+
 
             Color330.Fill = SelectColor.Rheinberg0;
             Color331.Fill = SelectColor.Rheinberg1;
@@ -568,13 +585,13 @@ namespace ConfigObjective
             int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
             int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
 
-            Color330.Visibility = Visibility.Visible;
-            Color331.Visibility = Visibility.Visible;
-            Color332.Visibility = Visibility.Visible;
+            //Color330.Visibility = Visibility.Visible;
+            //Color331.Visibility = Visibility.Visible;
+            //Color332.Visibility = Visibility.Visible;
 
             if (RheinbergSelectMode == 0)
             {
-                Color332.Visibility =Visibility.Collapsed;
+                //Color332.Visibility =Visibility.Collapsed;
                 darkness2 = -1;
             }
             if (RheinbergSelectMode == 3)
@@ -583,9 +600,9 @@ namespace ConfigObjective
                 darkness2 = -1;
                 bright = -1;
 
-                Color330.Visibility = Visibility.Collapsed;
-                Color331.Visibility = Visibility.Collapsed;
-                Color332.Visibility = Visibility.Collapsed;
+                //Color330.Visibility = Visibility.Collapsed;
+                //Color331.Visibility = Visibility.Collapsed;
+                //Color332.Visibility = Visibility.Collapsed;
             }
 
             LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, new Dictionary<string, object>() { { "mode", RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } });
@@ -594,6 +611,9 @@ namespace ConfigObjective
             rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
         }
 
+        private void ToggleButton331_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

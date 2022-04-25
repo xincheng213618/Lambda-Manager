@@ -29,6 +29,7 @@ namespace ConfigObjective
         public List<RheinbergPattern> rheinbergPatterns;
 
         public RheinbergPattern SelectColor;
+        public RadioButton SelectRadionButton;
         public int SelectedIndex = 0;
 
 
@@ -99,24 +100,32 @@ namespace ConfigObjective
 
         private void RadioButton1_Checked(object sender, RoutedEventArgs e)
         {
+            RadioButton radioButton = (RadioButton)sender;
+            SelectRadionButton = radioButton;
             SelectColor = rheinbergPatterns[0];
             SelectedIndex = 0;
         }
 
         private void RadioButton2_Checked(object sender, RoutedEventArgs e)
         {
+            RadioButton radioButton = (RadioButton)sender;
+            SelectRadionButton = radioButton;
             SelectColor = rheinbergPatterns[1];
             SelectedIndex = 1;  
         }
 
         private void RadioButton3_Checked(object sender, RoutedEventArgs e)
         {
+            RadioButton radioButton = (RadioButton)sender;
+            SelectRadionButton = radioButton;
             SelectColor = rheinbergPatterns[2];
             SelectedIndex = 2;
         }
 
         private void RadioButton4_Checked(object sender, RoutedEventArgs e)
         {
+            RadioButton radioButton = (RadioButton)sender;
+            SelectRadionButton = radioButton;
             SelectColor = rheinbergPatterns[3];
             SelectedIndex = 3;
         }

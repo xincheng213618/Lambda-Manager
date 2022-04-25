@@ -166,7 +166,7 @@
                 <Grid>
                     <StackPanel Margin="15,10">
                         <TextBlock Foreground="White"  Text="预设图案："/>
-                        <UniformGrid Columns="6">
+                        <UniformGrid Columns="6" Margin="0,5,0,5">
                             <RadioButton x:Name="RadioButton1" Style="{StaticResource ButtonPageControl11}" IsChecked="True"  Checked="RadioButton1_Checked">
                                 <Canvas  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0">
                                     <Ellipse Width="40" Height="40" Fill="{Binding ElementName=ColorPciker11,Path=SelectColor}"/>
@@ -190,7 +190,7 @@
                                 </Canvas>
                             </RadioButton>
                             <RadioButton x:Name="RadioButton3" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton3_Checked">
-                                <Canvas   Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0"  RenderTransformOrigin="0.5,0.5" >
+                                <Canvas  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0"  RenderTransformOrigin="0.5,0.5" >
                                     <Canvas.RenderTransform>
                                         <TransformGroup>
                                             <RotateTransform Angle="45"/>
@@ -210,7 +210,7 @@
 
                             </RadioButton>
                             <RadioButton x:Name="RadioButton4" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton4_Checked">
-                                <Image  Source="/ConfigObjective;component/image/Rheinberg.png" Margin="10"/>
+                                <Image  Source="/ConfigObjective;component/image/Rheinberg.png"  Height="40"/>
                                 <!--<Canvas Height="40" Width="40" HorizontalAlignment="Left" Margin="5.0" RenderTransformOrigin="0.5,0.5">
                                     <Canvas.RenderTransform>
                                         <TransformGroup>
@@ -236,8 +236,8 @@
                             </RadioButton>
 
                         </UniformGrid>
-                        <TextBlock Foreground="White"    Text="自定义图案：" />
-                        <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                        <TextBlock Foreground="White"    Text="自定义图案：" Margin="0,5,0,0" />
+                        <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Margin="0,5,0,0">
                             <DockPanel>
                                 <TextBlock Foreground="White" Text="内径："/>
                                 <local:ColorPicker x:Name="ColorPciker10" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
