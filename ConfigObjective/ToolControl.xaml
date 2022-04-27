@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel  HorizontalAlignment="Left" Background="#404040" Width="400">
+    <StackPanel  HorizontalAlignment="Left" Background="#404040" Width="400" >
         <ToggleButton x:Name="ToggleButton1"  Style="{StaticResource ButtonPageControl}"  Content="物镜设置" FontSize="14" Foreground="White" IsChecked="True" Margin="0,5,0,0"/>
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel x:Name="ObjectiveSettingStackPanel" Orientation="Horizontal">
@@ -141,11 +141,11 @@
             <StackPanel>
                 <UniformGrid Columns="6" >
                     <RadioButton Name="Button31" Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
-                    <RadioButton Name="Button34" Tag="3" Style="{StaticResource ToggleButtonStyle1}"  Content="差分" Margin="5,0"  Checked="ViewMode_Checked"  />
-                    <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}"   Content="相位" Margin="5,0"   Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button36" Tag="5" Style="{StaticResource ToggleButtonStyle1}" IsChecked="True"    Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}"  Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}"   Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
+                    <RadioButton Name="Button34" Tag="3" Style="{StaticResource ToggleButtonStyle1}" IsChecked="True"  Content="差分" Margin="5,0"  Checked="ViewMode_Checked"  />
+                    <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}"  Content="相位" Margin="5,0"   Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button36" Tag="5" Style="{StaticResource ToggleButtonStyle1}"    Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
                 </UniformGrid>
                 <Border x:Name="Border31"  Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
@@ -185,7 +185,7 @@
                             
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}">
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <local:ColorPicker x:Name="ColorPciker321"  Height="20" Width="20" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0"/>
+                            <local:ColorPicker x:Name="ColorPciker321"  Height="20" Width="20" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0" BrushValueChanged="ColorPciker312_BrushValueChanged"/>
                             <Slider x:Name="Slider324" Style="{StaticResource LM_Slider}" Value="15" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1" ValueChanged="Slider324_ValueChanged"/>
                         </DockPanel>
                         <DockPanel Visibility="{Binding ElementName=ToggleButton321 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" >
@@ -220,8 +220,8 @@
                             <Slider x:Name="Slider335" Style="{StaticResource LM_Slider2}" Value="1.67" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
                         </DockPanel>
                         <DockPanel >
-                            <Button Click="Button331_Click">
-                                <TextBlock Text="选择图案" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <Button Click="Button331_Click" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="选择图案"  Padding="5,0" Foreground="White"/>
                             </Button>
                             <DockPanel x:Name="DockPanel331">
                                 <Canvas  Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
@@ -229,19 +229,20 @@
                                     <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="Red"/>
                                 </Canvas>
                             </DockPanel>
+                            
                         </DockPanel>
-
-                        <DockPanel >
+                        <DockPanel x:Name="DockPanel332" >
                             <TextBlock Text="明场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Rectangle  x:Name="Color330"  DockPanel.Dock="Left" Fill="Red" Height="20" Width="20"   VerticalAlignment="Center"  HorizontalAlignment="Right" Margin="5,0,10,0" Visibility="Collapsed"/>
                             <Slider x:Name="Slider333" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
-                        <DockPanel >
+                        <DockPanel x:Name="DockPanel333" >
                             <TextBlock Text="暗场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
                             <Rectangle x:Name="Color331"  DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed"/>
                             <Rectangle x:Name="Color332" DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Right" Margin="5,0,10,0"/>
                             <Slider x:Name="Slider334" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
+
 
                         <DockPanel>
                             <TextBlock Text="自动旋转" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -264,7 +265,7 @@
                             <TextBlock Text="衬度增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider342" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="5" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
                         </DockPanel>
-                        <DockPanel>
+                        <DockPanel Visibility="Collapsed">
                             <TextBlock Text="明场叠加" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider343" Style="{StaticResource LM_Slider1}" Value="{Binding Path=BFWeight}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
                         </DockPanel>
@@ -277,7 +278,7 @@
                             <Slider x:Name="Slider344" Style="{StaticResource LM_Slider}" Value="{Binding Path=OutAperture}" Minimum="0" Maximum="32" IsSnapToTickEnabled="True" TickFrequency="1"/>
                         </DockPanel>
 
-                        <DockPanel>
+                        <DockPanel Visibility="Collapsed">
                             <TextBlock Text="背景抑制" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider346" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
                         </DockPanel>
@@ -286,8 +287,7 @@
                             <Slider x:Name="Slider347" Style="{StaticResource LM_Slider1}" Value="{Binding Path=DPWeight}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <ToggleButton x:Name="Button341" Margin="20,0"  Style="{StaticResource CheckButton1}" IsChecked="{Binding BgCollection}" />
+                            <ToggleButton x:Name="Button341" Content="背景校正" Margin="20,0"  Style="{StaticResource ToggleButtonStyle1}" IsChecked="{Binding BgCollection}" />
                         </DockPanel>
                         <DockPanel>
                             <TextBlock Text="旋转角度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -382,12 +382,20 @@
                     </Canvas>
                 </Border>
                 <Border Margin="5" Height="220" Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                    <Canvas x:Name="Canvas1"  Visibility="Visible" Height="200" Width="300"  VerticalAlignment="Center" MouseMove="MainCanvas_MouseMove"  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown" PreviewMouseDown ="Canvas1_PreviewMouseDown">
-                        <Rectangle Height="100" Width="290" Margin="0,50" Fill="#404040" Stroke="#787878" StrokeThickness="2"/>
-                        <Ellipse x:Name="CricalBase"  Canvas.Top="0" Canvas.Left="50" Width= "200" Height="200"  Fill="#7F7F7F"  Stroke="#787878" StrokeThickness="2"/>
-                        <Line Stroke="white" Canvas.Top="0" Canvas.Left="0" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="288" Y2="100" />
-                        <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
-                    </Canvas>
+                    <Grid>
+                        <Canvas Width="300" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Rectangle Height="100" Width="290" Margin="0,50" Fill="#404040" Stroke="#787878" StrokeThickness="2"/>
+                            <Line Stroke="white" Canvas.Top="0" Canvas.Left="0" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="288" Y2="100" />
+                            <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
+                        </Canvas>
+                        
+                        <Canvas x:Name="Canvas1"  Visibility="Visible" Height="200" Width="300"  VerticalAlignment="Center" MouseMove="MainCanvas_MouseMove"  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown" PreviewMouseDown ="Canvas1_PreviewMouseDown">
+                            <Ellipse x:Name="CricalBase"  Canvas.Top="0" Canvas.Left="50" Width= "200" Height="200"  Fill="#7F7F7F"  Stroke="#787878" StrokeThickness="2"/>
+                            <Line Stroke="white" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="200" Y2="100" />
+                            <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
+                        </Canvas>
+                    </Grid>
+
                 </Border>
 
 

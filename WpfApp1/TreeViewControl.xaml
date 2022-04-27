@@ -114,6 +114,47 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
+                <DataTemplate DataType="{x:Type Solution:SeriesProjectManager}"  >
+                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
+                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/图片2.png" />
+                        <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
+                            <local:EditableTextBlock.Style>
+                                <Style TargetType="local:EditableTextBlock">
+                                    <Style.Triggers >
+                                        <Trigger Property="IsEditMode" Value="True">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource editTemplate}"></Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsEditMode" Value="False">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource displayTemplate}"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </local:EditableTextBlock.Style>
+                        </local:EditableTextBlock>
+                        <StackPanel.ContextMenu>
+                            <ContextMenu >
+                                <!--<MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />-->
+                                <MenuItem Header="删除(_D)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
+                                <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
+                                <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
+                                <Separator/>
+                                <MenuItem Header="导出(_E)">
+                                    <MenuItem Header="As _Tiff..." />
+                                    <MenuItem Header="As _JPEG..."  />
+                                    <MenuItem Header="As _QuickTime..."  />
+                                    <MenuItem Header="As _AVL..."  />
+                                    <MenuItem Header="As _MPEG-4..."/>
+                                    <MenuItem Header="As _WMV..."  />
+                                    <MenuItem Header="As _DICOM..."  />
+                                </MenuItem>
+                                <MenuItem Header="应用参数(_Y)"  CommandParameter="{Binding .}"/>
+                                <MenuItem Header="属性(_R)"  CommandParameter="{Binding .}" />
+                                <Separator/>
+                            </ContextMenu>
+                        </StackPanel.ContextMenu>
+                    </StackPanel>
+                </DataTemplate>
+
                 <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding Children}">
                     <StackPanel  Style="{StaticResource style_treeViewItem_panel}">
                         <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/filer.png" />
@@ -131,7 +172,7 @@
                                 </Style>
                             </local:EditableTextBlock.Style>
                         </local:EditableTextBlock>
-                        <!--<StackPanel.ContextMenu>
+                        <StackPanel.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="新建文件夹(_P)"  Click="MenuItem4_Click"/>
                                 <MenuItem Header="新建文件(_F)" Click="MenuItem3_Click" />
@@ -141,7 +182,7 @@
                                 <MenuItem Header="删除(_D)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
                                 <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
                             </ContextMenu>
-                        </StackPanel.ContextMenu>-->
+                        </StackPanel.ContextMenu>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
@@ -180,8 +221,6 @@
                                     <MenuItem Header="As _DICOM..."  />
                                 </MenuItem>
                                 <MenuItem Header="属性(_R)"  CommandParameter="{Binding .}" />
-
-                                
                                 <Separator/>
                             </ContextMenu>
                         </StackPanel.ContextMenu>

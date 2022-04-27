@@ -8,6 +8,7 @@ namespace NLGSolution
         {
 
         }
+
         public string Extension;
 
     }

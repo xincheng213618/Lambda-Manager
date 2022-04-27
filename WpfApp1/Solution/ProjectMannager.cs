@@ -29,7 +29,6 @@ namespace NLGSolution
                 var projectFile = ProjectFiles.ToList().Find(t => t.FullPath == e.OldFullPath);
                 if (projectFile != null)
                 {
-                    projectFile.Name = e.Name;
                     projectFile.FullPath = e.FullPath;
                 }
             }
@@ -38,7 +37,6 @@ namespace NLGSolution
                 var projectFolder = ProjectFolders.ToList().Find(t => t.FullPath == e.OldFullPath);
                 if (projectFolder != null)
                 {
-                    projectFolder.Name = e.Name;
                     projectFolder.FullPath = e.FullPath;
                 }
             }
@@ -70,10 +68,7 @@ namespace NLGSolution
         {
             if (File.Exists(e.FullPath))
             {
-                ProjectFile projectFile = new ProjectFile(e.FullPath)
-                {
-                    Name = e.Name,
-                };
+                ProjectFile projectFile = new ProjectFile(e.FullPath);
                 AddChild(projectFile);
             }
             else if (Directory.Exists(e.FullPath))
@@ -111,19 +106,47 @@ namespace NLGSolution
                 return childNodes;
             }
         }
-        public void AddChild(ProjectFolder projectFolder)
-        {
-            ProjectFolders.Add(projectFolder);
 
-            NotifyPropertyChanged("Children");
-        }
-        public void AddChild(ProjectFile projectFile)
+
+        public override void AddChild(BaseObject baseObject)
         {
-            ProjectFiles.Add(projectFile);
+            baseObject.Parent = this;
+
+            if (baseObject is ProjectFolder folder)
+            {
+                ProjectFolders.Add(folder);
+            }
+            else if (baseObject is ProjectFile file)
+            {
+                ProjectFiles.Add(file);
+            }
             NotifyPropertyChanged("Children");
         }
+
+        public override void RemoveChild(BaseObject baseObject)
+        {
+            if (baseObject == null)
+                return;
+
+            if (baseObject.Parent == this)
+            {
+                baseObject.Parent = null;
+
+                //this.Children.Remove(baseObject);
+
+                baseObject.Delete();
+                if (baseObject is ProjectFolder folder)
+                    ProjectFolders.Remove(folder);
+
+                else if (baseObject is ProjectFile file)
+                    ProjectFiles.Remove(file);
+                NotifyPropertyChanged("Children");
+            }
+        }
+
         public void AddChilds(ProjectFile projectFile)
         {
+            projectFile.Parent = this;
             ProjectFiles.Add(projectFile);
         }
         public void AddChildsEnd()

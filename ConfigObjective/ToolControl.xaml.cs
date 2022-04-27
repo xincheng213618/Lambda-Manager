@@ -585,6 +585,10 @@ namespace ConfigObjective
             int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
             int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
 
+            DockPanel332.Visibility = Visibility.Visible;
+            DockPanel333.Visibility = Visibility.Visible;
+
+
             //Color330.Visibility = Visibility.Visible;
             //Color331.Visibility = Visibility.Visible;
             //Color332.Visibility = Visibility.Visible;
@@ -599,10 +603,8 @@ namespace ConfigObjective
                 darkness1 = -1;
                 darkness2 = -1;
                 bright = -1;
-
-                //Color330.Visibility = Visibility.Collapsed;
-                //Color331.Visibility = Visibility.Collapsed;
-                //Color332.Visibility = Visibility.Collapsed;
+                DockPanel332.Visibility = Visibility.Collapsed;
+                DockPanel333.Visibility = Visibility.Collapsed;
             }
 
             LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, new Dictionary<string, object>() { { "mode", RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } });

@@ -13,18 +13,32 @@ namespace NLGSolution
         {
             File, Directory
         }
+
         public BaseObject(string FullPath, Type type)
         {
             this.FullPath = FullPath;
+            this.Name = Path.GetFileNameWithoutExtension(FullPath);
             this.Types = type;
-    
         }
+
+        public BaseObject Parent = null;
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public virtual void AddChild(BaseObject baseObject)
+        {
+        }
+        public virtual void RemoveChild(BaseObject baseObject)
+        {
+
+        }
+
+
+
         public Type Types { get; set; }
 
         private bool isEditMode = false;
@@ -50,6 +64,7 @@ namespace NLGSolution
                             {
                                 Directory.Move(oldpath, newpath);
                             }
+                            FullPath = newpath;
                         }
                         catch(Exception ex)
                         {
@@ -59,10 +74,30 @@ namespace NLGSolution
                     }
 
                 }
-
                 NotifyPropertyChanged();
             }
         }
+        public void Delete()
+        {
+            try
+            {
+                if (Types == Type.File)
+                {
+                    File.Delete(FullPath);
+                }
+                else if (Types == Type.Directory)
+                {
+                    Directory.Delete(FullPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("文件删除失败" + ex.Message);
+            }
+
+        }
+
+
 
         private string name;
         public string Name

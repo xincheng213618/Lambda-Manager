@@ -56,7 +56,7 @@ internal class Common
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
-		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
+		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 		//LambdaControl.LogHandler = new LogHandler(App.Report);
 		//LambdaControl.LogHandler2 = new LogHandler(App.Report2);
 		LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);

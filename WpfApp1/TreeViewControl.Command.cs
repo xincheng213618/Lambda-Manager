@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -14,15 +15,16 @@ namespace WpfApp1
     {
         private void IniCommand()
         {
+            ApplicationCommands.Delete.InputGestures.Add(new KeyGesture(Key.Delete, ModifierKeys.None, "Del"));
             //Commands.ReName.InputGestures.Add(new KeyGesture(Key.M, (ModifierKeys.Control), "F2"));
             CommandBindings.Add(new CommandBinding(AddNewProject, this.AddNewProject_Executed, this.AddNewProject_CanExecute));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, this.ExecutedCommand, this.CanExecuteCommand));
-            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(Commands.ReName, this.ExecutedCommand, this.CanExecuteCommand));
         }
+
         #region 通用命令执行函数
 
         private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
@@ -72,18 +74,12 @@ namespace WpfApp1
             }
             else if (e.Command == ApplicationCommands.Delete)
             {
-
-            }
-            else if (e.Command == Commands.ReName)
-            {
                 if (e.Parameter != null)
                 {
-                    if (e.Parameter is ProjectFile projectFile)
-                        projectFile.IsEditMode = true;
-                    else if (e.Parameter is ProjectFolder projectFolder)
-                        projectFolder.IsEditMode = true;
-                    else if (e.Parameter is ProjectMannager projectMannager)
-                        projectMannager.IsEditMode = true;
+                    if (e.Parameter is BaseObject baseObject)
+                    {
+                        baseObject.Parent.RemoveChild(baseObject);
+                    }
                 }
                 else
                 {
@@ -94,14 +90,36 @@ namespace WpfApp1
                         if (item != null)
                         {
                             LastSelectItem = item;
-                            if (item.DataContext is ProjectFile projectFile)
-                                projectFile.IsEditMode = true;
-                            else if (item.DataContext is ProjectFolder projectFolder)
-                                projectFolder.IsEditMode = true;
-                            else if (item.DataContext is ProjectMannager projectMannager)
-                                projectMannager.IsEditMode = true;
+                            if (item.DataContext is BaseObject baseObject)
+                            {
+                                baseObject.Parent.RemoveChild(baseObject);
+                            }
                         }
+                    }
+                }
 
+            }
+            else if (e.Command == Commands.ReName)
+            {
+                if (e.Parameter != null)
+                {
+                    if (e.Parameter is BaseObject baseObject)
+                        baseObject.IsEditMode = true;
+                }
+                else
+                {
+                    //没有数据的时候通过点击确认
+                    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
+                    if (result != null)
+                    {
+                        TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
+                        if (item != null)
+                        {
+                            LastSelectItem = item;
+                            if (item.DataContext is BaseObject baseObject)
+                                baseObject.IsEditMode = true;
+ 
+                        }
                     }
 
                 }

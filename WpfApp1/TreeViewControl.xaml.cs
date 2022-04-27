@@ -70,6 +70,8 @@ namespace WpfApp1
                             projectFolder.IsEditMode = false;
                         else if (LastSelectItem.DataContext is ProjectMannager projectMannager)
                             projectMannager.IsEditMode = false;
+                        else if (LastSelectItem.DataContext is SeriesProjectManager seriesProjectManager)
+                            seriesProjectManager.IsEditMode = false;
                         LastSelectItem = null;
                     }
                 }
@@ -85,6 +87,10 @@ namespace WpfApp1
                 if (item.DataContext is ProjectMannager projectMannager1)
                 {
                     LambdaControl.Trigger("projectMannager", this, new Dictionary<string, object>() { { "FullPath", projectMannager1.FullPath } });
+                }
+                if (item.DataContext is SeriesProjectManager seriesProjectManager1)
+                {
+                    LambdaControl.Trigger("seriesProjectManager", this, new Dictionary<string, object>() { { "FullPath", seriesProjectManager1.FullPath } });
                 }
             }
 
@@ -138,6 +144,11 @@ namespace WpfApp1
             {
                 projectMannager.IsEditMode = true;
             }
+            else if (tb.Tag is SeriesProjectManager series)
+            {
+                series.IsEditMode = true;
+            }
+
 
 
         }
@@ -182,6 +193,19 @@ namespace WpfApp1
                     projectMannager.IsEditMode = false;
                 }
             }
+            else if (tb.Tag is SeriesProjectManager series)
+            {
+                series.Name = tb.Text;
+                if (e.Key == Key.Escape)
+                {
+                    series.IsEditMode = false;
+                }
+                else if (e.Key == Key.Enter)
+                {
+                    series.IsEditMode = false;
+                }
+            }
+
 
         }
 
@@ -208,18 +232,12 @@ namespace WpfApp1
             var root = new DirectoryInfo(Path);
             foreach (var item in root.GetDirectories())
             {
-                ProjectFolder projectFolder1 = new ProjectFolder(item.FullName)
-                {
-                    Name = item.Name,
-                };
+                ProjectFolder projectFolder1 = new ProjectFolder(item.FullName);
                 projectFolder.AddChild(GetFile(projectFolder1, item.FullName));
             }
             foreach (var item in root.GetFiles())
             {
-                ProjectFile projectFile = new ProjectFile(item.FullName)
-                {
-                    Name = item.Name,
-                };
+                ProjectFile projectFile = new ProjectFile(item.FullName);
                 projectFolder.AddChild(projectFile);
             }
             return projectFolder;
@@ -251,28 +269,28 @@ namespace WpfApp1
             var dics = root.GetDirectories();
             foreach (var dic in dics)
             {
-                ProjectMannager projectMannager = new ProjectMannager(dic.FullName)
+                if (dic.Name == "Video" || dic.Name == "Image")
                 {
-                    Name = dic.Name,
-                };
-                foreach (var item in dic.GetDirectories())
-                {
-                    ProjectFolder projectFolder = new ProjectFolder(item.FullName)
+                    ProjectMannager projectMannager = new ProjectMannager(dic.FullName);
+                    foreach (var item in dic.GetDirectories())
                     {
-                        Name = item.Name,
-                    };
-                    projectMannager.AddChild(GetFile(projectFolder, item.FullName));
-                }
-                foreach (var item in dic.GetFiles())
-                {
-                    ProjectFile projectFile = new ProjectFile(item.FullName)
+                        ProjectFolder projectFolder = new ProjectFolder(item.FullName);
+                        projectMannager.AddChild(GetFile(projectFolder, item.FullName));
+                    }
+                    foreach (var item in dic.GetFiles())
                     {
-                        Name = item.Name,
-                    };
-                    projectMannager.AddChilds(projectFile);
+                        ProjectFile projectFile = new ProjectFile(item.FullName);
+                        projectMannager.AddChilds(projectFile);
+                    }
+                    projectMannager.AddChildsEnd();
+                    solutionExplorer.AddChild(projectMannager);
                 }
-                projectMannager.AddChildsEnd();
-                solutionExplorer.AddChild(projectMannager);
+                else
+                {
+                    SeriesProjectManager seriesProjectManager = new SeriesProjectManager(dic.FullName) { Name = dic.Name };
+                    solutionExplorer.AddChild(seriesProjectManager);
+                }
+
             }
             SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);

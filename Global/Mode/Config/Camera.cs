@@ -101,6 +101,7 @@ namespace Global.Mode.Config
             this.Gain = camera.gain;
             this.Sharpness = camera.Sharpness;
             this.Saturation = camera.saturation;
+            this.Exposure = camera.Exposure;
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Windows.Input;
 
 namespace NLGSolution
 {
-    public class SolutionExplorer : INotifyPropertyChanged
+    public class SolutionExplorer : BaseObject
     {
-        public SolutionExplorer()
+        public SolutionExplorer(string FullPath):base(FullPath,Type.Directory)
         {
             //AddExistingProject1 = new CommandBinding(AddExistingProject, AddNewProject_Executed, AddNewProject_CanExecute);
             EditCommand = new MyCommand(() =>
@@ -77,6 +77,9 @@ namespace NLGSolution
 
         public ObservableCollection<ProjectMannager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectMannager>();
 
+        public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
+
+
         public ObservableCollection<object> Children
         {
             get
@@ -85,6 +88,8 @@ namespace NLGSolution
                 ProjectMannagers = new ObservableCollection<ProjectMannager>(ProjectMannagers.OrderBy(item => item.Name));
                 foreach (var project in ProjectMannagers)
                     childNodes.Add(project);
+                foreach (var series in SeriesProjectManagers)
+                    childNodes.Add(series);
                 if (SolutionLog != null)
                     childNodes.Add(SolutionLog);
                 if (SolutionConfig != null)
@@ -94,10 +99,58 @@ namespace NLGSolution
             set { }
         }
 
+        public override void AddChild(BaseObject baseObject)
+        {
+            baseObject.Parent = this;
+
+            //if (baseObject is ProjectFolder folder)
+            //{
+            //    ProjectFolders.Add(folder);
+            //}
+            //else if (baseObject is ProjectFile file)
+            //{
+            //    ProjectFiles.Add(file);
+            //}
+            if (baseObject is ProjectMannager mannager)
+            {
+                ProjectMannagers.Add(mannager);
+            }
+            else if (baseObject is SeriesProjectManager series)
+            {
+                SeriesProjectManagers.Add(series);
+            }
+
+            NotifyPropertyChanged("Children");
+        }
+        public override void RemoveChild(BaseObject baseObject)
+        {
+            if (baseObject == null)
+                return;
+
+            if (baseObject.Parent == this)
+            {
+                baseObject.Parent = null;
+
+                //this.Children.Remove(baseObject);
+
+                baseObject.Delete();
+                if (baseObject is ProjectMannager mannager)
+                    ProjectMannagers.Remove(mannager);
+                else if (baseObject is SeriesProjectManager series)
+                    SeriesProjectManagers.Remove(series);
+
+                NotifyPropertyChanged("Children");
+            }
+        }
 
         public void AddChild(ProjectMannager projectMannager)
         {
             ProjectMannagers.Add(projectMannager);
+            NotifyPropertyChanged("Children");
+        }
+        public void AddChild(SeriesProjectManager seriesProjectManager)
+        {
+            SeriesProjectManagers.Add(seriesProjectManager);
             NotifyPropertyChanged("Children");
         }
 
