@@ -89,7 +89,6 @@ namespace WpfApp1
                         TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
                         if (item != null)
                         {
-                            LastSelectItem = item;
                             if (item.DataContext is BaseObject baseObject)
                             {
                                 baseObject.Parent.RemoveChild(baseObject);
@@ -104,7 +103,10 @@ namespace WpfApp1
                 if (e.Parameter != null)
                 {
                     if (e.Parameter is BaseObject baseObject)
+                    {
+                        LastReNameObject = baseObject;
                         baseObject.IsEditMode = true;
+                    }
                 }
                 else
                 {
@@ -114,11 +116,13 @@ namespace WpfApp1
                     {
                         TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
                         if (item != null)
-                        {
-                            LastSelectItem = item;
+                        { 
                             if (item.DataContext is BaseObject baseObject)
+                            {
+                                LastReNameObject = baseObject;
                                 baseObject.IsEditMode = true;
- 
+                            }
+
                         }
                     }
 

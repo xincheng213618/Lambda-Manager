@@ -34,12 +34,10 @@ namespace WpfApp1
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
-            //UniformGrid.DataContext = WindowStatus.GetInstance().MulDimensional;
-            //var stage = WindowStatus.GetInstance().STAGE;
         }
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
-        private TreeViewItem LastSelectItem;
+        private BaseObject LastReNameObject;
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -60,20 +58,11 @@ namespace WpfApp1
                 TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
                 if (item == null)
                     return;
-                if (LastSelectItem != null)
+
+                if (LastReNameObject != null&& LastReNameObject!= item.DataContext)
                 {
-                    if (LastSelectItem != item)
-                    {
-                        if (LastSelectItem.DataContext is ProjectFile projectFile)
-                            projectFile.IsEditMode = false;
-                        else if (LastSelectItem.DataContext is ProjectFolder projectFolder)
-                            projectFolder.IsEditMode = false;
-                        else if (LastSelectItem.DataContext is ProjectMannager projectMannager)
-                            projectMannager.IsEditMode = false;
-                        else if (LastSelectItem.DataContext is SeriesProjectManager seriesProjectManager)
-                            seriesProjectManager.IsEditMode = false;
-                        LastSelectItem = null;
-                    }
+                    LastReNameObject.IsEditMode = false;
+                    LastReNameObject = null;
                 }
 
                 if (item.DataContext is ProjectFile projectFile1)
@@ -132,21 +121,9 @@ namespace WpfApp1
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is ProjectFile projectFile)
+            if (tb.Tag is BaseObject baseObject )
             {
-                projectFile.IsEditMode = false;
-            }
-            else if (tb.Tag is ProjectFolder projectFolder)
-            {
-                projectFolder.IsEditMode = false;
-            }
-            else if (tb.Tag is ProjectMannager projectMannager)
-            {
-                projectMannager.IsEditMode = true;
-            }
-            else if (tb.Tag is SeriesProjectManager series)
-            {
-                series.IsEditMode = true;
+                baseObject.IsEditMode = false;
             }
 
 
@@ -156,53 +133,16 @@ namespace WpfApp1
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is ProjectFile projectFile)
+            if (tb.Tag is BaseObject baseObject)
             {
-                projectFile.Name = tb.Text;
+                baseObject.Name = tb.Text;
                 if (e.Key == Key.Escape)
                 {
-                    projectFile.IsEditMode = false;
+                    baseObject.IsEditMode = false;
                 }
                 else if (e.Key == Key.Enter)
                 {
-                    projectFile.IsEditMode = false;
-                }
-            }
-            else if (tb.Tag is ProjectFolder projectFolder)
-            {
-                projectFolder.Name = tb.Text;
-                if (e.Key == Key.Escape)
-                {
-                    projectFolder.IsEditMode = false;
-                }
-                else if (e.Key == Key.Enter)
-                {
-
-                    projectFolder.IsEditMode = false;
-                }
-            }
-            else if (tb.Tag is ProjectMannager projectMannager)
-            {
-                projectMannager.Name = tb.Text;
-                if (e.Key == Key.Escape)
-                {
-                    projectMannager.IsEditMode = false;
-                }
-                else if (e.Key == Key.Enter)
-                {
-                    projectMannager.IsEditMode = false;
-                }
-            }
-            else if (tb.Tag is SeriesProjectManager series)
-            {
-                series.Name = tb.Text;
-                if (e.Key == Key.Escape)
-                {
-                    series.IsEditMode = false;
-                }
-                else if (e.Key == Key.Enter)
-                {
-                    series.IsEditMode = false;
+                    baseObject.IsEditMode = false;
                 }
             }
 
@@ -248,7 +188,7 @@ namespace WpfApp1
 
         private void TreeViewInitialized(string FilePath, Config config)
         {
-            SolutionExplorer solutionExplorer = new SolutionExplorer()
+            SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath)
             {
                 SolutionGuid = Guid.NewGuid(),
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
@@ -280,20 +220,21 @@ namespace WpfApp1
                     foreach (var item in dic.GetFiles())
                     {
                         ProjectFile projectFile = new ProjectFile(item.FullName);
-                        projectMannager.AddChilds(projectFile);
+                        projectMannager.AddChild(projectFile);
                     }
-                    projectMannager.AddChildsEnd();
                     solutionExplorer.AddChild(projectMannager);
                 }
                 else
                 {
-                    SeriesProjectManager seriesProjectManager = new SeriesProjectManager(dic.FullName) { Name = dic.Name };
+                    SeriesProjectManager seriesProjectManager = new SeriesProjectManager(dic.FullName);
                     solutionExplorer.AddChild(seriesProjectManager);
                 }
 
             }
             SolutionExplorers.Clear();
+
             SolutionExplorers.Add(solutionExplorer);
+
             TreeView1.ItemsSource = SolutionExplorers;
         }
 

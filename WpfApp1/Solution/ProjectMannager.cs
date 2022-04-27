@@ -143,15 +143,5 @@ namespace NLGSolution
                 NotifyPropertyChanged("Children");
             }
         }
-
-        public void AddChilds(ProjectFile projectFile)
-        {
-            projectFile.Parent = this;
-            ProjectFiles.Add(projectFile);
-        }
-        public void AddChildsEnd()
-        {
-            NotifyPropertyChanged("Children");
-        }
     }
 }

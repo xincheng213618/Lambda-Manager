@@ -17,7 +17,6 @@ namespace NLGSolution
         public BaseObject(string FullPath, Type type)
         {
             this.FullPath = FullPath;
-            this.Name = Path.GetFileNameWithoutExtension(FullPath);
             this.Types = type;
         }
 
@@ -83,11 +82,13 @@ namespace NLGSolution
             {
                 if (Types == Type.File)
                 {
-                    File.Delete(FullPath);
+                    if (File.Exists(fullPath))
+                        File.Delete(FullPath);
                 }
                 else if (Types == Type.Directory)
                 {
-                    Directory.Delete(FullPath);
+                    if (Directory.Exists(FullPath))
+                        Directory.Delete(FullPath);
                 }
             }
             catch (Exception ex)
@@ -117,6 +118,7 @@ namespace NLGSolution
             get { return fullPath; }
             set {
                 fullPath = value;
+                this.Name = Path.GetFileNameWithoutExtension(fullPath);
                 NotifyPropertyChanged();
             }
         }
