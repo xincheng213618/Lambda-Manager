@@ -38,6 +38,8 @@ namespace WpfApp1
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
         private BaseObject LastReNameObject;
+        private TreeViewItem SelectedTreeViewItem;
+
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -56,6 +58,7 @@ namespace WpfApp1
             if (result != null)
             {
                 TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
+                SelectedTreeViewItem = item;
                 if (item == null)
                     return;
 
@@ -81,6 +84,10 @@ namespace WpfApp1
                 {
                     LambdaControl.Trigger("seriesProjectManager", this, new Dictionary<string, object>() { { "FullPath", seriesProjectManager1.FullPath } });
                 }
+            }
+            else
+            {
+                SelectedTreeViewItem = null;
             }
 
             //if (e.ClickCount == 2)
@@ -125,9 +132,6 @@ namespace WpfApp1
             {
                 baseObject.IsEditMode = false;
             }
-
-
-
         }
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
@@ -136,17 +140,11 @@ namespace WpfApp1
             if (tb.Tag is BaseObject baseObject)
             {
                 baseObject.Name = tb.Text;
-                if (e.Key == Key.Escape)
-                {
-                    baseObject.IsEditMode = false;
-                }
-                else if (e.Key == Key.Enter)
+                if (e.Key == Key.Escape || e.Key == Key.Enter)
                 {
                     baseObject.IsEditMode = false;
                 }
             }
-
-
         }
 
 

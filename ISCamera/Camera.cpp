@@ -216,9 +216,10 @@ string StringToUtf(string strValue)
 }
 
 
-int OpenSerial(std::string FullPath)
+int OpenSerial(char* FullPath)	
 {
-	Logger::Log2(Severity::INFO, L"≤‚ ‘: Test14(s=\"%s\")", FullPath);
+	//std::wstring fp = StringUtils::string2wstring(FullPath);
+	Logger::Log1(Severity::INFO, FullPath);
 	return  0;
 }
 

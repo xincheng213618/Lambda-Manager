@@ -1,8 +1,10 @@
 ﻿namespace NLGSolution
 {
-    public class SolutionConfig
+    public class SolutionConfig : BaseObject
     {
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public SolutionConfig(string FullPath) : base(FullPath, Type.Directory)
+        {
+
+        }
     }
 }

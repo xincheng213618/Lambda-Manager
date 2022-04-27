@@ -83,16 +83,11 @@ namespace WpfApp1
                 }
                 else
                 {
-                    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
-                    if (result != null)
+                    if (SelectedTreeViewItem != null)
                     {
-                        TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
-                        if (item != null)
+                        if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
                         {
-                            if (item.DataContext is BaseObject baseObject)
-                            {
-                                baseObject.Parent.RemoveChild(baseObject);
-                            }
+                            baseObject.Parent.RemoveChild(baseObject);
                         }
                     }
                 }
@@ -111,21 +106,14 @@ namespace WpfApp1
                 else
                 {
                     //没有数据的时候通过点击确认
-                    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
-                    if (result != null)
+                    if (SelectedTreeViewItem != null)
                     {
-                        TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
-                        if (item != null)
-                        { 
-                            if (item.DataContext is BaseObject baseObject)
-                            {
-                                LastReNameObject = baseObject;
-                                baseObject.IsEditMode = true;
-                            }
-
+                        if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
+                        {
+                            LastReNameObject = baseObject;
+                            baseObject.IsEditMode = true;
                         }
                     }
-
                 }
             }
             else

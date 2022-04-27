@@ -535,13 +535,13 @@
                             </DockPanel>
                             <DockPanel>
                                 <TextBlock Text="∞"  Width="50" VerticalAlignment="Center" Foreground="White" />
-                                <ToggleButton  Style="{StaticResource CheckButton1}" IsChecked="{Binding TNumberEnable,Mode=TwoWay}"  Width="50" Margin="2"/>
+                                <ToggleButton  Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=TNumberEnable,Mode=TwoWay}"  Width="50" Margin="2"/>
                                 <TextBlock Text="{Binding Path=TNumberEnable }"  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                             </DockPanel>
                             <DockPanel>
                                 <TextBlock Text=">>"  Width="50" VerticalAlignment="Center" Foreground="White" />
-                                <ToggleButton  Style="{StaticResource CheckButton1}" IsChecked="{Binding TIntervalEnable,Mode=TwoWay}"  Width="50" Margin="2"/>
+                                <ToggleButton  Style="{StaticResource CheckButton1}" IsChecked="{Binding Path =TIntervalEnable,Mode=TwoWay}"  Width="50" Margin="2"/>
                                 <TextBlock Text="{Binding Path=TIntervalEnable  }"  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                             </DockPanel>

@@ -40,8 +40,8 @@ namespace NLGSolution
 
         public Type Types { get; set; }
 
-        private bool isEditMode = false;
-        public bool IsEditMode
+        public bool isEditMode = false;
+        public virtual bool IsEditMode
         {
             get { return isEditMode; }
             set
@@ -76,6 +76,7 @@ namespace NLGSolution
                 NotifyPropertyChanged();
             }
         }
+
         public void Delete()
         {
             try

@@ -42,10 +42,10 @@ internal class S1
 
 	public unsafe static int InvokeIntPtr(string code, IntPtr p, List<object?>? args)
     {
-		if (args![0] is string sss)
-		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, int>)(void*)p)(Marshal.StringToHGlobalAnsi(args![0].ToString()));
-		}
+		//if (args![0] is string sss)
+		//{
+		//	return ((delegate* unmanaged[Cdecl]<IntPtr, int>)(void*)p)(Marshal.StringToHGlobalAnsi(args![0].ToString()));
+		//}
 		return ((delegate* unmanaged[Cdecl]<IntPtr, int>)(void*)p)((IntPtr)args![0]);
 	}
 }

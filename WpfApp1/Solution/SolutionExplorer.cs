@@ -59,18 +59,13 @@ namespace NLGSolution
             //AddChild(projectMannager);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public Guid SolutionGuid { get; set; }
+
         public string SolutionName { get; set; }
         public string SolutionVersion { get; set; }
+
         public string SolutionPath { get; set; }
+
 
         public SolutionLog SolutionLog { get; set; }
         public SolutionConfig SolutionConfig { get; set; }
@@ -96,7 +91,7 @@ namespace NLGSolution
                     childNodes.Add(SolutionConfig);
                 return childNodes;
             }
-            set { }
+            protected set { }
         }
 
         public override void AddChild(BaseObject baseObject)
