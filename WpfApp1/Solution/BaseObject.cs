@@ -11,7 +11,7 @@ namespace NLGSolution
     {
         public enum Type
         {
-            File, Directory
+            File, Directory, Solution
         }
         public BaseObject(string FullPath, Type type)
         {

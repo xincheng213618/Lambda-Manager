@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -10,7 +11,7 @@ namespace NLGSolution
 {
     public class SolutionExplorer : BaseObject
     {
-        public SolutionExplorer(string FullPath):base(FullPath,Type.Directory)
+        public SolutionExplorer(string FullPath):base(FullPath,Type.Solution)
         {
             //AddExistingProject1 = new CommandBinding(AddExistingProject, AddNewProject_Executed, AddNewProject_CanExecute);
             EditCommand = new MyCommand(() =>
@@ -21,8 +22,42 @@ namespace NLGSolution
             {
                 OnAddNewProject();
             }, () => { return true; });
-
         }
+
+        public override bool IsEditMode
+        {
+            get { return isEditMode; }
+            set
+            {
+                isEditMode = value;
+                if (!isEditMode)
+                {
+                    string oldpath = FullPath;
+                    string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, Extension);
+                    if (newpath != FullPath)
+                    {
+                        try
+                        {
+                            File.Move(oldpath, newpath);
+                            FullPath = newpath;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("文件名冲突" + ex.Message);
+                            isEditMode = true;
+                        }
+                    }
+                }
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Extension
+        {
+            get { return Path.GetExtension(FullPath); }
+            protected set { }
+        }
+
         private void OnDepartmentEdited()
         {
             MessageBox.Show("22222");
@@ -75,37 +110,13 @@ namespace NLGSolution
         public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
 
 
-        public ObservableCollection<object> Children
-        {
-            get
-            {
-                ObservableCollection<object> childNodes = new ObservableCollection<object>();
-                ProjectMannagers = new ObservableCollection<ProjectMannager>(ProjectMannagers.OrderBy(item => item.Name));
-                foreach (var project in ProjectMannagers)
-                    childNodes.Add(project);
-                foreach (var series in SeriesProjectManagers)
-                    childNodes.Add(series);
-                if (SolutionLog != null)
-                    childNodes.Add(SolutionLog);
-                if (SolutionConfig != null)
-                    childNodes.Add(SolutionConfig);
-                return childNodes;
-            }
-            protected set { }
-        }
+        public ObservableCollection<BaseObject> Children { get; set; } = new ObservableCollection<BaseObject>();    
+
 
         public override void AddChild(BaseObject baseObject)
         {
             baseObject.Parent = this;
-            if (baseObject is ProjectMannager mannager)
-            {
-                ProjectMannagers.Add(mannager);
-            }
-            else if (baseObject is SeriesProjectManager series)
-            {
-                SeriesProjectManagers.Add(series);
-            }
-            NotifyPropertyChanged("Children");
+            Children.SortedAdd(baseObject);   
         }
         public override void RemoveChild(BaseObject baseObject)
         {
@@ -116,15 +127,9 @@ namespace NLGSolution
             {
                 baseObject.Parent = null;
 
-                //this.Children.Remove(baseObject);
-
+                Children.Remove(baseObject);
                 baseObject.Delete();
-                if (baseObject is ProjectMannager mannager)
-                    ProjectMannagers.Remove(mannager);
-                else if (baseObject is SeriesProjectManager series)
-                    SeriesProjectManagers.Remove(series);
 
-                NotifyPropertyChanged("Children");
             }
         }
 

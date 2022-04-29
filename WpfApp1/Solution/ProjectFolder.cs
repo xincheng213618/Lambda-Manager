@@ -11,7 +11,7 @@ namespace NLGSolution
     public class ProjectFolder : BaseObject
     {
 
-        FileSystemWatcher watcher;
+        public FileSystemWatcher watcher;
         public ObservableCollection<BaseObject> Children { get; set; }
 
         public ProjectFolder(string FolderPath) :base(FolderPath, Type.Directory)

@@ -41,12 +41,23 @@
         <TreeView x:Name="SolutionTreeView"  SelectedItemChanged="TreeView1_SelectedItemChanged"  >
             <TreeView.Resources>
                 <HierarchicalDataTemplate   DataType="{x:Type Solution:SolutionExplorer}"   ItemsSource="{Binding Children}" >
-                    <StackPanel Style="{StaticResource style_treeViewItem_panel}"  >
-                        <TextBlock >
-                                    <Run Text="'"/>
-                                    <Run Text="{Binding SolutionName}"/>
-                                    <Run Text="'"/>
-                        </TextBlock>
+                    <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
+                        <TextBlock Text="'"/>
+                        <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
+                            <local:EditableTextBlock.Style>
+                                <Style TargetType="local:EditableTextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEditMode" Value="True">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource editTemplate}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEditMode" Value="False">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource displayTemplate}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </local:EditableTextBlock.Style>
+                        </local:EditableTextBlock>
+                        <TextBlock Text="'"/>
                         <StackPanel.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="添加(_W)">
@@ -71,6 +82,7 @@
                         </TextBlock>
                     </StackPanel>
                 </DataTemplate>
+                
                 <DataTemplate DataType="{x:Type Solution:SolutionConfig}">
                     <StackPanel Style="{StaticResource style_treeViewItem_panel}">
                         <TextBlock>
@@ -101,7 +113,7 @@
                             <ContextMenu>
                                 <MenuItem Header="新建文件夹(_P)"/>
                                 <MenuItem Header="新建文件(_F)"/>
-                                <MenuItem Header="打开文件夹"/>
+                                <MenuItem Header="打开文件夹" />
                                 <Separator/>
                                 <MenuItem Header="移除(_V)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
                                 <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
