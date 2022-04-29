@@ -13,7 +13,6 @@ namespace NLGSolution
         {
             File, Directory
         }
-
         public BaseObject(string FullPath, Type type)
         {
             this.FullPath = FullPath;
@@ -64,14 +63,19 @@ namespace NLGSolution
                                 Directory.Move(oldpath, newpath);
                             }
                             FullPath = newpath;
+                            tempname = name;
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show("文件名冲突" + ex.Message);
+                            Name = tempname;
                             isEditMode = true;
                         }
                     }
-
+                }
+                else
+                {
+                    tempname = name;
                 }
                 NotifyPropertyChanged();
             }
@@ -99,7 +103,7 @@ namespace NLGSolution
 
         }
 
-
+        private string tempname;
 
         private string name;
         public string Name

@@ -380,7 +380,7 @@ namespace Global.Mode.Config
 
 
 
-        private double gain = 2.0;
+        private double gain = 2.5;
 
         public double Gain
         {
@@ -458,7 +458,7 @@ namespace Global.Mode.Config
     {
         public Camera CameraSetting { get; set; } = new Camera();
 
-        private double regularization = 0.0001;
+        private double regularization = 0.001;
 
         public double Regularization
         {
@@ -470,8 +470,8 @@ namespace Global.Mode.Config
             }
         }
 
-        private int detail = 18;
-        public int Detail
+        private double detail = 2.5;
+        public double Detail
         {
             get { return detail; }
             set
@@ -504,7 +504,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private double gamma = 0.37;
+        private double gamma = 0;
         public double Gamma
         {
             get { return gamma; }

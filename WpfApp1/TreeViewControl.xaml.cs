@@ -49,12 +49,13 @@ namespace WpfApp1
             }
         }
 
+        //第一次的点击逻辑
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
 
-            SelectPoint = e.GetPosition(TreeView1);
-            HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
+            SelectPoint = e.GetPosition(SolutionTreeView);
+            HitTestResult result = VisualTreeHelper.HitTest(SolutionTreeView, SelectPoint);
             if (result != null)
             {
                 TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
@@ -82,7 +83,7 @@ namespace WpfApp1
                 }
                 if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                 {
-                    LambdaControl.Trigger("seriesProjectManager", this, new Dictionary<string, object>() { { "FullPath", seriesProjectManager1.FullPath } });
+                    LambdaControl.Trigger("seriesProjectManager", this, new Dictionary<string, object>() { { "FullPath", seriesProjectManager1.FullPath} });
                 }
             }
             else
@@ -94,9 +95,7 @@ namespace WpfApp1
             //{
             //    if (item != null && item.DataContext is ProjectMannager)
             //    {
-
             //    }
-
             //    return;
             //}
 
@@ -116,7 +115,7 @@ namespace WpfApp1
                 ScrollViewer scrollViewer = new ScrollViewer();
                 scrollViewer.Content = textBox;
                 scrollViewer.ScrollToEnd();
-                Grid grid = new Grid();
+                Grid grid = new();
                 grid.Children.Add(scrollViewer);
                 Window window = new Window();
                 window.Content = grid;
@@ -158,7 +157,6 @@ namespace WpfApp1
                 {
                     windowData.FilePath = FilePath;
                     TreeViewInitialized(FilePath, windowData.Config);
-                    TreeView1.ItemsSource = SolutionExplorers;
                 }
 
             };
@@ -230,10 +228,8 @@ namespace WpfApp1
 
             }
             SolutionExplorers.Clear();
-
             SolutionExplorers.Add(solutionExplorer);
-
-            TreeView1.ItemsSource = SolutionExplorers;
+            SolutionTreeView.ItemsSource = SolutionExplorers;
         }
 
 
@@ -255,7 +251,7 @@ namespace WpfApp1
                 {
                     windowData.SaveConfig();
                     TreeViewInitialized(windowData.FilePath, windowData.Config);
-                    TreeView1.ItemsSource = SolutionExplorers;
+                    SolutionTreeView.ItemsSource = SolutionExplorers;
                 }
                 else
                 {

@@ -24,42 +24,27 @@ namespace NLGSolution
         }
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            if (File.Exists(e.FullPath))
+            if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
             {
-                var projectFile = ProjectFiles.ToList().Find(t => t.FullPath == e.OldFullPath);
-                if (projectFile != null)
+                var baseObject = Children.ToList().Find(t => t.FullPath == e.OldFullPath);
+                if (baseObject != null)
                 {
-                    projectFile.FullPath = e.FullPath;
-                }
-            }
-            if (Directory.Exists(e.FullPath))
-            {
-                var projectFolder = ProjectFolders.ToList().Find(t => t.FullPath == e.OldFullPath);
-                if (projectFolder != null)
-                {
-                    projectFolder.FullPath = e.FullPath;
+                    baseObject.FullPath = e.FullPath;
                 }
             }
         }
 
         private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            if (!File.Exists(e.FullPath))
+            if (!(File.Exists(e.FullPath) || Directory.Exists(e.FullPath)))
             {
-                var projectFile = ProjectFiles.ToList().Find(t => t.FullPath == e.FullPath);
+                var projectFile = Children.ToList().Find(t => t.FullPath == e.FullPath);
                 if (projectFile != null)
                 {
-                    ProjectFiles.Remove(projectFile);
-                    NotifyPropertyChanged("Children");
-                }
-            }
-            if (!Directory.Exists(e.FullPath))
-            {
-                var projectFolder = ProjectFolders.ToList().Find(t => t.FullPath == e.FullPath);
-                if (projectFolder != null)
-                {
-                    ProjectFolders.Remove(projectFolder);
-                    NotifyPropertyChanged("Children");
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        RemoveChild(projectFile);
+                    }));
                 }
             }
         }
@@ -68,18 +53,18 @@ namespace NLGSolution
         {
             if (File.Exists(e.FullPath))
             {
-                ProjectFile projectFile = new ProjectFile(e.FullPath);
-                AddChild(projectFile);
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    AddChild(new ProjectFile(e.FullPath));
+                }));
             }
             else if (Directory.Exists(e.FullPath))
             {
-                ProjectFolder projectFolder = new ProjectFolder(e.FullPath)
+                Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    Name = e.Name,
-                };
-                AddChild(projectFolder);
+                    AddChild(new ProjectFolder(e.FullPath));
+                }));
             }
-
         }
 
 
@@ -93,34 +78,14 @@ namespace NLGSolution
         }
 
 
+        public ObservableCollection<BaseObject> Children { get; set; } = new ObservableCollection<BaseObject>();
 
-        public ObservableCollection<object> Children
-        {
-            get
-            {
-                ObservableCollection<object> childNodes = new ObservableCollection<object>();
-                foreach (var product in ProjectFolders)
-                    childNodes.Add(product);
-                foreach (var projectFile in ProjectFiles)
-                    childNodes.Add(projectFile);
-                return childNodes;
-            }
-        }
 
 
         public override void AddChild(BaseObject baseObject)
         {
             baseObject.Parent = this;
-
-            if (baseObject is ProjectFolder folder)
-            {
-                ProjectFolders.Add(folder);
-            }
-            else if (baseObject is ProjectFile file)
-            {
-                ProjectFiles.Add(file);
-            }
-            NotifyPropertyChanged("Children");
+            Children.SortedAdd(baseObject);
         }
 
         public override void RemoveChild(BaseObject baseObject)
@@ -131,16 +96,10 @@ namespace NLGSolution
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;
-
-                //this.Children.Remove(baseObject);
+                Children.Remove(baseObject);
 
                 baseObject.Delete();
-                if (baseObject is ProjectFolder folder)
-                    ProjectFolders.Remove(folder);
-
-                else if (baseObject is ProjectFile file)
-                    ProjectFiles.Remove(file);
-                NotifyPropertyChanged("Children");
+                //NotifyPropertyChanged("Children");
             }
         }
     }

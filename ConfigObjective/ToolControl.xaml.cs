@@ -150,10 +150,10 @@ namespace ConfigObjective
             Button322.IsChecked = false;
 
 
-            //照明内径
-            SliderAbbreviation(Slider331, "RHEIN_BERG_INNER", "inner");
-            //照明外径
-            SliderAbbreviation(Slider332, "RHEIN_BERG_OUTER", "outer");
+            ////照明内径
+            //SliderAbbreviation(Slider331, "RHEIN_BERG_INNER", "inner");
+            ////照明外径
+            //SliderAbbreviation(Slider332, "RHEIN_BERG_OUTER", "outer");
             //明场照明亮度
             Slider333.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
             {
@@ -259,8 +259,7 @@ namespace ConfigObjective
             SliderAbbreviation1(Slider347, "RELIEF_CONTRAST_DP_WEIGHT", "weight");
 
             //差分背景校正
-            ToggleButtonAbbreviation(Button341, "RELIEF_CONTRAST_BG_COLLECTION", "collection");
-            Button341.IsChecked = false;
+            //ToggleButtonAbbreviation(Button341, "RELIEF_CONTRAST_BG_COLLECTION", "collection");
 
             //相位
 
@@ -268,7 +267,7 @@ namespace ConfigObjective
             SliderAbbreviation1(Slider351, "QUANTITATIVE_PHASE_REG", "regularization");
 
             //细节增强
-            SliderAbbreviation(Slider352, "QUANTITATIVE_PHASE_DETAIL", "detail");
+            //SliderAbbreviation(Slider352, "QUANTITATIVE_PHASE_DETAIL", "detail");
             //测试附加
             //Min
             SliderAbbreviation1(Slider353, "QUANTITATIVE_PHASE_MIN", "min");
@@ -279,15 +278,14 @@ namespace ConfigObjective
 
 
             //相位背景校正
-            ToggleButtonAbbreviation(Button351, "QUANTITATIVE_PHASE_BG_COLLECTION", "collection");
-            Button351.IsChecked = false;
+            //ToggleButtonAbbreviation(Button351, "QUANTITATIVE_PHASE_BG_COLLECTION", "collection");
 
             //相差
 
             //相差滤波
             SliderAbbreviation1(Slider361, "PHASE_CONTRAST_FILTER", "filter");
-            //对比度
-            SliderAbbreviation1(Slider362, "PHASE_CONTRAST_CONTRAST", "contrast");
+            ////对比度
+            //SliderAbbreviation1(Slider362, "PHASE_CONTRAST_CONTRAST", "contrast");
             //增益
             SliderAbbreviation1(Slider363, "PHASE_CONTRAST_GAIN", "gain");
             //明场权重
@@ -299,8 +297,7 @@ namespace ConfigObjective
             SliderAbbreviation1(Slider366, "PHASE_CONTRAST_PC_WEIGHT", "weight");
 
             //相差背景校正
-            ToggleButtonAbbreviation(Button361, "PHASE_CONTRAST_BG_COLLECTION", "collection");
-            Button361.IsChecked = false;
+            //ToggleButtonAbbreviation(Button361, "PHASE_CONTRAST_BG_COLLECTION", "collection");
 
             #endregion
 
@@ -386,7 +383,7 @@ namespace ConfigObjective
         {
             toggleButton.Checked += delegate
             {
-                Dictionary<string, object> data = new() { { TriggerParameter, toggleButton.IsChecked } };
+                Dictionary<string, object> data = new Dictionary<string, object>() { { TriggerParameter, toggleButton.IsChecked } };
                 LambdaControl.Trigger(TriggerName, toggleButton, data);
             };
             toggleButton.Unchecked += delegate
@@ -616,6 +613,37 @@ namespace ConfigObjective
         private void ToggleButton331_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Slider342_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void Slider352_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+            if (!WindowData.GetInstance().ACQUIRE)
+            {
+                Dictionary<string, object> data = new() { { "detail", (int)(slider.Value * 10) } };
+                LambdaControl.Trigger("QUANTITATIVE_PHASE_DETAIL", slider, data);
+            }
+            else
+            {
+                if (sliderfirst)
+                {
+                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                    {
+                        sliderfirst = false;
+                        slider.Value = e.OldValue;
+                    }
+                }
+                else
+                {
+                    sliderfirst = true;
+                }
+            }
         }
     }
 }

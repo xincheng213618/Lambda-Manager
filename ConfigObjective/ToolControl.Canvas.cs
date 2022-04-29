@@ -176,7 +176,6 @@ namespace ConfigObjective
         {
             Rectangle? rectangle = (Rectangle)sender;
             Canvas1.Children.Remove(rectangle);
-
         }
 
         private void Canvas1_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)

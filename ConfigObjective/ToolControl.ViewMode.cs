@@ -130,6 +130,20 @@ namespace ConfigObjective
         {
             LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
         }
+        private void Button341_Click(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("RELIEF_CONTRAST_BG_COLLECTION", this, new Dictionary<string, object>() { });
+        }
+        private void Button351_Click(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("QUANTITATIVE_PHASE_BG_COLLECTION", this, new Dictionary<string, object>() { });
+        }
+        private void Button361_Click(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("PHASE_CONTRAST_BG_COLLECTION", this, new Dictionary<string, object>() { });
+        }
+
+
 
         private async void ViewMode_Checked(object sender, RoutedEventArgs e)
         {

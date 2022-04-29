@@ -97,15 +97,6 @@ namespace NLGSolution
         public override void AddChild(BaseObject baseObject)
         {
             baseObject.Parent = this;
-
-            //if (baseObject is ProjectFolder folder)
-            //{
-            //    ProjectFolders.Add(folder);
-            //}
-            //else if (baseObject is ProjectFile file)
-            //{
-            //    ProjectFiles.Add(file);
-            //}
             if (baseObject is ProjectMannager mannager)
             {
                 ProjectMannagers.Add(mannager);
@@ -114,7 +105,6 @@ namespace NLGSolution
             {
                 SeriesProjectManagers.Add(series);
             }
-
             NotifyPropertyChanged("Children");
         }
         public override void RemoveChild(BaseObject baseObject)
@@ -138,16 +128,6 @@ namespace NLGSolution
             }
         }
 
-        public void AddChild(ProjectMannager projectMannager)
-        {
-            ProjectMannagers.Add(projectMannager);
-            NotifyPropertyChanged("Children");
-        }
-        public void AddChild(SeriesProjectManager seriesProjectManager)
-        {
-            SeriesProjectManagers.Add(seriesProjectManager);
-            NotifyPropertyChanged("Children");
-        }
 
 
     }
