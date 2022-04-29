@@ -20,6 +20,11 @@ namespace ConfigObjective
             ToggleButtonXYF.IsChecked = Stage.MoveStep.XStep == 200;
             ToggleButtonZF.IsChecked = Stage.MoveStep.ZStep == 200;
         }
+        private void Stage_Update()
+        {
+
+        }
+
 
         private void Stage_Reset_Click(object sender, RoutedEventArgs e)
         {

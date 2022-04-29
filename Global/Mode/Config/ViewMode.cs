@@ -9,16 +9,6 @@ namespace Global.Mode.Config
 {
     public class ViewMode : ModeBaseObject
     {
-        //private int selectViewMode = 0;
-        //public int SelectViewMode
-        //{
-        //    get => selectViewMode; 
-        //    set
-        //    {
-        //        selectViewMode = value;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
         public int SelectViewMode = 0;
 
 
@@ -197,7 +187,6 @@ namespace Global.Mode.Config
             }
         }
 
-
         private int outAperture = 32;
 
         public int OutAperture
@@ -209,6 +198,23 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+
+
+        private double gamma = 1;
+        public double Gamma
+        {
+            get { return gamma; }
+            set
+            {
+                gamma = value;
+                CameraSetting.Gamma = gamma + 1;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+
         private int mode = 0;
 
         public int Mode
@@ -225,22 +231,39 @@ namespace Global.Mode.Config
         public int DarkColor = 4095;
         public int DarkColor1 = 4095;
 
+
         public void SetValue(Reinberg reinberg)
         {
             CameraSetting.SetValue(reinberg.CameraSetting);
 
+            this.Gamma = reinberg.Gamma;
             this.InnerAperture = reinberg.InnerAperture;
             this.OutAperture = reinberg.OutAperture;
             this.Mode = reinberg.Mode;
+            this.BrightColor = reinberg.BrightColor;
+            this.DarkColor = reinberg.DarkColor;
+            this.DarkColor1 = reinberg.DarkColor1;
         }
 
     };
 
+    //差分
     public class ReliefContrast : ModeBaseObject
     {
         public Camera CameraSetting { get; set; } = new Camera();
 
-        //修改为0
+        public int rotationangle = 0;
+        public int Rotationangle
+        {
+            get { return rotationangle; }
+            set
+            {
+                rotationangle = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         private int innerAperture = 0;
         public int InnerAperture
         {
@@ -339,7 +362,7 @@ namespace Global.Mode.Config
         public void SetValue(ReliefContrast  reliefContrast)
         {
             CameraSetting.SetValue(reliefContrast.CameraSetting);
-
+            this.Rotationangle = reliefContrast.Rotationangle;
             this.InnerAperture = reliefContrast.InnerAperture;
             this.OutAperture = reliefContrast.OutAperture;
             this.Gamma = reliefContrast.Gamma;
@@ -350,7 +373,7 @@ namespace Global.Mode.Config
             this.BgCollection = reliefContrast.BgCollection;
         }
     }
-
+    //相位
     public class PhaseContrast : ModeBaseObject
     {
         public Camera CameraSetting { get; set; } = new Camera();

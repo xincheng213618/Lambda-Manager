@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace ConfigObjective
@@ -15,7 +16,12 @@ namespace ConfigObjective
     {
         Global.Mode.Config.ViewMode ViewMode = WindowData.GetInstance().ViewMode;
 
+
         public void ViewMode_Initialized()
+        {
+
+        }
+        public void ViewMode_Update()
         {
             if (ViewMode == null)
                 ViewMode = new Global.Mode.Config.ViewMode();
@@ -50,9 +56,15 @@ namespace ConfigObjective
             Border32.DataContext = ViewMode.DarkField;
 
             ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color, out int bright1));
-            Slider324.Value = bright;
+            Slider324.Value = bright1;
 
             Border33.DataContext = ViewMode.Reinberg;
+
+            IntToColor(ViewMode.Reinberg.BrightColor, out int bright2);
+            IntToColor(ViewMode.Reinberg.DarkColor, out int bright3);
+
+            Slider333.Value = bright2;
+            Slider334.Value = bright3;
 
             Border34.DataContext = ViewMode.ReliefContrast;
 
@@ -96,6 +108,13 @@ namespace ConfigObjective
             {
                 ViewMode.Reinberg = new Global.Mode.Config.Reinberg();
                 Border33.DataContext = ViewMode.Reinberg;
+
+                IntToColor(ViewMode.Reinberg.BrightColor, out int bright2);
+                IntToColor(ViewMode.Reinberg.DarkColor, out int bright3);
+
+                Slider333.Value = bright2;
+                Slider334.Value = bright3;
+
                 Border2.DataContext = ViewMode.Reinberg.CameraSetting;
 
             }
@@ -141,6 +160,19 @@ namespace ConfigObjective
         private void Button361_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("PHASE_CONTRAST_BG_COLLECTION", this, new Dictionary<string, object>() { });
+        }
+
+        private void Button362_Checked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("QUANTITATIVE_PHASE_PN", this, new Dictionary<string, object>() { { "pn",true } });
+
+            
+        }
+
+        private void Button362_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("QUANTITATIVE_PHASE_PN", this, new Dictionary<string, object>() { { "pn", false } });
+
         }
 
 
@@ -263,10 +295,145 @@ namespace ConfigObjective
             DarkFieldColor();
         }
 
+
+
+
+
+        private void Slider352_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+            if (!WindowData.ACQUIRE)
+            {
+                Dictionary<string, object> data = new() { { "detail", (int)(slider.Value * 10) } };
+                LambdaControl.Trigger("QUANTITATIVE_PHASE_DETAIL", slider, data);
+            }
+            else
+            {
+                if (sliderfirst)
+                {
+                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                    {
+                        sliderfirst = false;
+                        slider.Value = e.OldValue;
+                    }
+
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+            }
+
+
+        }
+
+        private void ToggleButton33_Checked(object sender, RoutedEventArgs e)
+        {
+            int auto = 0;
+            if ((bool)ToggleButton331.IsChecked)
+                auto = 0;
+            if ((bool)ToggleButton332.IsChecked)
+                auto = 1;
+            if ((bool)ToggleButton333.IsChecked)
+                auto = 2;
+
+            LambdaControl.Trigger("RHEIN_BERG_AUTO", this, new Dictionary<string, object>() { { "auto", auto } });
+        }
+
+
+
+
+        private void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            LambdaControl.Trigger("RHEIN_BERG_ANGLE", this, new Dictionary<string, object>() { { "angle", (int)Slider336.Value } });
+        }
+
         private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
         {
             int result = HexToInt(hexString, bright);
             LambdaControl.Trigger(TriggerName, this, new Dictionary<string, object>() { { TriggerParameter, result } });
+        }
+
+
+
+
+
+        List<RheinbergPattern> rheinbergPatterns;
+
+        private void Button331_Click(object sender, RoutedEventArgs e)
+        {
+            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new(rheinbergPatterns);
+            rheinbergPatternEditorWindow.Closed += RheinbergAdd;
+            rheinbergPatternEditorWindow.ShowDialog();
+        }
+        public RheinbergPattern SelectColor;
+        public int RheinbergSelectMode = 0;
+
+
+        private void RheinbergAdd(object sender, EventArgs e)
+        {
+            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = sender as RheinbergPatternEditorWindow;
+            SelectColor = rheinbergPatternEditorWindow.SelectColor;
+            RadioButton radioButton = rheinbergPatternEditorWindow.SelectRadionButton;
+
+            if (radioButton.Parent is UniformGrid uniform)
+            {
+                uniform.Children.Remove(radioButton);
+                DockPanel331.Children.Clear();
+                DockPanel331.Children.Add(radioButton);
+
+                //if (radioButton.Content is Canvas canvas)
+                //{
+                //    radioButton.Content = null;
+
+                //}
+
+            }
+
+
+
+            Color330.Fill = SelectColor.Rheinberg0;
+            Color331.Fill = SelectColor.Rheinberg1;
+            Color332.Fill = SelectColor.Rheinberg2;
+
+            RheinbergSelectMode = rheinbergPatternEditorWindow.SelectedIndex;
+
+            int darkness1 = HexToInt(Color331.Fill.ToString(), (int)Slider334.Value);
+            int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
+            int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
+
+            DockPanel332.Visibility = Visibility.Visible;
+            DockPanel333.Visibility = Visibility.Visible;
+
+
+            //Color330.Visibility = Visibility.Visible;
+            //Color331.Visibility = Visibility.Visible;
+            //Color332.Visibility = Visibility.Visible;
+
+            if (RheinbergSelectMode == 0)
+            {
+                //Color332.Visibility =Visibility.Collapsed;
+                darkness2 = -1;
+            }
+            if (RheinbergSelectMode == 3)
+            {
+                darkness1 = -1;
+                darkness2 = -1;
+                bright = -1;
+                DockPanel332.Visibility = Visibility.Collapsed;
+                DockPanel333.Visibility = Visibility.Collapsed;
+            }
+
+            LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, new Dictionary<string, object>() { { "mode", RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } });
+
+            rheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
+            rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
+        }
+
+        private void Combox341_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LambdaControl.Trigger("RELIEF_Rotation_Angle", this, new Dictionary<string, object>() { { "rotationAngle", ViewMode.ReliefContrast.Rotationangle } });
         }
 
 

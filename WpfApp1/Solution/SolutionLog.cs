@@ -1,8 +1,10 @@
 ﻿namespace NLGSolution
 {
-    public class SolutionLog
+    public class SolutionLog : ProjectFile
     {
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public SolutionLog(string Fullpath):base(Fullpath)
+        {
+
+        }
     }
 }

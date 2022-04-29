@@ -111,7 +111,7 @@ namespace WpfApp1
             if (treeView.SelectedItem is SolutionLog solutionLog)
             {
                 TextBox textBox = new TextBox();
-                textBox.Text = File.ReadAllText(solutionLog.FilePath);
+                textBox.Text = File.ReadAllText(solutionLog.FullPath);
                 ScrollViewer scrollViewer = new ScrollViewer();
                 scrollViewer.Content = textBox;
                 scrollViewer.ScrollToEnd();

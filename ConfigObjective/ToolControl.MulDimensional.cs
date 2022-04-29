@@ -11,6 +11,11 @@ namespace ConfigObjective
     {
         public void MulDimensional_Initialized()
         {
+
+        }
+        
+        public void MulDimensional_Update()
+        {
             var MulDimensional = WindowData.MulDimensional;
             TextBoxZstart.Text = MulDimensional.ZStart.ToString();
             TextBoxZend.Text = MulDimensional.ZEnd.ToString();

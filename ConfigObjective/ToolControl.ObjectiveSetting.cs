@@ -13,6 +13,10 @@ namespace ConfigObjective
     {
         private void ObjectiveSetting_Initialized()
         {
+
+        }
+        private void ObjectiveSetting_Update()
+        {
             ObjectiveSettingStackPanel.Children.Clear();
             foreach (var item in WindowData.ObjectiveSettingList)
             {
@@ -37,6 +41,7 @@ namespace ConfigObjective
                 ObjectiveSettingStackPanel.Children.Add(radioButton);
             }
         }
+
 
     }
 }
