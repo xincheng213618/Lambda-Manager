@@ -20,7 +20,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid Width="40" Height="30">
+                        <Grid  Height="30">
                             <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" Opacity="0.3"/>
                             <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="12" 
                                    Foreground="{StaticResource CaptionButtonBrush}" FontWeight="{TemplateBinding FontWeight}" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -40,7 +40,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" Width="40" Height="30">
+                        <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" Height="30">
                             <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="12" 
                                    Foreground="{StaticResource CaptionButtonBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
@@ -133,7 +133,7 @@
                     <Grid Background="{TemplateBinding Background}" VerticalAlignment="Top" Height="30" Margin="0 -29 0 0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{TemplateBinding Icon}" Margin="10,0,0,0" Height="18" Width="18"  />
@@ -141,12 +141,12 @@
                         <!--<ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,20,0" />-->
                         <StackPanel x:Name="WindowCommandButtonsPanel" Grid.Column="1"  HorizontalAlignment="Center" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,-1,0" >
                             <!--<Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="40" Command="{x:Static local:MainWindow.WindowTopMost}"/>-->
-                            <Button x:Name="MinimizeButton" Style="{DynamicResource MinimizeButtonStyle}" Width="40"  Command="{x:Static local:MainWindow.WindowMin}" />
+                            <Button x:Name="MinimizeButton" Style="{DynamicResource MinimizeButtonStyle}" Width="45"  Command="{x:Static local:MainWindow.WindowMin}" />
                             <Grid Margin="1,0,1,0">
-                                <Button x:Name="MaximizeButton" Style="{DynamicResource MaximizeButtonStyle}" Width="40" Command="{x:Static local:MainWindow.WindowMax}" />
-                                <Button x:Name="RestoreButton" Style ="{DynamicResource RestoreButtonStyle}" Width="40" Command="{x:Static local:MainWindow.WindowRestore}"  Visibility="Hidden" />
+                                <Button x:Name="MaximizeButton" Style="{DynamicResource MaximizeButtonStyle}" Width="45" Command="{x:Static local:MainWindow.WindowMax}" />
+                                <Button x:Name="RestoreButton" Style ="{DynamicResource RestoreButtonStyle}" Width="45" Command="{x:Static local:MainWindow.WindowRestore}"  Visibility="Hidden" />
                             </Grid>
-                            <Button x:Name="CloseButton" Style="{DynamicResource CloseButtonStyle}" Command="{x:Static local:MainWindow.WindowClose}" Width="40" />
+                            <Button x:Name="CloseButton" Style="{DynamicResource CloseButtonStyle}"  Command="{x:Static local:MainWindow.WindowClose}" Width="50" />
                         </StackPanel>
                     </Grid>
                     <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="0" Grid.ColumnSpan="1" />

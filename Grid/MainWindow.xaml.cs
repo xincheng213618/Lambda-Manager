@@ -37,11 +37,9 @@ namespace Grid
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (File.Exists("LambdaManager.exe")){
-                StartWindow startWindow = new StartWindow();
-                startWindow.Show();
-            }
-            Close();
+            StartWindow startWindow = new StartWindow();
+            startWindow.Show();
+            //this.Close();
         }
 
 

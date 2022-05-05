@@ -22,8 +22,11 @@ namespace Grid
     {
         public StartWindow()
         {
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             InitializeComponent();
+            Left = SystemParameters.WorkArea.Right - this.Width;
+            Top = SystemParameters.WorkArea.Bottom - this.Height;
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -40,18 +43,38 @@ namespace Grid
 
         private async Task InitializedOver()
         {
-            StartLabel.Content = "检测硬件连接";
+            TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接";
             await Task.Delay(500);
-            StartLabel.Content = "初始化配置信息";  
+            TexoBoxMsg.Text += Environment.NewLine + "初始化配置信息";  
             await Task.Delay(300);
-            StartLabel.Content = "初始化控件";
+            TexoBoxMsg.Text += Environment.NewLine + "初始化主控";
             await Task.Delay(300);
-            StartLabel.Content = "正在打开主窗口";
-            Process process = new Process();
-            process.StartInfo.FileName = @"LambdaManager.exe";
-            process.Start();
+            TexoBoxMsg.Text += Environment.NewLine + "初始化相机";
+            await Task.Delay(300);
+            TexoBoxMsg.Text += Environment.NewLine + "初始化位移台";
+            await Task.Delay(300);
+            TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
+            try
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = @"LambdaManager.exe";
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            App.Current.MainWindow.Close();
             await Task.Delay(500);
             Close();
+        }
+
+        private void TexoBoxMsg_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //TexoBoxMsg.SelectionStart = TexoBoxMsg.;
+            //将控件内容滚动到当前插入符号位置
+            TexoBoxMsg.ScrollToEnd();
         }
     }
 }
