@@ -4,8 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              xmlns:local="clr-namespace:LambdaManager" 
              xmlns:System="clr-namespace:System;assembly=System.Runtime" 
-             StartupUri="MainWindow.xaml"
-             >
+             StartupUri="MainWindow.xaml">
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -13,6 +12,7 @@
                 <ResourceDictionary Source="Themes/SliderStyle.xaml" />
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml" />
                 <ResourceDictionary Source="Resources/Res.xaml" />
+                <ResourceDictionary Source="ThemeManager\Styles\Window.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <System:String x:Key="Fps" xmlns:system="clr-namespace:System;assembly=System.Private.CoreLib">0</System:String>
             <System:String x:Key="Shot" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">拍照</System:String>

@@ -57,13 +57,17 @@ internal class Common
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
 		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
-		//LambdaControl.LogHandler = new LogHandler(App.Report);
-		//LambdaControl.LogHandler2 = new LogHandler(App.Report2);
-		LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
-		LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
+
+        LambdaControl.LogHandler = new LogHandler(App.Report);
+        LambdaControl.LogHandler2 = new LogHandler(App.Report2);
+
+        LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
+
+        LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
 		LambdaControl.Views = Views;
 		Initialize();
 	}
+
 
 	[DllImport("lib\\common.dll")]
 	public static extern void Initialize();
@@ -409,12 +413,12 @@ internal class Common
 		GCHandle handle = GCHandle.Alloc(sender);
 		try
 		{
-			//App.Report(new Message
-			//{
-			//	Severity = Severity.INFO,
-			//	Text = type
-			//});
-			int result = CallEvent(type, handle, e);
+            App.Report(new Message
+            {
+                Severity = Severity.INFO,
+                Text = type
+            });
+            int result = CallEvent(type, handle, e);
 			if (result >= RESERVED_EVENT_RESULT)
 			{
 				return (!ui_handlers[result - RESERVED_EVENT_RESULT](sender, e)) ? (-1) : 0;

@@ -113,7 +113,6 @@
                 <Button  Margin="5" Content="OK" Click="Button_Click" Width="75"/>
                 <Button  Margin="5" Content="Cancel" Click="Button_Click" Width="75"/>
                 <Button  Margin="5" Content="Apply" Click="Button_Click" Width="75"/>
-
             </UniformGrid>
             <TabControl DockPanel.Dock="Bottom" Margin="5" >
                 <TabItem Header="Color"  >

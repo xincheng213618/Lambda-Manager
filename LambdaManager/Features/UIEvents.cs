@@ -223,6 +223,9 @@ internal class UIEvents
 		//});
 
 		Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+		if (eventData == null)
+			return false;
+
 		App.Report(new Message
 		{
 			Severity = Severity.INFO,

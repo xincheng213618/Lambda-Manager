@@ -29,6 +29,7 @@ namespace ConfigObjective
                 MessageBox.Show("根据参数更新");
             else
                 first = false;
+
             CameraSetting_Update();
             ObjectiveSetting_Update();
             ViewMode_Update();

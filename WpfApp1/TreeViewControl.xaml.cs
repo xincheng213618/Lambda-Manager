@@ -292,5 +292,17 @@ namespace WpfApp1
 
         }
 
+        private static bool OnUpdateStatus(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            MessageBox.Show(eventData.Count.ToString());
+
+            return true;
+        }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus,false);
+        }
     }
 }

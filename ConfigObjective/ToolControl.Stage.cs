@@ -11,18 +11,21 @@ namespace ConfigObjective
 {
     public partial class ToolControl
     {
-        Global.Mode.Config.MoveStep MoveStep = WindowData.GetInstance().Stage.MoveStep;
-        Global.Mode.Config.Stage Stage = WindowData.GetInstance().Stage;    
+        Global.Mode.Config.Stage Stage = WindowData.GetInstance().Stage; 
+        Global.Mode.Config.MoveStep MoveStep;
+
         private void Stage_Initialized()
         {
-            if (Stage == null)
-                Stage = new Global.Mode.Config.Stage();
-            ToggleButtonXYF.IsChecked = Stage.MoveStep.XStep == 200;
-            ToggleButtonZF.IsChecked = Stage.MoveStep.ZStep == 200;
+            MoveStep = Stage.MoveStep;
         }
+
         private void Stage_Update()
         {
+            Stage = WindowData.GetInstance().Stage;
+            MoveStep = Stage.MoveStep;
 
+            ToggleButtonXYF.IsChecked = Stage.MoveStep.XStep == 200;
+            ToggleButtonZF.IsChecked = Stage.MoveStep.ZStep == 200;
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Global.Mode;
+﻿using Global;
+using Global.Mode;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

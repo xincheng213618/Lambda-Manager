@@ -21,10 +21,11 @@ using LambdaManager.DataType;
 using LambdaManager.Features;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
+using ThemeManager.Controls;
 
 namespace LambdaManager;
 
-partial class MainWindow : Window
+partial class MainWindow : BaseWindow
 {
 	private readonly StreamWriter logger = InitLogger();
 	private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
@@ -59,7 +60,6 @@ partial class MainWindow : Window
 	public MainWindow()
 	{
 		InitializeComponent();
-		Command_Initialized();
 		LambdaControl.RegisterImageViewHandler += RegisterImageView;
 		ChangeMiddleViewVisibility(false);
 
@@ -121,7 +121,8 @@ partial class MainWindow : Window
 
 	internal void AddMessage(Message message)
 	{
-		LambdaControl.Log(message);
+		//日志监听的级别不对
+		//LambdaControl.Log(message);
 		if (message.Severity < logLevel)
 		{
 			return;

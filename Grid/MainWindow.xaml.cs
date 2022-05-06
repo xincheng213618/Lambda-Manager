@@ -32,6 +32,7 @@ namespace Grid
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+
         }
 
 
@@ -39,7 +40,6 @@ namespace Grid
         {
             StartWindow startWindow = new StartWindow();
             startWindow.Show();
-            //this.Close();
         }
 
 

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Global.Mode
+namespace Global
 {
     public class ModeBaseObject :INotifyPropertyChanged
     {

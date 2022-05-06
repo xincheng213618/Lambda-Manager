@@ -228,5 +228,6 @@ int CameraSettingExposure(double exposure)
 	std::string name = "aÖÐÎÄ";
 	//name = StringToUtf(name);
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
+	Event::Trigger("UPDATE_STATUS");
 	return  0;
 }

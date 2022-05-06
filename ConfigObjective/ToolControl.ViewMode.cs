@@ -21,6 +21,7 @@ namespace ConfigObjective
         {
 
         }
+
         public void ViewMode_Update()
         {
             if (ViewMode == null)
@@ -55,7 +56,7 @@ namespace ConfigObjective
 
             Border32.DataContext = ViewMode.DarkField;
 
-            ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color, out int bright1));
+            ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.DarkField.Color, out int bright1));
             Slider324.Value = bright1;
 
             Border33.DataContext = ViewMode.Reinberg;

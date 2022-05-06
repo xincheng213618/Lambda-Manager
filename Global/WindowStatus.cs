@@ -1,4 +1,5 @@
-﻿using Global.Mode.Config;
+﻿using Global.Hardware;
+using Global.Mode.Config;
 using Lambda;
 using Mode;
 using Newtonsoft.Json;
@@ -29,16 +30,36 @@ namespace Global
             }
             return instance;
         }
-        public List<ObjectiveSetting> ObjectiveSettingList = new()
-        {
-            new ObjectiveSetting (){ID = 0, Name ="奥林巴斯",Magnitude="4X", NA=0.1, IsEnabled =false},
-            new ObjectiveSetting (){ID = 1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked=true},
-            new ObjectiveSetting (){ID = 2, Name ="奥林巴斯",Magnitude="20X", NA=0.4, IsEnabled =false},
-            new ObjectiveSetting (){ID = 3, Name ="奥林巴斯",Magnitude="40X", NA=0.65, IsEnabled =false},
-            new ObjectiveSetting (){ID = 4, Name ="奥林巴斯",Magnitude="100X", NA=0.65, IsEnabled =false},
-        };
+        public DeviceInformation deviceInformation;
+
+        public List<ObjectiveSetting> ObjectiveSettingList;
+
+
         private WindowData()
         {
+            if (File.Exists(Global.HardwareDeviceInformationSheet))
+            {
+                string HardwareDeviceInformation = Utils.LoadResource(Global.HardwareDeviceInformationSheet);
+                if (!string.IsNullOrEmpty(HardwareDeviceInformation))
+                {
+                    deviceInformation = JsonConvert.DeserializeObject<DeviceInformation>(HardwareDeviceInformation);
+                    ObjectiveSettingList = deviceInformation.ObjectiveSettingList;
+                }
+            }
+            else
+            {
+                deviceInformation = new DeviceInformation() 
+                { 
+                    ObjectiveSettingList = new() {
+                        new ObjectiveSetting (){ID = 0, Name ="奥林巴斯",Magnitude="4X", NA=0.1, IsEnabled = false},
+                        new ObjectiveSetting (){ID = 1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked = true},
+                        new ObjectiveSetting (){ID = 2, Name ="奥林巴斯",Magnitude="20X", NA=0.4, IsEnabled = false},
+                        new ObjectiveSetting (){ID = 3, Name ="奥林巴斯",Magnitude="40X", NA=0.65, IsEnabled = false},
+                        new ObjectiveSetting (){ID = 4, Name ="奥林巴斯",Magnitude="100X", NA=0.65, IsEnabled = false},}
+                };
+                deviceInformation.ToJsonFile(Global.HardwareDeviceInformationSheet);
+            }
+
             LambdaControl.CallEventHandler += Call;
         }
 
@@ -51,6 +72,7 @@ namespace Global
                 return null;    
             } 
         }
+
         public string FilePath;
 
         public MulDimensional MulDimensional = new();

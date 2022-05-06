@@ -8,15 +8,9 @@ namespace Global
     {
         public static event UpdateEventHandler UpdateEventHandler;
 
-        /// <summary>
-        /// 更新参数的
-        /// </summary>
         public static void UpdateGlobal()
         {
             UpdateEventHandler?.Invoke();
-        }
-
-
-     
+        }     
     } 
 }
