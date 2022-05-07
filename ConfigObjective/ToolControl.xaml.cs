@@ -476,7 +476,7 @@ namespace ConfigObjective
                 WindowData.Config.Spot = testMean.Spot;
                 WindowData.Config.Stage = testMean.Stage;
                 testMean.ToJsonFile("222.json");
-                LambdaControl.Trigger("START_ACQUIRE1", this, ToStrings(testMean.ToJson()));
+                LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
             }
             return 1;
         }

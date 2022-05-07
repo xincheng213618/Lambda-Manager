@@ -78,7 +78,7 @@ namespace Global
             string result = string.Empty;
             try
             {
-                result = JsonConvert.SerializeObject(obj, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                result = JsonConvert.SerializeObject(obj, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             }
             catch(Exception ex)
             {
