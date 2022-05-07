@@ -557,7 +557,7 @@ namespace Global.Mode.Config
             this.Detail = quantitativePhase.Detail;
             this.Gamma = quantitativePhase.Gamma;
             this.Min = quantitativePhase.Min;
-            this.max = quantitativePhase.Max;
+            this.Max = quantitativePhase.Max;
             this.BgCollection = quantitativePhase.BgCollection;
 
         }

@@ -121,8 +121,8 @@ namespace Global.Mode.Config
 
         public void SetValue(Camera camera)
         {
-            this.Gamma = camera.gamma;
-            this.Gain = camera.gain;
+            this.Gamma = camera.Gamma;
+            this.Gain = camera.Gain;
             this.GainAuto = camera.GainAuto;
             this.Sharpness = camera.Sharpness;
             this.Saturation = camera.saturation;
