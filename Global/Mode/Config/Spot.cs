@@ -63,11 +63,13 @@ namespace Global.Mode.Config
     [Serializable]
     public class Twise
     {
+        [JsonProperty("interval")]
         public string Interval { get; set; } = "first";
     }
     [Serializable]
     public class Pwise
     {
+        [JsonProperty("interval")]
         public string Interval { get; set; } = "first";
     }
 

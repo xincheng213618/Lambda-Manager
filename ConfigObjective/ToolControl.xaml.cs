@@ -8,6 +8,8 @@ using Lambda;
 using System.Windows.Input;
 using Global.Mode.Config;
 using System.Text;
+using System.IO;
+using System.Text.Json;
 
 namespace ConfigObjective
 {
@@ -359,6 +361,16 @@ namespace ConfigObjective
             return toggleButton;
         }
 
+        private string ToStrings(string value)
+        {
+            using MemoryStream memoryStream = new MemoryStream();
+            using (Utf8JsonWriter writer = new Utf8JsonWriter((Stream)memoryStream, default(JsonWriterOptions)))
+            {
+                writer.WriteStringValue(value);
+            }
+            return Encoding.UTF8.GetString(memoryStream.ToArray())[1..^1];
+        }
+
         private int LambdaControlCall(string type, object sender, EventArgs e)
         {
             if (type == "STOP_ACQUIRE")
@@ -464,7 +476,7 @@ namespace ConfigObjective
                 WindowData.Config.Spot = testMean.Spot;
                 WindowData.Config.Stage = testMean.Stage;
                 testMean.ToJsonFile("222.json");
-                LambdaControl.Trigger("START_ACQUIRE1", this, new Dictionary<string, object>() { { "data", testMean.ToJson() } });
+                LambdaControl.Trigger("START_ACQUIRE1", this, ToStrings(testMean.ToJson()));
             }
             return 1;
         }
