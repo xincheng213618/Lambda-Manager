@@ -9,10 +9,10 @@ using System.Windows.Input;
 
 namespace NLGSolution
 {
-    public class ProjectMannager : ProjectFolder
+    public class ProjectManager : ProjectFolder
     {
 
-        public ProjectMannager(string ProjectPath):base(ProjectPath)
+        public ProjectManager(string ProjectPath):base(ProjectPath)
         {
 
         }

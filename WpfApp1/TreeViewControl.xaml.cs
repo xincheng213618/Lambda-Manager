@@ -19,6 +19,8 @@ using System.Windows.Shapes;
 using Tool;
 using Global;
 using Lambda;
+using LambdaUtils;
+using System.Text.Json;
 
 namespace WpfApp1
 {
@@ -48,6 +50,15 @@ namespace WpfApp1
                 windowData.SaveConfig();
             }
         }
+        private string ToStrings(string value)
+        {
+            using MemoryStream memoryStream = new MemoryStream();
+            using (Utf8JsonWriter writer = new Utf8JsonWriter((Stream)memoryStream, default(JsonWriterOptions)))
+            {
+                writer.WriteStringValue(value);
+            }
+            return Encoding.UTF8.GetString(memoryStream.ToArray())[1..^1];
+        }
 
         //第一次的点击逻辑
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
@@ -71,19 +82,19 @@ namespace WpfApp1
 
                 if (item.DataContext is ProjectFile projectFile1)
                 {
-                    LambdaControl.Trigger("projectFile", this, new Dictionary<string, object>() { { "FullPath", projectFile1.FullPath } });
+                    LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullPath));
                 }
                 if (item.DataContext is ProjectFolder projectFolder1)
-                {
-                    LambdaControl.Trigger("projectFolder", this, new Dictionary<string, object>() { { "FullPath", projectFolder1.FullPath } });
+                {                 
+                    LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullPath));
                 }
-                if (item.DataContext is ProjectMannager projectMannager1)
+                if (item.DataContext is ProjectManager projectMannager1)
                 {
-                    LambdaControl.Trigger("projectMannager", this, new Dictionary<string, object>() { { "FullPath", projectMannager1.FullPath } });
+                    LambdaControl.Trigger("projectManager", this, ToStrings(projectMannager1.FullPath));
                 }
                 if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                 {
-                    LambdaControl.Trigger("seriesProjectManager", this, new Dictionary<string, object>() { { "FullPath", seriesProjectManager1.FullPath} });
+                    LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
                 }
             }
             else
@@ -207,7 +218,7 @@ namespace WpfApp1
             {
                 if (dic.Name == "Video" || dic.Name == "Image")
                 {
-                    ProjectMannager projectMannager = new ProjectMannager(dic.FullName);
+                    ProjectManager projectMannager = new ProjectManager(dic.FullName);
                     foreach (var item in dic.GetDirectories())
                     {
                         ProjectFolder projectFolder = new ProjectFolder(item.FullName);
@@ -303,6 +314,10 @@ namespace WpfApp1
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus,false);
+
+            Window mainwin = Application.Current.MainWindow;
+            TextBox textBox = (TextBox)mainwin.FindName("fpsState");
+            MessageBox.Show(textBox.Text);
         }
     }
 }

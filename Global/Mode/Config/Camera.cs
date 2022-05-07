@@ -34,6 +34,20 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+
+        private bool gainAuto = false;
+
+        [JsonProperty("gainAuto")]
+        public bool GainAuto
+        {
+            get => gainAuto;
+            set
+            {
+                gainAuto = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private double sharpness = 0;
         [JsonProperty("sharpness")]
         public double Sharpness
@@ -71,6 +85,18 @@ namespace Global.Mode.Config
             }
         }
 
+        private bool exposureAuto = false;
+
+        [JsonProperty("exposureAuto")]
+        public bool ExposureAuto
+        {
+            get => exposureAuto;
+            set
+            {
+                exposureAuto = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         [JsonProperty("vedio-format")]
         public string? VideoFormat { get; set; }
@@ -83,10 +109,8 @@ namespace Global.Mode.Config
         [JsonProperty("hue")]
         public double? Hue { get; set; }
 
-
         [JsonProperty("white-balance")]
         public WhiteBalance? WhiteBalance { get; set; }
-
 
         [JsonProperty("trigger")]
         public Trigger? Trigger { get; set; }
@@ -99,9 +123,11 @@ namespace Global.Mode.Config
         {
             this.Gamma = camera.gamma;
             this.Gain = camera.gain;
+            this.GainAuto = camera.GainAuto;
             this.Sharpness = camera.Sharpness;
             this.Saturation = camera.saturation;
             this.Exposure = camera.Exposure;
+            this.ExposureAuto = camera.ExposureAuto;
         }
     }
 }

@@ -92,7 +92,7 @@
                     </StackPanel>
                 </DataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectMannager}" ItemsSource="{Binding Children}" >
+                <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectManager}" ItemsSource="{Binding Children}" >
                     <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
                         <Image Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/图片2.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">

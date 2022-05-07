@@ -45,13 +45,15 @@
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                    <Slider x:Name="Slider211" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="48" IsSnapToTickEnabled="True"  TickFrequency="0.5"  ValueChanged="Slider211_ValueChanged"/>
+                    <ToggleButton x:Name="ToggleButton211"  DockPanel.Dock="Right" Content="自动" Width="50" Style="{StaticResource ToggleButtonStyle1}" IsChecked="{Binding Path=GainAuto}" Click="ToggleButton211_Click" />
+
+                    <Slider x:Name="Slider211" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="48" IsSnapToTickEnabled="True" IsEnabled ="{Binding Path=GainAuto,Converter= {StaticResource InverseBooleanConverter}}"  TickFrequency="0.5"  ValueChanged="Slider211_ValueChanged"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                    <ToggleButton x:Name="ToggleButton210" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Width="50" Content="自动"  Click="ToggleButton210_Click"/>
-                    <local:UpDownControl DockPanel.Dock="Right" x:Name="UpDownControl1" Loaded="UpDownControl_Loaded"  SelectionChanged="UpDownControl1_SelectionChanged" Width="95"/>
-                    <Slider  x:Name="Slider212"  Template="{StaticResource LM_SliderControlTemplate1}" VerticalAlignment="Center" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                    <ToggleButton x:Name="ToggleButton210" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Width="50" IsChecked="{Binding Path=ExposureAuto}" Content="自动"  Click="ToggleButton210_Click"/>
+                    <local:UpDownControl DockPanel.Dock="Right" x:Name="UpDownControl1" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" Loaded="UpDownControl_Loaded"  SelectionChanged="UpDownControl1_SelectionChanged" Width="95"/>
+                    <Slider  x:Name="Slider212"  Template="{StaticResource LM_SliderControlTemplate1}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="锐度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -141,7 +143,7 @@
             <StackPanel>
                 <UniformGrid Columns="6" >
                     <RadioButton Name="Button31" Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}" IsChecked="True" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
                     <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}"  Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
                     <RadioButton Name="Button34" Tag="3" Style="{StaticResource ToggleButtonStyle1}"   Content="差分" Margin="5,0"  Checked="ViewMode_Checked"  />
                     <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"   Checked="ViewMode_Checked" />
@@ -193,10 +195,7 @@
                             <local:ColorPicker x:Name="ColorPciker322" Height="20" Width="20" Basic="False" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </DockPanel>
                         <UniformGrid  Columns="2">
-                            <DockPanel>
-                                <TextBlock Text="自动增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                <ToggleButton x:Name="Button321" Width="50" Template="{StaticResource ToggleButton10}" IsChecked="{Binding Path=Auto}" />
-                            </DockPanel>
+
                             <DockPanel Visibility="Collapsed">
                                 <TextBlock Text="背景校正" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                                 <ToggleButton x:Name="Button322" Width="50" Template="{StaticResource ToggleButton10}" IsChecked="{Binding Path=BgCollection}"  />

@@ -89,8 +89,6 @@ namespace ConfigObjective
 
             UpDownControl1.SelectedIndex = 60;
 
-
-
             #region slider
             //照明孔径
             SliderAbbreviation(Slider311, "BRIGHT_FIELD_DIAMETER", "diameter");
@@ -103,7 +101,7 @@ namespace ConfigObjective
             //伽马
             SliderAbbreviation1(Slider323, "DARK_FIELD_GAMMA", "gamma");
             //自动模式
-            ToggleButtonAbbreviation(Button321, "DARK_FIELD_AUTO", "auto");
+            //ToggleButtonAbbreviation(Button321, "DARK_FIELD_AUTO", "auto");
             //亮度
 
 
@@ -365,7 +363,6 @@ namespace ConfigObjective
         {
             if (type == "STOP_ACQUIRE")
             {
-                string filePath = "222.json";
                 var mulDimensional = WindowData.GetInstance().MulDimensional;
                 mulDimensional.mulDimensionalAreas.Clear();
                 mulDimensional.mulDimensionalPoints.Clear();
@@ -466,9 +463,8 @@ namespace ConfigObjective
                 WindowData.Config.Dimensional = testMean.Dimensional;
                 WindowData.Config.Spot = testMean.Spot;
                 WindowData.Config.Stage = testMean.Stage;
-                testMean.ToJsonFile(filePath);
-
-                LambdaControl.Trigger("START_ACQUIRE1", this, new Dictionary<string, object>() { { "data", filePath } });
+                testMean.ToJsonFile("222.json");
+                LambdaControl.Trigger("START_ACQUIRE1", this, new Dictionary<string, object>() { { "data", testMean.ToJson() } });
             }
             return 1;
         }

@@ -7,7 +7,7 @@
     <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
     
     <SolidColorBrush x:Key="CaptionButtonForeground">white</SolidColorBrush>
-    <SolidColorBrush x:Key="WindowIsNotActiveForeground">#595959</SolidColorBrush>
+    <SolidColorBrush x:Key="WindowIsNotActiveForeground">#d7d7d7</SolidColorBrush>
 
     <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>

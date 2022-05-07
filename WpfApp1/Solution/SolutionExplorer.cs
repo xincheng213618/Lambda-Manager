@@ -105,7 +105,7 @@ namespace NLGSolution
         public SolutionLog SolutionLog { get; set; }
         public SolutionConfig SolutionConfig { get; set; }
 
-        public ObservableCollection<ProjectMannager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectMannager>();
+        public ObservableCollection<ProjectManager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectManager>();
 
         public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
 

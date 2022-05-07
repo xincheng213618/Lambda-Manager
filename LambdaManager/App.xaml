@@ -6,8 +6,8 @@
              xmlns:System="clr-namespace:System;assembly=System.Runtime" 
              StartupUri="MainWindow.xaml">
   <Application.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/Styles.xaml" />
                 <ResourceDictionary Source="Themes/SliderStyle.xaml" />
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml" />

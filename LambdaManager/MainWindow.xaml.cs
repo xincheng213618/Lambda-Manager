@@ -89,6 +89,8 @@ partial class MainWindow : BaseWindow
 		}
 		InitViewer();
 
+
+
 	}
 
 
