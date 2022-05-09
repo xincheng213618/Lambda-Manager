@@ -233,11 +233,11 @@
                                     </Canvas>
                                 </DockPanel>
                             </Button>
-                            <Slider  x:Name="Slider336" Style="{StaticResource LM_Slider}" VerticalAlignment="Center" Value="0" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
+                            <Slider  x:Name="Slider336" Visibility="Collapsed" Style="{StaticResource LM_Slider}" VerticalAlignment="Center" Value="0" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
                         </DockPanel>
 
 
-                        <DockPanel>
+                        <DockPanel  x:Name="DockPanel335" Visibility="Collapsed">
                             <TextBlock Text="自动旋转" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <UniformGrid Columns="3">
                                 <RadioButton x:Name="ToggleButton331" Style="{StaticResource ToggleButtonStyle1}" Margin="10,0" Content="快" Checked="ToggleButton33_Checked"/>

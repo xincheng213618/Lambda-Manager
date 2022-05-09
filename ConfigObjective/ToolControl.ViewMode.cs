@@ -347,6 +347,10 @@ namespace ConfigObjective
 
         private void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            ToggleButton331.IsChecked = false;
+            ToggleButton332.IsChecked = false;
+            ToggleButton333.IsChecked = false;
+
             LambdaControl.Trigger("RHEIN_BERG_ANGLE", this, new Dictionary<string, object>() { { "angle", (int)Slider336.Value } });
         }
 
@@ -406,7 +410,8 @@ namespace ConfigObjective
 
             DockPanel332.Visibility = Visibility.Visible;
             DockPanel333.Visibility = Visibility.Visible;
-
+            DockPanel335.Visibility = Visibility.Collapsed;
+            Slider336.Visibility = Visibility.Collapsed;
 
             //Color330.Visibility = Visibility.Visible;
             //Color331.Visibility = Visibility.Visible;
@@ -415,10 +420,15 @@ namespace ConfigObjective
             if (RheinbergSelectMode == 0)
             {
                 //Color332.Visibility =Visibility.Collapsed;
+
+
                 darkness2 = -1;
             }
             if (RheinbergSelectMode == 3)
             {
+                DockPanel335.Visibility = Visibility.Visible;
+                Slider336.Visibility = Visibility.Visible;
+
                 darkness1 = -1;
                 darkness2 = -1;
                 bright = -1;

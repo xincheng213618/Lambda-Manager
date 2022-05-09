@@ -132,7 +132,7 @@ namespace ConfigObjective
             {
                 if (slider.Value < expose.Count)
                 {
-                    Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "sharpness", slider.Value } };
+                    Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "sharpness", (int)slider.Value } };
                     LambdaControl.Trigger("CAMERA_SETTING_SHARPNESS", this, data);
                 }
             }
@@ -190,7 +190,7 @@ namespace ConfigObjective
             {
                 if (slider.Value < expose.Count)
                 {
-                    Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "denoise", slider.Value } };
+                    Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "denoise", (int)slider.Value } };
                     LambdaControl.Trigger("CAMERA_SETTING_DENOISE", this, data);
                 }
             }
