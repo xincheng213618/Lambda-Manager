@@ -180,7 +180,7 @@
   
                         <DockPanel>
                             <TextBlock Text="背景抑制" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider323" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
+                            <Slider x:Name="Slider323" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01" ValueChanged="Slider323_ValueChanged"/>
                         </DockPanel>
         
                         <ToggleButton x:Name="ToggleButton321"  Style="{StaticResource ButtonPageControl}" Content="高级" FontSize="14" Foreground="White" IsChecked="False" Visibility="Collapsed" />
@@ -208,7 +208,7 @@
                     <StackPanel >
                         <DockPanel>
                             <TextBlock Text="背景抑制" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider335" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
+                            <Slider x:Name="Slider335" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01"  ValueChanged="Slider335_ValueChanged"/>
                         </DockPanel>
  
                         <DockPanel x:Name="DockPanel332" >

@@ -75,16 +75,7 @@ namespace Global
         /// <returns></returns>
         public static string ToJson(Object obj)
         {
-            string result = string.Empty;
-            try
-            {
-                result = JsonConvert.SerializeObject(obj, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            return result;
+            return JsonConvert.SerializeObject(obj, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         }
 
         /// <summary>

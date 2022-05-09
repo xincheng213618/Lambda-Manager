@@ -258,6 +258,44 @@ namespace ConfigObjective
             }
         }
 
+        private void Slider323_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+            Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "gamma", slider.Value + 1 } };
+            SliderAbbreviation(slider,e,"DARK_FIELD_GAMMA", data);
+        }
+        private void Slider335_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+            Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "gamma", slider.Value + 1 } };
+            SliderAbbreviation(slider, e, "RHEIN_BERG_GAMMA", data);
+        }
+
+        private void SliderAbbreviation(Slider slider, RoutedPropertyChangedEventArgs<double> e,string TriggerName, Dictionary<string, object> data)
+        {
+            if (!WindowData.ACQUIRE)
+            {
+                LambdaControl.Trigger(TriggerName, slider, data);
+            }
+            else
+            {
+                if (sliderfirst)
+                {
+                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                    {
+                        sliderfirst = false;
+                        slider.Value = e.OldValue;
+                    }
+
+                    else
+                    {
+                        sliderfirst = true;
+                    }
+                }
+            }
+        }
+
         private void Slider324_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (!WindowData.GetInstance().ACQUIRE)
@@ -296,37 +334,11 @@ namespace ConfigObjective
             DarkFieldColor();
         }
 
-
-
-
-
         private void Slider352_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            if (!WindowData.ACQUIRE)
-            {
-                Dictionary<string, object> data = new() { { "detail", (int)(slider.Value * 10) } };
-                LambdaControl.Trigger("QUANTITATIVE_PHASE_DETAIL", slider, data);
-            }
-            else
-            {
-                if (sliderfirst)
-                {
-                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
-                    if (result == MessageBoxResult.No)
-                    {
-                        sliderfirst = false;
-                        slider.Value = e.OldValue;
-                    }
-
-                    else
-                    {
-                        sliderfirst = true;
-                    }
-                }
-            }
-
-
+            Dictionary<string, object> data = new() { { "detail", (int)(slider.Value * 10) } };
+            SliderAbbreviation(slider, e, "QUANTITATIVE_PHASE_DETAIL", data);
         }
 
         private void ToggleButton33_Checked(object sender, RoutedEventArgs e)

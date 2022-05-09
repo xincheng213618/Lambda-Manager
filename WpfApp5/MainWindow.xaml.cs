@@ -116,6 +116,24 @@ namespace WpfApp5
         {
             MessageBox.Show("hcuangssss");
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
+            colorDialog.AllowFullOpen = true;
+            colorDialog.FullOpen = true;
+            colorDialog.AnyColor = false;
+            colorDialog.CustomColors = new int[] { 0x6987FC, 15195440, 16107657, 1836924, 3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294, 3102017, 7324121, 14993507, 11730944 };
+            colorDialog.ShowHelp = true;
+            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(colorDialog.Color);
+                SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
+                Button1.Background = solidColorBrush;
+
+
+            }
+        }
     }
 
 

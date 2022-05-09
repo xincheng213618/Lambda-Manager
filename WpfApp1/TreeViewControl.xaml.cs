@@ -303,21 +303,19 @@ namespace WpfApp1
 
         }
 
-        private static bool OnUpdateStatus(object sender, EventArgs e)
-        {
-            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-            MessageBox.Show(eventData.Count.ToString());
 
-            return true;
-        }
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus,false);
-
             Window mainwin = Application.Current.MainWindow;
             TextBox textBox = (TextBox)mainwin.FindName("fpsState");
             MessageBox.Show(textBox.Text);
+        }
+
+        private void UserControl_Initialized(object sender, EventArgs e)
+        {
+            windowData.AddTest();
+
         }
     }
 }

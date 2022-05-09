@@ -59,18 +59,82 @@ namespace Global
                 };
                 deviceInformation.ToJsonFile(Global.HardwareDeviceInformationSheet);
             }
-
             LambdaControl.CallEventHandler += Call;
         }
 
-        public string SolutionDir { get
+        public void AddTest()
+        {
+            LambdaControl.AddLambdaEventHandler("UPDATE_STATUS", OnUpdateStatus, false);
+        }
+
+        public UpdateStatus updateStatus = new();
+
+        private bool OnUpdateStatus(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            updateStatus.ImageX = GetStringValue(eventData, "x");
+            updateStatus.ImageY = GetStringValue(eventData, "y");
+            updateStatus.ImageZ = GetStringValue(eventData, "z");
+            updateStatus.ImageSize = GetStringValue(eventData, "size");
+            updateStatus.imageFocus = GetStringValue(eventData, "focus");
+            updateStatus.CreateTime = GetStringValue(eventData, "createTime");
+            string frameIndex = GetStringValue(eventData, "frameIndex");
+            if (frameIndex != null)
             {
-                if (FilePath != null)
+                updateStatus.FrameIndex = int.Parse(frameIndex);
+
+            }
+
+            string totalFrame = GetStringValue(eventData, "totalFrame");
+            if (totalFrame != null)
+            {
+                try
                 {
-                    return FilePath[..(FilePath.LastIndexOf("\\") + 1)];
+                    updateStatus.TotalFrame = int.Parse(totalFrame);
                 }
-                return null;    
-            } 
+                catch
+                {
+                    updateStatus.TotalFrame = 0;
+                }
+            }
+
+            updateStatus.TimeElapsed = GetStringValue(eventData, "timeElapsed");
+            updateStatus.TotalTime = GetStringValue(eventData, "totalTime");
+            string sliceIndex = GetStringValue(eventData, "sliceIndex");
+            if (sliceIndex != null)
+            {
+                updateStatus.SliceIndex = int.Parse(sliceIndex);
+            }
+            string totalSlice = GetStringValue(eventData, "totalSlice");
+            if (totalSlice != null)
+            {
+                updateStatus.TotalSlice = int.Parse(totalSlice);
+            }
+            updateStatus.ZTop = GetStringValue(eventData, "zTop");
+            updateStatus.ZCurrent = GetStringValue(eventData, "zCurrent");
+            updateStatus.ZBottom = GetStringValue(eventData, "zBottom");
+            updateStatus.Ratio = GetStringValue(eventData, "ratio");
+            updateStatus.FpsState = GetStringValue(eventData, "fps");
+
+            return true;
+        }
+        private static string? GetStringValue(Dictionary<string, object>? data, string key)
+        {
+            if (data == null)
+            {
+                return null;
+            }
+            if (data!.TryGetValue(key, out var value) && value is string str)
+            {
+                return str;
+            }
+            return null;
+        }
+        public string SolutionDir{
+            get { return FilePath?[..(FilePath.LastIndexOf("\\") + 1)];     } 
         }
 
         public string FilePath;

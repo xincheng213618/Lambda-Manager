@@ -101,10 +101,7 @@ namespace ConfigObjective
             //照明外径
             SliderAbbreviation(Slider322, "DARK_FIELD_OUTER", "outer");
             //伽马
-            SliderAbbreviation1(Slider323, "DARK_FIELD_GAMMA", "gamma");
-            //自动模式
-            //ToggleButtonAbbreviation(Button321, "DARK_FIELD_AUTO", "auto");
-            //亮度
+            //SliderAbbreviation1(Slider323, "DARK_FIELD_GAMMA", "gamma");
 
 
             ColorPciker322.BrushValueChanged += delegate
@@ -205,7 +202,7 @@ namespace ConfigObjective
             };
 
             //伽马
-            SliderAbbreviation1(Slider335, "RHEIN_BERG_GAMMA", "gamma");
+            //SliderAbbreviation1(Slider335, "RHEIN_BERG_GAMMA", "gamma");
 
             //差分
 

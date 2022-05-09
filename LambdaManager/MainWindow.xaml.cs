@@ -278,9 +278,9 @@ partial class MainWindow : BaseWindow
 	}
 	private void Window_Initialized(object sender, EventArgs e)
 	{
-		statusBar.DataContext = Global.GetInstance().updateStatus;
-		bottomToolbar.DataContext = Global.GetInstance().updateStatus;
-		rightToolbar.DataContext = Global.GetInstance().updateStatus;
+		statusBar.DataContext = Global.WindowData.GetInstance().updateStatus;
+		bottomToolbar.DataContext = Global.WindowData.GetInstance().updateStatus;
+		rightToolbar.DataContext = Global.WindowData.GetInstance().updateStatus;
 		SliderAll1.Value = 1920;
         SliderAll1.ValueChanged += Slider_ValueChanged;
 
