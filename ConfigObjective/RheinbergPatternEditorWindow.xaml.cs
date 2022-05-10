@@ -11,13 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ThemeManager.Controls;
 
 namespace ConfigObjective
 {
     /// <summary>
     /// RheinbergPatternEditorWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class RheinbergPatternEditorWindow : Window
+    public partial class RheinbergPatternEditorWindow : BaseWindow
     {
         public List<RheinbergPattern> DefaultrheinbergPatterns =  new()
         {

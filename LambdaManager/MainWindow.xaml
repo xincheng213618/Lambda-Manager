@@ -7,9 +7,8 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
         xmlns:controls="clr-namespace:LambdaManager.Controls" 
-        xmlns:Base="clr-namespace:ThemeManager.Controls" 
-
-        Title="Manager" Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
+        Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
 
     <Window.Resources>
         <Style x:Key="InImageButton" TargetType="{x:Type TextBlock}">
@@ -57,17 +56,17 @@
     </Window.Resources>
 
     
-    <Grid Margin="0,-26,0,0" >
+    <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" >
+        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="145" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" MouseDoubleClick="Button_MouseDoubleClick">
@@ -83,10 +82,9 @@
                 <RadioButton Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
             </StackPanel>
             <DockPanel  Grid.Column="2">
-                <Menu DockPanel.Dock="Right" Name="menu" Margin="0,5,0,5" >
-                    <MenuItem Name="file" Header="文件" />
-                    <MenuItem Name="help" Header="帮助" />
-                </Menu>
+                <Menu DockPanel.Dock="Right" Name="menu" Background="Transparent" Margin="0,5,0,5" />
+
+
                 <ComboBox Name="msgList" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" Height="30">
                     <ComboBoxItem HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal">

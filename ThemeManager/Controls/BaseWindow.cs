@@ -12,6 +12,8 @@ namespace ThemeManager.Controls
         {
             if (defaultStyle == null)
             {
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary);
                 defaultStyle = Application.Current.FindResource(typeof(BaseWindow)) as Style;
             }
             return defaultStyle;
@@ -35,7 +37,7 @@ namespace ThemeManager.Controls
         public static RoutedCommand WindowTopMost = new RoutedUICommand("WindowTopMost", "Full", typeof(BaseWindow), new InputGestureCollection(new InputGesture[] { }));
         #endregion
 
-        public void Command_Initialized()
+        public virtual void Command_Initialized()
         {
             this.CommandBindings.Add(new CommandBinding(WindowClose, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(WindowMin, this.ExecutedCommand, this.CanExecuteCommand));
@@ -45,14 +47,14 @@ namespace ThemeManager.Controls
 
         }
 
-        private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
+        public virtual void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
 
 
-        private void ExecutedCommand(object sender, ExecutedRoutedEventArgs e)
+        public virtual void ExecutedCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Command == WindowClose)
             {

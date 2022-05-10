@@ -112,6 +112,7 @@
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
+    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
     <ProjectReference Include="..\WpfApp1\WpfApp1.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -167,10 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\ControlSlider2.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ThemeManager\Styles\Window.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

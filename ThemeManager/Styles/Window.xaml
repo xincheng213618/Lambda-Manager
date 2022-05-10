@@ -5,13 +5,17 @@
     <WindowChrome x:Key="DefaultWindowChrome" x:Shared="False"  CornerRadius="0" GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"/>
 
     <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
+    
+    <SolidColorBrush x:Key="CaptionButtonForeground">white</SolidColorBrush>
+    <SolidColorBrush x:Key="WindowIsNotActiveForeground">#d7d7d7</SolidColorBrush>
+
     <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
 
     
     <Style x:Key="CaptionButtonStyleDefault" TargetType="Button">
-        <Setter Property="Foreground" Value="#595959"/>
+        <Setter Property="Foreground" Value="{DynamicResource CaptionButtonForeground}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -33,7 +37,7 @@
         </Setter>
     </Style>
     <Style x:Key="CaptionButtonStyleClose" TargetType="Button">
-        <Setter Property="Foreground" Value="#595959"/>
+        <Setter Property="Foreground" Value="{DynamicResource CaptionButtonForeground}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -78,7 +82,7 @@
 
 
 
-    <Style x:Key="{x:Type local:BaseWindow}" TargetType="{x:Type local:BaseWindow}">
+    <Style x:Name="basewindows" x:Key="{x:Type local:BaseWindow}" TargetType="{x:Type local:BaseWindow}">
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="WindowChrome.WindowChrome" Value="{DynamicResource DefaultWindowChrome}" />
         <Setter Property="Template">
@@ -95,7 +99,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{TemplateBinding Icon}" Margin="10,0,0,0" Height="18" Width="18"  />
                                     </StackPanel>
-                                    <!--<ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,20,0" />-->
+                                    <!--<ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="0,0,20,0" />-->
                                     <StackPanel x:Name="WindowCommandButtonsPanel"  Grid.Column="1"  HorizontalAlignment="Center" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,-1,0" >
                                         <!--<Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="40" Command="{x:Static local:BaseWindow.WindowTopMost}"/>-->
                                         <Button x:Name="MinimizeButton"   Style="{DynamicResource MinimizeButtonStyle}" Width="45"  Command="{x:Static local:BaseWindow.WindowMin}" />
@@ -109,18 +113,18 @@
                                 <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="0" Grid.ColumnSpan="1" />
                             </Grid>
                         </Border>
-                        <Border x:Name="RootBorderActive" Padding="0 30 0 0" />
+                        <Border x:Name="RootBorderActive" Padding="0 30 0 0"  BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}" />
 
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsActive" Value="True">
+                        <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="RootBorderActive" Property="BorderBrush" Value="#191919" />
                             <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="1"/>
-                            <Setter TargetName="MinimizeButton" Property="Foreground"  Value="White"/>
-                            <Setter TargetName="MaximizeButton" Property="Foreground"  Value="White"/>
-                            <Setter TargetName="RestoreButton" Property="Foreground"  Value="White"/>
-                            <Setter TargetName="CloseButton" Property="Foreground"  Value="White"/>
+                            <Setter TargetName="MinimizeButton" Property="Foreground"  Value="{DynamicResource WindowIsNotActiveForeground}"/>
+                            <Setter TargetName="MaximizeButton" Property="Foreground"  Value="{DynamicResource WindowIsNotActiveForeground}"/>
+                            <Setter TargetName="RestoreButton" Property="Foreground"  Value="{DynamicResource WindowIsNotActiveForeground}"/>
+                            <Setter TargetName="CloseButton" Property="Foreground"  Value="{DynamicResource WindowIsNotActiveForeground}"/>
 
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">

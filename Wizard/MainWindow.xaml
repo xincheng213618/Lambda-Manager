@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wizard"
-        xmlns:Base="clr-namespace:ThemeManager.Controls"
+        xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
         Title="软件向导" Height="500" Background="#484848" MinHeight="200" BorderBrush="White" BorderThickness="0.5" Width="700" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
     <Grid>

@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Global\Global.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
+    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>
