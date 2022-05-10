@@ -82,7 +82,7 @@
 
 
 
-    <Style x:Key="{x:Type local:BaseWindow}" TargetType="{x:Type local:BaseWindow}">
+    <Style x:Name="basewindows" x:Key="{x:Type local:BaseWindow}" TargetType="{x:Type local:BaseWindow}">
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="WindowChrome.WindowChrome" Value="{DynamicResource DefaultWindowChrome}" />
         <Setter Property="Template">

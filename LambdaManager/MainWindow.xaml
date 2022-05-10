@@ -16,6 +16,7 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
             <Setter Property="TextBlock.Padding" Value="5,5,5,5" />
         </Style>
+        
         <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="5, 0, 0, 0" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -36,6 +37,13 @@
             <Setter Property="Border.CornerRadius" Value="7,7,7,7" />
         </Style>
         <Style x:Key="ToolButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Padding" Value="0,0,0,0" />
+        </Style>
+        <Style x:Key="ToolButton2" TargetType="{x:Type ToggleButton}">
             <Setter Property="Background" Value="{x:Null}" />
             <Setter Property="Width" Value="28" />
             <Setter Property="Height" Value="24" />
@@ -306,39 +314,39 @@
                                 <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                             </Border.Background>
                             <WrapPanel Name="rightToolbar" Orientation="Vertical" VerticalAlignment="Center">
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_9">
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_9">
                                     <Image Source="/Resources/Icons/right-quater.png" Stretch="Fill" Margin="0,3,0,0" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_10">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_10">
                                     <Image Source="/Resources/Icons/right-dual.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_11">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_11">
                                     <Image Source="/Resources/Icons/right-BF.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_12">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_12">
                                     <Image Source="/Resources/Icons/right-DF.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_13">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_13">
                                     <Image Source="/Resources/Icons/right-RI.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_14">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_14">
                                     <Image Source="/Resources/Icons/right-DP.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_15">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_15">
                                     <Image Source="/Resources/Icons/right-Phi.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_16">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_16">
                                     <Image Source="/Resources/Icons/right-FL.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_17">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_17">
                                     <Image Source="/Resources/Icons/right-3D.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_18">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_18">
                                     <Image Source="/Resources/Icons/right-cube.png" Stretch="Fill" />
-                                </Button>
-                                <Button Style="{StaticResource ToolButton}" Click="Button_Click_19">
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_19">
                                     <Image Source="/Resources/Icons/right-repo.png" Stretch="Fill" />
-                                </Button>
+                                </ToggleButton>
                                 <TextBlock>Slice</TextBlock>
                                 <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="0,2,0,2" Padding="2,0,2,0">
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" MinHeight="12">

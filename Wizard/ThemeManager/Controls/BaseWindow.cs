@@ -12,6 +12,8 @@ namespace ThemeManager.Controls
         {
             if (defaultStyle == null)
             {
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/Wizard;component/ThemeManager/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary);
                 defaultStyle = Application.Current.FindResource(typeof(BaseWindow)) as Style;
             }
             return defaultStyle;
