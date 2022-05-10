@@ -50,17 +50,11 @@ partial class MainWindow : BaseWindow
 
 	internal double MiddleViewWidth { get; set; }
 
-	private int RegisterImageView(Image image)
-    {
-		ViewGrid.AddView(image);
-		return 1;
-    }
 
 
 	public MainWindow()
 	{
 		InitializeComponent();
-		LambdaControl.RegisterImageViewHandler += RegisterImageView;
 		ChangeMiddleViewVisibility(false);
 
 		UIEvents.Initialze();

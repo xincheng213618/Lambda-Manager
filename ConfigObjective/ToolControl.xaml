@@ -165,6 +165,10 @@
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <local:ColorPicker x:Name="ColorPciker312"  Height="20" Width="20" Basic="False" VerticalAlignment="Center" HorizontalAlignment="Center" BrushValueChanged="ColorPciker312_BrushValueChanged"/>
                         </DockPanel>
+                        <DockPanel>
+                            <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <Button x:Name="Button1111"  Click="Button_Click" Background="Red" Style="{StaticResource ButtonStyle1}"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="20"/>
+                        </DockPanel>
                     </StackPanel>
                 </Border>
                 <Border  x:Name="Border32"  Visibility="{Binding ElementName=Button32 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5" >

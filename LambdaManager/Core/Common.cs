@@ -64,8 +64,14 @@ internal class Common
         LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
 
         LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-		LambdaControl.Views = Views;
+        LambdaControl.RegisterImageViewHandler = new RegisterImageViewHandler(RegisterImage);
+        LambdaControl.Views = Views;
 		Initialize();
+	}
+
+	private static int RegisterImage(Image image)
+	{
+		return ViewGrid.AddView(image).Index;
 	}
 
 

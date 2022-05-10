@@ -21,6 +21,7 @@ using Global;
 using Lambda;
 using LambdaUtils;
 using System.Text.Json;
+using System.Windows.Controls.Primitives;
 
 namespace WpfApp1
 {
@@ -307,14 +308,73 @@ namespace WpfApp1
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            Window mainwin = Application.Current.MainWindow;
-            TextBox textBox = (TextBox)mainwin.FindName("fpsState");
-            MessageBox.Show(textBox.Text);
+            //Window mainwin = Application.Current.MainWindow;
+            //WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
+            //Button buttton1 = (Button)WrapPanel1.Children[0];
+
+            //ContextMenu contextMenu = new ContextMenu();
+            //MenuItem menuItem = new MenuItem() { Header = "test1" };
+            //menuItem.Click += delegate
+            //{
+            //    LambdaControl.Trigger("QUATER_CLICKED1", sender, e);
+            //};
+            //MenuItem menuItem1 = new MenuItem() { Header = "test2" };
+            //menuItem1.Click += delegate
+            //{
+            //    LambdaControl.Trigger("QUATER_CLICKED2", sender, e);
+            //};
+            //MenuItem menuItem2 = new MenuItem() { Header = "test3" };
+            //menuItem2.Click += delegate
+            //{
+            //    LambdaControl.Trigger("QUATER_CLICKED3", sender, e);
+            //};
+            //contextMenu.Items.Add(menuItem);
+            //contextMenu.Items.Add(menuItem1);
+            //contextMenu.Items.Add(menuItem2);
+
+            //buttton1.ContextMenu = contextMenu; 
         }
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             windowData.AddTest();
+
+            Window mainwin = Application.Current.MainWindow;
+
+            try
+            {
+                WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
+                WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("eval_aj");
+                ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
+
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem menuItem = new MenuItem() { Header = "test1" };
+                menuItem.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED1", sender, e);
+                };
+                MenuItem menuItem1 = new MenuItem() { Header = "test2" };
+                menuItem1.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED2", sender, e);
+                };
+                MenuItem menuItem2 = new MenuItem() { Header = "test3" };
+                menuItem2.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED3", sender, e);
+                };
+                contextMenu.Items.Add(menuItem);
+                contextMenu.Items.Add(menuItem1);
+                contextMenu.Items.Add(menuItem2);
+
+                buttton1.ContextMenu = contextMenu;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
 
         }
     }

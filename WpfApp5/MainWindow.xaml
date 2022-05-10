@@ -26,8 +26,8 @@
         <StackPanel x:Name="StackPanel1">
             <Border x:Name="border1"  >
                 <StackPanel x:Name="StackPanel333">
-                    <Button x:Name="Button1"  Click="Button_Click" Background="Red" Style="{StaticResource ButtonStyle1}" Height="30" Width="30">
-                    </Button>
+                    <Button x:Name="Button1"  Click="Button_Click" Background="Red" Style="{StaticResource ButtonStyle1}" Height="30" Width="30"/>
+
                     <DockPanel Width="400" >
                         <TextBlock Text="截图" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"  TextAlignment="Center" />
                         <TextBox Text="Alt + S" Width="200" HorizontalContentAlignment="Center" IsReadOnly="True" IsUndoEnabled ="False" >

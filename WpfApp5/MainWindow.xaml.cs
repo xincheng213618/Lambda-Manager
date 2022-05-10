@@ -130,8 +130,6 @@ namespace WpfApp5
                 System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(colorDialog.Color);
                 SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
                 Button1.Background = solidColorBrush;
-
-
             }
         }
     }

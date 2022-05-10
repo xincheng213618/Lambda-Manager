@@ -64,7 +64,7 @@ namespace Global
 
         public void AddTest()
         {
-            LambdaControl.AddLambdaEventHandler("UPDATE_STATUS", OnUpdateStatus, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
         }
 
         public UpdateStatus updateStatus = new();
