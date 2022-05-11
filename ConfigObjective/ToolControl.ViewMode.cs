@@ -399,13 +399,6 @@ namespace ConfigObjective
                 uniform.Children.Remove(radioButton);
                 DockPanel331.Children.Clear();
                 DockPanel331.Children.Add(radioButton);
-
-                //if (radioButton.Content is Canvas canvas)
-                //{
-                //    radioButton.Content = null;
-
-                //}
-
             }
 
 

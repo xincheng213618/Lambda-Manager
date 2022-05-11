@@ -492,6 +492,9 @@ namespace ConfigObjective
                 System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(colorDialog.Color);
                 SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
                 Button1111.Background = solidColorBrush;
+                int max = sb.Color.R > sb.Color.G ? sb.Color.R > sb.Color.B ? sb.Color.R : sb.Color.B : sb.Color.G > sb.Color.B ? sb.Color.G : sb.Color.B;
+                MessageBox.Show(((int)(max / 16)).ToString());
+
             }
         }
     }
