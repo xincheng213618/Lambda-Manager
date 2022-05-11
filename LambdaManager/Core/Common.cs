@@ -42,8 +42,8 @@ internal class Common
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize), 2);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, int, int, int, int>)(&InitialFrame), 3);
-		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, IntPtr, uint, int, int>)(&UpdateFrame), 4);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int,int, IntPtr, int, int, int, int>)(&InitialFrame), 3);
+		SetHandler((nint)(delegate* unmanaged[Cdecl]<int,int, IntPtr, uint, int, int>)(&UpdateFrame), 4);
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, void>)(&CloseImageView), 9);
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StartService), 5);
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopService), 6);
@@ -527,7 +527,7 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int InitialFrame(int index, IntPtr buff, int rows, int cols, int type)
+	private static int InitialFrame(int index,int A_1, IntPtr buff, int rows, int cols, int type)
 	{
 		PixelFormat format = type switch
 		{
@@ -544,7 +544,7 @@ internal class Common
 			writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
 			writeableBitmap.Unlock();
 			MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-			Image image = GetImage(index, initial: true);
+			Image image = GetImage(index, A_1, initial: true);
 			if (image.Parent is Canvas canvas)
 			{
 				TransformGroup transformGroup = new();
@@ -604,11 +604,11 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int UpdateFrame(int index, IntPtr buffer, uint len, int stride)
+	private static int UpdateFrame(int index, int A_1,IntPtr buffer, uint len, int stride)
 	{
 		Application.Current.Dispatcher.Invoke(delegate
 		{
-			if (GetImage(index, initial: false)?.Source is WriteableBitmap writeableBitmap)
+			if (GetImage(index, A_1,initial: false)?.Source is WriteableBitmap writeableBitmap)
 			{
 				Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
 				writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
@@ -628,7 +628,7 @@ internal class Common
 		ViewGrid.CloseVieW(index);
 	}
 
-	private static Image? GetImage(int index, bool initial)
+	private static Image? GetImage(int index,int A_1, bool initial)
 	{
 		MainWindow main = (MainWindow)Application.Current.MainWindow;
 		if (main == null)
