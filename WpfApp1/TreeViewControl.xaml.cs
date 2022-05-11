@@ -335,6 +335,51 @@ namespace WpfApp1
             //buttton1.ContextMenu = contextMenu; 
         }
 
+
+        private MenuItem MenuItemAdd(MenuItem MenuItem,int a)
+        {
+            EventArgs e =new EventArgs();
+            MenuItem menuItem1 = new MenuItem() { Header = "明场" };
+            menuItem1.Click += delegate
+            {
+                LambdaControl.Trigger($"QUATER_CLICKED{a}1", this, e);
+            };
+            MenuItem menuItem2 = new MenuItem() { Header = "暗场" };
+            menuItem2.Click += delegate
+            {
+                LambdaControl.Trigger($"QUATER_CLICKED{a}2", this, e);
+            };
+
+            MenuItem menuItem3 = new MenuItem() { Header = "莱茵伯格" };
+            menuItem3.Click += delegate
+            {
+                LambdaControl.Trigger($"QUATER_CLICKED{a}3", this, e);
+            };
+            MenuItem menuItem4 = new MenuItem() { Header = "相差" };
+            menuItem4.Click += delegate
+            {
+                LambdaControl.Trigger($"QUATER_CLICKED{a}4", this, e);
+            };
+            MenuItem menuItem5 = new MenuItem() { Header = "差分" };
+            menuItem5.Click += delegate
+            {
+                LambdaControl.Trigger($"QUATER_CLICKED{a}5", this, e);
+            };
+            MenuItem menuItem6 = new MenuItem() { Header = "定量相位" };
+            menuItem6.Click += delegate
+            {
+                LambdaControl.Trigger($"QUATER_CLICKED{a}6", this, e);
+            };
+            MenuItem.Items.Add(menuItem1);
+            MenuItem.Items.Add(menuItem2);
+            MenuItem.Items.Add(menuItem3);
+            MenuItem.Items.Add(menuItem4);
+            MenuItem.Items.Add(menuItem5);
+            MenuItem.Items.Add(menuItem6);
+
+            return MenuItem;
+        }
+
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             windowData.AddTest();
@@ -350,24 +395,50 @@ namespace WpfApp1
                 ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
 
                 ContextMenu contextMenu = new ContextMenu();
-                MenuItem menuItem = new MenuItem() { Header = "test1" };
+                MenuItem menuItem = new MenuItem() { Header = "扩展窗口" };
                 menuItem.Click += delegate
                 {
                     LambdaControl.Trigger("QUATER_CLICKED1", sender, e);
                 };
-                MenuItem menuItem1 = new MenuItem() { Header = "test2" };
+                MenuItem menuItem1 = new MenuItem() { Header = "左上窗口" };
                 menuItem1.Click += delegate
                 {
                     LambdaControl.Trigger("QUATER_CLICKED2", sender, e);
                 };
-                MenuItem menuItem2 = new MenuItem() { Header = "test3" };
+                MenuItem menuItem2 = new MenuItem() { Header = "左下窗口" };
                 menuItem2.Click += delegate
                 {
                     LambdaControl.Trigger("QUATER_CLICKED3", sender, e);
                 };
+
+                MenuItem menuItem3 = new MenuItem() { Header = "右上窗口" };
+                menuItem3.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED4", sender, e);
+                };
+                MenuItem menuItem4 = new MenuItem() { Header = "右下窗口" };
+                menuItem4.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED5", sender, e);
+                };
+                MenuItem menuItem5 = new MenuItem() { Header = "右上扩展窗口" };
+                menuItem5.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED6", sender, e);
+                };
+                MenuItem menuItem6 = new MenuItem() { Header = "右下扩展窗口" };
+                menuItem6.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED7", sender, e);
+                };
+
                 contextMenu.Items.Add(menuItem);
-                contextMenu.Items.Add(menuItem1);
-                contextMenu.Items.Add(menuItem2);
+                contextMenu.Items.Add(MenuItemAdd(menuItem1,1));
+                contextMenu.Items.Add(MenuItemAdd(menuItem2,2));
+                contextMenu.Items.Add(MenuItemAdd(menuItem3,3));
+                contextMenu.Items.Add(MenuItemAdd(menuItem4,4));
+                contextMenu.Items.Add(MenuItemAdd(menuItem5,5));
+                contextMenu.Items.Add(MenuItemAdd(menuItem6,6));
 
                 buttton1.ContextMenu = contextMenu;
 

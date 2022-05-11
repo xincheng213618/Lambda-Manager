@@ -7,11 +7,11 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
-
+using ThemeManager.Controls;
 
 namespace MenuISCameraSetting;
 
-partial class CameraDialog : Window, IComponentConnector
+partial class CameraDialog : BaseWindow, IComponentConnector
 {
 
 	public CameraDialog()
@@ -20,8 +20,6 @@ partial class CameraDialog : Window, IComponentConnector
     }
     private void Window_Initialized(object sender, EventArgs e)
     {
-
-        LambdaControl.CallEventHandler += Call;
     }
 
     private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

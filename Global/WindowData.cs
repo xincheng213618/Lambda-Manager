@@ -190,7 +190,7 @@ namespace Global
             string result = Utils.LoadResource(ConfigFileName);
             if (Utils.IsNullOrEmpty(result))
             {
-                MessageBox.Show("未能加载项目文件。 缺少根元素");
+                MessageBox.Show("未能加载项目文件。缺少根元素");
                 return -1;
             }
  

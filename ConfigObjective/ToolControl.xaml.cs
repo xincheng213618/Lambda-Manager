@@ -64,9 +64,10 @@ namespace ConfigObjective
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            CameraSetting_Initialized();
             ObjectiveSetting_Initialized();
             ViewMode_Initialized();
+            CameraSetting_Initialized();
+
             Stage_Initialized();
             MulDimensional_Initialized();
 
@@ -487,15 +488,90 @@ namespace ConfigObjective
             colorDialog.AnyColor = false;
             colorDialog.CustomColors = new int[] { 0x6987FC, 15195440, 16107657, 1836924, 3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294, 3102017, 7324121, 14993507, 11730944 };
             colorDialog.ShowHelp = true;
+
             if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(colorDialog.Color);
-                SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
+                ColorToHSV(colorDialog.Color,out hue, out saturation, out brightness);
+                SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B));
                 Button1111.Background = solidColorBrush;
-                int max = sb.Color.R > sb.Color.G ? sb.Color.R > sb.Color.B ? sb.Color.R : sb.Color.B : sb.Color.G > sb.Color.B ? sb.Color.G : sb.Color.B;
-                MessageBox.Show(((int)(max / 16)).ToString());
+                Slider312.Value = (int)(brightness * 240);
 
+                ViewMode.BrightField.Color = new List<int> { solidColorBrush.Color.R, solidColorBrush.Color.G, solidColorBrush.Color.B };
+                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, solidColorBrush.ToString());
             }
         }
+
+        double hue = 0, saturation = 1, brightness = 1; 
+        private void Slider312_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //double hue, saturation, brightness;
+            if (Button1111.Background is SolidColorBrush solidColorBrush)
+            {
+                //ColorToHSV(solidColorBrush, out hue, out saturation, out brightness);
+                SolidColorBrush solidColorBrush1 = new SolidColorBrush(ColorFromHSV(hue, saturation, (double)e.NewValue / 240));
+                Button1111.Background = solidColorBrush1;
+                ViewMode.BrightField.Color = new List<int> { solidColorBrush1.Color.R, solidColorBrush1.Color.G, solidColorBrush1.Color.B };
+                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, solidColorBrush1.ToString());
+            }
+
+
+
+
+        }
+
+
+
+
+        public void ColorToHSV(SolidColorBrush solidColorBrush, out double hue, out double saturation, out double value)
+        {
+            int max = Math.Max(solidColorBrush.Color.R, Math.Max(solidColorBrush.Color.G, solidColorBrush.Color.B));
+            int min = Math.Min(solidColorBrush.Color.R, Math.Min(solidColorBrush.Color.G, solidColorBrush.Color.B));
+            hue = System.Drawing.Color.FromArgb(255, solidColorBrush.Color.R, solidColorBrush.Color.G, solidColorBrush.Color.B).GetHue();
+
+            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
+            value = max / 255d;
+        }
+
+        private double GetBright(int r, int b ,int g)
+        {
+            int max = Math.Max(r , Math.Max(g, b));
+            return max / 255d;
+        }
+
+        public void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
+        {
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+
+            hue = color.GetHue();
+            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
+            value = max / 255d;
+        }
+
+        public Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            byte v = (byte)Convert.ToInt32(value);
+            byte p = (byte)Convert.ToInt32(value * (1 - saturation));
+            byte q = (byte)Convert.ToInt32(value * (1 - f * saturation));
+            byte t = (byte)Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
+            else
+                return Color.FromArgb(255, v, p, q);
+        }
+
     }
 }

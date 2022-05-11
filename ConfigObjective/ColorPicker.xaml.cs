@@ -52,7 +52,7 @@ namespace ConfigObjective
             ColorChange(Hcolor.RgbaColor);
         }
 
-        SolidColorBrush _SelectColor=Brushes.Transparent;
+        SolidColorBrush _SelectColor = Brushes.Transparent;
         public SolidColorBrush SelectColor
         {
             get

@@ -45,13 +45,13 @@ namespace Global.Mode.Config
 
     public class BrightField : ModeBaseObject
     {
-        public Camera CameraSetting { get; set; } = new Camera();
-        private int aperture = 9;
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 };
 
+        private int aperture = 9;
         [JsonProperty("led-diameter")]
         public int Aperture
         {
-            get {return aperture; }
+            get { return aperture; }
             set
             {
                 aperture = value;
@@ -59,8 +59,8 @@ namespace Global.Mode.Config
             }
         }
 
-        private int color = 4095;
-        public int Color
+        private List<int> color = new List<int>() {255,255,255};
+        public List<int> Color
         {
             get { return color; }
             set
@@ -81,7 +81,7 @@ namespace Global.Mode.Config
 
     public class DarkField : ModeBaseObject
     {
-        public Camera CameraSetting { get; set; } = new Camera();
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 };
 
         private int innerAperture = 12;
 
@@ -174,7 +174,7 @@ namespace Global.Mode.Config
     public class Reinberg : ModeBaseObject
     {
 
-        public Camera CameraSetting { get; set; } = new Camera();
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 };
 
         private int innerAperture = 0;
         public int InnerAperture
@@ -250,7 +250,7 @@ namespace Global.Mode.Config
     //差分
     public class ReliefContrast : ModeBaseObject
     {
-        public Camera CameraSetting { get; set; } = new Camera();
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 3 } ;
 
         public int rotationangle = 0;
         public int Rotationangle
@@ -376,7 +376,7 @@ namespace Global.Mode.Config
     //相位
     public class PhaseContrast : ModeBaseObject
     {
-        public Camera CameraSetting { get; set; } = new Camera();
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4};
 
         private double filter = 0.07;
         public double Filter
@@ -479,7 +479,7 @@ namespace Global.Mode.Config
 
     public class QuantitativePhase : ModeBaseObject
     {
-        public Camera CameraSetting { get; set; } = new Camera();
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5 };
 
         private double regularization = 0.001;
 

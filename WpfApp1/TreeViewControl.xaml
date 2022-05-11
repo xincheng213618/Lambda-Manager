@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfApp1"
              xmlns:Solution="clr-namespace:NLGSolution" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized"  >
+             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized">
     <UserControl.Resources>
         <Style x:Key="style_treeViewItem_icon" TargetType="Image">
             <Setter Property="Width" Value="16"></Setter>

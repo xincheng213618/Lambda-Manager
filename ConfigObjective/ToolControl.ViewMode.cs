@@ -19,7 +19,7 @@ namespace ConfigObjective
 
         public void ViewMode_Initialized()
         {
-
+            Border2.DataContext = ViewMode.BrightField.CameraSetting;
         }
 
         public void ViewMode_Update()
@@ -51,8 +51,10 @@ namespace ConfigObjective
 
 
             Border31.DataContext = ViewMode.BrightField;
-            ColorPciker311.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color,out int bright));
-            Slider312.Value= bright;
+            SolidColorBrush solidColorBrush = new SolidColorBrush(Color.FromArgb(255, (byte)ViewMode.BrightField.Color[0], (byte)ViewMode.BrightField.Color[1], (byte)ViewMode.BrightField.Color[2]));
+            Button1111.Background = solidColorBrush;
+            ColorToHSV(solidColorBrush, out hue, out saturation, out brightness);
+            Slider312.Value = (int)(brightness * 240);
 
             Border32.DataContext = ViewMode.DarkField;
 
@@ -87,11 +89,12 @@ namespace ConfigObjective
             {
                 ViewMode.BrightField = new Global.Mode.Config.BrightField();
                 Border31.DataContext = ViewMode.BrightField;
-                ColorPciker311.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color, out int bright));
-                Slider312.Value = bright;
+                SolidColorBrush solidColorBrush = new SolidColorBrush(Color.FromArgb(255, (byte)ViewMode.BrightField.Color[0], (byte)ViewMode.BrightField.Color[1], (byte)ViewMode.BrightField.Color[2]));
+                Button1111.Background = solidColorBrush;
+                Slider312.Value = (int)(GetBright(solidColorBrush.Color.R, solidColorBrush.Color.G, solidColorBrush.Color.B)*240);
+
+
                 Border2.DataContext = ViewMode.BrightField.CameraSetting;
-
-
             }
             if (ViewMode.SelectViewMode == 1)
             {
@@ -99,7 +102,7 @@ namespace ConfigObjective
 
                 Border32.DataContext = ViewMode.DarkField;
 
-                ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.BrightField.Color, out int bright1));
+                ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.DarkField.Color, out int bright1));
                 Slider324.Value = bright1;
                 Border2.DataContext = ViewMode.DarkField.CameraSetting;
 
@@ -176,6 +179,7 @@ namespace ConfigObjective
 
         }
 
+        
 
 
         private async void ViewMode_Checked(object sender, RoutedEventArgs e)
@@ -211,6 +215,8 @@ namespace ConfigObjective
                     Border2.DataContext = ViewMode.PhaseContrast.CameraSetting;
                 }
 
+                CameraMode_Changed();
+
                 LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
                 await Task.Delay(300);
                 Dictionary<string, object> data = new() { { "mode", ViewMode.SelectViewMode } };
@@ -219,55 +225,20 @@ namespace ConfigObjective
         }
 
 
-        private void ColorPciker311_BrushValueChanged(object sender, RoutedEventArgs e)
-        {
-            BrightFieldColor();
-        }
 
 
-        private void Slider312_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!WindowData.GetInstance().ACQUIRE)
-            {
-                BrightFieldColor();
-            }
-            else
-            {
-                if (sliderfirst)
-                {
-                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
-                    if (result == MessageBoxResult.No)
-                    {
-                        sliderfirst = false;
-                        Slider312.Value = e.OldValue;
-                    }
-                }
-                else
-                {
-                    sliderfirst = true;
-                }
-            }
-        }
-        private void BrightFieldColor()
-        {
-            if (ColorPciker311 != null&& Slider312 != null)
-            {
-                int result = HexToInt(ColorPciker311.SelectColor.ToString(), (int)Slider312.Value);
-                ViewMode.BrightField.Color = result;
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, new Dictionary<string, object>() { { "brightness", result } });
-            }
-        }
+
 
         private void Slider323_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "gamma", slider.Value + 1 } };
+            Dictionary<string, object> data = new() { { "mode", 1 }, { "gamma", slider.Value + 1 } };
             SliderAbbreviation(slider,e,"DARK_FIELD_GAMMA", data);
         }
         private void Slider335_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            Dictionary<string, object> data = new() { { "mode", WindowData.ViewMode.SelectViewMode }, { "gamma", slider.Value + 1 } };
+            Dictionary<string, object> data = new() { { "mode",2}, { "gamma", slider.Value + 1 } };
             SliderAbbreviation(slider, e, "RHEIN_BERG_GAMMA", data);
         }
 
@@ -300,7 +271,10 @@ namespace ConfigObjective
         {
             if (!WindowData.GetInstance().ACQUIRE)
             {
-                DarkFieldColor();          
+                DarkFieldColor();
+                double hue, saturation, brightness;
+                ColorToHSV(System.Drawing.Color.FromArgb(ColorPciker321.SelectColor.Color.A, ColorPciker321.SelectColor.Color.R, ColorPciker321.SelectColor.Color.G, ColorPciker321.SelectColor.Color.B), out hue, out saturation, out brightness);
+                ColorPciker321.SelectColor = new SolidColorBrush(ColorFromHSV(hue, saturation, Slider324.Value / 16));
             }
             else
             {
@@ -324,6 +298,7 @@ namespace ConfigObjective
             if (ColorPciker321 != null && Slider324 != null)
             {
                 int result = HexToInt(ColorPciker321.SelectColor.ToString(), (int)Slider324.Value);
+
                 ViewMode.DarkField.Color = result;
                 LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new Dictionary<string, object>() { { "brightness", result } });
             }
