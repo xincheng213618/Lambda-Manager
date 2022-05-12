@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MenuISCameraSetting", "Menu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp2", "WpfApp2\WpfApp2.csproj", "{A6CD6386-938C-4BA7-83B7-A89CE59DEEC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{5C593C4B-5CD2-4666-8EBE-E337C84D7DF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solution", "WpfApp1\Solution.csproj", "{5C593C4B-5CD2-4666-8EBE-E337C84D7DF4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaManager", "LambdaManager\LambdaManager.csproj", "{EE50A5A7-23FB-430F-BCE1-691CA08B67BD}"
 EndProject
@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Global", "Global\Global.csp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InteropTest", "IntereopTest\InteropTest.vcxproj", "{07E63B9A-05D4-4769-8642-2D43A169EE8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeManager", "ThemeManager\ThemeManager.csproj", "{B21710A3-6DD8-442B-8AAA-F868960A3C9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeManager", "ThemeManager\ThemeManager.csproj", "{B21710A3-6DD8-442B-8AAA-F868960A3C9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

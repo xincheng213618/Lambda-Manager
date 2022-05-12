@@ -36,24 +36,24 @@ namespace ConfigObjective
 
         private void ToggleButtonXYF_Checked(object sender, RoutedEventArgs e)
         {
-            MoveStep.XStep = 200;
-            MoveStep.YStep = 200;
+            MoveStep.XStep = 6;
+            MoveStep.YStep = 6;
         }
 
         private void ToggleButtonXYF_Unchecked(object sender, RoutedEventArgs e)
         {
-            MoveStep.XStep = 1000;
-            MoveStep.YStep = 1000;
+            MoveStep.XStep = 200;
+            MoveStep.YStep = 200;
         }
 
         private void ToggleButtonZF_Checked(object sender, RoutedEventArgs e)
         {
-            MoveStep.ZStep = 200;
+            MoveStep.ZStep = 100;
         }
 
         private void ToggleButtonZF_Unchecked(object sender, RoutedEventArgs e)
         {
-            MoveStep.ZStep = 1000;
+            MoveStep.ZStep = 500;
         }
 
         private void ButtonLeft_Click(object sender, RoutedEventArgs e)

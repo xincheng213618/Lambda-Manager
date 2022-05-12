@@ -110,15 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\Global\Global.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
-    <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
-    <ProjectReference Include="..\WpfApp1\WpfApp1.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Quartz">
-      <HintPath>..\Lambda Manager\Quartz.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\WpfApp1\Solution.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\icons\application-icon.png" />

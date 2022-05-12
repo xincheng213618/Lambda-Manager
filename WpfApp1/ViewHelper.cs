@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace WpfApp1
+namespace Solution
 {
     public class ViewHelper
     {

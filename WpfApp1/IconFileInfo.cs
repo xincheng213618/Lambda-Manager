@@ -1,4 +1,4 @@
-﻿namespace WpfApp1
+﻿namespace Solution
 {
     public class IconFileInfo
     {

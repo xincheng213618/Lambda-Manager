@@ -6,17 +6,13 @@ namespace ThemeManager.Controls
 {
     public partial class BaseWindow:Window
     {
-        private static Style defaultStyle = null;
 
-        private static Style GetDefautlStyle()
+        private static Style? GetDefautlStyle()
         {
-            if (defaultStyle == null)
-            {
-                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary);
-                defaultStyle = Application.Current.FindResource(typeof(BaseWindow)) as Style;
-            }
-            return defaultStyle;
+            ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
+            Application.Current.Resources.MergedDictionaries.Add(dictionary);
+
+            return Application.Current.FindResource(typeof(BaseWindow)) as Style ?? null;
         }
 
         static BaseWindow()

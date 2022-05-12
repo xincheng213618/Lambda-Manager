@@ -14,7 +14,6 @@ using LambdaManager.DataType;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
 using LambdaUtils;
-using Quartz;
 
 namespace LambdaManager.Core;
 
@@ -210,9 +209,9 @@ internal class Common
 	[SuppressGCTransition]
 	private static void CallHandlerRaise(nint fp)
 	{
-		Function function = FunctionExecutor.Solution.Functions.Find(delegate(Function f)
+        Function function = FunctionExecutor.Solution.Functions.Find(delegate(Function f)
 		{
-			EntryPoint? entryPoint = f.EntryPoint;
+            EntryPoint? entryPoint = f.EntryPoint;
 			return entryPoint != null && entryPoint!.FuncAddr == fp;
 		});
 		if (function != null)

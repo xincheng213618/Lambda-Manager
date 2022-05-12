@@ -315,6 +315,15 @@ namespace ConfigObjective
             Dictionary<string, object> data = new() { { "detail", (int)(slider.Value * 10) } };
             SliderAbbreviation(slider, e, "QUANTITATIVE_PHASE_DETAIL", data);
         }
+        
+        private void Slider363_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+            Dictionary<string, object> data = new() { { "gain", slider.Value  } };
+            //SliderAbbreviation1(Slider363, "PHASE_CONTRAST_GAIN", "gain");
+            SliderAbbreviation(slider, e, "PHASE_CONTRAST_GAIN", data);
+
+        }
 
         private void ToggleButton33_Checked(object sender, RoutedEventArgs e)
         {

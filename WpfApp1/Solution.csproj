@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>True</UseWPF>
@@ -51,7 +51,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Global\Global.csproj" />
-    <ProjectReference Include="..\MenuISCameraSetting\MenuISCameraSetting.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,11 +60,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Dictionary3.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="Window1.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

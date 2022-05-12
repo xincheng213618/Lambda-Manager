@@ -376,7 +376,7 @@ namespace Global.Mode.Config
     //相位
     public class PhaseContrast : ModeBaseObject
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4};
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5};
 
         private double filter = 0.07;
         public double Filter
@@ -479,7 +479,7 @@ namespace Global.Mode.Config
 
     public class QuantitativePhase : ModeBaseObject
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5 };
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 };
 
         private double regularization = 0.001;
 

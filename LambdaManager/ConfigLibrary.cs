@@ -21,7 +21,7 @@ namespace LambdaManager;
 
 internal class ConfigLibrary
 {
-	private readonly Solution solution = FunctionExecutor.Solution;
+	private readonly DataType.Solution solution = FunctionExecutor.Solution;
 
 	public ConfigLibrary()
 	{

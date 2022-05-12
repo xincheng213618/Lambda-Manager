@@ -518,11 +518,11 @@
 		</procedure>
 	</component>
 
-	<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:菜单"/>
+	<!--<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:菜单"/>-->
 
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
 
-	 <component name="TreeViewControl" lib="WpfApp1.dll" mount="project:0"/> 
+	 <component name="TreeViewControl" lib="Solution.dll" mount="project:0"/> 
 
 	 <!--<component name="BaseDeck" lib="ConfigDeck.dll" mount="project:0"/>--> 
 

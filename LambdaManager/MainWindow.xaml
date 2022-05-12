@@ -96,7 +96,7 @@
             </DockPanel>
         </Grid>
         <Viewbox Grid.Row="1" >
-            <Grid Name="stageAcquisition" Grid.Row="1"  >
+            <Grid Name="stageAcquisition" Grid.Row="1" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />

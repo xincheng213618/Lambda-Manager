@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WpfApp1.TreeViewControl"
+﻿<UserControl x:Class="Solution.TreeViewControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WpfApp1"
+             xmlns:local="clr-namespace:Solution"
              xmlns:Solution="clr-namespace:NLGSolution" 
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized">
@@ -94,7 +94,7 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectManager}" ItemsSource="{Binding Children}" >
                     <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
-                        <Image Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/图片2.png" />
+                        <Image Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
                             <local:EditableTextBlock.Style>
                                 <Style TargetType="local:EditableTextBlock">
@@ -126,7 +126,7 @@
 
                 <DataTemplate DataType="{x:Type Solution:SeriesProjectManager}"  >
                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
-                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/图片2.png" />
+                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
                             <local:EditableTextBlock.Style>
                                 <Style TargetType="local:EditableTextBlock">
@@ -167,7 +167,7 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding Children}">
                     <StackPanel  Style="{StaticResource style_treeViewItem_panel}">
-                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/filer.png" />
+                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/filer.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
                             <local:EditableTextBlock.Style>
                                 <Style TargetType="local:EditableTextBlock">
@@ -199,7 +199,7 @@
                 <DataTemplate DataType="{x:Type Solution:ProjectFile}"  >
                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
 
-                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/WpfApp1;component/images/图片3.png" />
+                        <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                         <local:EditableTextBlock IsEditMode="{Binding IsEditMode}" Content="{Binding .}">
                             <local:EditableTextBlock.Style>
                                 <Style TargetType="local:EditableTextBlock">

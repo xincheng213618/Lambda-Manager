@@ -62,7 +62,7 @@ namespace Global.Mode.Config
     [Serializable]
     public class MoveStep : ModeBaseObject
     {
-        private int xstep = 1000 ;
+        private int xstep = 200 ;
         [JsonProperty("x-step")]
         public int XStep
         {
@@ -74,7 +74,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private int ystep = 1000;
+        private int ystep = 200;
         [JsonProperty("y-step")]
         public int YStep
         {
@@ -86,7 +86,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private int zStep = 1000;
+        private int zStep = 200;
         [JsonProperty("z-step")]
         public int ZStep
         {

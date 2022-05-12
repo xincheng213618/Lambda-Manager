@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfApp1
+namespace Solution
 {
     public class EditableTextBlock : UserControl
     {

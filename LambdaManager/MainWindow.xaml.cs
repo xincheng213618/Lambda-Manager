@@ -282,7 +282,7 @@ partial class MainWindow : BaseWindow
 	private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
         stageAcquisition.Width = SliderAll1.Value;
-        stageAcquisition.Height = SliderAll1.Value * (this.Height - 47) / (this.Width);
+        stageAcquisition.Height = SliderAll1.Value * (this.Height - 48) / (this.Width);
     }
 
 	

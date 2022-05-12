@@ -253,7 +253,7 @@ namespace ConfigObjective
             ////对比度
             //SliderAbbreviation1(Slider362, "PHASE_CONTRAST_CONTRAST", "contrast");
             //增益
-            SliderAbbreviation1(Slider363, "PHASE_CONTRAST_GAIN", "gain");
+            //SliderAbbreviation1(Slider363, "PHASE_CONTRAST_GAIN", "gain");
             //明场权重
             SliderAbbreviation1(Slider364, "PHASE_CONTRAST_BF_WEIGHT", "weight");
             //测试附加
@@ -537,6 +537,8 @@ namespace ConfigObjective
             int max = Math.Max(r , Math.Max(g, b));
             return max / 255d;
         }
+
+
 
         public void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
         {

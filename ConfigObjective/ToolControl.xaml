@@ -317,8 +317,7 @@
                             <Slider x:Name="Slider355" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="1" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
                         </DockPanel>
                         <DockPanel>
-                            <Button  x:Name="Button351" Content="背景校正" Margin="20,0" Click="Button351_Click" />
-
+                            <Button x:Name="Button351" Content="背景校正" Margin="20,0" Click="Button351_Click"/>
                         </DockPanel>
                     </StackPanel>
                 </Border>
@@ -327,11 +326,11 @@
                     <StackPanel>
                         <DockPanel>
                             <TextBlock Text="相差切趾" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider361" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Filter}" Minimum="0" Maximum="1" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
+                            <Slider x:Name="Slider361" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Filter}" Minimum="0" Maximum="0.2" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
                         </DockPanel>
                         <DockPanel>
                             <TextBlock Text="衬度增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider363" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="5" IsSnapToTickEnabled="True"  TickFrequency="0.1"/>
+                            <Slider x:Name="Slider363" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="5" IsSnapToTickEnabled="True"  TickFrequency="0.1" ValueChanged="Slider363_ValueChanged"/>
                         </DockPanel>
                         <DockPanel Visibility="Collapsed">
                             <TextBlock Text="明场权重" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -415,22 +414,22 @@
                         </Grid.ColumnDefinitions>
                         <ToggleButton x:Name="ToggleButtonXYF" Grid.Row="0" Grid.Column="0" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5" Checked="ToggleButtonXYF_Checked" Unchecked="ToggleButtonXYF_Unchecked"/>
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="X-Y控制" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <RepeatButton x:Name="ButtonFront" Style="{DynamicResource RepeatButton1}" Grid.Row="0" Interval="100" Grid.Column="1"  Margin="5" Click="ButtonFront_Click">
+                        <RepeatButton x:Name="ButtonFront" Style="{DynamicResource RepeatButton1}" Grid.Row="0" Interval="5" Grid.Column="1"  Margin="5" Click="ButtonFront_Click">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="180"/>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </RepeatButton>
-                        <RepeatButton x:Name="ButtonRear"  Style="{DynamicResource RepeatButton1}" Grid.Row="2" Interval="100" Grid.Column="1" Content="V" Margin="5" Click="ButtonRear_Click"/>
-                        <RepeatButton x:Name="ButtonLeft" Style="{DynamicResource RepeatButton1}" Grid.Row="1"  Interval="100" Grid.Column="0" Margin="5" Click="ButtonLeft_Click">
+                        <RepeatButton x:Name="ButtonRear"  Style="{DynamicResource RepeatButton1}" Grid.Row="2" Interval="5" Grid.Column="1" Content="V" Margin="5" Click="ButtonRear_Click"/>
+                        <RepeatButton x:Name="ButtonLeft" Style="{DynamicResource RepeatButton1}" Grid.Row="1"  Interval="5" Grid.Column="0" Margin="5" Click="ButtonLeft_Click">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="90"/>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </RepeatButton>
-                        <RepeatButton x:Name="ButtonRight" Style="{DynamicResource RepeatButton1}" Grid.Row="1"  Interval="100" Grid.Column="2"  Margin="5" Click="ButtonRight_Click">
+                        <RepeatButton x:Name="ButtonRight" Style="{DynamicResource RepeatButton1}" Grid.Row="1"  Interval="5" Grid.Column="2"  Margin="5" Click="ButtonRight_Click">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="270"/>
@@ -442,7 +441,7 @@
                         <ToggleButton x:Name="ToggleButtonZF" Grid.Row="0" Grid.Column="3" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5" Checked="ToggleButtonZF_Checked" Unchecked="ToggleButtonZF_Unchecked" />
                         <TextBlock Grid.Row="3" Grid.Column="3" Text="Z控制" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                        <RepeatButton x:Name="ButtonUp" Style="{DynamicResource RepeatButton1}" Grid.Row="0" Grid.Column="4"  Margin="5" Click="ButtonUp_Click">
+                        <RepeatButton x:Name="ButtonUp" Style="{DynamicResource RepeatButton1}" Grid.Row="0" Interval="100" Grid.Column="4"  Margin="5" Click="ButtonUp_Click">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="180"/>
@@ -450,7 +449,7 @@
                             </TextBlock>
                         </RepeatButton>
                         <Button x:Name="ButtonAutoFocus"  Grid.Row="1" Grid.Column="4" Content="A" Margin="5" Click="ButtonAutoFocus_Click"/>
-                        <RepeatButton x:Name="ButtonDown" Style="{DynamicResource RepeatButton1}" Grid.Row="2" Grid.Column="4"  Content="V" Margin="5" Click="ButtonDown_Click"/>
+                        <RepeatButton x:Name="ButtonDown" Style="{DynamicResource RepeatButton1}" Grid.Row="2" Interval="100" Grid.Column="4"  Content="V" Margin="5" Click="ButtonDown_Click"/>
                         <!--<Slider x:Name ="Slider1111"  Grid.Row="0" Grid.RowSpan="3" Grid.Column="6"  Style="{StaticResource LM_Slider}" Minimum="1" Maximum="1000" IsSnapToTickEnabled="True" TickFrequency="1" Value="200" Orientation="Vertical" HorizontalAlignment="Center" />-->
                     </Grid>
                 </Border>

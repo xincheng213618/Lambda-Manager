@@ -20,7 +20,7 @@ internal static class FunctionExecutor
 
 	private static readonly Location OutputAlloc = new Location();
 
-	public static Solution Solution { get; set; } = new Solution();
+	public static DataType.Solution Solution { get; set; } = new DataType.Solution();
 
 
 	public static int Evaluate(ExecInfo info)

@@ -23,7 +23,7 @@ using LambdaUtils;
 using System.Text.Json;
 using System.Windows.Controls.Primitives;
 
-namespace WpfApp1
+namespace Solution
 {
     /// <summary>
     /// TreeViewControl.xaml 的交互逻辑
@@ -433,15 +433,16 @@ namespace WpfApp1
                 };
 
                 contextMenu.Items.Add(menuItem);
-                contextMenu.Items.Add(MenuItemAdd(menuItem1,1));
-                contextMenu.Items.Add(MenuItemAdd(menuItem2,2));
-                contextMenu.Items.Add(MenuItemAdd(menuItem3,3));
-                contextMenu.Items.Add(MenuItemAdd(menuItem4,4));
-                contextMenu.Items.Add(MenuItemAdd(menuItem5,5));
-                contextMenu.Items.Add(MenuItemAdd(menuItem6,6));
-
+                //contextMenu.Items.Add(menuItem1);
+                //contextMenu.Items.Add(menuItem2);
+                //contextMenu.Items.Add(menuItem3);
+                contextMenu.Items.Add(MenuItemAdd(menuItem1, 1));
+                contextMenu.Items.Add(MenuItemAdd(menuItem2, 2));
+                contextMenu.Items.Add(MenuItemAdd(menuItem3, 3));
+                contextMenu.Items.Add(MenuItemAdd(menuItem4, 4));
+                contextMenu.Items.Add(MenuItemAdd(menuItem5, 5));
+                contextMenu.Items.Add(MenuItemAdd(menuItem6, 6));
                 buttton1.ContextMenu = contextMenu;
-
             }
             catch (Exception ex)
             {
