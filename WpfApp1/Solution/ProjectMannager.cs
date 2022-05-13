@@ -11,7 +11,6 @@ namespace NLGSolution
 {
     public class ProjectManager : ProjectFolder
     {
-
         public ProjectManager(string ProjectPath):base(ProjectPath)
         {
 

@@ -25,13 +25,14 @@ namespace ConfigObjective
             InitializeComponent();
         }
 
-        bool first = true;
+        bool IsFirstUpdate = false;
         private void UpdateGlobal()
         {
-            if (!first)
+            if (IsFirstUpdate)
+            {
                 MessageBox.Show("根据参数更新");
-            else
-                first = false;
+                IsFirstUpdate = false;
+            }
 
             CameraSetting_Update();
             ObjectiveSetting_Update();
@@ -73,6 +74,7 @@ namespace ConfigObjective
 
             //初始化硬件
             Update.UpdateGlobal();
+            IsFirstUpdate = true;
             //日志监听
             LambdaControl.LogHandler += LambdaLog;
             //事件监听
@@ -105,11 +107,6 @@ namespace ConfigObjective
             //伽马
             //SliderAbbreviation1(Slider323, "DARK_FIELD_GAMMA", "gamma");
 
-
-            ColorPciker322.BrushValueChanged += delegate
-            {
-                ColorAbbreviation("DARK_FIELD_BRIGHTNESS", "brightness", ColorPciker322.SelectColor.ToString());
-            };
 
             //背景校正
             ToggleButtonAbbreviation(Button322, "DARK _FIELD _BG_COLLECTION", "collection");
@@ -480,77 +477,12 @@ namespace ConfigObjective
             return 1;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
-            colorDialog.AllowFullOpen = true;
-            colorDialog.FullOpen = true;
-            colorDialog.AnyColor = false;
-            colorDialog.CustomColors = new int[] { 0x6987FC, 15195440, 16107657, 1836924, 3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294, 3102017, 7324121, 14993507, 11730944 };
-            colorDialog.ShowHelp = true;
 
-            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                ColorToHSV(colorDialog.Color,out hue, out saturation, out brightness);
-                SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B));
-                Button1111.Background = solidColorBrush;
-                Slider312.Value = (int)(brightness * 240);
+    }
 
-                ViewMode.BrightField.Color = new List<int> { solidColorBrush.Color.R, solidColorBrush.Color.G, solidColorBrush.Color.B };
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, solidColorBrush.ToString());
-            }
-        }
-
-        double hue = 0, saturation = 1, brightness = 1; 
-        private void Slider312_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            //double hue, saturation, brightness;
-            if (Button1111.Background is SolidColorBrush solidColorBrush)
-            {
-                //ColorToHSV(solidColorBrush, out hue, out saturation, out brightness);
-                SolidColorBrush solidColorBrush1 = new SolidColorBrush(ColorFromHSV(hue, saturation, (double)e.NewValue / 240));
-                Button1111.Background = solidColorBrush1;
-                ViewMode.BrightField.Color = new List<int> { solidColorBrush1.Color.R, solidColorBrush1.Color.G, solidColorBrush1.Color.B };
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, solidColorBrush1.ToString());
-            }
-
-
-
-
-        }
-
-
-
-
-        public void ColorToHSV(SolidColorBrush solidColorBrush, out double hue, out double saturation, out double value)
-        {
-            int max = Math.Max(solidColorBrush.Color.R, Math.Max(solidColorBrush.Color.G, solidColorBrush.Color.B));
-            int min = Math.Min(solidColorBrush.Color.R, Math.Min(solidColorBrush.Color.G, solidColorBrush.Color.B));
-            hue = System.Drawing.Color.FromArgb(255, solidColorBrush.Color.R, solidColorBrush.Color.G, solidColorBrush.Color.B).GetHue();
-
-            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-            value = max / 255d;
-        }
-
-        private double GetBright(int r, int b ,int g)
-        {
-            int max = Math.Max(r , Math.Max(g, b));
-            return max / 255d;
-        }
-
-
-
-        public void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
-        {
-            int max = Math.Max(color.R, Math.Max(color.G, color.B));
-            int min = Math.Min(color.R, Math.Min(color.G, color.B));
-
-            hue = color.GetHue();
-            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-            value = max / 255d;
-        }
-
-        public Color ColorFromHSV(double hue, double saturation, double value)
+    public static class Util
+    {
+        public static Color ColorFromHSV(double hue, double saturation, double value)
         {
             int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
             double f = hue / 60 - Math.Floor(hue / 60);
@@ -575,5 +507,74 @@ namespace ConfigObjective
                 return Color.FromArgb(255, v, p, q);
         }
 
+        public static double GetBright(int r, int b, int g)
+        {
+            int max = Math.Max(r, Math.Max(g, b));
+            return max / 255d;
+        }
+
+        public static void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
+        {
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+
+            hue = color.GetHue();
+            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
+            value = max / 255d;
+        }
     }
+
+    public class ColorHelper
+    {
+        public ColorHelper(System.Drawing.Color color)
+        {
+            Util.ColorToHSV(color,out Hue, out Saturation, out Brightness);
+            A = color.A;
+            R = color.R;
+            G = color.G;
+            B = color.B;
+        }
+
+        public ColorHelper(int A, int R ,int G, int B)
+        {
+            this.A = A;
+            this.R = R;
+            this.G = G;
+            this.B = B;
+            Util.ColorToHSV(System.Drawing.Color.FromArgb(A,R,G,B), out Hue, out Saturation, out Brightness);
+        }
+
+        public SolidColorBrush SolidColorBrush
+        {
+            get { return new SolidColorBrush(Color.FromArgb((byte)A, (byte)R, (byte)G, (byte)B)); }
+        }
+        public void ChangeBrightness(double Brightness)
+        {
+            this.Brightness = Brightness;
+            Color = Util.ColorFromHSV(Hue,Saturation,Brightness);
+            this.A = Color.A;
+            this.R = Color.R;
+            this.G = Color.G;
+            this.B = Color.B;
+
+        }
+        public Color Color;
+
+        public int A;
+        public int R;
+        public int G;
+        public int B;
+
+        public double Hue;
+        public double Saturation;
+        public double Brightness;
+
+
+
+
+    }
+
+
 }
+
+

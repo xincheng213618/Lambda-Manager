@@ -16,10 +16,12 @@ namespace ConfigObjective
     {
         Global.Mode.Config.ViewMode ViewMode = WindowData.GetInstance().ViewMode;
 
+        ColorHelper colorHelp1 = new(255, 255, 255, 255);
+        ColorHelper colorHelp2 = new(255, 255, 255, 255);
 
         public void ViewMode_Initialized()
         {
-            Border2.DataContext = ViewMode.BrightField.CameraSetting;
+
         }
 
         public void ViewMode_Update()
@@ -51,15 +53,18 @@ namespace ConfigObjective
 
 
             Border31.DataContext = ViewMode.BrightField;
-            SolidColorBrush solidColorBrush = new SolidColorBrush(Color.FromArgb(255, (byte)ViewMode.BrightField.Color[0], (byte)ViewMode.BrightField.Color[1], (byte)ViewMode.BrightField.Color[2]));
-            Button1111.Background = solidColorBrush;
-            ColorToHSV(solidColorBrush, out hue, out saturation, out brightness);
-            Slider312.Value = (int)(brightness * 240);
+
+            colorHelp1 = new ColorHelper(255, ViewMode.BrightField.Color[0], ViewMode.BrightField.Color[1], ViewMode.BrightField.Color[2]);
+            ColorButton311.Background = colorHelp1.SolidColorBrush;
+            Slider312.Value = (int)(colorHelp1.Brightness * 240);
 
             Border32.DataContext = ViewMode.DarkField;
 
-            ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.DarkField.Color, out int bright1));
-            Slider324.Value = bright1;
+            colorHelp2 = new ColorHelper(255, ViewMode.DarkField.Color[0], ViewMode.DarkField.Color[1], ViewMode.DarkField.Color[2]);
+            ColorButton321.Background = colorHelp2.SolidColorBrush;
+            Slider324.Value = (int)(colorHelp2.Brightness * 240);
+
+
 
             Border33.DataContext = ViewMode.Reinberg;
 
@@ -75,8 +80,6 @@ namespace ConfigObjective
 
             Border36.DataContext = ViewMode.PhaseContrast;
 
-
-            //MessageBox.Show(ViewMode.ToJson());
         }
 
 
@@ -89,10 +92,9 @@ namespace ConfigObjective
             {
                 ViewMode.BrightField = new Global.Mode.Config.BrightField();
                 Border31.DataContext = ViewMode.BrightField;
-                SolidColorBrush solidColorBrush = new SolidColorBrush(Color.FromArgb(255, (byte)ViewMode.BrightField.Color[0], (byte)ViewMode.BrightField.Color[1], (byte)ViewMode.BrightField.Color[2]));
-                Button1111.Background = solidColorBrush;
-                Slider312.Value = (int)(GetBright(solidColorBrush.Color.R, solidColorBrush.Color.G, solidColorBrush.Color.B)*240);
-
+                colorHelp1 = new ColorHelper(255, ViewMode.BrightField.Color[0], ViewMode.BrightField.Color[1], ViewMode.BrightField.Color[2]);
+                ColorButton311.Background = colorHelp1.SolidColorBrush;
+                Slider312.Value = (int)(colorHelp1.Brightness * 240);
 
                 Border2.DataContext = ViewMode.BrightField.CameraSetting;
             }
@@ -102,10 +104,11 @@ namespace ConfigObjective
 
                 Border32.DataContext = ViewMode.DarkField;
 
-                ColorPciker321.SelectColor = new SolidColorBrush(IntToColor(ViewMode.DarkField.Color, out int bright1));
-                Slider324.Value = bright1;
-                Border2.DataContext = ViewMode.DarkField.CameraSetting;
+                colorHelp2 = new ColorHelper(255, ViewMode.DarkField.Color[0], ViewMode.DarkField.Color[1], ViewMode.DarkField.Color[2]);
+                ColorButton321.Background = colorHelp2.SolidColorBrush;
+                Slider324.Value = (int)(colorHelp2.Brightness * 240);
 
+                Border2.DataContext = ViewMode.DarkField.CameraSetting;
             }
 
             if (ViewMode.SelectViewMode == 2)
@@ -145,9 +148,70 @@ namespace ConfigObjective
                 Border2.DataContext = ViewMode.PhaseContrast.CameraSetting;
 
             }
-
-            //ViewMode_Initialized();
         }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
+            colorDialog.AllowFullOpen = true;
+            colorDialog.FullOpen = true;
+            colorDialog.AnyColor = false;
+            colorDialog.CustomColors = new int[] { 0x6987FC, 15195440, 16107657, 1836924, 3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294, 3102017, 7324121, 14993507, 11730944 };
+            colorDialog.ShowHelp = true;
+
+            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                colorHelp1 = new ColorHelper(colorDialog.Color);
+                ColorButton311.Background = colorHelp1.SolidColorBrush;
+                Slider312.Value = (int)(colorHelp1.Brightness * 240);
+
+                ViewMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
+                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, colorHelp1.SolidColorBrush.ToString());
+            }
+        }
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
+            colorDialog.AllowFullOpen = true;
+            colorDialog.FullOpen = true;
+            colorDialog.AnyColor = false;
+            colorDialog.CustomColors = new int[] { 0x6987FC, 15195440, 16107657, 1836924, 3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294, 3102017, 7324121, 14993507, 11730944 };
+            colorDialog.ShowHelp = true;
+
+            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                colorHelp2 = new ColorHelper(colorDialog.Color);
+                ColorButton321.Background = colorHelp2.SolidColorBrush;
+                Slider324.Value = (int)(colorHelp2.Brightness * 240);
+
+                ViewMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
+                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, colorHelp2.SolidColorBrush.ToString());
+            }
+        }
+
+        private void Slider312_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (ColorButton311.Background is SolidColorBrush solidColorBrush)
+            {
+                colorHelp1.ChangeBrightness(e.NewValue / 240);
+                ColorButton311.Background = colorHelp1.SolidColorBrush;
+                ViewMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
+                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, colorHelp1.SolidColorBrush.ToString());
+            }
+        }
+
+        private void Slider324_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (ColorButton321.Background is SolidColorBrush solidColorBrush)
+            {
+                colorHelp2.ChangeBrightness(e.NewValue / 240);
+                ColorButton321.Background = colorHelp2.SolidColorBrush;
+                ViewMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
+                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, colorHelp2.SolidColorBrush.ToString());
+            }
+        }
+
 
         private void Button302_Click(object sender, RoutedEventArgs e)
         {
@@ -267,47 +331,8 @@ namespace ConfigObjective
             }
         }
 
-        private void Slider324_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!WindowData.GetInstance().ACQUIRE)
-            {
-                DarkFieldColor();
-                double hue, saturation, brightness;
-                ColorToHSV(System.Drawing.Color.FromArgb(ColorPciker321.SelectColor.Color.A, ColorPciker321.SelectColor.Color.R, ColorPciker321.SelectColor.Color.G, ColorPciker321.SelectColor.Color.B), out hue, out saturation, out brightness);
-                ColorPciker321.SelectColor = new SolidColorBrush(ColorFromHSV(hue, saturation, Slider324.Value / 16));
-            }
-            else
-            {
-                if (sliderfirst)
-                {
-                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
-                    if (result == MessageBoxResult.No)
-                    {
-                        sliderfirst = false;
-                        Slider324.Value = e.OldValue;
-                    }
-                }
-                else
-                {
-                    sliderfirst = true;
-                }
-            }
-        }
-        private void DarkFieldColor()
-        {
-            if (ColorPciker321 != null && Slider324 != null)
-            {
-                int result = HexToInt(ColorPciker321.SelectColor.ToString(), (int)Slider324.Value);
 
-                ViewMode.DarkField.Color = result;
-                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new Dictionary<string, object>() { { "brightness", result } });
-            }
-        }
 
-        private void ColorPciker312_BrushValueChanged(object sender, RoutedEventArgs e)
-        {
-            DarkFieldColor();
-        }
 
         private void Slider352_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

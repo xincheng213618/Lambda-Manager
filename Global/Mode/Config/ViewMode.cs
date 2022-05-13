@@ -60,6 +60,7 @@ namespace Global.Mode.Config
         }
 
         private List<int> color = new List<int>() {255,255,255};
+
         public List<int> Color
         {
             get { return color; }
@@ -109,8 +110,8 @@ namespace Global.Mode.Config
             }
         }
 
-        private int color = 4095;
-        public int Color
+        private List<int> color = new List<int>() { 255, 255, 255 };
+        public List<int> Color
         {
             get { return color; }
             set

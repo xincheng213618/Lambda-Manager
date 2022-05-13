@@ -11,9 +11,23 @@ namespace NLGSolution
 {
     public class SolutionExplorer : BaseObject
     {
-        public SolutionExplorer(string FullPath):base(FullPath,Type.Solution)
+        public FileSystemWatcher watcher;
+
+
+        public SolutionExplorer(string FullPath):base(FullPath,Type.Directory)
         {
-            //AddExistingProject1 = new CommandBinding(AddExistingProject, AddNewProject_Executed, AddNewProject_CanExecute);
+            SolutionGuid = Guid.NewGuid();
+            string rootPath = System.IO.Path.GetDirectoryName(FullPath);
+
+            watcher = new FileSystemWatcher(rootPath)
+            {
+                IncludeSubdirectories = false
+            };
+
+            watcher.Deleted += Watcher_Deleted;
+            watcher.Created += Watcher_Created;
+            watcher.Renamed += Watcher_Renamed;
+            watcher.EnableRaisingEvents = true;
             EditCommand = new MyCommand(() =>
             {
                 OnDepartmentEdited();
@@ -23,6 +37,67 @@ namespace NLGSolution
                 OnAddNewProject();
             }, () => { return true; });
         }
+
+        public void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
+            {
+                var baseObject = Children.ToList().Find(t => t.FullPath == e.OldFullPath);
+                if (baseObject != null)
+                {
+                    baseObject.FullPath = e.FullPath;
+                }
+            }
+        }
+
+        public void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            if (!(File.Exists(e.FullPath) || Directory.Exists(e.FullPath)))
+            {
+                var projectFile = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                if (projectFile != null)
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        RemoveChild(projectFile);
+                    }));
+                }
+            }
+
+        }
+
+        public void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            if (File.Exists(e.FullPath))
+            {
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    AddChild(new ProjectFile(e.FullPath));
+                }));
+            }
+            else if (Directory.Exists(e.FullPath))
+            {
+                if (e.Name == "Video" || e.Name == "Image")
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        AddChild(new ProjectManager(e.FullPath));
+                    }));
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        AddChild(new SeriesProjectManager(e.FullPath));
+
+                    }));
+                }
+
+            }
+        }
+
+
+
 
         public override bool IsEditMode
         {
@@ -51,6 +126,7 @@ namespace NLGSolution
                 NotifyPropertyChanged();
             }
         }
+
 
         public string Extension
         {
@@ -101,9 +177,9 @@ namespace NLGSolution
 
         public string SolutionPath { get; set; }
 
-
         public SolutionLog SolutionLog { get; set; }
         public SolutionConfig SolutionConfig { get; set; }
+
 
         public ObservableCollection<ProjectManager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectManager>();
 
@@ -118,6 +194,7 @@ namespace NLGSolution
             baseObject.Parent = this;
             Children.SortedAdd(baseObject);   
         }
+
         public override void RemoveChild(BaseObject baseObject)
         {
             if (baseObject == null)
@@ -126,10 +203,8 @@ namespace NLGSolution
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;
-
                 Children.Remove(baseObject);
                 baseObject.Delete();
-
             }
         }
 

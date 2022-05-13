@@ -14,6 +14,7 @@ using LambdaManager.DataType;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
 using LambdaUtils;
+using Quartz;
 
 namespace LambdaManager.Core;
 

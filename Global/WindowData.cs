@@ -37,6 +37,12 @@ namespace Global
 
         private WindowData()
         {
+            LambdaControl.CallEventHandler += Call;
+            Hardware_Initialized();
+            AddTest();
+        }
+        private void Hardware_Initialized()
+        {
             if (File.Exists(Global.HardwareDeviceInformationSheet))
             {
                 string HardwareDeviceInformation = Utils.LoadResource(Global.HardwareDeviceInformationSheet);
@@ -48,8 +54,8 @@ namespace Global
             }
             else
             {
-                deviceInformation = new DeviceInformation() 
-                { 
+                deviceInformation = new DeviceInformation()
+                {
                     ObjectiveSettingList = new() {
                         new ObjectiveSetting (){ID = 0, Name ="奥林巴斯",Magnitude="4X", NA=0.1, IsEnabled = false},
                         new ObjectiveSetting (){ID = 1, Name ="奥林巴斯",Magnitude="10X", NA=0.25,IsChecked = true},
@@ -58,8 +64,8 @@ namespace Global
                         new ObjectiveSetting (){ID = 4, Name ="奥林巴斯",Magnitude="100X", NA=0.65, IsEnabled = false},}
                 };
                 deviceInformation.ToJsonFile(Global.HardwareDeviceInformationSheet);
+
             }
-            LambdaControl.CallEventHandler += Call;
         }
 
         public void AddTest()
@@ -275,7 +281,6 @@ namespace Global
 
             return 1;
         }
-
 
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;

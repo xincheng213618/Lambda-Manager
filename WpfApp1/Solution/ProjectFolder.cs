@@ -28,6 +28,53 @@ namespace NLGSolution
             watcher.EnableRaisingEvents = true;
         }
 
+        public override bool IsEditMode
+        {
+            get { return isEditMode; }
+            set
+            {
+                isEditMode = value;
+                if (!isEditMode)
+                {
+                    string oldpath = FullPath;
+                    string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + name;
+                    if (newpath != FullPath)
+                    {
+                        try
+                        {
+                            Directory.Move(oldpath, newpath);
+                            FullPath = newpath;
+                            tempname = name;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("文件名冲突" + ex.Message);
+                            Name = tempname;
+                            isEditMode = true;
+                        }
+                    }
+                }
+                else
+                {
+                    tempname = name;
+                }
+                NotifyPropertyChanged();
+            }
+        }
+        public override void Delete()
+        {
+            base.Delete();
+            try
+            {
+                if (Directory.Exists(FullPath))
+                    Directory.Delete(FullPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         public void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
             if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))

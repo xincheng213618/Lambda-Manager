@@ -41,6 +41,23 @@ namespace NLGSolution
             }
         }
 
+        public override void Delete()
+        {
+            base.Delete();
+            try
+            {
+                if (File.Exists(FullPath))
+                    File.Delete(FullPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+        }
+
+
         public string Extension 
         {
             get { return Path.GetExtension(FullPath); }

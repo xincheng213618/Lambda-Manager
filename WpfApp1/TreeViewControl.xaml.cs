@@ -198,7 +198,7 @@ namespace Solution
         {
             SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath)
             {
-                SolutionGuid = Guid.NewGuid(),
+                
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
                 //SolutionConfig = new SolutionConfig
                 //{
@@ -382,10 +382,8 @@ namespace Solution
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            windowData.AddTest();
 
             Window mainwin = Application.Current.MainWindow;
-
             try
             {
                 //WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");

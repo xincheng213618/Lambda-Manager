@@ -11,7 +11,7 @@ namespace NLGSolution
     {
         public enum Type
         {
-            File, Directory, Solution
+            File, Directory,
         }
         public BaseObject(string FullPath, Type type)
         {
@@ -20,7 +20,6 @@ namespace NLGSolution
         }
 
         public BaseObject Parent = null;
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -46,66 +45,14 @@ namespace NLGSolution
             set
             {
                 isEditMode = value;
-                if (!isEditMode)
-                {
-                    string oldpath = FullPath;
-                    string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + name;
-                    if (newpath != FullPath)
-                    {
-                        try
-                        {
-                            if (Types == Type.File)
-                            {
-                                File.Move(oldpath, newpath);
-                            }
-                            else if (Types == Type.Directory)
-                            {
-                                Directory.Move(oldpath, newpath);
-                            }
-                            FullPath = newpath;
-                            tempname = name;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("文件名冲突" + ex.Message);
-                            Name = tempname;
-                            isEditMode = true;
-                        }
-                    }
-                }
-                else
-                {
-                    tempname = name;
-                }
-                NotifyPropertyChanged();
             }
         }
 
-        public void Delete()
-        {
-            try
-            {
-                if (Types == Type.File)
-                {
-                    if (File.Exists(fullPath))
-                        File.Delete(FullPath);
-                }
-                else if (Types == Type.Directory)
-                {
-                    if (Directory.Exists(FullPath))
-                        Directory.Delete(FullPath);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("文件删除失败" + ex.Message);
-            }
+        public virtual void Delete() { }
 
-        }
 
-        private string tempname;
-
-        private string name;
+        public string tempname;
+        public string name;
         public string Name
         {
             get { return name; }

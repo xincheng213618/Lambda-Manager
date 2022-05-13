@@ -12,6 +12,7 @@ namespace NLGSolution
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath, Type.Directory)
         {
 
+
         }
 
     }
