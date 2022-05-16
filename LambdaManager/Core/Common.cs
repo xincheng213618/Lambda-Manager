@@ -88,11 +88,13 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage1(int severity, sbyte* message)
 	{
-		App.Report2(new Message
-		{
-			Severity = (Severity)severity,
-			Text = new string(message)
-		});
+		LambdaControl.Log(new Message
+        {
+            Severity = (Severity)severity,
+            Text = new string(message)
+        });
+
+        //App.Report2();
 	}
 
 	[DllImport("lib\\common.dll")]
@@ -102,11 +104,16 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage2(int severity, char* message)
 	{
-		App.Report2(new Message
-		{
-			Severity = (Severity)severity,
-			Text = new string(message)
-		});
+        LambdaControl.Log2(new Message
+        {
+            Severity = (Severity)severity,
+            Text = new string(message)
+        });
+  //      App.Report2(new Message
+		//{
+		//	Severity = (Severity)severity,
+		//	Text = new string(message)
+		//});
 	}
 
 	[DllImport("lib\\common.dll", EntryPoint = "CallFunction")]

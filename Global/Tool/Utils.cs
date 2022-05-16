@@ -13,7 +13,7 @@ namespace Global
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty(string text)
+        public static bool IsNullOrEmpty(this string text)
         {
             if (string.IsNullOrEmpty(text))
             {
