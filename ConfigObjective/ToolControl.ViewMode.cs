@@ -368,6 +368,11 @@ namespace ConfigObjective
 
         private void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if ((int)Slider336.Value == 360)
+            {
+                Slider336.Value = 0;
+                return;
+            }
             ToggleButton331.IsChecked = false;
             ToggleButton332.IsChecked = false;
             ToggleButton333.IsChecked = false;

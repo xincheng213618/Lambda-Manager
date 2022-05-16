@@ -13,7 +13,6 @@ namespace NLGSolution
     {
         public FileSystemWatcher watcher;
 
-
         public SolutionExplorer(string FullPath):base(FullPath)
         {
             SolutionGuid = Guid.NewGuid();

@@ -244,13 +244,6 @@ namespace Solution
             SolutionTreeView.ItemsSource = SolutionExplorers;
         }
 
-
-
-        private void UserControl_ContextMenuClosing(object sender, ContextMenuEventArgs e)
-        {
-
-        }
-
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (windowData.FilePath != null)
@@ -269,8 +262,6 @@ namespace Solution
                 {
                     windowData.FilePath = null;
                 }
-
-
             }
         }
 
@@ -280,19 +271,6 @@ namespace Solution
             windowData.SetValue();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(WindowData.GetInstance().MulDimensional.ToJson());
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(Global.WindowData.GetInstance().Stage.ToJson());
-        }
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(WindowData.GetInstance().ViewMode.ToJson());
-        }
 
         private void MenuItem3_Click(object sender, RoutedEventArgs e)
         {
@@ -308,31 +286,7 @@ namespace Solution
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            //Window mainwin = Application.Current.MainWindow;
-            //WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
-            //Button buttton1 = (Button)WrapPanel1.Children[0];
 
-            //ContextMenu contextMenu = new ContextMenu();
-            //MenuItem menuItem = new MenuItem() { Header = "test1" };
-            //menuItem.Click += delegate
-            //{
-            //    LambdaControl.Trigger("QUATER_CLICKED1", sender, e);
-            //};
-            //MenuItem menuItem1 = new MenuItem() { Header = "test2" };
-            //menuItem1.Click += delegate
-            //{
-            //    LambdaControl.Trigger("QUATER_CLICKED2", sender, e);
-            //};
-            //MenuItem menuItem2 = new MenuItem() { Header = "test3" };
-            //menuItem2.Click += delegate
-            //{
-            //    LambdaControl.Trigger("QUATER_CLICKED3", sender, e);
-            //};
-            //contextMenu.Items.Add(menuItem);
-            //contextMenu.Items.Add(menuItem1);
-            //contextMenu.Items.Add(menuItem2);
-
-            //buttton1.ContextMenu = contextMenu; 
         }
 
 

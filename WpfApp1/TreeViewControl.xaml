@@ -15,25 +15,23 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel x:Name="mainView">
-        <UniformGrid Columns="8">
-            <Button Content="导出" Click="Button_Click_1"/>
-            <Button Content="新建" Click="Button_Click_3"/>
+    <StackPanel x:Name="mainView" Width="400">
+        <UniformGrid Columns="7">
+            <Button Content="导出"/>
+            <Button Content="新建"/>
             <Button Content="打开" Click="Button_Click"/>
             <Button Content="保存" Click="Save_Click"/>
             <Button Content="应用" Click="Config_Set_Click"/>
             <Button Content="查找"/>
-            <Button Content="导入" Click="Test_Click"/>
-            <Button  x:Name="TestButton" Content="四" Click="TestButton_Click">
-            </Button>
+            <Button Content="导入"/>
         </UniformGrid>
         <TreeView x:Name="SolutionTreeView"  SelectedItemChanged="TreeView1_SelectedItemChanged"  >
             <TreeView.Resources>
                 <DataTemplate x:Key="displayTemplate">
-                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                    <TextBlock Text="{Binding Path=Name}" ></TextBlock>
                 </DataTemplate>
                 <DataTemplate x:Key="editTemplate">
-                    <TextBox Text="{Binding Path=Name, Mode=OneWay}"  Tag="{Binding .}"  LostFocus="TextBox_LostFocus" KeyUp="TextBox_KeyUp"/>
+                    <TextBox Text="{Binding Path=Name, Mode=OneWay}" Padding="0" Tag="{Binding .}"  LostFocus="TextBox_LostFocus" KeyUp="TextBox_KeyUp"/>
                 </DataTemplate>
                 <HierarchicalDataTemplate   DataType="{x:Type Solution:SolutionExplorer}"   ItemsSource="{Binding Children}" >
                     <StackPanel Style="{StaticResource style_treeViewItem_panel}" >

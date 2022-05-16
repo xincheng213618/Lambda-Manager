@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Global.Hardware;
 using Lambda;
 
 namespace ConfigObjective
@@ -66,7 +67,8 @@ namespace ConfigObjective
         private void UpDownControl_Loaded(object sender, RoutedEventArgs e)
         {
             UpDownControl upDownButton1 = sender as UpDownControl;
-            upDownButton1.SetList(data);
+            upDownButton1.SetList(WindowData.deviceInformation.CameraExposeShow);
+
         }
 
         private void Slider212_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -80,11 +82,11 @@ namespace ConfigObjective
 
             if (!WindowData.ACQUIRE)
             {
-                if (Slider212.Value < expose.Count)
+                if (Slider212.Value < WindowData.deviceInformation.CameraExpose.Count)
                 {
                     if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
                     {
-                        Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", expose[(int)Slider212.Value] } };
+                        Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", WindowData.deviceInformation.CameraExpose[(int)Slider212.Value] } };
                         LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE", this, data);
                     }
 

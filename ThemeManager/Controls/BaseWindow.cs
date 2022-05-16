@@ -6,7 +6,6 @@ namespace ThemeManager.Controls
 {
     public partial class BaseWindow:Window
     {
-
         private static Style? GetDefautlStyle()
         {
             ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
@@ -48,8 +47,6 @@ namespace ThemeManager.Controls
             e.CanExecute = true;
         }
 
-
-
         public virtual void ExecutedCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Command == WindowClose)
@@ -72,9 +69,6 @@ namespace ThemeManager.Controls
             {
                 Topmost = !Topmost;
             }
-
         }
-
-
     }
 }
