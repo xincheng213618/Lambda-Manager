@@ -1,4 +1,5 @@
 ﻿using Global.Hardware;
+using Global.Mode;
 using Global.Mode.Config;
 using Lambda;
 using Mode;
@@ -67,7 +68,7 @@ namespace Global
 
             }
         }
-
+        public ViewWindow ViewWindow = new ViewWindow();
         public void AddTest()
         {
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);

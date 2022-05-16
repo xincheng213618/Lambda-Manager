@@ -29,31 +29,62 @@ namespace Solution
 
         private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
+            if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is BaseObject baseObject1)
+            {
+                if (e.Command == ApplicationCommands.SelectAll)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Copy)
+                {
+                    e.CanExecute = baseObject1.CanCopy;
+                }
+                else if (e.Command == ApplicationCommands.Cut)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Paste)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Delete)
+                {
+                    e.CanExecute = baseObject1.CanDelete;
+                }
+                else if (e.Command == Commands.ReName)
+                {
+                    e.CanExecute = baseObject1.CanReName;
+                }
+            }
 
-            if (e.Command == ApplicationCommands.SelectAll)
+            if (e.Parameter is BaseObject baseObject)
             {
-                e.CanExecute = false;
+                if (e.Command == ApplicationCommands.SelectAll)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Copy)
+                {
+                    e.CanExecute = baseObject.CanCopy;
+                }
+                else if (e.Command == ApplicationCommands.Cut)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Paste)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Delete)
+                {
+                    e.CanExecute = baseObject.CanDelete;
+                }
+                else if (e.Command == Commands.ReName)
+                {
+                    e.CanExecute = baseObject.CanReName;
+                }
             }
-            else if (e.Command == ApplicationCommands.Copy)
-            {
-                e.CanExecute = false;
-            }
-            else if (e.Command == ApplicationCommands.Cut)
-            {
-                e.CanExecute = false;
-            }
-            else if (e.Command == ApplicationCommands.Paste)
-            {
-                e.CanExecute = false;
-            }
-            else if (e.Command == ApplicationCommands.Delete)
-            {
-                e.CanExecute = true;
-            }
-            else if (e.Command == Commands.ReName)
-            {
-                e.CanExecute = true;
-            }
+
         }
 
 

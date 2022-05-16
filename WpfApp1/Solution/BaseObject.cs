@@ -7,18 +7,18 @@ using System.Windows;
 namespace NLGSolution
 {
 
-    public class BaseObject :INotifyPropertyChanged
+    public abstract class BaseAbstractObject
     {
-        public enum Type
-        {
-            File, Directory,
-        }
-        public BaseObject(string FullPath, Type type)
+        public abstract void AddChild(BaseObject baseObject);
+        public abstract void RemoveChild(BaseObject baseObject);
+    }
+
+    public class BaseObject : INotifyPropertyChanged
+    {
+        public BaseObject(string FullPath)
         {
             this.FullPath = FullPath;
-            this.Types = type;
         }
-
         public BaseObject Parent = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -26,30 +26,30 @@ namespace NLGSolution
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public event EventHandler AddChildEventHandler;
+
+
         public virtual void AddChild(BaseObject baseObject)
         {
+            AddChildEventHandler?.Invoke(this,new EventArgs());
         }
+        public event EventHandler RemoveChildEventHandler;
+
         public virtual void RemoveChild(BaseObject baseObject)
         {
-
+            RemoveChildEventHandler?.Invoke(this, new EventArgs());
         }
 
-
+        public virtual bool CanReName { get; set; } = true;
+        public virtual bool CanCopy  { get; set; } = false;
+        public virtual bool CanDelete { get; set; } = true;
 
         public Type Types { get; set; }
 
         public bool isEditMode = false;
-        public virtual bool IsEditMode
-        {
-            get { return isEditMode; }
-            set
-            {
-                isEditMode = value;
-            }
-        }
+        public virtual bool IsEditMode { get; set; }
 
         public virtual void Delete() { }
-
 
         public string tempname;
         public string name;
@@ -63,7 +63,7 @@ namespace NLGSolution
             }
         }
 
-        private string fullPath;
+        public string fullPath;
 
         public string FullPath
         {

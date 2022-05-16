@@ -476,8 +476,6 @@ namespace ConfigObjective
             }
             return 1;
         }
-
-
     }
 
     public static class Util

@@ -14,7 +14,7 @@ namespace NLGSolution
         public FileSystemWatcher watcher;
         public ObservableCollection<BaseObject> Children { get; set; }
 
-        public ProjectFolder(string FolderPath) :base(FolderPath, Type.Directory)
+        public ProjectFolder(string FolderPath) :base(FolderPath)
         {
             Children = new ObservableCollection<BaseObject>();
 
@@ -61,13 +61,14 @@ namespace NLGSolution
                 NotifyPropertyChanged();
             }
         }
+
         public override void Delete()
         {
             base.Delete();
             try
             {
                 if (Directory.Exists(FullPath))
-                    Directory.Delete(FullPath);
+                    Directory.Delete(FullPath, true);
             }
             catch (Exception ex)
             {
@@ -127,12 +128,14 @@ namespace NLGSolution
 
         public override void AddChild(BaseObject baseObject)
         {
+            base.AddChild(baseObject);
             baseObject.Parent = this;
             Children.SortedAdd(baseObject);
         }
 
         public override void RemoveChild(BaseObject baseObject)
         {
+            base.RemoveChild(baseObject);   
             if (baseObject == null)
                 return;
 

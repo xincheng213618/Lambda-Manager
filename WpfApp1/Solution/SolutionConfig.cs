@@ -2,7 +2,7 @@
 {
     public class SolutionConfig : BaseObject
     {
-        public SolutionConfig(string FullPath) : base(FullPath, Type.Directory)
+        public SolutionConfig(string FullPath) : base(FullPath)
         {
 
         }

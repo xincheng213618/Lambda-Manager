@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel x:Name="mainView">
-        <UniformGrid Columns="7">
+        <UniformGrid Columns="8">
             <Button Content="导出" Click="Button_Click_1"/>
             <Button Content="新建" Click="Button_Click_3"/>
             <Button Content="打开" Click="Button_Click"/>
@@ -24,6 +24,8 @@
             <Button Content="应用" Click="Config_Set_Click"/>
             <Button Content="查找"/>
             <Button Content="导入" Click="Test_Click"/>
+            <Button  x:Name="TestButton" Content="四" Click="TestButton_Click">
+            </Button>
         </UniformGrid>
         <TreeView x:Name="SolutionTreeView"  SelectedItemChanged="TreeView1_SelectedItemChanged"  >
             <TreeView.Resources>

@@ -49,28 +49,5 @@ namespace NLGSolution
             private set { }
         }
 
-
-
-
-        //public override void AddChild(BaseObject baseObject)
-        //{
-        //    baseObject.Parent = this;
-        //    Children.SortedAdd(baseObject);
-        //}
-
-        //public override void RemoveChild(BaseObject baseObject)
-        //{
-        //    if (baseObject == null)
-        //        return;
-
-        //    if (baseObject.Parent == this)
-        //    {
-        //        baseObject.Parent = null;
-        //        Children.Remove(baseObject);
-
-        //        baseObject.Delete();
-        //        //NotifyPropertyChanged("Children");
-        //    }
-        //}
     }
 }

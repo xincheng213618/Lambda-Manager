@@ -14,10 +14,10 @@ namespace NLGSolution
         public FileSystemWatcher watcher;
 
 
-        public SolutionExplorer(string FullPath):base(FullPath,Type.Directory)
+        public SolutionExplorer(string FullPath):base(FullPath)
         {
             SolutionGuid = Guid.NewGuid();
-            string rootPath = System.IO.Path.GetDirectoryName(FullPath);
+            string rootPath = Path.GetDirectoryName(FullPath);
 
             watcher = new FileSystemWatcher(rootPath)
             {

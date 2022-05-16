@@ -65,7 +65,6 @@ namespace NLGSolution
 
         public virtual void DoCut()
         {
-            // 限制性复制操作，然后在修改下剪切的状态；
 
         }
 
