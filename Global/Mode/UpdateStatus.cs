@@ -7,6 +7,24 @@ namespace Mode
 {
     public class UpdateStatus : ModeBaseObject
     {
+        private string window = "[6,1,2,3,4,5,6]";
+
+        public string Window
+
+        {
+            get { return window; }
+            set
+            {
+                if (value != null)
+                {
+                    window = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+
         private string imageX = "X:1234";
 
         public string ImageX

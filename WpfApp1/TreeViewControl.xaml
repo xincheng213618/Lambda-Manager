@@ -17,8 +17,8 @@
     </UserControl.Resources>
     <StackPanel x:Name="mainView" Width="400">
         <UniformGrid Columns="7">
-            <Button Content="导出"/>
-            <Button Content="新建"/>
+            <Button Content="导出" Click="Button_Click_1"/>
+            <Button Content="新建" Click="Button_Click_2"/>
             <Button Content="打开" Click="Button_Click"/>
             <Button Content="保存" Click="Save_Click"/>
             <Button Content="应用" Click="Config_Set_Click"/>
@@ -60,7 +60,7 @@
                                 <Separator/>
                                 <MenuItem Header="重命名(_M)"  Command="{Binding EditCommand}"/>
                                 <Separator/>
-                                <MenuItem Header="在文件资源管理器中打开(_x)" />
+                                <MenuItem Header="在文件资源管理器中打开(_x)" Command="{Binding OpenExplorer}" />
                                 <MenuItem Header="属性(_R)"  />
                             </ContextMenu>
                         </StackPanel.ContextMenu>

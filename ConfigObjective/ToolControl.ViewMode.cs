@@ -394,7 +394,7 @@ namespace ConfigObjective
 
         private void Button331_Click(object sender, RoutedEventArgs e)
         {
-            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new(rheinbergPatterns);
+            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new(rheinbergPatterns, RheinbergSelectMode);
             rheinbergPatternEditorWindow.Closed += RheinbergAdd;
             rheinbergPatternEditorWindow.ShowDialog();
         }

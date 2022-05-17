@@ -113,8 +113,11 @@
                     <TabControl  >
                         <TabItem Header="工程" FontSize="15">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <StackPanel Name="projectView"  Margin="10,10,10,20" >
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="projectView"  Margin="10,10,10,20" >
                                 </StackPanel>
+                                </Viewbox>
+
                             </ScrollViewer>
                         </TabItem>
                         <TabItem Header="采集配置" FontSize="15">

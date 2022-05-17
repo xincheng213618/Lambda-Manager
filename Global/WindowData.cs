@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Global
 {
@@ -85,7 +88,186 @@ namespace Global
         public void AddTest()
         {
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
+
         }
+        private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a)
+        {
+            EventArgs e = new EventArgs();
+            MenuItem1 menuItem1 = new MenuItem1() { Header = "明场" };
+            menuItem1.IsChecked = true;
+            menuItem1.Click += delegate
+            {
+                menuItem1.IsChecked = true;
+                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 0 } });
+            };
+            MenuItem1 menuItem2 = new MenuItem1() { Header = "暗场" };
+            menuItem2.Click += delegate
+            {
+                menuItem2.IsChecked = true;
+                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 1 } });
+            };
+
+            MenuItem1 menuItem3 = new MenuItem1() { Header = "莱茵伯格" };
+            menuItem3.Click += delegate
+            {
+                menuItem3.IsChecked = true;
+                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 2 } });
+            };
+            MenuItem1 menuItem4 = new MenuItem1() { Header = "相差" };
+            menuItem4.Click += delegate
+            {
+                menuItem4.IsChecked = true;
+                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 3 } });
+            };
+            MenuItem1 menuItem5 = new MenuItem1() { Header = "差分" };
+            menuItem5.Click += delegate
+            {
+                menuItem5.IsChecked = true;
+                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 4 } });
+            };
+            MenuItem1 menuItem6 = new MenuItem1() { Header = "定量相位" };
+            menuItem6.Click += delegate
+            {
+                menuItem6.IsChecked = true;
+                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 5 } });
+            };
+            contextMenu.Items.Add(menuItem1);
+            contextMenu.Items.Add(menuItem2);
+            contextMenu.Items.Add(menuItem3);
+            contextMenu.Items.Add(menuItem4);
+            contextMenu.Items.Add(menuItem5);
+            contextMenu.Items.Add(menuItem6);
+            return contextMenu;
+        }
+
+        private void AddImageContextMenu(int a)
+        {
+            Image image = LambdaControl.GetImageView(a).Image;
+            if (image != null)
+            {
+                ContextMenu menu = new ContextMenu();
+                menu= MenuItemAdd(menu, a);
+                image.ContextMenu = menu;
+            }
+        }
+
+
+        private bool OnUpdateWindowStatus(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            updateStatus.Window = GetStringValue(eventData, "windowstatus");
+            int i = updateStatus.Window.Length;
+            if (i == 6)
+            {
+                AddImageContextMenu(0);
+                AddImageContextMenu(1);
+                AddImageContextMenu(2);
+                AddImageContextMenu(3);
+                AddImageContextMenu(4);
+                AddImageContextMenu(5);
+
+                //ViewWindow.ViewVisibility0 = Visibility.Visible;
+                //ViewWindow.ViewVisibility1 = Visibility.Visible;
+                //ViewWindow.ViewVisibility2 = Visibility.Visible;
+                //ViewWindow.ViewVisibility3 = Visibility.Visible;
+                //ViewWindow.ViewVisibility4 = Visibility.Visible;
+                //ViewWindow.ViewVisibility5 = Visibility.Visible;
+            }
+            else if (i ==4)
+            {
+                AddImageContextMenu(0);
+                AddImageContextMenu(1);
+                AddImageContextMenu(2);
+                AddImageContextMenu(3);
+                //ViewWindow.ViewVisibility0 = Visibility.Visible;
+                //ViewWindow.ViewVisibility1 = Visibility.Visible;
+                //ViewWindow.ViewVisibility2 = Visibility.Visible;
+                //ViewWindow.ViewVisibility3 = Visibility.Visible;
+                //ViewWindow.ViewVisibility4 = Visibility.Collapsed;
+                //ViewWindow.ViewVisibility5 = Visibility.Collapsed;
+            }
+            else
+            {
+                AddImageContextMenu(0);
+                //ViewWindow.ViewVisibility0 = Visibility.Collapsed;
+                //ViewWindow.ViewVisibility1 = Visibility.Collapsed;
+                //ViewWindow.ViewVisibility2 = Visibility.Collapsed;
+                //ViewWindow.ViewVisibility3 = Visibility.Collapsed;
+                //ViewWindow.ViewVisibility4 = Visibility.Collapsed;
+                //ViewWindow.ViewVisibility5 = Visibility.Collapsed;
+            }
+
+            return true;
+
+        }
+
+        public void Test()
+        {
+            Image image = LambdaControl.GetImageView(0).Image;
+            if (image.Parent is Grid grid)
+            {
+                Canvas canvas1 = new Canvas()
+                {
+                    Width= grid.Width,
+                    Height =grid.Height,
+                    //Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
+                    Background = Brushes.Black,
+                    ClipToBounds = true
+                };
+
+                grid.Children.Remove(image);
+                canvas1.Children.Add(image);
+                grid.Children.Add(canvas1);
+            }
+
+            if (image.Parent is Canvas canvas)
+            {
+                TransformGroup transformGroup = new();
+                TranslateTransform tlt = new();
+                ScaleTransform sfr = new();
+                transformGroup.Children.Add(sfr);
+                transformGroup.Children.Add(tlt);
+                image.RenderTransform = transformGroup;
+                image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
+                {
+                    Point centerPoint = e.GetPosition(canvas);
+                    if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
+                    {
+                        return;
+                    }
+                    sfr.CenterX = centerPoint.X;
+                    sfr.CenterY = centerPoint.Y;
+                    sfr.ScaleX += (double)e.Delta / 3500;
+                    sfr.ScaleY += (double)e.Delta / 3500;
+                };
+                bool isMouseLeftButtonDown = false;
+                Point mouseXY;
+                image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
+                {
+                    isMouseLeftButtonDown = true;
+                    mouseXY = e.GetPosition(image);
+                };
+                image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
+                {
+                    isMouseLeftButtonDown = false;
+                };
+                image.MouseMove += delegate (object sender, MouseEventArgs e)
+                {
+                    if (isMouseLeftButtonDown == true)
+                    {
+                        Point position = e.GetPosition(image);
+                        tlt.X += position.X - mouseXY.X;
+                        tlt.Y += position.Y - mouseXY.Y;
+                    }
+                };
+            }
+
+        }
+
 
         public UpdateStatus updateStatus = new();
 
@@ -94,7 +276,6 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-
             updateStatus.ImageX = GetStringValue(eventData, "x");
             updateStatus.ImageY = GetStringValue(eventData, "y");
             updateStatus.ImageZ = GetStringValue(eventData, "z");
@@ -297,5 +478,28 @@ namespace Global
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;
 
+    }
+
+    public class MenuItem1 : MenuItem
+    {
+        public MenuItem1()
+        {
+            this.Checked += Checked1;
+        }
+        private void Checked1(object sender, RoutedEventArgs e)
+        {
+            if (this.Parent is ContextMenu menuItem)
+            {
+                foreach (var item in menuItem.Items)
+                {
+                    if (item != this && item is MenuItem menu)
+                    {
+                        if (menu.IsChecked == true)
+                            menu.IsChecked = false;
+
+                    }
+                }
+            }
+        }
     }
 }

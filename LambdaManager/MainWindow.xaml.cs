@@ -27,7 +27,7 @@ namespace LambdaManager;
 
 partial class MainWindow : BaseWindow
 {
-	private readonly StreamWriter logger = InitLogger();
+private readonly StreamWriter logger = InitLogger();
 	private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
 	private bool multiMode;
@@ -49,7 +49,6 @@ partial class MainWindow : BaseWindow
 	internal double LeftViewWidth { get; set; }
 
 	internal double MiddleViewWidth { get; set; }
-
 
 
 	public MainWindow()

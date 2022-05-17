@@ -38,7 +38,7 @@
             <UniformGrid Columns="3" DockPanel.Dock="Bottom" Margin="5">
                 <Button  Content="恢复缺省设置" Height="20" Width="100" Click="Default_Click" />
                 <Button  Content="确定" Height="20" Width="75" Click="Button_Click" />
-                <Button Content="取消" Height="20" Width="75" Click="Button_Click"/>
+                <Button Content="取消" Height="20" Width="75" Click="Button1_Click"/>
             </UniformGrid>
 
             <Border Background="#404040" CornerRadius="3" Margin="5">

@@ -12,13 +12,14 @@ namespace NLGSolution
     public class SolutionExplorer : BaseObject
     {
         public FileSystemWatcher watcher;
+        public string Rootpath;
 
         public SolutionExplorer(string FullPath):base(FullPath)
         {
             SolutionGuid = Guid.NewGuid();
-            string rootPath = Path.GetDirectoryName(FullPath);
+            Rootpath = Path.GetDirectoryName(FullPath);
 
-            watcher = new FileSystemWatcher(rootPath)
+            watcher = new FileSystemWatcher(Rootpath)
             {
                 IncludeSubdirectories = false
             };
@@ -35,6 +36,15 @@ namespace NLGSolution
             {
                 OnAddNewProject();
             }, () => { return true; });
+            OpenExplorer = new MyCommand(() =>
+            {
+                OpenNewExplorer();
+            }, () => { return true; });
+        }
+
+        private void OpenNewExplorer()
+        {
+            System.Diagnostics.Process.Start("explorer.exe", Rootpath);
         }
 
         public void Watcher_Renamed(object sender, RenamedEventArgs e)
@@ -150,6 +160,8 @@ namespace NLGSolution
 
 
         public static MyCommand AddNewProject { get; set; }
+
+        public static MyCommand OpenExplorer { get; set; }
         public static MyCommand AddExistingProject { get; set; }
         public MyCommand EditCommand { get; set; }
 

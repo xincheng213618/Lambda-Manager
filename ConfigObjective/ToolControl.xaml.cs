@@ -78,14 +78,11 @@ namespace ConfigObjective
 
             UniformGrid.DataContext = WindowData.MulDimensional;
             ComboBox1.ItemsSource = data1;
-
             UpDownControl1.SelectedIndex = 60;
 
+
             #region slider
-            //照明孔径
             SliderAbbreviation(Slider311, "BRIGHT_FIELD_DIAMETER", "diameter");
-
-
             //照明内径
             SliderAbbreviation(Slider321, "DARK_FIELD_INNER", "inner");
             //照明外径

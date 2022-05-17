@@ -35,7 +35,6 @@ namespace Grid
 
         }
 
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             StartWindow startWindow = new StartWindow();
@@ -72,7 +71,6 @@ namespace Grid
             {
                 TextBox2.Text = dialog.FileName;
             }
-
         }
     }
 }

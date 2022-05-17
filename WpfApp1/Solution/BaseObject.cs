@@ -27,14 +27,12 @@ namespace NLGSolution
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public event EventHandler AddChildEventHandler;
-
-
         public virtual void AddChild(BaseObject baseObject)
         {
             AddChildEventHandler?.Invoke(this,new EventArgs());
         }
-        public event EventHandler RemoveChildEventHandler;
 
+        public event EventHandler RemoveChildEventHandler;
         public virtual void RemoveChild(BaseObject baseObject)
         {
             RemoveChildEventHandler?.Invoke(this, new EventArgs());
