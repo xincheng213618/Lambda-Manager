@@ -93,21 +93,17 @@ namespace Global
         }
         private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a)
         {
-            EventArgs e = new EventArgs();
             MenuItem1 menuItem1 = new MenuItem1() { Header = "明场" };
             menuItem1.Click += delegate
             {
                 menuItem1.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 0 } });
-                LambdaControl.Trigger("VIEW_WINDOW", this,  e);
-
             };
             MenuItem1 menuItem2 = new MenuItem1() { Header = "暗场" };
             menuItem2.Click += delegate
             {
                 menuItem2.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 1 } });
-                LambdaControl.Trigger("VIEW_WINDOW", this, e);
 
             };
 
@@ -116,7 +112,6 @@ namespace Global
             {
                 menuItem3.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 2 } });
-                LambdaControl.Trigger("VIEW_WINDOW", this, e);
 
             };
             MenuItem1 menuItem4 = new MenuItem1() { Header = "相差" };
@@ -124,16 +119,12 @@ namespace Global
             {
                 menuItem4.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 3 } });
-                LambdaControl.Trigger("VIEW_WINDOW", this, e);
-
             };
             MenuItem1 menuItem5 = new MenuItem1() { Header = "差分" };
             menuItem5.Click += delegate
             {
                 menuItem5.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 4 } });
-                LambdaControl.Trigger("VIEW_WINDOW", this, e);
-
             };
             MenuItem1 menuItem6 = new MenuItem1() { Header = "定量相位" };
             menuItem6.Click += delegate
