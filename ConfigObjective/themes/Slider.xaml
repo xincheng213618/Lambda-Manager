@@ -1,5 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary x:Class="ConfigObjective.DicEvent"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  >
 
     <Style x:Key="SliderThumbStyle1" TargetType="Thumb">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -32,7 +33,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
-                    <Border  Background="#3B3838" BorderBrush="White"  BorderThickness="2" Height="{TemplateBinding Height}"  CornerRadius="0,3,3,0" Margin="-3,0,0,0"/>
+                    <Border  Background="#3B3838" BorderBrush="White"  BorderThickness="2"  Height="{TemplateBinding Height}"  CornerRadius="0,3,3,0" Margin="-3,0,0,0"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -95,7 +96,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"   Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=N2,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=N2}"/>
@@ -211,7 +212,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
-                    <TextBox  BorderThickness="0" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White"  Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#######\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBox  BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#####\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#######\}}"/>
@@ -244,7 +245,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#######\}}" >
+            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
+                <DockPanel>
+                    <TextBox  BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
+                            <Run Text="/" />
+                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#\}}"/>
+                    </TextBlock>
+                </DockPanel>
+            </Border>
+            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#\}}" >
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
                 </Track.DecreaseRepeatButton>
@@ -255,11 +265,44 @@
                     <Thumb Style="{StaticResource SliderThumbStyle1}"  />
                 </Track.Thumb>
             </Track>
-
         </Grid>
     </ControlTemplate>
-    
 
+
+    <ControlTemplate x:Key="LM_SliderControlTemplate2"  TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
+                <DockPanel>
+                    <TextBox  BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0#\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
+                            <Run Text="/" />
+                            <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.##\}}"/>
+                    </TextBlock>
+                </DockPanel>
+            </Border>
+            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=\{0:0.##\}}" >
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton2}"  Height="10"  Command="Slider.IncreaseLarge" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
 
 
 
@@ -299,7 +342,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate1}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />
@@ -321,7 +364,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate2}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />

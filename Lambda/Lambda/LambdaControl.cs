@@ -84,7 +84,15 @@ public class LambdaControl : Control
 		{
 			Data = json
 		});
-		Log2(new Message { Severity = Severity.INFO,  Text = type + JSON.Stringify(json) }	);
+        if (json != null)
+        {
+            Log2(new Message { Severity = Severity.INFO, Text = type + JSON.Stringify(json) });
+        }
+        else
+        {
+            Log2(new Message { Severity = Severity.INFO, Text = type });
+
+        }
     }
 
 	public static async void Dispatch(string type, object sender, Dictionary<string, object>? json)

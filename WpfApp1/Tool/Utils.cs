@@ -69,7 +69,7 @@ namespace Tool
                     result = reader.ReadToEnd();
                 }
             }
-            catch (Exception ex)
+            catch 
             {
 
             }

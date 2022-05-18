@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfigObjective"
+
              mc:Ignorable="d" 
              d:DesignHeight="1280" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1">
     <UserControl.Resources>
@@ -54,7 +55,7 @@
                     <TextBlock DockPanel.Dock="Left" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ToggleButton x:Name="ToggleButton210" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Width="50" IsChecked="{Binding Path=ExposureAuto}" Content="自动"  Click="ToggleButton210_Click"/>
                     <local:UpDownControl DockPanel.Dock="Right" x:Name="UpDownControl1" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" Loaded="UpDownControl_Loaded"  SelectionChanged="UpDownControl1_SelectionChanged" Width="95"/>
-                    <Slider  x:Name="Slider212"  Template="{StaticResource LM_SliderControlTemplate1}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                    <Slider  x:Name="Slider212"  Style="{StaticResource LM_Slider}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="锐度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -479,11 +480,12 @@
                 </DockPanel>
 
                 <Border Padding="5">
+                    
                     <StackPanel x:Name="StackPanelMul" Orientation="Horizontal">
                         <StackPanel Visibility="{Binding ElementName=ToggleButton503,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter1}}"  Margin="5,0">
                             <DockPanel >
-                                <TextBlock Text="Z-Begin [um]" FontSize="11" Width="80" VerticalAlignment="Center" Foreground="White"/>
-                                <TextBox x:Name="TextBoxZstart" Text="{Binding Path=ZStart}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                <TextBlock Text="Z-Begin [um]" FontSize="11" Width="80" VerticalAlignment="Center" Foreground="White" />
+                                <TextBox x:Name="TextBoxZstart"  Text="{Binding Path=ZStart}" Background="#262626"  HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                 <Button Style="{DynamicResource ButtonStyle2}" DockPanel.Dock="Right"  Content="设置" Click="UpdateMulZstart_Click"/>
                             </DockPanel>
                             <DockPanel   >
