@@ -12,6 +12,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows.Media;
 using Global.Hardware;
+using Global.Extensions;
 
 namespace ConfigObjective
 {
@@ -51,7 +52,6 @@ namespace ConfigObjective
             //    LambdaControl.Trigger("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
             //if (message.Text.Contains("应用组件加载完毕"))
             //    LambdaControl.Trigger("IMAGING_MODE_SETTING", this, new Dictionary<string, object>() { { "mode", ViewMode } });
-
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -61,12 +61,12 @@ namespace ConfigObjective
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            ObjectiveSetting_Initialized();
-            ViewMode_Initialized();
-            CameraSetting_Initialized();
+            ObjectiveSetting_Initialize();
+            ViewMode_Initialize();
+            CameraSetting_Initialize();
 
-            Stage_Initialized();
-            MulDimensional_Initialized();
+            Stage_Initialize();
+            MulDimensional_Initialize();
 
             //初始化硬件
             Update.UpdateGlobal();
@@ -76,7 +76,8 @@ namespace ConfigObjective
             //事件监听
             LambdaControl.CallEventHandler += LambdaControlCall;
 
-            UniformGrid.DataContext = WindowData.MulDimensional;
+            StackPanelMul.DataContext = WindowData.MulDimensional;
+
             ComboBox1.ItemsSource = data1;
             UpDownControl1.SelectedIndex = 60;
 
@@ -338,16 +339,6 @@ namespace ConfigObjective
                 LambdaControl.Trigger(TriggerName, toggleButton, data);
             };
             return toggleButton;
-        }
-
-        private string ToStrings(string value)
-        {
-            using MemoryStream memoryStream = new MemoryStream();
-            using (Utf8JsonWriter writer = new Utf8JsonWriter((Stream)memoryStream, default(JsonWriterOptions)))
-            {
-                writer.WriteStringValue(value);
-            }
-            return Encoding.UTF8.GetString(memoryStream.ToArray())[1..^1];
         }
 
         private int LambdaControlCall(string type, object sender, EventArgs e)

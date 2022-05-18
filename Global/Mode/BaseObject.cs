@@ -11,13 +11,7 @@ namespace Global
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public string ToJson()
-        {
-            return Utils.ToJson(this);
-        }
-        public int ToJsonFile(string filePath)
-        {
-            return Utils.ToJsonFile(this ,filePath, false);
-        }
+
+
     }
 }

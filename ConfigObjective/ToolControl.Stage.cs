@@ -14,7 +14,7 @@ namespace ConfigObjective
         Global.Mode.Config.Stage Stage = WindowData.GetInstance().Stage; 
         Global.Mode.Config.MoveStep MoveStep;
 
-        private void Stage_Initialized()
+        private void Stage_Initialize()
         {
             MoveStep = Stage.MoveStep;
         }

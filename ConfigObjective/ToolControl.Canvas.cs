@@ -90,8 +90,6 @@ namespace ConfigObjective
                 this.Canvas1.Children.Add(currentBoxSelectedBorder);
             }
             isCanMove = false;
-
-
         }
 
 
@@ -194,7 +192,6 @@ namespace ConfigObjective
 
                     if (tempRect.Contains(childRect))
                         this.Canvas1.Children.Remove(child);
-                    //child.Opacity = 0.4;
                 }
                 List<Border> childList1 = GetChildObjects<Border>(this.Canvas1);
                 foreach (var child in childList1)
@@ -202,18 +199,13 @@ namespace ConfigObjective
                     Rect childRect = new Rect(Canvas.GetLeft(child), Canvas.GetTop(child), child.Width, child.Height);
                     if (tempRect.Contains(childRect))
                         this.Canvas1.Children.Remove(child);
-                    //if (contain(tempRect, childRect))
-                    //    this.Canvas1.Children.Remove(child);
+
                 }
                 this.Canvas1.Children.Remove(currentBoxSelectedBorder1);
             }
             isCanMove1 = false;
         }
 
-        private static bool contain(Rect r, Rect l)
-        {
-            return r.Top < l.Top && r.Left < l.Left && r.Width > (l.Width + (l.Left - r.Left)) && r.Width > (l.Height + (l.Top - r.Top));
-        }
         public static List<T> GetChildObjects<T>(System.Windows.DependencyObject obj) where T : System.Windows.FrameworkElement
         {
             System.Windows.DependencyObject? child = null;
@@ -311,26 +303,24 @@ namespace ConfigObjective
             }
 
         }
+
+        /// <summary>
+        /// 双击移动到固定位置
+        /// </summary>
         private void Canvas1_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
                 if (rectangle != null)
-                {
                     Canvas1.Children.Remove(rectangle);
-                }
 
                 Point point = e.GetPosition(this.Canvas1);
-
-                Dictionary<string, object> data = new()
+                Dictionary<string, object> data = new Dictionary<string, object>()
                 {
                     { "X", (int)((point.X)) },
                     { "Y", (int)(point.Y) },
                 };
                 LambdaControl.Trigger("MOTORCONTROL", this, data);
-
-                //MessageBox.Show((point.X - 175).ToString() + (175 - point.Y).ToString());
-
             }
         }
 

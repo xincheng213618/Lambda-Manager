@@ -373,19 +373,11 @@
                     </Canvas>
                 </Border>
                 <Border Margin="5" Height="220" Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                    <Grid>
-                        <Canvas Width="300" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Rectangle Height="100" Width="290" Margin="0,50" Fill="#404040" Stroke="#787878" StrokeThickness="2"/>
-                            <Line Stroke="white" Canvas.Top="0" Canvas.Left="0" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="288" Y2="100" />
-                            <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
-                        </Canvas>
-                        
-                        <Canvas x:Name="Canvas1"  Visibility="Visible" Height="200" Width="300"  VerticalAlignment="Center" MouseMove="MainCanvas_MouseMove"  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown" PreviewMouseDown ="Canvas1_PreviewMouseDown">
-                            <Ellipse x:Name="CricalBase"  Canvas.Top="0" Canvas.Left="50" Width= "200" Height="200"  Fill="#7F7F7F"  Stroke="#787878" StrokeThickness="2"/>
-                            <Line Stroke="white" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="200" Y2="100" />
-                            <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
-                        </Canvas>
-                    </Grid>
+                    <Canvas x:Name="Canvas1"  Visibility="Visible" Height="200" Width="300"  VerticalAlignment="Center" MouseMove="MainCanvas_MouseMove"  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown" PreviewMouseDown ="Canvas1_PreviewMouseDown">
+                        <Ellipse x:Name="CricalBase"  Canvas.Top="0" Canvas.Left="50" Width= "200" Height="200"  Fill="#7F7F7F"  Stroke="#787878" StrokeThickness="2"/>
+                        <Line Stroke="white" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="200" Y2="100" />
+                        <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
+                    </Canvas>
 
                 </Border>
 
@@ -487,16 +479,12 @@
                 </DockPanel>
 
                 <Border Padding="5">
-                    <Grid x:Name="UniformGrid">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition Width="3*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0"  IsEnabled="{Binding ElementName=ToggleButton503,Path=IsChecked}" >
+                    <StackPanel x:Name="StackPanelMul" Orientation="Horizontal">
+                        <StackPanel Visibility="{Binding ElementName=ToggleButton503,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter1}}"  Margin="5,0">
                             <DockPanel >
                                 <TextBlock Text="Z-Begin [um]" FontSize="11" Width="80" VerticalAlignment="Center" Foreground="White"/>
                                 <TextBox x:Name="TextBoxZstart" Text="{Binding Path=ZStart}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                <Button DockPanel.Dock="Right"  Content="设置" Click="UpdateMulZstart_Click"/>
+                                <Button Style="{DynamicResource ButtonStyle2}" DockPanel.Dock="Right"  Content="设置" Click="UpdateMulZstart_Click"/>
                             </DockPanel>
                             <DockPanel   >
                                 <TextBlock Text="Z-End [um]"  FontSize="11" Width="80" VerticalAlignment="Center"  Foreground="White"/>
@@ -514,7 +502,7 @@
                                 <TextBlock Text="{Binding Path=ZAbsolute  }"  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Margin="5,0,0,0"  IsEnabled="{Binding ElementName=ToggleButton504,Path=IsChecked}" >
+                        <StackPanel  Visibility="{Binding ElementName=ToggleButton504,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter1}}"  Margin="5,0">
                             <DockPanel >
                                 <TextBlock Text="T-Number"  Width="80" FontSize="11" VerticalAlignment="Center"  Foreground="White"/>
                                 <TextBox  Text="{Binding Path=TNumber}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
@@ -535,8 +523,7 @@
                                 <TextBlock Text="{Binding  ElementName=ToggleButton222,Path=IsChecked }"  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>
-                    </Grid>
-
+                    </StackPanel>
                 </Border>
 
                 <ToggleButton x:Name="ToggleButton52"  Style="{StaticResource ButtonPageControl}" IsChecked="{Binding ElementName=ToggleButton506 ,Path=IsChecked}" Content="自动聚焦" FontSize="13" Foreground="White"  />

@@ -1,4 +1,5 @@
-﻿using Global.Hardware;
+﻿using Global.Extensions;
+using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
 using Lambda;
@@ -84,7 +85,6 @@ namespace Global
                 ObjectiveSettingList = deviceInformation.ObjectiveSettingList;
             }
         }
-        public ViewWindow ViewWindow = new ViewWindow();
         public void AddTest()
         {
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
@@ -95,42 +95,52 @@ namespace Global
         {
             EventArgs e = new EventArgs();
             MenuItem1 menuItem1 = new MenuItem1() { Header = "明场" };
-            menuItem1.IsChecked = true;
             menuItem1.Click += delegate
             {
                 menuItem1.IsChecked = true;
-                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 0 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 0 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this,  e);
+
             };
             MenuItem1 menuItem2 = new MenuItem1() { Header = "暗场" };
             menuItem2.Click += delegate
             {
                 menuItem2.IsChecked = true;
-                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 1 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 1 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, e);
+
             };
 
             MenuItem1 menuItem3 = new MenuItem1() { Header = "莱茵伯格" };
             menuItem3.Click += delegate
             {
                 menuItem3.IsChecked = true;
-                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 2 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 2 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, e);
+
             };
             MenuItem1 menuItem4 = new MenuItem1() { Header = "相差" };
             menuItem4.Click += delegate
             {
                 menuItem4.IsChecked = true;
-                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 3 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 3 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, e);
+
             };
             MenuItem1 menuItem5 = new MenuItem1() { Header = "差分" };
             menuItem5.Click += delegate
             {
                 menuItem5.IsChecked = true;
-                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 4 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 4 } });
+                LambdaControl.Trigger("VIEW_WINDOW", this, e);
+
             };
             MenuItem1 menuItem6 = new MenuItem1() { Header = "定量相位" };
             menuItem6.Click += delegate
             {
-                menuItem6.IsChecked = true;
-                LambdaControl.Trigger($"VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 5 } });
+                menuItem6.IsChecked = true;    
+                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 5 } });
+
             };
             contextMenu.Items.Add(menuItem1);
             contextMenu.Items.Add(menuItem2);
@@ -153,13 +163,14 @@ namespace Global
         }
 
 
-        private bool OnUpdateWindowStatus(object sender, EventArgs e)
+        private  bool OnUpdateWindowStatus(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
 
             updateStatus.Window = GetStringValue(eventData, "windowstatus");
+            MessageBox.Show(updateStatus.Window.ToString());
             int i = updateStatus.Window.Length;
             if (i == 6)
             {
@@ -170,36 +181,20 @@ namespace Global
                 AddImageContextMenu(4);
                 AddImageContextMenu(5);
 
-                //ViewWindow.ViewVisibility0 = Visibility.Visible;
-                //ViewWindow.ViewVisibility1 = Visibility.Visible;
-                //ViewWindow.ViewVisibility2 = Visibility.Visible;
-                //ViewWindow.ViewVisibility3 = Visibility.Visible;
-                //ViewWindow.ViewVisibility4 = Visibility.Visible;
-                //ViewWindow.ViewVisibility5 = Visibility.Visible;
             }
-            else if (i ==4)
+            else if (i == 4)
             {
                 AddImageContextMenu(0);
                 AddImageContextMenu(1);
                 AddImageContextMenu(2);
                 AddImageContextMenu(3);
-                //ViewWindow.ViewVisibility0 = Visibility.Visible;
-                //ViewWindow.ViewVisibility1 = Visibility.Visible;
-                //ViewWindow.ViewVisibility2 = Visibility.Visible;
-                //ViewWindow.ViewVisibility3 = Visibility.Visible;
-                //ViewWindow.ViewVisibility4 = Visibility.Collapsed;
-                //ViewWindow.ViewVisibility5 = Visibility.Collapsed;
             }
             else
             {
                 AddImageContextMenu(0);
-                //ViewWindow.ViewVisibility0 = Visibility.Collapsed;
-                //ViewWindow.ViewVisibility1 = Visibility.Collapsed;
-                //ViewWindow.ViewVisibility2 = Visibility.Collapsed;
-                //ViewWindow.ViewVisibility3 = Visibility.Collapsed;
-                //ViewWindow.ViewVisibility4 = Visibility.Collapsed;
-                //ViewWindow.ViewVisibility5 = Visibility.Collapsed;
             }
+
+
 
             return true;
 
@@ -277,8 +272,12 @@ namespace Global
             if (eventData == null)
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");
+            WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
             updateStatus.ImageY = GetStringValue(eventData, "y");
+            WindowMsg.StageY = int.Parse(updateStatus.ImageX[2..]);
             updateStatus.ImageZ = GetStringValue(eventData, "z");
+            WindowMsg.StageZ = int.Parse(updateStatus.ImageX[2..]);
+
             updateStatus.ImageSize = GetStringValue(eventData, "size");
             updateStatus.imageFocus = GetStringValue(eventData, "focus");
             updateStatus.CreateTime = GetStringValue(eventData, "createTime");
@@ -341,6 +340,8 @@ namespace Global
         public string FilePath;
 
         public MulDimensional MulDimensional = new();
+
+        public WindowMsg WindowMsg = new WindowMsg();
 
         public Stage Stage = new() {};
 

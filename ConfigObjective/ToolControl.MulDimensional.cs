@@ -9,7 +9,7 @@ namespace ConfigObjective
 {
     public partial class ToolControl
     {
-        public void MulDimensional_Initialized()
+        public void MulDimensional_Initialize()
         {
 
         }
@@ -57,16 +57,19 @@ namespace ConfigObjective
         }
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
+            WindowData.MulDimensional.ZEnd = WindowData.WindowMsg.StageZ;
 
         }
 
         private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowData.MulDimensional.ZStart = WindowData.WindowMsg.StageZ;
         }
 
         private void UpdateMulZStep_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("算法计算");
+            WindowData.MulDimensional.Zstep = 400;
 
         }
 

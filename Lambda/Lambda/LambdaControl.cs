@@ -1,3 +1,4 @@
+using LambdaUtils;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -83,7 +84,8 @@ public class LambdaControl : Control
 		{
 			Data = json
 		});
-	}
+		Log2(new Message { Severity = Severity.INFO,  Text = type + JSON.Stringify(json) }	);
+    }
 
 	public static async void Dispatch(string type, object sender, Dictionary<string, object>? json)
 	{
@@ -102,9 +104,10 @@ public class LambdaControl : Control
 		{
 			Data = json
 		});
-	}
+        Log2(new Message { Severity = Severity.INFO, Text = type + json });
+    }
 
-	public static async void Dispatch(string type, object sender, string? json)
+    public static async void Dispatch(string type, object sender, string? json)
 	{
 		string type2 = type;
 		object sender2 = sender;
@@ -118,9 +121,10 @@ public class LambdaControl : Control
 	public static void Trigger(string type, object sender, EventArgs e)
 	{
 		CallEventHandler?.Invoke(type, sender, e);
-	}
+        Log2(new Message { Severity = Severity.INFO, Text = type });
+    }
 
-	public static async void Dispatch(string type, object sender, EventArgs e)
+    public static async void Dispatch(string type, object sender, EventArgs e)
 	{
 		string type2 = type;
 		object sender2 = sender;

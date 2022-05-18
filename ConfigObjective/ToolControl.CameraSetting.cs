@@ -12,7 +12,7 @@ namespace ConfigObjective
 {
     public partial class ToolControl
     {
-        public void CameraSetting_Initialized()
+        public void CameraSetting_Initialize()
         {
             if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
             {

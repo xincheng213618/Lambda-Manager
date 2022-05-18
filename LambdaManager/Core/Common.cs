@@ -447,14 +447,8 @@ internal class Common
 	private static int CallEvent(string type, GCHandle handle, EventArgs e)
 	{
 		type = type.Trim();
-
 		if (e == EventArgs.Empty)
 		{
-			App.Report(new Message
-			{
-				Severity = Severity.INFO,
-				Text = type
-			});
 			return CallEvent(type, GCHandle.ToIntPtr(handle));
 		}
 		if (e is LambdaArgs e2)
@@ -462,31 +456,15 @@ internal class Common
 			object data = e2.Data;
 			if (data == null)
 			{
-				App.Report(new Message
-				{
-					Severity = Severity.INFO,
-					Text = type
-				});
 				return CallEvent(type, GCHandle.ToIntPtr(handle));
 			}
 			if (data is string s)
 			{
-				App.Report(new Message
-				{
-					Severity = Severity.INFO,
-					Text = type + s
-				});
 				return CallEvent(type, s, GCHandle.ToIntPtr(handle));
 			}
 			if (data is Dictionary<string, object> dic)
 			{
-                //string json = JsonConvert.SerializeObject(dic);
                 string json = JSON.Stringify(dic);
-                App.Report(new Message
-				{
-					Severity = Severity.INFO,
-					Text = type + json
-				});
 				return CallEvent(type, json, GCHandle.ToIntPtr(handle));
 			}
 			App.Report(new Message
@@ -496,11 +474,6 @@ internal class Common
 			});
 			return -1;
 		}
-		App.Report(new Message
-		{
-			Severity = Severity.INFO,
-			Text = type
-		});
 		return CallEvent(type, GCHandle.ToIntPtr(handle));
 	}
 

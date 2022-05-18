@@ -19,7 +19,7 @@ namespace ConfigObjective
         ColorHelper colorHelp1 = new(255, 255, 255, 255);
         ColorHelper colorHelp2 = new(255, 255, 255, 255);
 
-        public void ViewMode_Initialized()
+        public void ViewMode_Initialize()
         {
 
         }

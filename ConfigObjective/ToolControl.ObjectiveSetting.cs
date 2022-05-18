@@ -11,7 +11,7 @@ namespace ConfigObjective
 {
     public partial class ToolControl
     {
-        private void ObjectiveSetting_Initialized()
+        private void ObjectiveSetting_Initialize()
         {
 
         }

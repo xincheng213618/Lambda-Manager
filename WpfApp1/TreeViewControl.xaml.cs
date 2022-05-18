@@ -22,6 +22,7 @@ using Lambda;
 using LambdaUtils;
 using System.Text.Json;
 using System.Windows.Controls.Primitives;
+using Global.Extensions;
 
 namespace Solution
 {
@@ -301,7 +302,6 @@ namespace Solution
                 ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
 
                 ContextMenu contextMenu = new ContextMenu();
-                contextMenu.DataContext = windowData.ViewWindow;
                 MenuItem menuItem1 = new MenuItem() { Header = "一" };
                 menuItem1.Click += delegate
                 {
