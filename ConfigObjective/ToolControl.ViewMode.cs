@@ -340,7 +340,15 @@ namespace ConfigObjective
             Dictionary<string, object> data = new() { { "detail", (int)(slider.Value * 10) } };
             SliderAbbreviation(slider, e, "QUANTITATIVE_PHASE_DETAIL", data);
         }
-        
+
+        private void Slider348_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+            Dictionary<string, object> data = new() { { "rotationAngle", (int)(slider.Value / 15) } };
+            //LambdaControl.Trigger("", this, new Dictionary<string, object>() { { "rotationAngle", ViewMode.ReliefContrast.Rotationangle } });
+            SliderAbbreviation(slider, e, "RELIEF_Rotation_Angle", data);
+        }
+
         private void Slider363_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
@@ -366,8 +374,11 @@ namespace ConfigObjective
 
 
 
-        private void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private  void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            //LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
+            //await Task.Delay(3000);
+
             if ((int)Slider336.Value == 360)
             {
                 Slider336.Value = 0;
@@ -379,6 +390,8 @@ namespace ConfigObjective
 
             LambdaControl.Trigger("RHEIN_BERG_ANGLE", this, new Dictionary<string, object>() { { "angle", (int)Slider336.Value } });
         }
+
+
 
         private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
         {
@@ -461,10 +474,7 @@ namespace ConfigObjective
             rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
         }
 
-        private void Combox341_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LambdaControl.Trigger("RELIEF_Rotation_Angle", this, new Dictionary<string, object>() { { "rotationAngle", ViewMode.ReliefContrast.Rotationangle } });
-        }
+
 
 
 

@@ -307,14 +307,15 @@
 
 
     <Style x:Key="LM_Slider" TargetType="Slider">
-        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="TickFrequency" Value="1"/>
 
         <Setter Property="IsSnapToTickEnabled" Value="True"/>
-
+        <Setter Property="LargeChange" Value="2"/>
+        <Setter Property="SmallChange" Value="1"/>
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
@@ -329,13 +330,13 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="LM_Slider1" TargetType="Slider">
-        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="TickFrequency" Value="0.1"/>
         <Setter Property="IsSnapToTickEnabled" Value="True"/>
-        <Setter Property="LargeChange" Value="0.1"/>
+        <Setter Property="LargeChange" Value="1"/>
         <Setter Property="SmallChange" Value="0.1"/>
 
         <Style.Triggers>
@@ -358,7 +359,7 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="TickFrequency" Value="0.01"/>
         <Setter Property="IsSnapToTickEnabled" Value="True"/>
-        <Setter Property="LargeChange" Value="0.01"/>
+        <Setter Property="LargeChange" Value="0.1"/>
         <Setter Property="SmallChange" Value="0.01"/>
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
@@ -374,13 +375,13 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="LM_Slider3" TargetType="Slider">
-        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="TickFrequency" Value="0.001"/>
         <Setter Property="IsSnapToTickEnabled" Value="True"/>
-        <Setter Property="LargeChange" Value="0.001"/>
+        <Setter Property="LargeChange" Value="0.01"/>
         <Setter Property="SmallChange" Value="0.001"/>
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
@@ -396,12 +397,12 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="LM_Slider4" TargetType="Slider">
-        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="TickFrequency" Value="0.0001"/>
-        <Setter Property="LargeChange" Value="0.0001"/>
+        <Setter Property="LargeChange" Value="0.001"/>
         <Setter Property="SmallChange" Value="0.0001"/>
         <Setter Property="IsSnapToTickEnabled" Value="True"/>
 
@@ -419,12 +420,12 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="LM_Slider5" TargetType="Slider">
-        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="TickFrequency" Value="0.00001"/>
-        <Setter Property="LargeChange" Value="0.00001"/>
+        <Setter Property="LargeChange" Value="0.0001"/>
         <Setter Property="SmallChange" Value="0.00001"/>
         <Setter Property="IsSnapToTickEnabled" Value="True"/>
 

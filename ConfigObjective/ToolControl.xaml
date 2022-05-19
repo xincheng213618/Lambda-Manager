@@ -271,22 +271,10 @@
                         
                         <DockPanel>
                             <TextBlock Text="差分角度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <ComboBox x:Name="Combox341" Margin="0,0" Width="200"  SelectionChanged="Combox341_SelectionChanged"  SelectedIndex="{Binding Path=Rotationangle}">
-                                <ComboBoxItem Content="上下" Tag="0"/>
-                                <ComboBoxItem Content="15" Tag="1"/>
-                                <ComboBoxItem Content="30" Tag="2"/>
-                                <ComboBoxItem Content="45" Tag="3"/>
-                                <ComboBoxItem Content="60" Tag="4"/>
-                                <ComboBoxItem Content="75" Tag="5"/>
-                                <ComboBoxItem Content="左右" Tag="6"/>
-                                <ComboBoxItem Content="105" Tag="7"/>
-                                <ComboBoxItem Content="120" Tag="8"/>
-                                <ComboBoxItem Content="135" Tag="9"/>
-                                <ComboBoxItem Content="150" Tag="10"/>
-                                <ComboBoxItem Content="165" Tag="11"/>
-                            </ComboBox>
-                            <Button x:Name="Button341" Content="背景校正" Width="100" Margin="0,0,0,0" Click="Button341_Click" />
+                            <Slider x:Name="Slider348" Style="{StaticResource LM_Slider}" Maximum="180" Minimum="0" SmallChange="15" LargeChange="30" TickFrequency="15" ValueChanged="Slider348_ValueChanged" />
                         </DockPanel>
+                        <Button x:Name="Button341" Content="背景校正" Width="100" Margin="0,0,0,0" Click="Button341_Click" />
+
                     </StackPanel>
                 </Border>
                 <Border  x:Name="Border35"  Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">

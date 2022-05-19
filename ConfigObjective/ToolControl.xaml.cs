@@ -445,11 +445,12 @@ namespace ConfigObjective
                 WindowData.Config.Dimensional = testMean.Dimensional;
                 WindowData.Config.Spot = testMean.Spot;
                 WindowData.Config.Stage = testMean.Stage;
-                testMean.ToJsonFile("222.json");
+                //testMean.ToJsonFile("222.json");
                 LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
             }
             return 1;
         }
+
 
     }
 

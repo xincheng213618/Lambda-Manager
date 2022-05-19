@@ -86,12 +86,11 @@ public class LambdaControl : Control
 		});
         if (json != null)
         {
-            Log2(new Message { Severity = Severity.INFO, Text = type + JSON.Stringify(json) });
+            Log(new Message { Severity = Severity.INFO, Text = type + JSON.Stringify(json) });
         }
         else
         {
-            Log2(new Message { Severity = Severity.INFO, Text = type });
-
+            Log(new Message { Severity = Severity.INFO, Text = type });
         }
     }
 
@@ -112,7 +111,7 @@ public class LambdaControl : Control
 		{
 			Data = json
 		});
-        Log2(new Message { Severity = Severity.INFO, Text = type + json });
+        Log(new Message { Severity = Severity.INFO, Text = type + json });
     }
 
     public static async void Dispatch(string type, object sender, string? json)
@@ -129,7 +128,7 @@ public class LambdaControl : Control
 	public static void Trigger(string type, object sender, EventArgs e)
 	{
 		CallEventHandler?.Invoke(type, sender, e);
-        Log2(new Message { Severity = Severity.INFO, Text = type });
+        Log(new Message { Severity = Severity.INFO, Text = type });
     }
 
     public static async void Dispatch(string type, object sender, EventArgs e)

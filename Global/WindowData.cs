@@ -89,7 +89,6 @@ namespace Global
         {
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
-
         }
         private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a)
         {
@@ -145,9 +144,11 @@ namespace Global
         private void AddImageContextMenu(int a)
         {
             Image image = LambdaControl.GetImageView(a).Image;
-            if (image != null)
-            {
-                ContextMenu menu = new ContextMenu();
+            if (image != null) { 
+
+
+                MessageBox.Show("2222");
+            ContextMenu menu = new ContextMenu();
                 menu= MenuItemAdd(menu, a);
                 image.ContextMenu = menu;
             }
@@ -161,7 +162,7 @@ namespace Global
                 return false;
 
             updateStatus.Window = GetStringValue(eventData, "windowstatus");
-            MessageBox.Show(updateStatus.Window.ToString());
+
             int i = updateStatus.Window.Length;
             if (i == 6)
             {
@@ -184,9 +185,6 @@ namespace Global
             {
                 AddImageContextMenu(0);
             }
-
-
-
             return true;
 
         }
@@ -265,15 +263,15 @@ namespace Global
             updateStatus.ImageX = GetStringValue(eventData, "x");
             WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
             updateStatus.ImageY = GetStringValue(eventData, "y");
-            WindowMsg.StageY = int.Parse(updateStatus.ImageX[2..]);
+            WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
             updateStatus.ImageZ = GetStringValue(eventData, "z");
-            WindowMsg.StageZ = int.Parse(updateStatus.ImageX[2..]);
+            WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
 
             updateStatus.ImageSize = GetStringValue(eventData, "size");
             updateStatus.imageFocus = GetStringValue(eventData, "focus");
             updateStatus.CreateTime = GetStringValue(eventData, "createTime");
             string frameIndex = GetStringValue(eventData, "frameIndex");
-            if (frameIndex != null)
+            if (frameIndex != null)       
             {
                 updateStatus.FrameIndex = int.Parse(frameIndex);
 
