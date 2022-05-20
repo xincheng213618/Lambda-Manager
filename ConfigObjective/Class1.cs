@@ -12,16 +12,6 @@ namespace ConfigObjective
 {
     public partial class DicEvent : ResourceDictionary
     {
-        public void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //省去处理，如果显示，表明调用成功。
-            MessageBox.Show("你成功了！");
-        }
-
-        public void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            MessageBox.Show("你成功了！");
-        }
 
         public void NumberValidationTextBox(object sender, KeyEventArgs e)
         {

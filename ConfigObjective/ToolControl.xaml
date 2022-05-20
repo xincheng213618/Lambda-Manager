@@ -109,23 +109,35 @@
                         <Run  Text="明场：孔径："/>
                         <Run Text="{Binding ElementName=Slider311,Path=Value,StringFormat=\{0:0.#######\}}"/>
                         <Run Text="颜色："/>
-                        <Run Text="{Binding ElementName=ColorPciker311,Path=SelectColor}"/>
+                        <Run Text="{Binding ElementName=ColorButton311,Path=Background}"/>
                         <Run Text="亮度："/>
                         <Run Text="{Binding ElementName=Slider312,Path=Value,StringFormat=\{0:0.#######\}}"/>
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Visibility="{Binding ElementName=Button32 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
                     <TextBlock Foreground="White" >
-                        <Run  Text="暗场：内径："/>
-                        <Run Text="{Binding ElementName=Slider321,Path=Value,StringFormat=\{0:0.#######\}}"/>
-                        <Run Text="外径："/>
-                        <Run Text="{Binding ElementName=Slider322,Path=Value,StringFormat=\{0:0.#######\}}"/>
+                        <Run Text="暗场："/>
                         <Run Text="颜色："/>
-                        <Run Text="{Binding ElementName=ColorPciker321,Path=SelectColor}"/>
+                        <Run Text="{Binding ElementName=ColorButton321,Path=Background}"/>
                         <Run Text="亮度："/>
-                        <Run Text="{Binding ElementName=Slider324,Path=Value,StringFormat=\{0:0.#######\}}"/>
+                        <Run Text="{Binding ElementName=Slider324,Path=Value,StringFormat=\{0:0.#####\}}"/>
                     </TextBlock>
                 </StackPanel>
+                <StackPanel Visibility="{Binding ElementName=Button33 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <TextBlock Foreground="White" >
+                        <Run  Text="莱茵："/>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <TextBlock Foreground="White" >
+                        <Run  Text="差分：衬度增益："/>
+                        <Run Text="{Binding ElementName=Slider342,Path=Value,StringFormat=\{0:0.#######\}}"/>
+                        <Run Text="差分角度:"/>
+                        <Run Text="{Binding ElementName=Slider348,Path=Value,StringFormat=\{0:0.#######\}}"/>
+                    </TextBlock>
+                </StackPanel>
+
+
                 <StackPanel Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
                     <TextBlock Foreground="White" >
                         <Run  Text="相位：Reg："/>
@@ -138,6 +150,15 @@
                         <Run Text="{Binding ElementName=Slider352,Path=Value,StringFormat=\{0:0.#######\}}"/>
                     </TextBlock>
                 </StackPanel>
+                <StackPanel Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <TextBlock Foreground="White" >
+                        <Run  Text="相差：相差切趾："/>
+                        <Run Text="{Binding ElementName=Slider361,Path=Value,StringFormat=\{0:0.#######\}}"/>
+                        <Run Text="衬度增益:"/>
+                        <Run Text="{Binding ElementName=Slider363,Path=Value,StringFormat=\{0:0.#######\}}"/>
+                    </TextBlock>
+                </StackPanel>
+
             </StackPanel>
         </Border>
 
@@ -271,7 +292,7 @@
                         
                         <DockPanel>
                             <TextBlock Text="差分角度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider348" Style="{StaticResource LM_Slider}" Maximum="180" Minimum="0" SmallChange="15" LargeChange="30" TickFrequency="15" ValueChanged="Slider348_ValueChanged" />
+                            <Slider x:Name="Slider348" Style="{StaticResource LM_Slider}" Maximum="360" Minimum="0" SmallChange="15" LargeChange="30" TickFrequency="15" ValueChanged="Slider348_ValueChanged" />
                         </DockPanel>
                         <Button x:Name="Button341" Content="背景校正" Width="100" Margin="0,0,0,0" Click="Button341_Click" />
 

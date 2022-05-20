@@ -90,15 +90,26 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
         }
-        private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a)
+        private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a,int check)
         {
             MenuItem1 menuItem1 = new MenuItem1() { Header = "明场" };
+            MenuItem1 menuItem2 = new MenuItem1() { Header = "暗场" };
+            MenuItem1 menuItem3 = new MenuItem1() { Header = "莱茵伯格" };
+            MenuItem1 menuItem4 = new MenuItem1() { Header = "相差" };
+            MenuItem1 menuItem5 = new MenuItem1() { Header = "差分" };
+            MenuItem1 menuItem6 = new MenuItem1() { Header = "定量相位" };
+            List<MenuItem1> menuItem1s = new List<MenuItem1> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
+            for (int i = 0; i < menuItem1s.Count; i++)
+            {
+                if (check == i)
+                    menuItem1s[i].IsChecked = true;
+            }
+
             menuItem1.Click += delegate
             {
                 menuItem1.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 0 } });
             };
-            MenuItem1 menuItem2 = new MenuItem1() { Header = "暗场" };
             menuItem2.Click += delegate
             {
                 menuItem2.IsChecked = true;
@@ -106,51 +117,53 @@ namespace Global
 
             };
 
-            MenuItem1 menuItem3 = new MenuItem1() { Header = "莱茵伯格" };
             menuItem3.Click += delegate
             {
                 menuItem3.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 2 } });
 
             };
-            MenuItem1 menuItem4 = new MenuItem1() { Header = "相差" };
             menuItem4.Click += delegate
             {
                 menuItem4.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 3 } });
             };
-            MenuItem1 menuItem5 = new MenuItem1() { Header = "差分" };
             menuItem5.Click += delegate
             {
                 menuItem5.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 4 } });
             };
-            MenuItem1 menuItem6 = new MenuItem1() { Header = "定量相位" };
             menuItem6.Click += delegate
             {
                 menuItem6.IsChecked = true;    
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 5 } });
 
             };
-            contextMenu.Items.Add(menuItem1);
-            contextMenu.Items.Add(menuItem2);
-            contextMenu.Items.Add(menuItem3);
-            contextMenu.Items.Add(menuItem4);
-            contextMenu.Items.Add(menuItem5);
-            contextMenu.Items.Add(menuItem6);
+
+            for (int i = 0; i < menuItem1s.Count; i++)
+            {
+                contextMenu.Items.Add(menuItem1s[i]);
+            }
             return contextMenu;
         }
 
-        private void AddImageContextMenu(int a)
+        private  void AddImageContextMenu(int a,int check)
         {
             Image image = LambdaControl.GetImageView(a).Image;
-            if (image != null) { 
-
-
-                MessageBox.Show("2222");
-            ContextMenu menu = new ContextMenu();
-                menu= MenuItemAdd(menu, a);
+            if (image != null) {
+                ContextMenu menu = new ContextMenu();
+                menu= MenuItemAdd(menu, a, check);
                 image.ContextMenu = menu;
+            }
+        }
+
+       
+        private async void asyncAdd(List<int> ints)
+        {
+            for (int i = 1; i < ints.Count; i++)
+            {
+                await Task.Delay(800);
+                AddImageContextMenu(i, ints[i]);
             }
         }
 
@@ -164,27 +177,33 @@ namespace Global
             updateStatus.Window = GetStringValue(eventData, "windowstatus");
 
             int i = updateStatus.Window.Length;
-            if (i == 6)
+            List<int> ints = new List<int> { };
+            for (int j = 0; j < updateStatus.Window.Length; j++)
             {
-                AddImageContextMenu(0);
-                AddImageContextMenu(1);
-                AddImageContextMenu(2);
-                AddImageContextMenu(3);
-                AddImageContextMenu(4);
-                AddImageContextMenu(5);
+                ints.Add(int.Parse(updateStatus.Window.Substring(j, 1)));
+            }
 
-            }
-            else if (i == 4)
-            {
-                AddImageContextMenu(0);
-                AddImageContextMenu(1);
-                AddImageContextMenu(2);
-                AddImageContextMenu(3);
-            }
-            else
-            {
-                AddImageContextMenu(0);
-            }
+            asyncAdd(ints);
+            //if (i == 6)
+            //{
+            //    AddImageContextMenu(1, ints[1]);
+            //    AddImageContextMenu(2, ints[2]);
+            //    AddImageContextMenu(3, ints[3]);
+            //    AddImageContextMenu(4, ints[4]);
+            //    AddImageContextMenu(5, ints[5]);
+
+            //}
+            //else if (i == 4)
+            //{
+            //    AddImageContextMenu(0, ints[0]);
+            //    AddImageContextMenu(1, ints[1]);
+            //    AddImageContextMenu(2, ints[2]);
+            //    AddImageContextMenu(3, ints[3]);
+            //}
+            //else
+            //{
+            //    AddImageContextMenu(0, ints[0]);
+            //}
             return true;
 
         }
@@ -196,8 +215,8 @@ namespace Global
             {
                 Canvas canvas1 = new Canvas()
                 {
-                    Width= grid.Width,
-                    Height =grid.Height,
+                    Width= grid.ActualWidth,
+                    Height =grid.ActualHeight,
                     //Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
                     Background = Brushes.Black,
                     ClipToBounds = true

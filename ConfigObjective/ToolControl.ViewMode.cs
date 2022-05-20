@@ -344,7 +344,7 @@ namespace ConfigObjective
         private void Slider348_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            Dictionary<string, object> data = new() { { "rotationAngle", (int)(slider.Value / 15) } };
+            Dictionary<string, object> data = new() { { "rotationAngle", ((int)(slider.Value / 15))%12 } };
             //LambdaControl.Trigger("", this, new Dictionary<string, object>() { { "rotationAngle", ViewMode.ReliefContrast.Rotationangle } });
             SliderAbbreviation(slider, e, "RELIEF_Rotation_Angle", data);
         }

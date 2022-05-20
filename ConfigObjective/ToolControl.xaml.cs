@@ -406,7 +406,7 @@ namespace ConfigObjective
                 if (checkbox55.IsChecked == true)
                     Mode.Add("quantitative-phase");
                 if (checkbox56.IsChecked == true)
-                    Mode.Add("phase-contras");
+                    Mode.Add("phase-contrast");
 
                 testMean.Dimensional = new Global.Mode.Config.Dimensional() { Mode = Mode };
 
