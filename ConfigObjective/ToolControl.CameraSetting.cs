@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,6 +11,22 @@ using Lambda;
 
 namespace ConfigObjective
 {
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct Cam
+    {
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+        public string ip;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+        public string login;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+        public string pass;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+        public string name;
+        public double a;
+    }
+
+
     public partial class ToolControl
     {
         public void CameraSetting_Initialize()
@@ -53,8 +70,49 @@ namespace ConfigObjective
                 LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE_AUTO", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "auto", ToggleButton210.IsChecked } });
             }
         }
+
+        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposure")]
+        public static extern void CameraSettingExposure(double a);
+
+        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposureIni", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int CameraSettingExposureIni();
+
+        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingCam", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int CameraSettingCam(ref Cam cam);
         private void ToggleButton211_Click(object sender, RoutedEventArgs e)
         {
+            //double a = 22222;
+            //CameraSettingExposure(a);
+            //Type type = typeof(IntPtr);
+            //List<string> retList = new List<string>();
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    //获取指针指向的地址
+            //    IntPtr address = (IntPtr)Marshal.PtrToStructure(result, type);
+            //    //获取此地址上的字符串
+            //    string str = Marshal.PtrToStringAnsi(address);
+            //    //结果列表中添加此字符串
+            //    retList.Add(str);
+            //    //将此result向后移8位，得到指向下一个字符串的指针（32位系统后移4位）
+            //    result = (IntPtr)((Int64)result + 8);
+            //}
+
+            //byte[] destination = new byte[100];
+            //Marshal.Copy(result, destination, 0, 100);
+            //MessageBox.Show(System.Text.Encoding.ASCII.GetString(destination));
+
+
+             Cam cam = new Cam
+            {
+                ip = "192.168.0.232",
+                login = "admin",
+                pass = "admin",
+                name = "kekekeke",
+                a=1
+            };
+            CameraSettingCam(ref cam);
+
+
             if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
             {
                 LambdaControl.Trigger("CAMERA_SETTING_GAIN_AUTO", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "auto", ToggleButton211.IsChecked } });

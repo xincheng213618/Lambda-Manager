@@ -36,7 +36,6 @@ namespace Global
             return instance;
         }
         public DeviceInformation deviceInformation;
-
         public List<ObjectiveSetting> ObjectiveSettingList;
 
 
@@ -184,90 +183,100 @@ namespace Global
             }
 
             asyncAdd(ints);
-            //if (i == 6)
-            //{
-            //    AddImageContextMenu(1, ints[1]);
-            //    AddImageContextMenu(2, ints[2]);
-            //    AddImageContextMenu(3, ints[3]);
-            //    AddImageContextMenu(4, ints[4]);
-            //    AddImageContextMenu(5, ints[5]);
-
-            //}
-            //else if (i == 4)
-            //{
-            //    AddImageContextMenu(0, ints[0]);
-            //    AddImageContextMenu(1, ints[1]);
-            //    AddImageContextMenu(2, ints[2]);
-            //    AddImageContextMenu(3, ints[3]);
-            //}
-            //else
-            //{
-            //    AddImageContextMenu(0, ints[0]);
-            //}
             return true;
 
         }
+        static GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
         public void Test()
         {
             Image image = LambdaControl.GetImageView(0).Image;
+
+
             if (image.Parent is Grid grid)
             {
-                Canvas canvas1 = new Canvas()
-                {
-                    Width= grid.ActualWidth,
-                    Height =grid.ActualHeight,
-                    //Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
-                    Background = Brushes.Black,
-                    ClipToBounds = true
-                };
+                //grid.Children.Clear();
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
 
-                grid.Children.Remove(image);
-                canvas1.Children.Add(image);
-                grid.Children.Add(canvas1);
+                Grid grid1 = new Grid() { Background = Brushes.Transparent };
+                grid1.SetValue(Grid.ColumnProperty, 0);
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem menuItem = new MenuItem() { Header = "11111" };
+                contextMenu.Items.Add(menuItem);
+                grid1.ContextMenu = contextMenu;
+
+                Grid grid2 = new Grid() { Background = Brushes.Transparent };
+                grid2.SetValue(Grid.ColumnProperty, 1);
+                ContextMenu contextMenu1 = new ContextMenu();
+                MenuItem menuItem1 = new MenuItem() { Header = "22222222" };
+                contextMenu1.Items.Add(menuItem1);
+                grid2.ContextMenu = contextMenu1;
+                image.SetValue(Grid.ColumnProperty, 0);
+                image.SetValue(Grid.ColumnSpanProperty, 2);
+                //grid.Children.Add(image1);
+                grid.Children.Add(grid1);
+                grid.Children.Add(grid2);
             }
 
-            if (image.Parent is Canvas canvas)
-            {
-                TransformGroup transformGroup = new();
-                TranslateTransform tlt = new();
-                ScaleTransform sfr = new();
-                transformGroup.Children.Add(sfr);
-                transformGroup.Children.Add(tlt);
-                image.RenderTransform = transformGroup;
-                image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
-                {
-                    Point centerPoint = e.GetPosition(canvas);
-                    if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
-                    {
-                        return;
-                    }
-                    sfr.CenterX = centerPoint.X;
-                    sfr.CenterY = centerPoint.Y;
-                    sfr.ScaleX += (double)e.Delta / 3500;
-                    sfr.ScaleY += (double)e.Delta / 3500;
-                };
-                bool isMouseLeftButtonDown = false;
-                Point mouseXY;
-                image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
-                {
-                    isMouseLeftButtonDown = true;
-                    mouseXY = e.GetPosition(image);
-                };
-                image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
-                {
-                    isMouseLeftButtonDown = false;
-                };
-                image.MouseMove += delegate (object sender, MouseEventArgs e)
-                {
-                    if (isMouseLeftButtonDown == true)
-                    {
-                        Point position = e.GetPosition(image);
-                        tlt.X += position.X - mouseXY.X;
-                        tlt.Y += position.Y - mouseXY.Y;
-                    }
-                };
-            }
+
+            //if (image.Parent is Grid grid)
+            //{
+            //    Canvas canvas1 = new Canvas()
+            //    {
+            //        Width= grid.ActualWidth,
+            //        Height =grid.ActualHeight,
+            //        //Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
+            //        Background = Brushes.Black,
+            //        ClipToBounds = true
+            //    };
+
+            //    grid.Children.Remove(image);
+            //    canvas1.Children.Add(image);
+            //    grid.Children.Add(canvas1);
+            //}
+
+            //if (image.Parent is Canvas canvas)
+            //{
+            //    TransformGroup transformGroup = new();
+            //    TranslateTransform tlt = new();
+            //    ScaleTransform sfr = new();
+            //    transformGroup.Children.Add(sfr);
+            //    transformGroup.Children.Add(tlt);
+            //    image.RenderTransform = transformGroup;
+            //    image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
+            //    {
+            //        Point centerPoint = e.GetPosition(canvas);
+            //        if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
+            //        {
+            //            return;
+            //        }
+            //        sfr.CenterX = centerPoint.X;
+            //        sfr.CenterY = centerPoint.Y;
+            //        sfr.ScaleX += (double)e.Delta / 3500;
+            //        sfr.ScaleY += (double)e.Delta / 3500;
+            //    };
+            //    bool isMouseLeftButtonDown = false;
+            //    Point mouseXY;
+            //    image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
+            //    {
+            //        isMouseLeftButtonDown = true;
+            //        mouseXY = e.GetPosition(image);
+            //    };
+            //    image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
+            //    {
+            //        isMouseLeftButtonDown = false;
+            //    };
+            //    image.MouseMove += delegate (object sender, MouseEventArgs e)
+            //    {
+            //        if (isMouseLeftButtonDown == true)
+            //        {
+            //            Point position = e.GetPosition(image);
+            //            tlt.X += position.X - mouseXY.X;
+            //            tlt.Y += position.Y - mouseXY.Y;
+            //        }
+            //    };
+            //}
 
         }
 

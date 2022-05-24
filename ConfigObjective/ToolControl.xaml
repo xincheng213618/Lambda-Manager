@@ -425,13 +425,13 @@
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </RepeatButton>
-                        <RepeatButton x:Name="ButtonRight" Style="{StaticResource RepeatButton1}" Grid.Row="1"  Interval="5" Grid.Column="2"  Margin="5" Click="ButtonRight_Click">
+                        <Button x:Name="ButtonRight" Style="{StaticResource ButtonStyle2}" Grid.Row="1"  Grid.Column="2"  Margin="5" PreviewMouseDown="ButtonRight_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp" Click="ButtonRight_Click">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="270"/>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
-                        </RepeatButton>
+                        </Button>
                         <Button x:Name="ButtonRe"  Grid.Row="1" Grid.Column="1" Content="O" Margin="5" Click="ButtonRe_Click"/>
 
                         <ToggleButton x:Name="ToggleButtonZF" Grid.Row="0" Grid.Column="3" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5" Checked="ToggleButtonZF_Checked" Unchecked="ToggleButtonZF_Unchecked" />

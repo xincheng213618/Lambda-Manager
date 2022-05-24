@@ -10,7 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="1111.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HotKey\HotKey.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="1111.png" />
   </ItemGroup>
 
 </Project>

@@ -215,6 +215,52 @@ string StringToUtf(string strValue)
 	return retStr;
 }
 
+int CameraSettingCam(Cam &cam) 
+{
+	Logger::Log1(Severity::INFO, cam.ip);
+	strcpy(cam.ip, "123");
+	cam.a = 100;
+	printf(cam.ip);
+	printf("\n");
+	printf(cam.login);
+	printf("\n");
+	printf(cam.name);
+	printf("\n");
+	printf(cam.pass);
+	return 0;
+}
+
+
+
+int CameraSettingExposureIni(char** result_data, int len)
+{
+	char* str = new char[len];
+	for (size_t i = 0; i < len; i++)
+	{
+		strcpy(&str[i], "1");
+		str[i] = a;
+	}
+	*result_data = str;
+
+	int b[10] = { 1,2,3,4,5,6,7,7,8,9 };
+	std::string sTemp;
+	char* cTemp = new char[10];
+
+	for (int i = 0; i < 10; i++)
+	{
+		*cTemp = 48 + b[i];
+		cTemp++; 
+	}
+
+	*result_data = cTemp;
+
+	a = 0;
+	//name = StringToUtf(name);
+	Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
+	a++;
+	return  0;
+
+}
 
 int OpenSerial(char* FullPath)	
 {
@@ -222,11 +268,14 @@ int OpenSerial(char* FullPath)
 	Logger::Log1(Severity::INFO, FullPath);
 	return  0;
 }
+int a = 0;
 
 int CameraSettingExposure(double exposure)
 {
+	a++;
 	std::string name = "aÖÐÎÄ";
 	//name = StringToUtf(name);
+	Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
 	Event::Trigger("UPDATE_STATUS");
 	Event::Trigger("UPDATE_STATUS1");

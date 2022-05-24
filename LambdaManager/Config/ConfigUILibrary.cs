@@ -76,7 +76,7 @@ internal class ConfigUILibrary
 		//    }
 		//}
 
-		list.Clear();
+		//list.Clear();
 		if (!found)
 		{
 			list.Add(control);

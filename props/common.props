@@ -11,8 +11,9 @@
       <AdditionalDependencies>Common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "C:\Users\Chen\Desktop\Lambda\lib"</Command>
-    </PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "C:\Users\Chen\Desktop\Lambda Manager\LambdaManager\bin\x64\Debug\net6.0-windows\lib"</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "C:\Users\Chen\Desktop\Lambda Manager\LambdaManager\bin\x64\Release\net6.0-windows\lib"</Command>   
+   </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

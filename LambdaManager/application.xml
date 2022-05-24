@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<main title="NJUST-SCIL多模显微镜" left="440" right="100"  maximize="true">
+<main1 title="NJUST-SCIL多模显微镜" left="440" right="100"  maximize="true">
 	<commands>
 		<command name="文件/测试" icon="test.ico" raise="TEST_COMMAND"></command>
 	</commands>
@@ -27,7 +27,7 @@
 			<action name="Drawing_Random_Circles">
 				<input name="image" type="handle"/>
 			</action>
-			<action name="Displaying_Random_Text" raise="FILTER_END" arg="image">
+			<action name="Displaying_Random_Text" raise="FILTER_END" arg="image">	
 				<input name="image" type="handle"/>
 			</action>
 		</procedure>
@@ -69,7 +69,7 @@
 
 	<component name="Camera" lib="lib\ISCamera.dll">
 	
-		<procedure name="CameraSettingExposure" event="CAMERA_SETTING_EXPOSURE" key="exposure">
+		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="exposure">
 			<action name="CameraSettingExposure">
 				<input name="exposure" type="double"/>
 			</action>
@@ -521,10 +521,15 @@
 	<!--<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:菜单"/>-->
 
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
+	<!--<component name="UserControl1" lib="WpfApp5.dll" mount="acquire:4"/>-->
+	<!--<component name="UserControl22222" lib="WpfApp4.dll" mount="acquire:4" />-->
 
-	 <component name="TreeViewControl" lib="Solution.dll" mount="project:0"/> 
+	<component name="TreeViewControl" lib="Solution.dll" mount="project:0"/>
 
-	 <!--<component name="BaseDeck" lib="ConfigDeck.dll" mount="project:0"/>--> 
+
+
+
+	<!--<component name="BaseDeck" lib="ConfigDeck.dll" mount="project:0"/>--> 
 
 	<!-- <component name="SampleContainer" lib="ConfigContainer.dll" mount="acquire:3"/> -->
 
@@ -543,4 +548,4 @@
 	<!-- </component> -->
 
 
-</main>
+</main1>

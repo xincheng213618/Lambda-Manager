@@ -17,10 +17,40 @@ namespace WpfApp5
         {
             InitializeComponent();
         }
+        static GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
         HotKeyHelper HotKeyHelper;
         private void Window_Initialized(object sender, EventArgs e)
         {
+            //if (image1.Parent is Grid grid)
+            //{
+            //    //grid.Children.Clear();
+            //    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
+            //    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
+
+            //    Grid grid1 = new Grid() { Background = Brushes.Transparent };
+            //    grid1.SetValue(Grid.ColumnProperty, 0);
+            //    ContextMenu contextMenu = new ContextMenu();
+            //    MenuItem menuItem = new MenuItem() { Header = "11111" };
+            //    contextMenu.Items.Add(menuItem);
+            //    grid1.ContextMenu = contextMenu;
+
+            //    Grid grid2 = new Grid() { Background = Brushes.Transparent };
+            //    grid2.SetValue(Grid.ColumnProperty, 1);
+            //    ContextMenu contextMenu1 = new ContextMenu();
+            //    MenuItem menuItem1 = new MenuItem() { Header = "22222222" };
+            //    contextMenu1.Items.Add(menuItem1);
+            //    grid2.ContextMenu = contextMenu1;
+            //    image1.SetValue(Grid.ColumnProperty, 0);
+            //    image1.SetValue(Grid.ColumnSpanProperty, 2);
+            //    //grid.Children.Add(image1);
+            //    grid.Children.Add(grid1);
+            //    grid.Children.Add(grid2);
+            //}
+
+
+
+
             HotKeyHelper = HotKeyHelper.GetInstance();
 
             HotKeys HotKeys11 = new HotKeys();
@@ -119,19 +149,79 @@ namespace WpfApp5
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
-            colorDialog.AllowFullOpen = true;
-            colorDialog.FullOpen = true;
-            colorDialog.AnyColor = false;
-            colorDialog.CustomColors = new int[] { 0x6987FC, 15195440, 16107657, 1836924, 3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294, 3102017, 7324121, 14993507, 11730944 };
-            colorDialog.ShowHelp = true;
-            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
+            //colorDialog.AllowFullOpen = true;
+            //colorDialog.FullOpen = true;
+            //colorDialog.AnyColor = false;
+            //colorDialog.CustomColors = new int[] { 0x6987FC, 15195440, 16107657, 1836924, 3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294, 3102017, 7324121, 14993507, 11730944 };
+            //colorDialog.ShowHelp = true;
+            //if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(colorDialog.Color);
+            //    SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
+            //    Button1.Background = solidColorBrush;
+            //}
+
+
+            if (image1.Parent is Grid grid)
             {
-                System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(colorDialog.Color);
-                SolidColorBrush solidColorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
-                Button1.Background = solidColorBrush;
+                Canvas canvas1 = new Canvas()
+                {
+                    Height = image1.ActualHeight,
+                    Width = image1.ActualWidth,
+                    Background = Brushes.Black,
+                    ClipToBounds = true
+                };
+                grid.Children.Clear();
+                canvas1.Children.Add(image1);
+                grid.Children.Add(canvas1);
             }
+
+            if (image1.Parent is Canvas canvas)
+            {
+                TransformGroup transformGroup = new();
+                TranslateTransform tlt = new();
+                ScaleTransform sfr = new();
+                transformGroup.Children.Add(sfr);
+                transformGroup.Children.Add(tlt);
+                image1.RenderTransform = transformGroup;
+                image1.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
+                {
+                    Point centerPoint = e.GetPosition(canvas);
+                    if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
+                    {
+                        return;
+                    }
+                    sfr.CenterX = centerPoint.X;
+                    sfr.CenterY = centerPoint.Y;
+                    sfr.ScaleX += (double)e.Delta / 3500;
+                    sfr.ScaleY += (double)e.Delta / 3500;
+                };
+                bool isMouseLeftButtonDown = false;
+                Point mouseXY;
+                image1.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
+                {
+                    isMouseLeftButtonDown = true;
+                    mouseXY = e.GetPosition(image1);
+                };
+                image1.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
+                {
+                    isMouseLeftButtonDown = false;
+                };
+                image1.MouseMove += delegate (object sender, MouseEventArgs e)
+                {
+                    if (isMouseLeftButtonDown == true)
+                    {
+                        Point position = e.GetPosition(image1);
+                        tlt.X += position.X - mouseXY.X;
+                        tlt.Y += position.Y - mouseXY.Y;
+                    }
+                };
+            }
+
+
         }
+
     }
 
 

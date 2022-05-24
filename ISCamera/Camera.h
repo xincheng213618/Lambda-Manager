@@ -24,8 +24,18 @@ extern "C" CAMERA_API int SaveSettings();
 
 extern "C" CAMERA_API int CameraSettingExposure(double exposure);
 
-extern "C" CAMERA_API int OpenSerial(char* FullPath);
+extern "C" CAMERA_API int CameraSettingExposureIni(char** result_data, int len);
+struct Cam
+{
+	char ip[16];
+	char login[16];
+	char pass[16];
+	char name[16];
+	double a;
+};
+extern "C" CAMERA_API int CameraSettingCam(Cam &cam);
 
+extern "C" CAMERA_API int OpenSerial(char* FullPath);
 
 int Start();
 

@@ -8,11 +8,8 @@ using Lambda;
 using System.Windows.Input;
 using Global.Mode.Config;
 using System.Text;
-using System.IO;
-using System.Text.Json;
-using System.Windows.Media;
-using Global.Hardware;
 using Global.Extensions;
+
 
 namespace ConfigObjective
 {
@@ -26,20 +23,19 @@ namespace ConfigObjective
             InitializeComponent();
         }
 
-        bool IsFirstUpdate = false;
+        bool IsFirstUpdate = true;
         private void UpdateGlobal()
         {
-            if (IsFirstUpdate)
-            {
+            if (!IsFirstUpdate)
                 MessageBox.Show("根据参数更新");
-                IsFirstUpdate = false;
-            }
 
             CameraSetting_Update();
             ObjectiveSetting_Update();
             ViewMode_Update();
             Stage_Update();
             MulDimensional_Update();
+            if (IsFirstUpdate)
+                IsFirstUpdate = false;
         }
 
         /// <summary>
@@ -61,6 +57,9 @@ namespace ConfigObjective
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            //初始化硬件
+            Update.UpdateGlobal();
+
             ObjectiveSetting_Initialize();
             ViewMode_Initialize();
             CameraSetting_Initialize();
@@ -68,8 +67,7 @@ namespace ConfigObjective
             Stage_Initialize();
             MulDimensional_Initialize();
 
-            //初始化硬件
-            Update.UpdateGlobal();
+
             IsFirstUpdate = true;
             //日志监听
             LambdaControl.LogHandler += LambdaLog;
@@ -451,101 +449,32 @@ namespace ConfigObjective
             return 1;
         }
 
-
-    }
-
-    public static class Util
-    {
-        public static Color ColorFromHSV(double hue, double saturation, double value)
+        private void ButtonRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            double f = hue / 60 - Math.Floor(hue / 60);
-
-            value = value * 255;
-            byte v = (byte)Convert.ToInt32(value);
-            byte p = (byte)Convert.ToInt32(value * (1 - saturation));
-            byte q = (byte)Convert.ToInt32(value * (1 - f * saturation));
-            byte t = (byte)Convert.ToInt32(value * (1 - (1 - f) * saturation));
-
-            if (hi == 0)
-                return Color.FromArgb(255, v, t, p);
-            else if (hi == 1)
-                return Color.FromArgb(255, q, v, p);
-            else if (hi == 2)
-                return Color.FromArgb(255, p, v, t);
-            else if (hi == 3)
-                return Color.FromArgb(255, p, q, v);
-            else if (hi == 4)
-                return Color.FromArgb(255, t, p, v);
+            _timer.Start();
+        }
+        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.5) };
+        private void ButtonRight_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _timer.Stop();
+            if (IslongPress)
+            {
+                LambdaControl.Trigger("STAGE_MOVE_LONG", this, new Dictionary<string, object>() { { "direction", 1 }, { "IsStop", true } });
+            }
             else
-                return Color.FromArgb(255, v, p, q);
+            {
+                LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
+            }
+            IslongPress = false;
         }
 
-        public static double GetBright(int r, int b, int g)
+        bool IslongPress = false;
+        private void Timer_Tick(object? sender, EventArgs e)
         {
-            int max = Math.Max(r, Math.Max(g, b));
-            return max / 255d;
+            _timer.Stop();
+            IslongPress = true; 
+            LambdaControl.Trigger("STAGE_MOVE_LONG", this, new Dictionary<string, object>() { { "direction", 1 } , { "IsStop", false } });
         }
-
-        public static void ColorToHSV(System.Drawing.Color color, out double hue, out double saturation, out double value)
-        {
-            int max = Math.Max(color.R, Math.Max(color.G, color.B));
-            int min = Math.Min(color.R, Math.Min(color.G, color.B));
-
-            hue = color.GetHue();
-            saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-            value = max / 255d;
-        }
-    }
-
-    public class ColorHelper
-    {
-        public ColorHelper(System.Drawing.Color color)
-        {
-            Util.ColorToHSV(color,out Hue, out Saturation, out Brightness);
-            A = color.A;
-            R = color.R;
-            G = color.G;
-            B = color.B;
-        }
-
-        public ColorHelper(int A, int R ,int G, int B)
-        {
-            this.A = A;
-            this.R = R;
-            this.G = G;
-            this.B = B;
-            Util.ColorToHSV(System.Drawing.Color.FromArgb(A,R,G,B), out Hue, out Saturation, out Brightness);
-        }
-
-        public SolidColorBrush SolidColorBrush
-        {
-            get { return new SolidColorBrush(Color.FromArgb((byte)A, (byte)R, (byte)G, (byte)B)); }
-        }
-        public void ChangeBrightness(double Brightness)
-        {
-            this.Brightness = Brightness;
-            Color = Util.ColorFromHSV(Hue,Saturation,Brightness);
-            this.A = Color.A;
-            this.R = Color.R;
-            this.G = Color.G;
-            this.B = Color.B;
-
-        }
-        public Color Color;
-
-        public int A;
-        public int R;
-        public int G;
-        public int B;
-
-        public double Hue;
-        public double Saturation;
-        public double Brightness;
-
-
-
-
     }
 
 

@@ -24,7 +24,7 @@ namespace ConfigObjective
 
         }
 
-        public void ViewMode_Update()
+        public async void ViewMode_Update()
         {
             if (ViewMode == null)
                 ViewMode = new Global.Mode.Config.ViewMode();
@@ -32,53 +32,60 @@ namespace ConfigObjective
             switch (ViewMode.SelectViewMode)
             {
                 case 0:
+                    Border31.DataContext = ViewMode.BrightField;
+                    colorHelp1 = new ColorHelper(255, ViewMode.BrightField.Color[0], ViewMode.BrightField.Color[1], ViewMode.BrightField.Color[2]);
+                    ColorButton311.Background = colorHelp1.SolidColorBrush;
+                    Slider312.Value = (int)(colorHelp1.Brightness * 240);
                     Button31.IsChecked = true;
                     break;
                 case 1:
+                    Border32.DataContext = ViewMode.DarkField;
+                    colorHelp2 = new ColorHelper(255, ViewMode.DarkField.Color[0], ViewMode.DarkField.Color[1], ViewMode.DarkField.Color[2]);
+                    ColorButton321.Background = colorHelp2.SolidColorBrush;
+                    Slider324.Value = (int)(colorHelp2.Brightness * 240);
+
                     Button32.IsChecked = true;
                     break;
                 case 2:
+                    Border33.DataContext = ViewMode.Reinberg;
+
+                    IntToColor(ViewMode.Reinberg.BrightColor, out int bright2);
+                    IntToColor(ViewMode.Reinberg.DarkColor, out int bright3);
+
+                    Slider333.Value = bright2;
+                    Slider334.Value = bright3;
+
                     Button33.IsChecked = true;
+
+
                     break;
                 case 3:
+                    Border34.DataContext = ViewMode.ReliefContrast;
                     Button34.IsChecked = true;
                     break;
                 case 4:
+                    Border35.DataContext = ViewMode.QuantitativePhase;
                     Button35.IsChecked = true;
                     break;
                 case 5:
+                    Border36.DataContext = ViewMode.PhaseContrast;
                     Button36.IsChecked = true;
                     break;
             }
 
 
-            Border31.DataContext = ViewMode.BrightField;
-
-            colorHelp1 = new ColorHelper(255, ViewMode.BrightField.Color[0], ViewMode.BrightField.Color[1], ViewMode.BrightField.Color[2]);
-            ColorButton311.Background = colorHelp1.SolidColorBrush;
-            Slider312.Value = (int)(colorHelp1.Brightness * 240);
-
-            Border32.DataContext = ViewMode.DarkField;
-
-            colorHelp2 = new ColorHelper(255, ViewMode.DarkField.Color[0], ViewMode.DarkField.Color[1], ViewMode.DarkField.Color[2]);
-            ColorButton321.Background = colorHelp2.SolidColorBrush;
-            Slider324.Value = (int)(colorHelp2.Brightness * 240);
 
 
 
-            Border33.DataContext = ViewMode.Reinberg;
 
-            IntToColor(ViewMode.Reinberg.BrightColor, out int bright2);
-            IntToColor(ViewMode.Reinberg.DarkColor, out int bright3);
 
-            Slider333.Value = bright2;
-            Slider334.Value = bright3;
 
-            Border34.DataContext = ViewMode.ReliefContrast;
 
-            Border35.DataContext = ViewMode.QuantitativePhase;
 
-            Border36.DataContext = ViewMode.PhaseContrast;
+
+
+
+
 
         }
 
@@ -280,6 +287,7 @@ namespace ConfigObjective
                 }
 
                 CameraMode_Changed();
+                ViewMode_Update();
 
                 LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
                 await Task.Delay(300);

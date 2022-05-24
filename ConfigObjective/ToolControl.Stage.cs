@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Global;
+using System.Windows.Controls.Primitives;
 
 namespace ConfigObjective
 {
@@ -17,6 +18,7 @@ namespace ConfigObjective
         private void Stage_Initialize()
         {
             MoveStep = Stage.MoveStep;
+            _timer.Tick += Timer_Tick;
         }
 
         private void Stage_Update()
@@ -62,8 +64,8 @@ namespace ConfigObjective
         }
 
         private void ButtonRight_Click(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
+        {            
+            //LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
         }
 
         private void ButtonFront_Click(object sender, RoutedEventArgs e)

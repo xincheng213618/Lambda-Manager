@@ -473,6 +473,11 @@ namespace WpfApp2
 
             //MessageBox.Show(colorPicker.SelectColor.ToString());
         }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+
+        }
     }
 
 
