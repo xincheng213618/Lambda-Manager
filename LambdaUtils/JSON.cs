@@ -167,9 +167,24 @@ public class JSON
 			writer.WriteEndArray();
 			return;
 		}
+		if (value is object[] array)
+		{
+			if (key != null)
+			{
+				writer.WritePropertyName(key);
+			}
+			writer.WriteStartArray();
+			object[] array2 = array;
+			foreach (object value5 in array2)
+			{
+				Format(writer, null, value5);
+			}
+			writer.WriteEndArray();
+			return;
+		}
 		if (value is float num2)
 		{
-			string text2 = num2.ToString();
+			string text2 = num2.ToString("0.######");
 			if (!text2.Contains('.'))
 			{
 				text2 += ".0";
@@ -181,7 +196,7 @@ public class JSON
 			writer.WriteRawValue(text2);
 			return;
 		}
-		throw new InvalidOperationException("Stringify error");
+		//throw new InvalidOperationException("This type is not supported now");
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

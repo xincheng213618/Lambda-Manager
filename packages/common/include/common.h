@@ -48,6 +48,7 @@ public:
 	Logger();
 	~Logger();
 	static void Log1(Severity severity, std::string message);
+	static void Log1(Severity severity, LPCSTR pstrFormat, ...);
 	static void Log2(Severity severity, LPCTSTR pstrFormat, ...);
 };
 
@@ -62,6 +63,7 @@ public:
 	static void Trigger(std::string type, void* object);
 	static void Trigger(std::string type, void* object1, void* object2);
 	static void Trigger(std::string type, void* object1, void* object2, void* object3, void* object4);
+	static void Trigger(std::string type, void* data, int size);
 
 	static void Dispatch(std::string type);
 	static void Dispatch(std::string type, const json* event);
@@ -73,13 +75,13 @@ public:
 
 	static void Schedule(std::string type, const char* cron, const char* event);
 
-	static void On(std::string type, Callback1 callback,bool once); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback2 callback,bool once); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback3 callback,bool once); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback4 callback,bool once); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback5 callback,bool once); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback6 callback,bool once); //callback return -1 to stop event propogation
-	static void On(std::string type, Callback7 callback,bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback1 callback, bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback2 callback, bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback3 callback, bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback4 callback, bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback5 callback, bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback6 callback, bool once); //callback return -1 to stop event propogation
+	static void On(std::string type, Callback7 callback, bool once); //callback return -1 to stop event propogation
 
 };
 
@@ -90,9 +92,10 @@ enum ViewState {
 class COMMON_API LambdaView {
 private:
 	int index; //index of visual window
+	int index2; //index of registered view
 	int flag = 0; //view state
 
-	LambdaView();
+	LambdaView(bool registered);
 
 public:
 	~LambdaView();
@@ -104,6 +107,7 @@ public:
 	int GetIndex();
 
 	static LambdaView* GetIdleOrNew();
+	static LambdaView* GetRegistered(int index);
 };
 
 class COMMON_API Service {

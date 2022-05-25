@@ -41,7 +41,8 @@ namespace Global
 
         private WindowData()
         {
-            LambdaControl.CallEventHandler += Call;
+            LambdaControl.Initialize(null, null, null, Call, null, null);
+            //LambdaControl.CallEventHandler += Call;
             Hardware_Initialized();
             AddTest();
         }

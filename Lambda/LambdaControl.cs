@@ -8,19 +8,35 @@ namespace Lambda;
 
 public class LambdaControl : Control
 {
-	public static LogHandler? LogHandler { get; set; }
+	private static LogHandler? LogHandler { get; set; }
 
-	public static LogHandler? LogHandler2 { get; set; }
+	private static LogHandler? LogHandler2 { get; set; }
 
-	public static AddEventHandler? AddEventHandler { get; set; }
+	private static AddEventHandler? AddEventHandler { get; set; }
 
-	public static CallEventHandler? CallEventHandler { get; set; }
+	private static CallEventHandler? CallEventHandler { get; set; }
 
-	public static RegisterImageViewHandler? RegisterImageViewHandler { get; set; }
+	private static RegisterImageViewHandler? RegisterImageViewHandler { get; set; }
 
-	public static View[]? Views { get; set; }
+	private static View[]? Views { get; set; }
 
-	public static void Log(Message message)
+	public static void Initialize(LogHandler logHandler, LogHandler logHandler2, AddEventHandler addEventHandler, CallEventHandler callEventHandler, RegisterImageViewHandler registerImageViewHandler, View[] views)
+	{
+		if (logHandler != null)
+            LogHandler += logHandler;
+		if (logHandler2 != null)
+            LogHandler2 += logHandler2;
+		if (addEventHandler != null)
+            AddEventHandler += addEventHandler;
+		if (callEventHandler!=null)
+            CallEventHandler += callEventHandler;
+		if (registerImageViewHandler != null)
+            RegisterImageViewHandler += registerImageViewHandler;
+		if (views != null)
+            Views = views;
+    }
+
+    public static void Log(Message message)
 	{
 		LogHandler?.Invoke(message);
 	}
@@ -92,7 +108,16 @@ public class LambdaControl : Control
         {
             Log(new Message { Severity = Severity.INFO, Text = type });
         }
+
     }
+
+	public static void Trigger(string type, object sender, Array? array)
+	{
+		CallEventHandler?.Invoke(type, sender, new LambdaArgs
+		{
+			Data = array
+		});
+	}
 
 	public static async void Dispatch(string type, object sender, Dictionary<string, object>? json)
 	{
@@ -112,9 +137,11 @@ public class LambdaControl : Control
 			Data = json
 		});
         Log(new Message { Severity = Severity.INFO, Text = type + json });
+
+
     }
 
-    public static async void Dispatch(string type, object sender, string? json)
+	public static async void Dispatch(string type, object sender, string? json)
 	{
 		string type2 = type;
 		object sender2 = sender;
@@ -128,10 +155,9 @@ public class LambdaControl : Control
 	public static void Trigger(string type, object sender, EventArgs e)
 	{
 		CallEventHandler?.Invoke(type, sender, e);
-        Log(new Message { Severity = Severity.INFO, Text = type });
-    }
+	}
 
-    public static async void Dispatch(string type, object sender, EventArgs e)
+	public static async void Dispatch(string type, object sender, EventArgs e)
 	{
 		string type2 = type;
 		object sender2 = sender;

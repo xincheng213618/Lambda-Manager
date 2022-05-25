@@ -58,14 +58,16 @@ internal class Common
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
 		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 
-        LambdaControl.LogHandler = new LogHandler(App.Report);
-        LambdaControl.LogHandler2 = new LogHandler(App.Report2);
 
-        LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
+		LambdaControl.Initialize(App.Report, App.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
 
-        LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-        LambdaControl.RegisterImageViewHandler = new RegisterImageViewHandler(RegisterImage);
-        LambdaControl.Views = Views;
+        //LambdaControl.LogHandler = new LogHandler(App.Report);
+        //LambdaControl.LogHandler2 = new LogHandler(App.Report2);
+
+        //LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
+        //LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
+        //LambdaControl.RegisterImageViewHandler = new RegisterImageViewHandler(RegisterImage);
+        //LambdaControl.Views = Views;
 		Initialize();
 	}
 
@@ -109,11 +111,6 @@ internal class Common
             Severity = (Severity)severity,
             Text = new string(message)
         });
-  //      App.Report2(new Message
-		//{
-		//	Severity = (Severity)severity,
-		//	Text = new string(message)
-		//});
 	}
 
 	[DllImport("lib\\common.dll", EntryPoint = "CallFunction")]

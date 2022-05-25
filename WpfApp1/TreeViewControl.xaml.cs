@@ -296,9 +296,9 @@ namespace Solution
             Window mainwin = Application.Current.MainWindow;
             try
             {
-                WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("eval_aj");
-                if (WrapPanel1 ==null)
-                    WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
+                WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
+                if (WrapPanel1 == null)
+                    return;
                 ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
 
                 ContextMenu contextMenu = new ContextMenu();

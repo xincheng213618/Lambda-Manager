@@ -69,10 +69,12 @@ namespace ConfigObjective
 
 
             IsFirstUpdate = true;
-            //日志监听
-            LambdaControl.LogHandler += LambdaLog;
-            //事件监听
-            LambdaControl.CallEventHandler += LambdaControlCall;
+
+            LambdaControl.Initialize(LambdaLog, LambdaLog, null, LambdaControlCall, null, null);
+            ////日志监听
+            //LambdaControl.LogHandler += LambdaLog;
+            ////事件监听
+            //LambdaControl.CallEventHandler += LambdaControlCall;
 
             StackPanelMul.DataContext = WindowData.MulDimensional;
 
