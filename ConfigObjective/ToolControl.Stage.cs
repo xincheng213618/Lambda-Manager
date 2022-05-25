@@ -17,6 +17,7 @@ namespace ConfigObjective
 
         private void Stage_Initialize()
         {
+            Border41.DataContext = WindowData.WindowMsg;
             MoveStep = Stage.MoveStep;
             _timer.Tick += Timer_Tick;
         }

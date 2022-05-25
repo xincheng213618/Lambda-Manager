@@ -218,7 +218,7 @@ string StringToUtf(string strValue)
 int CameraSettingCam(Cam &cam) 
 {
 	Logger::Log1(Severity::INFO, cam.ip);
-	strcpy(cam.ip, "123");
+	strcpy(cam.ip, "123223");
 	cam.a = 100;
 	printf(cam.ip);
 	printf("\n");
@@ -230,7 +230,7 @@ int CameraSettingCam(Cam &cam)
 	return 0;
 }
 
-
+int a = 0;
 
 int CameraSettingExposureIni(char** result_data, int len)
 {
@@ -268,7 +268,7 @@ int OpenSerial(char* FullPath)
 	Logger::Log1(Severity::INFO, FullPath);
 	return  0;
 }
-int a = 0;
+
 
 int CameraSettingExposure(double exposure)
 {

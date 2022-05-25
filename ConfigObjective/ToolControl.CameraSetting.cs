@@ -12,19 +12,19 @@ using Lambda;
 namespace ConfigObjective
 {
 
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
-    public struct Cam
-    {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-        public string ip;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-        public string login;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-        public string pass;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-        public string name;
-        public double a;
-    }
+    //[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    //public struct Cam
+    //{
+    //    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+    //    public string ip;
+    //    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+    //    public string login;
+    //    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+    //    public string pass;
+    //    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+    //    public string name;
+    //    public double a;
+    //}
 
 
     public partial class ToolControl
@@ -71,14 +71,15 @@ namespace ConfigObjective
             }
         }
 
-        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposure")]
-        public static extern void CameraSettingExposure(double a);
+        //[DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposure")]
+        //public static extern void CameraSettingExposure(double a);
 
-        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposureIni", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int CameraSettingExposureIni();
+        //[DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposureIni", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        //public static extern int CameraSettingExposureIni();
 
-        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingCam", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int CameraSettingCam(ref Cam cam);
+        //[DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingCam", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        //public static extern int CameraSettingCam(ref Cam cam);
+
         private void ToggleButton211_Click(object sender, RoutedEventArgs e)
         {
             //double a = 22222;
@@ -101,17 +102,15 @@ namespace ConfigObjective
             //Marshal.Copy(result, destination, 0, 100);
             //MessageBox.Show(System.Text.Encoding.ASCII.GetString(destination));
 
-
-             Cam cam = new Cam
-            {
-                ip = "192.168.0.232",
-                login = "admin",
-                pass = "admin",
-                name = "kekekeke",
-                a=1
-            };
-            CameraSettingCam(ref cam);
-
+            //Cam cam = new Cam
+            //{
+            //    ip = "192.168.0.232",
+            //    login = "admin",
+            //    pass = "admin",
+            //    name = "kekekeke",
+            //    a = 1
+            //};
+            //CameraSettingCam(ref cam);  
 
             if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
             {
