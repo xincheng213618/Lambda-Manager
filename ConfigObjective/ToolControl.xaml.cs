@@ -449,32 +449,7 @@ namespace ConfigObjective
             return 1;
         }
 
-        private void ButtonRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            _timer.Start();
-        }
-        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.5) };
-        private void ButtonRight_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            _timer.Stop();
-            if (IslongPress)
-            {
-                LambdaControl.Trigger("STAGE_MOVE_LONG", this, new Dictionary<string, object>() { { "direction", 1 }, { "IsStop", true } });
-            }
-            else
-            {
-                LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
-            }
-            IslongPress = false;
-        }
 
-        bool IslongPress = false;
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-            _timer.Stop();
-            IslongPress = true; 
-            LambdaControl.Trigger("STAGE_MOVE_LONG", this, new Dictionary<string, object>() { { "direction", 1 } , { "IsStop", false } });
-        }
     }
 
 

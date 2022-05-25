@@ -24,7 +24,7 @@ namespace ConfigObjective
 
         }
 
-        public async void ViewMode_Update()
+        public void ViewMode_Update()
         {
             if (ViewMode == null)
                 ViewMode = new Global.Mode.Config.ViewMode();

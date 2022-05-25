@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Global;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace ConfigObjective
 {
@@ -39,8 +40,8 @@ namespace ConfigObjective
 
         private void ToggleButtonXYF_Checked(object sender, RoutedEventArgs e)
         {
-            MoveStep.XStep = 6;
-            MoveStep.YStep = 6;
+            MoveStep.XStep = 50;
+            MoveStep.YStep = 50;
         }
 
         private void ToggleButtonXYF_Unchecked(object sender, RoutedEventArgs e)
@@ -59,34 +60,90 @@ namespace ConfigObjective
             MoveStep.ZStep = 500;
         }
 
-        private void ButtonLeft_Click(object sender, RoutedEventArgs e)
+
+        int direction = 0;
+
+
+
+        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.5) };
+        private void ButtonRight_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            LambdaControl.Trigger("STAGE_MOVE_LEFT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 0 } });
+            _timer.Stop();
+            if (IslongPress)
+            {
+                LambdaControl.Trigger("STAGE_MOVE_LONG", this, new Dictionary<string, object>() { { "direction", direction }, { "IsStop", true } });
+            }
+            else
+            {
+                switch (direction)
+                {
+                    case 0:
+                        LambdaControl.Trigger("STAGE_MOVE_LEFT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 0 } });
+                        break;
+                    case 1:
+                        LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
+                        break;
+                    case 2:
+                        LambdaControl.Trigger("STAGE_MOVE_FRONT", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 2 } });
+                        break;
+                    case 3:
+                        LambdaControl.Trigger("STAGE_MOVE_REAR", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 3 } });
+                        break;
+                    case 4:
+                        LambdaControl.Trigger("STAGE_MOVE_UP", this, new Dictionary<string, object> { { "step", MoveStep.ZStep }, { "direction", 4 } });
+                        break;
+                    case 5:
+                        LambdaControl.Trigger("STAGE_MOVE_DOWN", this, new Dictionary<string, object> { { "step", MoveStep.ZStep }, { "direction", 5 } });
+                        break;
+                }
+            }
+            IslongPress = false;
         }
 
-        private void ButtonRight_Click(object sender, RoutedEventArgs e)
-        {            
-            //LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
+        bool IslongPress = false;
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            _timer.Stop();
+            IslongPress = true;
+            LambdaControl.Trigger("STAGE_MOVE_LONG", this, new Dictionary<string, object>() { { "direction", direction }, { "IsStop", false } });
         }
 
-        private void ButtonFront_Click(object sender, RoutedEventArgs e)
+        private void ButtonLeft_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            LambdaControl.Trigger("STAGE_MOVE_FRONT", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 2 } });
+            direction = 0;
+            _timer.Start();
         }
 
-        private void ButtonRear_Click(object sender, RoutedEventArgs e)
+        private void ButtonRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            LambdaControl.Trigger("STAGE_MOVE_REAR", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 3 } });
+            direction = 1;
+            _timer.Start();
+           
         }
 
-        private void ButtonUp_Click(object sender, RoutedEventArgs e)
+
+        private void ButtonFront_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            LambdaControl.Trigger("STAGE_MOVE_DOWN", this, new Dictionary<string, object> { { "step", MoveStep.ZStep }, { "direction", 4 } });
+            direction = 2;
+            _timer.Start();
         }
 
-        private void ButtonDown_Click(object sender, RoutedEventArgs e)
+        private void ButtonRear_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            LambdaControl.Trigger("STAGE_MOVE_DOWN", this, new Dictionary<string, object> { { "step", MoveStep.ZStep }, { "direction", 5 } });
+            direction = 3;
+            _timer.Start();
+        }
+        private void ButtonUp_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            direction = 4;
+            _timer.Start();
+        }
+
+
+        private void ButtonDown_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            direction = 5;
+            _timer.Start();
         }
 
         private void ButtonRe_Click(object sender, RoutedEventArgs e)
