@@ -337,7 +337,8 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            windowData.Test();
+            Dictionary<string, object> data = new() { { "mode", 0 }, { "exposure", 1.0 } };
+            LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
         }
     }
 

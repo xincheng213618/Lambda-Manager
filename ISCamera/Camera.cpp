@@ -272,13 +272,14 @@ int OpenSerial(char* FullPath)
 
 int CameraSettingExposure(double exposure)
 {
+	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 	a++;
-	std::string name = "a中文";
+	//std::string name = "a中文";
 	//name = StringToUtf(name);
-	Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
+	//Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
-	Event::Trigger("UPDATE_STATUS");
-	Event::Trigger("UPDATE_STATUS1");
+	//Event::Trigger("UPDATE_STATUS");
+	//Event::Trigger("UPDATE_STATUS1");
 
 	return  0;
 }

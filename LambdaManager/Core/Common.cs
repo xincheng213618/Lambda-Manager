@@ -522,48 +522,6 @@ internal class Common
 			writeableBitmap.Unlock();
 			MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 			Image image = GetImage(index, A_1, initial: true);
-			if (image.Parent is Canvas canvas)
-			{
-				TransformGroup transformGroup = new();
-				TranslateTransform tlt = new();
-				ScaleTransform sfr = new();
-				transformGroup.Children.Add(sfr);
-				transformGroup.Children.Add(tlt);
-				image.RenderTransform = transformGroup;
-				image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
-				{
-					Point centerPoint = e.GetPosition(canvas);
-					if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
-					{
-						return;
-					}
-					sfr.CenterX = centerPoint.X;
-					sfr.CenterY = centerPoint.Y;
-					sfr.ScaleX += (double)e.Delta / 3500;
-					sfr.ScaleY += (double)e.Delta / 3500;
-				};
-				bool isMouseLeftButtonDown = false;
-				Point mouseXY;
-				image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
-				{
-					isMouseLeftButtonDown = true;
-					mouseXY = e.GetPosition(image);
-				};
-				image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
-				{
-					isMouseLeftButtonDown = false;
-				};
-				image.MouseMove += delegate (object sender, MouseEventArgs e)
-				{
-					if (isMouseLeftButtonDown == true)
-					{
-						Point position = e.GetPosition(image);
-						tlt.X += position.X - mouseXY.X;
-						tlt.Y += position.Y - mouseXY.Y;
-					}
-				};
-			}
-
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
@@ -617,6 +575,7 @@ internal class Common
 		{
 			image = ViewGrid.GetIdleOrNewView(index)?.Image;
 		}
+
 		return image;
 	}
 

@@ -54,7 +54,7 @@ public class LambdaControl : Control
 		});
 	}
 
-	public async void Dispatch(string type, Dictionary<string, object>? json)
+	public  async void Dispatch(string type, Dictionary<string, object>? json)
 	{
 		string type2 = type;
 		Dictionary<string, object> json2 = json;

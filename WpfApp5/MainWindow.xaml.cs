@@ -187,36 +187,48 @@ namespace WpfApp5
                 image1.RenderTransform = transformGroup;
                 image1.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
                 {
-                    Point centerPoint = e.GetPosition(canvas);
-                    if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
+
+                    if ((sfr.ScaleX < 0.2 && e.Delta < 0) || (sfr.ScaleX >5 && e.Delta > 0))
                     {
                         return;
                     }
+                    Point centerPoint = e.GetPosition(canvas);
                     sfr.CenterX = centerPoint.X;
                     sfr.CenterY = centerPoint.Y;
-                    sfr.ScaleX += (double)e.Delta / 3500;
-                    sfr.ScaleY += (double)e.Delta / 3500;
+                    sfr.ScaleX += (double)e.Delta / 1000;
+                    sfr.ScaleY += (double)e.Delta / 1000;
+
+
                 };
                 bool isMouseLeftButtonDown = false;
-                Point mouseXY;
+                Point start, mouseXY;
                 image1.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
                 {
+                    mouseXY = Mouse.GetPosition(this);
+                    start = new Point(tlt.X, tlt.Y);
                     isMouseLeftButtonDown = true;
-                    mouseXY = e.GetPosition(image1);
+                    this.Cursor = Cursors.Hand;
                 };
                 image1.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
                 {
                     isMouseLeftButtonDown = false;
+                    this.Cursor = Cursors.Arrow;
+                };
+                image1.MouseLeave += delegate (object sender, MouseEventArgs e)
+                {
+                    isMouseLeftButtonDown = false;
+                    this.Cursor = Cursors.Arrow;
                 };
                 image1.MouseMove += delegate (object sender, MouseEventArgs e)
                 {
                     if (isMouseLeftButtonDown == true)
                     {
-                        Point position = e.GetPosition(image1);
-                        tlt.X += position.X - mouseXY.X;
-                        tlt.Y += position.Y - mouseXY.Y;
+                        Point position = Mouse.GetPosition(this);
+                        tlt.X = start.X + position.X - mouseXY.X;
+                        tlt.Y = start.Y + position.Y - mouseXY.Y;
                     }
                 };
+
             }
 
 

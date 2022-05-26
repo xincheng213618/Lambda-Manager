@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <main1 title="NJUST-SCIL多模显微镜" left="440" right="100"  maximize="true">
-	<commands>
+	<!--<commands>
 		<command name="文件/测试" icon="test.ico" raise="TEST_COMMAND"></command>
-	</commands>
+	</commands>-->
 
 	<component name="algorithm" lib="lib/algorithm.dll">
 		<procedure name="filter1" event="FILTER_START" arg="image">

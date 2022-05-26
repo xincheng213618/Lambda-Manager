@@ -189,98 +189,105 @@ namespace Global
         }
         static GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
-        public void Test()
+        public async void Test(Image image)
         {
-            Image image = LambdaControl.GetImageView(0).Image;
-
+            //Image image = LambdaControl.GetImageView(0).Image;
 
             if (image.Parent is Grid grid)
             {
                 //grid.Children.Clear();
-                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
-                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
+                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
+                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
 
-                Grid grid1 = new Grid() { Background = Brushes.Transparent };
-                grid1.SetValue(Grid.ColumnProperty, 0);
-                ContextMenu contextMenu = new ContextMenu();
-                MenuItem menuItem = new MenuItem() { Header = "11111" };
-                contextMenu.Items.Add(menuItem);
-                grid1.ContextMenu = contextMenu;
+                //Grid grid1 = new Grid() { Background = Brushes.Transparent };
+                //grid1.SetValue(Grid.ColumnProperty, 0);
+                //ContextMenu contextMenu = new ContextMenu();
+                //MenuItem menuItem = new MenuItem() { Header = "11111" };
+                //contextMenu.Items.Add(menuItem);
+                //grid1.ContextMenu = contextMenu;
 
-                Grid grid2 = new Grid() { Background = Brushes.Transparent };
-                grid2.SetValue(Grid.ColumnProperty, 1);
-                ContextMenu contextMenu1 = new ContextMenu();
-                MenuItem menuItem1 = new MenuItem() { Header = "22222222" };
-                contextMenu1.Items.Add(menuItem1);
-                grid2.ContextMenu = contextMenu1;
-                image.SetValue(Grid.ColumnProperty, 0);
-                image.SetValue(Grid.ColumnSpanProperty, 2);
-                //grid.Children.Add(image1);
-                grid.Children.Add(grid1);
-                grid.Children.Add(grid2);
+                //Grid grid2 = new Grid() { Background = Brushes.Transparent };
+                //grid2.SetValue(Grid.ColumnProperty, 1);
+                //ContextMenu contextMenu1 = new ContextMenu();
+                //MenuItem menuItem1 = new MenuItem() { Header = "22222222" };
+                //contextMenu1.Items.Add(menuItem1);
+                //grid2.ContextMenu = contextMenu1;
+                //image.SetValue(Grid.ColumnProperty, 0);
+                //image.SetValue(Grid.ColumnSpanProperty, 2);
+                ////grid.Children.Add(image1);
+                //grid.Children.Add(grid1);
+                //grid.Children.Add(grid2);
+
+                //grid.Background = Brushes.Red;
+                Canvas canvas1 = new Canvas()
+                {
+                    //Background = new SolidColorBrush(Color.FromRgb(f5, 195, 195)),
+                    Background = Brushes.Black,
+                    ClipToBounds = true
+                };
+
+                grid.Children.Remove(image);
+                grid.Children.Add(canvas1);
+                canvas1.Children.Add(image);
+
             }
+            if (image.Parent is Canvas canvas)
+            {
+                TransformGroup transformGroup = new();
+                TranslateTransform tlt = new();
+                ScaleTransform sfr = new();
+                transformGroup.Children.Add(sfr);
+                transformGroup.Children.Add(tlt);
+                image.RenderTransform = transformGroup;
+                image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
+                {
+                    if (((sfr.ScaleX < 0.2|| sfr.ScaleY < 0.2) && e.Delta < 0) || ((sfr.ScaleX > 5 || sfr.ScaleY > 5) && e.Delta > 0))
+                    {
+
+                    }
+                    else
+                    {
+                        Point centerPoint = e.GetPosition(canvas);
+                        sfr.CenterX = centerPoint.X;
+                        sfr.CenterY = centerPoint.Y;
+                        sfr.ScaleX += (double)e.Delta / 1000;
+                        sfr.ScaleY += (double)e.Delta / 1000;
+                    }
 
 
-            //if (image.Parent is Grid grid)
-            //{
-            //    Canvas canvas1 = new Canvas()
-            //    {
-            //        Width= grid.ActualWidth,
-            //        Height =grid.ActualHeight,
-            //        //Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
-            //        Background = Brushes.Black,
-            //        ClipToBounds = true
-            //    };
 
-            //    grid.Children.Remove(image);
-            //    canvas1.Children.Add(image);
-            //    grid.Children.Add(canvas1);
-            //}
+                };
+                bool isMouseLeftButtonDown = false;
+                Point start, mouseXY;
+                image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
+                {
+                    mouseXY = Mouse.GetPosition(Application.Current.MainWindow);
+                    start = new Point(tlt.X, tlt.Y);
+                    isMouseLeftButtonDown = true;
+                    Application.Current.MainWindow.Cursor = Cursors.Hand;
+                };
+                image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
+                {
+                    isMouseLeftButtonDown = false;
+                    Application.Current.MainWindow.Cursor = Cursors.Arrow;
+                };
+                image.MouseLeave += delegate (object sender, MouseEventArgs e)
+                {
+                    isMouseLeftButtonDown = false;
+                    Application.Current.MainWindow.Cursor = Cursors.Arrow;
+                };
+                image.MouseMove += delegate (object sender, MouseEventArgs e)
+                {
+                    if (isMouseLeftButtonDown == true)
+                    {
+                        Point position = Mouse.GetPosition(Application.Current.MainWindow);
+                        tlt.X = start.X + position.X - mouseXY.X;
+                        tlt.Y = start.Y + position.Y - mouseXY.Y;
+                    }
+                };
 
-            //if (image.Parent is Canvas canvas)
-            //{
-            //    TransformGroup transformGroup = new();
-            //    TranslateTransform tlt = new();
-            //    ScaleTransform sfr = new();
-            //    transformGroup.Children.Add(sfr);
-            //    transformGroup.Children.Add(tlt);
-            //    image.RenderTransform = transformGroup;
-            //    image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
-            //    {
-            //        Point centerPoint = e.GetPosition(canvas);
-            //        if (sfr.ScaleX < 0.2 && sfr.ScaleY < 0.2 && e.Delta < 0)
-            //        {
-            //            return;
-            //        }
-            //        sfr.CenterX = centerPoint.X;
-            //        sfr.CenterY = centerPoint.Y;
-            //        sfr.ScaleX += (double)e.Delta / 3500;
-            //        sfr.ScaleY += (double)e.Delta / 3500;
-            //    };
-            //    bool isMouseLeftButtonDown = false;
-            //    Point mouseXY;
-            //    image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
-            //    {
-            //        isMouseLeftButtonDown = true;
-            //        mouseXY = e.GetPosition(image);
-            //    };
-            //    image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
-            //    {
-            //        isMouseLeftButtonDown = false;
-            //    };
-            //    image.MouseMove += delegate (object sender, MouseEventArgs e)
-            //    {
-            //        if (isMouseLeftButtonDown == true)
-            //        {
-            //            Point position = e.GetPosition(image);
-            //            tlt.X += position.X - mouseXY.X;
-            //            tlt.Y += position.Y - mouseXY.Y;
-            //        }
-            //    };
-            //}
-
+            }
         }
-
 
         public UpdateStatus updateStatus = new();
 
@@ -479,7 +486,18 @@ namespace Global
 
         private int Call(string type, object sender, EventArgs e)
         {
-            if(type == "STOP_ALIVE")
+            LambdaControl.Log(new Message() { Severity= Severity.INFO, Text = type });
+
+            if (type == "IMAGE_VIEW_CREATED")
+            {
+                //MessageBox.Show(" 窗口创建");
+                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+                View view = (View)eventData["view"];
+                Test(view.Image);
+            }
+
+
+            if (type == "STOP_ALIVE")
                 ALIVE = false;
 
             if (type == "START_ALIVE")

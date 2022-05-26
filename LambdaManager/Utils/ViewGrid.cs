@@ -36,14 +36,8 @@ internal class ViewGrid
 		Grid grid = new Grid(){
 			Margin = new Thickness(2, 2, 2, 2),
 		};
-		Canvas canvas = new Canvas() {
-			//Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
-			Background = Brushes.Black,
-			ClipToBounds = true
-		};
 
-        canvas.Children.Add(image);
-        grid.Children.Add(canvas);
+        grid.Children.Add(image);
 		return grid;
 	}
 	private static void GridSort(Grid[] GridLists)
@@ -115,6 +109,7 @@ internal class ViewGrid
 
 		View view = new View(image, index);
 		Views[index] = view;
+		LambdaControl.Trigger("IMAGE_VIEW_CREATED", grid, new Dictionary<string, object> { { "view",view} });
 		return view;
 	}
 
