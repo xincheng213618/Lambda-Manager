@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LambdaManager": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

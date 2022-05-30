@@ -55,7 +55,6 @@
         </Style>
     </Window.Resources>
 
-    
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -352,17 +351,17 @@
                                 <TextBlock>Slice</TextBlock>
                                 <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="0,2,0,2" Padding="2,0,2,0">
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" MinHeight="12">
-                                        <TextBlock Name="sliceIndex" Text="{Binding Path=SliceIndex}" Foreground="#FF00BFFF" Background="#FF000000" FontSize="6" VerticalAlignment="Center"/>
+                                        <TextBlock Name="sliceIndex" Text="111" Foreground="#FF00BFFF" Background="#FF000000" FontSize="6" VerticalAlignment="Center"/>
                                         <TextBlock FontSize="6" VerticalAlignment="Center">/</TextBlock>
                                         <TextBlock Name="totalSlice" FontSize="6" VerticalAlignment="Center" Text="{Binding Path=TotalSlice}"/> 
                                     </StackPanel>
                                 </Border>
                                 <Slider Width="20" Height="180" Minimum="1" Maximum="{Binding Path=TotalSlice,Mode=TwoWay}" Value="{Binding Path=SliceIndex ,Mode=TwoWay}" Style="{StaticResource HorizontalSlider}" IsSnapToTickEnabled="True"  TickFrequency="1" VerticalAlignment="Center" Orientation="Vertical" ValueChanged="Slider_ValueChanged_2" />
-                                <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="24" Margin="0,2,0,2" Padding="2,0,2,0">
-                                    <StackPanel HorizontalAlignment="Right">
-                                        <TextBlock Name="zTop" Text="{Binding Path=ZTop}" FontSize="6"/>
-                                        <TextBlock Name="zCurrent" Text="{Binding Path=ZCurrent}" Foreground="#FF00BFFF" FontSize="6"/>
-                                        <TextBlock Name="zBottom" Text="{Binding Path=ZBottom}" FontSize="6"/>
+                                <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="24" Margin="0,2,0,2" Padding="2,0,2,0"  >
+                                    <StackPanel HorizontalAlignment="Left">
+                                        <TextBlock Name="zTop" Text="111" FontSize="6"/>
+                                        <TextBlock Name="zCurrent" Text="1111" Foreground="#FF00BFFF" FontSize="6"/>
+                                        <TextBlock Name="zBottom" Text="1111" FontSize="6"/>
                                     </StackPanel>
                                 </Border>
                             </WrapPanel>

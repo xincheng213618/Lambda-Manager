@@ -25,6 +25,10 @@ extern "C" CAMERA_API int SaveSettings();
 extern "C" CAMERA_API int CameraSettingExposure(double exposure);
 
 extern "C" CAMERA_API int CameraSettingExposureIni(char** result_data, int len);
+
+
+extern "C" CAMERA_API int SleepTest();
+
 struct Cam
 {
 	char ip[16];

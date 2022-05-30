@@ -48,8 +48,8 @@ namespace Global
         private WindowData()
         {
             //Application.DispatcherUnhandledException += App_DispatcherUnhandledException;
-            AppDomain.CurrentDomain.FirstChanceException += App_FirstChanceException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            //AppDomain.CurrentDomain.FirstChanceException += App_FirstChanceException;
+            //AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             LambdaControl.Initialize(null, null, null, Call, null, null);
             //LambdaControl.CallEventHandler += Call;
             Hardware_Initialized();
@@ -152,7 +152,7 @@ namespace Global
                 Binding TotalFrame1 = new Binding("TotalFrame");
                 TotalFrame1.Source = updateStatus;
                 totalFrame.SetBinding(TextBlock.TextProperty, TotalFrame1);
-
+                   
                 
 
                 TextBlock timeElapsed = (TextBlock)mainwin.FindName("timeElapsed");
@@ -169,6 +169,10 @@ namespace Global
                 totalTime.SetBinding(TextBlock.TextProperty, TotalTime);
 
                 TextBlock zTop = (TextBlock)mainwin.FindName("zTop");
+                StackPanel stackPanel = (StackPanel)zTop.Parent;
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                Border border = (Border)stackPanel.Parent;
+                border.CornerRadius = new CornerRadius(4);
 
                 Binding ZTop = new Binding("ZTop");
                 ZTop.Source = updateStatus;
@@ -187,6 +191,12 @@ namespace Global
                 zBottom.SetBinding(TextBlock.TextProperty, ZBottom);
 
                 TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
+
+                StackPanel stackPanel1 = (StackPanel)sliceIndex.Parent;
+                stackPanel1.HorizontalAlignment = HorizontalAlignment.Center;
+                Border border1 = (Border)stackPanel1.Parent;
+                border1.CornerRadius = new CornerRadius(4);
+
                 Binding SliceIndex = new Binding("SliceIndex");
                 SliceIndex.Source = updateStatus;
                 sliceIndex.SetBinding(TextBlock.TextProperty, SliceIndex);
@@ -290,34 +300,34 @@ namespace Global
                 //MessageBox.Show(size.ToString());
 
                 IntPtr intPtr = (IntPtr)eventData["data"];
-                byte[] aaa = new byte[size];
-                Marshal.Copy(intPtr, aaa, 0, size);
+                //byte[] aaa = new byte[size];
+                //Marshal.Copy(intPtr, aaa, 0, size);
 
-                GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
-                IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                // Do your stuff...
-                pinnedArray.Free();
+                //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
+                //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+                //pinnedArray.Free();
 
+                if (image.ImageSource is WriteableBitmap writeableBitmap1)
+                {
+                    Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
+                    writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
 
-                WriteableBitmap writeableBitmap = new WriteableBitmap(64, 48, 96.0, 96.0, PixelFormats.Bgr24, null);
-                CopyMemory(writeableBitmap.BackBuffer, pointer, (uint)size);
-                writeableBitmap.Lock();
-                writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
-                writeableBitmap.Unlock();
-                image.ImageSource = writeableBitmap;
+                }
+                else
+                {
+                    WriteableBitmap writeableBitmap = new WriteableBitmap(64, 48, 96.0, 96.0, PixelFormats.Bgr24, null);
+                    CopyMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
+                    writeableBitmap.Lock();
+                    writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+                    writeableBitmap.Unlock();
+                    image.ImageSource = writeableBitmap;
+                }
+
 
 
                 //Window window = new Window();
                 //window.Content = image;
                 //window.Show();
-
-
-
-                //for (int i = 0; i < aaa.Length; i++)
-                //{
-                //    LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = aaa[i].ToString() });
-                //}
-
 
                 //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
                 //{
@@ -326,7 +336,6 @@ namespace Global
                 //    image.StreamSource = ms;
                 //    image.EndInit();
 
-
                 //    BitmapEncoder encoder = new PngBitmapEncoder();
                 //    encoder.Frames.Add(BitmapFrame.Create(image));
 
@@ -334,7 +343,6 @@ namespace Global
                 //    {
                 //        encoder.Save(fileStream);
                 //    }
-
                 //}
 
 
@@ -477,11 +485,11 @@ namespace Global
                 //grid.Background = Brushes.Red;
                 Canvas canvas1 = new Canvas()
                 {
-                    //Width = image.ActualWidth,
-                    //Height = image.ActualWidth,
-                    //Background = new SolidColorBrush(Color.FromRgb(f5, 195, 195)),
-                    Background = Brushes.Black,
-                    ClipToBounds = true
+                    Width = image.ActualWidth,
+                    Height = image.ActualWidth,
+                    Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
+                    //Background = Brushes.Black,
+                    //ClipToBounds = true
                 };
 
                 grid.Children.Remove(image);
@@ -552,7 +560,7 @@ namespace Global
         private bool OnUpdateStatus(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-
+            
             if (eventData == null)
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");

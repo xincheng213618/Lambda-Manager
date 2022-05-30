@@ -419,7 +419,7 @@ internal class Common
 	}
 
 	[DllImport("lib\\common.dll")]
-	public unsafe static extern void RegisterRoutineEvent(sbyte* type, int rotineId, ArgumentType handlerType, int once);
+	public unsafe static extern void RegisterRoutineEvent (sbyte* type, int rotineId, ArgumentType handlerType, int once);
 
 	public unsafe static void AddEventHandler(string type, ArgumentType argType, Routine? routine, bool once, int group)
 	{

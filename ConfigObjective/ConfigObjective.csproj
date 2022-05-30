@@ -6,6 +6,15 @@
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
 	<UseWindowsForms>True</UseWindowsForms>
+	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
   
 

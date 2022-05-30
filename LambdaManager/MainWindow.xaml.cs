@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -56,37 +57,44 @@ partial class MainWindow : BaseWindow
 		InitializeComponent();
 		ChangeMiddleViewVisibility(false);
 
-		UIEvents.Initialze();
-		AddMessage(new Message
-		{
-			Severity = Severity.INFO,
-			Text = LambdaManager.Properties.Resources.ConfigLoading
-		});
-		bool num = new ConfigLibrary().Load("application.xml");
-		if (msgList.Items.Count > 1)
-		{
-			msgList.Items.RemoveAt(0);
-		}
-		if (num)
-		{
-			AddMessage(new Message
-			{
-				Severity = Severity.INFO,
-				Text = Properties.Resources.ConfigLoaded
-			});
-		}
-		else if (Settings.Default.ExitIfLoadFatalError)
-		{
-			MessageBox.Show(LambdaManager.Properties.Resources.StartFatalError + GetLogDir() + "\\lambda.log", Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
-			Application.Current.Shutdown();
-		}
-		InitViewer();
+    }
+
+
+	private async void Update()
+    {
+        await Task.Delay(99);
+        UIEvents.Initialze();
+        AddMessage(new Message
+        {
+            Severity = Severity.INFO,
+            Text = LambdaManager.Properties.Resources.ConfigLoading
+        });
+        bool num = new ConfigLibrary().Load("application.xml");
+        if (msgList.Items.Count > 1)
+        {
+            msgList.Items.RemoveAt(0);
+        }
+        if (num)
+        {
+            AddMessage(new Message
+            {
+                Severity = Severity.INFO,
+                Text = Properties.Resources.ConfigLoaded
+            });
+        }
+        else if (Settings.Default.ExitIfLoadFatalError)
+        {
+            MessageBox.Show(LambdaManager.Properties.Resources.StartFatalError + GetLogDir() + "\\lambda.log", Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
+            Application.Current.Shutdown();
+        }
+        InitViewer();
     }
 
     private void Window_Initialized(object sender, EventArgs e)
     {
         SliderAll1.Value = 1920;
         SliderAll1.ValueChanged += Slider_ValueChanged;
+        Update();
 
     }
 

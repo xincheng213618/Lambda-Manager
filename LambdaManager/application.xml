@@ -67,12 +67,16 @@
 		</procedure>
 	</component>
 
-	<component name="Camera" lib="lib\ISCamera.dll">
+	<component name="Camera" lib="lib\ISCamera.dll" init="SleepTest">
 	
 		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="exposure">
 			<action name="CameraSettingExposure">
 				<input name="exposure" type="double"/>
 			</action>
+		</procedure>
+		<procedure name="SleepTest" event="SleepTest" >
+			<action name="SleepTest">
+=			</action>
 		</procedure>
 		
 		<procedure name="OpenSerial" event="projectManager" >

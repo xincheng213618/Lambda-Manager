@@ -272,6 +272,12 @@ int OpenSerial(char* FullPath)
 }
 
 
+int SleepTest() {
+	//Sleep(3000);
+	return  0;
+}
+
+
 int CameraSettingExposure(double exposure)
 {
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
@@ -292,8 +298,11 @@ int CameraSettingExposure(double exposure)
 	//uchar b[] = { 1, 2, 3, 4, 5 };
 
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
-	Event::Trigger("UPDATE_STATUS1");
 
+	json j;
+	j["x"] = "u8005";
+
+	Event::Trigger("UPDATE_STATUS1",&j);
 	Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
 
 	return  0;

@@ -13,6 +13,7 @@ namespace Global.Hardware
         public List<ObjectiveSetting> ObjectiveSettingList;
         //相机曝光
         public List<double> CameraExpose;
+
         public List<string> CameraExposeShow;
 
     }

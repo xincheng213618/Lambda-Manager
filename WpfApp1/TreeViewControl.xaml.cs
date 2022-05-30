@@ -298,15 +298,11 @@ namespace Solution
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(windowData.updateStatus.ToJson());
+
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Dictionary<string, object> data = new() { { "exposure", 1.01 } };
-            LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE", this, data);
-
-
         }
     }
 
