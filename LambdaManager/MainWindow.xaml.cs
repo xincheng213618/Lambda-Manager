@@ -25,7 +25,9 @@ using ThemeManager.Controls;
 
 namespace LambdaManager;
 
-partial class MainWindow : BaseWindoprivate readonly StreamWriter logger = InitLogger();
+partial class MainWindow : BaseWindow
+{
+private readonly StreamWriter logger = InitLogger();
 	private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
 	private bool multiMode;
@@ -337,6 +339,7 @@ partial class MainWindow : BaseWindoprivate readonly StreamWriter logger = InitL
 		if (sender is ToggleButton btn)
 		{
 			LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ACQUIRE" : "START_ACQUIRE", sender, e);
+
 			btn.Content = (btn.IsChecked.GetValueOrDefault() ? "停止采集" : "开始采集");
 		}
 	}
