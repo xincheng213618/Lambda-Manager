@@ -22,6 +22,7 @@ internal class Common
 {
 	private static List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
 
+
 	private static readonly FPSCounter fps = new FPSCounter(((MainWindow)Application.Current.MainWindow).fpsState);
 
 	private static readonly int RESERVED_EVENT_RESULT = 2147400000;
