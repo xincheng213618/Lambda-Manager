@@ -9,7 +9,8 @@ using System.Windows.Input;
 using Global.Mode.Config;
 using System.Text;
 using Global.Extensions;
-
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace ConfigObjective
 {
@@ -54,9 +55,12 @@ namespace ConfigObjective
         {
 
         }
+         
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            CricalBase.Fill = WindowData.image;
+
             //初始化硬件
             Update.UpdateGlobal();
             ObjectiveSetting_Initialize();

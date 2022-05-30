@@ -52,7 +52,6 @@ namespace Global
             AddEventHandler();
             AddInjection();
         }
-
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
@@ -248,16 +247,17 @@ namespace Global
 
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
         public static extern void CopyMemory(IntPtr Destination, IntPtr Source, uint Length);
+        public ImageBrush image = new ImageBrush();
 
         private bool TestDataEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("TestDataEvent Acvtive");
+            //MessageBox.Show("TestDataEvent Acvtive");
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-            MessageBox.Show(eventData.Count.ToString());
+            //MessageBox.Show(eventData.Count.ToString());
             if (eventData != null)
             {
                 int size = (int)eventData["size"];
-                MessageBox.Show(size.ToString());
+                //MessageBox.Show(size.ToString());
 
                 IntPtr intPtr = (IntPtr)eventData["data"];
                 byte[] aaa = new byte[size];
@@ -268,24 +268,25 @@ namespace Global
                 // Do your stuff...
                 pinnedArray.Free();
 
+
                 WriteableBitmap writeableBitmap = new WriteableBitmap(64, 48, 96.0, 96.0, PixelFormats.Bgr24, null);
                 CopyMemory(writeableBitmap.BackBuffer, pointer, (uint)size);
                 writeableBitmap.Lock();
                 writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
                 writeableBitmap.Unlock();
-
-                Image image = new Image();
-                image.Source = writeableBitmap;
-                Window window = new Window();
-                window.Content = image;
-                window.Show();
+                image.ImageSource = writeableBitmap;
 
 
+                //Window window = new Window();
+                //window.Content = image;
+                //window.Show();
 
-                for (int i = 0; i < aaa.Length; i++)
-                {
-                    LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = aaa[i].ToString() });
-                }
+
+
+                //for (int i = 0; i < aaa.Length; i++)
+                //{
+                //    LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = aaa[i].ToString() });
+                //}
 
 
                 //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))

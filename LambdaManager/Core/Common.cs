@@ -379,19 +379,27 @@ internal class Common
     [SuppressGCTransition]
     private static int CallBack8(int index, nint handle1, int handle2, nint handle3 )
     {
-        LambdaHandler lambdaHandler = ui_handlers[index - RESERVED_EVENT_RESULT];
-        Dictionary<string, object> eventObject = new Dictionary<string, object>
+		if (index >= RESERVED_EVENT_RESULT)
 		{
-			{ "data", handle1 },
-			{ "size", handle2 }
-		};
-        LambdaArgs e = new LambdaArgs
+            LambdaHandler lambdaHandler = ui_handlers[index - RESERVED_EVENT_RESULT];
+            Dictionary<string, object> eventObject = new Dictionary<string, object>
         {
-            Data = eventObject
+            { "data", handle1 },
+            { "size", handle2 }
         };
+            LambdaArgs e = new LambdaArgs
+            {
+                Data = eventObject
+            };
+            object obj = null;
+            if (handle3 != IntPtr.Zero)
+            {
+                obj = GetObjectFromAddress<object>(handle3);
+            }
+            return (!lambdaHandler(obj ?? "Unknown", e)) ? (-1) : 0;
+        }
+		return -1;
 
-        object obj = null;
-        return (!lambdaHandler(obj, e)) ? (-1) : 0;
     }
 
 
