@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,12 +47,41 @@ namespace Global
 
         private WindowData()
         {
+            //Application.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.FirstChanceException += App_FirstChanceException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             LambdaControl.Initialize(null, null, null, Call, null, null);
             //LambdaControl.CallEventHandler += Call;
             Hardware_Initialized();
             AddEventHandler();
             AddInjection();
         }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            //Log.WriteException(e.ExceptionObject as Exception);
+        }
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            if (e.Exception.GetType() != typeof(StackOverflowException))
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                Application.Current.Shutdown();
+            }
+        }
+        private void Log( string Text)
+        {
+            LambdaControl.Log( new Message { Severity =Severity.INFO,Text = Text });
+        }
+
+        private void App_FirstChanceException(object sender, FirstChanceExceptionEventArgs e)
+        {
+            Log(e.Exception.Message);
+        }
+
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;

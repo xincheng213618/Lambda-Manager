@@ -81,13 +81,19 @@ partial class MainWindow : BaseWindow
 			Application.Current.Shutdown();
 		}
 		InitViewer();
+    }
+
+    private void Window_Initialized(object sender, EventArgs e)
+    {
+        SliderAll1.Value = 1920;
+        SliderAll1.ValueChanged += Slider_ValueChanged;
+
+    }
 
 
 
-	}
 
-
-	internal void AddMessage(Severity severity, string obj, string? name, string attr, string? value, string err)
+    internal void AddMessage(Severity severity, string obj, string? name, string attr, string? value, string err)
 	{
 		string pleaseCheck = LambdaManager.Properties.Resources.PleaseCheck;
 		if (name != null)
@@ -272,12 +278,7 @@ partial class MainWindow : BaseWindow
 			_ => throw new Exception("top view not supported"), 
 		};
 	}
-	private void Window_Initialized(object sender, EventArgs e)
-	{
-		SliderAll1.Value = 1920;
-        SliderAll1.ValueChanged += Slider_ValueChanged;
 
-    }
 	private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
         stageAcquisition.Width = SliderAll1.Value;
