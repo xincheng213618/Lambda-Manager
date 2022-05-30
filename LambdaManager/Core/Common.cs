@@ -56,7 +56,9 @@ internal class Common
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, int>)(&CallBack5), 4);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, int>)(&CallBack6), 5);
 		SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
-		GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
+        SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int, nint, int>)(&CallBack8), 7);
+
+        GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 
 
 		LambdaControl.Initialize(App.Report, App.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
@@ -373,7 +375,27 @@ internal class Common
 		return FunctionExecutor.Evaluate(info);
 	}
 
-	[DllImport("lib\\common.dll")]
+    [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+    [SuppressGCTransition]
+    private static int CallBack8(int index, nint handle1, int handle2, nint handle3 )
+    {
+        LambdaHandler lambdaHandler = ui_handlers[index - RESERVED_EVENT_RESULT];
+        Dictionary<string, object> eventObject = new Dictionary<string, object>
+		{
+			{ "data", handle1 },
+			{ "size", handle2 }
+		};
+        LambdaArgs e = new LambdaArgs
+        {
+            Data = eventObject
+        };
+
+        object obj = null;
+        return (!lambdaHandler(obj, e)) ? (-1) : 0;
+    }
+
+
+    [DllImport("lib\\common.dll")]
 	public unsafe static extern void RegisterFunctionEvent(sbyte* type, IntPtr fn1, ArgumentType handlerType, int once);
 
 	public unsafe static void AddEventHandler(string type, ArgumentType argType, IntPtr callback, bool once)

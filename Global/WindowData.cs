@@ -8,12 +8,17 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Global
 {
@@ -44,7 +49,155 @@ namespace Global
             LambdaControl.Initialize(null, null, null, Call, null, null);
             //LambdaControl.CallEventHandler += Call;
             Hardware_Initialized();
-            AddTest();
+            AddEventHandler();
+            AddInjection();
+        }
+
+        private void AddInjection()
+        {
+            Window mainwin = Application.Current.MainWindow;
+            try
+            {
+                WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
+                if (WrapPanel1 == null)
+                    return;
+                ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
+
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem menuItem1 = new MenuItem() { Header = "一" };
+                menuItem1.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
+                };
+                MenuItem menuItem2 = new MenuItem() { Header = "四" };
+                menuItem2.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                };
+
+                MenuItem menuItem3 = new MenuItem() { Header = "六" };
+                menuItem3.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                };
+                contextMenu.Items.Add(menuItem1);
+                contextMenu.Items.Add(menuItem2);
+                contextMenu.Items.Add(menuItem3);
+                buttton1.ContextMenu = contextMenu;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+            try
+            {
+                WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
+
+                Slider Slider1 = (Slider)bottomToolbar.Children[6];
+
+                Binding myBindingFrameIndex = new Binding("FrameIndex");
+                myBindingFrameIndex.Source = updateStatus;
+                myBindingFrameIndex.Mode = BindingMode.TwoWay;
+
+                Binding myBindingTotalFrame = new Binding("TotalFrame");
+                myBindingTotalFrame.Source = updateStatus;
+                myBindingTotalFrame.Mode = BindingMode.TwoWay;
+                Slider1.Minimum = 1;
+                Slider1.SetBinding(Slider.ValueProperty, myBindingFrameIndex);
+                Slider1.SetBinding(Slider.MaximumProperty, myBindingTotalFrame);       
+                Slider1.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+                {
+                    LambdaControl.Trigger("TSERIES_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider1.Value - 1 } });
+                };
+
+
+                TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
+
+                Binding FrameIndex1 = new Binding("FrameIndex");
+                FrameIndex1.Source = updateStatus;
+                frameIndex.SetBinding(TextBlock.TextProperty, FrameIndex1);
+
+                TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
+                Binding TotalFrame1 = new Binding("TotalFrame");
+                TotalFrame1.Source = updateStatus;
+                totalFrame.SetBinding(TextBlock.TextProperty, TotalFrame1);
+
+                
+
+                TextBlock timeElapsed = (TextBlock)mainwin.FindName("timeElapsed");
+                
+                Binding TimeElapsed = new Binding("TimeElapsed");
+                TimeElapsed.Source = updateStatus;
+                timeElapsed.SetBinding(TextBlock.TextProperty, TimeElapsed);
+
+
+                TextBlock totalTime = (TextBlock)mainwin.FindName("totalTime");
+
+                Binding TotalTime = new Binding("TotalTime");
+                TotalTime.Source = updateStatus;
+                totalTime.SetBinding(TextBlock.TextProperty, TotalTime);
+
+                TextBlock zTop = (TextBlock)mainwin.FindName("zTop");
+
+                Binding ZTop = new Binding("ZTop");
+                ZTop.Source = updateStatus;
+                zTop.SetBinding(TextBlock.TextProperty, ZTop);
+
+
+                TextBlock zCurrent = (TextBlock)mainwin.FindName("zCurrent");
+                Binding ZCurrent = new Binding("ZCurrent");
+                ZCurrent.Source = updateStatus;
+                zCurrent.SetBinding(TextBlock.TextProperty, ZCurrent);
+
+
+                TextBlock zBottom = (TextBlock)mainwin.FindName("zBottom");
+                Binding ZBottom = new Binding("ZBottom");
+                ZBottom.Source = updateStatus;
+                zBottom.SetBinding(TextBlock.TextProperty, ZBottom);
+
+                TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
+                Binding SliceIndex = new Binding("SliceIndex");
+                SliceIndex.Source = updateStatus;
+                sliceIndex.SetBinding(TextBlock.TextProperty, SliceIndex);
+
+                TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
+                Binding TotalSlice = new Binding("TotalSlice");
+                TotalSlice.Source = updateStatus;
+
+                totalSlice.SetBinding(TextBlock.TextProperty, TotalSlice);
+
+
+
+                WrapPanel rightToolbar = (WrapPanel)mainwin.FindName("rightToolbar");
+
+                Slider Slider2 = (Slider)rightToolbar.Children[13];
+
+                Binding TotalSlice1 = new Binding("TotalSlice");
+                TotalSlice1.Source = updateStatus;
+                TotalSlice1.Mode = BindingMode.TwoWay;
+
+                Binding SliceIndex1 = new Binding("SliceIndex");
+                SliceIndex1.Source = updateStatus;
+                SliceIndex1.Mode = BindingMode.TwoWay;
+
+                Slider2.Minimum = 1;
+                Slider2.SetBinding(Slider.ValueProperty, SliceIndex1);
+                Slider2.SetBinding(Slider.MaximumProperty, TotalSlice1);
+                Slider2.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+                {
+                    LambdaControl.Trigger("ZINDEX_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider2.Value - 1 } });
+                };
+                
+
+            }
+            catch
+            {
+
+            }
+
+
         }
         private void Hardware_Initialized()
         {
@@ -85,11 +238,84 @@ namespace Global
                 ObjectiveSettingList = deviceInformation.ObjectiveSettingList;
             }
         }
-        public void AddTest()
+        private void AddEventHandler()
         {
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", OnUpdateWindowStatus, false);
+            LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
         }
+
+        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
+        public static extern void CopyMemory(IntPtr Destination, IntPtr Source, uint Length);
+
+        private bool TestDataEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("TestDataEvent Acvtive");
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            MessageBox.Show(eventData.Count.ToString());
+            if (eventData != null)
+            {
+                int size = (int)eventData["size"];
+                MessageBox.Show(size.ToString());
+
+                IntPtr intPtr = (IntPtr)eventData["data"];
+                byte[] aaa = new byte[size];
+                Marshal.Copy(intPtr, aaa, 0, size);
+
+                GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
+                IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+                // Do your stuff...
+                pinnedArray.Free();
+
+                WriteableBitmap writeableBitmap = new WriteableBitmap(64, 48, 96.0, 96.0, PixelFormats.Bgr24, null);
+                CopyMemory(writeableBitmap.BackBuffer, pointer, (uint)size);
+                writeableBitmap.Lock();
+                writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+                writeableBitmap.Unlock();
+
+                Image image = new Image();
+                image.Source = writeableBitmap;
+                Window window = new Window();
+                window.Content = image;
+                window.Show();
+
+
+
+                for (int i = 0; i < aaa.Length; i++)
+                {
+                    LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = aaa[i].ToString() });
+                }
+
+
+                //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
+                //{
+                //    BitmapImage image = new BitmapImage();
+                //    image.BeginInit();
+                //    image.StreamSource = ms;
+                //    image.EndInit();
+
+
+                //    BitmapEncoder encoder = new PngBitmapEncoder();
+                //    encoder.Frames.Add(BitmapFrame.Create(image));
+
+                //    using (var fileStream = new System.IO.FileStream("1.jpg", System.IO.FileMode.Create))
+                //    {
+                //        encoder.Save(fileStream);
+                //    }
+
+                //}
+
+
+            }
+
+
+
+
+            return true;
+        }
+
+
         private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a,int check)
         {
             MenuItem1 menuItem1 = new MenuItem1() { Header = "明场" };
@@ -191,8 +417,7 @@ namespace Global
 
         public async void Test(Image image)
         {
-            //Image image = LambdaControl.GetImageView(0).Image;
-
+            await Task.Delay(1000);
             if (image.Parent is Grid grid)
             {
                 //grid.Children.Clear();
@@ -221,6 +446,8 @@ namespace Global
                 //grid.Background = Brushes.Red;
                 Canvas canvas1 = new Canvas()
                 {
+                    //Width = image.ActualWidth,
+                    //Height = image.ActualWidth,
                     //Background = new SolidColorBrush(Color.FromRgb(f5, 195, 195)),
                     Background = Brushes.Black,
                     ClipToBounds = true
@@ -294,6 +521,7 @@ namespace Global
         private bool OnUpdateStatus(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+
             if (eventData == null)
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");

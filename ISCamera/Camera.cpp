@@ -8,7 +8,7 @@
 #include "thread"
 #include "concurrent.h"
 #include "threadpool.h"
-
+#include <opencv2/opencv.hpp>
 using namespace std;
 
 LambdaView* pView = NULL;
@@ -118,8 +118,10 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
-		if (pView->IsState(ViewState::CLOSED))
+		if (pView->IsState(ViewState::CLOSED)) {
+			delete pView;
 			break;
+		}
 	}
 	// the camera will be deinitialized automatically in VideoCapture destructor
 	return 0;
@@ -272,14 +274,27 @@ int OpenSerial(char* FullPath)
 
 int CameraSettingExposure(double exposure)
 {
-	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 	a++;
 	//std::string name = "aÖÐÎÄ";
 	//name = StringToUtf(name);
 	//Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
+	//uchar b[] = { 1,2,3,4,5 };
+
+	//Event::Trigger("TestDataEvent", b, sizeof(b) / sizeof(b[0]));
+
+	cv::Mat img1;
+	img1 = cv::imread("cat.jpg");
+
+	cv::Mat img2;
+	resize(img1, img2, cv::Size(0, 0), 0.1, 0.1);
+
+	//uchar b[] = { 1, 2, 3, 4, 5 };
+
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
-	//Event::Trigger("UPDATE_STATUS");
-	//Event::Trigger("UPDATE_STATUS1");
+	Event::Trigger("UPDATE_STATUS1");
+
+	Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
 
 	return  0;
 }

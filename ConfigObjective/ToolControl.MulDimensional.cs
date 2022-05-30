@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ConfigObjective
 {
@@ -58,7 +59,6 @@ namespace ConfigObjective
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
             WindowData.MulDimensional.ZEnd = WindowData.WindowMsg.StageZ;
-
         }
 
         private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
@@ -81,6 +81,22 @@ namespace ConfigObjective
         private void ToggleButton505_Checked(object sender, RoutedEventArgs e)
         {
             ToggleButton503.IsChecked = true;
+        }
+
+        public void NumberValidationTextBox(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Back)
+            {
+                return;
+            }
+            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal)
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
         }
     }
 }

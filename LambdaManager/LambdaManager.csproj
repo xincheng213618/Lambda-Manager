@@ -110,7 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
-    <ProjectReference Include="..\Global\Global.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
     <ProjectReference Include="..\WpfApp1\Solution.csproj" />

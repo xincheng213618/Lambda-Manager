@@ -292,41 +292,7 @@ namespace Solution
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-           
-            Window mainwin = Application.Current.MainWindow;
-            try
-            {
-                WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
-                if (WrapPanel1 == null)
-                    return;
-                ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
-
-                ContextMenu contextMenu = new ContextMenu();
-                MenuItem menuItem1 = new MenuItem() { Header = "一" };
-                menuItem1.Click += delegate
-                {
-                    LambdaControl.Trigger("QUATER_CLICKED1", sender, e);
-                };
-                MenuItem menuItem2 = new MenuItem() { Header = "四" };
-                menuItem2.Click += delegate
-                {
-                    LambdaControl.Trigger("QUATER_CLICKED2", sender, e);
-                };
-
-                MenuItem menuItem3 = new MenuItem() { Header = "六" };
-                menuItem3.Click += delegate
-                {
-                    LambdaControl.Trigger("QUATER_CLICKED3", sender, e);
-                };
-                contextMenu.Items.Add(menuItem1);
-                contextMenu.Items.Add(menuItem2);
-                contextMenu.Items.Add(menuItem3);
-                buttton1.ContextMenu = contextMenu; 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+          
         }
 
 
@@ -337,8 +303,10 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Dictionary<string, object> data = new() { { "mode", 0 }, { "exposure", 1.0 } };
-            LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
+            Dictionary<string, object> data = new() { { "exposure", 1.01 } };
+            LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE", this, data);
+
+
         }
     }
 

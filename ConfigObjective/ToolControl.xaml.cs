@@ -59,7 +59,6 @@ namespace ConfigObjective
         {
             //初始化硬件
             Update.UpdateGlobal();
-
             ObjectiveSetting_Initialize();
             ViewMode_Initialize();
             CameraSetting_Initialize();
@@ -80,7 +79,6 @@ namespace ConfigObjective
 
             ComboBox1.ItemsSource = data1;
             UpDownControl1.SelectedIndex = 60;
-
 
             #region slider
             SliderAbbreviation(Slider311, "BRIGHT_FIELD_DIAMETER", "diameter");

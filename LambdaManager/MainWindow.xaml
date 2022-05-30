@@ -268,19 +268,20 @@
                                 </Button>
                                 <TextBlock VerticalAlignment="Center">FPS:</TextBlock>
                                 <TextBox Name="fpsState" Text="{DynamicResource Fps}" VerticalAlignment="Center" TextChanged="fpsState_TextChanged"/>
-                                <Slider Width="180" Height="20"  Style="{StaticResource HorizontalSlider}" Minimum="1" Value="{Binding Path=FrameIndex ,Mode=TwoWay}" Maximum="{Binding Path=TotalFrame ,Mode=TwoWay}" IsSnapToTickEnabled="True"  TickFrequency="1" VerticalAlignment="Center"  ValueChanged="Slider_ValueChanged_1" />
+                                <Slider Width="180" Height="20"  Style="{StaticResource HorizontalSlider}" Minimum="1"  IsSnapToTickEnabled="True"  TickFrequency="1" VerticalAlignment="Center"  ValueChanged="Slider_ValueChanged_1" />
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="16">
                                     <TextBlock>Frame</TextBlock>
                                     <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="4,0,0,0" Padding="2,0,2,0">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock Name="frameIndex" Text="{Binding Path=FrameIndex}" Foreground="#FF00BFFF"/> 
+                                            <TextBlock Name="frameIndex" Foreground="#FF00BFFF"/> 
                                             <TextBlock>/</TextBlock>
-                                            <TextBlock Name="totalFrame" Text="{Binding Path=TotalFrame}"/>
+                                            <TextBlock Name="totalFrame"/>
                                         </StackPanel>
                                     </Border>
                                     <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="50" Margin="4,0,2,0" Padding="2,0,2,0">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock Name="timeElapsed" Text="{Binding Path=TimeElapsed}"  Foreground="#FF00BFFF"/>
+                                            <TextBlock Name="timeElapsed" Text="2"  Foreground="#FF00BFFF"></TextBlock>
+
                                             <TextBlock>/</TextBlock>
                                             <TextBlock Name="totalTime" Text="{Binding Path=TotalTime}"/>
                                         </StackPanel>
