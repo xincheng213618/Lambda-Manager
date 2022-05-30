@@ -379,8 +379,8 @@ internal class Common
     [SuppressGCTransition]
     private static int CallBack8(int index, nint handle1, int handle2, nint handle3 )
     {
-		if (index >= RESERVED_EVENT_RESULT)
-		{
+        if (index >= RESERVED_EVENT_RESULT)
+        {
             LambdaHandler lambdaHandler = ui_handlers[index - RESERVED_EVENT_RESULT];
             Dictionary<string, object> eventObject = new Dictionary<string, object>
         {
@@ -398,7 +398,7 @@ internal class Common
             }
             return (!lambdaHandler(obj ?? "Unknown", e)) ? (-1) : 0;
         }
-		return -1;
+        return -1;
 
     }
 
