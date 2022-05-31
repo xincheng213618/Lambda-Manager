@@ -80,3 +80,15 @@ int SendLEDSignal(char* signal)
     Logger::Log2(Severity::INFO, L"Invoke 'SendLEDSignal(signal: %s)'", signal);
     return 0;
 }
+
+int OpenSerial(char* fullPath)
+{
+    Logger::Log1(Severity::INFO, "Invoke 'OpenSerial(fullPath: %s)'", fullPath);
+    return 0;
+}
+
+int OpenSerial2(wchar_t* fullPath)
+{
+    Logger::Log2(Severity::INFO, L"Invoke 'OpenSerial(fullPath: %s)'", fullPath);
+    return 0;
+}

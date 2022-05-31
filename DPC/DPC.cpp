@@ -42,3 +42,23 @@ int CalcPhaseContrast(HIMAGE imageLR, HIMAGE imageUD, HIMAGE imagePC)
 	Logger::Log2(Severity::INFO, L"Invoke CalcPhaseContrast(imageLR: %p, imagePC:%p, <out> imagePC: %p)", imageLR, imageUD, imagePC);
 	return 0;
 }
+
+int UpdateStageInformation()
+{
+	json j;
+
+	int nX = 6000 * 1000 / 1600;
+	int nY = 6000 * 1000 / 1600;
+	int nZ = 6000 * 1000 / 32000;
+
+	j["x"] = "X:" + std::to_string(nX);
+	j["y"] = "Y:" + std::to_string(nY);
+	j["z"] = "Z:" + std::to_string(nZ);
+	j["size"] = "1280 * 960";
+	j["focus"] = "6062";
+	j["createTime"] = "ÖÐÎÄ";
+
+	Event::Trigger("UPDATE_STATUS", &j);
+
+	return 0;
+}

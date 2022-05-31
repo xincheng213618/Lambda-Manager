@@ -31,3 +31,7 @@ extern "C" RS232_API int MoveTo2(std::pair<int,double> pair);
 extern "C" RS232_API int MoveZ(int step);
 
 extern "C" RS232_API int SendLEDSignal(char* signal);
+
+extern "C" RS232_API int OpenSerial(char* fullPath);
+
+extern "C" RS232_API int OpenSerial2(wchar_t* fullPath);

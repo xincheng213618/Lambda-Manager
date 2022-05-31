@@ -21,3 +21,5 @@ extern "C" DPC_API int DICImgCalculate(HIMAGE image1, HIMAGE image2, HIMAGE imag
 extern "C" DPC_API int DICImgCalculate4(HIMAGE imageU, HIMAGE imageD, HIMAGE imageL, HIMAGE imageR, HIMAGE imageLR, HIMAGE imageUD);
 
 extern "C" DPC_API int CalcPhaseContrast(HIMAGE imageLR, HIMAGE imageUD, HIMAGE imagePC);
+
+extern "C" DPC_API int UpdateStageInformation();
