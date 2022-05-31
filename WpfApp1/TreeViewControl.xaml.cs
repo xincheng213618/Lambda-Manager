@@ -92,11 +92,11 @@ namespace Solution
                 }
                 if (item.DataContext is ProjectManager projectMannager1)
                 {
-                    LambdaControl.Trigger("projectManager", this, ToStrings(projectMannager1.FullPath));
+                    LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
                 }
                 if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                 {
-                    LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
+                    LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullPath);
                 }
             }
             else

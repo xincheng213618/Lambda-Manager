@@ -1,0 +1,183 @@
+﻿using Lambda;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+
+namespace Global
+{
+    public partial class WindowData
+    {
+        private void AddInjection()
+        {
+            Window mainwin = Application.Current.MainWindow;
+
+            try
+            {
+                StackPanel projectView = (StackPanel)mainwin.FindName("projectView");
+                projectView.Children.Clear();
+                //if (projectView.Children[0] is TextBlock text1)
+                //{
+                //    projectView.Children.Remove(text1);
+                //}
+                //if (projectView.Children[1] is TextBlock text2)
+                //{
+                //    projectView.Children.Remove(text2);
+                //}
+
+
+                WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
+                if (WrapPanel1 == null)
+                    return;
+                ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
+
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem menuItem1 = new MenuItem() { Header = "一" };
+                menuItem1.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
+                };
+                MenuItem menuItem2 = new MenuItem() { Header = "四" };
+                menuItem2.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                };
+
+                MenuItem menuItem3 = new MenuItem() { Header = "六" };
+                menuItem3.Click += delegate
+                {
+                    LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                };
+                contextMenu.Items.Add(menuItem1);
+                contextMenu.Items.Add(menuItem2);
+                contextMenu.Items.Add(menuItem3);
+                buttton1.ContextMenu = contextMenu;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+            try
+            {
+                WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
+
+                Slider Slider1 = (Slider)bottomToolbar.Children[6];
+
+                Binding myBindingFrameIndex = new Binding("FrameIndex");
+                myBindingFrameIndex.Source = updateStatus;
+                myBindingFrameIndex.Mode = BindingMode.TwoWay;
+
+                Binding myBindingTotalFrame = new Binding("TotalFrame");
+                myBindingTotalFrame.Source = updateStatus;
+                myBindingTotalFrame.Mode = BindingMode.TwoWay;
+                Slider1.Minimum = 1;
+                Slider1.SetBinding(Slider.ValueProperty, myBindingFrameIndex);
+                Slider1.SetBinding(Slider.MaximumProperty, myBindingTotalFrame);
+                Slider1.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+                {
+                    LambdaControl.Trigger("TSERIES_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider1.Value - 1 } });
+                };
+
+
+                TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
+
+                Binding FrameIndex1 = new Binding("FrameIndex");
+                FrameIndex1.Source = updateStatus;
+                frameIndex.SetBinding(TextBlock.TextProperty, FrameIndex1);
+
+                TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
+                Binding TotalFrame1 = new Binding("TotalFrame");
+                TotalFrame1.Source = updateStatus;
+                totalFrame.SetBinding(TextBlock.TextProperty, TotalFrame1);
+
+
+
+                TextBlock timeElapsed = (TextBlock)mainwin.FindName("timeElapsed");
+
+                Binding TimeElapsed = new Binding("TimeElapsed");
+                TimeElapsed.Source = updateStatus;
+                timeElapsed.SetBinding(TextBlock.TextProperty, TimeElapsed);
+
+
+                TextBlock totalTime = (TextBlock)mainwin.FindName("totalTime");
+
+                Binding TotalTime = new Binding("TotalTime");
+                TotalTime.Source = updateStatus;
+                totalTime.SetBinding(TextBlock.TextProperty, TotalTime);
+
+                TextBlock zTop = (TextBlock)mainwin.FindName("zTop");
+                StackPanel stackPanel = (StackPanel)zTop.Parent;
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                Border border = (Border)stackPanel.Parent;
+                border.CornerRadius = new CornerRadius(4);
+
+                Binding ZTop = new Binding("ZTop");
+                ZTop.Source = updateStatus;
+                zTop.SetBinding(TextBlock.TextProperty, ZTop);
+
+
+                TextBlock zCurrent = (TextBlock)mainwin.FindName("zCurrent");
+                Binding ZCurrent = new Binding("ZCurrent");
+                ZCurrent.Source = updateStatus;
+                zCurrent.SetBinding(TextBlock.TextProperty, ZCurrent);
+
+
+                TextBlock zBottom = (TextBlock)mainwin.FindName("zBottom");
+                Binding ZBottom = new Binding("ZBottom");
+                ZBottom.Source = updateStatus;
+                zBottom.SetBinding(TextBlock.TextProperty, ZBottom);
+
+                TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
+
+                StackPanel stackPanel1 = (StackPanel)sliceIndex.Parent;
+                stackPanel1.HorizontalAlignment = HorizontalAlignment.Center;
+                Border border1 = (Border)stackPanel1.Parent;
+                border1.CornerRadius = new CornerRadius(4);
+
+                Binding SliceIndex = new Binding("SliceIndex");
+                SliceIndex.Source = updateStatus;
+                sliceIndex.SetBinding(TextBlock.TextProperty, SliceIndex);
+
+                TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
+                Binding TotalSlice = new Binding("TotalSlice");
+                TotalSlice.Source = updateStatus;
+
+                totalSlice.SetBinding(TextBlock.TextProperty, TotalSlice);
+
+
+
+                WrapPanel rightToolbar = (WrapPanel)mainwin.FindName("rightToolbar");
+
+                Slider Slider2 = (Slider)rightToolbar.Children[13];
+
+                Binding TotalSlice1 = new Binding("TotalSlice");
+                TotalSlice1.Source = updateStatus;
+                TotalSlice1.Mode = BindingMode.TwoWay;
+
+                Binding SliceIndex1 = new Binding("SliceIndex");
+                SliceIndex1.Source = updateStatus;
+                SliceIndex1.Mode = BindingMode.TwoWay;
+
+                Slider2.Minimum = 1;
+                Slider2.SetBinding(Slider.ValueProperty, SliceIndex1);
+                Slider2.SetBinding(Slider.MaximumProperty, TotalSlice1);
+                Slider2.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+                {
+                    LambdaControl.Trigger("ZINDEX_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider2.Value - 1 } });
+                };
+
+
+            }
+            catch
+            {
+
+            }
+
+
+        }
+
+
+    }
+}

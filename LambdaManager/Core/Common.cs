@@ -93,10 +93,16 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage1(int severity, sbyte* message)
 	{
-		LambdaControl.Log(new Message
+        int length = default(int);
+        sbyte* p2 = default(sbyte*);
+        p2 = (sbyte*)message;
+        while (*(p2++) != 0)
+            length++;
+        LambdaControl.Log(new Message
         {
             Severity = (Severity)severity,
-            Text = new string(message)
+
+            Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
         });
 
         //App.Report2();
@@ -109,10 +115,15 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage2(int severity, char* message)
 	{
+        int length = default(int);
+        sbyte* p2 = default(sbyte*);
+        p2 = (sbyte*)message;
+        while (*(p2++) != 0)
+            length++;
         LambdaControl.Log2(new Message
         {
             Severity = (Severity)severity,
-            Text = new string(message)
+            Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
         });
 	}
 
@@ -286,9 +297,16 @@ internal class Common
 	private unsafe static int CallBack3(int index, nint pEventData, nint sender)
 	{
 		string json = null;
-		if (pEventData != IntPtr.Zero)
+
+        if (pEventData != IntPtr.Zero)
 		{
-			json = new string((sbyte*)pEventData);
+            int length = default(int);
+            sbyte* p2 = default(sbyte*);
+            p2 = (sbyte*)pEventData;
+			while (*(p2++) != 0)
+                length++;
+
+            json = new string((sbyte*)pEventData, 0,length, Encoding.UTF8);
 		}
 		int? result = UICallback(index, json, sender);
 		if (result.HasValue)

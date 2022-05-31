@@ -79,7 +79,6 @@ namespace ConfigObjective
             ////事件监听
             //LambdaControl.CallEventHandler += LambdaControlCall;
 
-            StackPanelMul.DataContext = WindowData.MulDimensional;
 
             ComboBox1.ItemsSource = data1;
             UpDownControl1.SelectedIndex = 60;

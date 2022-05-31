@@ -187,7 +187,7 @@ string UtfToString(string strValue)
 
 {
 	int nwLen = ::MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), -1, NULL, 0);
-	wchar_t* pwBuf = new wchar_t[nwLen + 1];//����ĩβ'\0'
+	wchar_t* pwBuf = new wchar_t[nwLen + 1];//加上末尾'\0'
 	ZeroMemory(pwBuf, nwLen * 2 + 2);
 	::MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), strValue.length(), pwBuf, nwLen);
 	int nLen = ::WideCharToMultiByte(CP_UTF8, 0, pwBuf, -1, NULL, NULL, NULL, NULL);
@@ -204,7 +204,7 @@ string UtfToString(string strValue)
 string StringToUtf(string strValue)
 {
 	int nwLen = MultiByteToWideChar(CP_UTF8, 0, strValue.c_str(), -1, NULL, 0);
-	wchar_t* pwBuf = new wchar_t[nwLen + 1];//����ĩβ'\0'
+	wchar_t* pwBuf = new wchar_t[nwLen + 1];//加上末尾'\0'
 	memset(pwBuf, 0, nwLen * 2 + 2);
 	MultiByteToWideChar(CP_UTF8, 0, strValue.c_str(), strValue.length(), pwBuf, nwLen);
 	int nLen = WideCharToMultiByte(CP_UTF7, 0, pwBuf, -1, NULL, NULL, NULL, NULL);
@@ -261,7 +261,6 @@ int CameraSettingExposureIni(char** result_data, int len)
 	Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
 	a++;
 	return  0;
-
 }
 
 int OpenSerial(char* FullPath)	
@@ -282,7 +281,7 @@ int CameraSettingExposure(double exposure)
 {
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 	a++;
-	//std::string name = "a����";
+	//std::string name = "a中文";
 	//name = StringToUtf(name);
 	//Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
 	//uchar b[] = { 1,2,3,4,5 };
@@ -300,10 +299,38 @@ int CameraSettingExposure(double exposure)
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
 
 	json j;
-	j["x"] = "u8005";
-
-	Event::Trigger("UPDATE_STATUS1",&j);
+	j["createTime"] = "中文";
+	Event::Trigger("UPDATE_STATUS", &j);
 	Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
 
+
+
+	json j1;
+
+	//采集次数
+	j1["CollectionTimes"] = "1";
+	//采集层数
+	j1["CollectionLayers"] = "5";
+	//采集点个数
+	j1["CollectionPoints"] = "100";
+	//成像模式数
+	j1["ViewModeCounts"] = "4";
+	//荧光通道数
+	j1["FluorescenceChannels"] = "2";
+	//图像尺寸
+	j1["ImageSize"] = "1280×960 (5.2MB)";
+	//图像总数
+	j1["ImageNums"] = "1260";
+	//存储空间
+	j1["Storage"] = "1.546G";
+	//全部采集耗时
+	j1["AllCollectionTime"] = "23h 0m 0.002s";
+	//相机工作时长
+	j1["CameraWorkingTime"] = "0h 0m 0.002s";
+
+	
+	Event::Trigger("UpdateMulSummary", &j1);
+
+	
 	return  0;
 }

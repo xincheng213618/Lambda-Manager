@@ -478,23 +478,23 @@
 
         <Border x:Name="Border5" CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel>
-                <UniformGrid Margin="10,10,10,10" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                    <CheckBox x:Name="checkbox51" IsChecked="True" Content="明场" FontSize="15" />
-                    <CheckBox x:Name="checkbox52" IsChecked="True" Content="暗场" FontSize="15" />
-                    <CheckBox x:Name="checkbox53" IsChecked="True" Content="莱茵" FontSize="15" />
-                    <CheckBox x:Name="checkbox54" IsChecked="True" Content="差分" FontSize="15" />
-                    <CheckBox x:Name="checkbox55" IsChecked="True" Content="相位" FontSize="15" />
-                    <CheckBox x:Name="checkbox56" IsChecked="True" Content="相差" FontSize="15" />
-                </UniformGrid>
-                <UniformGrid Columns="7"  >
+
+                <UniformGrid Columns="7" Margin="0,10,0,5"  >
                     <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True" />
                     <ToggleButton x:Name="ToggleButton502" Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
                     <ToggleButton x:Name="ToggleButton503"  Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked"/>
                     <ToggleButton x:Name="ToggleButton504"  Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0"/>
                     <ToggleButton x:Name="ToggleButton505" Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" IsChecked="False" Checked="ToggleButton505_Checked"/>
                     <ToggleButton x:Name="ToggleButton506" Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-                    <ToggleButton x:Name="ToggleButton507" Style="{StaticResource ToggleButtonStyle1}" Content="M" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-
+                    <ToggleButton x:Name="ToggleButton507" Style="{StaticResource ToggleButtonStyle1}" Content="M" IsChecked="True" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
+                </UniformGrid>
+                <UniformGrid  Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <CheckBox x:Name="checkbox51" IsChecked="True" Content="明场" FontSize="15" />
+                    <CheckBox x:Name="checkbox52" IsChecked="True" Content="暗场" FontSize="15" />
+                    <CheckBox x:Name="checkbox53" IsChecked="True" Content="莱茵" FontSize="15" />
+                    <CheckBox x:Name="checkbox54" IsChecked="True" Content="差分" FontSize="15" />
+                    <CheckBox x:Name="checkbox55" IsChecked="True" Content="相位" FontSize="15" />
+                    <CheckBox x:Name="checkbox56" IsChecked="True" Content="相差" FontSize="15" />
                 </UniformGrid>
 
 
@@ -551,22 +551,54 @@
                     </StackPanel>
                 </Border>
 
-                <ToggleButton x:Name="ToggleButton51"  Style="{StaticResource ButtonPageControl}" Content="采集摘要" FontSize="13" Foreground="White" IsChecked="False" />
+                <ToggleButton x:Name="ToggleButton51"  Style="{StaticResource ButtonPageControl}" Content="采集摘要" FontSize="13" Foreground="White" IsChecked="True" />
                 <Border Visibility="{Binding ElementName=ToggleButton51 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
-                    <UniformGrid Columns="2">
-                        <StackPanel>
-                            <TextBlock Text="Number of time points: X"  Foreground="#7F7F7F"/>
-                            <TextBlock Text="Number of z-slices: 1"  Foreground="#7F7F7F"/>
-                            <TextBlock Text="Number of xy-positions: 1 " Foreground="#7F7F7F"/>
-                            <TextBlock Text="Number of Imaging modality: 1"  Foreground="#7F7F7F"/>
-                            <TextBlock Text="Number of Fluor channels: 1"  Foreground="#7F7F7F"/>
+                    <UniformGrid Columns="2" x:Name="MulSummaryUniformGrid" >
+                        <StackPanel >
+                            <TextBlock FontSize="11"  Foreground="#7F7F7F">
+                                <Run Text="采集次数："/>
+                                <Run Text="{Binding Path=CollectionTimes}"/>
+                            </TextBlock>
+                            <TextBlock FontSize="11"   Foreground="#7F7F7F">
+                                <Run Text="采集层数："/>
+                                <Run Text="{Binding Path=CollectionLayers}"/>
+                            </TextBlock>
+
+                            <TextBlock  FontSize="11"  Foreground="#7F7F7F">
+                                <Run Text="采集点个数："/>                              
+                                <Run Text="{Binding Path=CollectionPoints}"/>
+                            </TextBlock>
+                            <TextBlock FontSize="11"   Foreground="#7F7F7F">
+                                <Run Text="成像模式数："/>                              
+                                <Run Text="{Binding Path=ViewModeCounts}"/>
+                            </TextBlock>
+
+                            <TextBlock  FontSize="11"  Foreground="#7F7F7F">
+                                <Run Text="荧光通道数："/>                              
+                                <Run Text="{Binding Path=FluorescenceChannels}"/>
+                            </TextBlock>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="Images Size: 1280×960 (5.2MB)"  Foreground="#7F7F7F"/>
-                            <TextBlock Text="Total Images: 12345"  Foreground="#7F7F7F"/>
-                            <TextBlock Text="Total Memory: 1.546 G"  Foreground="#7F7F7F"/>
-                            <TextBlock Text="Total Duration: 23h 0m 0.002s" Foreground="#7F7F7F"/>
-                            <TextBlock Text="Total Runtime: 0h 0m 0.002s" Foreground="#7F7F7F"/>
+                            <TextBlock  FontSize="11"  Foreground="#7F7F7F">
+                                <Run Text="图像尺寸："/>                              
+                                <Run Text="{Binding Path=ImageSize}"/>
+                            </TextBlock>
+                            <TextBlock FontSize="11"   Foreground="#7F7F7F">
+                                <Run Text="图像总数："/>                              
+                                <Run Text="{Binding Path=ImageSize}"/>
+                            </TextBlock>
+                            <TextBlock  FontSize="11"  Foreground="#7F7F7F">
+                                <Run Text="所需存储空间："/>                              
+                                <Run Text="{Binding Path=Storage}"/>
+                            </TextBlock>
+                            <TextBlock  FontSize="11"  Foreground="#7F7F7F">
+                                <Run Text="全部采集耗时："/>                              
+                                <Run Text="{Binding Path=AllCollectionTime}"/>
+                            </TextBlock>
+                            <TextBlock  FontSize="11"  Foreground="#7F7F7F">
+                                <Run Text="相机工作时长："/>                              
+                                <Run Text="{Binding Path=CameraWorkingTime}"/>
+                            </TextBlock>
                         </StackPanel>
                     </UniformGrid>
                 </Border>

@@ -14,8 +14,8 @@ internal class UIEvents
 	{
 		{ "OPEN_FILE_DIALOG", OnOpenFileDialog },
 		{ "SAVE_FILE_DIALOG", OnSaveFileDialog },
-		//{ "UPDATE_STATUS", OnUpdateStatus },
-		{ "UPDATE_PANEL_STATE", OnUpdatePanelState }
+        { "UPDATE_STATUS", OnUpdateStatus },
+        { "UPDATE_PANEL_STATE", OnUpdatePanelState }
 	};
 
 	public static void Initialze()

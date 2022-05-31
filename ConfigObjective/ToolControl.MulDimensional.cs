@@ -12,7 +12,8 @@ namespace ConfigObjective
     {
         public void MulDimensional_Initialize()
         {
-
+            StackPanelMul.DataContext = WindowData.MulDimensional;
+            MulSummaryUniformGrid.DataContext = WindowData.mulSummary;
         }
         
         public void MulDimensional_Update()
