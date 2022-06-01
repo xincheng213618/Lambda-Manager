@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ConfigBottomView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
-    <Grid x:Name="Grid1" Height="100" >
+    <Grid x:Name="Grid1" Height="100" Background="#F7F7F7" >
         <Image Name="HistogramImage1" Stretch="Uniform"/>
 
     </Grid>

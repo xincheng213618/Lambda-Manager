@@ -525,16 +525,15 @@
 	<!--<component name="CameraDialog" lib="MenuISCameraSetting.dll" mount="menu:菜单"/>-->
 
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
-	<!--<component name="UserControl1" lib="WpfApp5.dll" mount="acquire:4"/>-->
-	<!--<component name="UserControl22222" lib="WpfApp4.dll" mount="acquire:4" />-->
+
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="project:0"/>
 
 
 	<component name="BottomView" lib="ConfigBottomView.dll" mount="bottom:0"/>
 
-
-
+	<!--<component name="UserControl1" lib="WpfApp5.dll" mount="acquire:4"/>
+	<component name="UserControl22222" lib="WpfApp4.dll" mount="acquire:4" />-->
 
 	<!--<component name="BaseDeck" lib="ConfigDeck.dll" mount="project:0"/>--> 
 

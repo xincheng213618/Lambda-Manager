@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Global", "Global\Global.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeManager", "ThemeManager\ThemeManager.csproj", "{B21710A3-6DD8-442B-8AAA-F868960A3C9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigBottomView", "ConfigBottomView\ConfigBottomView.csproj", "{9775502E-8304-44A4-9020-AA971AC71B90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigBottomView", "ConfigBottomView\ConfigBottomView.csproj", "{9775502E-8304-44A4-9020-AA971AC71B90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -218,14 +218,14 @@ Global
 		{B21710A3-6DD8-442B-8AAA-F868960A3C9A}.Release|x86.Build.0 = Release|Any CPU
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|x64.Build.0 = Debug|Any CPU
+		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|x64.ActiveCfg = Debug|x64
+		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|x64.Build.0 = Debug|x64
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Debug|x86.Build.0 = Debug|Any CPU
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|x64.ActiveCfg = Release|Any CPU
-		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|x64.Build.0 = Release|Any CPU
+		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|x64.ActiveCfg = Release|x64
+		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|x64.Build.0 = Release|x64
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|x86.ActiveCfg = Release|Any CPU
 		{9775502E-8304-44A4-9020-AA971AC71B90}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
