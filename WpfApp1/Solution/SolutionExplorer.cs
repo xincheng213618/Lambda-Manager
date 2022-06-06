@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace NLGSolution
 {
-    public class SolutionExplorer : BaseObject
+    public class SolutionExplorer : ViewModeBase
     {
         public FileSystemWatcher watcher;
         public string Rootpath;
@@ -28,10 +28,17 @@ namespace NLGSolution
             watcher.Created += Watcher_Created;
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
-            EditCommand = new RelayCommand(OnDepartmentEdited, (object value) => { return false; });
+            EditCommand = new RelayCommand(EditChanged, (object value) => { return true; });
             AddNewProject = new RelayCommand(OnAddNewProject, (object value) => { return true; });
-            OpenExplorer = new RelayCommand(OpenNewExplorer, (object value) => { return false; });
+            OpenExplorer = new RelayCommand(OpenNewExplorer, (object value) => { return true; });
         }
+
+        private void EditChanged(object value)
+        {
+            this.IsEditMode = true;
+        }
+
+
 
 
         private void OpenNewExplorer(object value)
@@ -135,19 +142,11 @@ namespace NLGSolution
             protected set { }
         }
 
-        private void OnDepartmentEdited(object value)
-        {
-            MessageBox.Show("22222");
-        }
 
         private void OnAddNewProject(object value)
         {
-            //ProjectMannager projectMannager = new ProjectMannager()
-            //{
-            //    Name = "新建工程2"
-            //};
 
-            //AddChild(projectMannager);
+
         }
 
 
@@ -155,6 +154,7 @@ namespace NLGSolution
 
         public static RelayCommand OpenExplorer { get; set; }
         public static RelayCommand AddExistingProject { get; set; }
+
         public RelayCommand EditCommand { get; set; }
 
         public CommandBinding AddExistingProject1;
@@ -189,16 +189,16 @@ namespace NLGSolution
         public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
 
 
-        public ObservableCollection<BaseObject> Children { get; set; } = new ObservableCollection<BaseObject>();    
+        public ObservableCollection<ViewModeBase> Children { get; set; } = new ObservableCollection<ViewModeBase>();    
 
 
-        public override void AddChild(BaseObject baseObject)
+        public override void AddChild(ViewModeBase baseObject)
         {
             baseObject.Parent = this;
             Children.SortedAdd(baseObject);   
         }
 
-        public override void RemoveChild(BaseObject baseObject)
+        public override void RemoveChild(ViewModeBase baseObject)
         {
             if (baseObject == null)
                 return;

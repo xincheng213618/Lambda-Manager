@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace NLGSolution
 {
-    public class SeriesProjectManager : BaseObject
+    public class SeriesProjectManager : ViewModeBase
     {
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
         {
@@ -29,6 +29,7 @@ namespace NLGSolution
             }
         }
 
+        private string tempname;
         public override bool IsEditMode
         {
             get { return isEditMode; }

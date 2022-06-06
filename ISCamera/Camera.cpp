@@ -279,7 +279,7 @@ int SleepTest() {
 
 int CameraSettingExposure(double exposure)
 {
-	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 	a++;
 	//std::string name = "a中文";
 	//name = StringToUtf(name);

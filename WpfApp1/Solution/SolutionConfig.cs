@@ -1,6 +1,6 @@
 ﻿namespace NLGSolution
 {
-    public class SolutionConfig : BaseObject
+    public class SolutionConfig : ViewModeBase
     {
         public SolutionConfig(string FullPath) : base(FullPath)
         {

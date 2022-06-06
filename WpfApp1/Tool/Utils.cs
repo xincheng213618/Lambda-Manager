@@ -35,6 +35,26 @@ namespace Tool
             return result == true;
         }
 
+        /// <summary>
+        /// 另存为
+        /// </summary>
+        /// <returns></returns>
+        public static bool SaveAsDialog(out string FileName)
+        {
+            SaveFileDialog dialog = new()
+            {
+                Title = "另存为",
+                RestoreDirectory = true,
+                Filter = "显微镜工程(*.lmp)|*.lmp",
+                FileName ="新建工程1.lmp"
+            };
+            bool? result = dialog.ShowDialog();
+            FileName = dialog.FileName;
+            return result == true;
+        }
+
+
+
 
         /// <summary>s
         /// 文本

@@ -41,7 +41,8 @@ namespace Solution
         }
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
-        private BaseObject LastReNameObject;
+
+        private ViewModeBase LastReNameObject;
         private TreeViewItem SelectedTreeViewItem;
 
 
@@ -72,15 +73,16 @@ namespace Solution
             if (result != null)
             {
                 TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
-                SelectedTreeViewItem = item;
                 if (item == null)
                     return;
 
-                if (LastReNameObject != null&& LastReNameObject!= item.DataContext)
+                if (SelectedTreeViewItem!=null && SelectedTreeViewItem!=item&& SelectedTreeViewItem.DataContext is ViewModeBase viewModeBase)
                 {
-                    LastReNameObject.IsEditMode = false;
-                    LastReNameObject = null;
+                    viewModeBase.IsEditMode = false;
                 }
+
+                SelectedTreeViewItem = item;
+
 
                 if (item.DataContext is ProjectFile projectFile1)
                 {
@@ -140,7 +142,7 @@ namespace Solution
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is BaseObject baseObject )
+            if (tb.Tag is ViewModeBase baseObject )
             {
                 baseObject.IsEditMode = false;
             }
@@ -149,7 +151,7 @@ namespace Solution
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is BaseObject baseObject)
+            if (tb.Tag is ViewModeBase baseObject)
             {
                 baseObject.Name = tb.Text;
                 if (e.Key == Key.Escape || e.Key == Key.Enter)
@@ -209,7 +211,7 @@ namespace Solution
             {
                 if (dic.Name == "Video" || dic.Name == "Image")
                 {
-                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete =false,CanReName=false};
+                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false,CanReName = false};
                     foreach (var item in dic.GetDirectories())
                     {
                         ProjectFolder projectFolder = new ProjectFolder(item.FullName);
@@ -242,9 +244,20 @@ namespace Solution
             }
             else
             {
-                if (Tool.Utils.SelectFileDialog(out windowData.FilePath))
+                if (Tool.Utils.SaveAsDialog(out windowData.FilePath))
                 {
                     windowData.SaveConfig();
+
+                    string ImageDiectory = windowData.SolutionDir + "\\Image";
+                    string VideoDiectory = windowData.SolutionDir + "\\Video";
+
+                    if (!Directory.Exists(ImageDiectory))
+                        Directory.CreateDirectory(ImageDiectory);
+
+                    if (!Directory.Exists(VideoDiectory))
+                        Directory.CreateDirectory(VideoDiectory);
+
+
                     TreeViewInitialized(windowData.FilePath, windowData.Config);
                     SolutionTreeView.ItemsSource = SolutionExplorers;
                 }
@@ -273,12 +286,6 @@ namespace Solution
         }
 
 
-
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void UserControl_Initialized(object sender, EventArgs e)
         {
           
@@ -292,7 +299,6 @@ namespace Solution
 
             Dictionary<string, object> data = new() { { "exposure", 111.111 } };
             LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
-
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

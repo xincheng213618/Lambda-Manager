@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace NLGSolution
 {
-    public class ProjectFile : BaseObject
+    public class ProjectFile : ViewModeBase
     {
         public ProjectFile(string FilePath):base(FilePath)
         {

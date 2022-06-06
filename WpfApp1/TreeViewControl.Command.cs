@@ -16,7 +16,6 @@ namespace Solution
         private void IniCommand()
         {
             ApplicationCommands.Delete.InputGestures.Add(new KeyGesture(Key.Delete, ModifierKeys.None, "Del"));
-            //Commands.ReName.InputGestures.Add(new KeyGesture(Key.M, (ModifierKeys.Control), "F2"));
             CommandBindings.Add(new CommandBinding(AddNewProject, this.AddNewProject_Executed, this.AddNewProject_CanExecute));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, this.ExecutedCommand, this.CanExecuteCommand));
@@ -29,7 +28,7 @@ namespace Solution
 
         private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is BaseObject baseObject1)
+            if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is ViewModeBase baseObject1)
             {
                 if (e.Command == ApplicationCommands.SelectAll)
                 {
@@ -57,7 +56,7 @@ namespace Solution
                 }
             }
 
-            if (e.Parameter is BaseObject baseObject)
+            if (e.Parameter is ViewModeBase baseObject)
             {
                 if (e.Command == ApplicationCommands.SelectAll)
                 {
@@ -107,7 +106,7 @@ namespace Solution
             {
                 if (e.Parameter != null)
                 {
-                    if (e.Parameter is BaseObject baseObject)
+                    if (e.Parameter is ViewModeBase baseObject)
                     {
                         baseObject.Parent.RemoveChild(baseObject);
                     }
@@ -116,7 +115,7 @@ namespace Solution
                 {
                     if (SelectedTreeViewItem != null)
                     {
-                        if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
+                        if (SelectedTreeViewItem.DataContext is ViewModeBase baseObject)
                         {
                             baseObject.Parent.RemoveChild(baseObject);
                         }
@@ -128,7 +127,7 @@ namespace Solution
             {
                 if (e.Parameter != null)
                 {
-                    if (e.Parameter is BaseObject baseObject)
+                    if (e.Parameter is ViewModeBase baseObject)
                     {
                         LastReNameObject = baseObject;
                         baseObject.IsEditMode = true;
@@ -139,7 +138,7 @@ namespace Solution
                     //没有数据的时候通过点击确认
                     if (SelectedTreeViewItem != null)
                     {
-                        if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
+                        if (SelectedTreeViewItem.DataContext is ViewModeBase baseObject)
                         {
                             LastReNameObject = baseObject;
                             baseObject.IsEditMode = true;

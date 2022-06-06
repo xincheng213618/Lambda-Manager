@@ -343,16 +343,6 @@ namespace ConfigObjective
             return toggleButton;
         }
 
-        private int LambdaControlCall(string type, object sender, EventArgs e)
-        {
-            if (type == "STOP_ACQUIRE")
-            {
-
-            }
-            return 1;
-        }
-
-
     }
 
 

@@ -29,18 +29,43 @@ public class LambdaControl : Control
         //RegisterImageViewHandler = registerImageViewHandler;
         //Views = views;
 
+        //if (logHandler != null)
+        //    LogHandler += logHandler;
+        //if (logHandler2 != null)
+        //    LogHandler2 += logHandler2;
+        //if (addEventHandler != null)
+        //    AddEventHandler += addEventHandler;
+        //if (callEventHandler != null)
+        //    CallEventHandler += callEventHandler;
+        //if (registerImageViewHandler != null)
+        //    RegisterImageViewHandler += registerImageViewHandler;
+        //if (views != null)
+        //    Views = views;
+
         if (logHandler != null)
-            LogHandler += logHandler;
+        {
+            LogHandler = (LogHandler)Delegate.Combine(LogHandler, logHandler);
+        }
         if (logHandler2 != null)
-            LogHandler2 += logHandler2;
+        {
+            LogHandler2 = (LogHandler)Delegate.Combine(LogHandler2, logHandler2);
+        }
         if (addEventHandler != null)
-            AddEventHandler += addEventHandler;
+        {
+            AddEventHandler = (AddEventHandler)Delegate.Combine(AddEventHandler, addEventHandler);
+        }
         if (callEventHandler != null)
-            CallEventHandler += callEventHandler;
+        {
+            CallEventHandler = (CallEventHandler)Delegate.Combine(CallEventHandler, callEventHandler);
+        }
         if (registerImageViewHandler != null)
-            RegisterImageViewHandler += registerImageViewHandler;
+        {
+            RegisterImageViewHandler = (RegisterImageViewHandler)Delegate.Combine(RegisterImageViewHandler, registerImageViewHandler);
+        }
         if (views != null)
+        {
             Views = views;
+        }
     }
 
     public static void Log(Message message)

@@ -8,15 +8,15 @@ using System.Windows;
 
 namespace NLGSolution
 {
-    public class ProjectFolder : BaseObject
+    public class ProjectFolder : ViewModeBase
     {
 
         public FileSystemWatcher watcher;
-        public ObservableCollection<BaseObject> Children { get; set; }
+        public ObservableCollection<ViewModeBase> Children { get; set; }
 
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
-            Children = new ObservableCollection<BaseObject>();
+            Children = new ObservableCollection<ViewModeBase>();
 
             watcher = new FileSystemWatcher(FolderPath)
             {
@@ -27,6 +27,7 @@ namespace NLGSolution
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
         }
+        private string tempname;
 
         public override bool IsEditMode
         {
@@ -126,20 +127,20 @@ namespace NLGSolution
         public string Description { get; set; }
 
 
-        public override void AddChild(BaseObject baseObject)
+        public override void AddChild(ViewModeBase baseObject)
         {
             base.AddChild(baseObject);
             baseObject.Parent = this;
             Children.SortedAdd(baseObject);
         }
 
-        public override void RemoveChild(BaseObject baseObject)
+        public override void RemoveChild(ViewModeBase baseObject)
         {
             base.RemoveChild(baseObject);   
             if (baseObject == null)
                 return;
 
-            if (baseObject.Parent== this)
+            if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;
                 Children.Remove(baseObject);

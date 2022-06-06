@@ -6,14 +6,14 @@ using System.Windows;
 
 namespace NLGSolution
 {
-    public class BaseObject : INotifyPropertyChanged
+    public class ViewModeBase : INotifyPropertyChanged
     {
-        public BaseObject(string FullPath)
+        public ViewModeBase(string FullPath)
         {
             this.FullPath = FullPath;
         }
 
-        public BaseObject Parent = null;
+        public ViewModeBase Parent = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -21,13 +21,13 @@ namespace NLGSolution
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public event EventHandler AddChildEventHandler;
-        public virtual void AddChild(BaseObject baseObject)
+        public virtual void AddChild(ViewModeBase baseObject)
         {
             AddChildEventHandler?.Invoke(this,new EventArgs());
         }
 
         public event EventHandler RemoveChildEventHandler;
-        public virtual void RemoveChild(BaseObject baseObject)
+        public virtual void RemoveChild(ViewModeBase baseObject)
         {
             RemoveChildEventHandler?.Invoke(this, new EventArgs());
         }
@@ -38,13 +38,14 @@ namespace NLGSolution
 
         public Type Types { get; set; }
 
-        public bool isEditMode = false;
+        protected bool isEditMode = false;
         public virtual bool IsEditMode { get; set; }
 
         public virtual void Delete() { }
 
-        public string tempname;
-        public string name;
+        protected string name;
+
+
         public string Name
         {
             get { return name; }
