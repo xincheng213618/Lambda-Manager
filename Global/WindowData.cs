@@ -29,7 +29,7 @@ namespace Global
 
         private WindowData()
         {
-            LambdaControl.Initialize(null, null, null, Call, null, null);
+            //LambdaControl.Initialize(null, null, null, Call, null, null);
             Hardware_Initialized();
             AddEventHandler();
 

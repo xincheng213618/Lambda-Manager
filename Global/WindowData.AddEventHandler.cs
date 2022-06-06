@@ -18,10 +18,40 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
+            LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
-            //LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", UpdateMulSummary11, false);
+            LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
+            LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
+            LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
+            LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);  
         }
-        private bool UpdateMulSummary11(object sender, EventArgs e)
+        private bool STOP_ALIVE(object sender, EventArgs e)
+        {
+            ALIVE = false;
+            return true;
+        }
+        private bool START_ALIVE(object sender, EventArgs e)
+        {
+            ALIVE = true;
+            return true;
+        }
+
+        private bool STOP_ACQUIRE(object sender, EventArgs e)
+        {
+            ACQUIRE = true;
+            return true;
+        }
+        private bool START_ACQUIRE(object sender, EventArgs e)
+        {
+            ACQUIRE = false;
+            return true;
+        }
+        
+
+
+
+
+        private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int viewdex = (int)eventData["view"];
@@ -32,6 +62,7 @@ namespace Global
 
 
         public MulSummary mulSummary = new();
+
 
         private bool UpdateMulSummary(object sender, EventArgs e)
         {

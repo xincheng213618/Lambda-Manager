@@ -118,206 +118,206 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Action" xml:space="preserve">
-    <value>函数</value>
+    <value>Action</value>
   </data>
   <data name="ActionTimesInputCountNotMatch" xml:space="preserve">
-    <value>多次循环函数的输入数组长度不足</value>
+    <value>ActionTimesInputCountNotMatch</value>
   </data>
   <data name="ActionTimesInputTypeNotMatch" xml:space="preserve">
-    <value>多次循环函数的输入数据不是数组类型</value>
+    <value>ActionTimesInputTypeNotMatch</value>
   </data>
   <data name="ArgType" xml:space="preserve">
-    <value>参数类型</value>
+    <value>ArgType</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>参数</value>
+    <value>Arguments</value>
   </data>
   <data name="AsPointer" xml:space="preserve">
-    <value>按指针类型处理</value>
+    <value>AsPointer</value>
   </data>
   <data name="Async" xml:space="preserve">
-    <value>异步设置</value>
+    <value>Async</value>
   </data>
   <data name="AsyncWithEventDataNotSupport" xml:space="preserve">
-    <value>不支持需要事件对象的情况</value>
+    <value>AsyncWithEventDataNotSupport</value>
   </data>
   <data name="AsyncWithOutputReferredNotSupport" xml:space="preserve">
-    <value>不支持输出数据被引用的情况</value>
+    <value>AsyncWithOutputReferredNotSupport</value>
   </data>
   <data name="Class" xml:space="preserve">
-    <value>类名称</value>
+    <value>Class</value>
   </data>
   <data name="ClassNameWanted" xml:space="preserve">
-    <value>应该使用类名称</value>
+    <value>ClassNameWanted</value>
   </data>
   <data name="Comma" xml:space="preserve">
     <value>：</value>
   </data>
   <data name="Component" xml:space="preserve">
-    <value>模块</value>
+    <value>Component</value>
   </data>
   <data name="ConfigLoaded" xml:space="preserve">
-    <value>应用组件加载完毕</value>
+    <value>ConfigLoaded</value>
   </data>
   <data name="ConfigLoading" xml:space="preserve">
-    <value>开始加载应用组件</value>
+    <value>ConfigLoading</value>
   </data>
   <data name="CreateFailed" xml:space="preserve">
-    <value>创建失败</value>
+    <value>CreateFailed</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="debug16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\icons\severity\debug16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DuplicateLib" xml:space="preserve">
-    <value>和其他库名相同但路径不一致，系统将加载其中一个库</value>
+    <value>DuplicateLib</value>
   </data>
   <data name="Empty" xml:space="preserve">
-    <value>为空</value>
+    <value>Empty</value>
   </data>
   <data name="EntryPoint" xml:space="preserve">
-    <value>接入点</value>
+    <value>EntryPoint</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>错误</value>
+    <value>Error</value>
   </data>
   <data name="error16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\icons\severity\error16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EventArgTypeNotMatch" xml:space="preserve">
-    <value>不符合事件处理函数规范</value>
+    <value>EventArgTypeNotMatch</value>
   </data>
   <data name="EventDataNotSupport" xml:space="preserve">
-    <value>事件传递的数据必须是JSON类型</value>
+    <value>EventDataNotSupport</value>
   </data>
   <data name="EventTypeNotSpecified" xml:space="preserve">
-    <value>事件类型未指定</value>
+    <value>EventTypeNotSpecified</value>
   </data>
   <data name="Execute" xml:space="preserve">
-    <value>执行</value>
+    <value>Execute</value>
   </data>
   <data name="Expired" xml:space="preserve">
-    <value>应用许可已过期，请联系厂家获得新的许可期限或者新的试用版本</value>
+    <value>Expired</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value>导出</value>
+    <value>Export</value>
   </data>
   <data name="fatal16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\icons\severity\fatal16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>文件</value>
+    <value>File</value>
   </data>
   <data name="FpsRunning" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="Import" xml:space="preserve">
-    <value>导入</value>
+    <value>Import</value>
   </data>
   <data name="info16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\icons\severity\info16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Init" xml:space="preserve">
-    <value>初始化</value>
+    <value>Init</value>
   </data>
   <data name="InputType" xml:space="preserve">
-    <value>输入参数类型</value>
+    <value>InputType</value>
   </data>
   <data name="Lib" xml:space="preserve">
-    <value>库</value>
+    <value>Lib</value>
   </data>
   <data name="Menu" xml:space="preserve">
-    <value>菜单</value>
+    <value>Menu</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="NotExist" xml:space="preserve">
-    <value>不存在</value>
+    <value>NotExist</value>
   </data>
   <data name="NotExportProc" xml:space="preserve">
-    <value>函数不是调用有导出的流程</value>
+    <value>NotExportProc</value>
   </data>
   <data name="NotFound" xml:space="preserve">
-    <value>未找到</value>
+    <value>NotFound</value>
   </data>
   <data name="Notice" xml:space="preserve">
-    <value>提醒</value>
+    <value>Notice</value>
   </data>
   <data name="NotMatched" xml:space="preserve">
-    <value>不匹配</value>
+    <value>NotMatched</value>
   </data>
   <data name="NotSupported" xml:space="preserve">
-    <value>不支持</value>
+    <value>NotSupported</value>
   </data>
   <data name="of" xml:space="preserve">
-    <value>的</value>
+    <value>of</value>
   </data>
   <data name="OpenFiles" xml:space="preserve">
-    <value>打开文件</value>
+    <value>OpenFiles</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>或</value>
+    <value>or</value>
   </data>
   <data name="OriginInputsNotMatch" xml:space="preserve">
-    <value>和定义的输入参数不匹配</value>
+    <value>OriginInputsNotMatch</value>
   </data>
   <data name="OutputType" xml:space="preserve">
-    <value>输出参数类型</value>
+    <value>OutputType</value>
   </data>
   <data name="PleaseCheck" xml:space="preserve">
-    <value>请检查</value>
+    <value>PleaseCheck</value>
   </data>
   <data name="Procedure" xml:space="preserve">
-    <value>流程</value>
+    <value>Procedure</value>
   </data>
   <data name="RaiseKeys" xml:space="preserve">
-    <value>触发事件键值</value>
+    <value>RaiseKeys</value>
   </data>
   <data name="Reference" xml:space="preserve">
-    <value>引用</value>
+    <value>Reference</value>
   </data>
   <data name="ReferredAction" xml:space="preserve">
-    <value>引用的函数</value>
+    <value>ReferredAction</value>
   </data>
   <data name="ReferredArgsNotSpecified" xml:space="preserve">
-    <value>引用的输入数据未指定对应流程的函数参数位置</value>
+    <value>ReferredArgsNotSpecified</value>
   </data>
   <data name="Referring" xml:space="preserve">
-    <value>引用</value>
+    <value>Referring</value>
   </data>
   <data name="ScheduleEnd" xml:space="preserve">
-    <value>定时完成</value>
+    <value>ScheduleEnd</value>
   </data>
   <data name="ScheduleStart" xml:space="preserve">
-    <value>定时执行</value>
+    <value>ScheduleStart</value>
   </data>
   <data name="ScheduleTrigger" xml:space="preserve">
-    <value>定时触发</value>
+    <value>ScheduleTrigger</value>
   </data>
   <data name="Signature" xml:space="preserve">
-    <value>签名</value>
+    <value>Signature</value>
   </data>
   <data name="StartFatalError" xml:space="preserve">
-    <value>应用启动时遇到严重错误，详细情况请查看日志：</value>
+    <value>StartFatalError</value>
   </data>
   <data name="startpicture1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\startpicture1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="StartUp" xml:space="preserve">
-    <value>启动</value>
+    <value>StartUp</value>
   </data>
   <data name="STLMapNotSupport" xml:space="preserve">
-    <value>事件对象不支持二进制类型数据传递</value>
+    <value>STLMapNotSupport</value>
   </data>
   <data name="SystemNotSupport1" xml:space="preserve">
-    <value>参数个数大于4的函数不支持使用4字节以下的数据类型</value>
+    <value>SystemNotSupport1</value>
   </data>
   <data name="SystemNotSupport2" xml:space="preserve">
-    <value>参数个数大于6的函数</value>
+    <value>SystemNotSupport2</value>
   </data>
   <data name="Undefined" xml:space="preserve">
-    <value>未定义</value>
+    <value>Undefined</value>
   </data>
   <data name="warning16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\icons\severity\warning16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -86,12 +86,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
-                    <Border Name="Border"  BorderThickness="1"  Width="{TemplateBinding Width}"  Height="{TemplateBinding Height}" Background="#424242">
+                    <Border Name="Border"  BorderThickness="1"  Width="{TemplateBinding Width}"  Height="{TemplateBinding Height}" Background="#424242" BorderBrush="#f5f5f5">
                         <ContentPresenter Margin="4"   HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasDropShadow" Value="true">
-                            <!--<Setter TargetName="Border"   Property="CornerRadius"  Value="4" />-->
+                            <Setter TargetName="Border"   Property="CornerRadius"  Value="4" />
                             <Setter TargetName="Border" Property="SnapsToDevicePixels" Value="true" />
                         </Trigger>
                     </ControlTemplate.Triggers>

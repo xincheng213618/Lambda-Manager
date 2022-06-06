@@ -290,8 +290,8 @@ namespace Solution
             //View View = new View(image,99);
             //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
 
-            //Dictionary<string, object> data = new() { { "exposure", 111.111 } };
-            //LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
+            Dictionary<string, object> data = new() { { "exposure", 111.111 } };
+            LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
 
         }
 
