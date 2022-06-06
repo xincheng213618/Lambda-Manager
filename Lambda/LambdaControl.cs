@@ -103,10 +103,12 @@ public class LambdaControl : Control
 
 	public static void Trigger(string type, object sender, Dictionary<string, object>? json)
 	{
-		CallEventHandler?.Invoke(type, sender, new LambdaArgs
+
+        CallEventHandler?.Invoke(type, sender, new LambdaArgs
 		{
 			Data = json
 		});
+
         if (json != null)
         {
             Log(new Message { Severity = Severity.INFO, Text = type + JSON.Stringify(json) });
@@ -115,6 +117,7 @@ public class LambdaControl : Control
         {
             Log(new Message { Severity = Severity.INFO, Text = type });
         }
+
 
     }
 

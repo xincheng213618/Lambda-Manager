@@ -58,7 +58,7 @@ namespace NLGSolution
         }
 
 
-        public string Extension 
+        public string Extension
         {
             get { return Path.GetExtension(FullPath); }
             protected set { }

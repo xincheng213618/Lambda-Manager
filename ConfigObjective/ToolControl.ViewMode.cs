@@ -72,21 +72,6 @@ namespace ConfigObjective
                     Button36.IsChecked = true;
                     break;
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
 

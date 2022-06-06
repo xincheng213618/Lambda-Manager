@@ -18,13 +18,6 @@ namespace Global
 
         private int Call(string type, object sender, EventArgs e)
         {
-            if (type == "IMAGE_VIEW_CREATED")
-            {
-                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-                View view = (View)eventData["view"];
-                AddImageConfident(view.Image);
-            }
-
             if (type == "STOP_ALIVE")
                 ALIVE = false;
 
@@ -75,7 +68,7 @@ namespace Global
                     Height = image.ActualWidth,
                     Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
                     //Background = Brushes.Black,
-                    //ClipToBounds = true
+                    ClipToBounds = true
                 };
 
                 grid.Children.Remove(image);

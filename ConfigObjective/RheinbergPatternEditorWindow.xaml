@@ -8,7 +8,7 @@
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
         Title="莱茵伯格图案编辑器" Icon="/ConfigObjective;component/image/Grid.ico" Background="#1F1F1F" MinHeight="200" BorderBrush="White"  ResizeMode="NoResize" Closed="Window_Closed" Initialized="Window_Initialized" Height="300" Width="400"  >
-
+    
     <Window.Resources>
         <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
         <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>

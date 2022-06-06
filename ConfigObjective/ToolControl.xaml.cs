@@ -73,7 +73,7 @@ namespace ConfigObjective
 
             IsFirstUpdate = true;
 
-            LambdaControl.Initialize(LambdaLog, LambdaLog, null, LambdaControlCall, null, null);
+            LambdaControl.Initialize(null, null, null, LambdaControlCall, null, null);
             ////日志监听
             //LambdaControl.LogHandler += LambdaLog;
             ////事件监听

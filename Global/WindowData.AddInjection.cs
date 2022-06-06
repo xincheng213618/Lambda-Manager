@@ -16,7 +16,7 @@ namespace Global
             {
                 StackPanel projectView = (StackPanel)mainwin.FindName("projectView");
                 projectView.Children.Clear();
-                //if (projectView.Children[0] is TextBlock text1)
+                //if (projectView.Children[0] is TextBlock text1)   
                 //{
                 //    projectView.Children.Remove(text1);
                 //}

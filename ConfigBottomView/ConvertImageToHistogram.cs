@@ -15,7 +15,7 @@ namespace ConfigBottomView
         /// <summary>
         /// 获取直方图的最大值并生成直方图的图像
         /// </summary>
-        /// <param name="sourceImageItem">ソース画像</param>
+        /// <param name="sourceImageItem">原图像</param>
         /// <returns>直方图图像，最大直方图值</returns>
         /// 
         public static (Bitmap, string) GenerateHistogramImage(Bitmap sourceImageItem)
@@ -30,6 +30,7 @@ namespace ConfigBottomView
             Marshal.Copy(bitmapData.Scan0, pixelRGB, 0, pixelRGB.Length);
             for (int i = 0; i < pixelRGB.Length; i += 4)
             {
+                //Gray = 0.299R + 0.587G + 0.144B
                 brightness = Math.Min((int)Math.Round(0.299f * (float)pixelRGB[i + 2] + 0.587f * (float)pixelRGB[i + 1] + 0.114f * (float)pixelRGB[i]), 255);
                 histogram[brightness]++;
             }
@@ -38,6 +39,9 @@ namespace ConfigBottomView
 
             // 获取直方图的最大值
             int histogramMax = histogram.Max();
+            // 获取直方图的最大值
+            int histogramMin = histogram.Min();
+
 
             // 在 histogramImage 中显示直方图
             float smoothingPeak, smoothingPeakMax = 0.0f;
@@ -45,7 +49,7 @@ namespace ConfigBottomView
             Point smoothingStartPoint = new Point(0, (int)Math.Round((float)histogram[0] / (float)histogramMax * 145.0f) - 1);
             Point smoothingEndPoint;
             Pen histogramPen = new Pen(Color.FromArgb(255,210,210,210), 1.0f);
-            Pen smoothingHistogramPen = new Pen(Color.FromArgb(255, 210, 210, 210), 1.0f);
+            Pen smoothingHistogramPen = new Pen(Color.FromArgb(255, 210, 210, 210), 2.0f);
             Graphics histogramGraphics;
             Graphics smoothingHistogramGraphics;
 

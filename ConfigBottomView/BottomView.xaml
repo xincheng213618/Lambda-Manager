@@ -6,8 +6,28 @@
              xmlns:local="clr-namespace:ConfigBottomView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
-    <Grid x:Name="Grid1" Height="100" Background="#F7F7F7" >
-        <Image Name="HistogramImage1" Stretch="Uniform"/>
+    <Grid x:Name="Grid1" Height="100" >
+        <Border >
+            <DockPanel >
+                <Image Name="HistogramImage1" Stretch="Uniform"  HorizontalAlignment="Left">
+                    <Image.RenderTransform>
+                        <TransformGroup >
+                            <ScaleTransform ScaleX="2"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <UniformGrid Columns="2" Rows="4" Width="300" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="5">
+                    <Button Content="自动调整"/>
+                    <Button Content="对数直方图"/>
+                    <TextBlock Text="离群值"/>
+                    <TextBlock Text="gamma值"/>
+                    <TextBlock Text="灰度值最小值"/>
+                    <TextBlock Text="灰度值最大值"/>
+                    <TextBlock Text="灰度值平均值"/>
+                    <TextBlock Text="灰度值标准方差"/>
+                </UniformGrid>
+            </DockPanel>
+        </Border>
 
     </Grid>
 </UserControl>

@@ -40,16 +40,33 @@ namespace ConfigBottomView
             {
                 BottomViewIsInitialized = true;
 
-                if (this.Parent is StackPanel stackPanel1)
-                {
-                    this.Width = stackPanel1.ActualWidth;
-                    this.Height = Grid1.Height;
 
-                    stackPanel1.SizeChanged += delegate
-                    {
-                        this.Width = stackPanel1.ActualWidth;
-                    };
-                }
+                //if (this.Parent is StackPanel stackPanel1)
+                //{
+                //    this.Width = stackPanel1.ActualWidth;
+                //    this.Height = Grid1.Height;
+                //    Window mainwin = Application.Current.MainWindow;
+                //    mainwin.SizeChanged += delegate
+                //    {
+                //        this.Width = stackPanel1.ActualWidth;
+                //        Grid1.Width = stackPanel1.ActualWidth;
+                //    };
+                //    stackPanel1.SizeChanged += delegate
+                //    {
+                //        this.Width = stackPanel1.ActualWidth;
+                //        Grid1.Width = stackPanel1.ActualWidth;
+
+                //    };
+                //}
+                Window mainwin = Application.Current.MainWindow;
+
+                Grid mainView = (Grid)mainwin.FindName("mainView");
+                mainView.SizeChanged += delegate
+                {
+                    this.Width = mainView.ActualWidth;
+                };
+
+
             }
             Bitmap sourceImageItem = new Bitmap("078_001_v8n_h.jpg");
             string MaxValue;

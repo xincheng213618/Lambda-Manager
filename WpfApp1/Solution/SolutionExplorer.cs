@@ -28,21 +28,13 @@ namespace NLGSolution
             watcher.Created += Watcher_Created;
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
-            EditCommand = new MyCommand(() =>
-            {
-                OnDepartmentEdited();
-            }, () => { return true; });
-            AddNewProject = new MyCommand(() =>
-            {
-                OnAddNewProject();
-            }, () => { return true; });
-            OpenExplorer = new MyCommand(() =>
-            {
-                OpenNewExplorer();
-            }, () => { return true; });
+            EditCommand = new RelayCommand(OnDepartmentEdited, (object value) => { return false; });
+            AddNewProject = new RelayCommand(OnAddNewProject, (object value) => { return true; });
+            OpenExplorer = new RelayCommand(OpenNewExplorer, (object value) => { return false; });
         }
 
-        private void OpenNewExplorer()
+
+        private void OpenNewExplorer(object value)
         {
             System.Diagnostics.Process.Start("explorer.exe", Rootpath);
         }
@@ -143,12 +135,12 @@ namespace NLGSolution
             protected set { }
         }
 
-        private void OnDepartmentEdited()
+        private void OnDepartmentEdited(object value)
         {
             MessageBox.Show("22222");
         }
 
-        private void OnAddNewProject()
+        private void OnAddNewProject(object value)
         {
             //ProjectMannager projectMannager = new ProjectMannager()
             //{
@@ -159,11 +151,11 @@ namespace NLGSolution
         }
 
 
-        public static MyCommand AddNewProject { get; set; }
+        public static RelayCommand AddNewProject { get; set; }
 
-        public static MyCommand OpenExplorer { get; set; }
-        public static MyCommand AddExistingProject { get; set; }
-        public MyCommand EditCommand { get; set; }
+        public static RelayCommand OpenExplorer { get; set; }
+        public static RelayCommand AddExistingProject { get; set; }
+        public RelayCommand EditCommand { get; set; }
 
         public CommandBinding AddExistingProject1;
         private void AddNewProject_CanExecute(object sender, CanExecuteRoutedEventArgs e)

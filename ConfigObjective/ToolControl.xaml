@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ConfigObjective"
              mc:Ignorable="d" 
              d:DesignHeight="1280" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1">
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -359,7 +360,7 @@
         </Border>
 
         <Grid Margin="0,5,5,0">
-            <ToggleButton x:Name="ToggleButton4"  Style="{StaticResource ButtonPageControl}" Content="载物台控制" FontSize="14" Foreground="White" IsChecked="True" Margin="0,13,0,-8"/>
+            <ToggleButton x:Name="ToggleButton4"  Style="{StaticResource ButtonPageControl}" Content="载物台控制" FontSize="14" Foreground="White" IsChecked="True"/>
             <DockPanel HorizontalAlignment="Right">
                 <Button x:Name="Button401" Content="复位"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Click="Stage_Reset_Click"/>
             </DockPanel>
@@ -380,8 +381,8 @@
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel >
                 <UniformGrid Columns="5" >
-                    <RadioButton Name="Button42" Style="{StaticResource ToggleButtonStyle1}" IsChecked="True"   Content="培养皿" Margin="5,0"   />
-                    <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}" Content="玻片" Margin="5,0"   />
+                    <RadioButton Name="Button42" Style="{StaticResource ToggleButtonStyle1}" IsChecked="True" Content="培养皿" Margin="5,0"   />
+                    <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}" Content="玻片" Margin="5,0" />
                     <RadioButton Name="Button43" Style="{StaticResource ToggleButtonStyle1}" Content="六孔板" Margin="5,0" IsEnabled="False" />
                     <RadioButton Name="Button44" Style="{StaticResource ToggleButtonStyle1}" Content="多孔版" Margin="5,0" IsEnabled="False"   />
                     <RadioButton Name="Button45" Style="{StaticResource ToggleButtonStyle1}" Content="自定义" Margin="5,0" IsEnabled="False" />
@@ -485,7 +486,7 @@
                     <ToggleButton x:Name="ToggleButton504"  Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0"/>
                     <ToggleButton x:Name="ToggleButton505" Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" IsChecked="False" Checked="ToggleButton505_Checked"/>
                     <ToggleButton x:Name="ToggleButton506" Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-                    <ToggleButton x:Name="ToggleButton507" Style="{StaticResource ToggleButtonStyle1}" Content="M" IsChecked="True" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
+                    <ToggleButton x:Name="ToggleButton507" Style="{StaticResource ToggleButtonStyle1}" Content="M" IsChecked="False" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
                 </UniformGrid>
                 <UniformGrid  Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
                     <CheckBox x:Name="checkbox51" IsChecked="True" Content="明场" FontSize="15" />
@@ -547,6 +548,7 @@
                 <ToggleButton x:Name="ToggleButton52"  Style="{StaticResource ButtonPageControl}" IsChecked="{Binding ElementName=ToggleButton506 ,Path=IsChecked}" Content="自动聚焦设置" FontSize="13" Foreground="White"  />
                 <Border Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
+                        
                     </StackPanel>
                 </Border>
 

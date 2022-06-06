@@ -153,7 +153,7 @@
             <Setter Property="Background" Value="#0F110B"/>
             <Setter Property="BorderBrush" Value="#696969"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0.5"/>
+            <Setter Property="BorderThickness" Value="2"/>   
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>

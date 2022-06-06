@@ -199,18 +199,7 @@ namespace Solution
         {
             SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath)
             {
-                
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
-                //SolutionConfig = new SolutionConfig
-                //{
-                //    FileName = "工程文件.gprj",
-                //    FilePath = FilePath
-                //},
-                //SolutionLog = new SolutionLog
-                //{
-                //    FileName = "日志.log",
-                //    FilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager\\lambda.log"
-                //},
             };
             string rootPath = System.IO.Path.GetDirectoryName(FilePath);
 
@@ -295,9 +284,14 @@ namespace Solution
           
         }
 
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            //Image image = new Image();
+            //View View = new View(image,99);
+            //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
+
+            //Dictionary<string, object> data = new() { { "exposure", 111.111 } };
+            //LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
 
         }
 

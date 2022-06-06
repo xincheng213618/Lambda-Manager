@@ -472,11 +472,6 @@ internal class Common
 		GCHandle handle = GCHandle.Alloc(sender);
 		try
 		{
-            App.Report(new Message
-            {
-                Severity = Severity.INFO,
-                Text = type
-            });
             int result = CallEvent(type, handle, e);
 			if (result >= RESERVED_EVENT_RESULT)
 			{
@@ -511,8 +506,8 @@ internal class Common
 			if (data is Dictionary<string, object> dic)
 			{
                 string json = JSON.Stringify(dic);
-				return CallEvent(type, json, GCHandle.ToIntPtr(handle));
-			}
+                return CallEvent(type, json, GCHandle.ToIntPtr(handle));
+            }
 			App.Report(new Message
 			{
 				Severity = Severity.FATAL_ERROR,

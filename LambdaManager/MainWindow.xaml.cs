@@ -662,8 +662,8 @@ partial class MainWindow : BaseWindow
 		MiddleViewWidth = middleView.ActualWidth;
 	}
 
-
-
-
-
+    private void imagingView_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+		//MessageBox.Show("1111");
+    }
 }

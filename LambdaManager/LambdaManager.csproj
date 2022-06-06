@@ -15,6 +15,10 @@
     <RootNamespace />
     <UseWindowsForms>True</UseWindowsForms>
     <Nullable>disable</Nullable>
+    <Title>LambdaManager</Title>
+    <Authors>$(AssemblyName)  </Authors>
+    <Company>$(Authors) </Company>
+    <Product>$(AssemblyName) </Product>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>

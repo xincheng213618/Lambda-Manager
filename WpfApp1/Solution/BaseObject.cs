@@ -6,19 +6,13 @@ using System.Windows;
 
 namespace NLGSolution
 {
-
-    public abstract class BaseAbstractObject
-    {
-        public abstract void AddChild(BaseObject baseObject);
-        public abstract void RemoveChild(BaseObject baseObject);
-    }
-
     public class BaseObject : INotifyPropertyChanged
     {
         public BaseObject(string FullPath)
         {
             this.FullPath = FullPath;
         }
+
         public BaseObject Parent = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;

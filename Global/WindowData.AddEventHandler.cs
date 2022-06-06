@@ -19,7 +19,17 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
 
+            //LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", UpdateMulSummary11, false);
         }
+        private bool UpdateMulSummary11(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            int viewdex = (int)eventData["view"];
+            View view = LambdaControl.GetImageView(viewdex);
+            AddImageConfident(view.Image);
+            return true;
+        }
+
 
         public MulSummary mulSummary = new();
 

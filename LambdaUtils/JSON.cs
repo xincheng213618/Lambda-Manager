@@ -196,10 +196,12 @@ public class JSON
 			writer.WriteRawValue(text2);
 			return;
 		}
-		//throw new InvalidOperationException("This type is not supported now");
-	}
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        throw new InvalidOperationException("This type is not supported now:" +value.GetType().ToString());
+
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static void Collect(object container, string key, object? value)
 	{
 		if (value == null)
