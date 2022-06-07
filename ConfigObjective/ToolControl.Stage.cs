@@ -23,6 +23,11 @@ namespace ConfigObjective
             _timer.Tick += Timer_Tick;
         }
 
+        private void FullImage_Click(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("STAGE_Full_Image", this, new Dictionary<string, object> { });
+
+        }
         private void Stage_Update()
         {
             Stage = WindowData.GetInstance().Stage;

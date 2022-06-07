@@ -22,13 +22,6 @@ public class LambdaControl : Control
 
 	public static void Initialize(LogHandler logHandler, LogHandler logHandler2, AddEventHandler addEventHandler, CallEventHandler callEventHandler, RegisterImageViewHandler registerImageViewHandler, View[] views)
 	{
-        //LogHandler = logHandler;
-        //LogHandler2 = logHandler2;
-        //AddEventHandler = addEventHandler;
-        //CallEventHandler = callEventHandler;
-        //RegisterImageViewHandler = registerImageViewHandler;
-        //Views = views;
-
         //if (logHandler != null)
         //    LogHandler += logHandler;
         //if (logHandler2 != null)

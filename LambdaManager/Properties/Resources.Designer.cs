@@ -61,7 +61,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 函数 的本地化字符串。
+        ///   查找类似 Action 的本地化字符串。
         /// </summary>
         public static string Action {
             get {
@@ -70,7 +70,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 多次循环函数的输入数组长度不足 的本地化字符串。
+        ///   查找类似 ActionTimesInputCountNotMatch 的本地化字符串。
         /// </summary>
         public static string ActionTimesInputCountNotMatch {
             get {
@@ -79,7 +79,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 多次循环函数的输入数据不是数组类型 的本地化字符串。
+        ///   查找类似 ActionTimesInputTypeNotMatch 的本地化字符串。
         /// </summary>
         public static string ActionTimesInputTypeNotMatch {
             get {
@@ -88,7 +88,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 参数类型 的本地化字符串。
+        ///   查找类似 ArgType 的本地化字符串。
         /// </summary>
         public static string ArgType {
             get {
@@ -97,7 +97,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 参数 的本地化字符串。
+        ///   查找类似 Arguments 的本地化字符串。
         /// </summary>
         public static string Arguments {
             get {
@@ -106,7 +106,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 按指针类型处理 的本地化字符串。
+        ///   查找类似 AsPointer 的本地化字符串。
         /// </summary>
         public static string AsPointer {
             get {
@@ -115,7 +115,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 异步设置 的本地化字符串。
+        ///   查找类似 Async 的本地化字符串。
         /// </summary>
         public static string Async {
             get {
@@ -124,7 +124,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 不支持需要事件对象的情况 的本地化字符串。
+        ///   查找类似 AsyncWithEventDataNotSupport 的本地化字符串。
         /// </summary>
         public static string AsyncWithEventDataNotSupport {
             get {
@@ -133,7 +133,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 不支持输出数据被引用的情况 的本地化字符串。
+        ///   查找类似 AsyncWithOutputReferredNotSupport 的本地化字符串。
         /// </summary>
         public static string AsyncWithOutputReferredNotSupport {
             get {
@@ -142,7 +142,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 类名称 的本地化字符串。
+        ///   查找类似 Class 的本地化字符串。
         /// </summary>
         public static string Class {
             get {
@@ -151,7 +151,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 应该使用类名称 的本地化字符串。
+        ///   查找类似 ClassNameWanted 的本地化字符串。
         /// </summary>
         public static string ClassNameWanted {
             get {
@@ -169,7 +169,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 模块 的本地化字符串。
+        ///   查找类似 Component 的本地化字符串。
         /// </summary>
         public static string Component {
             get {
@@ -178,7 +178,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 应用组件加载完毕 的本地化字符串。
+        ///   查找类似 ConfigLoaded 的本地化字符串。
         /// </summary>
         public static string ConfigLoaded {
             get {
@@ -187,7 +187,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 开始加载应用组件 的本地化字符串。
+        ///   查找类似 ConfigLoading 的本地化字符串。
         /// </summary>
         public static string ConfigLoading {
             get {
@@ -196,7 +196,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 创建失败 的本地化字符串。
+        ///   查找类似 CreateFailed 的本地化字符串。
         /// </summary>
         public static string CreateFailed {
             get {
@@ -215,7 +215,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 和其他库名相同但路径不一致，系统将加载其中一个库 的本地化字符串。
+        ///   查找类似 DuplicateLib 的本地化字符串。
         /// </summary>
         public static string DuplicateLib {
             get {
@@ -224,7 +224,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 为空 的本地化字符串。
+        ///   查找类似 Empty 的本地化字符串。
         /// </summary>
         public static string Empty {
             get {
@@ -233,7 +233,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 接入点 的本地化字符串。
+        ///   查找类似 EntryPoint 的本地化字符串。
         /// </summary>
         public static string EntryPoint {
             get {
@@ -242,7 +242,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 错误 的本地化字符串。
+        ///   查找类似 Error 的本地化字符串。
         /// </summary>
         public static string Error {
             get {
@@ -261,7 +261,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 不符合事件处理函数规范 的本地化字符串。
+        ///   查找类似 EventArgTypeNotMatch 的本地化字符串。
         /// </summary>
         public static string EventArgTypeNotMatch {
             get {
@@ -270,7 +270,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 事件传递的数据必须是JSON类型 的本地化字符串。
+        ///   查找类似 EventDataNotSupport 的本地化字符串。
         /// </summary>
         public static string EventDataNotSupport {
             get {
@@ -279,7 +279,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 事件类型未指定 的本地化字符串。
+        ///   查找类似 EventTypeNotSpecified 的本地化字符串。
         /// </summary>
         public static string EventTypeNotSpecified {
             get {
@@ -288,7 +288,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 执行 的本地化字符串。
+        ///   查找类似 Execute 的本地化字符串。
         /// </summary>
         public static string Execute {
             get {
@@ -297,7 +297,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 应用许可已过期，请联系厂家获得新的许可期限或者新的试用版本 的本地化字符串。
+        ///   查找类似 Expired 的本地化字符串。
         /// </summary>
         public static string Expired {
             get {
@@ -306,7 +306,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 导出 的本地化字符串。
+        ///   查找类似 Export 的本地化字符串。
         /// </summary>
         public static string Export {
             get {
@@ -325,7 +325,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 文件 的本地化字符串。
+        ///   查找类似 File 的本地化字符串。
         /// </summary>
         public static string File {
             get {
@@ -343,7 +343,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 导入 的本地化字符串。
+        ///   查找类似 Import 的本地化字符串。
         /// </summary>
         public static string Import {
             get {
@@ -362,7 +362,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 初始化 的本地化字符串。
+        ///   查找类似 Init 的本地化字符串。
         /// </summary>
         public static string Init {
             get {
@@ -371,7 +371,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 输入参数类型 的本地化字符串。
+        ///   查找类似 InputType 的本地化字符串。
         /// </summary>
         public static string InputType {
             get {
@@ -380,7 +380,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 库 的本地化字符串。
+        ///   查找类似 Lib 的本地化字符串。
         /// </summary>
         public static string Lib {
             get {
@@ -389,7 +389,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 菜单 的本地化字符串。
+        ///   查找类似 Menu 的本地化字符串。
         /// </summary>
         public static string Menu {
             get {
@@ -398,7 +398,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 名称 的本地化字符串。
+        ///   查找类似 Name 的本地化字符串。
         /// </summary>
         public static string Name {
             get {
@@ -407,7 +407,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 不存在 的本地化字符串。
+        ///   查找类似 NotExist 的本地化字符串。
         /// </summary>
         public static string NotExist {
             get {
@@ -416,7 +416,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 函数不是调用有导出的流程 的本地化字符串。
+        ///   查找类似 NotExportProc 的本地化字符串。
         /// </summary>
         public static string NotExportProc {
             get {
@@ -425,7 +425,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 未找到 的本地化字符串。
+        ///   查找类似 NotFound 的本地化字符串。
         /// </summary>
         public static string NotFound {
             get {
@@ -434,7 +434,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 提醒 的本地化字符串。
+        ///   查找类似 Notice 的本地化字符串。
         /// </summary>
         public static string Notice {
             get {
@@ -443,7 +443,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 不匹配 的本地化字符串。
+        ///   查找类似 NotMatched 的本地化字符串。
         /// </summary>
         public static string NotMatched {
             get {
@@ -452,7 +452,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 不支持 的本地化字符串。
+        ///   查找类似 NotSupported 的本地化字符串。
         /// </summary>
         public static string NotSupported {
             get {
@@ -461,7 +461,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 的 的本地化字符串。
+        ///   查找类似 of 的本地化字符串。
         /// </summary>
         public static string of {
             get {
@@ -470,7 +470,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 打开文件 的本地化字符串。
+        ///   查找类似 OpenFiles 的本地化字符串。
         /// </summary>
         public static string OpenFiles {
             get {
@@ -479,7 +479,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 或 的本地化字符串。
+        ///   查找类似 or 的本地化字符串。
         /// </summary>
         public static string or {
             get {
@@ -488,7 +488,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 和定义的输入参数不匹配 的本地化字符串。
+        ///   查找类似 OriginInputsNotMatch 的本地化字符串。
         /// </summary>
         public static string OriginInputsNotMatch {
             get {
@@ -497,7 +497,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 输出参数类型 的本地化字符串。
+        ///   查找类似 OutputType 的本地化字符串。
         /// </summary>
         public static string OutputType {
             get {
@@ -506,7 +506,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 请检查 的本地化字符串。
+        ///   查找类似 PleaseCheck 的本地化字符串。
         /// </summary>
         public static string PleaseCheck {
             get {
@@ -515,7 +515,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 流程 的本地化字符串。
+        ///   查找类似 Procedure 的本地化字符串。
         /// </summary>
         public static string Procedure {
             get {
@@ -524,7 +524,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 触发事件键值 的本地化字符串。
+        ///   查找类似 RaiseKeys 的本地化字符串。
         /// </summary>
         public static string RaiseKeys {
             get {
@@ -533,7 +533,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 引用 的本地化字符串。
+        ///   查找类似 Reference 的本地化字符串。
         /// </summary>
         public static string Reference {
             get {
@@ -542,7 +542,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 引用的函数 的本地化字符串。
+        ///   查找类似 ReferredAction 的本地化字符串。
         /// </summary>
         public static string ReferredAction {
             get {
@@ -551,7 +551,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 引用的输入数据未指定对应流程的函数参数位置 的本地化字符串。
+        ///   查找类似 ReferredArgsNotSpecified 的本地化字符串。
         /// </summary>
         public static string ReferredArgsNotSpecified {
             get {
@@ -560,7 +560,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 引用 的本地化字符串。
+        ///   查找类似 Referring 的本地化字符串。
         /// </summary>
         public static string Referring {
             get {
@@ -569,7 +569,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 定时完成 的本地化字符串。
+        ///   查找类似 ScheduleEnd 的本地化字符串。
         /// </summary>
         public static string ScheduleEnd {
             get {
@@ -578,7 +578,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 定时执行 的本地化字符串。
+        ///   查找类似 ScheduleStart 的本地化字符串。
         /// </summary>
         public static string ScheduleStart {
             get {
@@ -587,7 +587,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 定时触发 的本地化字符串。
+        ///   查找类似 ScheduleTrigger 的本地化字符串。
         /// </summary>
         public static string ScheduleTrigger {
             get {
@@ -596,7 +596,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 签名 的本地化字符串。
+        ///   查找类似 Signature 的本地化字符串。
         /// </summary>
         public static string Signature {
             get {
@@ -605,7 +605,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 应用启动时遇到严重错误，详细情况请查看日志： 的本地化字符串。
+        ///   查找类似 StartFatalError 的本地化字符串。
         /// </summary>
         public static string StartFatalError {
             get {
@@ -624,7 +624,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 启动 的本地化字符串。
+        ///   查找类似 StartUp 的本地化字符串。
         /// </summary>
         public static string StartUp {
             get {
@@ -633,7 +633,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 事件对象不支持二进制类型数据传递 的本地化字符串。
+        ///   查找类似 STLMapNotSupport 的本地化字符串。
         /// </summary>
         public static string STLMapNotSupport {
             get {
@@ -642,7 +642,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 参数个数大于4的函数不支持使用4字节以下的数据类型 的本地化字符串。
+        ///   查找类似 SystemNotSupport1 的本地化字符串。
         /// </summary>
         public static string SystemNotSupport1 {
             get {
@@ -651,7 +651,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 参数个数大于6的函数 的本地化字符串。
+        ///   查找类似 SystemNotSupport2 的本地化字符串。
         /// </summary>
         public static string SystemNotSupport2 {
             get {
@@ -660,7 +660,7 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
-        ///   查找类似 未定义 的本地化字符串。
+        ///   查找类似 Undefined 的本地化字符串。
         /// </summary>
         public static string Undefined {
             get {

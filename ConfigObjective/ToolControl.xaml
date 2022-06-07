@@ -445,6 +445,7 @@
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </Button>
+                        <Button x:Name="FullImage"  Grid.Row="2" Content="全图"  Grid.Column="2"  Margin="5"  Click="FullImage_Click"/>
                         <Button x:Name="ButtonRe"  Grid.Row="1" Grid.Column="1" Content="O" Margin="5" Click="ButtonRe_Click"/>
 
                         <ToggleButton x:Name="ToggleButtonZF" Grid.Row="0" Grid.Column="3" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5" Checked="ToggleButtonZF_Checked" Unchecked="ToggleButtonZF_Unchecked" />

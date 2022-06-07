@@ -53,14 +53,16 @@ namespace ConfigObjective
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-
+            if (this.Parent is StackPanel stackPanel)
+            {
+                stackPanel.Width = 420;
+            }
         }
          
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             CricalBase.Fill = WindowData.image;
-
             AddEventHandler();
             //初始化硬件
             Update.UpdateGlobal();
@@ -342,6 +344,7 @@ namespace ConfigObjective
             };
             return toggleButton;
         }
+
 
     }
 

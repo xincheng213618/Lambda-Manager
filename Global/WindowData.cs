@@ -22,7 +22,6 @@ namespace Global
             return instance;
         }
 
-
         public DeviceInformation deviceInformation;
         public List<ObjectiveSetting> ObjectiveSettingList;
 
@@ -85,6 +84,10 @@ namespace Global
             Utils.ToJsonFile(Config, FilePath);
         }
         
+        /// <summary>
+        /// 读取配置文件
+        /// </summary>
+        /// <returns></returns>
         public int ReadConfig(string ConfigFileName)
         {
             if (!File.Exists(ConfigFileName))
