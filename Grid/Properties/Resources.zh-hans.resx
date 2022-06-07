@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Configuration file" xml:space="preserve">
-    <value>配置文件:</value>
+    <value>配置文件</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="Project file" xml:space="preserve">
-    <value>项目文件:</value>
+    <value>项目文件</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>确定</value>
