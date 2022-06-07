@@ -526,11 +526,11 @@
                         <StackPanel  Visibility="{Binding ElementName=ToggleButton504,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter1}}"  Margin="10,0">
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="T-循环次数"  Width="80" FontSize="11" VerticalAlignment="Center"  Foreground="White"/>
-                                <TextBox  Text="{Binding Path=TNumber}" PreviewKeyDown="NumberValidationTextBox" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                <TextBox  Text="{Binding Path=TNumber}" PreviewKeyDown="NumberValidationTextBox" Background="#262626" HorizontalContentAlignment="Center" IsEnabled="{Binding ElementName=ToggleButton221, Path=IsChecked }" Foreground="White" Width="55" Margin="5,0"/>
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="T-循环间隔" FontSize="11"  Width="80" VerticalAlignment="Center" Foreground="White" />
-                                <TextBox  Text="{Binding Path=TInterval}" PreviewKeyDown="NumberValidationTextBox" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                <TextBox  Text="{Binding Path=TInterval}" PreviewKeyDown="NumberValidationTextBox" Background="#262626" HorizontalContentAlignment="Center" IsEnabled="{Binding ElementName=ToggleButton222, Path=IsChecked }"  Foreground="White" Width="55" Margin="5,0"/>
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="∞"  Width="50" VerticalAlignment="Center" Foreground="White" />
