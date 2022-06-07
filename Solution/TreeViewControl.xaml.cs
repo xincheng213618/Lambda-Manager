@@ -298,7 +298,7 @@ namespace Solution
             //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
 
             Dictionary<string, object> data = new() { { "exposure", 111.111 } };
-            LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
+            LambdaControl.Dispatch("VideoTest", this, data);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

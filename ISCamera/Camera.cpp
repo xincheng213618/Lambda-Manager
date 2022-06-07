@@ -272,14 +272,18 @@ int OpenSerial(char* FullPath)
 
 
 int SleepTest() {
-	//Sleep(3000);
+	Sleep(3000);
 	return  0;
+}
+
+int VideoTest() {
+	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	return 0;
 }
 
 
 int CameraSettingExposure(double exposure)
 {
-	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 	a++;
 	//std::string name = "a中文";
 	//name = StringToUtf(name);

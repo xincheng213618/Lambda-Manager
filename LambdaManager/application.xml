@@ -11,10 +11,13 @@
 			</action>
 		</procedure>
 		<procedure name="SleepTest" event="SleepTest" >
-			<action name="SleepTest">
-=			</action>
+			<action name="SleepTest"/>
+		</procedure>
+		<procedure name="VideoTest" event="VideoTest" >
+			<action name="VideoTest"/>
 		</procedure>
 		
+
 		<procedure name="OpenSerial" event="projectManager" >
 			<action name="OpenSerial">
 				<input name="FullPath" type="string" />

@@ -122,7 +122,7 @@
     <Resource Include="resources\icons\top-eraser.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Quartz" Version="3.3.3" />
+    <PackageReference Include="Quartz" Version="3.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />

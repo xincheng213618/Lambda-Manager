@@ -1,4 +1,5 @@
-﻿using Lambda;
+﻿using Global.Mode;
+using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -33,6 +35,7 @@ namespace Global
             return 1;
         }
 
+        List<ImageParameter> imageParameters = new List<ImageParameter>();
         public async void AddImageConfident(Image image)
         {
             await Task.Delay(1000);
@@ -64,8 +67,8 @@ namespace Global
                 //grid.Background = Brushes.Red;
                 Canvas canvas1 = new Canvas()
                 {
-                    Width = image.ActualWidth,
-                    Height = image.ActualWidth,
+                    //Width = image.ActualWidth,
+                    //Height = image.ActualWidth,
                     Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
                     //Background = Brushes.Black,
                     ClipToBounds = true
@@ -78,14 +81,30 @@ namespace Global
             }
             if (image.Parent is Canvas canvas)
             {
+                ImageParameter imageParameter = new ImageParameter();
+                imageParameters.Add(imageParameter);
+                image.DataContext = imageParameter;
+
                 TransformGroup transformGroup = new();
                 TranslateTransform tlt = new();
                 ScaleTransform sfr = new();
+                BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterX"));
+                BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterY"));
+                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleXProperty, new Binding("ScaleTransformScaleX"));
+                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleYProperty, new Binding("ScaleTransformScaleY"));
+
+
                 transformGroup.Children.Add(sfr);
                 transformGroup.Children.Add(tlt);
                 image.RenderTransform = transformGroup;
+
+ 
+
+
                 image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
                 {
+
+
                     if (((sfr.ScaleX < 0.2 || sfr.ScaleY < 0.2) && e.Delta < 0) || ((sfr.ScaleX > 5 || sfr.ScaleY > 5) && e.Delta > 0))
                     {
 
@@ -93,10 +112,29 @@ namespace Global
                     else
                     {
                         Point centerPoint = e.GetPosition(canvas);
-                        sfr.CenterX = centerPoint.X;
-                        sfr.CenterY = centerPoint.Y;
-                        sfr.ScaleX += (double)e.Delta / 1000;
-                        sfr.ScaleY += (double)e.Delta / 1000;
+
+                        if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                        {
+                            foreach (var item in imageParameters)
+                            {
+                                item.ScaleTransformCenterX = centerPoint.X;
+                                item.ScaleTransformCenterY = centerPoint.Y;
+                                item.ScaleTransformScaleX += (double)e.Delta / 1000;
+                                item.ScaleTransformScaleY += (double)e.Delta / 1000;
+
+                            }
+                        }
+                        else
+                        {
+                            imageParameter.ScaleTransformCenterX = centerPoint.X;
+                            imageParameter.ScaleTransformCenterY = centerPoint.Y;
+                            imageParameter.ScaleTransformScaleX += (double)e.Delta / 1000;
+                            imageParameter.ScaleTransformScaleY += (double)e.Delta / 1000;
+                        }
+
+
+                        //sfr.CenterX = centerPoint.X;
+                        //sfr.CenterY = centerPoint.Y;
                     }
 
 

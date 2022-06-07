@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>$(SolutionDir)packages\spdlog\include;$(SolutionDir)packages\common\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)packages\spdlog\include;$(SolutionDir)packages\common\include\;$(SolutionDir)packages\nlohmann\single_include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)packages\common;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
