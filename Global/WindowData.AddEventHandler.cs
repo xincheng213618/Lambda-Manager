@@ -241,61 +241,60 @@ namespace Global
 
         private bool TestDataEvent(object sender, EventArgs e)
         {
-            //MessageBox.Show("TestDataEvent Acvtive");
-            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-            //MessageBox.Show(eventData.Count.ToString());
-            if (eventData != null)
+            Application.Current.Dispatcher.Invoke(delegate
             {
-                int size = (int)eventData["size"];
-                //MessageBox.Show(size.ToString());
-
-                IntPtr intPtr = (IntPtr)eventData["data"];
-                //byte[] aaa = new byte[size];
-                //Marshal.Copy(intPtr, aaa, 0, size);
-
-                //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
-                //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                //pinnedArray.Free();
-
-                if (image.ImageSource is WriteableBitmap writeableBitmap1)
+                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+                if (eventData != null)
                 {
-                    Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
-                    writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
+                    int size = (int)eventData["size"];
 
+                    IntPtr intPtr = (IntPtr)eventData["data"];
+                    //byte[] aaa = new byte[size];
+                    //Marshal.Copy(intPtr, aaa, 0, size);
+                    //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
+                    //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+                    //pinnedArray.Free();
+
+                    if (image.ImageSource is WriteableBitmap writeableBitmap1)
+                    {
+                        Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
+                        writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
+
+                    }
+                    else
+                    {
+                        WriteableBitmap writeableBitmap = new WriteableBitmap(300, 300, 96.0, 96.0, PixelFormats.Bgr24, null);
+                        RtlMoveMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
+                        writeableBitmap.Lock();
+                        writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+                        writeableBitmap.Unlock();
+                        image.ImageSource = writeableBitmap;
+                    }
+
+
+
+                    //Window window = new Window();
+                    //window.Content = image;
+                    //window.Show();
+
+                    //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
+                    //{
+                    //    BitmapImage image = new BitmapImage();
+                    //    image.BeginInit();
+                    //    image.StreamSource = ms;
+                    //    image.EndInit();
+
+                    //    BitmapEncoder encoder = new PngBitmapEncoder();
+                    //    encoder.Frames.Add(BitmapFrame.Create(image));
+
+                    //    using (var fileStream = new System.IO.FileStream("1.jpg", System.IO.FileMode.Create))
+                    //    {
+                    //        encoder.Save(fileStream);
+                    //    }
+                    //}
                 }
-                else
-                {
-                    WriteableBitmap writeableBitmap = new WriteableBitmap(64, 48, 96.0, 96.0, PixelFormats.Bgr24, null);
-                    RtlMoveMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
-                    writeableBitmap.Lock();
-                    writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
-                    writeableBitmap.Unlock();
-                    image.ImageSource = writeableBitmap;
-                }
+            });
 
-
-
-                //Window window = new Window();
-                //window.Content = image;
-                //window.Show();
-
-                //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
-                //{
-                //    BitmapImage image = new BitmapImage();
-                //    image.BeginInit();
-                //    image.StreamSource = ms;
-                //    image.EndInit();
-
-                //    BitmapEncoder encoder = new PngBitmapEncoder();
-                //    encoder.Frames.Add(BitmapFrame.Create(image));
-
-                //    using (var fileStream = new System.IO.FileStream("1.jpg", System.IO.FileMode.Create))
-                //    {
-                //        encoder.Save(fileStream);
-                //    }
-                //}
-
-            }
             return true;
         }
 

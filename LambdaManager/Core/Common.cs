@@ -101,7 +101,6 @@ internal class Common
         LambdaControl.Log(new Message
         {
             Severity = (Severity)severity,
-
             Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
         });
 
@@ -115,17 +114,22 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage2(int severity, char* message)
 	{
-        int length = default(int);
-        sbyte* p2 = default(sbyte*);
-        p2 = (sbyte*)message;
-        while (*(p2++) != 0)
-            length++;
-        LambdaControl.Log2(new Message
-        {
-            Severity = (Severity)severity,
-            Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
-        });
-	}
+        //int length = default(int);
+        //sbyte* p2 = default(sbyte*);
+        //p2 = (sbyte*)message;
+        //while (*(p2++) != 0)
+        //    length++;
+        //LambdaControl.Log2(new Message
+        //{
+        //    Severity = (Severity)severity,
+        //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
+        //});
+		LambdaControl.Log2(new Message
+		{
+			Severity = (Severity)severity,
+			Text = new string(message)
+		}); ;
+    }
 
 	[DllImport("lib\\common.dll", EntryPoint = "CallFunction")]
 	public unsafe static extern int RaiseEvent(sbyte* type, int argType, nint eventObject, nint sender);

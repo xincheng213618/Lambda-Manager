@@ -53,10 +53,10 @@ namespace Solution
                 windowData.SaveConfig();
             }
         }
-        private string ToStrings(string value)
+        private static string ToStrings(string value)
         {
-            using MemoryStream memoryStream = new MemoryStream();
-            using (Utf8JsonWriter writer = new Utf8JsonWriter((Stream)memoryStream, default(JsonWriterOptions)))
+            using MemoryStream memoryStream = new();
+            using (Utf8JsonWriter writer = new((Stream)memoryStream, default))
             {
                 writer.WriteStringValue(value);
             }

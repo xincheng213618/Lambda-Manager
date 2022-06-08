@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="1111.png" />
+    <Content Include="1111.png" />
   </ItemGroup>
 
 </Project>

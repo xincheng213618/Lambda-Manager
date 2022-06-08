@@ -9,6 +9,7 @@
 #include "concurrent.h"
 #include "threadpool.h"
 #include <opencv2/opencv.hpp>
+
 using namespace std;
 
 LambdaView* pView = NULL;
@@ -284,6 +285,10 @@ int VideoTest() {
 
 int CameraSettingExposure(double exposure)
 {
+
+	//int a = OpenLE5(1, 2, 3, 34);
+	//Logger::Log2(Severity::INFO, L"C+++++++ %d)'", a);
+
 	a++;
 	//std::string name = "a中文";
 	//name = StringToUtf(name);
@@ -296,7 +301,7 @@ int CameraSettingExposure(double exposure)
 	img1 = cv::imread("cat.jpg");
 
 	cv::Mat img2;
-	resize(img1, img2, cv::Size(0, 0), 0.1, 0.1);
+	resize(img1, img2, cv::Size(300, 300), 0, 0);
 
 	//uchar b[] = { 1, 2, 3, 4, 5 };
 
@@ -305,8 +310,11 @@ int CameraSettingExposure(double exposure)
 	json j;
 	j["createTime"] = "中文";
 	Event::Trigger("UPDATE_STATUS", &j);
-	Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
-
+	std::thread t([=]() {
+		Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
+		});
+	t.detach();
+	
 
 
 	json j1;

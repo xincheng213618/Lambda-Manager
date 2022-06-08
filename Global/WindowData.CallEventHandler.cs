@@ -38,7 +38,7 @@ namespace Global
         List<ImageParameter> imageParameters = new List<ImageParameter>();
         public async void AddImageConfident(Image image)
         {
-            await Task.Delay(1000);
+            //await Task.Delay(1000);
             if (image.Parent is Grid grid)
             {
                 //grid.Children.Clear();
