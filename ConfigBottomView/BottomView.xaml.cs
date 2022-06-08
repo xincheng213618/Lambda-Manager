@@ -65,13 +65,11 @@ namespace ConfigBottomView
                 {
                     this.Width = mainView.ActualWidth;
                 };
-
-
             }
-            Bitmap sourceImageItem = new Bitmap("078_001_v8n_h.jpg");
-            string MaxValue;
-            (sourceImageItem, MaxValue) = ConvertImageToHistogram.GenerateHistogramImage(sourceImageItem);
-            HistogramImage1.Source = Extensions.GetBitmapSource(sourceImageItem);
+            //Bitmap sourceImageItem = new Bitmap("078_001_v8n_h.jpg");
+            //string MaxValue;
+            //(sourceImageItem, MaxValue) = ConvertImageToHistogram.GenerateHistogramImage(sourceImageItem);
+            //HistogramImage1.Source = Extensions.GetBitmapSource(sourceImageItem);
 
         }
     }
