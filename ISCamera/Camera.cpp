@@ -299,7 +299,8 @@ int CameraSettingExposure(double exposure)
 
 	cv::Mat img1;
 	img1 = cv::imread("cat.jpg");
-
+	LambdaView* pView = LambdaView::GetIdleOrNew();
+	pView->Show(img1);
 	cv::Mat img2;
 	resize(img1, img2, cv::Size(300, 300), 0, 0);
 
@@ -310,6 +311,7 @@ int CameraSettingExposure(double exposure)
 	json j;
 	j["createTime"] = "中文";
 	Event::Trigger("UPDATE_STATUS", &j);
+
 	std::thread t([=]() {
 		Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
 		});

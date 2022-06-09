@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace NLGSolution
+namespace Commmon.ViewMode
 {
+    /// <summary>
+    /// 中继命令
+    /// </summary>
     public class RelayCommand : ICommand
     {
         
@@ -26,7 +29,6 @@ namespace NLGSolution
         }
 
         public event EventHandler CanExecuteChanged;
-
 
         public void Execute(object parameter)
         {

@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:ConfigObjective"
              mc:Ignorable="d" 
              d:DesignHeight="1280" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1">
-    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

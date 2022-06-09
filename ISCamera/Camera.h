@@ -40,6 +40,7 @@ struct Cam
 	char name[16];
 	double a;
 };
+
 extern "C" CAMERA_API int CameraSettingCam(Cam &cam);
 
 extern "C" CAMERA_API int OpenSerial(char* FullPath);

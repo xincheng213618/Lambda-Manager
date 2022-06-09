@@ -8,15 +8,15 @@ namespace Lambda;
 
 public class LambdaControl : Control
 {
-	private static LogHandler? LogHandler { get; set; }
+	private static event LogHandler? LogHandler;
 
-	private static LogHandler? LogHandler2 { get; set; }
+	private static event LogHandler? LogHandler2;
 
-	private static AddEventHandler? AddEventHandler { get; set; }
+	private static event AddEventHandler? AddEventHandler;
 
-	private static CallEventHandler? CallEventHandler { get; set; }
+	private static event CallEventHandler? CallEventHandler;
 
-	private static RegisterImageViewHandler? RegisterImageViewHandler { get; set; }
+	private static event RegisterImageViewHandler? RegisterImageViewHandler;
 
 	private static View[]? Views { get; set; }
 

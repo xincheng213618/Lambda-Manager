@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Commmon.ViewMode;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -13,6 +14,9 @@ namespace NLGSolution
     {
         public FileSystemWatcher watcher;
         public string Rootpath;
+        public RelayCommand AddNewProject { get; set; }
+        public RelayCommand OpenExplorer { get; set; }
+        public RelayCommand AddExistingProject { get; set; }
 
         public SolutionExplorer(string FullPath):base(FullPath)
         {
@@ -28,23 +32,17 @@ namespace NLGSolution
             watcher.Created += Watcher_Created;
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
-            EditCommand = new RelayCommand(EditChanged, (object value) => { return true; });
+
             AddNewProject = new RelayCommand(OnAddNewProject, (object value) => { return true; });
             OpenExplorer = new RelayCommand(OpenNewExplorer, (object value) => { return true; });
         }
-
-        private void EditChanged(object value)
-        {
-            this.IsEditMode = true;
-        }
-
-
 
 
         private void OpenNewExplorer(object value)
         {
             System.Diagnostics.Process.Start("explorer.exe", Rootpath);
         }
+
 
         public void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
@@ -150,32 +148,11 @@ namespace NLGSolution
         }
 
 
-        public static RelayCommand AddNewProject { get; set; }
-
-        public static RelayCommand OpenExplorer { get; set; }
-        public static RelayCommand AddExistingProject { get; set; }
-
-        public RelayCommand EditCommand { get; set; }
-
-        public CommandBinding AddExistingProject1;
-        private void AddNewProject_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void AddNewProject_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            //ProjectMannager projectMannager = new ProjectMannager()
-            //{
-            //    Name = "新建工程2"
-            //};
-
-            //AddChild(projectMannager);
-        }
 
         public Guid SolutionGuid { get; set; }
 
         public string SolutionName { get; set; }
+
         public string SolutionVersion { get; set; }
 
         public string SolutionPath { get; set; }
@@ -183,14 +160,11 @@ namespace NLGSolution
         public SolutionLog SolutionLog { get; set; }
         public SolutionConfig SolutionConfig { get; set; }
 
-
         public ObservableCollection<ProjectManager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectManager>();
 
         public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
 
-
         public ObservableCollection<ViewModeBase> Children { get; set; } = new ObservableCollection<ViewModeBase>();    
-
 
         public override void AddChild(ViewModeBase baseObject)
         {
