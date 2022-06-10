@@ -1,12 +1,19 @@
 ﻿using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Global
+namespace Global.Common
 {
-    public class ModeBaseObject :INotifyPropertyChanged
+    /// <summary>
+    /// 实例化一个Mode
+    /// </summary>
+    public class ViewModeBase :INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// 触发消息通知事件
+        /// </summary>
+        /// <param name="propertyName"></param>
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

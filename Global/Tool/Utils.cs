@@ -112,6 +112,8 @@ namespace Global
             return result;
         }
 
+
+
         public static JObject ParseJson(string strJson)
         {
             try

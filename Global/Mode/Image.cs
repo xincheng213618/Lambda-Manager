@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Global.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Global.Mode
 {
-    public class ImageParameter: ModeBaseObject
+    public class ImageParameter: ViewModeBase
     {
         private double scaleTransformCenterX = 0;
         public double ScaleTransformCenterX

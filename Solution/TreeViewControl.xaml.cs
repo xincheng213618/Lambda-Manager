@@ -4,25 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Tool;
 using Global;
 using Lambda;
-using LambdaUtils;
 using System.Text.Json;
-using System.Windows.Controls.Primitives;
-using Global.Extensions;
+using Tool;
 
 namespace Solution
 {
@@ -42,7 +32,7 @@ namespace Solution
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
 
-        private ViewModeBase LastReNameObject;
+        private NLGSolution.BaseObject LastReNameObject;
         private TreeViewItem SelectedTreeViewItem;
 
 
@@ -76,7 +66,7 @@ namespace Solution
                 if (item == null)
                     return;
 
-                if (SelectedTreeViewItem!=null && SelectedTreeViewItem!=item&& SelectedTreeViewItem.DataContext is ViewModeBase viewModeBase)
+                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is NLGSolution.BaseObject viewModeBase)
                 {
                     viewModeBase.IsEditMode = false;
                 }
@@ -142,7 +132,7 @@ namespace Solution
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is ViewModeBase baseObject )
+            if (tb.Tag is NLGSolution.BaseObject baseObject )
             {
                 baseObject.IsEditMode = false;
             }
@@ -151,7 +141,7 @@ namespace Solution
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is ViewModeBase baseObject)
+            if (tb.Tag is NLGSolution.BaseObject baseObject)
             {
                 baseObject.Name = tb.Text;
                 if (e.Key == Key.Escape || e.Key == Key.Enter)

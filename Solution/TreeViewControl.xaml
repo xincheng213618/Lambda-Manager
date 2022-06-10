@@ -108,7 +108,10 @@
                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                         <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-
+                        <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="Red">
+                            <Run Text="    "/>
+                            <Run Text="{Binding FileSize}"/>
+                        </TextBlock>
                         <StackPanel.ContextMenu>
                             <ContextMenu >
                                 <!--<MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />-->
@@ -118,7 +121,7 @@
                                 <Separator/>
                                 <MenuItem Header="导出(_E)">
                                     <MenuItem Header="快速导出为"  />
-                                    <MenuItem Header="导出为" />
+                                    <MenuItem Header="导出为" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
                                     <Separator/>
                                     <MenuItem Header="导出Tiff..."  />
                                     <MenuItem Header="导出JPEG..."  />
@@ -161,6 +164,10 @@
 
                         <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
+                        <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="Red">
+                            <Run Text="    "/>
+                            <Run Text="{Binding FileSize}"/>
+                        </TextBlock>
 
                         <StackPanel.ContextMenu>
                             <ContextMenu >

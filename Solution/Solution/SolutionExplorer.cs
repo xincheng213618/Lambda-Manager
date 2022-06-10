@@ -1,4 +1,4 @@
-﻿using Commmon.ViewMode;
+﻿using Global.Common;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace NLGSolution
 {
-    public class SolutionExplorer : ViewModeBase
+    public class SolutionExplorer : BaseObject
     {
         public FileSystemWatcher watcher;
         public string Rootpath;
@@ -164,15 +164,15 @@ namespace NLGSolution
 
         public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
 
-        public ObservableCollection<ViewModeBase> Children { get; set; } = new ObservableCollection<ViewModeBase>();    
+        public ObservableCollection<BaseObject> Children { get; set; } = new ObservableCollection<BaseObject>();    
 
-        public override void AddChild(ViewModeBase baseObject)
+        public override void AddChild(BaseObject baseObject)
         {
             baseObject.Parent = this;
             Children.SortedAdd(baseObject);   
         }
 
-        public override void RemoveChild(ViewModeBase baseObject)
+        public override void RemoveChild(BaseObject baseObject)
         {
             if (baseObject == null)
                 return;
@@ -184,8 +184,6 @@ namespace NLGSolution
                 baseObject.Delete();
             }
         }
-
-
 
     }
 }

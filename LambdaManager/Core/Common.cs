@@ -20,6 +20,7 @@ namespace LambdaManager.Core;
 
 internal class Common
 {
+
 	private static List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
 
 
@@ -476,8 +477,10 @@ internal class Common
 		GCHandle handle = GCHandle.Alloc(sender);
 		try
 		{
+
             int result = CallEvent(type, handle, e);
-			if (result >= RESERVED_EVENT_RESULT)
+
+            if (result >= RESERVED_EVENT_RESULT)
 			{
 				return (!ui_handlers[result - RESERVED_EVENT_RESULT](sender, e)) ? (-1) : 0;
 			}

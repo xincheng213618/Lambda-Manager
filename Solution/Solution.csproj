@@ -6,6 +6,7 @@
     <Nullable>disable</Nullable>
     <UseWPF>True</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,6 +52,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Global\Global.csproj" />
+    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>

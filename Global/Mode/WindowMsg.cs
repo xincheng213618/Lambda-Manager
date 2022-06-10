@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Global.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Windows;
 
 namespace Global.Mode
 {
-    public class WindowMsg:ModeBaseObject
+    public class WindowMsg:ViewModeBase
     {
         private int viewNums = 0;
         public int ViewNums

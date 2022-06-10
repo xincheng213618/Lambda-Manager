@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Commmon.ViewMode
+namespace Global.Common
 {
     /// <summary>
     /// 中继命令

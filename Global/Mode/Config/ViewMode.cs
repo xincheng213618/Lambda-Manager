@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Global.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Global.Mode.Config
 {
-    public class ViewMode : ModeBaseObject
+    public class ViewMode : ViewModeBase
     {
         public int SelectViewMode = 0;
 
@@ -43,7 +44,7 @@ namespace Global.Mode.Config
 
     }
 
-    public class BrightField : ModeBaseObject
+    public class BrightField : ViewModeBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 };
 
@@ -80,7 +81,7 @@ namespace Global.Mode.Config
         }
     };
 
-    public class DarkField : ModeBaseObject
+    public class DarkField : ViewModeBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 };
 
@@ -172,7 +173,7 @@ namespace Global.Mode.Config
         }
     };
 
-    public class Reinberg : ModeBaseObject
+    public class Reinberg : ViewModeBase
     {
 
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 };
@@ -249,7 +250,7 @@ namespace Global.Mode.Config
     };
 
     //差分
-    public class ReliefContrast : ModeBaseObject
+    public class ReliefContrast : ViewModeBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 3 } ;
 
@@ -375,7 +376,7 @@ namespace Global.Mode.Config
         }
     }
     //相位
-    public class PhaseContrast : ModeBaseObject
+    public class PhaseContrast : ViewModeBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5};
 
@@ -478,7 +479,7 @@ namespace Global.Mode.Config
     }
 
 
-    public class QuantitativePhase : ModeBaseObject
+    public class QuantitativePhase : ViewModeBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 };
 

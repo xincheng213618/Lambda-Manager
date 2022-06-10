@@ -8,9 +8,9 @@ using Lambda;
 using System.Windows.Input;
 using Global.Mode.Config;
 using System.Text;
-using Global.Extensions;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using Global.Common.Extensions;
 
 namespace ConfigObjective
 {

@@ -283,7 +283,7 @@ int VideoTest() {
 }
 
 
-int CameraSettingExposure(double exposure)
+int CameraSettingExposure(int mode,double exposure)
 {
 
 	//int a = OpenLE5(1, 2, 3, 34);

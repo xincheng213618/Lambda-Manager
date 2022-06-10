@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Global.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class Stage : ModeBaseObject
+    public class Stage : ViewModeBase
     {
         [JsonProperty("moving-step")]
         public MoveStep MoveStep { get; set; }= new MoveStep();
@@ -60,7 +61,7 @@ namespace Global.Mode.Config
     }
 
     [Serializable]
-    public class MoveStep : ModeBaseObject
+    public class MoveStep : ViewModeBase
     {
         private int xstep = 200 ;
         [JsonProperty("x-step")]

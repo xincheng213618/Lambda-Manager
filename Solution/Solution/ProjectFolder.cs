@@ -8,15 +8,15 @@ using System.Windows;
 
 namespace NLGSolution
 {
-    public class ProjectFolder : ViewModeBase
+    public class ProjectFolder : BaseObject
     {
 
         public FileSystemWatcher watcher;
-        public ObservableCollection<ViewModeBase> Children { get; set; }
+        public ObservableCollection<BaseObject> Children { get; set; }
 
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
-            Children = new ObservableCollection<ViewModeBase>();
+            Children = new ObservableCollection<BaseObject>();
 
             watcher = new FileSystemWatcher(FolderPath)
             {
@@ -66,6 +66,7 @@ namespace NLGSolution
         public override void Delete()
         {
             base.Delete();
+            this.watcher.Dispose();
             try
             {
                 if (Directory.Exists(FullPath))
@@ -127,14 +128,14 @@ namespace NLGSolution
         public string Description { get; set; }
 
 
-        public override void AddChild(ViewModeBase baseObject)
+        public override void AddChild(BaseObject baseObject)
         {
             base.AddChild(baseObject);
             baseObject.Parent = this;
             Children.SortedAdd(baseObject);
         }
 
-        public override void RemoveChild(ViewModeBase baseObject)
+        public override void RemoveChild(BaseObject baseObject)
         {
             base.RemoveChild(baseObject);   
             if (baseObject == null)

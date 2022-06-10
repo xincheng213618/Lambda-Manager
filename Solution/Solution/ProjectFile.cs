@@ -1,16 +1,32 @@
-﻿
-
-using System;
+﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
+using Tool;
 
 namespace NLGSolution
 {
-    public class ProjectFile : ViewModeBase
+    public class ProjectFile : BaseObject
     {
+        private string fileSize;
+        public string FileSize
+        {
+            get { return fileSize; }
+            set { fileSize = value; NotifyPropertyChanged(); }
+        }
+
+
         public ProjectFile(string FilePath):base(FilePath)
         {
+            Task.Run(CalculSize);
+        }
 
+        private void CalculSize()
+        {
+            //await Task.Delay(10000);
+
+            FileInfo fileinfo = new FileInfo(FullPath);
+            FileSize = MemorySize.MemorySizeText(fileinfo.Length);
         }
 
         public override bool IsEditMode

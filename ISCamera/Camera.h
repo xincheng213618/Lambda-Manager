@@ -22,7 +22,7 @@ extern "C" CAMERA_API int LoadProperty(std::string xmlProperties);
 
 extern "C" CAMERA_API int SaveSettings();
 
-extern "C" CAMERA_API int CameraSettingExposure(double exposure);
+extern "C" CAMERA_API int CameraSettingExposure(int mode,double exposure);
 
 extern "C" CAMERA_API int CameraSettingExposureIni(char** result_data, int len);
 

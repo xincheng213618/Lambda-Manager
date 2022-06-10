@@ -5,8 +5,9 @@
 	</commands>-->
 	<component name="Camera" lib="lib\ISCamera.dll" init="SleepTest">
 	
-		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="exposure">
+		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
 			<action name="CameraSettingExposure">
+				<input name="mode" type="int"/>
 				<input name="exposure" type="double"/>
 			</action>
 		</procedure>
