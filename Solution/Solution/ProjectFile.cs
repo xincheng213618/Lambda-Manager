@@ -21,7 +21,8 @@ namespace NLGSolution
             Task.Run(CalculSize);
         }
 
-        private void CalculSize()
+
+        public void CalculSize()
         {
             //await Task.Delay(10000);
 

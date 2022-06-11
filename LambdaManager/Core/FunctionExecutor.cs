@@ -49,33 +49,33 @@ internal static class FunctionExecutor
 		{
 			return 0;
 		}
-		List<Function>.Enumerator enumerator = functions.GetEnumerator();
-
-
-           if (enumerator.MoveNext())
+        using (List<Function>.Enumerator enumerator = functions.GetEnumerator())
         {
-            Function function = (info.Function = enumerator.Current);
-            info.FunctionArguments = null;
-            info.Times = -1;
-            int result;
-            if (function.Routine != null)
+            while (enumerator.MoveNext())
             {
-                result = InvokeRoutine(info);
-            }
-            else
-            {
-                if (function.Async)
+                Function function = (info.Function = enumerator.Current);
+                info.FunctionArguments = null;
+                info.Times = -1;
+                int result;
+                if (function.Routine != null)
                 {
-                    InvokeFunctionAsync(info);
+                    result = InvokeRoutine(info);
                 }
-                result = InvokeFunction(info);
-            }
-            if (result != 0 && result < 0)
-            {
-                return result;
+                else
+                {
+                    if (function.Async)
+                    {
+                        InvokeFunctionAsync(info);
+                        continue;
+                    }
+                    result = InvokeFunction(info);
+                }
+                if (result != 0 && result < 0)
+                {
+                    return result;
+                }
             }
         }
-
         if (info.Caller != null && functions.Count == 1)
 		{
 			info.Caller!.FunctionArguments = info.FunctionArguments;

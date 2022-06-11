@@ -24,7 +24,7 @@ namespace Global
 
         public DeviceInformation deviceInformation;
         public List<ObjectiveSetting> ObjectiveSettingList;
-
+        public StageTest StageTest = new StageTest();
 
         private WindowData()
         {

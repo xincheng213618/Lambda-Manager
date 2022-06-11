@@ -25,8 +25,8 @@ namespace NLGSolution
 
         private async void CalculSize()
         {
+            //加延迟是为了显示效果更好。
             await Task.Delay(1000);
-
             FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullPath));
         }
 

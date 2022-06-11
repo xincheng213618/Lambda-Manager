@@ -6,6 +6,9 @@ using System.Windows.Data;
 
 namespace Global
 {
+    /// <summary>
+    /// 监听AddInjection事件
+    /// </summary>
     public partial class WindowData
     {
         private void AddInjection()
@@ -83,24 +86,18 @@ namespace Global
 
                 TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
 
-                Binding FrameIndex1 = new Binding("FrameIndex");
-                FrameIndex1.Source = updateStatus;
-                frameIndex.SetBinding(TextBlock.TextProperty, FrameIndex1);
+                frameIndex.DataContext = updateStatus;
+                frameIndex.SetBinding(TextBlock.TextProperty, new Binding("FrameIndex"));
 
                 TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
-                Binding TotalFrame1 = new Binding("TotalFrame");
-                TotalFrame1.Source = updateStatus;
-                totalFrame.SetBinding(TextBlock.TextProperty, TotalFrame1);
 
-
+                totalFrame.DataContext = updateStatus;
+                totalFrame.SetBinding(TextBlock.TextProperty, new Binding("TotalFrame"));
 
                 TextBlock timeElapsed = (TextBlock)mainwin.FindName("timeElapsed");
 
-                Binding TimeElapsed = new Binding("TimeElapsed");
-                TimeElapsed.Source = updateStatus;
-                timeElapsed.SetBinding(TextBlock.TextProperty, TimeElapsed);
-
-
+                timeElapsed.DataContext = updateStatus;
+                timeElapsed.SetBinding(TextBlock.TextProperty, new Binding("TimeElapsed"));
                 TextBlock totalTime = (TextBlock)mainwin.FindName("totalTime");
 
                 Binding TotalTime = new Binding("TotalTime");
@@ -168,10 +165,10 @@ namespace Global
                     LambdaControl.Trigger("ZINDEX_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider2.Value - 1 } });
                 };
 
-
             }
-            catch
+            catch(Exception ex)
             {
+                MessageBox.Show(ex.Message);
 
             }
 

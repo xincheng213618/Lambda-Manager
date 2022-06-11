@@ -1,4 +1,5 @@
-﻿using Global.Mode;
+﻿using Global.Controls;
+using Global.Mode;
 using Lambda;
 using Mode;
 using System.Runtime.InteropServices;
@@ -9,10 +10,15 @@ using System.Windows.Media.Imaging;
 
 namespace Global
 {
+
+    /// <summary>
+    /// 注册AddEventHandler事件
+    /// </summary>
     public partial class WindowData
     {
         private void AddEventHandler()
         {
+
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", OnUpdateWindowStatus, false);
@@ -96,6 +102,7 @@ namespace Global
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");
             WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
+
             updateStatus.ImageY = GetStringValue(eventData, "y");
             WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
             updateStatus.ImageZ = GetStringValue(eventData, "z");

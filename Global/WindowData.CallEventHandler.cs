@@ -13,10 +13,14 @@ using System.Windows.Media;
 
 namespace Global
 {
+    /// <summary>
+    /// 监听CallEventHandler事件
+    /// </summary>
     public partial class WindowData
     {
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;
+
 
         private int Call(string type, object sender, EventArgs e)
         {

@@ -13,6 +13,8 @@ using Global;
 using Lambda;
 using System.Text.Json;
 using Tool;
+using Global.Common.Extensions;
+using System.Windows.Controls.Primitives;
 
 namespace Solution
 {
@@ -195,13 +197,14 @@ namespace Solution
             };
             string rootPath = System.IO.Path.GetDirectoryName(FilePath);
 
+            SolutionExplorer solutionExplorer1 = new SolutionExplorer(rootPath);
             DirectoryInfo root = new DirectoryInfo(rootPath);
             var dics = root.GetDirectories();
             foreach (var dic in dics)
             {
                 if (dic.Name == "Video" || dic.Name == "Image")
                 {
-                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false,CanReName = false};
+                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false,CanReName = false ,Visibility =Visibility.Collapsed};
                     foreach (var item in dic.GetDirectories())
                     {
                         ProjectFolder projectFolder = new ProjectFolder(item.FullName);
@@ -211,7 +214,10 @@ namespace Solution
                     {
                         ProjectFile projectFile = new ProjectFile(item.FullName);
                         projectMannager.AddChild(projectFile);
+
+                        solutionExplorer.AddChild(projectFile);
                     }
+                    //solutionExplorer.AddChild(projectMannager);
                     solutionExplorer.AddChild(projectMannager);
                 }
                 else
@@ -287,8 +293,10 @@ namespace Solution
             //View View = new View(image,99);
             //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
 
-            Dictionary<string, object> data = new() { { "exposure", 111.111 } };
-            LambdaControl.Dispatch("VideoTest", this, data);
+            //Dictionary<string, object> data = new() { { "exposure", 111.111 } };
+            //LambdaControl.Dispatch("VideoTest", this, data);
+
+            MessageBox.Show(WindowData.GetInstance().ViewMode.ToXML());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

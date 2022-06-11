@@ -399,6 +399,8 @@
                         </Ellipse>
                         <Line Stroke="white" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="200" Y2="100" />
                         <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
+                        <Ellipse Name="LocalEllipse" Canvas.Top="0" Canvas.Left="50"  SnapsToDevicePixels="True" Stroke="Red" StrokeDashArray="5"  StrokeThickness="1" Width="2" Height="2"/>
+
                     </Canvas>
 
                 </Border>

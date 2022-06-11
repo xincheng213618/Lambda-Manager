@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Global
+namespace Global.Controls
 {
     public class MenuItem1 : MenuItem
     {
@@ -9,6 +9,7 @@ namespace Global
         {
             this.Checked += Checked1;
         }
+
         private void Checked1(object sender, RoutedEventArgs e)
         {
             if (this.Parent is ContextMenu menuItem)

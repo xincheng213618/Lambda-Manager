@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Global.Common.Util
 {
@@ -45,8 +46,10 @@ namespace Global.Common.Util
                 }
                 result = 0;
             }
-            catch
+            catch(Exception ex)
             {
+                Trace.WriteLine("### [" + ex.Source + "] Exception: " + ex.Message);
+                Trace.WriteLine("### " + ex.StackTrace);
                 result = -1;
             }
             return result;

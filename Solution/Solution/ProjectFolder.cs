@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace NLGSolution
@@ -20,13 +21,30 @@ namespace NLGSolution
 
             watcher = new FileSystemWatcher(FolderPath)
             {
-                IncludeSubdirectories = false
+                IncludeSubdirectories = false,               
             };
             watcher.Deleted += Watcher_Deleted;
             watcher.Created += Watcher_Created;
+            watcher.Changed += Watcher_Changed;
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
         }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (sender == null)
+                throw new NotImplementedException();
+            if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
+            {
+                var baseObject = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                if (baseObject != null&& baseObject is ProjectFile projectFile)
+                {
+                    Task.Run(projectFile.CalculSize);
+                }
+            }
+
+        }
+
         private string tempname;
 
         public override bool IsEditMode

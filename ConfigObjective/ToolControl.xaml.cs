@@ -64,15 +64,16 @@ namespace ConfigObjective
             CricalBase.Fill = WindowData.image;
             AddEventHandler();
             //初始化硬件
-            Update.UpdateGlobal();
+
             ObjectiveSetting_Initialize();
             ViewMode_Initialize();
             CameraSetting_Initialize();
+            Canvas_Initialize();
 
             Stage_Initialize();
             MulDimensional_Initialize();
 
-
+            Update.UpdateGlobal();
             IsFirstUpdate = true;
 
             //LambdaControl.Initialize(null, null, null, LambdaControlCall, null, null);

@@ -64,6 +64,7 @@
                             </ContextMenu>
                         </StackPanel.ContextMenu>
                     </StackPanel>
+                    
                 </HierarchicalDataTemplate>
 
 
@@ -85,7 +86,7 @@
                 </DataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectManager}" ItemsSource="{Binding Children}" >
-                    <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
+                    <StackPanel Style="{StaticResource style_treeViewItem_panel}"  Visibility="{Binding Visibility}">
                         <Image Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
 
@@ -108,8 +109,8 @@
                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                         <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-                        <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="Red">
-                            <Run Text="    "/>
+                        <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
+                            <Run Text=" -"/>
                             <Run Text="{Binding FileSize}"/>
                         </TextBlock>
                         <StackPanel.ContextMenu>
@@ -120,16 +121,13 @@
                                 <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
                                 <Separator/>
                                 <MenuItem Header="导出(_E)">
-                                    <MenuItem Header="快速导出为"  />
-                                    <MenuItem Header="导出为" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
-                                    <Separator/>
-                                    <MenuItem Header="导出Tiff..."  />
-                                    <MenuItem Header="导出JPEG..."  />
-                                    <MenuItem Header="导出QuickTime..."  />
-                                    <MenuItem Header="导出AVL..."/>
-                                    <MenuItem Header="导出MPEG-4..."/>
-                                    <MenuItem Header="导出WMV..."/>
-                                    <MenuItem Header="导出DICOM..."/>
+                                    <MenuItem Header="导出Tiff..."    Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出JPEG..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  />
+                                    <MenuItem Header="导出QuickTime..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  />
+                                    <MenuItem Header="导出AVL..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出MPEG-4..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出WMV..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出DICOM..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
                                 </MenuItem>
                                 <MenuItem Header="应用参数(_Y)"  CommandParameter="{Binding .}"/>
                                 <MenuItem Header="文件属性(_R)"  CommandParameter="{Binding .}" />
@@ -140,8 +138,8 @@
                     </StackPanel>
                 </DataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding Children}">
-                    <StackPanel  Style="{StaticResource style_treeViewItem_panel}">
+                <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding Children}" >
+                    <StackPanel  Style="{StaticResource style_treeViewItem_panel}" Visibility="{Binding Visibility}" >
                         <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/filer.png" />
                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
 
@@ -164,8 +162,8 @@
 
                         <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-                        <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="Red">
-                            <Run Text="    "/>
+                        <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
+                            <Run Text=" -"/>
                             <Run Text="{Binding FileSize}"/>
                         </TextBlock>
 
@@ -180,13 +178,13 @@
                                     <MenuItem Header="快速导出为"  />
                                     <MenuItem Header="导出为" />
                                     <Separator/>
-                                    <MenuItem Header="导出Tiff..."  />
-                                    <MenuItem Header="导出JPEG..."  />
-                                    <MenuItem Header="导出QuickTime..."  />
-                                    <MenuItem Header="导出AVL..."/>
-                                    <MenuItem Header="导出MPEG-4..."/>
-                                    <MenuItem Header="导出WMV..."/>
-                                    <MenuItem Header="导出DICOM..."/>
+                                    <MenuItem Header="导出Tiff..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"   />
+                                    <MenuItem Header="导出JPEG..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"   />
+                                    <MenuItem Header="导出QuickTime..."   Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  />
+                                    <MenuItem Header="导出AVL..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出MPEG-4..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出WMV..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出DICOM..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
                                 </MenuItem>
                                 <MenuItem Header="属性(_R)"  CommandParameter="{Binding .}" />
                                 <Separator/>
