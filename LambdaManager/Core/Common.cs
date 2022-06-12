@@ -87,7 +87,7 @@ internal class Common
 	[DllImport("lib\\common.dll")]
 	public static extern void SetHandler(nint pRoutineHandler, int handlerType);
 
-	[DllImport("lib\\common.dll")]
+	[DllImport("lib\\common.dll")]  
 	public unsafe static extern void SetMessageHandler1(delegate* unmanaged[Cdecl]<int, sbyte*, void> pMessageHandler);
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
@@ -125,11 +125,11 @@ internal class Common
         //    Severity = (Severity)severity,
         //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
         //});
-		LambdaControl.Log2(new Message
-		{
-			Severity = (Severity)severity,
-			Text = new string(message)
-		}); ;
+		//LambdaControl.Log2(new Message
+		//{
+		//	Severity = (Severity)severity,
+		//	Text = new string(message)
+		//}); ;
     }
 
 	[DllImport("lib\\common.dll", EntryPoint = "CallFunction")]

@@ -15,6 +15,8 @@ using System.Text.Json;
 using Tool;
 using Global.Common.Extensions;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Solution
 {
@@ -287,16 +289,57 @@ namespace Solution
           
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposure")]
+        public static extern int CameraSettingExposure(int mode,double exposure);
+
+
+        private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
             //Image image = new Image();
             //View View = new View(image,99);
             //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
+            try
+            {
+                IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
+                IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
 
-            //Dictionary<string, object> data = new() { { "exposure", 111.111 } };
-            //LambdaControl.Dispatch("VideoTest", this, data);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            //IntPtr address = NativeLibrary.Load(@"lib\ISCamera.dll");
+            //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
 
-            MessageBox.Show(WindowData.GetInstance().ViewMode.ToXML());
+            for (int i = 0; i < 100; i++)
+            {
+                try
+                {
+                    //IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
+                }catch(Exception ex)
+                {
+
+                }
+                //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
+                //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
+
+
+                //CameraSettingExposure(0, 111111);
+                //Dictionary<string, object> data = new() { { "exposure", 111.111 } };
+                //LambdaControl.Trigger("CameraSettingExposure", this, data);
+
+
+
+                //((delegate* unmanaged[Cdecl]<int, double, int>)(void*)Export)(1, 11111);
+
+
+            }
+
+            sw.Stop();
+            MessageBox.Show(sw.Elapsed.ToString());
+            //MessageBox.Show(WindowData.GetInstance().ViewMode.ToXML());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
