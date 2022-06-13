@@ -4,6 +4,7 @@ using Global.Mode.Config;
 using Lambda;
 using Mode;
 using Newtonsoft.Json;
+using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -25,6 +26,7 @@ namespace Global
         public DeviceInformation deviceInformation;
         public List<ObjectiveSetting> ObjectiveSettingList;
         public StageTest StageTest = new StageTest();
+        public MapModel mapModel = new MapModel();
 
         private WindowData()
         {

@@ -102,9 +102,12 @@ namespace Global
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");
             WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
+            mapModel.StageX = WindowMsg.StageX / 150;
 
             updateStatus.ImageY = GetStringValue(eventData, "y");
             WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
+            mapModel.StageY = WindowMsg.StageY / 150;
+
             updateStatus.ImageZ = GetStringValue(eventData, "z");
             WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
 
@@ -244,7 +247,7 @@ namespace Global
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
         public static extern void RtlMoveMemory(IntPtr Destination, IntPtr Source, uint Length);
 
-        public ImageBrush image = new ImageBrush();
+        public Image image = new Image();
 
         private bool TestDataEvent(object sender, EventArgs e)
         {
@@ -262,7 +265,7 @@ namespace Global
                     //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
                     //pinnedArray.Free();
 
-                    if (image.ImageSource is WriteableBitmap writeableBitmap1)
+                    if (image.Source is WriteableBitmap writeableBitmap1)
                     {
                         Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
                         writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
@@ -275,7 +278,7 @@ namespace Global
                         writeableBitmap.Lock();
                         writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
                         writeableBitmap.Unlock();
-                        image.ImageSource = writeableBitmap;
+                        image.Source = writeableBitmap;
                     }
 
 

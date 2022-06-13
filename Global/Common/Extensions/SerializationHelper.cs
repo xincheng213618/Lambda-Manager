@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace Global.Common.Extensions

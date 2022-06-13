@@ -2,6 +2,7 @@
 using Global.Hardware;
 using Global.Mode.Config;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace Global
 {
