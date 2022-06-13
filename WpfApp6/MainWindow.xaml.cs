@@ -138,6 +138,8 @@ namespace WpfApp6
                 throw new NotImplementedException();
             StartPoint = e.GetPosition(this.canvas1);
             IsSelected = true;
+            Mouse.Capture(this.canvas1);
+
         }
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -201,7 +203,6 @@ namespace WpfApp6
                 throw new NotImplementedException();
             IsSelected = false;
 
-
             Point point = e.GetPosition(this.canvas1);
 
             int startX = StartPoint.X < point.X ? (int)StartPoint.X:(int)point.X;
@@ -240,6 +241,7 @@ namespace WpfApp6
             }
             this.canvas1.Children.Remove(currentBoxSelectedBorder);
             currentBoxSelectedBorder = null;
+            this.canvas1.ReleaseMouseCapture();
         }
 
         private Border currentBoxCancelBorder;
@@ -250,6 +252,8 @@ namespace WpfApp6
         {
             IsCancel = true;
             CancelStartPoint = e.GetPosition(this.canvas1);
+            Mouse.Capture(this.canvas1);
+           
         }
 
 
@@ -271,6 +275,16 @@ namespace WpfApp6
             endY = (int)(endY / (canvas1.Width / rows));
 
 
+            startX = startX > 0 ? startX >= cows ? cows-1 : startX : 0;
+            endX = endX > 0 ? endX >= cows ? cows - 1 : endX : 0;
+
+
+            startY = startY > 0 ? startY >= rows ? rows - 1 : startY : 0;
+            endY = endY > 0 ? endY >= rows ? rows - 1 : endY : 0;
+
+
+
+
             for (int i = startX; i < endX; i++)
             {
                 for (int j = startY; j < endY; j++)
@@ -281,6 +295,8 @@ namespace WpfApp6
             }
             this.canvas1.Children.Remove(currentBoxCancelBorder);
             currentBoxCancelBorder = null;
+            this.canvas1.ReleaseMouseCapture();
+
         }
     }
     public class  MouseMove : ViewModeBase
