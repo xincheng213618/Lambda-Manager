@@ -40,9 +40,8 @@ namespace Global.Common.Util
                     }
                     else
                     {
-                        serializer = new JsonSerializer() { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore };
+                        serializer = JsonSerializer.Create(new JsonSerializerSettings() { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore });
                     }
-
                     serializer.Serialize(file, obj);
                 }
                 result = 0;

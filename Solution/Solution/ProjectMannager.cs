@@ -11,14 +11,6 @@ namespace NLGSolution
 {
     public class ProjectManager : ProjectFolder
     {
-
-        private Visibility visibility = Visibility.Visible;
-        public Visibility Visibility
-        {
-            get { return visibility; }
-            set { visibility = value; NotifyPropertyChanged(); }
-        }
-
         public ProjectManager(string ProjectPath):base(ProjectPath)
         {
 

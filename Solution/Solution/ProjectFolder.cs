@@ -13,7 +13,6 @@ namespace NLGSolution
     {
 
         public FileSystemWatcher watcher;
-        public ObservableCollection<BaseObject> Children { get; set; }
 
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
@@ -148,17 +147,14 @@ namespace NLGSolution
 
         public override void AddChild(BaseObject baseObject)
         {
-            base.AddChild(baseObject);
-            baseObject.Parent = this;
-            Children.SortedAdd(baseObject);
+            base.AddChild(baseObject);  
         }
 
         public override void RemoveChild(BaseObject baseObject)
         {
-            base.RemoveChild(baseObject);   
-            if (baseObject == null)
-                return;
+            if (baseObject == null) return;
 
+            base.RemoveChild(baseObject);   
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;

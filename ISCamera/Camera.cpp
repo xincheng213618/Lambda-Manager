@@ -297,12 +297,12 @@ int CameraSettingExposure(int mode,double exposure)
 
 	//Event::Trigger("TestDataEvent", b, sizeof(b) / sizeof(b[0]));
 
-	//cv::Mat img1;
-	//img1 = cv::imread("cat.jpg");
+	cv::Mat img1;
+	img1 = cv::imread("cat.jpg");
 	//LambdaView* pView = LambdaView::GetIdleOrNew();
 	//pView->Show(img1);
-	//cv::Mat img2;
-	//resize(img1, img2, cv::Size(300, 300), 0, 0);
+	cv::Mat img2;
+	resize(img1, img2, cv::Size(300, 300), 0, 0);
 
 	////uchar b[] = { 1, 2, 3, 4, 5 };
 
@@ -312,10 +312,10 @@ int CameraSettingExposure(int mode,double exposure)
 	//j["createTime"] = "中文";
 	//Event::Trigger("UPDATE_STATUS", &j);
 
-	//std::thread t([=]() {
-	//	Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
-	//	});
-	//t.detach();
+	std::thread t([=]() {
+		Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
+		});
+	t.detach();
 	//
 
 

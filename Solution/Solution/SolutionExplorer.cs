@@ -34,11 +34,11 @@ namespace NLGSolution
             watcher.EnableRaisingEvents = true;
 
             AddNewProject = new RelayCommand(OnAddNewProject, (object value) => { return true; });
-            OpenExplorer = new RelayCommand(OpenNewExplorer, (object value) => { return true; });
+            OpenExplorer = new RelayCommand(OpenFolder, (object value) => { return true; });
         }
 
 
-        private void OpenNewExplorer(object value)
+        private void OpenFolder(object value)
         {
             System.Diagnostics.Process.Start("explorer.exe", Rootpath);
         }
@@ -164,18 +164,15 @@ namespace NLGSolution
 
         public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
 
-        public ObservableCollection<BaseObject> Children { get; set; } = new ObservableCollection<BaseObject>();    
 
         public override void AddChild(BaseObject baseObject)
         {
-            baseObject.Parent = this;
-            Children.SortedAdd(baseObject);   
+            base.AddChild(baseObject);
         }
 
         public override void RemoveChild(BaseObject baseObject)
         {
-            if (baseObject == null)
-                return;
+            if (baseObject == null) return;
 
             if (baseObject.Parent == this)
             {

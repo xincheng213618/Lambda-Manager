@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfigObjective"
+             xmlns:userControls="clr-namespace:ConfigObjective.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="1280" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1">
     <UserControl.Resources>
@@ -378,7 +379,7 @@
 
 
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
-            <StackPanel>
+            <StackPanel >
                 <UniformGrid Columns="5" >
                     <RadioButton Name="Button42" Style="{StaticResource ToggleButtonStyle1}" IsChecked="True" Content="培养皿" Margin="5,0"   />
                     <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}" Content="玻片" Margin="5,0" />
@@ -393,8 +394,13 @@
                         <Rectangle Height="100" Width="100" Margin="120,35" Fill="#9BBB59" Stroke="#787878" StrokeThickness="2"/>
                     </Canvas>
                 </Border>
-                <Border Margin="5" Height="220" Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                    <Canvas x:Name="Canvas1"  Visibility="Visible" Height="200" Width="300"  VerticalAlignment="Center" MouseMove="MainCanvas_MouseMove"  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown" PreviewMouseDown ="Canvas1_PreviewMouseDown">
+                <Border Margin="5" Height="310"  Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid >
+                        <userControls:MapCanvas x:Name="Map"></userControls:MapCanvas>
+                    </Grid>  
+                </Border>
+                <Border>
+                    <Canvas x:Name="Canvas1"  Visibility="Collapsed" Height="200" Width="300"  VerticalAlignment="Center" MouseMove="MainCanvas_MouseMove"  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown" PreviewMouseDown ="Canvas1_PreviewMouseDown">
                         <Ellipse x:Name="CricalBase"  Canvas.Top="0" Canvas.Left="50" Width= "200" Height="200" Stroke="#787878" StrokeThickness="2">
                         </Ellipse>
                         <Line Stroke="white" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="200" Y2="100" />
@@ -402,9 +408,7 @@
                         <Ellipse Name="LocalEllipse" Canvas.Top="0" Canvas.Left="50"  SnapsToDevicePixels="True" Stroke="Red" StrokeDashArray="5"  StrokeThickness="1" Width="2" Height="2"/>
 
                     </Canvas>
-
                 </Border>
-
 
                 <ToggleButton x:Name="ToggleButton41"  Style="{StaticResource ButtonPageControl}" Content="XYZ controller" FontSize="13" Foreground="White" IsChecked="True" />
 
@@ -550,7 +554,23 @@
                 <ToggleButton x:Name="ToggleButton52"  Style="{StaticResource ButtonPageControl}" IsChecked="{Binding ElementName=ToggleButton506 ,Path=IsChecked}" Content="自动聚焦设置" FontSize="13" Foreground="White"  />
                 <Border Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
-                        
+                        <DockPanel>
+                            <ToggleButton Name="ToggleButtont5221" Style="{StaticResource CheckButton1}" Margin="0,0,0,0" Height="18" Width="70" IsChecked="{Binding Path=ZAbsolute, Mode=TwoWay}" />
+                            <TextBlock Text="仅首次" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Margin="-9,0,0,0" Width="54" />
+                        </DockPanel>
+                        <DockPanel>
+                            <ToggleButton Name="ToggleButtont5222" Style="{StaticResource CheckButton1}" Height="18" HorizontalAlignment="Right" Width="70" IsChecked="{Binding Path=ZAbsolute, Mode=TwoWay}" />
+                            <TextBlock Text="每次" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Width="56" />
+                        </DockPanel>
+                        <DockPanel>
+                            <ToggleButton Name="ToggleButtont5223" Style="{StaticResource CheckButton1}" Height="18" HorizontalAlignment="Right" Width="70" IsChecked="{Binding Path=ZAbsolute, Mode=TwoWay}" />
+                            <TextBlock Text="每" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Width="20" />
+                            <local:UpDownControl x:Name="UpDownControtl43012" Loaded="UpDownControl_Loaded" SelectionChanged="UpDownControl1_SelectionChanged" Margin="5,0,3,0" IsEnabled="{Binding ExposureAuto, Converter={StaticResource InverseBooleanConverter}}" />
+                            <TextBlock Text="次循环" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Width="44" />
+                        </DockPanel>
+
+
+
                     </StackPanel>
                 </Border>
 

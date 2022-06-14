@@ -1,5 +1,7 @@
 ﻿using Global.Common;
+using Microsoft.Win32;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -13,13 +15,95 @@ namespace NLGSolution
     /// </summary>
     public class BaseObject : ViewModeBase
     {
+
+
+
+        public ObservableCollection<BaseObject> Children { get; set; }
+        public ObservableCollection<BaseObject> ChildrenHidden { get; set; }
+
+        protected Visibility visibility = Visibility.Visible;
+
+        public Visibility Visibility
+        {
+            get { return visibility; }
+            set {
+                visibility = value;
+
+                if (this.Parent != null && this.Parent is BaseObject baseObject)
+                {
+                    if (visibility == Visibility.Visible)
+                    {
+                        if (baseObject.ChildrenHidden.Contains(this))
+                        {
+                            baseObject.ChildrenHidden.Remove(this);
+                            baseObject.Children.SortedAdd(this);
+                        }
+                    }
+                    else
+                    {
+                        if (baseObject.Children.Contains(this))
+                        {
+                            baseObject.Children.Remove(this);
+                            baseObject.ChildrenHidden.SortedAdd(this);
+                        }
+                    }
+                }
+                NotifyPropertyChanged();
+
+            }
+        }
+
+
+        public RelayCommand AddChildren { get; set; }
+        public RelayCommand RemoveChildren { get; set; }
+
+        public RelayCommand VisibilityHidden { get; set; }
+        public RelayCommand VisibilityUnHidden { get; set; }
+
+
+
         public BaseObject(string FullPath)
         {
             this.FullPath = FullPath;
+            AddChildren = new RelayCommand(AddChild, (object value) => { return true; });
+            VisibilityHidden = new RelayCommand(VisibilityChanged, (object value) => { return true; });
+            VisibilityUnHidden = new RelayCommand(VisibilityUnChanged, (object value) => { return true; });
+
+
+            Children = new ObservableCollection<BaseObject>() { };
+            ChildrenHidden = new ObservableCollection<BaseObject>() { };
         }
-        /// <summary>
-        /// 父对象
-        /// </summary>
+        
+
+
+
+        public virtual void AddChild(object obj)
+        {
+            OpenFileDialog dialog = new()
+            {
+                Title = "请选择文件",
+                RestoreDirectory = true,
+                Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif |JPEG Image (.jpeg)|*.jpeg |Png Image (.png)|*.png |Tiff Image (.tiff)|*.tiff |Wmf Image (.wmf)|*.wmf"
+            };
+            bool? result = dialog.ShowDialog();
+            AddChild(new BaseObject(dialog.FileName));
+        }
+
+        public virtual void VisibilityChanged(object obj)
+        {
+            this.Visibility = Visibility.Hidden;
+        }
+        public virtual void VisibilityUnChanged(object obj)
+        {
+            foreach (var item in ChildrenHidden)
+            {
+                Children.SortedAdd(item);
+            }
+            ChildrenHidden.Clear(); 
+        }
+
+
+
         public BaseObject Parent = null;
 
         public BaseObject GetParent()
@@ -34,7 +118,17 @@ namespace NLGSolution
 
         public virtual void AddChild(BaseObject baseObject)
         {
-            AddChildEventHandler?.Invoke(this,new EventArgs());
+            if (baseObject == null) return;
+            baseObject.Parent = this;
+            AddChildEventHandler?.Invoke(this, new EventArgs());
+            if (baseObject.Visibility == Visibility.Visible)
+            {
+                Children.SortedAdd(baseObject);
+            }
+            else
+            {
+                ChildrenHidden.SortedAdd(baseObject);
+            }
         }
 
         /// <summary>

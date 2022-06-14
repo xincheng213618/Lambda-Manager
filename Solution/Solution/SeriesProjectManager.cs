@@ -1,4 +1,5 @@
 ﻿using Global.Common;
+using Microsoft.Win32;
 using NLGSolution;
 using Solution;
 using System;
@@ -41,12 +42,36 @@ namespace NLGSolution
             CanReName = false;
             PoejectExportAs = new RelayCommand(OnPoejectExportAs, (object value) => { return true; });
             Task.Run(CalculSize);
+        }
+        public override void AddChild(object obj)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                DerivativeSeriesFile derivativeSeriesFile = new DerivativeSeriesFile(dialog.SelectedPath);
+                AddChild(derivativeSeriesFile);
+
+            }
 
         }
+
         private void OnPoejectExportAs(object value)
         {
             ExportAsWindow exportAsWindow = new ExportAsWindow(this);
             exportAsWindow.ShowDialog();
+        }
+
+        public override void RemoveChild(BaseObject baseObject)
+        {
+            if (baseObject == null) return;
+
+            base.RemoveChild(baseObject);
+            if (baseObject.Parent == this)
+            {
+                baseObject.Parent = null;
+                Children.Remove(baseObject);
+                baseObject.Delete();
+            }
         }
 
 

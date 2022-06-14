@@ -27,8 +27,8 @@ namespace WpfApp6
         static GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
         public List<List<Circles>> CirclesMatrix = new List<List<Circles>>();
-        int cows = 30;
-        int rows = 30;
+        int cows = 100;
+        int rows = 100;
 
         private void canvas1_Initialized(object sender, EventArgs e)
         {
@@ -51,6 +51,7 @@ namespace WpfApp6
                 List<Circles> Circless = new List<Circles>();
                 for (int row = 0; row < rows; row++)
                 {
+                    
                     Grid grid = new Grid();
                     Circles circles = new Circles();
 

@@ -19,6 +19,7 @@ namespace ConfigObjective
         public  void Canvas_Initialize()
         {
             LocalEllipse.DataContext = WindowData.StageTest;
+
             BindingOperations.SetBinding(LocalEllipse, Canvas.TopProperty, new Binding("StageY"));
             BindingOperations.SetBinding(LocalEllipse, Canvas.LeftProperty, new Binding("StageX"));
         }
