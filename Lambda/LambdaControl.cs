@@ -20,8 +20,16 @@ public class LambdaControl : Control
 
 	private static View[]? Views { get; set; }
 
+	//保留原先的写法，记忆错乱，lambda.dll 并未做出正确的更改
 	public static void Initialize(LogHandler logHandler, LogHandler logHandler2, AddEventHandler addEventHandler, CallEventHandler callEventHandler, RegisterImageViewHandler registerImageViewHandler, View[] views)
 	{
+		//LogHandler = logHandler;
+		//LogHandler2 = logHandler2;
+		//AddEventHandler = addEventHandler;
+		//CallEventHandler = callEventHandler;
+		//RegisterImageViewHandler = registerImageViewHandler;
+		//Views = views;
+
         if (logHandler != null)
             LogHandler = (LogHandler)Delegate.Combine(LogHandler, logHandler);
 

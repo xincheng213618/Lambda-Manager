@@ -122,16 +122,16 @@ internal class Common
         p2 = (sbyte*)message;
         while (*(p2++) != 0)
             length++;
-        //LambdaControl.Log2(new Message
-        //{
-        //    Severity = (Severity)severity,
-        //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
-        //});
         LambdaControl.Log2(new Message
         {
             Severity = (Severity)severity,
-            Text = new string(message)
-        }); ;
+            Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
+        });
+        //LambdaControl.Log2(new Message
+        //{
+        //    Severity = (Severity)severity,
+        //    Text = new string(message)
+        //}); ;
     }
 
 	[DllImport("lib\\common.dll", EntryPoint = "CallFunction")]
