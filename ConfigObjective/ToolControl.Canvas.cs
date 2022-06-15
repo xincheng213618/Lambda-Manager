@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -15,6 +16,16 @@ namespace ConfigObjective
     public partial class ToolControl
     {
         #region  圆环
+        public  void Canvas_Initialize()
+        {
+            LocalEllipse.DataContext = WindowData.StageTest;
+
+            BindingOperations.SetBinding(LocalEllipse, Canvas.TopProperty, new Binding("StageY"));
+            BindingOperations.SetBinding(LocalEllipse, Canvas.LeftProperty, new Binding("StageX"));
+        }
+
+
+
         private Border currentBoxSelectedBorder;
         private bool isCanMove = false;//鼠标是否移动
         private Point tempStartPoint;//起始坐标
@@ -299,9 +310,7 @@ namespace ConfigObjective
                 }
                 Canvas.SetTop(border, CanvasTop);
                 Canvas.SetLeft(border, CanvasLeft);
-
             }
-
         }
 
         /// <summary>
@@ -317,7 +326,7 @@ namespace ConfigObjective
                 Point point = e.GetPosition(this.Canvas1);
                 Dictionary<string, object> data = new Dictionary<string, object>()
                 {
-                    { "X", (int)((point.X)) },
+                    { "X", (int)(point.X) },
                     { "Y", (int)(point.Y) },
                 };
                 LambdaControl.Trigger("MOTORCONTROL", this, data);

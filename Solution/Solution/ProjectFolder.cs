@@ -4,29 +4,46 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace NLGSolution
 {
-    public class ProjectFolder : ViewModeBase
+    public class ProjectFolder : BaseObject
     {
 
         public FileSystemWatcher watcher;
-        public ObservableCollection<ViewModeBase> Children { get; set; }
 
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
-            Children = new ObservableCollection<ViewModeBase>();
+            Children = new ObservableCollection<BaseObject>();
 
             watcher = new FileSystemWatcher(FolderPath)
             {
-                IncludeSubdirectories = false
+                IncludeSubdirectories = false,               
             };
             watcher.Deleted += Watcher_Deleted;
             watcher.Created += Watcher_Created;
+            watcher.Changed += Watcher_Changed;
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
         }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (sender == null)
+                throw new NotImplementedException();
+            if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
+            {
+                var baseObject = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                if (baseObject != null&& baseObject is ProjectFile projectFile)
+                {
+                    Task.Run(projectFile.CalculSize);
+                }
+            }
+
+        }
+
         private string tempname;
 
         public override bool IsEditMode
@@ -66,6 +83,7 @@ namespace NLGSolution
         public override void Delete()
         {
             base.Delete();
+            this.watcher.Dispose();
             try
             {
                 if (Directory.Exists(FullPath))
@@ -127,19 +145,16 @@ namespace NLGSolution
         public string Description { get; set; }
 
 
-        public override void AddChild(ViewModeBase baseObject)
+        public override void AddChild(BaseObject baseObject)
         {
-            base.AddChild(baseObject);
-            baseObject.Parent = this;
-            Children.SortedAdd(baseObject);
+            base.AddChild(baseObject);  
         }
 
-        public override void RemoveChild(ViewModeBase baseObject)
+        public override void RemoveChild(BaseObject baseObject)
         {
-            base.RemoveChild(baseObject);   
-            if (baseObject == null)
-                return;
+            if (baseObject == null) return;
 
+            base.RemoveChild(baseObject);   
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;

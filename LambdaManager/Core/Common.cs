@@ -20,6 +20,7 @@ namespace LambdaManager.Core;
 
 internal class Common
 {
+
 	private static List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
 
 
@@ -86,7 +87,7 @@ internal class Common
 	[DllImport("lib\\common.dll")]
 	public static extern void SetHandler(nint pRoutineHandler, int handlerType);
 
-	[DllImport("lib\\common.dll")]
+	[DllImport("lib\\common.dll")]  
 	public unsafe static extern void SetMessageHandler1(delegate* unmanaged[Cdecl]<int, sbyte*, void> pMessageHandler);
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
@@ -101,12 +102,13 @@ internal class Common
         LambdaControl.Log(new Message
         {
             Severity = (Severity)severity,
-
             Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
         });
 
         //App.Report2();
 	}
+
+
 
 	[DllImport("lib\\common.dll")]
 	public unsafe static extern void SetMessageHandler2(delegate* unmanaged[Cdecl]<int, char*, void> pMessageHandler);
@@ -115,17 +117,22 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage2(int severity, char* message)
 	{
-        int length = default(int);
-        sbyte* p2 = default(sbyte*);
-        p2 = (sbyte*)message;
-        while (*(p2++) != 0)
-            length++;
+        //int length = default(int);
+        //sbyte* p2 = default(sbyte*);
+        //p2 = (sbyte*)message;
+        //while (*(p2++) != 0)
+        //    length++;
+        //LambdaControl.Log2(new Message
+        //{
+        //    Severity = (Severity)severity,
+        //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
+        //});
         LambdaControl.Log2(new Message
         {
             Severity = (Severity)severity,
-            Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
-        });
-	}
+            Text = new string(message)
+        }); ;
+    }
 
 	[DllImport("lib\\common.dll", EntryPoint = "CallFunction")]
 	public unsafe static extern int RaiseEvent(sbyte* type, int argType, nint eventObject, nint sender);
@@ -278,6 +285,7 @@ internal class Common
 		}
 		return FunctionExecutor.Evaluate(Clone(callbacks[index]));
 	}
+
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
@@ -457,6 +465,8 @@ internal class Common
 		}
 	}
 
+
+
 	public unsafe static void AddEventHandler(string type, LambdaHandler handler, bool once)
 	{
 		int index = ui_handlers.Count;
@@ -472,8 +482,10 @@ internal class Common
 		GCHandle handle = GCHandle.Alloc(sender);
 		try
 		{
+
             int result = CallEvent(type, handle, e);
-			if (result >= RESERVED_EVENT_RESULT)
+
+            if (result >= RESERVED_EVENT_RESULT)
 			{
 				return (!ui_handlers[result - RESERVED_EVENT_RESULT](sender, e)) ? (-1) : 0;
 			}

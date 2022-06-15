@@ -28,7 +28,7 @@ namespace Solution
 
         private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is ViewModeBase baseObject1)
+            if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is BaseObject baseObject1)
             {
                 if (e.Command == ApplicationCommands.SelectAll)
                 {
@@ -56,7 +56,7 @@ namespace Solution
                 }
             }
 
-            if (e.Parameter is ViewModeBase baseObject)
+            if (e.Parameter is BaseObject baseObject)
             {
                 if (e.Command == ApplicationCommands.SelectAll)
                 {
@@ -106,7 +106,7 @@ namespace Solution
             {
                 if (e.Parameter != null)
                 {
-                    if (e.Parameter is ViewModeBase baseObject)
+                    if (e.Parameter is BaseObject baseObject)
                     {
                         baseObject.Parent.RemoveChild(baseObject);
                     }
@@ -115,7 +115,7 @@ namespace Solution
                 {
                     if (SelectedTreeViewItem != null)
                     {
-                        if (SelectedTreeViewItem.DataContext is ViewModeBase baseObject)
+                        if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
                         {
                             baseObject.Parent.RemoveChild(baseObject);
                         }
@@ -127,7 +127,7 @@ namespace Solution
             {
                 if (e.Parameter != null)
                 {
-                    if (e.Parameter is ViewModeBase baseObject)
+                    if (e.Parameter is BaseObject baseObject)
                     {
                         LastReNameObject = baseObject;
                         baseObject.IsEditMode = true;
@@ -138,7 +138,7 @@ namespace Solution
                     //没有数据的时候通过点击确认
                     if (SelectedTreeViewItem != null)
                     {
-                        if (SelectedTreeViewItem.DataContext is ViewModeBase baseObject)
+                        if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
                         {
                             LastReNameObject = baseObject;
                             baseObject.IsEditMode = true;

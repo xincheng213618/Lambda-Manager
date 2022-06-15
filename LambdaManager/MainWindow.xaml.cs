@@ -63,31 +63,39 @@ partial class MainWindow : BaseWindow
 	private async void Update()
     {
         await Task.Delay(99);
-        UIEvents.Initialze();
-        AddMessage(new Message
+        try
         {
-            Severity = Severity.INFO,
-            Text = LambdaManager.Properties.Resources.ConfigLoading
-        });
-        bool num = new ConfigLibrary().Load("application.xml");
-        if (msgList.Items.Count > 1)
-        {
-            msgList.Items.RemoveAt(0);
-        }
-        if (num)
-        {
+            UIEvents.Initialze();
             AddMessage(new Message
             {
                 Severity = Severity.INFO,
-                Text = Properties.Resources.ConfigLoaded
+                Text = LambdaManager.Properties.Resources.ConfigLoading
             });
+            bool num = new ConfigLibrary().Load("application.xml");
+            if (msgList.Items.Count > 1)
+            {
+                msgList.Items.RemoveAt(0);
+            }
+            if (num)
+            {
+                AddMessage(new Message
+                {
+                    Severity = Severity.INFO,
+                    Text = Properties.Resources.ConfigLoaded
+                });
+            }
+            else if (Settings.Default.ExitIfLoadFatalError)
+            {
+                MessageBox.Show(LambdaManager.Properties.Resources.StartFatalError + GetLogDir() + "\\lambda.log", Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
+                Application.Current.Shutdown();
+            }
+            InitViewer();
         }
-        else if (Settings.Default.ExitIfLoadFatalError)
+        catch(Exception ee)
         {
-            MessageBox.Show(LambdaManager.Properties.Resources.StartFatalError + GetLogDir() + "\\lambda.log", Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
-            Application.Current.Shutdown();
+			MessageBox.Show(ee.Message);
         }
-        InitViewer();
+
     }
 
     private void Window_Initialized(object sender, EventArgs e)
@@ -97,7 +105,7 @@ partial class MainWindow : BaseWindow
         Update();
 
     }
-
+    
 
 
 

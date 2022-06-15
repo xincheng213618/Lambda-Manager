@@ -1,4 +1,7 @@
-﻿using NLGSolution;
+﻿using Global.Common;
+using Microsoft.Win32;
+using NLGSolution;
+using Solution;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,18 +9,76 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Tool;
 
 namespace NLGSolution
 {
-    public class SeriesProjectManager : ViewModeBase
+    public class SeriesProjectManager : BaseObject
     {
+
+        private string fileSize;
+        public string FileSize
+        {
+            get { return fileSize; }
+            set { fileSize = value; NotifyPropertyChanged(); }
+        }
+
+
+        private async void CalculSize()
+        {
+            //加延迟是为了显示效果更好。
+            await Task.Delay(1000);
+            FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullPath));
+        }
+
+
+        /// <summary>
+        /// 导出为
+        /// </summary>
+        public RelayCommand PoejectExportAs { get; set; }
+
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
         {
             CanReName = false;
+            PoejectExportAs = new RelayCommand(OnPoejectExportAs, (object value) => { return true; });
+            Task.Run(CalculSize);
         }
+        public override void AddChild(object obj)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                DerivativeSeriesFile derivativeSeriesFile = new DerivativeSeriesFile(dialog.SelectedPath);
+                AddChild(derivativeSeriesFile);
+
+            }
+
+        }
+
+        private void OnPoejectExportAs(object value)
+        {
+            ExportAsWindow exportAsWindow = new ExportAsWindow(this);
+            exportAsWindow.ShowDialog();
+        }
+
+        public override void RemoveChild(BaseObject baseObject)
+        {
+            if (baseObject == null) return;
+
+            base.RemoveChild(baseObject);
+            if (baseObject.Parent == this)
+            {
+                baseObject.Parent = null;
+                Children.Remove(baseObject);
+                baseObject.Delete();
+            }
+        }
+
+
         public override void Delete()
         {
             base.Delete();
+
             try
             {
                 if (Directory.Exists(FullPath))
@@ -63,9 +124,6 @@ namespace NLGSolution
                 NotifyPropertyChanged();
             }
         }
-
-
-
 
     }
 

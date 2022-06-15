@@ -286,12 +286,18 @@ internal class ConfigLibrary
 		{
 			return;
 		}
-		IntPtr address = NativeLibrary.Load(path);
-		Lib lib = new Lib
-		{
-			Addr = address,
-			Path = path
-		};
+		IntPtr address = IntPtr.Zero;
+        try
+        {
+             address = NativeLibrary.Load(path);
+        }
+        catch (Exception ex)
+        {
+			MessageBox.Show(ex.Message);
+            throw new ArgumentNullException(nameof(LoadLibrary));
+        }
+
+        Lib lib = new Lib{Addr = address,Path = path};
 		solution.Libs.Add(lib);
 		List<LambdaManager.DataType.Action> actions = validate.GetLocalActions(component);
 		if (actions == null)

@@ -1,4 +1,5 @@
-﻿using Global.Mode;
+﻿using Global.Controls;
+using Global.Mode;
 using Lambda;
 using Mode;
 using System.Runtime.InteropServices;
@@ -9,13 +10,20 @@ using System.Windows.Media.Imaging;
 
 namespace Global
 {
+
+    /// <summary>
+    /// 注册AddEventHandler事件
+    /// </summary>
     public partial class WindowData
     {
         private void AddEventHandler()
         {
+
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
+
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
-            LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", OnUpdateWindowStatus, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
@@ -25,6 +33,23 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);  
         }
+        
+        /// <summary>
+        /// 更新位移台坐标
+        /// </summary>
+        private bool UPDATE_STAGE_MOVE(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            mapModel.StageX = double.Parse(GetStringValue(eventData, "x"));
+            mapModel.StageY = double.Parse(GetStringValue(eventData, "y"));
+            return true;
+        }
+
+
+
         private bool STOP_ALIVE(object sender, EventArgs e)
         {
             ALIVE = false;
@@ -96,8 +121,12 @@ namespace Global
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");
             WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
+            //mapModel.StageX = WindowMsg.StageX / 150;
+
             updateStatus.ImageY = GetStringValue(eventData, "y");
             WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
+            //mapModel.StageY = WindowMsg.StageY / 150;
+
             updateStatus.ImageZ = GetStringValue(eventData, "z");
             WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
 
@@ -237,65 +266,64 @@ namespace Global
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
         public static extern void RtlMoveMemory(IntPtr Destination, IntPtr Source, uint Length);
 
-        public ImageBrush image = new ImageBrush();
+        public Image image = new Image();
 
         private bool TestDataEvent(object sender, EventArgs e)
         {
-            //MessageBox.Show("TestDataEvent Acvtive");
-            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-            //MessageBox.Show(eventData.Count.ToString());
-            if (eventData != null)
+            Application.Current.Dispatcher.Invoke(delegate
             {
-                int size = (int)eventData["size"];
-                //MessageBox.Show(size.ToString());
-
-                IntPtr intPtr = (IntPtr)eventData["data"];
-                //byte[] aaa = new byte[size];
-                //Marshal.Copy(intPtr, aaa, 0, size);
-
-                //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
-                //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                //pinnedArray.Free();
-
-                if (image.ImageSource is WriteableBitmap writeableBitmap1)
+                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+                if (eventData != null)
                 {
-                    Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
-                    writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
+                    int size = (int)eventData["size"];
 
+                    IntPtr intPtr = (IntPtr)eventData["data"];
+                    //byte[] aaa = new byte[size];
+                    //Marshal.Copy(intPtr, aaa, 0, size);
+                    //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
+                    //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+                    //pinnedArray.Free();
+
+                    if (image.Source is WriteableBitmap writeableBitmap1)
+                    {
+                        Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
+                        writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
+
+                    }
+                    else
+                    {
+                        WriteableBitmap writeableBitmap = new WriteableBitmap(300, 300, 96.0, 96.0, PixelFormats.Bgr24, null);
+                        RtlMoveMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
+                        writeableBitmap.Lock();
+                        writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+                        writeableBitmap.Unlock();
+                        image.Source = writeableBitmap;
+                    }
+
+
+
+                    //Window window = new Window();
+                    //window.Content = image;
+                    //window.Show();
+
+                    //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
+                    //{
+                    //    BitmapImage image = new BitmapImage();
+                    //    image.BeginInit();
+                    //    image.StreamSource = ms;
+                    //    image.EndInit();
+
+                    //    BitmapEncoder encoder = new PngBitmapEncoder();
+                    //    encoder.Frames.Add(BitmapFrame.Create(image));
+
+                    //    using (var fileStream = new System.IO.FileStream("1.jpg", System.IO.FileMode.Create))
+                    //    {
+                    //        encoder.Save(fileStream);
+                    //    }
+                    //}
                 }
-                else
-                {
-                    WriteableBitmap writeableBitmap = new WriteableBitmap(64, 48, 96.0, 96.0, PixelFormats.Bgr24, null);
-                    RtlMoveMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
-                    writeableBitmap.Lock();
-                    writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
-                    writeableBitmap.Unlock();
-                    image.ImageSource = writeableBitmap;
-                }
+            });
 
-
-
-                //Window window = new Window();
-                //window.Content = image;
-                //window.Show();
-
-                //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
-                //{
-                //    BitmapImage image = new BitmapImage();
-                //    image.BeginInit();
-                //    image.StreamSource = ms;
-                //    image.EndInit();
-
-                //    BitmapEncoder encoder = new PngBitmapEncoder();
-                //    encoder.Frames.Add(BitmapFrame.Create(image));
-
-                //    using (var fileStream = new System.IO.FileStream("1.jpg", System.IO.FileMode.Create))
-                //    {
-                //        encoder.Save(fileStream);
-                //    }
-                //}
-
-            }
             return true;
         }
 

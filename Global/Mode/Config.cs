@@ -1,4 +1,5 @@
 ﻿using Global;
+using Global.Common;
 using Global.Mode;
 using Global.Mode.Config;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ namespace Mode
     /// 本软件配置文件实体类
     /// </summary>
     [Serializable]
-    public class Config: ModeBaseObject
+    public class Config: ViewModeBase
     {
         [JsonProperty("version")]
         public string? Version { get; set; }

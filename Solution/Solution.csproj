@@ -5,8 +5,10 @@
     <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>True</UseWPF>
-    <Platforms>AnyCPU;x64</Platforms>
-  </PropertyGroup>
+	<UseWindowsForms>True</UseWindowsForms> 
+	 <Platforms>AnyCPU;x64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>  
 
   <ItemGroup>
     <Compile Remove="3333\**" />
@@ -51,6 +53,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Global\Global.csproj" />
+    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>

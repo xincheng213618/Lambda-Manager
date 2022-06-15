@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Global.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class  TestMean : ModeBaseObject
+    public class  TestMean : ViewModeBase
     {
         [JsonProperty("config-stage")]
         public Stage Stage { get; set; }    
@@ -21,7 +22,7 @@ namespace Global.Mode.Config
 
 
     [Serializable]
-    public class Spot:ModeBaseObject
+    public class Spot:ViewModeBase
     {
         [JsonProperty("includes")]
         public List<List<int>> Includes { get;set; } = new List<List<int>>();
@@ -30,7 +31,7 @@ namespace Global.Mode.Config
         public List<List<int>> Excludes { get; set; } = new List<List<int>>();
     }
     [Serializable]
-    public class Dimensional : ModeBaseObject
+    public class Dimensional : ViewModeBase
     {
         [JsonProperty("imaging-mode")]
         public List<string> Mode { get; set; } = new List<string>();
@@ -74,7 +75,7 @@ namespace Global.Mode.Config
     }
 
     [Serializable]
-    public class ZstackWiseSerial : ModeBaseObject
+    public class ZstackWiseSerial : ViewModeBase
     {
         [JsonProperty("z-begin")]
         public int ZBegin { get; set; } 
@@ -87,7 +88,7 @@ namespace Global.Mode.Config
 
 
     [Serializable]
-    public class TimeWiseSerial : ModeBaseObject
+    public class TimeWiseSerial : ViewModeBase
     {
         [JsonProperty("times")]
         public int Times { get; set; } = 0;

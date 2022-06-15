@@ -130,7 +130,7 @@
     <value>应用许可已过期，请联系厂家获得新的许可期限或者新的试用版本</value>
   </data>
   <data name="StartFatalError" xml:space="preserve">
-    <value>应用启动时遇到严重错误，详细情况请查看日志：</value>
+    <value>应用启动时遇到严重错误，详细情况请查看日志</value>
   </data>
   <data name="ClassNameWanted" xml:space="preserve">
     <value>应该使用类名称</value>
@@ -296,5 +296,11 @@
   </data>
   <data name="AsPointer" xml:space="preserve">
     <value>按指针类型处理</value>
+  </data>
+  <data name="Comma" xml:space="preserve">
+    <value>：</value>
+  </data>
+  <data name="FpsRunning" xml:space="preserve">
+    <value>1</value>
   </data>
 </root>

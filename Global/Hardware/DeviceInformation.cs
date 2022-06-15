@@ -1,4 +1,5 @@
-﻿using Global.Mode.Config;
+﻿using Global.Common;
+using Global.Mode.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Global.Hardware
 {
-    public class DeviceInformation: ModeBaseObject
+    public class DeviceInformation: ViewModeBase
     {
         //Objectiv
         public List<ObjectiveSetting> ObjectiveSettingList;

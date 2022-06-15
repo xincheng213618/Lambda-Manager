@@ -1,10 +1,11 @@
 ﻿
+using Global.Common;
 using Newtonsoft.Json;
 
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class MulDimensional: ModeBaseObject
+    public class MulDimensional: ViewModeBase
     {
         public void Set(MulDimensional mulDimensional)
         {

@@ -9,6 +9,7 @@
 #include "concurrent.h"
 #include "threadpool.h"
 #include <opencv2/opencv.hpp>
+
 using namespace std;
 
 LambdaView* pView = NULL;
@@ -272,14 +273,28 @@ int OpenSerial(char* FullPath)
 
 
 int SleepTest() {
-	//Sleep(3000);
+	Sleep(3000);
 	return  0;
 }
 
+int VideoTest() {
+	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	return 0;
+}
 
-int CameraSettingExposure(double exposure)
+double x = 111.1111;
+double y = 111.1111;
+
+int CameraSettingExposure(int mode,double exposure)
 {
-	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	json j;
+	j["x"] = std::to_string(x);
+	j["y"] = std::to_string(y);
+	Event::Trigger("UPDATE_STAGE_MOVE", &j);
+
+	//int a = OpenLE5(1, 2, 3, 34);
+	//Logger::Log2(Severity::INFO, L"C+++++++ %d)'", a);
+
 	a++;
 	//std::string name = "a中文";
 	//name = StringToUtf(name);
@@ -290,46 +305,51 @@ int CameraSettingExposure(double exposure)
 
 	cv::Mat img1;
 	img1 = cv::imread("cat.jpg");
-
+	//LambdaView* pView = LambdaView::GetIdleOrNew();
+	//pView->Show(img1);
 	cv::Mat img2;
-	resize(img1, img2, cv::Size(0, 0), 0.1, 0.1);
+	resize(img1, img2, cv::Size(300, 300), 0, 0);
 
-	//uchar b[] = { 1, 2, 3, 4, 5 };
+	////uchar b[] = { 1, 2, 3, 4, 5 };
 
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);
 
-	json j;
-	j["createTime"] = "中文";
-	Event::Trigger("UPDATE_STATUS", &j);
-	Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
+	//json j;
+	//j["createTime"] = "中文";
+	//Event::Trigger("UPDATE_STATUS", &j);
+
+	std::thread t([=]() {
+		Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
+		});
+	t.detach();
+	//
 
 
+	//json j1;
 
-	json j1;
+	////采集次数
+	//j1["CollectionTimes"] = "1";
+	////采集层数
+	//j1["CollectionLayers"] = "5";
+	////采集点个数
+	//j1["CollectionPoints"] = "100";
+	////成像模式数
+	//j1["ViewModeCounts"] = "4";
+	////荧光通道数
+	//j1["FluorescenceChannels"] = "2";
+	////图像尺寸
+	//j1["ImageSize"] = "1280×960 (5.2MB)";
+	////图像总数
+	//j1["ImageNums"] = "1260";
+	////存储空间
+	//j1["Storage"] = "1.546G";
+	////全部采集耗时
+	//j1["AllCollectionTime"] = "23h 0m 0.002s";
+	////相机工作时长
+	//j1["CameraWorkingTime"] = "0h 0m 0.002s";
 
-	//采集次数
-	j1["CollectionTimes"] = "1";
-	//采集层数
-	j1["CollectionLayers"] = "5";
-	//采集点个数
-	j1["CollectionPoints"] = "100";
-	//成像模式数
-	j1["ViewModeCounts"] = "4";
-	//荧光通道数
-	j1["FluorescenceChannels"] = "2";
-	//图像尺寸
-	j1["ImageSize"] = "1280×960 (5.2MB)";
-	//图像总数
-	j1["ImageNums"] = "1260";
-	//存储空间
-	j1["Storage"] = "1.546G";
-	//全部采集耗时
-	j1["AllCollectionTime"] = "23h 0m 0.002s";
-	//相机工作时长
-	j1["CameraWorkingTime"] = "0h 0m 0.002s";
-
-	
-	Event::Trigger("UpdateMulSummary", &j1);
+	//
+	//Event::Trigger("UpdateMulSummary", &j1);
 
 	
 	return  0;

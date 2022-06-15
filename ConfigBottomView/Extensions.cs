@@ -11,7 +11,6 @@ namespace ConfigBottomView
 {
     public static class Extensions
     {
-
         public static string HistogramMax(this Dictionary<int, int> histogramMaxValue, int histogramMaxIndex)
         {
             string peakHistogram = string.Empty;
@@ -25,7 +24,7 @@ namespace ConfigBottomView
             return peakHistogram.Remove(peakHistogram.Length - 1);
         }
 
-        public static BitmapSource GetBitmapSource( Bitmap bitmap)
+        public static BitmapSource GetBitmapSource(Bitmap bitmap)
         {
             return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         }

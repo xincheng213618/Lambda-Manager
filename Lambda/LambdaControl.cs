@@ -8,57 +8,46 @@ namespace Lambda;
 
 public class LambdaControl : Control
 {
-	private static LogHandler? LogHandler { get; set; }
+	private static event LogHandler? LogHandler;
 
-	private static LogHandler? LogHandler2 { get; set; }
+	private static event LogHandler? LogHandler2;
 
-	private static AddEventHandler? AddEventHandler { get; set; }
+	private static event AddEventHandler? AddEventHandler;
 
-	private static CallEventHandler? CallEventHandler { get; set; }
+	private static event CallEventHandler? CallEventHandler;
 
-	private static RegisterImageViewHandler? RegisterImageViewHandler { get; set; }
+	private static event RegisterImageViewHandler? RegisterImageViewHandler;
 
 	private static View[]? Views { get; set; }
 
+	//保留原先的写法，记忆错乱，lambda.dll 并未做出正确的更改
 	public static void Initialize(LogHandler logHandler, LogHandler logHandler2, AddEventHandler addEventHandler, CallEventHandler callEventHandler, RegisterImageViewHandler registerImageViewHandler, View[] views)
 	{
-        //if (logHandler != null)
-        //    LogHandler += logHandler;
-        //if (logHandler2 != null)
-        //    LogHandler2 += logHandler2;
-        //if (addEventHandler != null)
-        //    AddEventHandler += addEventHandler;
-        //if (callEventHandler != null)
-        //    CallEventHandler += callEventHandler;
-        //if (registerImageViewHandler != null)
-        //    RegisterImageViewHandler += registerImageViewHandler;
-        //if (views != null)
-        //    Views = views;
+		//LogHandler = logHandler;
+		//LogHandler2 = logHandler2;
+		//AddEventHandler = addEventHandler;
+		//CallEventHandler = callEventHandler;
+		//RegisterImageViewHandler = registerImageViewHandler;
+		//Views = views;
 
         if (logHandler != null)
-        {
             LogHandler = (LogHandler)Delegate.Combine(LogHandler, logHandler);
-        }
+
         if (logHandler2 != null)
-        {
             LogHandler2 = (LogHandler)Delegate.Combine(LogHandler2, logHandler2);
-        }
+
         if (addEventHandler != null)
-        {
             AddEventHandler = (AddEventHandler)Delegate.Combine(AddEventHandler, addEventHandler);
-        }
+
         if (callEventHandler != null)
-        {
             CallEventHandler = (CallEventHandler)Delegate.Combine(CallEventHandler, callEventHandler);
-        }
+
         if (registerImageViewHandler != null)
-        {
             RegisterImageViewHandler = (RegisterImageViewHandler)Delegate.Combine(RegisterImageViewHandler, registerImageViewHandler);
-        }
+
         if (views != null)
-        {
             Views = views;
-        }
+
     }
 
     public static void Log(Message message)

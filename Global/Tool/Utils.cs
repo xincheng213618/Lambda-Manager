@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
 using System.Windows;
 
 namespace Global
@@ -111,6 +112,8 @@ namespace Global
             }
             return result;
         }
+
+
 
         public static JObject ParseJson(string strJson)
         {

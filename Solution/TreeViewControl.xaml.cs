@@ -4,25 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Tool;
 using Global;
 using Lambda;
-using LambdaUtils;
 using System.Text.Json;
+using Tool;
 using System.Windows.Controls.Primitives;
-using Global.Extensions;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows.Media.Imaging;
+using NLGSolution.JsonHelper;
 
 namespace Solution
 {
@@ -42,9 +37,10 @@ namespace Solution
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
 
-        private ViewModeBase LastReNameObject;
+        private BaseObject LastReNameObject;
         private TreeViewItem SelectedTreeViewItem;
 
+        public string SolutionDir = null;
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -53,10 +49,10 @@ namespace Solution
                 windowData.SaveConfig();
             }
         }
-        private string ToStrings(string value)
+        private static string ToStrings(string value)
         {
-            using MemoryStream memoryStream = new MemoryStream();
-            using (Utf8JsonWriter writer = new Utf8JsonWriter((Stream)memoryStream, default(JsonWriterOptions)))
+            using MemoryStream memoryStream = new();
+            using (Utf8JsonWriter writer = new((Stream)memoryStream, default))
             {
                 writer.WriteStringValue(value);
             }
@@ -76,43 +72,37 @@ namespace Solution
                 if (item == null)
                     return;
 
-                if (SelectedTreeViewItem!=null && SelectedTreeViewItem!=item&& SelectedTreeViewItem.DataContext is ViewModeBase viewModeBase)
+                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is NLGSolution.BaseObject viewModeBase)
                 {
                     viewModeBase.IsEditMode = false;
                 }
-
                 SelectedTreeViewItem = item;
 
+                if (e.ClickCount == 2)
+                {
+                    if (item.DataContext is ProjectFile projectFile1)
+                    {
+                        LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullPath));
+                    }
+                    if (item.DataContext is ProjectFolder projectFolder1)
+                    {
+                        LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullPath));
+                    }
+                    if (item.DataContext is ProjectManager projectMannager1)
+                    {
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
+                    }
+                    if (item.DataContext is SeriesProjectManager seriesProjectManager1)
+                    {
+                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullPath);
+                    }
+                }
 
-                if (item.DataContext is ProjectFile projectFile1)
-                {
-                    LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullPath));
-                }
-                if (item.DataContext is ProjectFolder projectFolder1)
-                {                 
-                    LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullPath));
-                }
-                if (item.DataContext is ProjectManager projectMannager1)
-                {
-                    LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
-                }
-                if (item.DataContext is SeriesProjectManager seriesProjectManager1)
-                {
-                    LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullPath);
-                }
             }
             else
             {
                 SelectedTreeViewItem = null;
             }
-
-            //if (e.ClickCount == 2)
-            //{
-            //    if (item != null && item.DataContext is ProjectMannager)
-            //    {
-            //    }
-            //    return;
-            //}
 
             //if (e.RightButton == MouseButtonState.Pressed)
             //{
@@ -142,7 +132,7 @@ namespace Solution
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is ViewModeBase baseObject )
+            if (tb.Tag is NLGSolution.BaseObject baseObject )
             {
                 baseObject.IsEditMode = false;
             }
@@ -151,7 +141,7 @@ namespace Solution
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is ViewModeBase baseObject)
+            if (tb.Tag is NLGSolution.BaseObject baseObject)
             {
                 baseObject.Name = tb.Text;
                 if (e.Key == Key.Escape || e.Key == Key.Enter)
@@ -178,9 +168,9 @@ namespace Solution
         }
 
 
-        public ProjectFolder GetFile(ProjectFolder projectFolder, string Path)
+        public ProjectFolder GetFile(ProjectFolder projectFolder, string FullPath)
         {
-            var root = new DirectoryInfo(Path);
+            var root = new DirectoryInfo(FullPath);
             foreach (var item in root.GetDirectories())
             {
                 ProjectFolder projectFolder1 = new ProjectFolder(item.FullName);
@@ -189,29 +179,34 @@ namespace Solution
             foreach (var item in root.GetFiles())
             {
                 ProjectFile projectFile = new ProjectFile(item.FullName);
+                string Extension = Path.GetExtension(projectFile.FullPath);
                 projectFolder.AddChild(projectFile);
+                if (Extension == "png" || Extension == "jpg" || Extension == "tiff")
+                {
+                    projectFile.Visibility = Visibility.Visible;
+                };
             }
             return projectFolder;
         }
 
-
-
+        SolutionExplorer solutionExplorer;
 
         private void TreeViewInitialized(string FilePath, Config config)
         {
-            SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath)
+            solutionExplorer = new SolutionExplorer(FilePath)
             {
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
             };
-            string rootPath = System.IO.Path.GetDirectoryName(FilePath);
 
-            DirectoryInfo root = new DirectoryInfo(rootPath);
+            SolutionDir = System.IO.Path.GetDirectoryName(FilePath);
+
+            DirectoryInfo root = new DirectoryInfo(SolutionDir);
             var dics = root.GetDirectories();
             foreach (var dic in dics)
             {
                 if (dic.Name == "Video" || dic.Name == "Image")
                 {
-                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false,CanReName = false};
+                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false,CanReName = false ,Visibility =Visibility.Hidden};
                     foreach (var item in dic.GetDirectories())
                     {
                         ProjectFolder projectFolder = new ProjectFolder(item.FullName);
@@ -220,9 +215,17 @@ namespace Solution
                     foreach (var item in dic.GetFiles())
                     {
                         ProjectFile projectFile = new ProjectFile(item.FullName);
+                        string Extension = Path.GetExtension(projectFile.FullPath);
+
                         projectMannager.AddChild(projectFile);
+
+                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp"|| Extension == ".txt")
+                        {
+                            solutionExplorer.AddChild(projectFile);
+                        };
                     }
                     solutionExplorer.AddChild(projectMannager);
+                    projectMannager.Visibility = Visibility.Hidden;
                 }
                 else
                 {
@@ -291,18 +294,106 @@ namespace Solution
           
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposure")]
+        public static extern int CameraSettingExposure(int mode,double exposure);
+
+
+        private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
+
+
             //Image image = new Image();
             //View View = new View(image,99);
             //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
+            //try
+            //{
+            //    IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
+            //    IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+            //Stopwatch sw = new Stopwatch();
+            //sw.Start();
+            ////IntPtr address = NativeLibrary.Load(@"lib\ISCamera.dll");
+            ////IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
 
-            Dictionary<string, object> data = new() { { "exposure", 111.111 } };
-            LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    try
+            //    {
+            //        //IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
+            //    }catch(Exception ex)
+            //    {
+
+            //    }
+            //    //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
+            //    //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
+
+
+            //    //CameraSettingExposure(0, 111111);
+
+
+
+
+            //    //((delegate* unmanaged[Cdecl]<int, double, int>)(void*)Export)(1, 11111);
+
+
+            //}
+
+            //sw.Stop();
+            //MessageBox.Show(sw.Elapsed.ToString());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            if (solutionExplorer != null)
+                solutionExplorer.ToLimitJsonFile($"{SolutionDir}\\{solutionExplorer.Name}.json");
+        }
+        GridLengthConverter gridLengthConverter = new GridLengthConverter();
+        private void testt22_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            testt22.Children.Clear();
+            testt22.RowDefinitions.Clear();
+            int lendgth = (int)(testt22.ActualHeight / 26.66);
+            if (lendgth > 0)
+            {
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri("/Solution;component/images/图片2.png", UriKind.Relative));
+
+                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
+                testt22.RowDefinitions.Add(rowDefinition);
+                image.SetValue(Grid.RowProperty, 0);
+                image.SetValue(Grid.ColumnProperty, 0);
+                image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
+                testt22.Children.Add(image);
+            }
+
+
+
+
+            for (int i = 1; i < lendgth; i++)
+            {
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri("/Solution;component/images/filer.png", UriKind.Relative));
+
+                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
+                testt22.RowDefinitions.Add(rowDefinition);
+                image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
+                image.SetValue(Grid.RowProperty, i);
+                image.SetValue(Grid.ColumnProperty, 0);
+                testt22.Children.Add(image);
+
+            }
+
+
+        }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("这里添加命令");
         }
     }
 

@@ -1,11 +1,12 @@
 ﻿using Global;
+using Global.Common;
 using Global.Mode;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Mode
 {
-    public class UpdateStatus : ModeBaseObject
+    public class UpdateStatus : ViewModeBase
     {
         private string window = "[6,1,2,3,4,5,6]";
 

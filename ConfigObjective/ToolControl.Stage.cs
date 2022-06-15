@@ -48,7 +48,6 @@ namespace ConfigObjective
             MoveStep.XStep = 50;
             MoveStep.YStep = 50;
             LambdaControl.Trigger("SET_STAGE_MODE_X", this, new Dictionary<string, object> { { "mode", 0 }});
-
         }
 
         private void ToggleButtonXYF_Unchecked(object sender, RoutedEventArgs e)
@@ -91,15 +90,21 @@ namespace ConfigObjective
                 {
                     case 0:
                         LambdaControl.Trigger("STAGE_MOVE_LEFT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 0 } });
+                        WindowData.StageTest.StageX--;
                         break;
                     case 1:
                         LambdaControl.Trigger("STAGE_MOVE_RIGHT", this, new Dictionary<string, object> { { "step", MoveStep.XStep }, { "direction", 1 } });
+                        WindowData.StageTest.StageX++;
                         break;
                     case 2:
                         LambdaControl.Trigger("STAGE_MOVE_FRONT", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 2 } });
+                        WindowData.StageTest.StageY--;
+
                         break;
                     case 3:
                         LambdaControl.Trigger("STAGE_MOVE_REAR", this, new Dictionary<string, object> { { "step", MoveStep.YStep }, { "direction", 3 } });
+                        WindowData.StageTest.StageY++;
+
                         break;
                     case 4:
                         LambdaControl.Trigger("STAGE_MOVE_UP", this, new Dictionary<string, object> { { "step", MoveStep.ZStep }, { "direction", 4 } });

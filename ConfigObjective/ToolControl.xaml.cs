@@ -5,10 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Lambda;
+using ConfigObjective.UserControls;
 using System.Windows.Input;
 using Global.Mode.Config;
 using System.Text;
-using Global.Extensions;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
@@ -37,6 +37,8 @@ namespace ConfigObjective
             MulDimensional_Update();
             if (IsFirstUpdate)
                 IsFirstUpdate = false;
+
+            
         }
 
         /// <summary>
@@ -62,18 +64,19 @@ namespace ConfigObjective
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            CricalBase.Fill = WindowData.image;
             AddEventHandler();
             //初始化硬件
-            Update.UpdateGlobal();
+
             ObjectiveSetting_Initialize();
             ViewMode_Initialize();
             CameraSetting_Initialize();
+            Canvas_Initialize();
 
+            Map.moveButton.DataContext = WindowData.mapModel;
             Stage_Initialize();
             MulDimensional_Initialize();
 
-
+            Update.UpdateGlobal();
             IsFirstUpdate = true;
 
             //LambdaControl.Initialize(null, null, null, LambdaControlCall, null, null);
