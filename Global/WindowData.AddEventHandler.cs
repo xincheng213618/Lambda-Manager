@@ -20,8 +20,10 @@ namespace Global
         {
 
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
+
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
-            LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", OnUpdateWindowStatus, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
             //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
@@ -31,6 +33,23 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);  
         }
+        
+        /// <summary>
+        /// 更新位移台坐标
+        /// </summary>
+        private bool UPDATE_STAGE_MOVE(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            mapModel.StageX = double.Parse(GetStringValue(eventData, "x"));
+            mapModel.StageY = double.Parse(GetStringValue(eventData, "y"));
+            return true;
+        }
+
+
+
         private bool STOP_ALIVE(object sender, EventArgs e)
         {
             ALIVE = false;
@@ -102,11 +121,11 @@ namespace Global
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");
             WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
-            mapModel.StageX = WindowMsg.StageX / 150;
+            //mapModel.StageX = WindowMsg.StageX / 150;
 
             updateStatus.ImageY = GetStringValue(eventData, "y");
             WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
-            mapModel.StageY = WindowMsg.StageY / 150;
+            //mapModel.StageY = WindowMsg.StageY / 150;
 
             updateStatus.ImageZ = GetStringValue(eventData, "z");
             WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);

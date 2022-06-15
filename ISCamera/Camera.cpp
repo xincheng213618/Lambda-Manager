@@ -282,9 +282,15 @@ int VideoTest() {
 	return 0;
 }
 
+double x = 111.1111;
+double y = 111.1111;
 
 int CameraSettingExposure(int mode,double exposure)
 {
+	json j;
+	j["x"] = std::to_string(x);
+	j["y"] = std::to_string(y);
+	Event::Trigger("UPDATE_STAGE_MOVE", &j);
 
 	//int a = OpenLE5(1, 2, 3, 34);
 	//Logger::Log2(Severity::INFO, L"C+++++++ %d)'", a);

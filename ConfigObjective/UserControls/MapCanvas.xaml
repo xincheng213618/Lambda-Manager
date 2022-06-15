@@ -15,7 +15,7 @@
                 <BeginStoryboard>
                     <Storyboard>
                         <ColorAnimation Storyboard.TargetName="moveButton" Storyboard.TargetProperty="Background.Color"
-                   To="Orange"  Duration="0:0:0.2"
+                   To="Orange"  Duration="0:0:0.4"
                    RepeatBehavior="Forever"></ColorAnimation>
                     </Storyboard>
                 </BeginStoryboard>
@@ -23,13 +23,13 @@
         </EventTrigger>
     </UserControl.Triggers>
     <Grid  >
-        <Canvas x:Name="canvas">
+        <Canvas x:Name="canvas" >
             <local:DrawCanvas   SnapsToDevicePixels="True" Stretch="UniformToFill" Source="Image/cell.png"  Width="300" Height="300" Opacity="1"   x:Name="mapCanvas" MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown" MouseMove="mapCanvas_MouseMove" MouseLeftButtonUp="mapCanvas_MouseLeftButtonUp" MouseRightButtonDown="mapCanvas_MouseRightButtonDown" MouseRightButtonUp="mapCanvas_MouseRightButtonUp" >
             </local:DrawCanvas>
             <Button Width="10" Height="7" Style="{StaticResource BtnStyle}" x:Name="moveButton" Background="White" Canvas.Left="{Binding StageX}"  Canvas.Top="{Binding StageY}">
             </Button>
         </Canvas>
-        <Path  Fill="#595959"  Margin="0" >
+        <Path  Fill="#595959"  Margin="0"  >
             <Path.Data>
                 <GeometryGroup>
                     <RectangleGeometry Rect="0 0 300 300"></RectangleGeometry>

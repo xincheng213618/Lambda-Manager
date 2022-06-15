@@ -156,7 +156,7 @@ namespace ConfigObjective.UserControls
 
                 DrawSquare(visual, drawpoint, false, drawingBrush0);
 
-                visual.Opacity = 0.5;
+                visual.Opacity = 0.3;
                 mapCanvas.AddVisual(visual);
                 mapArrray[y, x] = 1;
             }
@@ -165,7 +165,7 @@ namespace ConfigObjective.UserControls
                 DrawingVisual visual = new DrawingVisual();
 
                 DrawSquare(visual, drawpoint, false, drawingBrush1);
-                visual.Opacity = 0.5;
+                visual.Opacity = 0.3;
                 mapCanvas.AddVisual(visual);
                 mapArrray[y, x] = 1;
 

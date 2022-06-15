@@ -4,13 +4,14 @@
 		<command name="文件/测试" icon="test.ico" raise="TEST_COMMAND"></command>
 	</commands>-->
 
-	<component name="lzs_test" lib="lib/lzs_test2.dll">
-		<procedure name="ReadImage">
-			<action name="ReadImage">
+	<component name ="test" lib ="lib\InteropTest.dll">
+		<procedure name="CameraSettingExposur" event="Test120" >
+			<action name="Test120">
 			</action>
 		</procedure>
 	</component>
-		<component name="Camera" lib="lib\ISCamera.dll" init="SleepTest">
+
+	<component name="Camera" lib="lib\ISCamera.dll" init="SleepTest">
 	
 		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
 			<action name="CameraSettingExposure">
