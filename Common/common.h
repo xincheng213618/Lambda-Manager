@@ -158,7 +158,11 @@ public:
 	bool IsState(ViewState state);
 	int GetIndex();
 
-	static LambdaView* GetIdleOrNew();
+	static LambdaView* GetIdleOrNew() {
+		LambdaView* instance;
+		instance = new LambdaView(false);
+		return instance;
+	}
 	static LambdaView* GetRegistered(int index);
 };
 

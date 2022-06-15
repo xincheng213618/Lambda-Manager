@@ -119,6 +119,7 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
+
 		if (pView->IsState(ViewState::CLOSED)) {
 			delete pView;
 			break;

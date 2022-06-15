@@ -7,19 +7,19 @@ extern CloseImageView closeImageView;
 
 static int viewindex = 0;
 
+std::mutex mut;
 
 LambdaView::LambdaView(bool registered)
 {
-	
-
 	index = viewindex;
-	index2 = 0;
 	viewindex++;
 	if (registered) {
+		index2 = 0;
 		flag = 0;
 	}
 	else
 	{
+		index2 = 1;
 		flag = 1;
 	}
 }
@@ -34,20 +34,23 @@ void LambdaView::Show(cv::Mat mat)
 		if (initialFrame == NULL)
 			throw "initialFrame指针未被初始化";
 
-		int i = initialFrame(index, 0, mat.data, mat.rows, mat.cols, 3);
+		int i = initialFrame(0, index2, mat.data, mat.rows, mat.cols, 3);
 		flag = RUNING;
 	}
 	else if (flag == RUNING)
 	{
 		if (updateFrame == NULL)
 			throw "updateFrame指针未被初始化";
-		updateFrame(index, 0, mat.data, strlen((char*)mat.data), (int)mat.step);
+		//int len = strlen((char*)mat.data);
+		updateFrame(0, index2, mat.data, mat.total() * mat.elemSize(), (int)mat.step);
+
 	}
+
 }
 
 void LambdaView::Close()
 {
-
+	closeImageView(index);
 }
 
 ViewState LambdaView::GetState()
@@ -57,7 +60,7 @@ ViewState LambdaView::GetState()
 void LambdaView::SetState(ViewState state)
 {
 	if (state == CLOSED)
-		CloseImageView();
+		closeImageView(index);
 
 	flag = state;
 }
@@ -71,20 +74,18 @@ bool LambdaView::IsState(ViewState state)
 
 int LambdaView::GetIndex()
 {
+	LambdaView instance = new LambdaView(true);
+
 	return index;
 }
 
 
 
-LambdaView* LambdaView::GetIdleOrNew()
-{
-	static LambdaView instance(false);
-	return &instance;
-}
+
 
 
 LambdaView* LambdaView::GetRegistered(int index)
 {
-	static LambdaView instance(false);
+	static LambdaView instance = new LambdaView(true);
 	return &instance;
 }

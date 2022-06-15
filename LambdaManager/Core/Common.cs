@@ -308,15 +308,17 @@ internal class Common
 
         if (pEventData != IntPtr.Zero)
 		{
-            int length = default(int);
-            sbyte* p2 = default(sbyte*);
-            p2 = (sbyte*)pEventData;
-			while (*(p2++) != 0)
-                length++;
+   //         int length = default(int);
+   //         sbyte* p2 = default(sbyte*);
+   //         p2 = (sbyte*)pEventData;
+			//while (*(p2++) != 0)
+   //             length++;
 
-            json = new string((sbyte*)pEventData, 0,length, Encoding.UTF8);
-		}
-		int? result = UICallback(index, json, sender);
+   //         json = new string((sbyte*)pEventData, 0,length, Encoding.UTF8);
+            json = new string((sbyte*)pEventData);
+
+        }
+        int? result = UICallback(index, json, sender);
 		if (result.HasValue)
 		{
 			return result.Value;
