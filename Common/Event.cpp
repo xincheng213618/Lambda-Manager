@@ -48,6 +48,7 @@ void CallFunction(char* type, int argType, void* eventObject, void* sender)
 
 Event::Event()
 {
+
 }
 
 Event::~Event()
@@ -70,11 +71,6 @@ void Event::Trigger(std::string type)
 void Event::Trigger(std::string type, const json* event)
 {
 	auto it = m_map.find(type);
-	if (it == m_map.end()) {
-		return;
-	}
-
-	auto it = m_map.find(type);
 	if (it != m_map.end()) {
 		callBack3(it->second, (void*)event, NULL);
 	}
@@ -87,7 +83,7 @@ void Event::Trigger(std::string type, const json* event)
 void Event::Trigger(std::string type, const char* event)
 {
 	auto it = m_map.find(type);
-	if (it == m_map.end()) {
+	if (it != m_map.end()) {
 		callBack2(it->second, (void*)event, NULL);
 	}
 	auto it2 = Callback3_map.find(type);
@@ -100,7 +96,7 @@ void Event::Trigger(std::string type, const char* event)
 void Event::Trigger(std::string type, const std::map<std::string, json>* event)
 {
 	auto it = m_map.find(type);
-	if (it == m_map.end()) {
+	if (it != m_map.end()) {
 		callBack3(it->second, (void*)event, NULL);
 	}
 	auto it2 = Callback4_map.find(type);
@@ -112,98 +108,142 @@ void Event::Trigger(std::string type, const std::map<std::string, json>* event)
 void Event::Trigger(std::string type, void* object)
 {
 	auto it = m_map.find(type);
-	if (it == m_map.end()) {
-		return;
+	if (it != m_map.end()) {
+		callBack5(it->second, object, NULL);
 	}
-	callBack5(it->second, object, NULL);
+
+	auto it2 = Callback5_map.find(type);
+	if (it2 != Callback5_map.end()) {
+		(it2->second)(object);
+	}
 }
 
 void Event::Trigger(std::string type, void* object1, void* object2)
 {
 	auto it = m_map.find(type);
-	if (it == m_map.end()) {
-		return;
+	if (it != m_map.end()) {
+		callBack6(it->second, object1, object2, NULL);
 	}
-	callBack6(it->second, object1, object2, NULL);
+	auto it2 = Callback6_map.find(type);
+	if (it2 != Callback6_map.end()) {
+		(it2->second)(object1, object2);
+	}
 }
 
 void Event::Trigger(std::string type, void* object1, void* object2, void* object3, void* object4)
 {
 	auto it = m_map.find(type);
-	if (it == m_map.end()) {
+	if (it != m_map.end()) {
+		callBack7(it->second, object1, object2, object3, object4, NULL);
 		return;
 	}
-	callBack7(it->second, object1, object2, object3, object4, NULL);
+	auto it2 = Callback7_map.find(type);
+	if (it2 != Callback7_map.end()) {
+		(it2->second)(object1, object2, object3, object4);
+	}
 }
 
 void Event::Trigger(std::string type, void* data, int size)
 {
 	auto it = m_map.find(type);
-	if (it == m_map.end()) {
-		return;
+	if (it != m_map.end()) {
+		callBack8(it->second, data, size, NULL);
 	}
-	callBack8(it->second, data, size, NULL);
 }
 
 void Event::Dispatch(std::string type)
 {
-
+	std::thread t([=]() {
+		Event::Trigger(type);
+		});
+	t.detach();
 }
 
 void Event::Dispatch(std::string type, const json* event)
 {
+	std::thread t([=]() {
+		Event::Trigger(type, event);
+		});
+	t.detach();
 }
 
 void Event::Dispatch(std::string type, const char* event)
 {
+	std::thread t([=]() {
+		Event::Trigger(type, event);
+		});
+	t.detach();
 }
 
 void Event::Dispatch(std::string type, const std::map<std::string, json>* event)
 {
+	std::thread t([=]() {
+		Event::Trigger(type, event);
+		});
+	t.detach();
 }
 
 void Event::Dispatch(std::string type, void* object)
 {
+	std::thread t([=]() {
+		Event::Trigger(type, object);
+		});
+	t.detach();
 }
 
 void Event::Dispatch(std::string type, void* object1, void* object2)
 {
+	std::thread t([=]() {
+		Event::Trigger(type, object1, object2);
+		});
+	t.detach();
 }
 
 void Event::Dispatch(std::string type, void* object1, void* object2, void* object3, void* object4)
 {
-
+	std::thread t([=]() {
+		Event::Trigger(type, object1, object2, object3, object4);
+		});   
+	t.detach();
 }
 
 void Event::Schedule(std::string type, const char* cron, const char* event)
 {
+
 }
 
 void Event::On(std::string type, Callback1 callback, bool once)
 {
-	Callback1m_map.insert(std::make_pair(type, callback));
+	Callback1_map.insert(std::make_pair(type, callback));
 }
 
 void Event::On(std::string type, Callback2 callback, bool once)
 {
+	Callback2_map.insert(std::make_pair(type, callback));
+
 }
 
 void Event::On(std::string type, Callback3 callback, bool once)
 {
+	Callback3_map.insert(std::make_pair(type, callback));
 }
 
 void Event::On(std::string type, Callback4 callback, bool once)
 {
+	Callback4_map.insert(std::make_pair(type, callback));
 }
 
 void Event::On(std::string type, Callback5 callback, bool once)
 {
+	Callback5_map.insert(std::make_pair(type, callback));
 }
 
 void Event::On(std::string type, Callback6 callback, bool once)
 {
+	Callback6_map.insert(std::make_pair(type, callback));
 }
 
 void Event::On(std::string type, Callback7 callback, bool once)
 {
+	Callback7_map.insert(std::make_pair(type, callback));
 }

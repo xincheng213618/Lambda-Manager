@@ -48,7 +48,6 @@ namespace ConfigObjective
             MoveStep.XStep = 50;
             MoveStep.YStep = 50;
             LambdaControl.Trigger("SET_STAGE_MODE_X", this, new Dictionary<string, object> { { "mode", 0 }});
-
         }
 
         private void ToggleButtonXYF_Unchecked(object sender, RoutedEventArgs e)

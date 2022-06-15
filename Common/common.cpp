@@ -2,8 +2,6 @@
 #include "common.h"
 
 
-
-
 LogCallBack1 logCallBack1 = NULL;
 LogCallBack2 logCallBack2 = NULL;;
 GetArraySize getArraySize = NULL;;
@@ -51,6 +49,8 @@ void Initialize() {
 	Logger::Log1(Severity::INFO, "Invoke 'OpenLaser(%f)%d'", exposure, sss);
 	//问题1 log2 的写法问题；
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)%d'", exposure,sss);
+	Event::Trigger("TEST_EVENT_4", NULL, NULL, NULL, NULL);
+
 	//Service::Start("1111");
 	//cv::Mat img1;
 	//img1 = cv::imread("D:\\0044.jpg");

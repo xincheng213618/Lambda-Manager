@@ -17,8 +17,7 @@ using System.Windows.Controls.Primitives;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
-//using NLGSolution.JsonHelper;
-using Global.Common.Extensions;
+using NLGSolution.JsonHelper;
 
 namespace Solution
 {
@@ -301,10 +300,6 @@ namespace Solution
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //Dictionary<string, object> data = new() {  };
-            //LambdaControl.Trigger("Test120", this, data);
-
-            MessageBox.Show(windowData.mapModel.ToJson());
 
             //Image image = new Image();
             //View View = new View(image,99);
@@ -352,8 +347,8 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //if (solutionExplorer != null)
-            //    solutionExplorer.ToJsonFile($"{SolutionDir}\\{solutionExplorer.Name}.json");
+            if (solutionExplorer != null)
+                solutionExplorer.ToLimitJsonFile($"{SolutionDir}\\{solutionExplorer.Name}.json");
         }
         GridLengthConverter gridLengthConverter = new GridLengthConverter();
         private void testt22_SizeChanged(object sender, SizeChangedEventArgs e)

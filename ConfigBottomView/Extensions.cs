@@ -11,7 +11,6 @@ namespace ConfigBottomView
 {
     public static class Extensions
     {
-
         public static string HistogramMax(this Dictionary<int, int> histogramMaxValue, int histogramMaxIndex)
         {
             string peakHistogram = string.Empty;

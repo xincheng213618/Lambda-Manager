@@ -11,7 +11,7 @@ namespace NLGSolution.JsonHelper
 {
     public static class ViewModeBaseExtension
     {
-        public static int ToJsonFile(this ViewModeBase viewModeBase, string filePath)
+        public static int ToLimitJsonFile(this ViewModeBase viewModeBase, string filePath)
         {
             if (viewModeBase == null)
                 throw new ArgumentNullException(nameof(viewModeBase));
@@ -24,7 +24,7 @@ namespace NLGSolution.JsonHelper
                     JsonSerializer serializer;
                     string[] props = { "FullPath", "Children" }; //排除掉，不能让前端看到的字段。为true的话就是只保留这些字段
                     serializer = JsonSerializer.Create(new JsonSerializerSettings() { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore });
-                    //serializer.ContractResolver = new LimitPropsContractResolver(props, true);
+                    serializer.ContractResolver = new LimitPropsContractResolver(props, true);
                     serializer.Serialize(file, viewModeBase);
 
             }
