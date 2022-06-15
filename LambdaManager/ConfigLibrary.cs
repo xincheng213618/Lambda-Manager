@@ -1657,13 +1657,19 @@ internal class ConfigLibrary
 
 	private void InitializeLibrary()
 	{
-		foreach (Routine routine in solution.Routines[solution.InitEvent])
-		{
-			FunctionExecutor.Evaluate(new ExecInfo
-			{
-				Routine = routine
-			});
-		}
+		if (solution.Routines.ContainsKey(solution.InitEvent))
+        {
+            foreach (Routine routine in solution.Routines[solution.InitEvent])
+            {
+                FunctionExecutor.Evaluate(new ExecInfo
+                {
+                    Routine = routine
+                });
+            }
+        }
+
+
+
 	}
 
 	private static async void InitializeScheduler()

@@ -127,6 +127,31 @@
                                 </Viewbox>
                             </ScrollViewer>
                         </TabItem>
+
+                        <TabItem Header="图像处理" Visibility="Collapsed">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="proessView" Margin="0,5,0,5">
+                                    </StackPanel>
+                                </Viewbox>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="图像分析" Visibility="Collapsed">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="analysisView" Margin="0,5,0,5">
+                                    </StackPanel>
+                                </Viewbox>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="报告生成" Visibility="Collapsed">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="reportView" Margin="0,5,0,5">
+                                    </StackPanel>
+                                </Viewbox>
+                            </ScrollViewer>
+                        </TabItem>
                     </TabControl>
                 </Border>
 
