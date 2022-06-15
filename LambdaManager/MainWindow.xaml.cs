@@ -290,8 +290,12 @@ partial class MainWindow : BaseWindow
 			Side.MIDDLE => materialView, 
 			Side.BOTTOM => bottomView, 
 			Side.ACQUIRE => acquireView, 
-			Side.PROJECT => projectView, 
-			_ => throw new Exception("top view not supported"), 
+			Side.PROJECT => projectView,
+            Side.REPORT => reportView,
+            Side.ANALYSIS => analysisView,
+            Side.POCESS => proessView,
+
+            _ => throw new Exception("top view not supported"), 
 		};
 	}
 

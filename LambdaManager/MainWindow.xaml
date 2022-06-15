@@ -109,8 +109,8 @@
                 </Grid.ColumnDefinitions>
                 
                 <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
-                    <TabControl  >
-                        <TabItem Header="工程" FontSize="15">
+                    <TabControl FontSize="15">
+                        <TabItem Header="工程"  Visibility="Collapsed">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                 <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                     <StackPanel Name="projectView"  Margin="10,10,10,20" >
@@ -119,7 +119,7 @@
 
                             </ScrollViewer>
                         </TabItem>
-                        <TabItem Header="采集配置" FontSize="15">
+                        <TabItem Header="采集配置"  Visibility="Collapsed">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                 <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                     <StackPanel Name="acquireView">

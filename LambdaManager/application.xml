@@ -86,7 +86,7 @@
 
 	
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
-	<component name="TreeViewControl" lib="Solution.dll" mount="project:0"/>
+	<component name="TreeViewControl" lib="Solution.dll" mount="pocess:0"/>
 	<component name="BottomView" lib="ConfigBottomView.dll" mount="bottom:0"/>
 
 	<!--<component name="UserControl1" lib="WpfApp5.dll" mount="acquire:4"/>
