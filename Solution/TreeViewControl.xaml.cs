@@ -300,6 +300,8 @@ namespace Solution
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
+
 
             //Image image = new Image();
             //View View = new View(image,99);

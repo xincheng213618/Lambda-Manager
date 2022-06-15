@@ -4,14 +4,14 @@
 		<command name="文件/测试" icon="test.ico" raise="TEST_COMMAND"></command>
 	</commands>-->
 
-	<component name ="test" lib ="lib\InteropTest.dll">
+	<!--<component name ="test" lib ="lib\InteropTest.dll">
 		<procedure name="CameraSettingExposur" event="Test120" >
 			<action name="Test120">
 			</action>
 		</procedure>
-	</component>
+	</component>-->
 
-	<component name="Camera" lib="lib\ISCamera.dll" init="SleepTest">
+	<component name="Camera" lib="lib\ISCamera.dll" >
 	
 		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
 			<action name="CameraSettingExposure">

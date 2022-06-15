@@ -27,6 +27,13 @@ LIB_API void RegisterRoutineEvent(char* type, int rotineId, ArgumentType handler
 	m_map.insert(std::make_pair(Chartostring(type), rotineId));
 }
 
+LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerType, int once)
+{
+	//m_map.insert(std::make_pair(Chartostring(type), rotineId));
+	Callback1_map.insert(std::make_pair(Chartostring(type),(Callback1)fn1));
+
+}
+
 
 void CallFunction(char* type, int argType, void* eventObject, void* sender)
 {

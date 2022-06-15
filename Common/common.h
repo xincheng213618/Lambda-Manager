@@ -80,7 +80,7 @@ enum ArgumentType
 };
 
 extern "C" LIB_API void RegisterRoutineEvent(char * type, int rotineId, ArgumentType handlerType, int once);
-
+extern "C" LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerType, int once);
 
 enum class Severity {
 	DEBUG, INFO, WARNING, WRONG, FATAL_ERROR

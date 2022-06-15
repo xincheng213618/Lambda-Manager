@@ -24,7 +24,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
-            //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
+            LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 

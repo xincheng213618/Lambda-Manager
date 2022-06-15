@@ -7,8 +7,11 @@ extern CloseImageView closeImageView;
 
 static int viewindex = 0;
 
+
 LambdaView::LambdaView(bool registered)
 {
+	
+
 	index = viewindex;
 	index2 = 0;
 	viewindex++;
@@ -71,16 +74,17 @@ int LambdaView::GetIndex()
 	return index;
 }
 
+
+
 LambdaView* LambdaView::GetIdleOrNew()
 {
-	LambdaView* lambdaView = NULL;
-	lambdaView = new LambdaView(false);
-	return lambdaView;
+	static LambdaView instance(false);
+	return &instance;
 }
+
 
 LambdaView* LambdaView::GetRegistered(int index)
 {
-	LambdaView* lambdaView = NULL;
-	lambdaView = new LambdaView(false);	
-	return lambdaView;
+	static LambdaView instance(false);
+	return &instance;
 }
