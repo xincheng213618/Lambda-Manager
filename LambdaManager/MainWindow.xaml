@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
+                 
         xmlns:controls="clr-namespace:LambdaManager.Controls" 
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
@@ -373,7 +374,7 @@
                                             <!--Unknown connection ID: 63-->
                                         </ToggleButton>
                                     </WrapPanel>
-                                    <Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                                    <!--<Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />-->
                                     <!--Unknown connection ID: 59-->
                                 </DockPanel>
                             </Border>
@@ -452,7 +453,7 @@
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
-                                    <Image Source="/Resources/Images/StartPicture1.png" Stretch="Uniform" />
+                                    <Image x:Name="view0" Source="/Resources/Images/StartPicture1.png" Stretch="Uniform" />
                                     <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
                                     <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal">
                                         <!--Unknown connection ID: 83-->

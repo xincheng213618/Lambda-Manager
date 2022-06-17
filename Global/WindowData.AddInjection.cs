@@ -1,4 +1,5 @@
 ﻿using Lambda;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,22 +12,33 @@ namespace Global
     /// </summary>
     public partial class WindowData
     {
+
+        public int Version = -1;
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
+
+            Type t = mainwin.GetType();
+            MethodInfo method = t.GetMethod("GetVersion");
+            if (method != null)
+            {
+                BindingFlags flag = BindingFlags.Public | BindingFlags.Instance;
+                object[] parameters = new object[] { };
+                object returnValue = method.Invoke(mainwin, flag, Type.DefaultBinder, parameters, null);
+                if (returnValue is int aa)
+                    Version = aa;
+            }
+
+
+//MethodInfo method = t.GetMethod("GetValue");
+
+
+                //System.Reflection.MemberInfo info = typeof(mainwin);
 
             try
             {
                 StackPanel projectView = (StackPanel)mainwin.FindName("projectView");
                 projectView.Children.Clear();
-                //if (projectView.Children[0] is TextBlock text1)   
-                //{
-                //    projectView.Children.Remove(text1);
-                //}
-                //if (projectView.Children[1] is TextBlock text2)
-                //{
-                //    projectView.Children.Remove(text2);
-                //}
 
 
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
@@ -172,9 +184,34 @@ namespace Global
 
             }
 
-
+            ADDzeroImage();
         }
 
+        private async void ADDzeroImage()
+        {
+            await Task.Delay(5000);
+            View view = LambdaControl.GetImageView(0);
+            if (view != null)
+            {
+                view.Image = null;
+            }
+            //if (view != null)
+            //{
+            //    if (view.Image.Parent is Grid grid)
+            //    {
+            //        grid.Children.Remove(view.Image);
+            //        gridsList[0] = GetNewGrid(view.Image);
+            //    }
+            //    else
+            //    {
+            //        gridsList[0] = GetNewGrid(view.Image);
+            //    }
+            //    GridSort(gridsList);
+            //    AddImageConfident(view.Image);
+            //}
+        }
+
+        
 
     }
 }

@@ -44,12 +44,46 @@ namespace Tool
                 }
                 //获取di中所有的文件夹，并存到一个新的对象数组中，以进行递归
                 DirectoryInfo[] dis = di.GetDirectories();
-                if (dis.Length > 0)
+
+                foreach (var item in dis)
                 {
-                    for (int i = 0; i < dis.Length; i++)
-                    {
-                        len += GetDirectoryLength(dis[i].FullName);
-                    }
+                    len += GetDirectoryLength(item.FullName);
+
+                }
+            }
+            return len;
+        }
+
+        /// <summary>
+        /// 获取指定路径的大小
+        /// </summary>
+        /// <param name="dirPath">路径</param>
+        /// <returns></returns>
+        public static long GetDirectoryLength(string dirPath,string removename)
+        {
+            long len = 0;
+            //判断该路径是否存在（是否为文件夹）
+            if (!Directory.Exists(dirPath))
+            {
+                //查询文件的大小
+                len = FileSize(dirPath);
+            }
+            else
+            {
+                //定义一个DirectoryInfo对象
+                DirectoryInfo di = new DirectoryInfo(dirPath);
+
+                //通过GetFiles方法，获取di目录中的所有文件的大小
+                foreach (FileInfo fi in di.GetFiles())
+                {
+                    len += fi.Length;
+                }
+                //获取di中所有的文件夹，并存到一个新的对象数组中，以进行递归
+                DirectoryInfo[] dis = di.GetDirectories();
+                foreach (var item in dis)
+                {
+                    if (item.Name != removename)
+                    len += GetDirectoryLength(item.FullName, removename);
                 }
             }
             return len;

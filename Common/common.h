@@ -30,8 +30,8 @@ typedef int (__cdecl *Callback7)(void*, void*, void*, void*);
 
 
 typedef int(__cdecl* LogCallBack1)(int, char*);
-typedef int(__cdecl* LogCallBack2)(int, char*);
-typedef int(__cdecl* GetArraySize)(void*);
+typedef int(__cdecl* LogCallBack2)(int, wchar_t*);
+typedef int(__cdecl* GetArraySize1)(void*);
 
 typedef int(__cdecl* InitialFrame)(int, int, void*, int, int, int);
 typedef int(__cdecl* UpdateFrame)(int, int, void*, int, int);
@@ -67,6 +67,13 @@ extern "C" LIB_API void SetMessageHandler1(LogCallBack1 fn);
 extern "C" LIB_API void SetMessageHandler2(LogCallBack2 fn);
 
 extern "C" LIB_API void CallFunction(char* type, int argType, void* eventObject, void* sender);
+
+
+extern "C" LIB_API int GetArraySize(void* pArray);
+
+extern "C" LIB_API int SetHandlerRaise(void* pArray);
+
+
 
 enum ArgumentType
 {

@@ -16,6 +16,9 @@ namespace NLGSolution
     public class SeriesProjectManager : BaseObject
     {
 
+        public FileSystemWatcher watcher;
+
+
         private string fileSize;
         public string FileSize
         {
@@ -28,7 +31,10 @@ namespace NLGSolution
         {
             //加延迟是为了显示效果更好。
             await Task.Delay(1000);
-            FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullPath));
+            FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullPath, "derives"));
+
+            
+
         }
 
 
@@ -41,8 +47,84 @@ namespace NLGSolution
         {
             CanReName = false;
             PoejectExportAs = new RelayCommand(OnPoejectExportAs, (object value) => { return true; });
+
+            watcher = new FileSystemWatcher(SeriesFolderPath)
+            {
+                IncludeSubdirectories = false,
+            };
+            watcher.Deleted += Watcher_Deleted;
+            watcher.Created += Watcher_Created;
+            watcher.Changed += Watcher_Changed;
+            watcher.Renamed += Watcher_Renamed;
+            watcher.EnableRaisingEvents = true;
             Task.Run(CalculSize);
         }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (sender == null)
+                throw new NotImplementedException();
+            Task.Run(CalculSize);
+
+        }
+
+        public void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
+            {
+                var baseObject = Children.ToList().Find(t => t.FullPath == e.OldFullPath);
+                if (baseObject != null)
+                {
+                    baseObject.FullPath = e.FullPath;
+                }
+                var baseObject1 = ChildrenHidden.ToList().Find(t => t.FullPath == e.OldFullPath);
+                if (baseObject1 != null)
+                {
+                    baseObject1.FullPath = e.FullPath;
+                }
+
+            }
+        }
+
+        public void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            if (!(File.Exists(e.FullPath) || Directory.Exists(e.FullPath)))
+            {
+                var projectFile = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                if (projectFile != null)
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        RemoveChild(projectFile);
+                    }));
+                }
+            }
+
+        }
+
+        public void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            if (File.Exists(e.FullPath))
+            {
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    AddChild(new ProjectFile(e.FullPath) { Visibility = Visibility.Hidden });
+                }));
+            }
+            else if (Directory.Exists(e.FullPath))
+            {
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    AddChild(new ProjectFolder(e.FullPath) { Visibility=Visibility.Hidden});
+                }));
+            }
+        }
+
+
+
+
+
+
         public override void AddChild(object obj)
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -52,7 +134,6 @@ namespace NLGSolution
                 AddChild(derivativeSeriesFile);
 
             }
-
         }
 
         private void OnPoejectExportAs(object value)

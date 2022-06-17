@@ -29,20 +29,6 @@ namespace NLGSolution
             watcher.EnableRaisingEvents = true;
         }
 
-        private void Watcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            if (sender == null)
-                throw new NotImplementedException();
-            if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
-            {
-                var baseObject = Children.ToList().Find(t => t.FullPath == e.FullPath);
-                if (baseObject != null&& baseObject is ProjectFile projectFile)
-                {
-                    Task.Run(projectFile.CalculSize);
-                }
-            }
-
-        }
 
         private string tempname;
 
@@ -93,6 +79,21 @@ namespace NLGSolution
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (sender == null)
+                throw new NotImplementedException();
+            if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
+            {
+                var baseObject = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                if (baseObject != null && baseObject is ProjectFile projectFile)
+                {
+                    Task.Run(projectFile.CalculSize);
+                }
+            }
+
         }
 
         public void Watcher_Renamed(object sender, RenamedEventArgs e)

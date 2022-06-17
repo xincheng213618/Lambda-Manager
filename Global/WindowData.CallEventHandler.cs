@@ -3,6 +3,7 @@ using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,11 +39,15 @@ namespace Global
 
             return 1;
         }
+        static GridLengthConverter gridLengthConverter = new GridLengthConverter();
+
+
+
+
 
         List<ImageParameter> imageParameters = new List<ImageParameter>();
         public async void AddImageConfident(Image image)
         {
-            //await Task.Delay(1000);
             if (image.Parent is Grid grid)
             {
                 //grid.Children.Clear();
@@ -68,19 +73,46 @@ namespace Global
                 //grid.Children.Add(grid1);
                 //grid.Children.Add(grid2);
 
-                //grid.Background = Brushes.Red;
+                grid.RowDefinitions.Clear();
+                grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
+                for (int i = 0; i < 2; i++)
+                {
+                    RowDefinition rowDefinition = new RowDefinition() { Height = GridLength.Auto };
+                    grid.RowDefinitions.Add(rowDefinition);
+                }
+
+                StackPanel stackPanel = new StackPanel() {  Orientation =Orientation.Horizontal };
+                Grid.SetColumn(stackPanel, 0);
+                Grid.SetRow(stackPanel,2);  
+
+                Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
+                Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
+                stackPanel.Children.Add(control);
+
+                GridSplitter gridSplitter = new GridSplitter();
+                gridSplitter.Height = 1;
+                gridSplitter.Background = Brushes.BlanchedAlmond;
+                gridSplitter.VerticalAlignment = VerticalAlignment.Stretch;
+
+                Grid.SetColumn(gridSplitter, 0);
+                Grid.SetRow(gridSplitter, 1);
+
+                grid.Children.Clear();
+
+
                 Canvas canvas1 = new Canvas()
                 {
-                    //Width = image.ActualWidth,
-                    //Height = image.ActualWidth,
                     Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
                     //Background = Brushes.Black,
                     ClipToBounds = true
                 };
 
                 grid.Children.Remove(image);
-                grid.Children.Add(canvas1);
+                Grid.SetRow(canvas1, 0);
                 canvas1.Children.Add(image);
+                grid.Children.Add(canvas1);
+                grid.Children.Add(gridSplitter);
+                grid.Children.Add(stackPanel);
 
             }
             if (image.Parent is Canvas canvas)
@@ -101,9 +133,6 @@ namespace Global
                 transformGroup.Children.Add(sfr);
                 transformGroup.Children.Add(tlt);
                 image.RenderTransform = transformGroup;
-
- 
-
 
                 image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
                 {
@@ -174,6 +203,9 @@ namespace Global
                 };
 
             }
+
+
+
         }
 
     }

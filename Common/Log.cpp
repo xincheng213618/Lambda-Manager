@@ -1,5 +1,9 @@
 #include "pch.h"
 #include "common.h"
+#include <locale>         // std::wstring_convert
+#include <codecvt>        // std::codecvt_utf8
+#include <atlcore.h>
+
 
  
 extern LogCallBack1 logCallBack1;
@@ -9,112 +13,71 @@ extern LogCallBack2 logCallBack2;
 
 void Logger::Log1(Severity severity, std::string message)
 {
-	if (logCallBack1 == NULL) 
-		throw "日志指针未被初始化";
-
 	logCallBack1((int)severity, const_cast<char*>(message.c_str()));
 }
 
+LPWSTR m_Buffer = NULL;
 void Logger::Log1(Severity severity, LPCSTR pstrFormat, ...)
 {
-	if (logCallBack1 == NULL)
-		throw "日志指针未被初始化";
+	va_list args;
+	va_start(args, pstrFormat);
 
-	va_list arg;
-	va_start(arg, pstrFormat);
-	std::string temp;
-	const char* start = const_cast<char*>(pstrFormat);
-	while (*start != '\0')
-	{
-		if (*start == '%') {
-			start++;
-			switch (*start){
-			case 'd':
-				temp += std::to_string(va_arg(arg, int));
-				break;
-			case 'c':
-				temp += std::to_string(va_arg(arg, int));//char类型提升,用int类型。 
-				break;
-			case 's': {
-				char* ch = va_arg(arg, char*);
-				while (*ch){
-					temp += *ch;
-					ch++;
-				}
-				delete ch;
-			}
-			break;
-			case 'f': 	
-				temp += std::to_string((float)va_arg(arg, double));		
-				break;
-			default:
-				break;
-			}
-		}
-		else {
-			temp += *start;
-		}
-		start++;
-	}
-	va_end(arg);   //必须有这一步，结束栈操作
+	int nBuf;
+	CHAR szBuffer[1024];
+	nBuf = _vsnprintf(szBuffer, sizeof(szBuffer), pstrFormat, args);
+	if (m_Buffer)
+		free(m_Buffer);
+	m_Buffer = (LPWSTR)malloc((nBuf + 1) * sizeof(WCHAR));
+	MultiByteToWideChar(CP_ACP, 0, szBuffer, nBuf, m_Buffer, nBuf);
+	m_Buffer[nBuf] = L'\0';
+	va_end(args);
+	char buffer[500];
+	wcstombs(buffer, m_Buffer, 500);
 
-	logCallBack1((int)severity, (char*)temp.c_str());
+	logCallBack1((int)severity, buffer);
 }
 
+enum { MAX_LOCAL_STRING_LEN = 63 };
+
+LPTSTR m_pstr = nullptr;
+TCHAR m_szBuffer[MAX_LOCAL_STRING_LEN + 1];
+
+void Assign(LPCTSTR pstr, int cchMax)
+{
+
+	if (pstr == NULL) pstr = _T("");
+	cchMax = (cchMax < 0 ? (int)_tcslen(pstr) : cchMax);
+	if (cchMax < MAX_LOCAL_STRING_LEN) {
+		if (m_pstr != m_szBuffer) {
+			free(m_pstr);
+			m_pstr = m_szBuffer;
+		}
+	}
+	else if (cchMax > (int) _tcslen(m_pstr) || m_pstr == m_szBuffer) {
+		if (m_pstr == m_szBuffer) m_pstr = NULL;
+		m_pstr = static_cast<LPTSTR>(realloc(m_pstr, (static_cast<unsigned long long>(cchMax) + 1) * sizeof(TCHAR)));
+	}
+	_tcsncpy(m_pstr, pstr, cchMax);
+	m_pstr[cchMax] = _T('\0');
+}
 
 void Logger::Log2(Severity severity, LPCTSTR pstrFormat, ...)
 {
-	if (logCallBack2 == NULL)
-		throw "日志指针未被初始化";
+	LPTSTR szSprintf = NULL;
+	va_list argList;
+	int nLen;
+	va_start(argList, pstrFormat);
+	nLen = _vsntprintf(NULL, 0, pstrFormat, argList);
+	szSprintf = (TCHAR*)malloc((nLen + 1) * sizeof(TCHAR));
+	ZeroMemory(szSprintf, (nLen + 1) * sizeof(TCHAR));
+	int iRet = _vsntprintf(szSprintf, nLen + 1, pstrFormat, argList);
+	va_end(argList);
+	Assign(szSprintf,-1);
+	free(szSprintf);
 
-	va_list arg;
-	va_start(arg, pstrFormat);
-	std::string temp;
-	std::string pstr = ws2s(pstrFormat);
-	const char* start = pstr.c_str();
-	while (*start != '\0')
-	{
-		if (*start == '%') {
-			start++;
-			switch (*start)
-			{
-			case 'd':
-				temp += std::to_string(va_arg(arg, int));
-				break;
-			case 'c':
-				temp += std::to_string(va_arg(arg, int));//char类型提升,用int类型。 
-				break;
-			case 's':
-			{ /*puts(va_arg(arg, char*));*/   //字符串可以直接用puts()函数输出  
-				char* ch = va_arg(arg, char*);//定义一个指针变量接收获取的字符，用putchar（）一个一个输出  
-				while (*ch)
-				{
-					temp += *ch;
-					ch++;
-				}
-			}
-			break;
-			case 'f': {
-				temp += std::to_string((float)va_arg(arg, double));
-				//float a = (float)va_arg(arg, double);  //float类型提升，所以用double （小陷阱）
-				//printf("%f", a);  //BUG  要模拟浮点型比较复杂，这里耍个小聪明~ 
-			}
-					break;
-			default:
-				break;
-			}
-		}
-		else {
-			temp += *start;
-			//putchar(*start);
-		}
-		start++;
-	}
-	va_end(arg);   //必须有这一步，结束栈操作
+	//const char* start = StringUtils::Wide2MultiByte(szSprintf);
 
-
-
-	logCallBack2((int)severity, (char*)temp.c_str());
+	logCallBack2((int)severity, szSprintf);
 }
 
 

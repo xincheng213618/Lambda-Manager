@@ -16,6 +16,7 @@ namespace NLGSolution
     public class BaseObject : ViewModeBase
     {
 
+        public ObservableCollection<BaseObject> AdllChildren { get; set; }
 
 
         public ObservableCollection<BaseObject> Children { get; set; }

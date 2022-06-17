@@ -82,6 +82,7 @@ void CallFunction(char* type, int argType, void* eventObject, void* sender)
 	}
 }
 
+
 Event::Event()
 {
 

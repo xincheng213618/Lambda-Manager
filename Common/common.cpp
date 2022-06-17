@@ -3,15 +3,15 @@
 
 
 LogCallBack1 logCallBack1 = NULL;
-LogCallBack2 logCallBack2 = NULL;;
-GetArraySize getArraySize = NULL;;
-InitialFrame initialFrame = NULL;;
-UpdateFrame updateFrame = NULL;;
-CloseImageView closeImageView = NULL;;
-Services startService = NULL;;
-Services StopService = NULL;;
-ScheduleEvent scheduleEvent = NULL;;
-CallHandlerRaise callHandlerRaise = NULL;;
+LogCallBack2 logCallBack2 = NULL;
+GetArraySize1 getArraySize = NULL;
+InitialFrame initialFrame = NULL;
+UpdateFrame updateFrame = NULL;
+CloseImageView closeImageView = NULL;
+Services startService = NULL;
+Services StopService = NULL;
+ScheduleEvent scheduleEvent = NULL;
+CallHandlerRaise callHandlerRaise = NULL;
 
 int PlayFilm(std::string fileName) {
 	cv::Mat frame;
@@ -44,21 +44,22 @@ int PlayFilm(std::string fileName) {
 }
 
 void Initialize() {
-	double exposure = 2222322.11111;
-	int sss = 222222;
-	Logger::Log1(Severity::INFO, "Invoke 'OpenLaser(%f)%d'", exposure, sss);
-	//问题1 log2 的写法问题；
-	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)%d'", exposure,sss);
-	Event::Trigger("TEST_EVENT_4", NULL, NULL, NULL, NULL);
 
-	//Service::Start("1111");
-	//cv::Mat img1;
-	//img1 = cv::imread("D:\\0044.jpg");
-	//LambdaView* pView = LambdaView::GetIdleOrNew();
-	//pView->Show(img1);
 
-	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+}
 
+
+LIB_API int GetArraySize(void* pArray)
+{
+
+	return getArraySize(pArray);
+}
+
+LIB_API int SetHandlerRaise(void* pArray) {
+
+
+	callHandlerRaise(pArray);
+	return 1;
 }
 
 void SetHandler(void* pRoutineHandler, int handlerType) {
@@ -73,7 +74,7 @@ void SetHandler(void* pRoutineHandler, int handlerType) {
 	}
 	else if (handlerType == 2)
 	{
-		getArraySize = (GetArraySize)pRoutineHandler;
+		getArraySize = (GetArraySize1)pRoutineHandler;
 	}
 	else if (handlerType == 3)
 	{
@@ -118,12 +119,12 @@ CallBack8 callBack8 = NULL;
 
 void SetRoutineHandler(void* pRoutineHandler, int argType) 
 {
-	//void 是0
+	//void 杞彂
 	if (argType == 0)
 	{
 		callBack1 = (CallBack1)pRoutineHandler;
 	}
-	//1是主要用的
+	//Json 杞彂
 	else if (argType == 1) 
 	{
 		callBack3 = (CallBack3)pRoutineHandler;
@@ -195,7 +196,7 @@ void Trace(LPCTSTR sFormat, ...)
 }
 
 
-//以下内容不在使用
+//浠ヤ笅鍐呭涓嶅湪浣跨敤
 void SetMessageHandler1(LogCallBack1 fn)
 {
 	logCallBack1 = fn;

@@ -32,18 +32,17 @@ void LambdaView::Show(cv::Mat mat)
 	if (flag == UNINITIALIZED || flag == OCCUPIED)
 	{
 		if (initialFrame == NULL)
-			throw "initialFrame指针未被初始化";
+			throw "initialFrame";
 
-		int i = initialFrame(0, index2, mat.data, mat.rows, mat.cols, 3);
+		int i = initialFrame(index, index2, mat.data, mat.rows, mat.cols, 3);
 		flag = RUNING;
 	}
 	else if (flag == RUNING)
 	{
 		if (updateFrame == NULL)
-			throw "updateFrame指针未被初始化";
+			throw "updateFrame";
 		//int len = strlen((char*)mat.data);
-		updateFrame(0, index2, mat.data, mat.total() * mat.elemSize(), (int)mat.step);
-
+		updateFrame(index, index2, mat.data, mat.total() * mat.elemSize(), (int)mat.step);
 	}
 
 }
@@ -75,7 +74,6 @@ bool LambdaView::IsState(ViewState state)
 int LambdaView::GetIndex()
 {
 	LambdaView instance = new LambdaView(true);
-
 	return index;
 }
 
