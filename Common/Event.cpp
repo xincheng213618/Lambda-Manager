@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "common.h"
-
+#include <libcron/Cron.h>
+#include <libcron/CronData.h>
+#include <libcron/CronSchedule.h>
 extern CallBack1 callBack1;
 extern CallBack2 callBack2;
 extern CallBack3 callBack3;
@@ -45,40 +47,44 @@ LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerTy
 void CallFunction(char* type, int argType, void* eventObject, void* sender)
 {
 	std::string Event = Chartostring(type);
-
 	auto it = RoutineEvent_map.find(Event);
 	if (it != RoutineEvent_map.end()) {
 		auto it2 = ArgumentType_map.find(Event);
 		if (it2 != ArgumentType_map.end()) {
 			if (it2->second == NO_ARGS) {
 				callBack1(it->second, sender);
+				return;
 			}
 			else if (it2->second == JSON_STRING) {
 				callBack3(it->second, eventObject, sender);
-
 			}
-
+			else if (it2->second == JSON_OBJECT ||it2->second == STL_MAP) {
+				callBack3(it->second, eventObject, sender);
+				return;
+			}
 		}
 	}
+
 	auto it11 = FunctionEvent_map.find(Event);
 	if (it11 != FunctionEvent_map.end()) {
 		auto it12 = ArgumentType_map.find(Event);
 		if (it12 != ArgumentType_map.end()) {
 			if (it12->second == NO_ARGS) {
 				((Callback1)(it11->second))();
+				return;
 			}
-			else if (it12->second == JSON_STRING) {
-
+			else if (it12->second == POINTER || it12->second == POINTER2 || it12->second == POINTER4) {
+				((Callback5)(it11->second))(eventObject);
+				return;
 			}
 
 		}
 	}
 
-
-
 	auto it2 = Callback1_map.find(Event);
 	if (it2 != Callback1_map.end()) {
 		(it2->second)();
+		return;
 	}
 }
 
@@ -247,8 +253,47 @@ void Event::Dispatch(std::string type, void* object1, void* object2, void* objec
 	t.detach();
 }
 
+libcron::Cron<libcron::LocalClock, libcron::NullLock> cron22 =  libcron::Cron<libcron::LocalClock, libcron::NullLock>();
+
+time_t now = time(0);
+
 void Event::Schedule(std::string type, const char* cron, const char* event)
 {
+	cron22.add_schedule(type, cron, [=](auto&) {
+		auto RoutineEvent = RoutineEvent_map.find(type);
+
+		if (event == NULL) {
+			if (RoutineEvent != RoutineEvent_map.end()) {
+				callBack1(RoutineEvent->second, NULL);
+			}
+			else {
+				auto it2 = Callback1_map.find(type);
+				if (it2 != Callback1_map.end()) {
+					(it2->second)();
+				}
+			}
+		}
+		else {
+			if (RoutineEvent != RoutineEvent_map.end()) {
+				callBack2(RoutineEvent->second, (void*)event, NULL);
+			}
+			else {
+				auto it2 = Callback3_map.find(type);
+				if (it2 != Callback3_map.end()) {
+					(it2->second)((char*)event);
+				}
+			}
+		}
+
+		//???
+		Logger::Log2(Severity::INFO,L"定时完成:");
+		});
+
+	
+
+
+
+
 
 }
 

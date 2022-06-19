@@ -28,18 +28,11 @@ namespace Global
                 if (returnValue is int aa)
                     Version = aa;
             }
-
-
-//MethodInfo method = t.GetMethod("GetValue");
-
-
+            //MethodInfo method = t.GetMethod("GetValue");
                 //System.Reflection.MemberInfo info = typeof(mainwin);
 
             try
             {
-                StackPanel projectView = (StackPanel)mainwin.FindName("projectView");
-                projectView.Children.Clear();
-
 
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
                 if (WrapPanel1 == null)
@@ -189,7 +182,7 @@ namespace Global
 
         private async void ADDzeroImage()
         {
-            await Task.Delay(5000);
+            await Task.Delay(1000);
             View view = LambdaControl.GetImageView(0);
             if (view != null)
             {

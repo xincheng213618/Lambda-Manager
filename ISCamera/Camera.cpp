@@ -16,6 +16,84 @@ LambdaView* pView = NULL;
 ConcurrentQueue<shared_future<cv::Mat*>> pipeline;
 ThreadPool pool;
 
+void HistCalc(cv::Mat& MatPha, float lowActive0, float highActive0, double phi_min, double phi_max)
+{
+	
+	//lowActive0 = -11;
+	//double minv, maxv;
+	//cv::Point pt_min, pt_max;
+	//minMaxLoc(MatPha, &minv, &maxv, &pt_min, &pt_max);
+	//phi_min = minv;
+	//phi_max = maxv;
+
+	//double hist_max = maxv;
+	int* gray = new int[256];
+	int ttest;
+	cv::Mat mat1;
+	//cv::cvtColor(MatPha, mat1, cv::COLOR_BGR2GRAY);
+
+	for (size_t i = 0; i < 256; i++)
+	{
+		gray[i] = 0;
+	}
+
+
+	for (int i = 0; i < MatPha.rows; i++)
+	{
+		cv::Vec3b* ptr_hist1 = MatPha.ptr<cv::Vec3b>(i);
+
+		for (int j = 0; j < MatPha.cols; j++)
+		{
+			int z = round(0.299f * ptr_hist1[j][0] + 0.587f * (float)ptr_hist1[j][1] + 0.114f * ptr_hist1[j][2]);
+			gray[z]++;
+		}
+	}
+	int size = MatPha.rows * MatPha.cols;
+	//int * graydense = new int[256];
+	for (int i = 0; i < 256; i++)
+	{
+		double graydense = (gray[i] * 1.0) / size;
+		gray[i] = (int)(graydense * 255);
+	}
+
+	Event::Trigger("TestDataEvent2", gray, sizeof(int)*256);
+
+
+	//ptr_hist[256] = -hist_max;
+	//ptr_hist[257] = hist_max;
+
+
+	////值为0的位置
+	//ptr_hist[258] = 128;  // (abs(ptr_hist[256])) / (ptr_hist[257] - ptr_hist[256]) * 255;
+
+
+
+	
+
+	//if (lowActive0 == 0)
+	//	lowActive0 = -hist_max;
+	//if (highActive0 == 0)
+	//	highActive0 = hist_max;//传入的两个阈值均未手动设置
+
+	//for (int j = 0; j < MatPha.rows; j++)
+	//{
+	//	float* data = MatPha.ptr<float>(j);
+	//	for (int i = 0; i < MatPha.cols; i++)
+	//	{
+	//		if (data[i] < lowActive0)
+	//			data[i] = lowActive0;
+	//		else if (data[i] > highActive0)
+	//			data[i] = highActive0;
+
+	//		else if (i == 0 && j == 0)
+	//			data[i] = lowActive0;
+	//		else if (i == MatPha.cols - 1 && j == MatPha.rows - 1)
+	//			data[i] = highActive0;
+	//	}
+	//}
+
+}
+
 int OpenCamera()
 {
 	pView = LambdaView::GetIdleOrNew();
@@ -118,7 +196,13 @@ int PlayFilm(std::string fileName) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
+		float lowActive = -10;
+		float highActive = 20;
+		double pha_min = 0;
+		double pha_max = 0;
+		HistCalc(frame, lowActive, highActive, pha_min, pha_max);
 		pView->Show(frame);
+		Sleep(15);
 
 		if (pView->IsState(ViewState::CLOSED)) {
 			delete pView;
@@ -324,6 +408,15 @@ int CameraSettingExposure(int mode,double exposure)
 		});
 	t.detach();
 	//
+
+	float lowActive = -10;
+	float highActive = 20;
+	double pha_min = 0;
+	double pha_max = 0;
+
+
+
+	HistCalc(img2, lowActive, highActive, pha_min, pha_max);
 
 
 	//json j1;

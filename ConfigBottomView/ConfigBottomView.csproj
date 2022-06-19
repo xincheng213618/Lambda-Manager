@@ -9,4 +9,8 @@
 	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lambda\Lambda.csproj" />
+  </ItemGroup>
+
 </Project>

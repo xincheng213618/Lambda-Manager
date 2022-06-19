@@ -257,6 +257,7 @@ namespace Solution
         private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject,string FullName)
         {
             var root = new DirectoryInfo(FullName);
+            bool IsNotExit = true;
             foreach (var directoryInfo in root.GetDirectories())
             {
                 if (directoryInfo.Name == "derives")
@@ -264,11 +265,14 @@ namespace Solution
                     var directoryInfo1 = new DirectoryInfo(directoryInfo.FullName);
                     foreach (var item1 in directoryInfo1.GetDirectories())
                     {
+                        IsNotExit = false;
                         DerivativeSeriesFile derivativeSeriesFile = new DerivativeSeriesFile(item1.FullName);
                         baseObject.AddChild(ADDDerivativeSeriesFile(derivativeSeriesFile, item1.FullName));
                     }
                 }
             }
+            if (IsNotExit)
+                Directory.CreateDirectory($"{FullName}\\derives");
             return baseObject;
         }
 

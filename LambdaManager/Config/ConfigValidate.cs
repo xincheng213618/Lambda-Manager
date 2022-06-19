@@ -344,6 +344,7 @@ internal class ConfigValidate
 			CheckExport(io, index, action, procedure);
 		}
 		CheckImport(io, index, action);
+
 		int num = CheckArgType(io.Type ?? "string");
 		if (num == -1)
 		{

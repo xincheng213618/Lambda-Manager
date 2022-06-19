@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Lambda;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,7 +31,32 @@ namespace ConfigBottomView
         /// 初始化和界面初始化的实际不对，和界面有关的初始化在Loading中加载，和控件相关的初始化加载在Initialized中
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
+        }
+        BitmapSource Bitmap = null;
 
+        private bool TestDataEvent2(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+                if (eventData != null)
+                {
+                    int size = (int)eventData["size"];
+
+                    IntPtr intPtr = (IntPtr)eventData["data"];
+                    int[] aaa = new int[256];
+                    Marshal.Copy(intPtr, aaa, 0, 256);
+                    HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(aaa.ToList()));
+
+                    //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
+                    //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+                    //pinnedArray.Free();
+
+                }
+            });
+
+            return true;
         }
 
         private bool BottomViewIsInitialized = false;
@@ -39,7 +66,7 @@ namespace ConfigBottomView
             if (!BottomViewIsInitialized)
             {
                 BottomViewIsInitialized = true;
-
+                HistogramImage1.Source = Bitmap;
 
                 //if (this.Parent is StackPanel stackPanel1)
                 //{
@@ -66,10 +93,6 @@ namespace ConfigBottomView
                     this.Width = mainView.ActualWidth;
                 };
             }
-            //Bitmap sourceImageItem = new Bitmap("078_001_v8n_h.jpg");
-            //string MaxValue;
-            //(sourceImageItem, MaxValue) = ConvertImageToHistogram.GenerateHistogramImage(sourceImageItem);
-            //HistogramImage1.Source = Extensions.GetBitmapSource(sourceImageItem);
 
         }
     }

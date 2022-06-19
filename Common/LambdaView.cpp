@@ -8,7 +8,6 @@ extern CloseImageView closeImageView;
 static int viewindex = 0;
 
 std::mutex mut;
-
 LambdaView::LambdaView(bool registered)
 {
 	index = viewindex;
@@ -41,10 +40,8 @@ void LambdaView::Show(cv::Mat mat)
 	{
 		if (updateFrame == NULL)
 			throw "updateFrame";
-		//int len = strlen((char*)mat.data);
 		updateFrame(index, index2, mat.data, mat.total() * mat.elemSize(), (int)mat.step);
 	}
-
 }
 
 void LambdaView::Close()
@@ -76,10 +73,6 @@ int LambdaView::GetIndex()
 	LambdaView instance = new LambdaView(true);
 	return index;
 }
-
-
-
-
 
 
 LambdaView* LambdaView::GetRegistered(int index)

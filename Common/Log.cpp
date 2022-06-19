@@ -5,10 +5,10 @@
 #include <atlcore.h>
 
 
- 
 extern LogCallBack1 logCallBack1;
 extern LogCallBack2 logCallBack2;
 
+std::mutex _lock;
 
 
 void Logger::Log1(Severity severity, std::string message)
@@ -16,12 +16,13 @@ void Logger::Log1(Severity severity, std::string message)
 	logCallBack1((int)severity, const_cast<char*>(message.c_str()));
 }
 
+//log 锁不能加在异步前面
 LPWSTR m_Buffer = NULL;
 void Logger::Log1(Severity severity, LPCSTR pstrFormat, ...)
 {
+	_lock.lock();
 	va_list args;
 	va_start(args, pstrFormat);
-
 	int nBuf;
 	CHAR szBuffer[1024];
 	nBuf = _vsnprintf(szBuffer, sizeof(szBuffer), pstrFormat, args);
@@ -33,8 +34,9 @@ void Logger::Log1(Severity severity, LPCSTR pstrFormat, ...)
 	va_end(args);
 	char buffer[500];
 	wcstombs(buffer, m_Buffer, 500);
-
+	_lock.unlock();
 	logCallBack1((int)severity, buffer);
+
 }
 
 enum { MAX_LOCAL_STRING_LEN = 63 };
@@ -44,7 +46,6 @@ TCHAR m_szBuffer[MAX_LOCAL_STRING_LEN + 1];
 
 void Assign(LPCTSTR pstr, int cchMax)
 {
-
 	if (pstr == NULL) pstr = _T("");
 	cchMax = (cchMax < 0 ? (int)_tcslen(pstr) : cchMax);
 	if (cchMax < MAX_LOCAL_STRING_LEN) {
@@ -53,7 +54,7 @@ void Assign(LPCTSTR pstr, int cchMax)
 			m_pstr = m_szBuffer;
 		}
 	}
-	else if (cchMax > (int) _tcslen(m_pstr) || m_pstr == m_szBuffer) {
+	else if (m_pstr==NULL ||cchMax > (int) _tcslen(m_pstr) || m_pstr == m_szBuffer) {
 		if (m_pstr == m_szBuffer) m_pstr = NULL;
 		m_pstr = static_cast<LPTSTR>(realloc(m_pstr, (static_cast<unsigned long long>(cchMax) + 1) * sizeof(TCHAR)));
 	}
@@ -63,6 +64,7 @@ void Assign(LPCTSTR pstr, int cchMax)
 
 void Logger::Log2(Severity severity, LPCTSTR pstrFormat, ...)
 {
+	_lock.lock();
 	LPTSTR szSprintf = NULL;
 	va_list argList;
 	int nLen;
@@ -72,12 +74,13 @@ void Logger::Log2(Severity severity, LPCTSTR pstrFormat, ...)
 	ZeroMemory(szSprintf, (nLen + 1) * sizeof(TCHAR));
 	int iRet = _vsntprintf(szSprintf, nLen + 1, pstrFormat, argList);
 	va_end(argList);
-	Assign(szSprintf,-1);
-	free(szSprintf);
-
-	//const char* start = StringUtils::Wide2MultiByte(szSprintf);
+	Assign(szSprintf, -1);
+	_lock.unlock();
 
 	logCallBack2((int)severity, szSprintf);
+	free(szSprintf);
+
+
 }
 
 

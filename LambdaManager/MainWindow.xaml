@@ -16,7 +16,7 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
             <Setter Property="TextBlock.Padding" Value="5,5,5,5" />
         </Style>
-        
+
         <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="5, 0, 0, 0" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -57,11 +57,15 @@
     </Window.Resources>
 
     <Grid  >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="141*"/>
+            <ColumnDefinition Width="499*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" >
+        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
@@ -95,7 +99,7 @@
                 </ComboBox>
             </DockPanel>
         </Grid>
-        <Viewbox Grid.Row="1" >
+        <Viewbox Grid.Row="1" Grid.ColumnSpan="2" >
             <Grid Name="stageAcquisition" Grid.Row="1" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -108,7 +112,7 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                
+
                 <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
                     <TabControl FontSize="15">
                         <TabItem Header="工程"  Visibility="Collapsed">
@@ -510,13 +514,13 @@
                     </StatusBarItem>
                     <Separator Grid.Column="9" />
                     <StatusBarItem Grid.Column="10">
-                        <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" /> 
+                        <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" />
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
 
         </Viewbox>
 
-        <Grid Name="stageConfig" Grid.Row="1" />
+        <Grid Name="stageConfig" Grid.Row="1" Grid.ColumnSpan="2" />
     </Grid>
 </Base:BaseWindow>

@@ -81,7 +81,7 @@ namespace Global
                     grid.RowDefinitions.Add(rowDefinition);
                 }
 
-                StackPanel stackPanel = new StackPanel() {  Orientation =Orientation.Horizontal };
+                StackPanel stackPanel = new StackPanel() ;
                 Grid.SetColumn(stackPanel, 0);
                 Grid.SetRow(stackPanel,2);  
 

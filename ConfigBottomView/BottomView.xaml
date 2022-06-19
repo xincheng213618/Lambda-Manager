@@ -5,28 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfigBottomView"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
-    <Grid x:Name="Grid1" Height="100" >
+             Height="100" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
+    <Grid x:Name="Grid1"  >
         <Border >
-            <DockPanel >
-                <Image Name="HistogramImage1" Stretch="Uniform"  HorizontalAlignment="Left">
-                    <Image.RenderTransform>
-                        <TransformGroup >
-                            <ScaleTransform ScaleX="2"/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-                <UniformGrid Columns="2" Rows="4" Width="300" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="5">
-                    <Button Content="自动调整"/>
-                    <Button Content="对数直方图"/>
-                    <TextBlock Text="离群值"/>
-                    <TextBlock Text="gamma值"/>
-                    <TextBlock Text="灰度值最小值"/>
-                    <TextBlock Text="灰度值最大值"/>
-                    <TextBlock Text="灰度值平均值"/>
-                    <TextBlock Text="灰度值标准方差"/>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Image Name="HistogramImage1" Stretch="Uniform"  HorizontalAlignment="Left">
+                        <Image.RenderTransform>
+                            <TransformGroup >
+                                <ScaleTransform  ScaleX="3"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    
+                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Button Content="自动" Background="Transparent" BorderThickness="1.5"   Margin="15,0" Padding="5,2"/>
+                        <Button Content="对数"  Background="Transparent" BorderThickness="1.5"  Margin="0,0,15,0" Padding="5,2"/>
+                    </DockPanel>
+
+                </Grid>
+
+                <UniformGrid Grid.Column="1" Columns="1" Rows="10" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="5,0">
+                    <TextBlock  FontSize="8" Text="最小值 1"/>
+                    <TextBlock  FontSize="8" Text="最大值 240"/>
+                    <TextBlock  FontSize="8" Text="平均值 100"/>
+                    <TextBlock  FontSize="8" Text="方差 140"/>
+                    <TextBlock  FontSize="8" Text="离群值 10" />
+                    <TextBlock  FontSize="8" Text="gamma值 15%"/>
                 </UniformGrid>
-            </DockPanel>
+            </Grid>
         </Border>
 
     </Grid>

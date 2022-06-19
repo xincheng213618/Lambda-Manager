@@ -1684,11 +1684,14 @@ internal class ConfigLibrary
 			{
 				return;
 			}
-			JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
-			IJobDetail job = jobBuilder.WithIdentity($"Job{i}", "group1").Build();
-			TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-			ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().Build();
-			await scheduler.ScheduleJob(job, trigger);
+            JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
+            IJobDetail job = jobBuilder.WithIdentity($"Job{i}", "group1").Build();
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer)
+                .Build();
+
+
+            await scheduler.ScheduleJob(job, trigger);
 			i++;
 		}
 	}

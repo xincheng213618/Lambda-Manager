@@ -1,30 +1,94 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project title="NJUST-SCIL多模显微镜" left="440" right="100"  maximize="true">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<main title="NJUST-SCIL多模显微镜" left="300" middle="closed" notice="平台上请不要放任何东西，请检查" maximize="true">
+	<commands>
+		<command name="文件/测试" icon="test.ico" raise="TEST_COMMAND"></command>
+	</commands>
 
+	<!-- <component name="opencv" lib="D:\workspace\library\opencv401\opencv\build\x64\vc15\bin\opencv_world401.dll"></component> -->
 
-	<component name="Camera" lib="lib\ISCamera.dll">	
-		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
-			<action name="CameraSettingExposure">
-				<input name="mode" type="int"/>
-				<input name="exposure" type="double"/>
+	<component name="algorithm" lib="lib/algorithm.dll">
+		<procedure name="filter1" event="FILTER_START" arg="image">
+			<action name="Drawing_Random_Lines">
+				<input name="image" type="handle"/>
+			</action>
+			<action name="Drawing_Random_Rectangles" raise="FILTER_1" arg="image">
+				<input name="image" type="handle"/>
 			</action>
 		</procedure>
-		<procedure name="SleepTest" event="SleepTest" >
-			<action name="SleepTest"/>
-		</procedure>
-		<procedure name="VideoTest" event="VideoTest" >
-			<action name="VideoTest"/>
-		</procedure>
-		
 
-		<procedure name="OpenSerial" event="projectManager" >
+		<procedure name="filter2" event="FILTER_1" arg="image">
+			<action name="Drawing_Random_Ellipses">
+				<input name="image" type="handle"/>
+			</action>
+			<action name="Drawing_Random_Polylines" raise="FILTER_2" arg="image">
+				<input name="image" type="handle"/>
+			</action>
+		</procedure>
+
+		<procedure name="filter3" event="FILTER_2" arg="image">
+			<action name="Drawing_Random_Circles">
+				<input name="image" type="handle"/>
+			</action>
+			<action name="Displaying_Random_Text" raise="FILTER_END" arg="image">
+				<input name="image" type="handle"/>
+			</action>
+		</procedure>
+
+	</component>
+
+	<component name="illu232" lib="lib\RS232.dll">
+		<procedure name="OpenLED" event="OPENLED">
+			<action name="OpenLED">
+				<![CDATA[ Open LED ]]>
+			</action>
+		</procedure>
+
+		<procedure name="CloseLED" event="CLOSELED">
+			<action name="CloseLED">
+				<![CDATA[ Close LED ]]>
+			</action>
+		</procedure>
+
+		<procedure name="SendLEDSerialPortSignal" event="LEDCHANGED">
+			<action name="SendLEDSignal">
+				<input name="LEDSignal" type="String"/>
+				<![CDATA[ Send LED signal to port]]>
+			</action>
+		</procedure>
+
+		<procedure name="OpenLaser" event="OPENLASER">
+			<action name="OpenLaser">
+				<![CDATA[ Open laser ]]>
+			</action>
+		</procedure>
+
+		<procedure name="CloseLaser" event="CLOSELASER">
+			<action name="CloseLaser">
+				<![CDATA[ Close laser ]]>
+			</action>
+		</procedure>
+
+		<procedure name="OpenSerial" event="projectManager" var="FullPath">
 			<action name="OpenSerial">
-				<input name="FullPath" type="string" />
+				<input name="FullPath" type="string"/>
 			</action>
 		</procedure>
-		
-		
-		<procedure name="OpenCamera" event="OpenCamera" >
+
+		<procedure name="OpenSerial2" event="projectManager" key="FullPath">
+			<action name="OpenSerial2">
+				<input name="FullPath" type="#string"/>
+			</action>
+		</procedure>
+
+		<procedure name="OpenSerial3" event="projectManager" key="FullPath">
+			<action name="OpenSerial2">
+				<input name="FullPath" type="#string"/>
+			</action>
+		</procedure>
+	</component>
+
+	<component name="Camera" lib="lib\ISCamera.dll" >
+		<procedure name="OpenCamera">
 			<action name="OpenCamera" async="true">
 				<![CDATA[ Open camera ]]>
 			</action>
@@ -67,52 +131,13 @@
 			<action name="CaptureImage">
 				<input name="CamMode" type="int"/>
 				<![CDATA[ Capture and save images]]>
-				<output name="CAMIMG" type="handle" />
-			</action>
-		</procedure>
-	</component>
-
-	<component name="illu232" lib="lib\RS232.dll">
-		<procedure name="OpenLED" event="OPENLED">
-			<action name="OpenLED">
-				<![CDATA[ Open LED ]]>
-			</action>
-		</procedure>
-
-		<procedure name="CloseLED" event="CLOSELED">
-			<action name="CloseLED">
-				<![CDATA[ Close LED ]]>
-			</action>
-		</procedure>
-
-		<procedure name="SendLEDSerialPortSignal" event="LEDCHANGED">
-			<action name="SendLEDSignal">
-				<input name="LEDSignal" type="String"/>
-				<![CDATA[ Send LED signal to port]]>
-			</action>
-		</procedure>
-
-		<procedure name="OpenLaser" event="OPENLASER">
-			<action name="OpenLaser">
-				<![CDATA[ Open laser ]]>
-			</action>
-		</procedure>
-
-		<procedure name="CloseLaser" event="CLOSELASER">
-			<action name="CloseLaser">
-				<![CDATA[ Close laser ]]>
-			</action>
-		</procedure>
-
-		<procedure name="OpenSerial" event="projectManager" key="FullPath">
-			<action name="OpenSerial">
-				<input name="FullPath" type="string"/>
+				<output name="CAMIMG" type="handle" /><!--生命周期参数life=""-->
 			</action>
 		</procedure>
 
 	</component>
 
-	<component name="MotorControl" lib="lib\RS232.dll">
+	<component name="MotorControl" lib="lib\RS232.dll" init="OpenMotor">
 		<procedure name="OpenMotor">
 			<action name="OpenMotor">
 				<![CDATA[ Open Motor port]]>
@@ -193,12 +218,316 @@
 
 	</component>
 
+	<component name="AutoFocus" lib="lib\DPCAutoFocus.dll" depend="opencv,MotorControl,Camera">
+		<procedure name="JudgeOnce" export="SobelValue">
+			<action name="MoveTo" component="MotorControl"/>
+			<action name="CapImage" component="Camera"/>
+			<action name="Sobel">
+				<input name="CAMIMG" type="handle" />
+				<![CDATA[ Calculate Sobel value]]>
+				<output type="pair(int,double)" name="SobelValue"/>
+			</action>
+		</procedure>
 
+		<procedure name="AutoFocusThread" event="AUTOFOCUS" key="X,Y,CamMode">
+			<action name="JudgeOnce" times="10">
+				<![CDATA[ Traverse turn_1]]>
+				<output type="SobelValue[]" name="PositionWithSobel1"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel1" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel1"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl">
+				<input name="PositionWithMaxSobel1" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+			<action name="JudgeOnce" times="10">
+				<input name="X" type="int[]" value="[11,12,13,14,15,16,17,18,19,20]" />
+				<input name="Y" type="int[]" value="[20,19,18,17,16,15,14,13,12,11]" />
+				<input name="CamMode" type="int" value="1002" />
+				<![CDATA[ Traverse turn_2]]>
+				<output type="SobelValue[]" name="PositionWithSobel2"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel2" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel2"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl" >
+				<input name="PositionWithMaxSobel2" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+			<action name="JudgeOnce" times="10">
+				<input name="X" type="int[]" value="[21,22,23,24,25,26,27,28,29,30]" />
+				<input name="Y" type="int[]" value="[30,29,28,27,26,25,24,23,22,21]" />
+				<input name="CamMode" type="int" value="1003" />
+				<![CDATA[ Traverse turn_3]]>
+				<output type="SobelValue[]" name="PositionWithSobel3"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel3" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel3"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl" >
+				<input name="PositionWithMaxSobel3" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+			<action name="JudgeOnce" times="10">
+				<input name="X" type="int[]" value="[31,32,33,34,35,36,37,38,39,40]" />
+				<input name="Y" type="int[]" value="[40,39,38,37,36,35,34,33,32,31]" />
+				<input name="CamMode" type="int" value="1004" />
+				<![CDATA[ Traverse turn_4]]>
+				<output type="SobelValue[]" name="PositionWithSobel4"/>
+			</action>
+			<action name="Compare">
+				<input name="PositionWithSobel4" type="SobelValue[]"/>
+				<input name="size" type="size" value="-1"/>
+				<![CDATA[ Select the position with max sobel]]>
+				<output type="SobelValue" name="PositionWithMaxSobel4"/>
+			</action>
+			<action name="MoveTo2" component="MotorControl" >
+				<input name="PositionWithMaxSobel4" type="SobelValue"/>
+				<![CDATA[ "for 0:X,Y" means input value is for referred routine's first action's arugment X and Y ]]>
+			</action>
+		</procedure>
+
+	</component>
+
+	<component name="BrightDark" lib="lib\DPC.dll" depend="opencv,illu232,Camera">
+		<procedure name="Load_Bright_Property" event="BRIGHT_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="Load_Dark_Property" event="DARK_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="Bright" event="BRIGHTMODE_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+			<action name="LEDBright">
+				<![CDATA[ Illuminate ]]>
+			</action>
+			<action name="CapImage" component="Camera" raise="BRIGHT_READY">
+				<![CDATA[ Capture image and show]]>
+				<output  name="BrightImg" type="handle"/>
+			</action>
+		</procedure>
+
+		<procedure name="Dark" event="DARKMODE_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+			<action name="LEDDark">
+				<![CDATA[ Illuminate ]]>
+			</action>
+			<action name="CapImage" component="Camera" raise="DARK_READY">
+				<![CDATA[ Capture image and show]]>
+				<output type="handle" name="DARKIMG"/>
+			</action>
+		</procedure>
+	</component>
+
+	<component name="DPC" lib="lib\DPC.dll" depend="opencv,illu232,Camera">
+		<procedure name="Load_DPC_Property" event="DPC_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="ChangeMagnification">
+			<action name="ChangeMagnification">
+				<input name="mag" type="int"/>
+				<![CDATA[ Change Magnification]]>
+			</action>
+		</procedure>
+
+		<procedure name="ChangeDPCMode">
+			<action name="ChangeDPCMode">
+				<input name="dpc" type="int"/>
+				<![CDATA[ Change DPC Mode]]>
+			</action>
+		</procedure>
+
+		<procedure name="DPCThread" event="DPCTHREAD_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_1">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 00"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 01"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_2">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 06"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 07"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_3">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 12"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 13"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread" event="DPC_DIRECTION_4">
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 18"/>
+					<![CDATA[ Illuminate once: 1 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 1]]>
+					<output type="handle" name="DICIMG_1"/>
+				</action>
+				<action name="SendLEDSignal" component="illu232">
+					<input name="LEDSignal" value="03 14 07 00 19"/>
+					<![CDATA[ Illuminate once: 2 ]]>
+				</action>
+				<action name="CapImage" component="Camera">
+					<![CDATA[ Capture image once to 2]]>
+					<output type="handle" name="DICIMG_2"/>
+				</action>
+			</procedure>
+
+			<procedure name="DPCThread">
+				<action name="DICImgCalculate" raise="DPC_READY">
+					<input type="handle" name="DICIMG_1"/>
+					<input type="handle" name="DICIMG_2"/>
+					<![CDATA[ Differential Image Calculate]]>
+					<output name="DICIMG" type="handle"/>
+				</action>
+			</procedure>
+		</procedure>
+	</component>
+
+	<component name="PhaseContrast" lib="lib\DPC.dll" depend="opencv,illu232,MotorControl,Camera,DPCAlgorithm">
+		<procedure name="Load_PC_Property" event="DPC2PCTHREAD_LOADED">
+			<action name="LoadProperty" component="Camera" >
+				<![CDATA[ Load and set property]]>
+			</action>
+		</procedure>
+
+		<procedure name="DPC2PCThread" event="DPC2PCTHREAD_ACTIVATED">
+			<action name="OpenCamera" component="Camera">
+				<![CDATA[ Open camera ]]>
+			</action>
+			<action name="OpenLED" component="illu232">
+				<![CDATA[ Open the LED serial port ]]>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 00"/>
+				<![CDATA[ Illuminate once: Up ]]>
+			</action>
+			<action name="CapImage" component="Camera">
+				<![CDATA[ Capture image once to 1]]>
+				<output type="handle" name="DICIMG_U"/>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 01"/>
+				<![CDATA[ Illuminate once: Down ]]>
+			</action>
+			<action name="CapImage" component="Camera">
+				<![CDATA[ Capture image once ]]>
+				<output type="handle" name="DICIMG_D"/>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 0C"/>
+				<![CDATA[ Illuminate once: Left ]]>
+			</action>
+			<action name="CapImage"  component="Camera">
+				<![CDATA[ Capture image once ]]>
+				<output type="handle" name="DICIMG_L"/>
+			</action>
+			<action name="SendLEDSignal" component="illu232">
+				<input name="LEDSignal" value="03 14 07 00 0D"/>
+				<![CDATA[ Illuminate once: Right ]]>
+			</action>
+			<action name="CapImage"  component="Camera">
+				<![CDATA[ Capture image once ]]>
+				<output type="handle" name="DICIMG_R"/>
+			</action>
+			<action name="DICImgCalculate4">
+				<input type="handle" name="DICIMG_U"/>
+				<input type="handle" name="DICIMG_D"/>
+				<input type="handle" name="DICIMG_L"/>
+				<input type="handle" name="DICIMG_R"/>
+				<![CDATA[ Calculate Contrast ]]>
+				<output type="handle" name="DPCIMG_LR"/>
+				<output type="handle" name="DPCIMG_UD"/>
+			</action>
+			<action name="CalcPhaseContrast" raise="PHASECONTRAST_READY">
+				<input type="handle" name="DPCIMG_LR"/>
+				<input type="handle" name="DPCIMG_UD"/>
+				<![CDATA[ Calculate Contrast ]]>
+				<output type="handle" name="PhaseContrast"/>
+			</action>
+		</procedure>
+	</component>
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
 	<component name="BottomView" lib="ConfigBottomView.dll" mount="bottom:0"/>
-
 
 	<component name="Interop Test" lib="lib\InteropTest.dll" init="group1">
 		<procedure name="group1" async="true">
@@ -478,15 +807,87 @@
 			</action>
 			<action name ="Test101" />
 			<action name="Test102">
-				<input type="action" name="MotorControl"  value="MoveTo"/>
-				<input  type="action" name="Camera" value="CaptureImage"/>
+				<input name="MotorControl" type="action" value="MoveTo"/>
+				<input name="Camera" type="action" value="CaptureImage"/>
 			</action>
 
 		</procedure>
 	</component>
 
+	<component name="Event Test" lib="lib\InteropTest.dll" init="init,dispatch,proc5">
+		<procedure name="init">
+			<action name="Test120" raise="TEST_EVENT_A|TEST_EVENT_B" async="true"/>
+			<action name="Test124" raise="TEST_EVENT_1"/>
+			<action name="Test124" raise="{&quot;type&quot;:&quot;TEST_EVENT_2&quot;, &quot;x&quot;:1, &quot;y&quot;:2}"/>
+			<action name="Test125" raise="TEST_EVENT_3" key="x,y,z" async="true">
+				<input name="x" type="int" value="123"/>
+				<input name="y" type="string" value="abc"/>
+				<output name="z" type="string"/>
+			</action>
+		</procedure>
+		<procedure name="dispatch">
+			<action name="Test160"></action>
+		</procedure>
 
+		<procedure name="proc1" event="TEST_EVENT_1">
+			<action name="Test131"/>
+		</procedure>
+		<procedure name="proc2" event="TEST_EVENT_2|TEST_EVENT_A">
+			<action name="Test132">
+				<input name="event" type="json*"/>
+			</action>
+		</procedure>
+		<procedure name="proc3" event="TEST_EVENT_3">
+			<action name="Test133">
+				<input name="event" type="string"/>
+			</action>
+		</procedure>
 
+		<procedure name="proc4" event="TEST_EVENT_B">
+			<action name="Test134"/>
+			<action name="Test135"/>
+		</procedure>
 
+		<procedure name="proc5" event="TEST_COMMAND">
+			<action name="Test200" raise="IMAGE_MODE_RESET"/>
+		</procedure>
 
-</Project>
+		<procedure name="proc6" event="TEST_EVENT_DOUBLE" key="value">
+			<action name="Test136">
+				<input name="value" type="double"/>
+			</action>
+		</procedure>
+
+		<procedure name="CameraSettingReset" event="IMAGE_MODE_RESET">
+			<action name="CameraSettingReset" raise="NATIVE_UPDATE_DISPLAY_MODE">
+			</action>
+		</procedure>
+
+		<procedure name="UpdateDisplayMode" event="NATIVE_UPDATE_DISPLAY_MODE">
+			<action name="UpdateDisplayMode">
+			</action>
+		</procedure>
+	</component>
+
+	<component name="Scheduler Test" lib="lib\InteropTest.dll" init="schedule trigger job">
+		<procedure name="every minute job" timer="0 0/1 * * * ?">
+			<action name="Test150"/>
+		</procedure>
+
+		<procedure name="schedule trigger job">
+			<action name="Test151"></action>
+		</procedure>
+	</component>
+
+	<component name="UpdateState" lib="lib\DPC.dll" depend="opencv,illu232,Camera" init="start">
+		<procedure name="start">
+			<action name="UpdateStageInformation"/>
+		</procedure>
+	</component>
+
+	<component name="Event object is array" lib="lib\InteropTest.dll" init="start">
+		<procedure name="start">
+			<action name="Test210"/>
+		</procedure>
+	</component>
+</main>

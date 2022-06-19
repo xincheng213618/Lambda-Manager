@@ -299,18 +299,15 @@ internal class Common
 	private unsafe static int CallBack3(int index, nint pEventData, nint sender)
 	{
 		string json = null;
-
         if (pEventData != IntPtr.Zero)
 		{
-   //         int length = default(int);
-   //         sbyte* p2 = default(sbyte*);
-   //         p2 = (sbyte*)pEventData;
-			//while (*(p2++) != 0)
-   //             length++;
+            int length = default(int);
+            sbyte* p2 = default(sbyte*);
+            p2 = (sbyte*)pEventData;
+            while (*(p2++) != 0)
+                length++;
 
-   //         json = new string((sbyte*)pEventData, 0,length, Encoding.UTF8);
-            json = new string((sbyte*)pEventData);
-
+            json = new string((sbyte*)pEventData, 0, length, Encoding.UTF8);
         }
         int? result = UICallback(index, json, sender);
 		if (result.HasValue)

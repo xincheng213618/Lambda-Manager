@@ -196,7 +196,7 @@ internal class TypesInterop
             new TypeInfo
             {
                 Id = 41,
-               Size = 8
+                Size = 8
             }
         },
         {

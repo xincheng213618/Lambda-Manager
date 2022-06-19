@@ -351,9 +351,10 @@ partial class MainWindow : BaseWindow
 	private void RadioButton_Checked_4(object sender, RoutedEventArgs e)
 	{
 		LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-	}
+        bool num = new ConfigLibrary().Load("application.xml");
+    }
 
-	private void Button_Click(object sender, RoutedEventArgs e)
+    private void Button_Click(object sender, RoutedEventArgs e)
 	{
 		if (sender is ToggleButton btn)
 		{

@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "common.h"
+#include <chrono>
+#include <thread>
+#include <libcron/Cron.h>
 
 
 LogCallBack1 logCallBack1 = NULL;
@@ -13,50 +16,43 @@ Services StopService = NULL;
 ScheduleEvent scheduleEvent = NULL;
 CallHandlerRaise callHandlerRaise = NULL;
 
-int PlayFilm(std::string fileName) {
-	cv::Mat frame;
-	cv::VideoCapture cap = cv::VideoCapture(fileName);
+SetCppSize setCppSize =NULL;
 
-	if (!cap.isOpened()) {
-		Logger::Log1(Severity::INFO, "ERROR! Unable to open camera");
-		return -1;
-	}
-	LambdaView* pView = LambdaView::GetIdleOrNew();
-	int count = 0;
+extern libcron::Cron<libcron::LocalClock, libcron::NullLock> cron22;
 
-	for (;;)
-	{
-		// wait for a new frame from camera and store it into 'frame'
-		cap.read(frame);
-		// check if we succeeded
-		if (frame.empty()) {
-			Logger::Log1(Severity::INFO, "Video is end");
-			break;
-		}
-		pView->Show(frame);
-		if (pView->IsState(ViewState::CLOSED)) {
-			delete pView;
-			break;
-		}
-	}
-	// the camera will be deinitialized automatically in VideoCapture destructor
-	return 0;
+
+void GetCppSizeInfo(SetCppSize fn)
+{
+	setCppSize = fn;
 }
+
+
 
 void Initialize() {
 
+	//const char* buffer = "long:8,unsigned long:8,long double:8";
+	const char* buffer = "long:4,unsigned long:4,long int:4,long long:8,long double:8";
+
+	
+	setCppSize((char*)buffer);
+	std::thread t([=]() {
+		while (true)
+		{
+			cron22.tick();
+			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		}		
+		});
+	t.detach();
 
 }
 
 
 LIB_API int GetArraySize(void* pArray)
 {
-
 	return getArraySize(pArray);
 }
 
 LIB_API int SetHandlerRaise(void* pArray) {
-
 
 	callHandlerRaise(pArray);
 	return 1;
@@ -207,12 +203,6 @@ void SetMessageHandler2(LogCallBack2 fn)
 	logCallBack2 = fn;
 }
 
-SetCppSize setCppSize;
-
-void GetCppSizeInfo(SetCppSize fn)
-{
-	setCppSize = fn;
-}
 
 
 
