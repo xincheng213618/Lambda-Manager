@@ -50,6 +50,7 @@ internal class TypeInfo
 			CastType.CAST_DECIMAL => GetDecimalValue, 
 			_ => null, 
 		};
+
 		if (converter == null || castTypes.Count == 1)
 		{
 			return converter;
@@ -64,7 +65,7 @@ internal class TypeInfo
 		}
 		if (castTypes.Count == 3 && castTypes[2] == CastType.CAST_ADDRESS)
 		{
-			converter + = (Converter)Delegate.Combine(converter, new Converter(GetAddress));
+			converter = (Converter)Delegate.Combine(converter, new Converter(GetAddress));
 		}
 		return converter;
 	}

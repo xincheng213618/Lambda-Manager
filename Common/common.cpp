@@ -186,10 +186,6 @@ void Service::Stop(const char* serviceName)
 }
 
 
-void Trace(LPCTSTR sFormat, ...)
-{
-
-}
 
 
 //以下内容不在使用

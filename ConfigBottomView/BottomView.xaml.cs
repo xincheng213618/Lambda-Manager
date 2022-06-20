@@ -25,39 +25,24 @@ namespace ConfigBottomView
     {
         public BottomView()
         {
-            InitializeComponent();
+            //InitializeComponent(); 
+            this.LoadViewFromUri("/ConfigBottomView;component/bottomview.xaml");
+
         }
 
         /// 初始化和界面初始化的实际不对，和界面有关的初始化在Loading中加载，和控件相关的初始化加载在Initialized中
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
         }
-        BitmapSource Bitmap = null;
+        List<ImageSource> ImageSources = new List<ImageSource>();
 
-        private bool TestDataEvent2(object sender, EventArgs e)
+        public void SetHistogram(int[] Histogramedata)
         {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-                if (eventData != null)
-                {
-                    int size = (int)eventData["size"];
-
-                    IntPtr intPtr = (IntPtr)eventData["data"];
-                    int[] aaa = new int[256];
-                    Marshal.Copy(intPtr, aaa, 0, 256);
-                    HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(aaa.ToList()));
-
-                    //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
-                    //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                    //pinnedArray.Free();
-
-                }
-            });
-
-            return true;
+            HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
         }
+
+
+
 
         private bool BottomViewIsInitialized = false;
 
@@ -66,7 +51,6 @@ namespace ConfigBottomView
             if (!BottomViewIsInitialized)
             {
                 BottomViewIsInitialized = true;
-                HistogramImage1.Source = Bitmap;
 
                 //if (this.Parent is StackPanel stackPanel1)
                 //{

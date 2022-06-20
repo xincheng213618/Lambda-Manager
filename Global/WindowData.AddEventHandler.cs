@@ -25,6 +25,8 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
             //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
+            LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
+
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
@@ -33,7 +35,28 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);  
         }
-        
+
+        ConfigBottomView.BottomView[] LambdaBottomViews = new ConfigBottomView.BottomView[100];
+
+        private bool TestDataEvent2(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+                if (eventData != null)
+                {
+                    int size = (int)eventData["size"];
+
+                    IntPtr intPtr = (IntPtr)eventData["data"];
+                    int[] aaa = new int[256];
+                    Marshal.Copy(intPtr, aaa, 0, 256);
+                    LambdaBottomViews[size].SetHistogram(aaa);
+                }
+            });
+
+            return true;
+        }
+
         /// <summary>
         /// 更新位移台坐标
         /// </summary>
@@ -151,7 +174,7 @@ namespace Global
             }
 
             GridSort(gridsList);
-            AddImageConfident(view.Image);
+            AddImageConfident(view.Image,viewdex);
 
             return true;
         }

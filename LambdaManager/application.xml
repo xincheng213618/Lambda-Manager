@@ -811,7 +811,7 @@
 				<input name="lx" type="long int*"/>
 				<input name="ld" type="long double*"/>
 			</action>
-			<!--<action name ="Test101" />-->
+			<action name ="Test101" />
 			<action name="Test102">
 				<input name="MotorControl" type="action" value="MoveTo"/>
 				<input name="Camera" type="action" value="CaptureImage"/>

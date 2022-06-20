@@ -90,9 +90,7 @@ void CallFunction(char* type, int argType, void* eventObject, void* sender)
 				if (eventObject != NULL) {
 					((Callback3)(it11->second))((char*)eventObject);
 					return;
-
 				}
-				
 			}
 			else if (it12->second == POINTER || it12->second == POINTER2 || it12->second == POINTER4) {
 				((Callback5)(it11->second))(eventObject);
@@ -157,6 +155,21 @@ void Event::Trigger(std::string type, const char* event)
 {
 	auto it = RoutineEvent_map.find(type);
 	if (it != RoutineEvent_map.end()) {
+
+		auto it11 = ArgumentType_map.find(type);
+		if (it11 != ArgumentType_map.end()) {
+			if (it11->second == NO_ARGS) {
+				((Callback1)(it11->second))();
+				return;
+			}
+			else if (it11->second == JSON_STRING|| it11->second == JSON_OBJECT|| it11->second == STL_MAP) {
+				if (event != NULL) {
+					callBack3(it->second, (char*)event, NULL);
+					return;
+				}
+			}
+		}
+
 		callBack2(it->second, (void*)event, NULL);
 	}
 	auto it2 = Callback3_map.find(type);

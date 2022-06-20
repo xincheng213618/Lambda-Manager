@@ -84,3 +84,23 @@ void Logger::Log2(Severity severity, LPCTSTR pstrFormat, ...)
 }
 
 
+void Trace(LPCTSTR pstrFormat, ...)
+{
+	_lock.lock();
+	LPTSTR szSprintf = NULL;
+	va_list argList;
+	int nLen;
+	va_start(argList, pstrFormat);
+	nLen = _vsntprintf(NULL, 0, pstrFormat, argList);
+	szSprintf = (TCHAR*)malloc((nLen + 1) * sizeof(TCHAR));
+	ZeroMemory(szSprintf, (nLen + 1) * sizeof(TCHAR));
+	int iRet = _vsntprintf(szSprintf, nLen + 1, pstrFormat, argList);
+	va_end(argList);
+	Assign(szSprintf, -1);
+	_lock.unlock();
+
+	logCallBack2(0, szSprintf);
+	free(szSprintf);
+}
+
+

@@ -70,7 +70,6 @@ bool LambdaView::IsState(ViewState state)
 
 int LambdaView::GetIndex()
 {
-	LambdaView instance = new LambdaView(true);
 	return index;
 }
 

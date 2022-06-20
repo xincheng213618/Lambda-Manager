@@ -278,9 +278,9 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int CallBack2(int index, nint pEventData, nint sender)
+	private unsafe static int CallBack2(int index, nint pEventData, nint sender)
 	{
-		ExecInfo info = callbacks[index];
+        ExecInfo info = callbacks[index];
 		info = Clone(info);
 		if (pEventData != IntPtr.Zero)
 		{

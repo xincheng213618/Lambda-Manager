@@ -1,4 +1,5 @@
-﻿using Global.Mode;
+﻿using ConfigBottomView;
+using Global.Mode;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -46,32 +47,10 @@ namespace Global
 
 
         List<ImageParameter> imageParameters = new List<ImageParameter>();
-        public async void AddImageConfident(Image image)
+        public  void AddImageConfident(Image image,int viewindex)
         {
             if (image.Parent is Grid grid)
             {
-                //grid.Children.Clear();
-                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
-                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
-
-                //Grid grid1 = new Grid() { Background = Brushes.Transparent };
-                //grid1.SetValue(Grid.ColumnProperty, 0);
-                //ContextMenu contextMenu = new ContextMenu();
-                //MenuItem menuItem = new MenuItem() { Header = "11111" };
-                //contextMenu.Items.Add(menuItem);
-                //grid1.ContextMenu = contextMenu;
-
-                //Grid grid2 = new Grid() { Background = Brushes.Transparent };
-                //grid2.SetValue(Grid.ColumnProperty, 1);
-                //ContextMenu contextMenu1 = new ContextMenu();
-                //MenuItem menuItem1 = new MenuItem() { Header = "22222222" };
-                //contextMenu1.Items.Add(menuItem1);
-                //grid2.ContextMenu = contextMenu1;
-                //image.SetValue(Grid.ColumnProperty, 0);
-                //image.SetValue(Grid.ColumnSpanProperty, 2);
-                ////grid.Children.Add(image1);
-                //grid.Children.Add(grid1);
-                //grid.Children.Add(grid2);
 
                 grid.RowDefinitions.Clear();
                 grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
@@ -83,11 +62,14 @@ namespace Global
 
                 StackPanel stackPanel = new StackPanel() ;
                 Grid.SetColumn(stackPanel, 0);
-                Grid.SetRow(stackPanel,2);  
+                Grid.SetRow(stackPanel,2);
 
-                Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
-                Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
-                stackPanel.Children.Add(control);
+                //Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
+                //Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
+                BottomView bottomView = new BottomView();
+                stackPanel.Children.Add(bottomView);
+
+                LambdaBottomViews[viewindex] = bottomView;
 
                 GridSplitter gridSplitter = new GridSplitter();
                 gridSplitter.Height = 1;
@@ -103,7 +85,6 @@ namespace Global
                 Canvas canvas1 = new Canvas()
                 {
                     Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
-                    //Background = Brushes.Black,
                     ClipToBounds = true
                 };
 
