@@ -1,64 +1,61 @@
 #include "pch.h"
 #include "common.h"
+#include <chrono>
+#include <thread>
+//#include <libcron/Cron.h>
 
 
 LogCallBack1 logCallBack1 = NULL;
-LogCallBack2 logCallBack2 = NULL;;
-GetArraySize getArraySize = NULL;;
-InitialFrame initialFrame = NULL;;
-UpdateFrame updateFrame = NULL;;
-CloseImageView closeImageView = NULL;;
-Services startService = NULL;;
-Services StopService = NULL;;
-ScheduleEvent scheduleEvent = NULL;;
-CallHandlerRaise callHandlerRaise = NULL;;
+LogCallBack2 logCallBack2 = NULL;
+GetArraySize1 getArraySize = NULL;
+InitialFrame initialFrame = NULL;
+UpdateFrame updateFrame = NULL;
+CloseImageView closeImageView = NULL;
+Services startService = NULL;
+Services StopService = NULL;
+ScheduleEvent scheduleEvent = NULL;
+CallHandlerRaise callHandlerRaise = NULL;
 
-int PlayFilm(std::string fileName) {
-	cv::Mat frame;
-	cv::VideoCapture cap = cv::VideoCapture(fileName);
+SetCppSize setCppSize =NULL;
 
-	if (!cap.isOpened()) {
-		Logger::Log1(Severity::INFO, "ERROR! Unable to open camera");
-		return -1;
-	}
-	LambdaView* pView = LambdaView::GetIdleOrNew();
-	int count = 0;
+//extern libcron::Cron<libcron::LocalClock, libcron::NullLock> cron22;
 
-	for (;;)
-	{
-		// wait for a new frame from camera and store it into 'frame'
-		cap.read(frame);
-		// check if we succeeded
-		if (frame.empty()) {
-			Logger::Log1(Severity::INFO, "Video is end");
-			break;
-		}
-		pView->Show(frame);
-		if (pView->IsState(ViewState::CLOSED)) {
-			delete pView;
-			break;
-		}
-	}
-	// the camera will be deinitialized automatically in VideoCapture destructor
-	return 0;
+
+void GetCppSizeInfo(SetCppSize fn)
+{
+	setCppSize = fn;
 }
 
+
+
 void Initialize() {
-	double exposure = 2222322.11111;
-	int sss = 222222;
-	Logger::Log1(Severity::INFO, "Invoke 'OpenLaser(%f)%d'", exposure, sss);
-	//问题1 log2 的写法问题；
-	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)%d'", exposure,sss);
-	Event::Trigger("TEST_EVENT_4", NULL, NULL, NULL, NULL);
 
-	//Service::Start("1111");
-	//cv::Mat img1;
-	//img1 = cv::imread("D:\\0044.jpg");
-	//LambdaView* pView = LambdaView::GetIdleOrNew();
-	//pView->Show(img1);
+	//const char* buffer = "long:8,unsigned long:8,long double:8";
+	const char* buffer = "long:4,unsigned long:4,long int:4,long long:8,long double:8";
 
-	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	
+	setCppSize((char*)buffer);
+	//std::thread t([=]() {
+	//	while (true)
+	//	{
+	//		cron22.tick();
+	//		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	//	}		
+	//	});
+	//t.detach();
 
+}
+
+
+LIB_API int GetArraySize(void* pArray)
+{
+	return getArraySize(pArray);
+}
+
+LIB_API int SetHandlerRaise(void* pArray) {
+
+	callHandlerRaise(pArray);
+	return 1;
 }
 
 void SetHandler(void* pRoutineHandler, int handlerType) {
@@ -73,7 +70,7 @@ void SetHandler(void* pRoutineHandler, int handlerType) {
 	}
 	else if (handlerType == 2)
 	{
-		getArraySize = (GetArraySize)pRoutineHandler;
+		getArraySize = (GetArraySize1)pRoutineHandler;
 	}
 	else if (handlerType == 3)
 	{
@@ -118,12 +115,12 @@ CallBack8 callBack8 = NULL;
 
 void SetRoutineHandler(void* pRoutineHandler, int argType) 
 {
-	//void 是0
+	//void 杞彂
 	if (argType == 0)
 	{
 		callBack1 = (CallBack1)pRoutineHandler;
 	}
-	//1是主要用的
+	//Json 杞彂
 	else if (argType == 1) 
 	{
 		callBack3 = (CallBack3)pRoutineHandler;
@@ -189,13 +186,9 @@ void Service::Stop(const char* serviceName)
 }
 
 
-void Trace(LPCTSTR sFormat, ...)
-{
-
-}
 
 
-//以下内容不在使用
+//浠ヤ笅鍐呭涓嶅湪浣跨敤
 void SetMessageHandler1(LogCallBack1 fn)
 {
 	logCallBack1 = fn;
@@ -206,12 +199,6 @@ void SetMessageHandler2(LogCallBack2 fn)
 	logCallBack2 = fn;
 }
 
-SetCppSize setCppSize;
-
-void GetCppSizeInfo(SetCppSize fn)
-{
-	setCppSize = fn;
-}
 
 
 

@@ -91,5 +91,68 @@ namespace ConfigBottomView
         }
 
 
+        /// <summary>
+        /// 获取直方图的最大值并生成直方图的图像
+        /// </summary>
+        /// <param name="sourceImageItem">原图像</param>
+        /// <returns>直方图图像，最大直方图值</returns>
+        /// 
+        public static Bitmap GenerateHistogramImage(List<int> histogram)
+        {
+            Bitmap histogramImageItem = new Bitmap(300, 300);
+            int brightness;
+
+            int histogramMax = histogram.Max();
+            int histogramMin = histogram.Min();
+
+            // 在 histogramImage 中显示直方图
+
+
+            Pen curPen = new Pen(Brushes.Black, 1);
+            //获取Graphics对象
+            Graphics g = Graphics.FromImage(histogramImageItem);
+            //绘制坐标轴
+            g.DrawLine(curPen, 50, 240, 320, 240);//在点(50,240)与(320,240)间画条线，x轴
+            g.DrawLine(curPen, 50, 240, 50, 30);//y轴
+
+            //绘制并标识坐标刻度
+            g.DrawLine(curPen, 100, 240, 100, 242);//同上，画长度为2的线
+            g.DrawLine(curPen, 150, 240, 150, 242);
+            g.DrawLine(curPen, 200, 240, 200, 242);
+            g.DrawLine(curPen, 250, 240, 250, 242);
+            g.DrawLine(curPen, 300, 240, 300, 242);
+
+            //在x轴上为刻度标出刻度值
+            g.DrawString("0", new Font("New Timer", 8), Brushes.Black, new PointF(46, 242));
+            g.DrawString("50", new Font("New Timer", 8), Brushes.Black, new PointF(92, 242));
+            g.DrawString("100", new Font("New Timer", 8), Brushes.Black, new PointF(139, 242));
+            g.DrawString("150", new Font("New Timer", 8), Brushes.Black, new PointF(189, 242));
+            g.DrawString("200", new Font("New Timer", 8), Brushes.Black, new PointF(239, 242));
+            g.DrawString("250", new Font("New Timer", 8), Brushes.Black, new PointF(289, 242));
+
+            //在y轴上为标刻度及刻度值
+            g.DrawLine(curPen, 48, 40, 50, 40);
+            g.DrawString("0", new Font("New Timer", 8), Brushes.Black, new PointF(34, 234));
+            g.DrawString(histogramMax.ToString(), new Font("New Timer", 8), Brushes.Black, new PointF(18, 34));
+
+            //绘制直方图
+            double temp = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                //纵坐标长度
+                temp = 200.0 * histogram[i] / histogramMax;
+                g.DrawLine(curPen, 50 + i, 240, 50 + i, 240 - (int)temp);
+            }
+            //释放对象
+            curPen.Dispose();
+
+            // 计算并显示平滑直方图的最大值及其索引
+            //int histogramMaxIndex = histogramMaxValue.Max(item => item.Value);
+            //string peakHistogram = histogramMaxValue.HistogramMax(histogramMaxIndex);
+            //histogramImageItem.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            return histogramImageItem;
+        }
+
+
     }
 }

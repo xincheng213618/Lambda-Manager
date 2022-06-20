@@ -70,10 +70,11 @@ internal static class FunctionExecutor
                     }
                     result = InvokeFunction(info);
                 }
-                if (result != 0 && result < 0)
-                {
-                    return result;
-                }
+				//返回-1 直接退出循环
+                //if (result != 0 && result < 0)
+                //{
+                //    return result;
+                //}
             }
         }
         if (info.Caller != null && functions.Count == 1)
@@ -330,7 +331,9 @@ internal static class FunctionExecutor
 			ulong y = (ulong)value;
 			return Unsafe.As<ulong, long>(ref y);
 		}
-		case 86:
+			case 70:
+				return Marshal.StringToHGlobalAnsi((string)value);
+            case 86:
 		case 87:
 			return Marshal.UnsafeAddrOfPinnedArrayElement((Array)value, 0);
 		default:

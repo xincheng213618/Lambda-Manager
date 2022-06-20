@@ -1657,13 +1657,19 @@ internal class ConfigLibrary
 
 	private void InitializeLibrary()
 	{
-		foreach (Routine routine in solution.Routines[solution.InitEvent])
-		{
-			FunctionExecutor.Evaluate(new ExecInfo
-			{
-				Routine = routine
-			});
-		}
+		if (solution.Routines.ContainsKey(solution.InitEvent))
+        {
+            foreach (Routine routine in solution.Routines[solution.InitEvent])
+            {
+                FunctionExecutor.Evaluate(new ExecInfo
+                {
+                    Routine = routine
+                });
+            }
+        }
+
+
+
 	}
 
 	private static async void InitializeScheduler()
@@ -1678,11 +1684,14 @@ internal class ConfigLibrary
 			{
 				return;
 			}
-			JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
-			IJobDetail job = jobBuilder.WithIdentity($"Job{i}", "group1").Build();
-			TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-			ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().Build();
-			await scheduler.ScheduleJob(job, trigger);
+            JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
+            IJobDetail job = jobBuilder.WithIdentity($"Job{i}", "group1").Build();
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer)
+                .Build();
+
+
+            await scheduler.ScheduleJob(job, trigger);
 			i++;
 		}
 	}

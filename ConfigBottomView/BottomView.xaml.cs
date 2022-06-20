@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Lambda;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,14 +25,24 @@ namespace ConfigBottomView
     {
         public BottomView()
         {
-            InitializeComponent();
+            //InitializeComponent(); 
+            this.LoadViewFromUri("/ConfigBottomView;component/bottomview.xaml");
+
         }
 
         /// 初始化和界面初始化的实际不对，和界面有关的初始化在Loading中加载，和控件相关的初始化加载在Initialized中
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-
         }
+        List<ImageSource> ImageSources = new List<ImageSource>();
+
+        public void SetHistogram(int[] Histogramedata)
+        {
+            HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
+        }
+
+
+
 
         private bool BottomViewIsInitialized = false;
 
@@ -39,7 +51,6 @@ namespace ConfigBottomView
             if (!BottomViewIsInitialized)
             {
                 BottomViewIsInitialized = true;
-
 
                 //if (this.Parent is StackPanel stackPanel1)
                 //{
@@ -66,10 +77,6 @@ namespace ConfigBottomView
                     this.Width = mainView.ActualWidth;
                 };
             }
-            //Bitmap sourceImageItem = new Bitmap("078_001_v8n_h.jpg");
-            //string MaxValue;
-            //(sourceImageItem, MaxValue) = ConvertImageToHistogram.GenerateHistogramImage(sourceImageItem);
-            //HistogramImage1.Source = Extensions.GetBitmapSource(sourceImageItem);
 
         }
     }

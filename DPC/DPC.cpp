@@ -56,7 +56,7 @@ int UpdateStageInformation()
 	j["z"] = "Z:" + std::to_string(nZ);
 	j["size"] = "1280 * 960";
 	j["focus"] = "6062";
-	j["createTime"] = "ÖÐÎÄ";
+	j["createTime"] = "ä¸­æ–‡";
 
 	Event::Trigger("UPDATE_STATUS", &j);
 

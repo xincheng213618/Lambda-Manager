@@ -208,7 +208,7 @@
                             </StackPanel.ContextMenu>
                         </StackPanel>
                     </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type Solution:DerivativeSeriesFile}" >
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:DerivativeSeriesFile}"  ItemsSource="{Binding Children}" >
                         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -243,10 +243,8 @@
                                 </ContextMenu>
                             </StackPanel.ContextMenu>
                         </StackPanel>
-                    </DataTemplate>
-
-
-                    <DataTemplate DataType="{x:Type Solution:DerivativeFile}" >
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:DerivativeFile}"  ItemsSource="{Binding Children}" >
                         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -281,12 +279,12 @@
                                 </ContextMenu>
                             </StackPanel.ContextMenu>
                         </StackPanel>
-                    </DataTemplate>
+                    </HierarchicalDataTemplate>
                 </TreeView.Resources>
             </TreeView>
         </StackPanel>
 
-        <Grid x:Name="testt22" SizeChanged="testt22_SizeChanged" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
+        <Grid x:Name="testt22" Visibility="Collapsed" SizeChanged="testt22_SizeChanged" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
             
         </Grid>
 

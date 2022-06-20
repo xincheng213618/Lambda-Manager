@@ -1,8 +1,10 @@
-﻿using Global.Mode;
+﻿using ConfigBottomView;
+using Global.Mode;
 using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,49 +40,60 @@ namespace Global
 
             return 1;
         }
+        static GridLengthConverter gridLengthConverter = new GridLengthConverter();
+
+
+
+
 
         List<ImageParameter> imageParameters = new List<ImageParameter>();
-        public async void AddImageConfident(Image image)
+        public  void AddImageConfident(Image image,int viewindex)
         {
-            //await Task.Delay(1000);
             if (image.Parent is Grid grid)
             {
-                //grid.Children.Clear();
-                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
-                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") });
 
-                //Grid grid1 = new Grid() { Background = Brushes.Transparent };
-                //grid1.SetValue(Grid.ColumnProperty, 0);
-                //ContextMenu contextMenu = new ContextMenu();
-                //MenuItem menuItem = new MenuItem() { Header = "11111" };
-                //contextMenu.Items.Add(menuItem);
-                //grid1.ContextMenu = contextMenu;
+                grid.RowDefinitions.Clear();
+                grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
+                for (int i = 0; i < 2; i++)
+                {
+                    RowDefinition rowDefinition = new RowDefinition() { Height = GridLength.Auto };
+                    grid.RowDefinitions.Add(rowDefinition);
+                }
 
-                //Grid grid2 = new Grid() { Background = Brushes.Transparent };
-                //grid2.SetValue(Grid.ColumnProperty, 1);
-                //ContextMenu contextMenu1 = new ContextMenu();
-                //MenuItem menuItem1 = new MenuItem() { Header = "22222222" };
-                //contextMenu1.Items.Add(menuItem1);
-                //grid2.ContextMenu = contextMenu1;
-                //image.SetValue(Grid.ColumnProperty, 0);
-                //image.SetValue(Grid.ColumnSpanProperty, 2);
-                ////grid.Children.Add(image1);
-                //grid.Children.Add(grid1);
-                //grid.Children.Add(grid2);
+                StackPanel stackPanel = new StackPanel() ;
+                Grid.SetColumn(stackPanel, 0);
+                Grid.SetRow(stackPanel,2);
 
-                //grid.Background = Brushes.Red;
+                //Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
+                //Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
+                BottomView bottomView = new BottomView();
+                stackPanel.Children.Add(bottomView);
+
+                LambdaBottomViews[viewindex] = bottomView;
+
+                GridSplitter gridSplitter = new GridSplitter();
+                gridSplitter.Height = 1;
+                gridSplitter.Background = Brushes.BlanchedAlmond;
+                gridSplitter.VerticalAlignment = VerticalAlignment.Stretch;
+
+                Grid.SetColumn(gridSplitter, 0);
+                Grid.SetRow(gridSplitter, 1);
+
+                grid.Children.Clear();
+
+
                 Canvas canvas1 = new Canvas()
                 {
-                    //Width = image.ActualWidth,
-                    //Height = image.ActualWidth,
                     Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
-                    //Background = Brushes.Black,
                     ClipToBounds = true
                 };
 
                 grid.Children.Remove(image);
-                grid.Children.Add(canvas1);
+                Grid.SetRow(canvas1, 0);
                 canvas1.Children.Add(image);
+                grid.Children.Add(canvas1);
+                grid.Children.Add(gridSplitter);
+                grid.Children.Add(stackPanel);
 
             }
             if (image.Parent is Canvas canvas)
@@ -101,9 +114,6 @@ namespace Global
                 transformGroup.Children.Add(sfr);
                 transformGroup.Children.Add(tlt);
                 image.RenderTransform = transformGroup;
-
- 
-
 
                 image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
                 {
@@ -174,6 +184,9 @@ namespace Global
                 };
 
             }
+
+
+
         }
 
     }

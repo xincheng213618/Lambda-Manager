@@ -13,7 +13,7 @@ int Sobel(char** image, void** out)
     double x = 1000;
     pair<int, double>* p = new pair<int, double>(t.wSecond, t.wMilliseconds / x);
     char buff[100];
-    sprintf_s(buff, 100, "Invoke 'Solbel(image: \"%s\", <out> pair: {%d, %.3f})'", *image, p->first, p->second);
+    sprintf_s(buff, 100, "Invoke 'Solbel(image: , <out> pair: {%d, %.3f})'", p->first, p->second);
     Logger::Log1(Severity::INFO, buff);
     *out = p;
     return 0;

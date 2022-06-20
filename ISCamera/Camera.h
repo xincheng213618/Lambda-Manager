@@ -22,12 +22,15 @@ extern "C" CAMERA_API int LoadProperty(std::string xmlProperties);
 
 extern "C" CAMERA_API int SaveSettings();
 
-extern "C" CAMERA_API int CameraSettingExposure(double exposure);
+extern "C" CAMERA_API int CameraSettingExposure(int mode,double exposure);
 
 extern "C" CAMERA_API int CameraSettingExposureIni(char** result_data, int len);
 
 
 extern "C" CAMERA_API int SleepTest();
+
+extern "C" CAMERA_API int VideoTest();
+
 
 struct Cam
 {
@@ -37,6 +40,7 @@ struct Cam
 	char name[16];
 	double a;
 };
+
 extern "C" CAMERA_API int CameraSettingCam(Cam &cam);
 
 extern "C" CAMERA_API int OpenSerial(char* FullPath);

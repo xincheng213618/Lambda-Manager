@@ -16,6 +16,35 @@ LambdaView* pView = NULL;
 ConcurrentQueue<shared_future<cv::Mat*>> pipeline;
 ThreadPool pool;
 
+void HistCalc(cv::Mat& MatPha,int i)
+{
+	int* gray = new int[256];
+	for (size_t i = 0; i < 256; i++)
+	{
+		gray[i] = 0;
+	}
+
+	for (int i = 0; i < MatPha.rows; i++)
+	{
+		cv::Vec3b* ptr_hist1 = MatPha.ptr<cv::Vec3b>(i);
+
+		for (int j = 0; j < MatPha.cols; j++)
+		{
+			int z = round(0.299f * ptr_hist1[j][0] + 0.587f * (float)ptr_hist1[j][1] + 0.114f * ptr_hist1[j][2]);
+			gray[z]++;
+		}
+	}
+	int size = MatPha.rows * MatPha.cols;
+	//int * graydense = new int[256];
+	for (int i = 0; i < 256; i++)
+	{
+		double graydense = (gray[i] * 1.0) / size;
+		gray[i] = (int)(graydense * 255);
+	}
+
+	Event::Trigger("TestDataEvent2", gray, sizeof(char)*i);
+}
+
 int OpenCamera()
 {
 	pView = LambdaView::GetIdleOrNew();
@@ -119,6 +148,9 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
+		//HistCalc(frame, pView->GetIndex());
+		Sleep(0);
+
 		if (pView->IsState(ViewState::CLOSED)) {
 			delete pView;
 			break;
@@ -323,6 +355,10 @@ int CameraSettingExposure(int mode,double exposure)
 		});
 	t.detach();
 	//
+
+
+
+	HistCalc(img2,0);
 
 
 	//json j1;

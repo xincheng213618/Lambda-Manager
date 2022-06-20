@@ -27,7 +27,14 @@ using ThemeManager.Controls;
 namespace LambdaManager;
 
 partial class MainWindow : BaseWindow 
-{ 
+{
+	public int Version = 0;
+
+	public int GetVersion()
+    {
+		return 0;
+    }
+
 	private readonly StreamWriter logger = InitLogger();
 	private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
@@ -87,7 +94,7 @@ partial class MainWindow : BaseWindow
             else if (Settings.Default.ExitIfLoadFatalError)
             {
                 MessageBox.Show(LambdaManager.Properties.Resources.StartFatalError + GetLogDir() + "\\lambda.log", Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
-                Application.Current.Shutdown();
+                //Application.Current.Shutdown();
             }
             InitViewer();
         }
@@ -249,7 +256,7 @@ partial class MainWindow : BaseWindow
 
 	private void InitViewer()
 	{
-		//Views[0] = new View(view0, 0);
+		Views[0] = new View(view0, 0);
 	}
 
 	private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -290,8 +297,12 @@ partial class MainWindow : BaseWindow
 			Side.MIDDLE => materialView, 
 			Side.BOTTOM => bottomView, 
 			Side.ACQUIRE => acquireView, 
-			Side.PROJECT => projectView, 
-			_ => throw new Exception("top view not supported"), 
+			Side.PROJECT => projectView,
+            Side.REPORT => reportView,
+            Side.ANALYSIS => analysisView,
+            Side.POCESS => proessView,
+
+            _ => throw new Exception("top view not supported"), 
 		};
 	}
 
@@ -340,9 +351,10 @@ partial class MainWindow : BaseWindow
 	private void RadioButton_Checked_4(object sender, RoutedEventArgs e)
 	{
 		LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-	}
+        bool num = new ConfigLibrary().Load("application.xml");
+    }
 
-	private void Button_Click(object sender, RoutedEventArgs e)
+    private void Button_Click(object sender, RoutedEventArgs e)
 	{
 		if (sender is ToggleButton btn)
 		{

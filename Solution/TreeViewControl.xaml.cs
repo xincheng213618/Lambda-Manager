@@ -90,7 +90,7 @@ namespace Solution
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
+                        LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
@@ -168,7 +168,7 @@ namespace Solution
         }
 
 
-        public ProjectFolder GetFile(ProjectFolder projectFolder, string FullPath)
+        public BaseObject GetFile(BaseObject projectFolder, string FullPath)
         {
             var root = new DirectoryInfo(FullPath);
             foreach (var item in root.GetDirectories())
@@ -230,7 +230,22 @@ namespace Solution
                 else
                 {
                     SeriesProjectManager seriesProjectManager = new SeriesProjectManager(dic.FullName);
-                    solutionExplorer.AddChild(seriesProjectManager);
+                    solutionExplorer.AddChild(ADDDerivativeSeriesFile(seriesProjectManager, dic.FullName));
+
+                    //foreach (var item in dic.GetDirectories())
+                    //{
+                    //    if (item.Name == "derives")
+                    //    {
+                    //        var root1 = new DirectoryInfo(item.FullName);
+                    //        foreach (var item1 in root1.GetDirectories())
+                    //        {
+                    //            DerivativeSeriesFile derivativeSeriesFile = new DerivativeSeriesFile(item1.FullName);
+                    //            seriesProjectManager.AddChild(derivativeSeriesFile);
+                    //        }
+                    //    }
+                    //}
+
+                    //solutionExplorer.AddChild(seriesProjectManager);l
                 }
 
             }
@@ -238,6 +253,31 @@ namespace Solution
             SolutionExplorers.Add(solutionExplorer);
             SolutionTreeView.ItemsSource = SolutionExplorers;
         }
+
+        private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject,string FullName)
+        {
+            var root = new DirectoryInfo(FullName);
+            bool IsNotExit = true;
+            foreach (var directoryInfo in root.GetDirectories())
+            {
+                if (directoryInfo.Name == "derives")
+                {
+                    var directoryInfo1 = new DirectoryInfo(directoryInfo.FullName);
+                    foreach (var item1 in directoryInfo1.GetDirectories())
+                    {
+                        IsNotExit = false;
+                        DerivativeSeriesFile derivativeSeriesFile = new DerivativeSeriesFile(item1.FullName);
+                        baseObject.AddChild(ADDDerivativeSeriesFile(derivativeSeriesFile, item1.FullName));
+                    }
+                }
+            }
+            if (IsNotExit)
+                Directory.CreateDirectory($"{FullName}\\derives");
+            return baseObject;
+        }
+
+
+
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {

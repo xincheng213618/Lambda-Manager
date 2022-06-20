@@ -46,11 +46,11 @@ char* StringUtils::Wide2MultiByte(const wchar_t* p)
 {
 	DWORD dBufSize = WideCharToMultiByte(CP_OEMCP, 0, p, -1, NULL, 0, NULL, FALSE);
 
-	//分配目标缓存
+	//鍒嗛厤鐩爣缂撳瓨
 	char* dBuf = new char[dBufSize];
 	memset(dBuf, 0, dBufSize);
 
-	//转换
+	//杞崲
 	int nRet = WideCharToMultiByte(CP_OEMCP, 0, p, -1, dBuf, dBufSize, NULL, FALSE);
 
 	return dBuf;

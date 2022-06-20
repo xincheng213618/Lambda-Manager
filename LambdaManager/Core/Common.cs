@@ -94,19 +94,23 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage1(int severity, sbyte* message)
 	{
-        int length = default(int);
-        sbyte* p2 = default(sbyte*);
-        p2 = (sbyte*)message;
-        while (*(p2++) != 0)
-            length++;
+        //int length = default(int);
+        //sbyte* p2 = default(sbyte*);
+        //p2 = (sbyte*)message;
+        //while (*(p2++) != 0)
+        //    length++;
+        //LambdaControl.Log(new Message
+        //{
+        //    Severity = (Severity)severity,
+        //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
+        //});
         LambdaControl.Log(new Message
         {
             Severity = (Severity)severity,
-            Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
+            Text = new string(message)
         });
 
-        //App.Report2();
-	}
+    }
 
 
 
@@ -117,21 +121,11 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage2(int severity, char* message)
 	{
-        //int length = default(int);
-        //sbyte* p2 = default(sbyte*);
-        //p2 = (sbyte*)message;
-        //while (*(p2++) != 0)
-        //    length++;
-        //LambdaControl.Log2(new Message
-        //{
-        //    Severity = (Severity)severity,
-        //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
-        //});
         LambdaControl.Log2(new Message
         {
             Severity = (Severity)severity,
             Text = new string(message)
-        }); ;
+        });
     }
 
 	[DllImport("lib\\common.dll", EntryPoint = "CallFunction")]
@@ -213,18 +207,13 @@ internal class Common
 				info.EventObject = new string(json);
 			}
 			int index = FunctionJob.AddSchedule(info);
-			JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
-			DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
-			defaultInterpolatedStringHandler.AppendLiteral("Job");
-			defaultInterpolatedStringHandler.AppendFormatted(index);
-			IJobDetail job = jobBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group2").Build();
-			TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-			defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(7, 1);
-			defaultInterpolatedStringHandler.AppendLiteral("Trigger");
-			defaultInterpolatedStringHandler.AppendFormatted(index);
-			ITrigger trigger = triggerBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group2").StartNow().WithCronSchedule(info.Timer)
-				.Build();
-			Scheduler!.ScheduleJob(job, trigger);
+
+            JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
+            IJobDetail job = jobBuilder.WithIdentity($"Job{index}", "group2").Build();
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{index}", "group2").StartNow().WithCronSchedule(info.Timer)
+                .Build();
+            Scheduler!.ScheduleJob(job, trigger);
 		}
 	}
 
@@ -289,9 +278,9 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int CallBack2(int index, nint pEventData, nint sender)
+	private unsafe static int CallBack2(int index, nint pEventData, nint sender)
 	{
-		ExecInfo info = callbacks[index];
+        ExecInfo info = callbacks[index];
 		info = Clone(info);
 		if (pEventData != IntPtr.Zero)
 		{
@@ -305,18 +294,17 @@ internal class Common
 	private unsafe static int CallBack3(int index, nint pEventData, nint sender)
 	{
 		string json = null;
-
         if (pEventData != IntPtr.Zero)
 		{
             int length = default(int);
             sbyte* p2 = default(sbyte*);
             p2 = (sbyte*)pEventData;
-			while (*(p2++) != 0)
+            while (*(p2++) != 0)
                 length++;
 
-            json = new string((sbyte*)pEventData, 0,length, Encoding.UTF8);
-		}
-		int? result = UICallback(index, json, sender);
+            json = new string((sbyte*)pEventData, 0, length, Encoding.UTF8);
+        }
+        int? result = UICallback(index, json, sender);
 		if (result.HasValue)
 		{
 			return result.Value;

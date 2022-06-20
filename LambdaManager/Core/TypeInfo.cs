@@ -50,6 +50,7 @@ internal class TypeInfo
 			CastType.CAST_DECIMAL => GetDecimalValue, 
 			_ => null, 
 		};
+
 		if (converter == null || castTypes.Count == 1)
 		{
 			return converter;
@@ -166,11 +167,6 @@ internal class TypeInfo
 
 	public override string ToString()
 	{
-		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(12, 2);
-		defaultInterpolatedStringHandler.AppendLiteral("Id: ");
-		defaultInterpolatedStringHandler.AppendFormatted(Id);
-		defaultInterpolatedStringHandler.AppendLiteral(", Size: ");
-		defaultInterpolatedStringHandler.AppendFormatted(Size);
-		return defaultInterpolatedStringHandler.ToStringAndClear();
+		return $"Id: {Id}, Size: {Size}";
 	}
 }

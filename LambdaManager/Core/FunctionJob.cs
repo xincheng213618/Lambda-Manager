@@ -15,7 +15,9 @@ internal class FunctionJob : IJob
 
 	public static int AddSchedule(Scheduler schedule)
 	{
-		int count = schedules.Count;
+       
+
+        int count = schedules.Count;
 		schedules.Add(schedule);
 		return count;
 	}
@@ -86,7 +88,7 @@ internal class FunctionJob : IJob
 	private static async Task ReportEnd(Scheduler scheduler)
 	{
 
-		string text = $"{Resources.ScheduleEnd}\\{scheduler.Name}\\{Resources.Comma}DateTime.Now";
+		string text = $"{Resources.ScheduleEnd}:{scheduler.Name} {Resources.Comma} {DateTime.Now}";
 
 
 		await Report(new Message

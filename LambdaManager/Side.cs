@@ -2,12 +2,16 @@ namespace LambdaManager;
 
 internal enum Side
 {
-	TOP,
-	LEFT,
-	MIDDLE,
-	BOTTOM,
-	RIGHT,
-	MENU,
-	ACQUIRE,
-	PROJECT
+    TOP,
+    LEFT,
+    MIDDLE,
+    RIGHT,
+    BOTTOM,
+    MENU,
+    CONFIG,
+    ACQUIRE,
+    POCESS,
+    ANALYSIS,
+    REPORT,
+    PROJECT
 }

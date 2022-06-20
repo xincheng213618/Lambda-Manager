@@ -44,6 +44,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <ControlTemplate x:Key="Slider2"  TargetType="Slider">
             <Grid>
                 <Grid.RowDefinitions>
@@ -93,9 +94,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-
-
 
         <ControlTemplate x:Key="SliderHorizontal" TargetType="{x:Type Slider}">
             <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">

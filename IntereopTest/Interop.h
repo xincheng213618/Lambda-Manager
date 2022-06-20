@@ -243,3 +243,8 @@ extern "C" INTEROP_API int UpdateDisplayMode();
 template <typename T>CString format(T a[]);
 template <typename T>CString format(T a[], size_t size);
 CString formatStringArray(wchar_t* a[], int size);
+
+//event array
+extern "C" INTEROP_API int Test210();
+int Test211(void* a);
+int Test212(void* a);

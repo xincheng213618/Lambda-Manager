@@ -57,14 +57,23 @@ internal class ConfigUILibrary
 	}
 
 	private void LoadConfigPanel(Assembly assembly, string name, int order, ConfigValidate validate, Side side)
-	{
-		if (!(assembly.CreateInstance(name) is Control control))
-		{
-			validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, name, Resources.Class, null);
-			return;
-		}
-		UIElementCollection list = Main.GetConfigPanel(side).Children;
-		bool found = false;
+    {
+        if (!(assembly.CreateInstance(name) is Control control))
+        {
+            validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, name, Resources.Class, null);
+            return;
+        }
+        if (Main.GetConfigPanel(side) is StackPanel stackPanel)
+            if (stackPanel.Parent is Viewbox viewbox)
+                if (viewbox.Parent is ScrollViewer scrollViewer)
+                    if (scrollViewer.Parent is TabItem tabItem)
+                        tabItem.Visibility = Visibility.Visible;
+
+        UIElementCollection list = Main.GetConfigPanel(side).Children;
+
+
+
+        bool found = false;
 
 		//for (int i = 0; i < list.Count; i++)
 		//{
@@ -140,36 +149,8 @@ internal class ConfigUILibrary
 	private static Side GetConfigSide(string mount)
 	{
 		string[] tokens = mount.Split(':');
-		if (tokens[0].StartsWith("top"))
-		{
-			return Side.TOP;
-		}
-		if (tokens[0].StartsWith("left"))
-		{
-			return Side.LEFT;
-		}
-		if (tokens[0].StartsWith("right"))
-		{
-			return Side.MIDDLE;
-		}
-		if (tokens[0].StartsWith("bottom"))
-		{
-			return Side.BOTTOM;
-		}
-		if (tokens[0].StartsWith("menu"))
-		{
-			return Side.MENU;
-		}
-		if (tokens[0].StartsWith("acquire"))
-		{
-			return Side.ACQUIRE;
-		}
-		if (tokens[0].StartsWith("project"))
-		{
-			return Side.PROJECT;
-		}
-		return Side.LEFT;
-	}
+		return (Side)Enum.Parse(typeof(Side), tokens[0].Trim(), ignoreCase: true);
+    }
 
 	private static int GetConfigPanelOrder(string mount)
 	{

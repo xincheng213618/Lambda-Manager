@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager" 
+                 
         xmlns:controls="clr-namespace:LambdaManager.Controls" 
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
@@ -15,7 +16,7 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
             <Setter Property="TextBlock.Padding" Value="5,5,5,5" />
         </Style>
-        
+
         <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="5, 0, 0, 0" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -56,11 +57,15 @@
     </Window.Resources>
 
     <Grid  >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="141*"/>
+            <ColumnDefinition Width="499*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" >
+        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
@@ -94,7 +99,7 @@
                 </ComboBox>
             </DockPanel>
         </Grid>
-        <Viewbox Grid.Row="1" >
+        <Viewbox Grid.Row="1" Grid.ColumnSpan="2" >
             <Grid Name="stageAcquisition" Grid.Row="1" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -107,10 +112,10 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                
+
                 <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
-                    <TabControl  >
-                        <TabItem Header="工程" FontSize="15">
+                    <TabControl FontSize="15">
+                        <TabItem Header="工程"  Visibility="Collapsed">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                 <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                     <StackPanel Name="projectView"  Margin="10,10,10,20" >
@@ -119,10 +124,35 @@
 
                             </ScrollViewer>
                         </TabItem>
-                        <TabItem Header="采集配置" FontSize="15">
+                        <TabItem Header="采集配置"  Visibility="Collapsed">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                 <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                     <StackPanel Name="acquireView">
+                                    </StackPanel>
+                                </Viewbox>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="图像处理" Visibility="Collapsed">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="proessView" Margin="0,5,0,5">
+                                    </StackPanel>
+                                </Viewbox>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="图像分析" Visibility="Collapsed">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="analysisView" Margin="0,5,0,5">
+                                    </StackPanel>
+                                </Viewbox>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="报告生成" Visibility="Collapsed">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                    <StackPanel Name="reportView" Margin="0,5,0,5">
                                     </StackPanel>
                                 </Viewbox>
                             </ScrollViewer>
@@ -348,7 +378,7 @@
                                             <!--Unknown connection ID: 63-->
                                         </ToggleButton>
                                     </WrapPanel>
-                                    <Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                                    <!--<Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />-->
                                     <!--Unknown connection ID: 59-->
                                 </DockPanel>
                             </Border>
@@ -427,7 +457,7 @@
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
-                                    <Image Source="/Resources/Images/StartPicture1.png" Stretch="Uniform" />
+                                    <Image x:Name="view0" Source="/Resources/Images/StartPicture1.png" Stretch="Uniform" />
                                     <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" Height="3" Background="#FFADD8E6" />
                                     <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal">
                                         <!--Unknown connection ID: 83-->
@@ -484,13 +514,13 @@
                     </StatusBarItem>
                     <Separator Grid.Column="9" />
                     <StatusBarItem Grid.Column="10">
-                        <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" /> 
+                        <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" />
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
 
         </Viewbox>
 
-        <Grid Name="stageConfig" Grid.Row="1" />
+        <Grid Name="stageConfig" Grid.Row="1" Grid.ColumnSpan="2" />
     </Grid>
 </Base:BaseWindow>
