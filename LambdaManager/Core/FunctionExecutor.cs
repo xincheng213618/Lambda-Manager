@@ -170,10 +170,6 @@ internal static class FunctionExecutor
 		try
 		{
 			result = Exec(info.Function, args);
-			if (result == -1)
-            {
-				int a = 1;
-            }
 			return result;
 		}
 		catch (Exception ex)
@@ -335,9 +331,8 @@ internal static class FunctionExecutor
 			ulong y = (ulong)value;
 			return Unsafe.As<ulong, long>(ref y);
 		}
-
-
-
+			case 70:
+				return Marshal.StringToHGlobalAnsi((string)value);
             case 86:
 		case 87:
 			return Marshal.UnsafeAddrOfPinnedArrayElement((Array)value, 0);

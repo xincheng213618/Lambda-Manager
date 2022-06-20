@@ -64,7 +64,7 @@ internal class TypeInfo
 		}
 		if (castTypes.Count == 3 && castTypes[2] == CastType.CAST_ADDRESS)
 		{
-			converter = (Converter)Delegate.Combine(converter, new Converter(GetAddress));
+			converter + = (Converter)Delegate.Combine(converter, new Converter(GetAddress));
 		}
 		return converter;
 	}
@@ -166,11 +166,6 @@ internal class TypeInfo
 
 	public override string ToString()
 	{
-		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(12, 2);
-		defaultInterpolatedStringHandler.AppendLiteral("Id: ");
-		defaultInterpolatedStringHandler.AppendFormatted(Id);
-		defaultInterpolatedStringHandler.AppendLiteral(", Size: ");
-		defaultInterpolatedStringHandler.AppendFormatted(Size);
-		return defaultInterpolatedStringHandler.ToStringAndClear();
+		return $"Id: {Id}, Size: {Size}";
 	}
 }

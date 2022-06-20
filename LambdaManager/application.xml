@@ -68,26 +68,33 @@
 			</action>
 		</procedure>
 
-		<procedure name="OpenSerial" event="projectManager" var="FullPath">
-			<action name="OpenSerial">
-				<input name="FullPath" type="string"/>
-			</action>
-		</procedure>
 
-		<procedure name="OpenSerial2" event="projectManager" key="FullPath">
-			<action name="OpenSerial2">
-				<input name="FullPath" type="#string"/>
-			</action>
-		</procedure>
 
-		<procedure name="OpenSerial3" event="projectManager" key="FullPath">
-			<action name="OpenSerial2">
-				<input name="FullPath" type="#string"/>
-			</action>
-		</procedure>
 	</component>
 
-	<component name="Camera" lib="lib\ISCamera.dll" >
+	<component name="Camera" lib="lib\ISCamera.dll">
+
+		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
+			<action name="CameraSettingExposure">
+				<input name="mode" type="int"/>
+				<input name="exposure" type="double"/>
+			</action>
+		</procedure>
+		<procedure name="SleepTest" event="SleepTest" >
+			<action name="SleepTest"/>
+		</procedure>
+		<procedure name="VideoTest" event="VideoTest" >
+			<action name="VideoTest"/>
+		</procedure>
+
+
+		<procedure name="OpenSerial" event="projectManager" key ="FullPath" >
+			<action name="OpenSerial">
+				<input name="FullPath" type="#string" />
+			</action>
+		</procedure>
+
+
 		<procedure name="OpenCamera">
 			<action name="OpenCamera" async="true">
 				<![CDATA[ Open camera ]]>
@@ -131,10 +138,9 @@
 			<action name="CaptureImage">
 				<input name="CamMode" type="int"/>
 				<![CDATA[ Capture and save images]]>
-				<output name="CAMIMG" type="handle" /><!--生命周期参数life=""-->
+				<output name="CAMIMG" type="handle" />
 			</action>
 		</procedure>
-
 	</component>
 
 	<component name="MotorControl" lib="lib\RS232.dll" init="OpenMotor">
@@ -805,7 +811,7 @@
 				<input name="lx" type="long int*"/>
 				<input name="ld" type="long double*"/>
 			</action>
-			<action name ="Test101" />
+			<!--<action name ="Test101" />-->
 			<action name="Test102">
 				<input name="MotorControl" type="action" value="MoveTo"/>
 				<input name="Camera" type="action" value="CaptureImage"/>

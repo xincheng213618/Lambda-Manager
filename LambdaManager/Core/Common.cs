@@ -207,18 +207,13 @@ internal class Common
 				info.EventObject = new string(json);
 			}
 			int index = FunctionJob.AddSchedule(info);
-			JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
-			DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
-			defaultInterpolatedStringHandler.AppendLiteral("Job");
-			defaultInterpolatedStringHandler.AppendFormatted(index);
-			IJobDetail job = jobBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group2").Build();
-			TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-			defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(7, 1);
-			defaultInterpolatedStringHandler.AppendLiteral("Trigger");
-			defaultInterpolatedStringHandler.AppendFormatted(index);
-			ITrigger trigger = triggerBuilder.WithIdentity(defaultInterpolatedStringHandler.ToStringAndClear(), "group2").StartNow().WithCronSchedule(info.Timer)
-				.Build();
-			Scheduler!.ScheduleJob(job, trigger);
+
+            JobBuilder jobBuilder = JobBuilder.Create<FunctionJob>();
+            IJobDetail job = jobBuilder.WithIdentity($"Job{index}", "group2").Build();
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{index}", "group2").StartNow().WithCronSchedule(info.Timer)
+                .Build();
+            Scheduler!.ScheduleJob(job, trigger);
 		}
 	}
 

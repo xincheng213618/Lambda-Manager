@@ -2,7 +2,7 @@
 #include "common.h"
 #include <chrono>
 #include <thread>
-#include <libcron/Cron.h>
+//#include <libcron/Cron.h>
 
 
 LogCallBack1 logCallBack1 = NULL;
@@ -18,7 +18,7 @@ CallHandlerRaise callHandlerRaise = NULL;
 
 SetCppSize setCppSize =NULL;
 
-extern libcron::Cron<libcron::LocalClock, libcron::NullLock> cron22;
+//extern libcron::Cron<libcron::LocalClock, libcron::NullLock> cron22;
 
 
 void GetCppSizeInfo(SetCppSize fn)
@@ -35,14 +35,14 @@ void Initialize() {
 
 	
 	setCppSize((char*)buffer);
-	std::thread t([=]() {
-		while (true)
-		{
-			cron22.tick();
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		}		
-		});
-	t.detach();
+	//std::thread t([=]() {
+	//	while (true)
+	//	{
+	//		cron22.tick();
+	//		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	//	}		
+	//	});
+	//t.detach();
 
 }
 
