@@ -175,22 +175,80 @@ namespace Global
 
             }
 
-
-
-
             try
             {
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
                 topToolbar.DataContext = ImageViewState.toolTop;
 
-                ((ToggleButton)topToolbar.Children[0]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("PointerChecked"));
-                ((ToggleButton)topToolbar.Children[1]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("MoveChecked"));
-                ((ToggleButton)topToolbar.Children[2]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("DimensionChecked"));
-                ((ToggleButton)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
-                ((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("RulerChecked"));
-                ((ToggleButton)topToolbar.Children[5]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
+                Binding binding1 = new Binding("PointerChecked");
+                ((ToggleButton)topToolbar.Children[0]).SetBinding(ToggleButton.IsCheckedProperty, binding1);
+                Binding binding2 = new Binding("MoveChecked");
+                ((ToggleButton)topToolbar.Children[1]).SetBinding(ToggleButton.IsCheckedProperty, binding2);
+                Binding binding3 = new Binding("DimensionChecked");
+                ((ToggleButton)topToolbar.Children[2]).SetBinding(ToggleButton.IsCheckedProperty, binding3);
+                //((ToggleButton)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
+
+                //Binding binding4 = new Binding("RulerChecked");
+                //((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, binding4);    
 
 
+                Binding binding5 = new Binding("FocusChecked");
+                ((ToggleButton)topToolbar.Children[5]).SetBinding(ToggleButton.IsCheckedProperty, binding5);
+
+
+
+                Binding binding13 = new Binding("RulerChecked");
+                ToggleButton ToggleButtonRuler = ((ToggleButton)topToolbar.Children[13]);
+                ToggleButtonRuler.SetBinding(ToggleButton.IsCheckedProperty, binding13);
+
+                Binding binding14 = new Binding("TextChecked");
+                ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[14]);
+                ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, binding14);
+
+                Binding binding15 = new Binding("ArrowChecked");
+                ToggleButton ToggleButtonArrow = ((ToggleButton)topToolbar.Children[15]);
+                ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, binding15);
+
+                Binding binding16 = new Binding("LineChecked");
+                ToggleButton ToggleButtonLine= ((ToggleButton)topToolbar.Children[16]);
+                ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, binding16);
+
+
+
+                Binding binding17 = new Binding("CurveChecked");
+                ToggleButton ToggleButtonCurve = ((ToggleButton)topToolbar.Children[17]);
+                ToggleButtonCurve.SetBinding(ToggleButton.IsCheckedProperty, binding17);
+
+                Binding binding18 = new Binding("CircleChecked");
+                ToggleButton ToggleButtonCircle = ((ToggleButton)topToolbar.Children[18]);
+                ToggleButtonCircle.SetBinding(ToggleButton.IsCheckedProperty, binding18);
+
+                Binding binding19 = new Binding("RectangleChecked");
+                ToggleButton ToggleButtonRectangle = ((ToggleButton)topToolbar.Children[19]);
+                ToggleButtonRectangle.SetBinding(ToggleButton.IsCheckedProperty, binding19);
+
+                Binding binding20 = new Binding("PolygonChecked");
+                ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[20]);
+                ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, binding20);
+
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonRuler, ToggleButtonText, ToggleButtonArrow , ToggleButtonLine , ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
+
+                foreach (var item in Tools)
+                {
+                    item.Checked += delegate(object sender, RoutedEventArgs e)
+                    {
+
+                        foreach (var item1 in Tools)
+                        {
+                            if (item1!=item)
+                                if (item1.IsChecked == true)
+                                    item1.IsChecked = false;
+
+                        }
+ 
+                    };
+
+                }
 
 
 

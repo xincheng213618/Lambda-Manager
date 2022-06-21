@@ -331,60 +331,15 @@ namespace Solution
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-          
+            if (this.Parent is StackPanel stackPanel)
+            {
+                stackPanel.Width = 420;
+            }
         }
-
-        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposure")]
-        public static extern int CameraSettingExposure(int mode,double exposure);
-
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
-
-
-            //Image image = new Image();
-            //View View = new View(image,99);
-            //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
-            //try
-            //{
-            //    IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
-            //    IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //Stopwatch sw = new Stopwatch();
-            //sw.Start();
-            ////IntPtr address = NativeLibrary.Load(@"lib\ISCamera.dll");
-            ////IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    try
-            //    {
-            //        //IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
-            //    }catch(Exception ex)
-            //    {
-
-            //    }
-            //    //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-            //    //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-
-
-            //    //CameraSettingExposure(0, 111111);
-
-
-
-
-            //    //((delegate* unmanaged[Cdecl]<int, double, int>)(void*)Export)(1, 11111);
-
-
-            //}
-
-            //sw.Stop();
-            //MessageBox.Show(sw.Elapsed.ToString());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

@@ -87,6 +87,10 @@ namespace Global.Mode.Config
         /// </summary>
         public class ToolTop : ViewModeBase
         {
+            public ToolTop()
+            {
+            }
+
             public void SetValue(ToolTop toolTop)
             {
                 this.PointerChecked = toolTop.PointerChecked;
@@ -97,6 +101,7 @@ namespace Global.Mode.Config
                 this.TextChecked = toolTop.TextChecked;
                 this.ArrowChecked = toolTop.ArrowChecked;
                 this.LineChecked = toolTop.LineChecked;
+                this.CircleChecked = toolTop.CircleChecked;
                 this.CurveChecked= toolTop.CurveChecked;    
                 this.RectangleChecked= toolTop.RectangleChecked;
                 this.PolygonChecked   = toolTop.PolygonChecked; 
@@ -108,6 +113,7 @@ namespace Global.Mode.Config
                 this.Arrow    = toolTop.Arrow;
                 this.Line = toolTop.Line;
                 this.Curve = toolTop.Curve;
+                this.Circle = toolTop.Circle;
                 this.Rectangle = toolTop.Rectangle;
                 this.Polygon = toolTop.Polygon; 
             }
@@ -150,7 +156,9 @@ namespace Global.Mode.Config
             public bool RulerChecked
             {
                 get { return rulerChecked; }
-                set { rulerChecked = value; NotifyPropertyChanged(); }
+                set { rulerChecked = value; 
+                    NotifyPropertyChanged(); 
+                }
             }
 
             private bool textChecked = false;

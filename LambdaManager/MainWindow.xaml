@@ -226,10 +226,10 @@
                                         <Image Source="/Resources/Icons/top-move.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 31-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Button Style="{StaticResource ToolButton}">
                                         <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 32-->
-                                    </ToggleButton>
+                                    </Button>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 33-->

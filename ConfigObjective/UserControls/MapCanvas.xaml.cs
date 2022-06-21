@@ -89,7 +89,7 @@ namespace ConfigObjective.UserControls
 
         private Brush selectionSquareBrush = Brushes.Transparent;
         private Pen selectionSquarePen = new Pen(Brushes.Black, 1);
-
+        public  List<Point> selectedPoints = new List<Point>();
 
 
 
@@ -159,6 +159,7 @@ namespace ConfigObjective.UserControls
                 visual.Opacity = 0.3;
                 mapCanvas.AddVisual(visual);
                 mapArrray[y, x] = 1;
+                selectedPoints.Add(drawpoint);
             }
             else if (mapArrray[y, x] == 0)
             {
@@ -286,7 +287,8 @@ namespace ConfigObjective.UserControls
                     if (visual != null) mapCanvas.DeleteVisual(visual);
                     if (b >= 42 || a >= 30) return;
                     mapArrray[b, a] = 0;
-
+                    Point removePoint = new Point(a * 10, b * 7);
+                    selectedPoints.Remove(removePoint);
                 }
             }
         }
@@ -324,7 +326,8 @@ namespace ConfigObjective.UserControls
                 mapCanvas.DeleteVisual(visual);
                 if (y >= 42 || x >= 30) return;
                 mapArrray[y, x] = 0;
-
+                Point removePoint = new Point(x * 10, y * 7);
+                selectedPoints.Remove(removePoint);
             }
 
 
