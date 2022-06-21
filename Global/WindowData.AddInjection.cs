@@ -12,7 +12,6 @@ namespace Global
     /// </summary>
     public partial class WindowData
     {
-
         public int Version = -1;
         private void AddInjection()
         {
@@ -28,13 +27,12 @@ namespace Global
                 if (returnValue is int aa)
                     Version = aa;
             }
-            //MethodInfo method = t.GetMethod("GetValue");
-                //System.Reflection.MemberInfo info = typeof(mainwin);
 
             try
             {
 
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
+                //检测如果找不到rightToolbar 直接退出
                 if (WrapPanel1 == null)
                     return;
                 ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
@@ -177,6 +175,31 @@ namespace Global
 
             }
 
+
+
+
+            try
+            {
+                WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
+                topToolbar.DataContext = ImageViewState.toolTop;
+
+                ((ToggleButton)topToolbar.Children[0]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("PointerChecked"));
+                ((ToggleButton)topToolbar.Children[1]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("MoveChecked"));
+                ((ToggleButton)topToolbar.Children[2]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("DimensionChecked"));
+                ((ToggleButton)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
+                ((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("RulerChecked"));
+                ((ToggleButton)topToolbar.Children[5]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
             ADDzeroImage();
         }
 
@@ -188,20 +211,6 @@ namespace Global
             {
                 view.Image = null;
             }
-            //if (view != null)
-            //{
-            //    if (view.Image.Parent is Grid grid)
-            //    {
-            //        grid.Children.Remove(view.Image);
-            //        gridsList[0] = GetNewGrid(view.Image);
-            //    }
-            //    else
-            //    {
-            //        gridsList[0] = GetNewGrid(view.Image);
-            //    }
-            //    GridSort(gridsList);
-            //    AddImageConfident(view.Image);
-            //}
         }
 
         

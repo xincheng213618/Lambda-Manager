@@ -14,28 +14,24 @@ namespace Global.Mode.Config
     {
         public int SelectViewMode = 0;
 
-        private double gamma = 1.0;
 
+        private double gamma = 1.0;
+        /// <summary>
+        /// 伽玛
+        /// </summary>
         [JsonProperty("gamma")]
         public double Gamma
         {
-            get => gamma;
-            set  {
-                gamma = value;
-                NotifyPropertyChanged();
-            }
+            get { return gamma; }
+            set { gamma = value; NotifyPropertyChanged(); }
         }
-        private double gain = 0;
 
+        private double gain = 0;
         [JsonProperty("gain")]
         public double Gain
         {
-            get => gain;
-            set
-            {
-                gain = value;
-                NotifyPropertyChanged();
-            }
+            get { return gain; }
+            set { gain = value; NotifyPropertyChanged(); }
         }
 
         private bool gainAuto = false;
@@ -43,24 +39,16 @@ namespace Global.Mode.Config
         [JsonProperty("gainAuto")]
         public bool GainAuto
         {
-            get => gainAuto;
-            set
-            {
-                gainAuto = value;
-                NotifyPropertyChanged();
-            }
+            get { return gainAuto; }
+            set { gainAuto = value; NotifyPropertyChanged(); }
         }
 
         private double sharpness = 0;
         [JsonProperty("sharpness")]
         public double Sharpness
         {
-            get => sharpness;
-            set
-            {
-                sharpness = value;
-                NotifyPropertyChanged();
-            }
+            get { return sharpness; }
+            set { sharpness = value; NotifyPropertyChanged(); }
         }
 
         private double saturation = 0;
@@ -68,24 +56,16 @@ namespace Global.Mode.Config
         [JsonProperty("saturation")]
         public double Saturation
         {
-            get => saturation;
-            set
-            {
-                saturation = value;
-                NotifyPropertyChanged();
-            }
+            get { return saturation; }
+            set { saturation = value; NotifyPropertyChanged(); }
         }
 
         private int exposure = 60;
         [JsonProperty("exposure")]
         public int Exposure
         {
-            get => exposure;
-            set
-            {
-                exposure = value;
-                NotifyPropertyChanged();
-            }
+            get { return exposure; }
+            set { exposure = value; NotifyPropertyChanged(); }
         }
 
         private bool exposureAuto = false;
@@ -93,12 +73,8 @@ namespace Global.Mode.Config
         [JsonProperty("exposureAuto")]
         public bool ExposureAuto
         {
-            get => exposureAuto;
-            set
-            {
-                exposureAuto = value;
-                NotifyPropertyChanged();
-            }
+            get { return exposureAuto; }
+            set { exposureAuto = value; NotifyPropertyChanged(); }
         }
 
         [JsonProperty("vedio-format")]

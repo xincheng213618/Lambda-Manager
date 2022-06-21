@@ -20,7 +20,6 @@ namespace Global.Mode.Config
         public Dimensional Dimensional { get; set; }    
     }
 
-
     [Serializable]
     public class Spot:ViewModeBase
     {

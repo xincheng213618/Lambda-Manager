@@ -39,6 +39,8 @@ namespace Mode
         [JsonProperty("config-multi-dimensional")]
         public Dimensional Dimensional { get; set; } = new();
 
+        public ImageViewState ImageViewState = new ImageViewState();
+
         [JsonProperty("log-file")]
         public string? LogFile { get; set; }
 

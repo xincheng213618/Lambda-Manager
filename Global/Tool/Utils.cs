@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -106,8 +107,10 @@ namespace Global
                 }
                 result = 0;
             }
-            catch 
+            catch (Exception ex)
             {
+                Trace.WriteLine("### [" + ex.Source + "] Exception: " + ex.Message);
+                Trace.WriteLine("### " + ex.StackTrace);
                 result = -1;
             }
             return result;

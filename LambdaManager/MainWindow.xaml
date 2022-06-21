@@ -226,10 +226,10 @@
                                         <Image Source="/Resources/Icons/top-move.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 31-->
                                     </ToggleButton>
-                                    <Button Style="{StaticResource ToolButton}">
+                                    <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 32-->
-                                    </Button>
+                                    </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 33-->
@@ -238,10 +238,10 @@
                                         <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 34-->
                                     </ToggleButton>
-                                    <Button Style="{StaticResource ToolButton}">
+                                    <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 35-->
-                                    </Button>
+                                    </ToggleButton>
                                     <Border Height="22" Padding="1" CornerRadius="4">
                                         <Border.Background>
                                             <SolidColorBrush Color="{DynamicResource HighlightColor}" />
@@ -274,37 +274,28 @@
                                     </Separator>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 40-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 41-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 42-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 43-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-curve.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 44-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-circle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 45-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-rectangle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 46-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" Margin="0,0,3,0" />
-                                        <!--Unknown connection ID: 47-->
                                     </ToggleButton>
-                                    <!--Unknown connection ID: 28-->
                                 </WrapPanel>
                             </Border>
                             <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">

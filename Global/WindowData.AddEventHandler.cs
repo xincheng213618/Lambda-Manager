@@ -188,6 +188,7 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
+
             mulSummary.CollectionTimes = GetStringValue(eventData, "CollectionTimes");
             mulSummary.CollectionLayers = GetStringValue(eventData, "CollectionLayers");
             mulSummary.CollectionPoints = GetStringValue(eventData, "CollectionPoints");
@@ -199,7 +200,6 @@ namespace Global
             mulSummary.Storage = GetStringValue(eventData, "Storage");
             mulSummary.AllCollectionTime = GetStringValue(eventData, "AllCollectionTime");
             mulSummary.CameraWorkingTime = GetStringValue(eventData, "CameraWorkingTime");
-
             return true;
         }
 

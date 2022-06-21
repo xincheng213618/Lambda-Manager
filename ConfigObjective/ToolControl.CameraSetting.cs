@@ -11,10 +11,6 @@ using Lambda;
 
 namespace ConfigObjective
 {
-
-
-
-
     public partial class ToolControl
     {
         public void CameraSetting_Initialize()

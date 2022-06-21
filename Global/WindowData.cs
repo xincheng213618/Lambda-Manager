@@ -65,7 +65,7 @@ namespace Global
 
                 ViewMode.SetValue(Config.ViewMode);
                 Stage.SetValue(Config.Stage);
-
+                ImageViewState.SetValue(Config.ImageViewState);
                 Update.UpdateGlobal();
             }
             else
@@ -74,6 +74,8 @@ namespace Global
             }
 
         }
+        public ImageViewState ImageViewState = new ImageViewState();
+
 
         public void SaveConfig()
         {
@@ -83,6 +85,7 @@ namespace Global
 
             Config.ViewMode.SetValue(ViewMode);
             Config.Stage.SetValue(Stage);
+            Config.ImageViewState.SetValue(ImageViewState);
             Utils.ToJsonFile(Config, FilePath);
         }
         

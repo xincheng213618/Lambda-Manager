@@ -148,7 +148,7 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
-		//HistCalc(frame, pView->GetIndex());
+		HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
 		if (pView->IsState(ViewState::CLOSED)) {
@@ -358,34 +358,34 @@ int CameraSettingExposure(int mode,double exposure)
 
 
 
-	HistCalc(img2,0);
+	//HistCalc(img2,0);
 
 
-	//json j1;
+	json j1;
 
-	////采集次数
-	//j1["CollectionTimes"] = "1";
-	////采集层数
-	//j1["CollectionLayers"] = "5";
-	////采集点个数
-	//j1["CollectionPoints"] = "100";
-	////成像模式数
-	//j1["ViewModeCounts"] = "4";
-	////荧光通道数
-	//j1["FluorescenceChannels"] = "2";
-	////图像尺寸
-	//j1["ImageSize"] = "1280×960 (5.2MB)";
-	////图像总数
-	//j1["ImageNums"] = "1260";
-	////存储空间
-	//j1["Storage"] = "1.546G";
-	////全部采集耗时
-	//j1["AllCollectionTime"] = "23h 0m 0.002s";
-	////相机工作时长
-	//j1["CameraWorkingTime"] = "0h 0m 0.002s";
+	//采集次数
+	j1["CollectionTimes"] = "2";
+	//采集层数
+	j1["CollectionLayers"] = "5";
+	//采集点个数
+	j1["CollectionPoints"] = "100";
+	//成像模式数
+	j1["ViewModeCounts"] = "4";
+	//荧光通道数
+	j1["FluorescenceChannels"] = "2";
+	//图像尺寸
+	j1["ImageSize"] = "1280×960 (5.2MB)";
+	//图像总数
+	j1["ImageNums"] = "1260";
+	//存储空间
+	j1["Storage"] = "1.546G";
+	//全部采集耗时
+	j1["AllCollectionTime"] = "23h 0m 0.002s";
+	//相机工作时长
+	j1["CameraWorkingTime"] = "0h 0m 0.002s";
 
-	//
-	//Event::Trigger("UpdateMulSummary", &j1);
+	
+	Event::Trigger("UpdateMulSummary", &j1);
 
 	
 	return  0;
