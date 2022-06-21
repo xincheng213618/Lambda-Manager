@@ -249,9 +249,6 @@ namespace Global
                     };
 
                 }
-
-
-
             }
             catch (Exception ex)
             {

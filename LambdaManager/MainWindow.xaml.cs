@@ -686,4 +686,19 @@ partial class MainWindow : BaseWindow
     {
 		//MessageBox.Show("1111");
     }
+
+    private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void ToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

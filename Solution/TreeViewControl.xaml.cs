@@ -94,7 +94,7 @@ namespace Solution
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullPath);
+                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
                     }
                 }
 
@@ -271,8 +271,8 @@ namespace Solution
                     }
                 }
             }
-            if (IsNotExit)
-                Directory.CreateDirectory($"{FullName}\\derives");
+            //if (IsNotExit)
+            //    Directory.CreateDirectory($"{FullName}\\derives");
             return baseObject;
         }
 

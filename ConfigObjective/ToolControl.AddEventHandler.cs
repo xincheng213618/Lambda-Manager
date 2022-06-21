@@ -25,66 +25,22 @@ namespace ConfigObjective
 
 		private bool STOP_ACQUIRE(object sender, EventArgs e)
 		{
-			WindowData.ACQUIRE = true;
-
             var mulDimensional = WindowData.MulDimensional;
 			mulDimensional.mulDimensionalAreas.Clear();
 			mulDimensional.mulDimensionalPoints.Clear();
 
-			
+		
 
-			List<System.Windows.Shapes.Rectangle> childList = GetChildObjects<System.Windows.Shapes.Rectangle>(this.Canvas1);
-			foreach (var child in childList)
-			{
-				if (Canvas.GetLeft(child) >= 0)
-					if (child.Width == 0 || child.Height == 0)
-					{
-						mulDimensional.mulDimensionalPoints.Add(new MulDimensionalPoint(new Point(Canvas.GetLeft(child), Canvas.GetTop(child))));
-					}
-					else
-					{
-						if (child.Width > 10)
-							mulDimensional.mulDimensionalAreas.Add(new MulDimensionalArea(new Rect(Canvas.GetLeft(child), Canvas.GetTop(child), child.Width, child.Height)));
-
-					}
-
-			}
-			List<Border> childList1 = GetChildObjects<Border>(this.Canvas1);
-			foreach (var child in childList1)
-			{
-				if (Canvas.GetLeft(child) >= 0)
-					if (child.Width == 0 || child.Height == 0)
-					{
-						mulDimensional.mulDimensionalPoints.Add(new MulDimensionalPoint(new Point(Canvas.GetLeft(child), Canvas.GetTop(child))));
-					}
-					else
-					{
-						if (child.Width > 10)
-							mulDimensional.mulDimensionalAreas.Add(new MulDimensionalArea(new Rect(Canvas.GetLeft(child), Canvas.GetTop(child), child.Width, child.Height)));
-					}
-
-			}
 			var spot = new Global.Mode.Config.Spot();
-			//foreach (var item in mulDimensional.mulDimensionalPoints)
-			//{
-			//	List<int> points = new List<int>() { item.X, item.Y };
-			//	spot.Includes.Add(points);
-			//}
-			//foreach (var item in mulDimensional.mulDimensionalAreas)
-			//{
-			//	List<int> points = new List<int>() { item.X, item.Y, item.Width, item.Height };
-			//	spot.Includes.Add(points);
-			//}
-		     foreach (var item in Map.selectedPoints) //
+            foreach (var item in Map.selectedPoints)
             {
-				List<int> selectedpoint = new List<int>() { (int)item.X, (int)item.Y, 10, 7 };
-				spot.Includes.Add(selectedpoint);
-			}
-
-			 
+                List<int> selectedpoint = new List<int>() { (int)item.X, (int)item.Y };
+                spot.Includes.Add(selectedpoint);
+            }
 
 
-			TestMean testMean = new TestMean();
+
+            TestMean testMean = new TestMean();
 			testMean.Spot = spot;
 
 			List<string> Mode = new();
@@ -139,7 +95,7 @@ namespace ConfigObjective
 			WindowData.Config.Spot = testMean.Spot;
 			WindowData.Config.Stage = testMean.Stage;
 			LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
-			MessageBox.Show(testMean.ToJson());
+			//MessageBox.Show(testMean.ToJson());
 			return true;
         }
 	}

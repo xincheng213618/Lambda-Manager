@@ -45,11 +45,6 @@ namespace ConfigObjective.UserControls
                     int size = (int)eventData["size"];
 
                     IntPtr intPtr = (IntPtr)eventData["data"];
-                    //byte[] aaa = new byte[size];
-                    //Marshal.Copy(intPtr, aaa, 0, size);
-                    //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
-                    //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                    //pinnedArray.Free();
 
                     if (mapCanvas.Source is WriteableBitmap writeableBitmap1)
                     {
@@ -68,7 +63,6 @@ namespace ConfigObjective.UserControls
                     }
                 }
             });
-
             return true;
         }
 

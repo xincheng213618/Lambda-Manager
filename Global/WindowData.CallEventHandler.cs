@@ -24,28 +24,8 @@ namespace Global
         public bool ALIVE { get; set; } = false;
 
 
-        private int Call(string type, object sender, EventArgs e)
-        {
-            if (type == "STOP_ALIVE")
-                ALIVE = false;
 
-            if (type == "START_ALIVE")
-                ALIVE = true;
-
-            if (type == "STOP_ACQUIRE")
-                ACQUIRE = true;
-
-            if (type == "START_ACQUIRE")
-                ACQUIRE = false;
-
-            return 1;
-        }
         static GridLengthConverter gridLengthConverter = new GridLengthConverter();
-
-
-
-
-
         List<ImageParameter> imageParameters = new List<ImageParameter>();
         public  void AddImageConfident(Image image,int viewindex)
         {
@@ -64,8 +44,8 @@ namespace Global
                 Grid.SetColumn(stackPanel, 0);
                 Grid.SetRow(stackPanel,2);
 
-                //Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
-                //Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
+                Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
+                Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
                 BottomView bottomView = new BottomView();
                 stackPanel.Children.Add(bottomView);
 
@@ -135,7 +115,6 @@ namespace Global
                                 item.ScaleTransformCenterY = centerPoint.Y;
                                 item.ScaleTransformScaleX += (double)e.Delta / 1000;
                                 item.ScaleTransformScaleY += (double)e.Delta / 1000;
-
                             }
                         }
                         else
@@ -145,10 +124,6 @@ namespace Global
                             imageParameter.ScaleTransformScaleX += (double)e.Delta / 1000;
                             imageParameter.ScaleTransformScaleY += (double)e.Delta / 1000;
                         }
-
-
-                        //sfr.CenterX = centerPoint.X;
-                        //sfr.CenterY = centerPoint.Y;
                     }
 
 
@@ -184,9 +159,6 @@ namespace Global
                 };
 
             }
-
-
-
         }
 
     }

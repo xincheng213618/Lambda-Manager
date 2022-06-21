@@ -38,7 +38,11 @@ namespace ConfigObjective
             if (IsFirstUpdate)
                 IsFirstUpdate = false;
 
-            
+
+
+
+
+
         }
 
         /// <summary>
@@ -59,6 +63,10 @@ namespace ConfigObjective
             {
                 stackPanel.Width = 420;
             }
+
+
+
+
         }
          
 
@@ -70,7 +78,6 @@ namespace ConfigObjective
             ObjectiveSetting_Initialize();
             ViewMode_Initialize();
             CameraSetting_Initialize();
-            Canvas_Initialize();
 
             Map.moveButton.DataContext = WindowData.mapModel;
             Stage_Initialize();

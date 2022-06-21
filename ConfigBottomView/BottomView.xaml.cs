@@ -1,6 +1,7 @@
 ﻿using Lambda;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -38,7 +39,11 @@ namespace ConfigBottomView
 
         public void SetHistogram(int[] Histogramedata)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
+            sw.Stop();
+
         }
 
 

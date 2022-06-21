@@ -234,7 +234,7 @@
                                         <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 33-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="ToggleButton_Click">
                                         <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 34-->
                                     </ToggleButton>

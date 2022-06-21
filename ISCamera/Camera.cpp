@@ -23,7 +23,8 @@ void HistCalc(cv::Mat& MatPha,int i)
 	{
 		gray[i] = 0;
 	}
-
+	clock_t startTime, endTime;
+	startTime = clock();
 	for (int i = 0; i < MatPha.rows; i++)
 	{
 		cv::Vec3b* ptr_hist1 = MatPha.ptr<cv::Vec3b>(i);
@@ -34,13 +35,16 @@ void HistCalc(cv::Mat& MatPha,int i)
 			gray[z]++;
 		}
 	}
-	int size = MatPha.rows * MatPha.cols;
+	endTime = clock();
+	double a = (double)(endTime - startTime) / CLOCKS_PER_SEC;
+
+	//int size = MatPha.rows * MatPha.cols;
 	//int * graydense = new int[256];
-	for (int i = 0; i < 256; i++)
-	{
-		double graydense = (gray[i] * 1.0) / size;
-		gray[i] = (int)(graydense * 255);
-	}
+	//for (int i = 0; i < 256; i++)
+	//{
+	//	double graydense = (gray[i] * 1.0) / size;
+	//	gray[i] = (int)(graydense * 255);
+	//}
 
 	Event::Trigger("TestDataEvent2", gray, sizeof(char)*i);
 }
