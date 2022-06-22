@@ -14,6 +14,7 @@ extern CallBack6 callBack6;
 extern CallBack7 callBack7;
 extern CallBack8 callBack8;
 
+extern CallHandlerRaise callHandlerRaise;
 
 
 std::map<std::string, Callback1> Callback1_map;
@@ -33,7 +34,7 @@ std::map<std::string, ArgumentType> ArgumentType_map;
 LIB_API void RegisterRoutineEvent(char* type, int rotineId, ArgumentType handlerType, int once)
 {
 	std::string RoutineEvent = Chartostring(type);
-	RoutineEvent_map.insert(std::make_pair( rotineId, RoutineEvent));
+	RoutineEvent_map.insert(std::make_pair(rotineId, RoutineEvent));
 	ArgumentType_map.insert(std::make_pair(Chartostring(type), handlerType));
 }
 
@@ -44,7 +45,6 @@ LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerTy
 	FunctionEvent_map.insert(std::make_pair(FunctionEvent, fn1));
 	ArgumentType_map.insert(std::make_pair(FunctionEvent, handlerType));
 }
-
 
 void CallFunction(char* type, int argType, void* eventObject, void* sender)
 {
@@ -78,7 +78,7 @@ void CallFunction(char* type, int argType, void* eventObject, void* sender)
 		auto it12 = ArgumentType_map.find(Event);
 		if (it12 != ArgumentType_map.end()) {
 			if (it12->second == NO_ARGS) {
-				((Callback1)(it11->second))();
+				callHandlerRaise(it11->second);
 				return;
 			}
 			else if (it12->second == JSON_STRING) {
@@ -307,7 +307,7 @@ void Event::Dispatch(std::string type, void* object1, void* object2, void* objec
 {
 	std::thread t([=]() {
 		Event::Trigger(type, object1, object2, object3, object4);
-		});   
+		});
 	t.detach();
 }
 
@@ -348,7 +348,7 @@ void Event::Schedule(std::string type, const char* cron, const char* event)
 	//	}
 	//	});
 
-	
+
 
 
 
