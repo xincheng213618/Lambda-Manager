@@ -320,7 +320,7 @@
                                         <!--Unknown connection ID: 52-->
                                     </Button>
                                     <TextBlock VerticalAlignment="Center">FPS:</TextBlock>
-                                    <TextBox Name="fpsState" Text="{DynamicResource Fps}" VerticalAlignment="Center">
+                                    <TextBox Name="fpsState" Text="{Binding FPS}" VerticalAlignment="Center">
                                         <!--Unknown connection ID: 53-->
                                     </TextBox>
                                     <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center">

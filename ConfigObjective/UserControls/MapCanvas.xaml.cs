@@ -93,9 +93,14 @@ namespace ConfigObjective.UserControls
             Point pointClicked = e.GetPosition(mapCanvas);
             pointClickLeft = pointClicked;
 
-            if (e.ClickCount == 2)
-            {
-                MessageBox.Show("Move to " + "(" + pointClicked.X.ToString() + "," + pointClicked.Y.ToString() + ")");
+            if (e.ClickCount == 2) { 
+                Dictionary<string, object> data = new Dictionary<string, object>()
+                {
+                    { "X", (int)(pointClicked.X) },
+                    { "Y", (int)(pointClicked.Y) },
+                };
+                LambdaControl.Trigger("MOTORCONTROL", this, data);
+
             }
             else
             {

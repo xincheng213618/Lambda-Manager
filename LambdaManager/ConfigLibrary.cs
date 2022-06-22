@@ -28,7 +28,7 @@ internal class ConfigLibrary
 		Common.Init();
 	}
 
-	public bool Load(string path)
+    public bool Load(string path)
 	{
 		XElement root = XDocument.Load(path).Root;
 		if (root == null)

@@ -27,7 +27,7 @@ namespace Global
 
         static GridLengthConverter gridLengthConverter = new GridLengthConverter();
         List<ImageParameter> imageParameters = new List<ImageParameter>();
-        public  void AddImageConfident(Image image,int viewindex)
+        public void AddImageConfident(Image image,int viewindex)
         {
             if (image.Parent is Grid grid)
             {

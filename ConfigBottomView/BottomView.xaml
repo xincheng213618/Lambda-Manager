@@ -23,7 +23,7 @@
                     </Image>
                     
                     <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Button Content="自动" Background="Transparent" BorderThickness="1.5"   Margin="15,0" Padding="5,2"/>
+                        <Button Content="自动" Background="Transparent" BorderThickness="1.5"  Click="Button_Click"  Margin="15,0" Padding="5,2"/>
                         <Button Content="对数"  Background="Transparent" BorderThickness="1.5"  Margin="0,0,15,0" Padding="5,2"/>
                     </DockPanel>
 

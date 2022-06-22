@@ -20,11 +20,12 @@ namespace LambdaManager.Core;
 
 internal class Common
 {
+    public static View[] Views { get; } = new View[100];
 
-	private static List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
+    public static List<int> ClosingViewIndex { get; } = new List<int>();
 
 
-	private static readonly FPSCounter fps = new FPSCounter(((MainWindow)Application.Current.MainWindow).fpsState);
+    public static readonly FPSCounter fps = new FPSCounter();
 
 	private static readonly int RESERVED_EVENT_RESULT = 2147400000;
 
@@ -36,10 +37,9 @@ internal class Common
 
 	internal static IScheduler? Scheduler;
 
-	private static View[] Views { get; } = ((MainWindow)Application.Current.MainWindow).Views;
 
 
-	internal unsafe static void Init()
+    internal unsafe static void Init()
 	{
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
@@ -62,16 +62,8 @@ internal class Common
 
         GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 
-
 		LambdaControl.Initialize(App.Report, App.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
 
-        //LambdaControl.LogHandler = new LogHandler(App.Report);
-        //LambdaControl.LogHandler2 = new LogHandler(App.Report2);
-
-        //LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
-        //LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-        //LambdaControl.RegisterImageViewHandler = new RegisterImageViewHandler(RegisterImage);
-        //LambdaControl.Views = Views;
 		Initialize();
 	}
 
@@ -564,18 +556,11 @@ internal class Common
 			writeableBitmap.Lock();
 			writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
 			writeableBitmap.Unlock();
-			MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 			Image image = GetImage(index, A_1, initial: true);
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
 				Views[index].State = ViewState.RUNING;
-				if (index == 0)
-				{
-					string text = Application.Current.Resources["FpsRunning"] as string;
-					mainWindow.fpsState.Text = text;
-				}
-				FunctionExecutor.Solution.Writer?.Flush();
 			}
 		});
 		return 2;
@@ -609,17 +594,11 @@ internal class Common
 
 	private static Image? GetImage(int index,int A_1, bool initial)
 	{
-		MainWindow main = (MainWindow)Application.Current.MainWindow;
-		if (main == null)
-		{
-			return null;
-		}
-		Image image = main.Views[index]?.Image;
+		Image image = Views[index]?.Image;
 		if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
 		{
 			image = ViewGrid.GetIdleOrNewView(index)?.Image;
 		}
-
 		return image;
 	}
 

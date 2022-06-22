@@ -152,7 +152,7 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
-		HistCalc(frame, pView->GetIndex());
+		//HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
 		if (pView->IsState(ViewState::CLOSED)) {

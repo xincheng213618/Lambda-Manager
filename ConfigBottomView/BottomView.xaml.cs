@@ -39,10 +39,8 @@ namespace ConfigBottomView
 
         public void SetHistogram(int[] Histogramedata)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
+
             HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
-            sw.Stop();
 
         }
 
@@ -83,6 +81,11 @@ namespace ConfigBottomView
                 };
             }
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Collapsed;
         }
     }
 }
