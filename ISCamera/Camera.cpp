@@ -38,13 +38,13 @@ void HistCalc(cv::Mat& MatPha,int i)
 	endTime = clock();
 	double a = (double)(endTime - startTime) / CLOCKS_PER_SEC;
 
-	//int size = MatPha.rows * MatPha.cols;
-	//int * graydense = new int[256];
-	//for (int i = 0; i < 256; i++)
-	//{
-	//	double graydense = (gray[i] * 1.0) / size;
-	//	gray[i] = (int)(graydense * 255);
-	//}
+	int size = MatPha.rows * MatPha.cols;
+	int * graydense = new int[256];
+	for (int i = 0; i < 256; i++)
+	{
+		double graydense = (gray[i] * 1.0) / size;
+		gray[i] = (int)(graydense * 255);
+	}
 
 	Event::Trigger("TestDataEvent2", gray, sizeof(char)*i);
 }

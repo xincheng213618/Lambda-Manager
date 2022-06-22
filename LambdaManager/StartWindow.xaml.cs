@@ -33,6 +33,7 @@ namespace LambdaManager
         private void Window_Initialized(object sender, EventArgs e)
         {
             _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
+            Task.Run(Update);
         }
 
         private async void Update()
@@ -57,6 +58,7 @@ namespace LambdaManager
                 }
                 finally
                 {
+                    Close();
                 }
             });
 
@@ -68,7 +70,6 @@ namespace LambdaManager
         {
             TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接";
             await Task.Delay(300);
-            Task.Run(Update);
             TexoBoxMsg.Text += Environment.NewLine + "初始化配置信息";  
             await Task.Delay(300);
             TexoBoxMsg.Text += Environment.NewLine + "初始化主控";
@@ -78,7 +79,6 @@ namespace LambdaManager
             TexoBoxMsg.Text += Environment.NewLine + "初始化位移台";
             await Task.Delay(300);
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
-            Close();
 
         }
 
