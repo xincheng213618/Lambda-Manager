@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
 using Lambda;
@@ -105,7 +107,9 @@ internal class ConfigLibrary
 		ResolveFunctionArgument(validate);
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
-		InitializeLibrary();
+        Thread thread = new Thread(new ThreadStart(InitializeLibrary));
+		thread.IsBackground = true;
+        thread.Start();
 		return validate.Severity < Severity.FATAL_ERROR;
 	}
 
@@ -1657,7 +1661,7 @@ internal class ConfigLibrary
 
 	private void InitializeLibrary()
 	{
-		if (solution.Routines.ContainsKey(solution.InitEvent))
+        if (solution.Routines.ContainsKey(solution.InitEvent))
         {
             foreach (Routine routine in solution.Routines[solution.InitEvent])
             {
@@ -1667,9 +1671,6 @@ internal class ConfigLibrary
                 });
             }
         }
-
-
-
 	}
 
 	private static async void InitializeScheduler()

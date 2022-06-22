@@ -100,7 +100,6 @@ namespace ConfigObjective.UserControls
                     { "Y", (int)(pointClicked.Y) },
                 };
                 LambdaControl.Trigger("MOTORCONTROL", this, data);
-
             }
             else
             {
