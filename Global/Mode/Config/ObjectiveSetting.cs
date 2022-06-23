@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Global.Mode.Config
 {
@@ -7,10 +7,10 @@ namespace Global.Mode.Config
         public int ID { get; set; }    
         public string Name { get; set; }
 
-        [JsonProperty("magnitude")]
+        [JsonPropertyName("magnitude")]
         public string Magnitude { get; set; }
 
-        [JsonProperty("N.A")]
+        [JsonPropertyName("N.A")]
         public double NA { get; set; }
         public bool IsEnabled { get; set; } = true;
         public bool IsChecked { get; set; } = false;

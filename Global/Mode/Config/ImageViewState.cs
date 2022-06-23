@@ -1,5 +1,5 @@
 ﻿using Global.Common;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Global.Mode.Config
 {
@@ -39,7 +39,7 @@ namespace Global.Mode.Config
 
 
             private object colorbar = null;
-            [JsonProperty("color-bar")]
+            [JsonPropertyName("color-bar")]
             public object Colorbar
             {
                 get { return colorbar; }
@@ -47,7 +47,7 @@ namespace Global.Mode.Config
             }
 
             private object divider = null;
-            [JsonProperty("divider")]
+            [JsonPropertyName("divider")]
             public object Divider
             {
                 get { return divider; }
@@ -55,7 +55,7 @@ namespace Global.Mode.Config
             }
 
             private object antiPhase = null;
-            [JsonProperty("anti-phase")]
+            [JsonPropertyName("anti-phase")]
             public object AntiPhase
             {
                 get { return antiPhase; }
@@ -63,7 +63,7 @@ namespace Global.Mode.Config
             }
 
             private object histogram = null;
-            [JsonProperty("histogram")]
+            [JsonPropertyName("histogram")]
             public object Histogram
             {
                 get { return histogram; }
@@ -72,7 +72,7 @@ namespace Global.Mode.Config
 
 
             private object colorMap = null;
-            [JsonProperty("color-map")]
+            [JsonPropertyName("color-map")]
             public object ColorMap
             {
                 get { return colorMap; }
@@ -119,7 +119,7 @@ namespace Global.Mode.Config
             }
 
             private bool pointerChecked = false;
-            [JsonProperty("pointer-checked")]
+            [JsonPropertyName("pointer-checked")]
             public bool PointerChecked
             {
                 get { return pointerChecked; }
@@ -127,7 +127,7 @@ namespace Global.Mode.Config
             }
 
             private bool moveChecked = false;
-            [JsonProperty("move-checked")]
+            [JsonPropertyName("move-checked")]
             public bool MoveChecked
             {
                 get { return moveChecked; }
@@ -135,7 +135,7 @@ namespace Global.Mode.Config
             }
 
             private bool dimensionChecked = false;
-            [JsonProperty("dimension-checked")]
+            [JsonPropertyName("dimension-checked")]
             public bool DimensionChecked
             {
                 get { return dimensionChecked; }
@@ -143,7 +143,7 @@ namespace Global.Mode.Config
             }
 
             private bool focusChecked = false;
-            [JsonProperty("focus-checked")]
+            [JsonPropertyName("focus-checked")]
             public bool FocusChecked
             {
                 get { return focusChecked; }
@@ -152,7 +152,7 @@ namespace Global.Mode.Config
 
 
             private bool rulerChecked = false;
-            [JsonProperty("ruler-checked")]
+            [JsonPropertyName("ruler-checked")]
             public bool RulerChecked
             {
                 get { return rulerChecked; }
@@ -162,7 +162,7 @@ namespace Global.Mode.Config
             }
 
             private bool textChecked = false;
-            [JsonProperty("text-checked")]
+            [JsonPropertyName("text-checked")]
             public bool TextChecked
             {
                 get { return textChecked; }
@@ -170,7 +170,7 @@ namespace Global.Mode.Config
             }
 
             private bool arrowChecked = false;
-            [JsonProperty("arrow-checked")]
+            [JsonPropertyName("arrow-checked")]
             public bool ArrowChecked
             {
                 get { return arrowChecked; }
@@ -178,7 +178,7 @@ namespace Global.Mode.Config
             }
 
             private bool lineChecked = false;
-            [JsonProperty("line-checked")]
+            [JsonPropertyName("line-checked")]
             public bool LineChecked
             {
                 get { return lineChecked; }
@@ -186,7 +186,7 @@ namespace Global.Mode.Config
             }
 
             private bool curveChecked = false;
-            [JsonProperty("curve-checked")]
+            [JsonPropertyName("curve-checked")]
             public bool CurveChecked
             {
                 get { return curveChecked; }
@@ -194,7 +194,7 @@ namespace Global.Mode.Config
             }
 
             private bool circleChecked = false;
-            [JsonProperty("circle-checked")]
+            [JsonPropertyName("circle-checked")]
             public bool CircleChecked
             {
                 get { return circleChecked; }
@@ -202,7 +202,7 @@ namespace Global.Mode.Config
             }
 
             private bool rectangleChecked = false;
-            [JsonProperty("rectangle-checked")]
+            [JsonPropertyName("rectangle-checked")]
             public bool RectangleChecked
             {
                 get { return rectangleChecked; }
@@ -210,7 +210,7 @@ namespace Global.Mode.Config
             }
 
             private bool polygonChecked = false;
-            [JsonProperty("polygon-checked")]
+            [JsonPropertyName("polygon-checked")]
             public bool PolygonChecked
             {
                 get { return polygonChecked; }
@@ -222,7 +222,7 @@ namespace Global.Mode.Config
             /// <summary>
             /// 所有选择区域
             /// </summary>
-            [JsonProperty("selection")]
+            [JsonPropertyName("selection")]
             public object Selection
             {
                 get { return selection; }
@@ -233,7 +233,7 @@ namespace Global.Mode.Config
             /// <summary>
             /// 坐标偏移
             /// </summary>
-            [JsonProperty("move")]
+            [JsonPropertyName("move")]
             public object Move
             {
                 get { return move; }
@@ -244,7 +244,7 @@ namespace Global.Mode.Config
             /// <summary>
             /// 缩放比例
             /// </summary>
-            [JsonProperty("scale")]
+            [JsonPropertyName("scale")]
             public double Scale
             {
                 get { return scale; }
@@ -256,7 +256,7 @@ namespace Global.Mode.Config
             /// <summary>
             /// 标尺信息
             /// </summary>
-            [JsonProperty("dimension")]
+            [JsonPropertyName("dimension")]
             public object Dimension
             {
                 get { return dimension; }
@@ -264,7 +264,7 @@ namespace Global.Mode.Config
             }
 
             private object text = null;
-            [JsonProperty("text")]
+            [JsonPropertyName("text")]
             public object Text
             {
                 get { return text; }
@@ -272,7 +272,7 @@ namespace Global.Mode.Config
             }
 
             private object arrow = null;
-            [JsonProperty("arrow")]
+            [JsonPropertyName("arrow")]
             public object Arrow
             {
                 get { return arrow; }
@@ -280,7 +280,7 @@ namespace Global.Mode.Config
             }
 
             private object line = null;
-            [JsonProperty("line")]
+            [JsonPropertyName("line")]
             public object Line
             {
                 get { return line; }
@@ -288,7 +288,7 @@ namespace Global.Mode.Config
             }
 
             private object curve = null;
-            [JsonProperty("curve")]
+            [JsonPropertyName("curve")]
             public object Curve
             {
                 get { return curve; }
@@ -296,7 +296,7 @@ namespace Global.Mode.Config
             }
 
             private object circle = null;
-            [JsonProperty("circle")]
+            [JsonPropertyName("circle")]
             public object Circle
             {
                 get { return circle; }
@@ -304,7 +304,7 @@ namespace Global.Mode.Config
             }
 
             private object rectangle = null;
-            [JsonProperty("rectangle")]
+            [JsonPropertyName("rectangle")]
             public object Rectangle
             {
                 get { return rectangle; }
@@ -312,7 +312,7 @@ namespace Global.Mode.Config
             }
 
             private object polygon = null;
-            [JsonProperty("polygon")]
+            [JsonPropertyName("polygon")]
             public object Polygon
             {
                 get { return polygon; }
@@ -342,7 +342,7 @@ namespace Global.Mode.Config
 
 
             private bool quaterChecked = false;
-            [JsonProperty("quater-checked")]
+            [JsonPropertyName("quater-checked")]
             public bool QuaterChecked
             {
                 get { return quaterChecked; }
@@ -350,7 +350,7 @@ namespace Global.Mode.Config
             }
 
             private bool dualChecked = false;
-            [JsonProperty("dual-checked")]
+            [JsonPropertyName("dual-checked")]
             public bool DualChecked
             {
                 get { return dualChecked; }
@@ -358,7 +358,7 @@ namespace Global.Mode.Config
             }
 
             private bool bfChecked = false;
-            [JsonProperty("bf-checked")]
+            [JsonPropertyName("bf-checked")]
             public bool CfChecked
             {
                 get { return bfChecked; }
@@ -366,7 +366,7 @@ namespace Global.Mode.Config
             }
 
             private bool dfChecked = false;
-            [JsonProperty("df-checked")]
+            [JsonPropertyName("df-checked")]
             public bool DfChecked
             {
                 get { return dfChecked; }
@@ -375,7 +375,7 @@ namespace Global.Mode.Config
 
 
             private bool riChecked = false;
-            [JsonProperty("ri-checked")]
+            [JsonPropertyName("ri-checked")]
             public bool RiChecked
             {
                 get { return riChecked; }
@@ -383,7 +383,7 @@ namespace Global.Mode.Config
             }
 
             private bool dpChecked = false;
-            [JsonProperty("dp-checked")]
+            [JsonPropertyName("dp-checked")]
             public bool DpChecked
             {
                 get { return dpChecked; }
@@ -391,7 +391,7 @@ namespace Global.Mode.Config
             }
 
             private bool phiChecked = false;
-            [JsonProperty("phi-checked")]
+            [JsonPropertyName("phi-checked")]
             public bool PhiChecked
             {
                 get { return phiChecked; }
@@ -399,7 +399,7 @@ namespace Global.Mode.Config
             }
 
             private bool flChecked = false;
-            [JsonProperty("fl-checked")]
+            [JsonPropertyName("fl-checked")]
             public bool FlChecked
             {
                 get { return flChecked; }
@@ -407,7 +407,7 @@ namespace Global.Mode.Config
             }
 
             private bool d3checked = false;
-            [JsonProperty("3d-checked")]
+            [JsonPropertyName("3d-checked")]
             public bool D3checked
             {
                 get { return d3checked; }
@@ -416,7 +416,7 @@ namespace Global.Mode.Config
 
 
             private bool cubeChecked = false;
-            [JsonProperty("cube-checked")]
+            [JsonPropertyName("cube-checked")]
             public bool CubeChecked
             {
                 get { return cubeChecked; }
@@ -424,7 +424,7 @@ namespace Global.Mode.Config
             }
 
             private bool repoChecked = false;
-            [JsonProperty("repo-checked")]
+            [JsonPropertyName("repo-checked")]
             public bool RepoChecked
             {
                 get { return repoChecked; }
@@ -432,7 +432,7 @@ namespace Global.Mode.Config
             }
 
             private string quater = "";
-            [JsonProperty("quater")]
+            [JsonPropertyName("quater")]
             public string Quater
             {
                 get { return quater; }
@@ -440,7 +440,7 @@ namespace Global.Mode.Config
             }
 
             private string dual = "";
-            [JsonProperty("dual")]
+            [JsonPropertyName("dual")]
             public string Dual
             {
                 get { return dual; }
@@ -448,7 +448,7 @@ namespace Global.Mode.Config
             }
 
             private object cube = null;
-            [JsonProperty("cube")]
+            [JsonPropertyName("cube")]
             public object Cube
             {
                 get { return cube; }
@@ -456,7 +456,7 @@ namespace Global.Mode.Config
             }
 
             private object d3 = null;
-            [JsonProperty("3d")]
+            [JsonPropertyName("3d")]
             public object D3
             {
                 get { return d3; }
@@ -475,7 +475,7 @@ namespace Global.Mode.Config
             }
 
             private object tFps = null;
-            [JsonProperty("t-fps")]
+            [JsonPropertyName("t-fps")]
             public object TFps
             {
                 get { return tFps; }

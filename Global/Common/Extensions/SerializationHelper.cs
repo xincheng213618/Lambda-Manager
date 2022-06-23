@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
+using System.Text.Json;
 using System.Xml.Serialization;
 
 namespace Global.Common.Extensions
@@ -27,12 +27,12 @@ namespace Global.Common.Extensions
 
         public static T DeserializeJson<T>(this string toDeserialize)
         {
-            return JsonConvert.DeserializeObject<T>(toDeserialize);
+            return JsonSerializer.Deserialize<T>(toDeserialize);
         }
 
         public static string SerializeJson<T>(this T toSerialize)
         {
-            return JsonConvert.SerializeObject(toSerialize);
+            return JsonSerializer.Serialize(toSerialize);
         }
     }
 }

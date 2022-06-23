@@ -4,9 +4,11 @@ using Global.Mode;
 using Global.Mode.Config;
 using Lambda;
 using Mode;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.ExceptionServices;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -109,7 +111,7 @@ namespace Global
  
             try
             {
-                Config = JsonConvert.DeserializeObject<Config>(result);
+                Config = JsonSerializer.Deserialize<Config>(result);
             }
             catch (Exception ex)
             {

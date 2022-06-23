@@ -1,10 +1,10 @@
 ﻿using Global.Common;
 using Mode;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Global.Mode.Config
@@ -19,7 +19,7 @@ namespace Global.Mode.Config
         /// <summary>
         /// 伽玛
         /// </summary>
-        [JsonProperty("gamma")]
+        [JsonPropertyName("gamma")]
         public double Gamma
         {
             get { return gamma; }
@@ -27,7 +27,7 @@ namespace Global.Mode.Config
         }
 
         private double gain = 0;
-        [JsonProperty("gain")]
+        [JsonPropertyName("gain")]
         public double Gain
         {
             get { return gain; }
@@ -36,7 +36,7 @@ namespace Global.Mode.Config
 
         private bool gainAuto = false;
 
-        [JsonProperty("gainAuto")]
+        [JsonPropertyName("gainAuto")]
         public bool GainAuto
         {
             get { return gainAuto; }
@@ -44,7 +44,7 @@ namespace Global.Mode.Config
         }
 
         private double sharpness = 0;
-        [JsonProperty("sharpness")]
+        [JsonPropertyName("sharpness")]
         public double Sharpness
         {
             get { return sharpness; }
@@ -53,7 +53,7 @@ namespace Global.Mode.Config
 
         private double saturation = 0;
 
-        [JsonProperty("saturation")]
+        [JsonPropertyName("saturation")]
         public double Saturation
         {
             get { return saturation; }
@@ -61,7 +61,7 @@ namespace Global.Mode.Config
         }
 
         private int exposure = 60;
-        [JsonProperty("exposure")]
+        [JsonPropertyName("exposure")]
         public int Exposure
         {
             get { return exposure; }
@@ -70,32 +70,32 @@ namespace Global.Mode.Config
 
         private bool exposureAuto = false;
 
-        [JsonProperty("exposureAuto")]
+        [JsonPropertyName("exposureAuto")]
         public bool ExposureAuto
         {
             get { return exposureAuto; }
             set { exposureAuto = value; NotifyPropertyChanged(); }
         }
 
-        [JsonProperty("vedio-format")]
+        [JsonPropertyName("vedio-format")]
         public string? VideoFormat { get; set; }
-        [JsonProperty("fps")]
+        [JsonPropertyName("fps")]
         public double? Fps { get; set; }
-        [JsonProperty("brightness")]
+        [JsonPropertyName("brightness")]
         public double? Brightness { get; set; }
-        [JsonProperty("contrast")]
+        [JsonPropertyName("contrast")]
         public double? Contrast { get; set; }
-        [JsonProperty("hue")]
+        [JsonPropertyName("hue")]
         public double? Hue { get; set; }
 
-        [JsonProperty("white-balance")]
+        [JsonPropertyName("white-balance")]
         public WhiteBalance? WhiteBalance { get; set; }
 
-        [JsonProperty("trigger")]
+        [JsonPropertyName("trigger")]
         public Trigger? Trigger { get; set; }
-        [JsonProperty("denoise")]
+        [JsonPropertyName("denoise")]
         public bool? Denoise { get; set; }
-        [JsonProperty("strobe")]
+        [JsonPropertyName("strobe")]
         public bool? Strobe { get; set; }
 
         public void SetValue(Camera camera)

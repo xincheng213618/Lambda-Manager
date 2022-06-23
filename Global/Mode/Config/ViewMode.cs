@@ -1,9 +1,9 @@
 ﻿using Global.Common;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Global.Mode.Config
@@ -13,22 +13,22 @@ namespace Global.Mode.Config
         public int SelectViewMode = 0;
 
 
-        [JsonProperty("bright-field")]
+        [JsonPropertyName("bright-field")]
         public BrightField BrightField { get; set; } = new();
 
-        [JsonProperty("dark-field")]    
+        [JsonPropertyName("dark-field")]    
         public DarkField DarkField { get; set; } = new();
 
-        [JsonProperty("rheinberg")]
+        [JsonPropertyName("rheinberg")]
         public Reinberg Reinberg { get; set; } = new();
 
-        [JsonProperty("relief-contrast")]
+        [JsonPropertyName("relief-contrast")]
         public ReliefContrast ReliefContrast { get; set; } = new();
 
-        [JsonProperty("phase-contrast")]
+        [JsonPropertyName("phase-contrast")]
         public PhaseContrast PhaseContrast { get; set; } = new();
 
-        [JsonProperty("quantitative-phase")]
+        [JsonPropertyName("quantitative-phase")]
         public QuantitativePhase QuantitativePhase { get; set; } = new();
 
         public void SetValue(ViewMode ViewMode)
@@ -49,7 +49,7 @@ namespace Global.Mode.Config
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 };
 
         private int aperture = 9;
-        [JsonProperty("led-diameter")]
+        [JsonPropertyName("led-diameter")]
         public int Aperture
         {
             get { return aperture; }
@@ -87,7 +87,7 @@ namespace Global.Mode.Config
 
         private int innerAperture = 12;
 
-        [JsonProperty("led-diameter-inner")]
+        [JsonPropertyName("led-diameter-inner")]
         public int InnerAperture
         {
             get { return innerAperture; }
@@ -100,7 +100,7 @@ namespace Global.Mode.Config
 
 
         private int outAperture = 32;
-        [JsonProperty("led-diameter-outer")]
+        [JsonPropertyName("led-diameter-outer")]
         public int OutAperture
         {
             get { return outAperture; }

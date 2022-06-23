@@ -1,5 +1,8 @@
 ﻿using Lambda;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -254,19 +257,9 @@ namespace Global
             {
                 MessageBox.Show(ex.Message);
             }
-
-            ADDzeroImage();
         }
 
-        private async void ADDzeroImage()
-        {
-            await Task.Delay(3000);
-            View view = LambdaControl.GetImageView(0);
-            if (view != null)
-            {
-                view.Image = null;
-            }
-        }
+
 
         
 

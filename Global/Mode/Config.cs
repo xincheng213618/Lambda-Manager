@@ -2,8 +2,10 @@
 using Global.Common;
 using Global.Mode;
 using Global.Mode.Config;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 
 namespace Mode
@@ -14,34 +16,34 @@ namespace Mode
     [Serializable]
     public class Config: ViewModeBase
     {
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string? Version { get; set; }
        
-        [JsonProperty("modules")]
+        [JsonPropertyName("modules")]
         public Modules? Modules { get; set; }
-        [JsonProperty("last-visit-time")]
+        [JsonPropertyName("last-visit-time")]
         public string LastOpenTime { get; set; } = DateTime.Now.ToString("YYYY-MM-dd HH:mm:ss");
 
-        [JsonProperty("lambda-manager")]
+        [JsonPropertyName("lambda-manager")]
         public LambdaManager LambdaManager { get; set; }
         
-        [JsonProperty("firmware")]
+        [JsonPropertyName("firmware")]
         public Firmware FirmwareSetting { get; set; }
 
-        [JsonProperty("config-stage")]
+        [JsonPropertyName("config-stage")]
         public Stage Stage { get; set; } = new();
-        [JsonProperty("config-spot")]
+        [JsonPropertyName("config-spot")]
         public Spot Spot { get; set; } = new();
 
-        [JsonProperty("config-imaging-mode")]
+        [JsonPropertyName("config-imaging-mode")]
         public ViewMode ViewMode { get; set; } = new ViewMode();
 
-        [JsonProperty("config-multi-dimensional")]
+        [JsonPropertyName("config-multi-dimensional")]
         public Dimensional Dimensional { get; set; } = new();
 
         public ImageViewState ImageViewState = new ImageViewState();
 
-        [JsonProperty("log-file")]
+        [JsonPropertyName("log-file")]
         public string? LogFile { get; set; }
 
         public Hotkey Hotkey { get; set; }
@@ -52,9 +54,9 @@ namespace Mode
     [Serializable]
     public class Hotkey
     {
-        [JsonProperty("Key")]
+        [JsonPropertyName("Key")]
         public Key Key { get; }
-        [JsonProperty("Modifiers")]
+        [JsonPropertyName("Modifiers")]
         public ModifierKeys Modifiers { get; }
         public Hotkey(Key key, ModifierKeys modifiers)
         {
@@ -83,39 +85,39 @@ namespace Mode
     [Serializable]
     public class Modules
     {
-        [JsonProperty("lambda_manager")]
+        [JsonPropertyName("lambda_manager")]
         public string? LambdaManager { get; set; } = "1.0";
-        [JsonProperty("config-dpc-mode")]
+        [JsonPropertyName("config-dpc-mode")]
         public string? ConfigDpcMode { get; set; } = "1.0";
-        [JsonProperty("config-stage")]
+        [JsonPropertyName("config-stage")]
         public string? ConfigStage { get; set; } = "1.0";
-        [JsonProperty("config-spot")]
+        [JsonPropertyName("config-spot")]
         public string? ConfigSpot { get; set; } = "1.0";
-        [JsonProperty("config-dof")]
+        [JsonPropertyName("config-dof")]
         public string? ConfigDof { get; set; } = "1.0";
-        [JsonProperty("config-multi-dimensional")]
+        [JsonPropertyName("config-multi-dimensional")]
         public string? ConfigMultiDimensional { get; set; } = "1.0";
-        [JsonProperty("dpc-algorithm")]
+        [JsonPropertyName("dpc-algorithm")]
         public string? DpcAlgorithm { get; set; } = "1.0";
     }
     [Serializable]
     public class LambdaManager
     {
-        [JsonProperty("latest-closed")]
+        [JsonPropertyName("latest-closed")]
         public List<string>? LatestClosed { get; set; }
-        [JsonProperty("default-directory")]
+        [JsonPropertyName("default-directory")]
         public string?  DefaultDirectory { get; set; }   
     }
     [Serializable]
     public class Firmware
     {
-        [JsonProperty("objective")]
+        [JsonPropertyName("objective")]
         public ObjectiveSetting? ObjectiveSetting { get; set; }
 
-        [JsonProperty("camera")]
+        [JsonPropertyName("camera")]
         public Camera? CameraSetting { get; set; } = new ();
 
-        [JsonProperty("source")]
+        [JsonPropertyName("source")]
         public Source? Source { get; set; }
     }
 
@@ -124,9 +126,9 @@ namespace Mode
     [Serializable]
     public class Source
     {
-        [JsonProperty("fpga-version")]
+        [JsonPropertyName("fpga-version")]
         public string FpgaVersion { get; set; } = "1.0";
-        [JsonProperty("max-bright")]
+        [JsonPropertyName("max-bright")]
         public int MaxBright { get; set; } = new();
 
     }
@@ -134,48 +136,48 @@ namespace Mode
     [Serializable]
     public class WhiteBalance
     {
-        [JsonProperty("auto")]
+        [JsonPropertyName("auto")]
         public bool? Auto { get; set; }
-        [JsonProperty("mode")]
+        [JsonPropertyName("mode")]
         public int? Mode { get; set; }
-        [JsonProperty("white-balance-green")]
+        [JsonPropertyName("white-balance-green")]
         public int? WhiteBalanceGreen { get; set; }
-        [JsonProperty("white-balance-blue")]
+        [JsonPropertyName("white-balance-blue")]
         public int? WhiteBalanceBlue { get; set; }
-        [JsonProperty("white-balance-red")]
+        [JsonPropertyName("white-balance-red")]
         public int? WhiteBalanceRed { get; set; }
     }
 
     [Serializable]
     public class Gain
     {
-        [JsonProperty("auto")]
+        [JsonPropertyName("auto")]
         public bool? Auto { get; set; }
-        [JsonProperty("value")]
+        [JsonPropertyName("value")]
         public double? Value { set; get; }
 
     }
     [Serializable]
     public class Exposure
     {
-        [JsonProperty("auto")]
+        [JsonPropertyName("auto")]
         public bool? Auto { get; set; }
-        [JsonProperty("value")]
+        [JsonPropertyName("value")]
         public double? Value { set; get; }
-        [JsonProperty("auto-max")]
+        [JsonPropertyName("auto-max")]
         public int? AutoMax { get; set; }
-        [JsonProperty("auto-reference")]
+        [JsonPropertyName("auto-reference")]
         public int? AutoReference { get; set; }
 
     }
     [Serializable]
     public class Trigger
     {
-        [JsonProperty("enable")]
+        [JsonPropertyName("enable")]
         public bool? Enable { get; set; }
-        [JsonProperty("polarity")]
+        [JsonPropertyName("polarity")]
         public bool? Polarity { get; set; }
-        [JsonProperty("delay")]
+        [JsonPropertyName("delay")]
         public double? Delay { set; get; }
 
     }

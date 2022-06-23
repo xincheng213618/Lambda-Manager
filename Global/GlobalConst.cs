@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Global
 {
-    public static class Global
+    public static class GlobalConst
     {
         #region 常量
 

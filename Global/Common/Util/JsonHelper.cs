@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json;
+
 
 namespace Global.Common.Util
 {
@@ -17,7 +19,7 @@ namespace Global.Common.Util
         /// <returns></returns>
         public static string ToJson(Object obj)
         {
-            return JsonConvert.SerializeObject(obj, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return JsonSerializer.Serialize(obj, new JsonSerializerOptions());
         }
 
         /// <summary>
@@ -31,19 +33,8 @@ namespace Global.Common.Util
             int result;
             try
             {
-                using (StreamWriter file = File.CreateText(filePath))
-                {
-                    JsonSerializer serializer;
-                    if (nullValue)
-                    {
-                        serializer = new JsonSerializer() { Formatting = Formatting.Indented };
-                    }
-                    else
-                    {
-                        serializer = JsonSerializer.Create(new JsonSerializerSettings() { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore });
-                    }
-                    serializer.Serialize(file, obj);
-                }
+                string jsonString = JsonSerializer.Serialize(obj);
+                File.WriteAllText(filePath, jsonString);
                 result = 0;
             }
             catch(Exception ex)

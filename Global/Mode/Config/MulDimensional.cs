@@ -1,6 +1,8 @@
 ﻿
 using Global.Common;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Global.Mode.Config
 {
@@ -20,11 +22,11 @@ namespace Global.Mode.Config
         public List<MulDimensionalArea> mulDimensionalAreas { get; set; } = new List<MulDimensionalArea> { };
         public List<MulDimensionalPoint> mulDimensionalPoints { get; set; } = new List<MulDimensionalPoint> { };
 
-        [JsonProperty("Z-Enable")]
+        [JsonPropertyName("Z-Enable")]
         public bool ZEnable { get; set; } = false;
 
         private int zStart = 16;
-        [JsonProperty("Z-Start")]
+        [JsonPropertyName("Z-Start")]
         public int ZStart
         {
             get { return zStart; }
@@ -37,7 +39,7 @@ namespace Global.Mode.Config
 
         private int zEnd = 32;
 
-        [JsonProperty("Z-End")]
+        [JsonPropertyName("Z-End")]
         public int ZEnd
         {
             get { return zEnd; }
@@ -49,7 +51,7 @@ namespace Global.Mode.Config
         }
 
         private int zstep = 200;
-        [JsonProperty("Z-step")]
+        [JsonPropertyName("Z-step")]
         public int Zstep
         {
             get { return zstep; }
@@ -87,7 +89,7 @@ namespace Global.Mode.Config
 
         private int tNumber = 15;
 
-        [JsonProperty("T-Number")]
+        [JsonPropertyName("T-Number")]
         public int TNumber
         {
             get { return tNumber ; }
@@ -106,7 +108,7 @@ namespace Global.Mode.Config
 
         private int tInterval = 16;
 
-        [JsonProperty("T-Interva")]
+        [JsonPropertyName("T-Interva")]
         public int TInterval
         {
             get { return tInterval; }
@@ -155,9 +157,9 @@ namespace Global.Mode.Config
             X = point.X;
             Y = point.Y;
         }
-        [JsonProperty("X")]
+        [JsonPropertyName("X")]
         public int X { get; set; }
-        [JsonProperty("Y")]
+        [JsonPropertyName("Y")]
         public int Y { get; set; }
     }
 
@@ -182,13 +184,13 @@ namespace Global.Mode.Config
         {
 
         }
-        [JsonProperty("X")]
+        [JsonPropertyName("X")]
         public int X { get; set; }
-        [JsonProperty("Y")]
+        [JsonPropertyName("Y")]
         public int Y { get; set; }
-        [JsonProperty("Width")]
+        [JsonPropertyName("Width")]
         public int Width { get; set; }
-        [JsonProperty("Height")]
+        [JsonPropertyName("Height")]
         public int Height { get; set; }
     }
 }

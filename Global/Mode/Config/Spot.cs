@@ -1,9 +1,9 @@
 ﻿using Global.Common;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Global.Mode.Config
@@ -11,76 +11,76 @@ namespace Global.Mode.Config
     [Serializable]
     public class  TestMean : ViewModeBase
     {
-        [JsonProperty("config-stage")]
+        [JsonPropertyName("config-stage")]
         public Stage Stage { get; set; }    
-        [JsonProperty("config-spot")]
+        [JsonPropertyName("config-spot")]
         public Spot Spot { get; set; }
 
-        [JsonProperty("config-multi-dimensional")]
+        [JsonPropertyName("config-multi-dimensional")]
         public Dimensional Dimensional { get; set; }    
     }
 
     [Serializable]
     public class Spot:ViewModeBase
     {
-        [JsonProperty("includes")]
+        [JsonPropertyName("includes")]
         public List<List<int>> Includes { get;set; } = new List<List<int>>();
 
-        [JsonProperty("excludes")]
+        [JsonPropertyName("excludes")]
         public List<List<int>> Excludes { get; set; } = new List<List<int>>();
     }
     [Serializable]
     public class Dimensional : ViewModeBase
     {
-        [JsonProperty("imaging-mode")]
+        [JsonPropertyName("imaging-mode")]
         public List<string> Mode { get; set; } = new List<string>();
 
-        [JsonProperty("focus-mode")]
+        [JsonPropertyName("focus-mode")]
         public FocusMode Focusmode { get; set; } = new();
 
-        [JsonProperty("time-wise-serial")]
+        [JsonPropertyName("time-wise-serial")]
         public TimeWiseSerial TimeWiseSerial { get; set; } = new TimeWiseSerial();
-        [JsonProperty("dimensions")]  
+        [JsonPropertyName("dimensions")]  
         public string Dimensions { get; set; } = "xy";
 
-        [JsonProperty("zstack-wise-serial")]
+        [JsonPropertyName("zstack-wise-serial")]
         public ZstackWiseSerial ZstackWiseSerial { get; set; } = new ZstackWiseSerial();    
-        [JsonProperty("serial-prefix")]
+        [JsonPropertyName("serial-prefix")]
         public string Saveprefix { get; set; } = "Serial";
-        [JsonProperty("save-dir")]
+        [JsonPropertyName("save-dir")]
         public string Savedir { get; set; }
     }
 
     [Serializable]
     public class FocusMode
     {
-        [JsonProperty("t-wise")]
+        [JsonPropertyName("t-wise")]
         public Twise Twise { get; set; } = new();
 
-        [JsonProperty("p-wise")]
+        [JsonPropertyName("p-wise")]
         public Pwise Pwise { get; set; } = new();
     }
     [Serializable]
     public class Twise
     {
-        [JsonProperty("interval")]
+        [JsonPropertyName("interval")]
         public string Interval { get; set; } = "first";
     }
     [Serializable]
     public class Pwise
     {
-        [JsonProperty("interval")]
+        [JsonPropertyName("interval")]
         public string Interval { get; set; } = "first";
     }
 
     [Serializable]
     public class ZstackWiseSerial : ViewModeBase
     {
-        [JsonProperty("z-begin")]
+        [JsonPropertyName("z-begin")]
         public int ZBegin { get; set; } 
-        [JsonProperty("z-end")]
+        [JsonPropertyName("z-end")]
         public int ZEnd { get; set; } 
-        [JsonProperty("z-step")]
+        [JsonPropertyName("z-step")]
         public int ZStep { get; set; } 
 
     }
@@ -89,9 +89,9 @@ namespace Global.Mode.Config
     [Serializable]
     public class TimeWiseSerial : ViewModeBase
     {
-        [JsonProperty("times")]
+        [JsonPropertyName("times")]
         public int Times { get; set; } = 0;
-        [JsonProperty("duration")]
+        [JsonPropertyName("duration")]
         public int Duration { get; set; } = 0;
     }
 }
