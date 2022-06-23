@@ -1,4 +1,5 @@
-﻿using Global.Hardware;
+﻿using Global.Common.Extensions;
+using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
 using Lambda;
@@ -85,7 +86,7 @@ namespace Global
             Config.ViewMode.SetValue(ViewMode);
             Config.Stage.SetValue(Stage);
             Config.ImageViewState.SetValue(ImageViewState);
-            Utils.ToJsonFile(Config, FilePath);
+            Config.ToJsonFile(FilePath);
         }
         
         /// <summary>
@@ -99,9 +100,8 @@ namespace Global
                 MessageBox.Show("找不到工程文件。");
                 return -1;
             }
-
-            string result = Utils.LoadResource(ConfigFileName);
-            if (result.IsNullOrEmpty())
+            string result = File.ReadAllText(ConfigFileName);
+            if (result==null)
             {
                 MessageBox.Show("未能加载项目文件。缺少根元素");
                 return -2;

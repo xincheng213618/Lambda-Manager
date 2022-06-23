@@ -36,7 +36,7 @@ namespace LambdaManager
             Task.Run(Update);
         }
 
-        private async void Update()
+        private void Update()
         {
             Application.Current.Dispatcher.Invoke(delegate
             {

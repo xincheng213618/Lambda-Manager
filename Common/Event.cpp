@@ -46,7 +46,7 @@ LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerTy
 	ArgumentType_map.insert(std::make_pair(FunctionEvent, handlerType));
 }
 
-void CallFunction(char* type, int argType, void* eventObject, void* sender)
+int CallFunction(char* type, int argType, void* eventObject, void* sender)
 {
 	std::string Event = Chartostring(type);
 
@@ -56,21 +56,18 @@ void CallFunction(char* type, int argType, void* eventObject, void* sender)
 		if (it->second == Event) {
 			auto it2 = ArgumentType_map.find(Event);
 			if (it2 != ArgumentType_map.end()) {
-				if (it2->second == NO_ARGS) {
+				if (argType == NO_ARGS) {
 					callBack1(it->first, sender);
 				}
-				else if (it2->second == JSON_STRING) {
+				else if (argType == JSON_STRING) {
 					callBack3(it->first, eventObject, sender);
 				}
-				else if (it2->second == JSON_OBJECT || it2->second == STL_MAP) {
+				else if (argType == JSON_OBJECT || argType == STL_MAP) {
 					callBack3(it->first, eventObject, sender);
-
 				}
-
 			}
 		}
 	}
-
 
 
 	auto it11 = FunctionEvent_map.find(Event);
@@ -78,18 +75,15 @@ void CallFunction(char* type, int argType, void* eventObject, void* sender)
 		auto it12 = ArgumentType_map.find(Event);
 		if (it12 != ArgumentType_map.end()) {
 			if (it12->second == NO_ARGS) {
-				callHandlerRaise(it11->second);
-				return;
+				((Callback1)(it11->second))();
 			}
 			else if (it12->second == JSON_STRING) {
 				if (eventObject != NULL) {
-					((Callback3)(it11->second))((char*)eventObject);
-					return;
+					return ((Callback3)(it11->second))((char*)eventObject);
 				}
 			}
 			else if (it12->second == POINTER || it12->second == POINTER2 || it12->second == POINTER4) {
-				((Callback5)(it11->second))(eventObject);
-				return;
+				return((Callback5)(it11->second))(eventObject);
 			}
 		}
 	}
@@ -97,15 +91,14 @@ void CallFunction(char* type, int argType, void* eventObject, void* sender)
 
 	auto it2 = Callback1_map.find(Event);
 	if (it2 != Callback1_map.end()) {
-		(it2->second)();
-		return;
+		return (it2->second)();
 	}
 
 	auto it23 = Callback3_map.find(Event);
 	if (it23 != Callback3_map.end()) {
-		(it23->second)((char*)eventObject);
-		return;
+		return (it23->second)((char*)eventObject);
 	}
+	return 0;
 }
 
 

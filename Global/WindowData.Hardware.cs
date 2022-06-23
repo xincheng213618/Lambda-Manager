@@ -13,7 +13,8 @@ namespace Global
         {
             if (File.Exists(Global.HardwareDeviceInformationSheet))
             {
-                string HardwareDeviceInformation = Utils.LoadResource(Global.HardwareDeviceInformationSheet);
+                string HardwareDeviceInformation = File.ReadAllText(Global.HardwareDeviceInformationSheet);
+
                 if (!string.IsNullOrEmpty(HardwareDeviceInformation))
                 {
                     deviceInformation = JsonConvert.DeserializeObject<DeviceInformation>(HardwareDeviceInformation);

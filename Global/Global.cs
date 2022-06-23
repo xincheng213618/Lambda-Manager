@@ -10,6 +10,7 @@ namespace Global
     public static class Global
     {
         #region 常量
+
         public const string AboutUrl = @"http://www.njust-sci.com/";
         public const string UpdateUrl = @"http://www.njust-sci.com/";
         #endregion

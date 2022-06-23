@@ -107,9 +107,10 @@ internal class ConfigLibrary
 		ResolveFunctionArgument(validate);
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
-        Thread thread = new Thread(new ThreadStart(InitializeLibrary));
-		thread.IsBackground = true;
-        thread.Start();
+		InitializeLibrary();
+  //      Thread thread = new Thread(new ThreadStart());
+		//thread.IsBackground = true;
+  //      thread.Start();
 		return validate.Severity < Severity.FATAL_ERROR;
 	}
 

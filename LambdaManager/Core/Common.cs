@@ -86,16 +86,6 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage1(int severity, sbyte* message)
 	{
-        //int length = default(int);
-        //sbyte* p2 = default(sbyte*);
-        //p2 = (sbyte*)message;
-        //while (*(p2++) != 0)
-        //    length++;
-        //LambdaControl.Log(new Message
-        //{
-        //    Severity = (Severity)severity,
-        //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
-        //});
         LambdaControl.Log(new Message
         {
             Severity = (Severity)severity,
