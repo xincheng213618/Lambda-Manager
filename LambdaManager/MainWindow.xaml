@@ -218,7 +218,7 @@
                                         <Image Source="/Resources/Icons/top-select.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 29-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_21">
                                         <Image Source="/Resources/Icons/top-inline.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 30-->
                                     </ToggleButton>
@@ -230,11 +230,12 @@
                                         <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 32-->
                                     </Button>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+
+                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_24">
                                         <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 33-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="ToggleButton_Click">
+                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_25">
                                         <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 34-->
                                     </ToggleButton>

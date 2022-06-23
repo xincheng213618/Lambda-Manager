@@ -23,7 +23,4 @@
     <Page Remove="Microsoft.CodeAnalysis\**" />
     <Page Remove="System.Runtime.CompilerServices\**" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LambdaUtils\LambdaUtils.csproj" />
-  </ItemGroup>
 </Project>

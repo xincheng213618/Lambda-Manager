@@ -260,7 +260,7 @@ namespace Global
 
         private async void ADDzeroImage()
         {
-            await Task.Delay(1000);
+            await Task.Delay(3000);
             View view = LambdaControl.GetImageView(0);
             if (view != null)
             {

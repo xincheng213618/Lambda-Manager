@@ -5,6 +5,7 @@ using Mode;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -24,6 +25,12 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
+            LambdaControl.AddLambdaEventHandler("ZOOM_IN_CLICKED", ZOOM_IN_CLICKED, false);
+            LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
+            LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
+
+            
+
             //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
 
@@ -35,6 +42,67 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);  
         }
+
+        public bool IsSelectImageView = true;
+        public int SelectImageView = -1;
+
+        private bool SELECT_CLICKED(object sender, EventArgs e)
+        {
+            IsSelectImageView = true;
+
+            return true;
+        }
+
+        private bool ZOOM_IN_CLICKED(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    foreach (var item in imageParameters)
+                    {
+                        item.ScaleTransformScaleX += 0.12;
+                        item.ScaleTransformScaleY += 0.12;
+                    }
+                }
+                else
+                {
+                    if (SelectImageView >= 0&& SelectImageView< imageParameters.Count)
+                    {
+                        imageParameters[SelectImageView].ScaleTransformScaleX += 0.12;
+                        imageParameters[SelectImageView].ScaleTransformScaleY += 0.12;
+                    }
+                }
+            });
+
+            return true;
+        }
+
+        private bool ZOME_OUT_CLICKED(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    foreach (var item in imageParameters)
+                    {
+                        item.ScaleTransformScaleX -= 0.12;
+                        item.ScaleTransformScaleY -= 0.12;
+                    }
+                }
+                else
+                {
+                    if (SelectImageView >= 0 && SelectImageView < imageParameters.Count)
+                    {
+                        imageParameters[SelectImageView].ScaleTransformScaleX -= 0.12;
+                        imageParameters[SelectImageView].ScaleTransformScaleY -= 0.12;
+                    }
+                }
+            });
+
+            return true;
+        }
+
 
         ConfigBottomView.BottomView[] LambdaBottomViews = new ConfigBottomView.BottomView[100];
 

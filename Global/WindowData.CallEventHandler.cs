@@ -67,6 +67,11 @@ namespace Global
                     Background = new SolidColorBrush(Color.FromRgb(195, 195, 195)),
                     ClipToBounds = true
                 };
+                canvas1.MouseLeftButtonDown += delegate
+                {
+                    if (IsSelectImageView)
+                        SelectImageView = viewindex;
+                };
 
                 grid.Children.Remove(image);
                 Grid.SetRow(canvas1, 0);
