@@ -40,7 +40,7 @@ void LambdaView::Show(cv::Mat mat)
 	{
 		if (updateFrame == NULL)
 			throw "updateFrame";
-		updateFrame(index, index2, mat.data, mat.total() * mat.elemSize(), (int)mat.step);
+		updateFrame(index, index2, mat.data, static_cast<int>(mat.total() * mat.elemSize()), static_cast<int>(mat.step));
 	}
 }
 
