@@ -81,9 +81,10 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 				((Callback1)(it11->second))();
 			}
 			else if (it12->second == JSON_STRING) {
-				if (eventObject != NULL) {
-					 ((Callback3)(it11->second))((char*)eventObject);
-				}
+				((Callback3)(it11->second))((char*)eventObject);
+			}
+			else if (it12->second == JSON_OBJECT || it12->second == STL_MAP) {
+				((Callback2)(it11->second))((json*)eventObject);
 			}
 			else if (it12->second == POINTER || it12->second == POINTER2 || it12->second == POINTER4) {
 				((Callback5)(it11->second))(eventObject);
@@ -94,13 +95,12 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 				callHandlerRaise(it11->second);
 			}
 		}
-
 	}
 
 
 	auto it2 = Callback1_map.find(Event);
 	if (it2 != Callback1_map.end()) {
-		return (it2->second)();
+			 (it2->second)();
 	}
 
 	auto it23 = Callback3_map.find(Event);
@@ -136,6 +136,21 @@ void Event::Trigger(std::string type)
 			}
 		}
 	}
+	auto it11 = FunctionEvent_map.find(type);
+	if (it11 != FunctionEvent_map.end()) {
+		auto it12 = ArgumentType_map.find(type);
+		if (it12 != ArgumentType_map.end()) {
+			if (it12->second == NO_ARGS) {
+				((Callback1)(it11->second))();
+			}
+		}
+		for (std::list <void*>::iterator it = RaiseEventMark_map.begin(); it != RaiseEventMark_map.end(); it++) {
+			if (*it == it11->second) {
+				callHandlerRaise(it11->second);
+			}
+		}
+	}
+
 	auto it2 = Callback1_map.find(type);
 	if (it2 != Callback1_map.end()) {
 		(it2->second)();
@@ -144,7 +159,6 @@ void Event::Trigger(std::string type)
 
 void Event::Trigger(std::string type, const json* event)
 {
-
 	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
 	{
 		if (it->second == type) {
@@ -152,6 +166,15 @@ void Event::Trigger(std::string type, const json* event)
 		}
 	}
 
+	auto it11 = FunctionEvent_map.find(type);
+	if (it11 != FunctionEvent_map.end()) {
+		((Callback2)(it11->second))((json*)event);
+		for (std::list <void*>::iterator it = RaiseEventMark_map.begin(); it != RaiseEventMark_map.end(); it++) {
+			if (*it == it11->second) {
+				callHandlerRaise(it11->second);
+			}
+		}
+	}
 
 	auto it2 = Callback2_map.find(type);
 	if (it2 != Callback2_map.end()) {
@@ -179,6 +202,16 @@ void Event::Trigger(std::string type, const char* event)
 		}
 	}
 
+
+	auto it11 = FunctionEvent_map.find(type);
+	if (it11 != FunctionEvent_map.end()) {
+		((Callback3)(it11->second))((char*)event);
+		for (std::list <void*>::iterator it = RaiseEventMark_map.begin(); it != RaiseEventMark_map.end(); it++) {
+			if (*it == it11->second) {
+				callHandlerRaise(it11->second);
+			}
+		}
+	}
 	auto it2 = Callback3_map.find(type);
 	if (it2 != Callback3_map.end()) {
 		(it2->second)((char*)event);
