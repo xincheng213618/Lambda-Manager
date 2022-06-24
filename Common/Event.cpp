@@ -30,6 +30,9 @@ std::map<std::string, void*> FunctionEvent_map;
 
 std::map<std::string, ArgumentType> ArgumentType_map;
 
+std::list<void*> RaiseEventMark_map;
+
+
 
 LIB_API void RegisterRoutineEvent(char* type, int rotineId, ArgumentType handlerType, int once)
 {
@@ -79,13 +82,19 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 			}
 			else if (it12->second == JSON_STRING) {
 				if (eventObject != NULL) {
-					return ((Callback3)(it11->second))((char*)eventObject);
+					 ((Callback3)(it11->second))((char*)eventObject);
 				}
 			}
 			else if (it12->second == POINTER || it12->second == POINTER2 || it12->second == POINTER4) {
-				return((Callback5)(it11->second))(eventObject);
+				((Callback5)(it11->second))(eventObject);
 			}
 		}
+		for (std::list <void*>::iterator it = RaiseEventMark_map.begin(); it != RaiseEventMark_map.end(); it++) {
+			if (*it == it11->second) {
+				callHandlerRaise(it11->second);
+			}
+		}
+
 	}
 
 

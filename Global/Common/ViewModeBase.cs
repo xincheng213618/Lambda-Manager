@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+//预备拆分出来的代码
 namespace Global.Common
 {
     /// <summary>

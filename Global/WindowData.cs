@@ -36,7 +36,6 @@ namespace Global
             Hardware_Initialized();
             AddEventHandler();
 
-            //code to wipe ass
             AddInjection();
         }
 

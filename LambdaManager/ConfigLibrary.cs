@@ -1698,6 +1698,8 @@ internal class ConfigLibrary
 		}
 	}
 
+
+
 	private void RefineSolutionFunctionRaise()
 	{
 		foreach (Function function in solution.Functions)

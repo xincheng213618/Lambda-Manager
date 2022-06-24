@@ -41,8 +41,11 @@ LIB_API int GetArraySize(void* pArray)
 	return getArraySize(pArray);
 }
 
+ extern std::list<void*> RaiseEventMark_map;
+
 LIB_API int SetHandlerRaise(void* pArray) {
 
+	RaiseEventMark_map.push_back(pArray);
 	//callHandlerRaise(pArray);
 	return 1;
 }
