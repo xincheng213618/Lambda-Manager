@@ -1,0 +1,229 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <LinearGradientBrush x:Key="GRAY" StartPoint="0,0" EndPoint="0,1">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#BBBBBB"></GradientStop>
+            <GradientStop Offset="1" Color="#000000"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="COOL" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#00FFFF"></GradientStop>
+            <GradientStop Offset="1" Color="#FF00FF"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="AUTUMN" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#FF0000" ></GradientStop>
+            <GradientStop Offset="1" Color="#FFFF00"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BONE" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#000000" ></GradientStop>
+            <GradientStop Offset="0.4" Color="#606686"></GradientStop>
+            <GradientStop Offset="0.8" Color="#A9BEC0" ></GradientStop>
+            <GradientStop Offset="1" Color="#FFFFFF"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+
+
+
+
+    <LinearGradientBrush x:Key="JET" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#000082"></GradientStop>
+            <GradientStop Offset="0.4" Color="#00FFFF"></GradientStop>
+            <GradientStop Offset="0.6" Color="#FFFF00"></GradientStop>
+            <GradientStop Offset="1" Color="#820000"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HOT" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#000000"></GradientStop>
+            <GradientStop Offset="0.4" Color="#FF0000"></GradientStop>
+            <GradientStop Offset="0.8" Color="#FFFF00"></GradientStop>
+            <GradientStop Offset="1" Color="#FFFFFF"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HSV" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#FF0000"></GradientStop>
+            <GradientStop Offset="0.1" Color="#FFFF00"></GradientStop>
+            <GradientStop Offset="0.2" Color="#00FF00"></GradientStop>
+            <GradientStop Offset="0.3" Color="#00FFFF"></GradientStop>
+            <GradientStop Offset="0.6" Color="#0000FF"></GradientStop>
+            <GradientStop Offset="0.75" Color="#FF00FF"></GradientStop>
+            <GradientStop Offset="1" Color="#FF0000"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PINK" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.1" Color="#000000"></GradientStop>
+            <GradientStop Offset="0.5" Color="#B27676"></GradientStop>
+            <GradientStop Offset="0.6" Color="#DBDDA4"></GradientStop>
+            <GradientStop Offset="1.0" Color="#FFFFFF"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PARULA" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.GradientStops>
+
+            <GradientStop  Offset="0.0" Color="#FFFF00"></GradientStop>
+            <GradientStop Offset="0.3" Color="#B2B465"></GradientStop>
+            <GradientStop Offset="0.7" Color="#0465E1"></GradientStop>
+            <GradientStop  Offset="1" Color="#342B88"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="WINTER" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop  Offset="0.0" Color="#0000FF"></GradientStop>
+            <GradientStop  Offset="1" Color="#00FF08"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="RAINBOW" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#FF0000"></GradientStop>
+            <GradientStop Offset="0.2" Color="#FFFF00"></GradientStop>
+            <GradientStop Offset="0.5" Color="#00FF00"></GradientStop>
+            <GradientStop Offset="0.75" Color="#0000FF"></GradientStop>
+            <GradientStop Offset="1" Color="#AA00FF"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="OCEAN" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#000000"></GradientStop>
+            <GradientStop Offset="0.3" Color="#000005"></GradientStop>
+            <GradientStop Offset="0.7" Color="#007DA8"></GradientStop>
+            <GradientStop Offset="1" Color="#FFFFFF"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SUMMER" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#008165"></GradientStop>
+            <GradientStop Offset="1" Color="#FFFF65"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SPRING" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#FF00FF"></GradientStop>
+            <GradientStop Offset="1" Color="#FFFF00"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MAGMA" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#000000"></GradientStop>
+            <GradientStop Offset="0.5" Color="#BA3878"></GradientStop>
+            <GradientStop Offset="0.75" Color="#F97D5D"></GradientStop>
+            <GradientStop Offset="1" Color="#FEFBBC"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="INFERNO" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#000000"></GradientStop>
+            <GradientStop Offset="0.2" Color="#2F0A5D"></GradientStop>
+            <GradientStop Offset="0.4" Color="#8D2469"></GradientStop>
+            <GradientStop Offset="0.6" Color="#D24741"></GradientStop>
+            <GradientStop Offset="0.8" Color="#FFA40A"></GradientStop>
+            <GradientStop Offset="1" Color="#FFFFA0"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PLASMA" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#0E0788"></GradientStop>
+            <GradientStop Offset="0.2" Color="#7300A8"></GradientStop>
+            <GradientStop Offset="0.4" Color="#B028BF"></GradientStop>
+            <GradientStop Offset="0.6" Color="#DC5C6B"></GradientStop>
+            <GradientStop Offset="0.8" Color="#FA9D3A"></GradientStop>
+            <GradientStop Offset="1" Color="#F0F024"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="VIRIDIS" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#440053"></GradientStop>
+            <GradientStop Offset="0.2" Color="#3F4B8A"></GradientStop>
+            <GradientStop Offset="0.4" Color="#2A788E"></GradientStop>
+            <GradientStop Offset="0.6" Color="#29AE80"></GradientStop>
+            <GradientStop Offset="0.8" Color="#8BD646"></GradientStop>
+            <GradientStop Offset="1" Color="#33EC24"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="CIVIDIS" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#002350"></GradientStop>
+            <GradientStop Offset="0.3" Color="#3A486B"></GradientStop>
+            <GradientStop Offset="0.5" Color="#767676"></GradientStop>
+            <GradientStop Offset="0.7" Color="#B7A96E"></GradientStop>
+            <GradientStop Offset="1.0" Color="#FFE435"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="TWILIGHT" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#E1DAE1"></GradientStop>
+            <GradientStop Offset="0.3" Color="#667F8D"></GradientStop>
+            <GradientStop Offset="0.5" Color="#321237"></GradientStop>
+            <GradientStop Offset="0.7" Color="#B05252"></GradientStop>
+            <GradientStop Offset="1.0" Color="#E3D9E2"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SHIFTED" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#2F1339"></GradientStop>
+            <GradientStop Offset="0.3" Color="#614AA9"></GradientStop>
+            <GradientStop Offset="0.5" Color="#E0D8DF"></GradientStop>
+            <GradientStop Offset="0.7" Color="#9E3B50"></GradientStop>
+            <GradientStop Offset="1.0" Color="#311337"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="TURBO" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#685B76"></GradientStop>
+            <GradientStop Offset="0.3" Color="#3BA1FF"></GradientStop>
+            <GradientStop Offset="0.5" Color="#97FF46"></GradientStop>
+            <GradientStop Offset="0.7" Color="#FF9628"></GradientStop>
+            <GradientStop Offset="1.0" Color="#7D0000"></GradientStop>
+
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DEEPGREEN" StartPoint="0,1" EndPoint="0,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0"   Color="#000000"></GradientStop>
+            <GradientStop Offset="0.3" Color="#005000"></GradientStop>
+            <GradientStop Offset="0.7" Color="#00AA7C"></GradientStop>
+            <GradientStop Offset="1" Color="#FFFFFF"></GradientStop>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+
+
+</ResourceDictionary>

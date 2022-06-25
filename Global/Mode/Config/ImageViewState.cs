@@ -97,25 +97,25 @@ namespace Global.Mode.Config
                 this.MoveChecked = toolTop.MoveChecked;
                 this.DimensionChecked = toolTop.DimensionChecked;
                 this.FocusChecked = toolTop.FocusChecked;
-                this.RulerChecked = toolTop.RulerChecked;
+                this.EraserChecked = toolTop.EraserChecked;
                 this.TextChecked = toolTop.TextChecked;
                 this.ArrowChecked = toolTop.ArrowChecked;
                 this.LineChecked = toolTop.LineChecked;
                 this.CircleChecked = toolTop.CircleChecked;
-                this.CurveChecked= toolTop.CurveChecked;    
-                this.RectangleChecked= toolTop.RectangleChecked;
-                this.PolygonChecked   = toolTop.PolygonChecked; 
-                this.Selection   =toolTop.Selection;
-                this.Move = toolTop.Move;   
-                this.Scale = toolTop.Scale; 
-                this.Dimension = toolTop.Dimension; 
+                this.CurveChecked = toolTop.CurveChecked;
+                this.RectangleChecked = toolTop.RectangleChecked;
+                this.PolygonChecked = toolTop.PolygonChecked;
+                this.Selection = toolTop.Selection;
+                this.Move = toolTop.Move;
+                this.Scale = toolTop.Scale;
+                this.Dimension = toolTop.Dimension;
                 this.Text = toolTop.Text;
-                this.Arrow    = toolTop.Arrow;
+                this.Arrow = toolTop.Arrow;
                 this.Line = toolTop.Line;
                 this.Curve = toolTop.Curve;
                 this.Circle = toolTop.Circle;
                 this.Rectangle = toolTop.Rectangle;
-                this.Polygon = toolTop.Polygon; 
+                this.Polygon = toolTop.Polygon;
             }
 
             private bool pointerChecked = false;
@@ -151,13 +151,15 @@ namespace Global.Mode.Config
             }
 
 
-            private bool rulerChecked = false;
-            [JsonPropertyName("ruler-checked")]
-            public bool RulerChecked
+            private bool eraserChecked = false;
+            [JsonPropertyName("eraser-checked")]
+            public bool EraserChecked
             {
-                get { return rulerChecked; }
-                set { rulerChecked = value; 
-                    NotifyPropertyChanged(); 
+                get { return eraserChecked; }
+                set
+                {
+                    eraserChecked = value;
+                    NotifyPropertyChanged();
                 }
             }
 

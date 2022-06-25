@@ -10,11 +10,11 @@ namespace Global
     public static class GlobalConst
     {
         #region 常量
-
         public const string AboutUrl = @"http://www.njust-sci.com/";
         public const string UpdateUrl = @"http://www.njust-sci.com/";
         #endregion
         public const string ConfigFileName = "Config.json";
+        public const string ConfigXml = "application.xml";
 
         public static string HardwareDeviceInformationSheet = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager\\ " + "HardwareDeviceInformationSheet";
 

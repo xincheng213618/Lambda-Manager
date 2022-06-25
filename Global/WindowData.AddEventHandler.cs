@@ -32,8 +32,7 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
             LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
 
-            
-
+           
             //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
 
@@ -43,7 +42,43 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
-            LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);  
+            LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
+
+            //控制直方图显示和隐藏
+            LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
+        }
+
+
+        /// <summary>
+        /// 更新位移台坐标
+        /// </summary>
+        private bool HistogramImageShow(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            int window = (int)eventData["window"];
+            int flag = (int)eventData["flag"];
+
+            if (window>=0&&window<= LambdaBottomViews.Length)
+            {
+                if (LambdaBottomViews[window] != null)
+                {
+                    if (flag == 1)
+                    {
+                        LambdaBottomViews[window].Show();
+                    }
+                    else
+                    {
+                        LambdaBottomViews[window].Hidden();
+                    }
+                }
+            }
+
+
+
+            return true;
         }
 
         public bool IsSelectImageView = true;
@@ -244,6 +279,9 @@ namespace Global
                 gridsList[viewdex] = GetNewGrid(view.Image);
             }
 
+            view.Image = (Image)((DrawingCanvas)view.Image);
+
+
             GridSort(gridsList);
             AddImageConfident(view.Image,viewdex);
 
@@ -372,13 +410,31 @@ namespace Global
         }
         private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a, int check)
         {
-            MenuItem1 menuItem1 = new MenuItem1() { Header = "明场" };
-            MenuItem1 menuItem2 = new MenuItem1() { Header = "暗场" };
-            MenuItem1 menuItem3 = new MenuItem1() { Header = "莱茵伯格" };
-            MenuItem1 menuItem4 = new MenuItem1() { Header = "相差" };
-            MenuItem1 menuItem5 = new MenuItem1() { Header = "差分" };
-            MenuItem1 menuItem6 = new MenuItem1() { Header = "定量相位" };
-            List<MenuItem1> menuItem1s = new List<MenuItem1> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
+            RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };
+            RadioMenuItem menuItem2 = new RadioMenuItem() { Header = "暗场" };
+            RadioMenuItem menuItem3 = new RadioMenuItem() { Header = "莱茵伯格" };
+            RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "相差" };
+            RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "差分" };
+            RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "定量相位" };
+            RadioMenuItem menuItem7 = new RadioMenuItem() { Header = "直方图" };
+
+            menuItem7.Click += delegate
+            {
+                menuItem1.IsChecked = true;
+                if (LambdaBottomViews[a] != null)
+                {
+                    if (menuItem7.IsChecked)
+                    {
+                        LambdaBottomViews[a].Show();
+                    }
+                    else
+                    {
+                        LambdaBottomViews[a].Hidden();
+                    }
+                }
+            };
+
+            List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
             for (int i = 0; i < menuItem1s.Count; i++)
             {
                 if (check == i)
@@ -394,7 +450,6 @@ namespace Global
             {
                 menuItem2.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 1 } });
-
             };
 
             menuItem3.Click += delegate
@@ -467,25 +522,6 @@ namespace Global
 
 
 
-                    //Window window = new Window();
-                    //window.Content = image;
-                    //window.Show();
-
-                    //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
-                    //{
-                    //    BitmapImage image = new BitmapImage();
-                    //    image.BeginInit();
-                    //    image.StreamSource = ms;
-                    //    image.EndInit();
-
-                    //    BitmapEncoder encoder = new PngBitmapEncoder();
-                    //    encoder.Frames.Add(BitmapFrame.Create(image));
-
-                    //    using (var fileStream = new System.IO.FileStream("1.jpg", System.IO.FileMode.Create))
-                    //    {
-                    //        encoder.Save(fileStream);
-                    //    }
-                    //}
                 }
             });
 

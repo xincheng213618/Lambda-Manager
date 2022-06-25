@@ -13,4 +13,17 @@
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="ControlSlider2.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ControlSlider2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

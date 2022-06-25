@@ -11,7 +11,7 @@
 #include <opencv2/opencv.hpp>
 
 using namespace std;
-
+using namespace cv;
 LambdaView* pView = NULL;
 ConcurrentQueue<shared_future<cv::Mat*>> pipeline;
 ThreadPool pool;
@@ -39,14 +39,14 @@ void HistCalc(cv::Mat& MatPha,int i)
 	double a = (double)(endTime - startTime) / CLOCKS_PER_SEC;
 
 	int size = MatPha.rows * MatPha.cols;
-	int * graydense = new int[256];
+	int* graydense = new int[256];
 	for (int i = 0; i < 256; i++)
 	{
 		double graydense = (gray[i] * 1.0) / size;
 		gray[i] = (int)(graydense * 255);
 	}
 
-	Event::Trigger("TestDataEvent2", gray, sizeof(char)*i);
+	Event::Trigger("TestDataEvent2", gray, sizeof(char) * i);
 }
 
 int OpenCamera()
@@ -129,6 +129,9 @@ int PlayFilms(json* eventData) {
 	return 0;
 }
 
+
+
+
 int PlayFilm(std::string fileName) {
 	cv::Mat frame;
 	cv::VideoCapture cap = cv::VideoCapture(fileName);
@@ -152,7 +155,7 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
-		//HistCalc(frame, pView->GetIndex());
+		HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
 		if (pView->IsState(ViewState::CLOSED)) {
@@ -390,6 +393,11 @@ int CameraSettingExposure(int mode,double exposure)
 
 	
 	Event::Trigger("UpdateMulSummary", &j1);
+
+	json j3;
+	j3["window"] =0;
+	j3["flag"] = 0;
+	Event::Trigger("HistogramImageShow", &j3);
 
 	
 	return  0;

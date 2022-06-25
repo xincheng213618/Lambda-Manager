@@ -47,6 +47,7 @@ namespace Global
                 Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
                 Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
                 BottomView bottomView = new BottomView();
+                bottomView.Visibility = Visibility.Collapsed; 
                 stackPanel.Children.Add(bottomView);
 
                 LambdaBottomViews[viewindex] = bottomView;

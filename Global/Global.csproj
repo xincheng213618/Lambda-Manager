@@ -21,6 +21,42 @@
     <Optimize>False</Optimize>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Remove="UserControls\Image\AUTUMN.jpg" />
+    <None Remove="UserControls\Image\BONE.jpg" />
+    <None Remove="UserControls\Image\CIVIDIS.jpg" />
+    <None Remove="UserControls\Image\COOL.jpg" />
+    <None Remove="UserControls\Image\DEEPGREEN.jpg" />
+    <None Remove="UserControls\Image\GRAY.jpg" />
+    <None Remove="UserControls\Image\HOT.jpg" />
+    <None Remove="UserControls\Image\HSV.jpg" />
+    <None Remove="UserControls\Image\INFERNO.jpg" />
+    <None Remove="UserControls\Image\JET.jpg" />
+    <None Remove="UserControls\Image\MAGMA.jpg" />
+    <None Remove="UserControls\Image\OCEAN.jpg" />
+    <None Remove="UserControls\Image\PARULA.jpg" />
+    <None Remove="UserControls\Image\PINK.jpg" />
+    <None Remove="UserControls\Image\PLASMA.jpg" />
+    <None Remove="UserControls\Image\RAINBOW.jpg" />
+    <None Remove="UserControls\Image\SHIFTED.jpg" />
+    <None Remove="UserControls\Image\SPRING.jpg" />
+    <None Remove="UserControls\Image\startpicture1.png" />
+    <None Remove="UserControls\Image\SUMMER.jpg" />
+    <None Remove="UserControls\Image\TURBO.jpg" />
+    <None Remove="UserControls\Image\TWILIGHT.jpg" />
+    <None Remove="UserControls\Image\VIRIDIS.jpg" />
+    <None Remove="UserControls\Image\WINTER.jpg" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Resource Include="UserControls\Image\PLASMA.jpg" />
+    <DesignDataWithDesignTimeCreatableTypes Include="UserControls\Image\startpicture1.png" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Resource Include="UserControls\Image\COOL.jpg" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
@@ -28,7 +64,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <Resource Include="UserControls\Image\AUTUMN.jpg" />
+    <Resource Include="UserControls\Image\BONE.jpg" />
+    <Resource Include="UserControls\Image\CIVIDIS.jpg" />
+    <Resource Include="UserControls\Image\DEEPGREEN.jpg" />
+    <Resource Include="UserControls\Image\GRAY.jpg" />
+    <Resource Include="UserControls\Image\HOT.jpg" />
+    <Resource Include="UserControls\Image\HSV.jpg" />
+    <Resource Include="UserControls\Image\INFERNO.jpg" />
+    <Resource Include="UserControls\Image\JET.jpg" />
+    <Resource Include="UserControls\Image\MAGMA.jpg" />
+    <Resource Include="UserControls\Image\OCEAN.jpg" />
+    <Resource Include="UserControls\Image\PARULA.jpg" />
+    <Resource Include="UserControls\Image\PINK.jpg" />
+    <Resource Include="UserControls\Image\RAINBOW.jpg" />
+    <Resource Include="UserControls\Image\SHIFTED.jpg" />
+    <Resource Include="UserControls\Image\SPRING.jpg" />
+    <Resource Include="UserControls\Image\SUMMER.jpg" />
+    <Resource Include="UserControls\Image\TURBO.jpg" />
+    <Resource Include="UserControls\Image\TWILIGHT.jpg" />
+    <Resource Include="UserControls\Image\VIRIDIS.jpg" />
+    <Resource Include="UserControls\Image\WINTER.jpg" />
   </ItemGroup>
 
 </Project>

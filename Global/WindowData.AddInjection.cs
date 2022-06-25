@@ -1,4 +1,5 @@
-﻿using Lambda;
+﻿using Global.Controls;
+using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -7,29 +8,23 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Global
 {
+
+
+
+
     /// <summary>
     /// 监听AddInjection事件
     /// </summary>
     public partial class WindowData
     {
-        public int Version = -1;
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
-
-            Type t = mainwin.GetType();
-            MethodInfo method = t.GetMethod("GetVersion");
-            if (method != null)
-            {
-                BindingFlags flag = BindingFlags.Public | BindingFlags.Instance;
-                object[] parameters = new object[] { };
-                object returnValue = method.Invoke(mainwin, flag, Type.DefaultBinder, parameters, null);
-                if (returnValue is int aa)
-                    Version = aa;
-            }
 
             try
             {
@@ -61,6 +56,85 @@ namespace Global
                 contextMenu.Items.Add(menuItem2);
                 contextMenu.Items.Add(menuItem3);
                 buttton1.ContextMenu = contextMenu;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            //ColorBar ADD
+            try
+            {
+
+                DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
+                if (leftToolBar == null) return;
+                Image image = (Image)leftToolBar.Children[1];
+                image.Visibility = Visibility.Collapsed;
+
+                //colorBarUser.Visibility = Visibility.Hidden;
+                //leftToolBar.Children.Add(colorBarUser);
+                WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
+
+                ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
+                colorbarTogg.PreviewMouseRightButtonUp += delegate(object sender, MouseButtonEventArgs e)
+                {
+                    colorbarTogg.ContextMenu.HorizontalOffset = 30;
+                    Point pointClicked = e.GetPosition(colorbarTogg);
+                    double x = pointClicked.X;
+                    double y = pointClicked.Y;
+                    colorbarTogg.ContextMenu.HorizontalOffset = 30 - x;
+                    colorbarTogg.ContextMenu.VerticalOffset = -y;
+                };
+
+                colorbarTogg.Checked += delegate
+                {
+                    image.Visibility = Visibility.Visible;
+                };
+                colorbarTogg.Unchecked += delegate
+                {
+                    image.Visibility = Visibility.Hidden;
+                };
+
+                List<string> colorname = new List<string> { "GRAY", "AUTUMN", "BONE", "JET", "WINTER", "RAINBOW", "OCEAN", "SUMMER", "SPRING", "COOL", "HSV", "PINK", "HOT", "PARULA", "MAGMA", "INFERNO", "PLASMA", "VIRIDIS", "CIVIDIS", "TWILIGHT", "SHIFTED", "TURBO", "DEEPGREEN"};
+
+                ContextMenu contextMenu = new ContextMenu();
+
+                //从配置文件中读取
+                string checkedname = "GRAY";
+
+                foreach (var item in colorname)
+                {
+                    RadioMenuItem menuItem = new RadioMenuItem();
+ 
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.Orientation = Orientation.Horizontal;
+
+                    Image img = new Image() { Width =50};
+                    img.Source = new BitmapImage(new Uri($"/Global;component/usercontrols/image/{item.ToLower()}.jpg", UriKind.Relative));
+                    stackPanel.Children.Add(img);
+
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = item;
+                    textBlock.Margin = new Thickness(10, 0, 0, 0);
+                    stackPanel.Children.Add(textBlock);
+
+                    menuItem.Header = stackPanel;
+                    menuItem.Tag = item;
+                    contextMenu.Items.Add(menuItem);
+
+                    if (checkedname == item)
+                        menuItem.IsChecked = true;
+                }
+                colorbarTogg.ContextMenu = contextMenu;
+
+
+
+                // MonoColor
+                ToggleButton monoColorTogg = (ToggleButton)leftToolBarChild.Children[1];
+
+                //monoColorTogg.Checked += monoColorTogg_Checked;
+                //monoColorTogg.Unchecked += monoColorTogg_Unchecked;
+
             }
             catch (Exception ex)
             {
@@ -178,6 +252,9 @@ namespace Global
 
             }
 
+
+
+
             try
             {
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
@@ -200,7 +277,7 @@ namespace Global
 
 
 
-                Binding binding13 = new Binding("RulerChecked");
+                Binding binding13 = new Binding("EraserChecked");
                 ToggleButton ToggleButtonRuler = ((ToggleButton)topToolbar.Children[13]);
                 ToggleButtonRuler.SetBinding(ToggleButton.IsCheckedProperty, binding13);
 
