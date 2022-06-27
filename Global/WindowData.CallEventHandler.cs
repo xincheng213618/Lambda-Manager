@@ -3,6 +3,7 @@ using Global.Mode;
 using Lambda;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -36,7 +37,6 @@ namespace Global
             Canvas canvas1;
             if (image1.Parent is Grid grid)
             {
-
                 grid.RowDefinitions.Clear();
                 grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
                 for (int i = 0; i < 1; i++)
@@ -88,10 +88,7 @@ namespace Global
 
                 grid.Children.Add(gridSplitter);
                 grid.Children.Add(stackPanel);
-
-
             }
-
 
 
             if (image.Parent is Canvas canvas)
@@ -115,8 +112,6 @@ namespace Global
 
                 image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
                 {
-
-
                     if (((sfr.ScaleX < 0.2 || sfr.ScaleY < 0.2) && e.Delta < 0) || ((sfr.ScaleX > 5 || sfr.ScaleY > 5) && e.Delta > 0))
                     {
 
@@ -147,8 +142,51 @@ namespace Global
                 bool isMouseLeftButtonDown = false;
                 Point start, MouseStart, mouseXY;
                 DrawingVisual drawingVisual = new DrawingVisual();
+                List<Point> PolygonList = new List<Point>();
+
+                ImageViewState.toolTop.PropertyChanged += delegate(object? sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName == "PolygonChecked")
+                    {
+                        if (ImageViewState.toolTop.PointerChecked == false)
+                        {
+                            if (PolygonList.Count > 0)
+                            {
+                                using (DrawingContext dc = drawingVisual.RenderOpen())
+                                {
+                                    for (int i = 0; i < PolygonList.Count - 1; i++)
+                                    {
+                                        dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[i], PolygonList[i + 1]);
+                                    }
+                                    dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[0], PolygonList[PolygonList.Count-1]);
+                                }
+                                PolygonList.Clear();
+                            }
+                        }
+                    }
+                };
+                Application.Current.MainWindow.PreviewKeyDown += delegate (object sender, KeyEventArgs e)
+                {
+                    if (e.Key == Key.Escape)
+                    {
+                        if (PolygonList.Count > 0)
+                        {
+                            using (DrawingContext dc = drawingVisual.RenderOpen())
+                            {
+                                for (int i = 0; i < PolygonList.Count - 1; i++)
+                                {
+                                    dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[i], PolygonList[i + 1]);
+                                }
+                                dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[0], PolygonList[PolygonList.Count - 1]);
+                            }
+                            PolygonList.Clear();
+                        }
+                    }
+                };
+
                 image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
                 {
+                    image.Focus();
                     mouseXY = Mouse.GetPosition(Application.Current.MainWindow);
                     MouseStart = Mouse.GetPosition(image);
                     start = new Point(tlt.X, tlt.Y);
@@ -171,6 +209,50 @@ namespace Global
                     {
                         DrawingVisual visual = image.GetVisual(MouseStart);
                         if (visual != null) image.DeleteVisual(visual);
+                    }
+                    else if (ImageViewState.toolTop.PolygonChecked)
+                    {
+                        PolygonList.Add(MouseStart);
+                        isMouseLeftButtonDown = true;
+                        Application.Current.MainWindow.Cursor = Cursors.Cross;
+
+                        if (e.ClickCount == 2)
+                        {
+                            if (PolygonList.Count > 1)
+                            {
+                                PolygonList.RemoveAt(PolygonList.Count - 1);
+                            }
+                            using (DrawingContext dc = drawingVisual.RenderOpen())
+                            {
+                                for (int i = 0; i < PolygonList.Count - 1; i++)
+                                {
+                                    dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[i], PolygonList[i + 1]);
+                                }
+                                dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[0], PolygonList[PolygonList.Count - 1]);
+                            }
+                            PolygonList.Clear();
+                            return;
+                        }
+
+                        if (PolygonList.Count == 1)
+                        {
+                            drawingVisual = new DrawingVisual();
+                            image.AddVisual(drawingVisual);
+                            Pen pen = new Pen(Brushes.Green, 1) { DashStyle = DashStyles.Dash };
+                        }
+                        else
+                        {
+                            using (DrawingContext dc = drawingVisual.RenderOpen())
+                            {
+                                for (int i = 0; i < PolygonList.Count-1; i++)
+                                {
+                                    dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[i], PolygonList[i+1]);
+                                }
+                            }
+                        }
+
+
+
                     }
                     else
                     {
@@ -308,6 +390,18 @@ namespace Global
 
                         }
 
+                        else if (ImageViewState.toolTop.PolygonChecked)
+                        {
+                            //using (DrawingContext dc = drawingVisual.RenderOpen())
+                            //{
+                            //    for (int i = 0; i < PolygonList.Count - 1; i++)
+                            //    {
+                            //        dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[i], PolygonList[i + 1]);
+                            //    }
+                            //    dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[PolygonList.Count-1], PolygonList[PolygonList.Count-1] + (position - mouseXY));
+                            //}
+                        }
+
                     };
 
                     image.MouseEnter += delegate (object sender, MouseEventArgs e)
@@ -332,6 +426,8 @@ namespace Global
 
                 };
             };
+
+           
         }
 
     }

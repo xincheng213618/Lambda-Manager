@@ -106,7 +106,8 @@ namespace Global
                 foreach (var item in colorname)
                 {
                     RadioMenuItem menuItem = new RadioMenuItem();
- 
+
+
                     StackPanel stackPanel = new StackPanel();
                     stackPanel.Orientation = Orientation.Horizontal;
 
