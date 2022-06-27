@@ -1,4 +1,5 @@
 ﻿using Global.Controls;
+using Global.UserControls;
 using Global.UserControls.DrawVisual;
 using Lambda;
 using System;
@@ -10,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Global
@@ -70,10 +72,11 @@ namespace Global
                 DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
                 if (leftToolBar == null) return;
                 Image image = (Image)leftToolBar.Children[1];
-                image.Visibility = Visibility.Collapsed;
+                leftToolBar.Children.Remove(image);
 
-                //colorBarUser.Visibility = Visibility.Hidden;
-                //leftToolBar.Children.Add(colorBarUser);
+                image.Visibility = Visibility.Collapsed;
+                ColorBarUser colorBarUser = new ColorBarUser();
+                leftToolBar.Children.Add(colorBarUser);
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
 
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
@@ -89,11 +92,11 @@ namespace Global
 
                 colorbarTogg.Checked += delegate
                 {
-                    image.Visibility = Visibility.Visible;
+                    colorBarUser.Visibility = Visibility.Visible;
                 };
                 colorbarTogg.Unchecked += delegate
                 {
-                    image.Visibility = Visibility.Hidden;
+                    colorBarUser.Visibility = Visibility.Hidden;
                 };
 
                 List<string> colorname = new List<string> { "GRAY", "AUTUMN", "BONE", "JET", "WINTER", "RAINBOW", "OCEAN", "SUMMER", "SPRING", "COOL", "HSV", "PINK", "HOT", "PARULA", "MAGMA", "INFERNO", "PLASMA", "VIRIDIS", "CIVIDIS", "TWILIGHT", "SHIFTED", "TURBO", "DEEPGREEN"};
@@ -122,6 +125,14 @@ namespace Global
 
                     menuItem.Header = stackPanel;
                     menuItem.Tag = item;
+
+                    menuItem.Click += delegate (object sender, RoutedEventArgs e)
+                    {
+                        ResourceDictionary resourceDictionary = new ResourceDictionary();
+                        resourceDictionary.Source = new Uri("Global;Component/Themes/ColorMap.xaml", UriKind.Relative);
+                        LinearGradientBrush brush = (LinearGradientBrush)resourceDictionary[item];
+                        colorBarUser.colorBar.SlidBackground = brush;
+                    };
                     contextMenu.Items.Add(menuItem);
 
                     if (checkedname == item)
@@ -134,8 +145,14 @@ namespace Global
                 // MonoColor
                 ToggleButton monoColorTogg = (ToggleButton)leftToolBarChild.Children[1];
 
-                //monoColorTogg.Checked += monoColorTogg_Checked;
-                //monoColorTogg.Unchecked += monoColorTogg_Unchecked;
+                monoColorTogg.Checked += delegate
+                {
+                    colorBarUser.Visibility = Visibility.Hidden;
+                };
+                monoColorTogg.Unchecked += delegate
+                {
+                    colorBarUser.Visibility = Visibility.Visible;
+                }; ;
 
             }
             catch (Exception ex)
