@@ -156,7 +156,9 @@ namespace Global
                     IntPtr intPtr = (IntPtr)eventData["data"];
                     int[] aaa = new int[256];
                     Marshal.Copy(intPtr, aaa, 0, 256);
-                    LambdaBottomViews[size].SetHistogram(aaa);
+                    if (LambdaBottomViews[size] != null)
+                        LambdaBottomViews[size].SetHistogram(aaa);
+
                 }
             });
 
@@ -268,7 +270,7 @@ namespace Global
 
 
 
-        private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
+        private  bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int viewdex = (int)eventData["view"];
@@ -278,9 +280,6 @@ namespace Global
                 grid.Children.Remove(view.Image);
                 gridsList[viewdex] = GetNewGrid(view.Image);
             }
-
-            view.Image = (Image)((DrawingCanvas)view.Image);
-
 
             GridSort(gridsList);
             AddImageConfident(view.Image,viewdex);

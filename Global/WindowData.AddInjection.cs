@@ -1,4 +1,5 @@
 ﻿using Global.Controls;
+using Global.UserControls.DrawVisual;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -251,9 +252,6 @@ namespace Global
                 MessageBox.Show(ex.Message);
 
             }
-
-
-
 
             try
             {

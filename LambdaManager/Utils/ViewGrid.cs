@@ -109,7 +109,6 @@ internal class ViewGrid
 
 		View view = new View(image, index);
 		Views[index] = view;
-		LambdaControl.Trigger("IMAGE_VIEW_CREATED", grid, new Dictionary<string, object> { { "view",view.Index} });
 		return view;
 	}
 

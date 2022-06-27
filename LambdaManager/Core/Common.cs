@@ -551,8 +551,9 @@ internal class Common
 			{
 				image.Source = writeableBitmap;
 				Views[index].State = ViewState.RUNING;
-			}
-		});
+                LambdaControl.Trigger("IMAGE_VIEW_CREATED", null, new Dictionary<string, object> { { "view", index } });
+            }
+        });
 		return 2;
 	}
 

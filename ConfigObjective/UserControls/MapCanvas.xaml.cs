@@ -86,8 +86,6 @@ namespace ConfigObjective.UserControls
         public  List<Point> selectedPoints = new List<Point>();
 
 
-
-
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point pointClicked = e.GetPosition(mapCanvas);

@@ -12,7 +12,7 @@
         <Border x:Name="DispalyArea">
             <draw:DrawingCanvas Stretch="Fill" x:Name="drawingSurface"   MouseLeftButtonDown="drawingSurface_MouseLeftButtonDown"
                 MouseLeftButtonUp="drawingSurface_MouseLeftButtonUp"
-                MouseMove="drawingSurface_MouseMove" PreviewKeyDown="drawingSurface_PreviewKeyDown" Source="/Global;component/UserControls/Resources/startpicture1.png" >
+                MouseMove="drawingSurface_MouseMove" PreviewKeyDown="drawingSurface_PreviewKeyDown" Source="/Global;component/UserControls/Image/startpicture1.png" >
                
             </draw:DrawingCanvas>
         </Border>

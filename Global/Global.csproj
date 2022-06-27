@@ -23,6 +23,7 @@
   </PropertyGroup>
 	
   <ItemGroup>
+    <None Remove="UserControls\DrawVisual\Eraser.cur" />
     <None Remove="UserControls\Image\AUTUMN.jpg" />
     <None Remove="UserControls\Image\BONE.jpg" />
     <None Remove="UserControls\Image\CIVIDIS.jpg" />
@@ -51,6 +52,7 @@
 	
   <ItemGroup>
     <Resource Include="UserControls\Image\PLASMA.jpg" />
+    <Resource Include="UserControls\Image\Eraser.cur" />
     <DesignDataWithDesignTimeCreatableTypes Include="UserControls\Image\startpicture1.png" />
   </ItemGroup>
 	
