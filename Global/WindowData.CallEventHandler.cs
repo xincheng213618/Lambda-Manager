@@ -72,8 +72,35 @@ namespace Global
 
                 Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
                 Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
+                double height = 100;
                 BottomView bottomView = new BottomView();
-                bottomView.Height = 100;
+                bottomView.SizeChanged += delegate
+                {
+                    height = bottomView.ActualHeight;
+                };
+                bottomView.IsVisibleChanged += delegate
+                {
+                    if (bottomView.Visibility == Visibility.Collapsed)
+                    {
+                        grid.RowDefinitions.Clear();
+                        grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
+                        for (int i = 0; i < 1; i++)
+                        {
+                            RowDefinition rowDefinition = new RowDefinition() { Height = GridLength.Auto };
+                            grid.RowDefinitions.Add(rowDefinition);
+                        }
+                    }
+                    else
+                    {
+                        grid.RowDefinitions.Clear();
+                        grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
+                        for (int i = 0; i < 1; i++)
+                        {
+                            RowDefinition rowDefinition = new RowDefinition() { Height = new GridLength(height) };
+                            grid.RowDefinitions.Add(rowDefinition);
+                        }
+                    }
+                };
                 //bottomView.Visibility = Visibility.Collapsed; 
                 stackPanel.Children.Add(bottomView);
 

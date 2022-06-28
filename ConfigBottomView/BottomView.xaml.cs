@@ -84,5 +84,10 @@ namespace ConfigBottomView
         {
             this.Visibility = Visibility.Collapsed;
         }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            HistogramImage1.Height = this.ActualHeight-20;
+        }
     }
 }

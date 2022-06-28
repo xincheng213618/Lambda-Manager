@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Solution"
              xmlns:Solution="clr-namespace:NLGSolution" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized">
+             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

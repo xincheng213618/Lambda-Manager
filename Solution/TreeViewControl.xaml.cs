@@ -335,6 +335,7 @@ namespace Solution
             {
                 stackPanel.Width = 420;
             }
+
         }
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
@@ -389,6 +390,22 @@ namespace Solution
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("这里添加命令");
+        }
+
+        bool fisrt = true;
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            //执行一次
+            if (fisrt)
+            {
+                View view = LambdaControl.GetImageView(0);
+                if (view != null)
+                {
+                    view.Image = null;
+                }
+                fisrt = false;
+            }
+
         }
     }
 

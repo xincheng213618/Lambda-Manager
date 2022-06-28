@@ -63,19 +63,8 @@ namespace ConfigObjective
             {
                 stackPanel.Width = 420;
             }
-
-
-            ADDzeroImage();
-
         }
-        private  void ADDzeroImage()
-        {
-            View view = LambdaControl.GetImageView(0);
-            if (view != null)
-            {
-                view.Image = null;
-            }
-        }
+
 
 
         private void UserControl_Initialized(object sender, EventArgs e)
