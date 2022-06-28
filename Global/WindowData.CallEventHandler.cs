@@ -31,7 +31,7 @@ namespace Global
         List<ImageParameter> imageParameters = new List<ImageParameter>();
         public async void AddImageConfident(Image image1,int viewindex)
         {
-            //await Task.Delay(1000);
+            await Task.Delay(1000);
             DrawingCanvas image = new DrawingCanvas();
             image.Source = image1.Source;
             Canvas canvas1;

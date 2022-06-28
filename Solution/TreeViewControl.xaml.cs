@@ -17,7 +17,6 @@ using System.Windows.Controls.Primitives;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
-using NLGSolution.JsonHelper;
 
 namespace Solution
 {
@@ -108,24 +107,6 @@ namespace Solution
             //{
             //    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
             //}
-        }
-
-        private void TreeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            TreeView treeView = sender as TreeView;
-            if (treeView.SelectedItem is SolutionLog solutionLog)
-            {
-                TextBox textBox = new TextBox();
-                textBox.Text = File.ReadAllText(solutionLog.FullPath);
-                ScrollViewer scrollViewer = new ScrollViewer();
-                scrollViewer.Content = textBox;
-                scrollViewer.ScrollToEnd();
-                Grid grid = new();
-                grid.Children.Add(scrollViewer);
-                Window window = new Window();
-                window.Content = grid;
-                window.ShowDialog();
-            }
         }
 
 
@@ -345,8 +326,7 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (solutionExplorer != null)
-                solutionExplorer.ToLimitJsonFile($"{SolutionDir}\\{solutionExplorer.Name}.json");
+
         }
         GridLengthConverter gridLengthConverter = new GridLengthConverter();
         private void testt22_SizeChanged(object sender, SizeChangedEventArgs e)

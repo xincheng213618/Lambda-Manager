@@ -28,7 +28,6 @@ namespace Global
 
         public DeviceInformation deviceInformation;
         public List<ObjectiveSetting> ObjectiveSettingList;
-        public StageTest StageTest = new StageTest();
         public MapModel mapModel = new MapModel();
 
         private WindowData()

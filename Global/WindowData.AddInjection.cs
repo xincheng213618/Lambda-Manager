@@ -29,6 +29,13 @@ namespace Global
         {
             Window mainwin = Application.Current.MainWindow;
 
+             //等待窗口
+            //Grid stageConfig = (Grid)mainwin.FindName("stageConfig");
+            //stageConfig.Visibility = Visibility.Visible;
+            //stageConfig.Background = Brushes.White;
+            //stageConfig.Opacity = 0.1;
+            //Application.Current.MainWindow.Cursor = Cursors.Wait;
+
             try
             {
 

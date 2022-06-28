@@ -78,33 +78,6 @@ partial class MainWindow : BaseWindow
 
 
 
-    internal void AddMessage(Severity severity, string obj, string? name, string attr, string? value, string err)
-	{
-		string pleaseCheck = LambdaManager.Properties.Resources.PleaseCheck;
-		if (name != null)
-		{
-			obj = obj + "[" + name + "]";
-		}
-		if (value != null)
-		{
-			attr = attr + "[" + value + "]";
-		}
-		string of = LambdaManager.Properties.Resources.of;
-		Message obj2 = new Message
-		{
-			Severity = severity
-		};
-		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 5);
-		defaultInterpolatedStringHandler.AppendFormatted(obj);
-		defaultInterpolatedStringHandler.AppendFormatted(of);
-		defaultInterpolatedStringHandler.AppendFormatted(attr);
-		defaultInterpolatedStringHandler.AppendFormatted(err);
-		defaultInterpolatedStringHandler.AppendLiteral(", ");
-		defaultInterpolatedStringHandler.AppendFormatted(pleaseCheck);
-		obj2.Text = defaultInterpolatedStringHandler.ToStringAndClear();
-		AddMessage(obj2);
-	}
-
 	internal void AddMessage(Message message)
 	{
 		if (message.Severity < logLevel)

@@ -29,7 +29,10 @@ wchar_t* StringUtils::Multi2WideByte(const char* p)
 {
 	const size_t cSize = strlen(p) + 1;
 	wchar_t* wc = new wchar_t[cSize];
+	setlocale(LC_ALL, "chs");
 	mbstowcs(wc, p, cSize);
+	setlocale(LC_ALL, "C");
+
 	return wc;
 }
 
@@ -37,12 +40,12 @@ char* StringUtils::Wide2MultiByte(const wchar_t* p)
 {
 	DWORD dBufSize = WideCharToMultiByte(CP_OEMCP, 0, p, -1, NULL, 0, NULL, FALSE);
 
-	//鍒嗛厤鐩爣缂撳瓨
+	//分配目标缓存
 	char* dBuf = new char[dBufSize];
 	memset(dBuf, 0, dBufSize);
 
 	sprintf(dBuf, "%ws", p);
-	//杞崲
+	//转换
 	//int nRet = WideCharToMultiByte(CP_OEMCP, 0, p, -1, dBuf, dBufSize, NULL, FALSE);
 
 	return dBuf;

@@ -512,6 +512,6 @@
 
         </Viewbox>
 
-        <Grid Name="stageConfig" Grid.Row="1" Grid.ColumnSpan="2" />
+        <Grid Name="stageConfig" Grid.Row="1"  Grid.ColumnSpan="2" />
     </Grid>
 </Base:BaseWindow>

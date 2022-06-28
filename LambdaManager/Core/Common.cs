@@ -306,7 +306,7 @@ internal class Common
 
 	private static List<object?>? PrepareArguments(Routine routine, int index, Dictionary<string, object> eventObject)
 	{
-		Dictionary<string, int> dataMap = App.GetResolvedEvents()?[events[index]].GetEventMap(routine);
+		Dictionary<string, int> dataMap = FunctionExecutor.Solution?.Events?[events[index]].GetEventMap(routine);
 		if (dataMap == null)
 		{
 			return null;

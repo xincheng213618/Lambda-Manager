@@ -10,7 +10,12 @@ namespace Global.Mode.Config
 {
     public class ViewMode : ViewModeBase
     {
-        public int SelectViewMode = 0;
+        private int selectViewMode = 0;
+        public int SelectViewMode
+        {
+            get { return selectViewMode; }
+            set { selectViewMode = value;  NotifyPropertyChanged(); }
+        }
 
 
         [JsonPropertyName("bright-field")]

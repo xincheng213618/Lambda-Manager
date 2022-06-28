@@ -25,8 +25,6 @@ partial class App : Application
 
         //Startup += new StartupEventHandler(Taskbar_Initialized);
         //Startup += new StartupEventHandler(jumpList_Initialized);
-
-
         Exit += new ExitEventHandler(Application_Exit);
     }
 
@@ -66,12 +64,6 @@ partial class App : Application
         startWindow.Show();
     }
 
-
-    internal static Dictionary<string, Event>? GetResolvedEvents()
-	{
-		return FunctionExecutor.Solution?.Events;
-	}
-
 	internal static void Report(Message message)
 	{
         Message message2 = message;
@@ -97,23 +89,7 @@ partial class App : Application
 
 	internal static void Report(Severity severity, string obj, string? name, string attr, string? value, string err)
 	{
-        string obj2 = obj;
-        string name2 = name;
-        string attr2 = attr;
-        string value2 = value;
-        string err2 = err;
-        if (Application.Current.Dispatcher.CheckAccess())
-        {
-            ((MainWindow)Application.Current.MainWindow)?.AddMessage(severity, obj2, name2, attr2, value2, err2);
-        }
-        else
-        {
-            Application.Current.Dispatcher.Invoke(act);
-        }
-        void act()
-        {
-            ((MainWindow)Application.Current.MainWindow)?.AddMessage(severity, obj2, name2, attr2, value2, err2);
-        }
+        Report(new Message() {Severity = severity, Text = $"{obj}{name}{attr}{attr}{err}" });
     }
 
 
