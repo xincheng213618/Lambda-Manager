@@ -580,7 +580,10 @@ internal class Common
 	[SuppressGCTransition]
 	private static void CloseImageView(int index)
 	{
-		ViewGrid.CloseVieW(index);
+		Application.Current.Dispatcher.Invoke(delegate
+		{
+			ViewGrid.CloseVieW(index);
+		});
 	}
 
 	private static Image? GetImage(int index,int A_1, bool initial)

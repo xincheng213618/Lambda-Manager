@@ -31,9 +31,7 @@ namespace Global
         List<ImageParameter> imageParameters = new List<ImageParameter>();
         public async void AddImageConfident(Image image1,int viewindex)
         {
-            await Task.Delay(1000);
-            DrawingCanvas image = new DrawingCanvas();
-            image.Source = image1.Source;
+
             Canvas canvas1;
             if (image1.Parent is Grid grid)
             {
@@ -62,7 +60,7 @@ namespace Global
 
                 grid.Children.Remove(image1);
                 Grid.SetRow(canvas1, 0);
-                canvas1.Children.Add(image);
+                canvas1.Children.Add(image1);
                 grid.Children.Add(canvas1);
 
 
@@ -101,7 +99,7 @@ namespace Global
                         }
                     }
                 };
-                //bottomView.Visibility = Visibility.Collapsed; 
+                bottomView.Visibility = Visibility.Collapsed; 
                 stackPanel.Children.Add(bottomView);
 
                 LambdaBottomViews[viewindex] = bottomView;
@@ -115,6 +113,17 @@ namespace Global
 
                 grid.Children.Add(gridSplitter);
                 grid.Children.Add(stackPanel);
+            }
+
+            await Task.Delay(1000);
+            DrawingCanvas image = new DrawingCanvas();
+            image.Source = image1.Source;
+            if (image1.Parent is Canvas canvas2)
+            {
+                canvas2.Children.Remove(image1);
+                canvas2.Children.Add(image);
+
+                
             }
 
 

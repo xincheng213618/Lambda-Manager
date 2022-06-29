@@ -39,6 +39,8 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
+            LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED1", IMAGE_VIEW_CREATED, false);
+
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);

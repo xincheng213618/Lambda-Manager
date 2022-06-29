@@ -15,8 +15,6 @@ internal class FunctionJob : IJob
 
 	public static int AddSchedule(Scheduler schedule)
 	{
-       
-
         int count = schedules.Count;
 		schedules.Add(schedule);
 		return count;

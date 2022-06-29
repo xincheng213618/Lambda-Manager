@@ -326,7 +326,7 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-
+            LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
         }
         GridLengthConverter gridLengthConverter = new GridLengthConverter();
         private void testt22_SizeChanged(object sender, SizeChangedEventArgs e)

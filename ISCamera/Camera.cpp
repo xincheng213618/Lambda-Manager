@@ -130,7 +130,7 @@ int PlayFilms(json* eventData) {
 }
 
 
-
+bool ssss = false;
 
 int PlayFilm(std::string fileName) {
 	cv::Mat frame;
@@ -147,8 +147,14 @@ int PlayFilm(std::string fileName) {
 	for (;;)
 	{
 		// wait for a new frame from camera and store it into 'frame'
-		cap.read(frame);
+		if (ssss) {
+			ssss = false;
+			pView->Close();
+			break;
 
+		}
+
+		cap.read(frame);
 		// check if we succeeded
 		if (frame.empty()) {
 			Logger::Log1(Severity::INFO, "Video is end");
@@ -312,7 +318,8 @@ int OpenSerial(char* FullPath)
 
 
 int SleepTest() {
-	Sleep(3000);
+	//Sleep(3000);
+	ssss = true;
 	return  0;
 }
 
