@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <StackPanel x:Name="mainView" Width="400">
+        <StackPanel x:Name="HeaderStackPanel" Width="400">
             <UniformGrid Columns="7">
                 <Button Content="导出" Click="Button_Click_1"/>
                 <Button Content="新建" Click="Button_Click_2"/>
@@ -26,7 +26,7 @@
                 <Button Content="查找"/>
                 <Button Content="导入"/>
             </UniformGrid>
-            <TreeView x:Name="SolutionTreeView"  >
+            <TreeView x:Name="SolutionTreeView">
                 <TreeView.Resources>
                     <DataTemplate x:Key="displayTemplate">
                         <TextBlock Text="{Binding Path=Name}" ></TextBlock>

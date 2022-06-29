@@ -39,13 +39,15 @@ namespace ConfigBottomView
 
         public void SetHistogram(int[] Histogramedata)
         {
-            Text1.Text = "最小值" + Histogramedata.Min();
-            Text2.Text = "最大值" + Histogramedata.Max();
-            double avg = Histogramedata.Average();
-            Text3.Text = "平均值" + avg.ToString("f5");
-            Text4.Text = "方差" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
-            HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
-
+            if (Histogramedata.Length == 256)
+            {
+                Text1.Text = "最小值" + Histogramedata.Min();
+                Text2.Text = "最大值" + Histogramedata.Max();
+                double avg = Histogramedata.Average();
+                Text3.Text = "平均值" + avg.ToString("f5");
+                Text4.Text = "方差" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
+                HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
+            }
         }
 
 

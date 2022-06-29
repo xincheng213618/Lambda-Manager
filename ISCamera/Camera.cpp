@@ -141,6 +141,8 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
+	LambdaView* pView1 = LambdaView::GetRegistered(-1);
+
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
 
@@ -161,7 +163,8 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
-		HistCalc(frame, pView->GetIndex());
+		pView1->Show(frame);
+		//HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
 		if (pView->IsState(ViewState::CLOSED)) {
@@ -328,6 +331,14 @@ int VideoTest() {
 	return 0;
 }
 
+
+int MatShow(cv::Mat* Test) {
+	VideoTest();
+	//resize(*Test, *Test, cv::Size(300, 300), 0, 0);
+	return 0;
+
+}
+
 double x = 111.1111;
 double y = 111.1111;
 
@@ -355,6 +366,7 @@ int CameraSettingExposure(int mode,double exposure)
 	//pView->Show(img1);
 	cv::Mat img2;
 	resize(img1, img2, cv::Size(300, 300), 0, 0);
+	Event::Dispatch("MatShow",(&img2));
 
 	////uchar b[] = { 1, 2, 3, 4, 5 };
 

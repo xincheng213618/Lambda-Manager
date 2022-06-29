@@ -440,26 +440,25 @@ namespace Global
 
                     };
 
-                    image.MouseEnter += delegate (object sender, MouseEventArgs e)
+                };
+
+                image.MouseEnter += delegate (object sender, MouseEventArgs e)
+                {
+                    if (ImageViewState.toolTop.EraserChecked == true)
                     {
-                        if (ImageViewState.toolTop.EraserChecked == true)
-                        {
-                            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
-                            Application.Current.MainWindow.Cursor = new Cursor(sri.Stream);
-                        }
-                    };
+                        StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
+                        Application.Current.MainWindow.Cursor = new Cursor(sri.Stream);
+                    }
+                };
 
-                    image.MouseLeave += delegate (object sender, MouseEventArgs e)
+                image.MouseLeave += delegate (object sender, MouseEventArgs e)
+                {
+                    if (isMouseLeftButtonDown)
                     {
-                        if (isMouseLeftButtonDown)
-                        {
-                            isMouseLeftButtonDown = false;
-                        }
-                        image.ReleaseMouseCapture();
-                        Application.Current.MainWindow.Cursor = Cursors.Arrow;
-                    };
-
-
+                        isMouseLeftButtonDown = false;
+                    }
+                    image.ReleaseMouseCapture();
+                    Application.Current.MainWindow.Cursor = Cursors.Arrow;
                 };
             };
 

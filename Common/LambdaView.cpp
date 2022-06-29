@@ -12,7 +12,7 @@ LambdaView::LambdaView(bool registered)
 {
 	if (registered) {
 		flag = 0;
-		index = viewindex;
+		index = 0;
 		index2 = 0;
 	}
 	else
@@ -74,11 +74,14 @@ int LambdaView::GetIndex()
 	return index;
 }
 
-
 LambdaView* LambdaView::GetRegistered(int index)
 {
 	LambdaView* instance;
-	instance = new LambdaView(false);
-	instance->index = index;
+	instance = new LambdaView(true);
+	if (index < 0) {
+		instance->index2 = index;
+	}else{
+		instance->index = index;
+	}
 	return instance;
 }

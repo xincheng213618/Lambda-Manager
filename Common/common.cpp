@@ -148,10 +148,6 @@ void SetRoutineHandler(void* pRoutineHandler, int argType)
 
 
 
-
-
-
-
 LIB_API void ApplicationExit()
 {
 }

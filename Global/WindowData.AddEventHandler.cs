@@ -89,7 +89,6 @@ namespace Global
         private bool SELECT_CLICKED(object sender, EventArgs e)
         {
             IsSelectImageView = true;
-
             return true;
         }
 
@@ -154,13 +153,11 @@ namespace Global
                 if (eventData != null)
                 {
                     int size = (int)eventData["size"];
-
                     IntPtr intPtr = (IntPtr)eventData["data"];
                     int[] aaa = new int[256];
                     Marshal.Copy(intPtr, aaa, 0, 256);
                     if (LambdaBottomViews[size] != null)
                         LambdaBottomViews[size].SetHistogram(aaa);
-
                 }
             });
 

@@ -22,8 +22,10 @@ internal class ViewGrid
 		72, 73, 74, 75, 76, 77, 78, 79, 80, 89,
 		90, 91, 92, 93, 94, 95, 96, 97, 98, 99
 	};
+
 	private static readonly List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
 	private static View?[] Views { get; set; } = ((MainWindow)Application.Current.MainWindow).Views;
+
 	public static Grid[] gridsList=new Grid[100];
 
 	public static View? GetIdleOrNewView(int index)
@@ -84,9 +86,10 @@ internal class ViewGrid
 		int index = 0;
         for (int i = 0; i < gridsList.Length; i++)
         {
-			if (gridsList[i] != null)
+			if (gridsList[i] == null)
             {
-				i = index;
+				index =i;
+				break;
 			}
 		}
 		gridsList[index] = grid;
@@ -109,11 +112,11 @@ internal class ViewGrid
 
 		View view = new View(image, index);
 		Views[index] = view;
-		return view;
+        LambdaControl.Trigger("IMAGE_VIEW_CREATED", null, new Dictionary<string, object> { { "view", index } });
+        return view;
 	}
 
 	
-
 	public static void CloseVieW(int index)
 	{
 		View view = Views[index];

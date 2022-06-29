@@ -24,6 +24,7 @@ internal class Common
 
     public static List<int> ClosingViewIndex { get; } = new List<int>();
 
+	public static List<View> RegisterImageViews = new List<View>();
 
     public static readonly FPSCounter fps = new FPSCounter();
 
@@ -69,7 +70,9 @@ internal class Common
 
 	private static int RegisterImage(Image image)
 	{
-		return ViewGrid.AddView(image).Index;
+        View view = new View(image, -RegisterImageViews.Count-1);
+        RegisterImageViews.Add(view);
+        return view.Index;
 	}
 
 
@@ -551,7 +554,6 @@ internal class Common
 			{
 				image.Source = writeableBitmap;
 				Views[index].State = ViewState.RUNING;
-                LambdaControl.Trigger("IMAGE_VIEW_CREATED", null, new Dictionary<string, object> { { "view", index } });
             }
         });
 		return 2;
@@ -588,13 +590,23 @@ internal class Common
 
 	private static Image? GetImage(int index,int A_1, bool initial)
 	{
-		Image image = Views[index]?.Image;
-		if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
-		{
-			image = ViewGrid.GetIdleOrNewView(index)?.Image;
-		}
-		return image;
-	}
+		if (A_1 == 0)
+        {
+            Image image = Views[index]?.Image;
+            if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
+            {
+                image = ViewGrid.GetIdleOrNewView(index)?.Image;
+            }
+            return image;
+
+        }
+        else
+        {
+            View view2 =  RegisterImageViews[- A_1-1];
+            return view2.Image;
+
+        }
+    }
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]

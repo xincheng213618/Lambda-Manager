@@ -206,7 +206,7 @@ partial class MainWindow : BaseWindow
 				view.State = ViewState.CLOSED;
 			}
 		}
-		Thread.Sleep(1000);
+		//Thread.Sleep(1000);
 	}
 
 	private void Window_ContentRendered(object sender, EventArgs e)
