@@ -397,17 +397,7 @@
                 <Border Margin="5" Height="310"  Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid >
                         <userControls:MapCanvas x:Name="Map"></userControls:MapCanvas>
-                    </Grid>  
-                </Border>
-                <Border>
-                    <Canvas x:Name="Canvas1"  Visibility="Collapsed" Height="200" Width="300"  VerticalAlignment="Center" MouseMove="MainCanvas_MouseMove"  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" PreviewMouseRightButtonUp="Canvas1_PreviewMouseRightButtonUp" PreviewMouseRightButtonDown="Canvas1_PreviewMouseRightButtonDown" PreviewMouseDown ="Canvas1_PreviewMouseDown">
-                        <Ellipse x:Name="CricalBase"  Canvas.Top="0" Canvas.Left="50" Width= "200" Height="200" Stroke="#787878" StrokeThickness="2">
-                        </Ellipse>
-                        <Line Stroke="white" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="100" X2="200" Y2="100" />
-                        <Line Stroke="White" Canvas.Top="0" Canvas.Left="50" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="100" Y1="0" X2="100" Y2="200"/>
-                        <Ellipse Name="LocalEllipse" Canvas.Top="0" Canvas.Left="50"  SnapsToDevicePixels="True" Stroke="Red" StrokeDashArray="5"  StrokeThickness="1" Width="2" Height="2"/>
-
-                    </Canvas>
+                    </Grid>
                 </Border>
 
                 <ToggleButton x:Name="ToggleButton41"  Style="{StaticResource ButtonPageControl}" Content="XYZ controller" FontSize="13" Foreground="White" IsChecked="True" />

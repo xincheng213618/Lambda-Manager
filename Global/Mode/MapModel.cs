@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Global.Mode
 {
-    public  class MapModel:ViewModeBase
+    public class MapModel:ViewModeBase
     {
         private double stageX = 150;
 

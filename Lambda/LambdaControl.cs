@@ -172,9 +172,10 @@ public class LambdaControl : Control
 	public static void Trigger(string type, object sender, EventArgs e)
 	{
 		CallEventHandler?.Invoke(type, sender, e);
-	}
+        Log(new Message { Severity = Severity.INFO, Text = type });
+    }
 
-	public static async void Dispatch(string type, object sender, EventArgs e)
+    public static async void Dispatch(string type, object sender, EventArgs e)
 	{
 		string type2 = type;
 		object sender2 = sender;

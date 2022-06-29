@@ -65,7 +65,7 @@ extern "C" LIB_API void SetMessageHandler1(LogCallBack1 fn);
 
 extern "C" LIB_API void SetMessageHandler2(LogCallBack2 fn);
 
-extern "C" LIB_API void CallFunction(char* type, int argType, void* eventObject, void* sender);
+extern "C" LIB_API int CallFunction(char* type, int argType, void* eventObject, void* sender);
 
 
 extern "C" LIB_API int GetArraySize(void* pArray);

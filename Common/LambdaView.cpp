@@ -10,15 +10,16 @@ static int viewindex = 0;
 std::mutex mut;
 LambdaView::LambdaView(bool registered)
 {
-	index = viewindex;
-	viewindex++;
 	if (registered) {
-		index2 = 0;
 		flag = 0;
+		index = 0;
+		index2 = 0;
 	}
 	else
 	{
-		index2 = 1;
+		index = viewindex;
+		viewindex++;
+		index2 = 0;
 		flag = 1;
 	}
 }
@@ -73,9 +74,14 @@ int LambdaView::GetIndex()
 	return index;
 }
 
-
 LambdaView* LambdaView::GetRegistered(int index)
 {
-	static LambdaView instance = new LambdaView(true);
-	return &instance;
+	LambdaView* instance;
+	instance = new LambdaView(true);
+	if (index < 0) {
+		instance->index2 = index;
+	}else{
+		instance->index = index;
+	}
+	return instance;
 }

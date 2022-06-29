@@ -40,13 +40,15 @@ partial class MainWindow : BaseWindow
 
 	private bool multiMode;
 	private bool multiChannel;
-	internal View[] Views { get; } = new View[100];
+	internal View[] Views = Common.Views;
 
 
-	internal List<int> ClosingViewIndex { get; } = new List<int>();
+
+	internal List<int> ClosingViewIndex = Common.ClosingViewIndex;
 
 
-	internal string? Notice { get; set; }
+
+    internal string? Notice { get; set; }
 
 	internal bool Maximize { get; set; }
 
@@ -66,107 +68,29 @@ partial class MainWindow : BaseWindow
 
     }
 
-
-	private async void Update()
-    {
-        await Task.Delay(99);
-        try
-        {
-            UIEvents.Initialze();
-            AddMessage(new Message
-            {
-                Severity = Severity.INFO,
-                Text = LambdaManager.Properties.Resources.ConfigLoading
-            });
-            bool num = new ConfigLibrary().Load("application.xml");
-            if (msgList.Items.Count > 1)
-            {
-                msgList.Items.RemoveAt(0);
-            }
-            if (num)
-            {
-                AddMessage(new Message
-                {
-                    Severity = Severity.INFO,
-                    Text = Properties.Resources.ConfigLoaded
-                });
-            }
-            else if (Settings.Default.ExitIfLoadFatalError)
-            {
-                MessageBox.Show(LambdaManager.Properties.Resources.StartFatalError + GetLogDir() + "\\lambda.log", Severity.FATAL_ERROR.Description(), MessageBoxButton.OK, MessageBoxImage.Hand);
-                //Application.Current.Shutdown();
-            }
-            InitViewer();
-        }
-        catch(Exception ee)
-        {
-			MessageBox.Show(ee.Message);
-        }
-
-    }
-
     private void Window_Initialized(object sender, EventArgs e)
     {
         SliderAll1.Value = 1920;
         SliderAll1.ValueChanged += Slider_ValueChanged;
-        Update();
-
+		fpsState.DataContext = Common.fps;
     }
     
 
 
 
-    internal void AddMessage(Severity severity, string obj, string? name, string attr, string? value, string err)
-	{
-		string pleaseCheck = LambdaManager.Properties.Resources.PleaseCheck;
-		if (name != null)
-		{
-			obj = obj + "[" + name + "]";
-		}
-		if (value != null)
-		{
-			attr = attr + "[" + value + "]";
-		}
-		string of = LambdaManager.Properties.Resources.of;
-		Message obj2 = new Message
-		{
-			Severity = severity
-		};
-		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 5);
-		defaultInterpolatedStringHandler.AppendFormatted(obj);
-		defaultInterpolatedStringHandler.AppendFormatted(of);
-		defaultInterpolatedStringHandler.AppendFormatted(attr);
-		defaultInterpolatedStringHandler.AppendFormatted(err);
-		defaultInterpolatedStringHandler.AppendLiteral(", ");
-		defaultInterpolatedStringHandler.AppendFormatted(pleaseCheck);
-		obj2.Text = defaultInterpolatedStringHandler.ToStringAndClear();
-		AddMessage(obj2);
-	}
-
 	internal void AddMessage(Message message)
 	{
-		//日志监听的级别不对
-		//LambdaControl.Log(message);
 		if (message.Severity < logLevel)
 		{
 			return;
 		}
 
 		StackPanel panel = new StackPanel();
-		panel.Orientation = Orientation.Horizontal;
 		TextBlock textBlock = new TextBlock();
-		Image image = new Image();
-		image.BeginInit();
-		image.Source = Application.Current.Resources[message.Severity.ToString()] as BitmapImage;
-		image.Height = textBlock.FontSize;
-		image.Width = textBlock.FontSize;
-		image.EndInit();
-		panel.Children.Add(image);
 		string text = message.Text;
 		if (text != null)
 		{
 			textBlock.Text = text;
-			textBlock.Style = base.Resources["MessageBlock"] as Style;
 			panel.Children.Add(textBlock);
 			ItemCollection items = msgList.Items;
 			items.Add(panel);
@@ -175,8 +99,16 @@ partial class MainWindow : BaseWindow
 			{
 				items.RemoveAt(0);
 			}
-			logger.WriteLine(message.Severity.Description() + text);
-		}
+            try
+            {
+                logger.WriteLine(message.Severity.Description() + text);
+            }
+            catch (Exception ex)
+            {
+				logger.WriteLine(ex.Message);
+            }
+
+        }
 	}
 
 	internal MenuItem? AddMenuItem(string path)
@@ -274,7 +206,7 @@ partial class MainWindow : BaseWindow
 				view.State = ViewState.CLOSED;
 			}
 		}
-		Thread.Sleep(1000);
+		//Thread.Sleep(1000);
 	}
 
 	private void Window_ContentRendered(object sender, EventArgs e)
@@ -351,7 +283,6 @@ partial class MainWindow : BaseWindow
 	private void RadioButton_Checked_4(object sender, RoutedEventArgs e)
 	{
 		LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-        bool num = new ConfigLibrary().Load("application.xml");
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
@@ -685,5 +616,25 @@ partial class MainWindow : BaseWindow
     private void imagingView_SizeChanged(object sender, SizeChangedEventArgs e)
     {
 		//MessageBox.Show("1111");
+    }
+
+    private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void ToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+		
+    }
+
+    private void ToggleButton_Click_1(object sender, RoutedEventArgs e)
+    {
+
     }
 }

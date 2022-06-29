@@ -1,21 +1,24 @@
+using Global.Common;
 using System;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
 namespace LambdaManager.Utils;
 
-internal class FPSCounter
+public class FPSCounter : ViewModeBase
 {
-	internal TextBox CameraStateBlock;
+	private string fps;
+
+    public string FPS
+    {
+        get { return fps; }
+        set { fps = value; NotifyPropertyChanged(); }
+    }
 
 	internal int Counter;
 
 	internal DateTime Start = DateTime.Now;
 
-	public FPSCounter(TextBox block)
-	{
-		CameraStateBlock = block;
-	}
 
 	public void Inc()
 	{
@@ -26,8 +29,7 @@ internal class FPSCounter
 		if (Counter == 30)
 		{
 			double fps = 30.0 / (DateTime.Now - Start).TotalSeconds;
-			TextBox cameraStateBlock = CameraStateBlock;
-			cameraStateBlock.Text = fps.ToString("0.0");
+            FPS = fps.ToString("0.0");
 			Counter = 0;
 			Start = DateTime.Now;
 		}

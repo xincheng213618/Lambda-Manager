@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Global.UserControls.ColorBarUser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Global.UserControls"
+             xmlns:range="clr-namespace:RangeSlider;assembly=RangeSlider"
+             mc:Ignorable="d" 
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Global;component/Themes/ColorMap.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Name="colorMap" Width="30" Visibility="Visible" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+            <TextBlock  Background="Black" TextAlignment="Center" Text="{Binding ElementName=colorBar,Path=HigherValue,StringFormat={}{0:F0}}" Width="40" Foreground="White"  HorizontalAlignment="Center"></TextBlock>
+            <TextBlock  Width="30" Text="4095" TextAlignment="Center"  Foreground="White"  HorizontalAlignment="Center" Margin="0,0,0,10"></TextBlock>
+            <range:RangeSlider  Width="30"  Name="colorBar" Background="#444444"   Height="300" SlidBackground="{StaticResource GRAY}"  Orientation="Vertical" Minimum="0" Maximum="4059" Margin="0,-5,0,0" >
+            </range:RangeSlider>
+            <TextBlock  Width="30" Foreground="White" Text="0" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,-20,0,0"></TextBlock>
+            <TextBlock Background="Black" TextAlignment="Center" Width="30" Text="{Binding ElementName=colorBar,Path=LowerValue,StringFormat={}{0:F0} }"  Foreground="White"  HorizontalAlignment="Center"></TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

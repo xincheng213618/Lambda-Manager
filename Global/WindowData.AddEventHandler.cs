@@ -2,9 +2,13 @@
 using Global.Mode;
 using Lambda;
 using Mode;
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -24,17 +28,120 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
+            LambdaControl.AddLambdaEventHandler("ZOOM_IN_CLICKED", ZOOM_IN_CLICKED, false);
+            LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
+            LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
+
+           
             //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
 
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
+            LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED1", IMAGE_VIEW_CREATED, false);
+
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
-            LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);  
+            LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
+
+            //控制直方图显示和隐藏
+            LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
         }
+
+
+        /// <summary>
+        /// 更新位移台坐标
+        /// </summary>
+        private bool HistogramImageShow(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            int window = (int)eventData["window"];
+            int flag = (int)eventData["flag"];
+
+            if (window>=0&&window<= LambdaBottomViews.Length)
+            {
+                if (LambdaBottomViews[window] != null)
+                {
+                    if (flag == 1)
+                    {
+                        LambdaBottomViews[window].Show();
+                    }
+                    else
+                    {
+                        LambdaBottomViews[window].Hidden();
+                    }
+                }
+            }
+
+
+
+            return true;
+        }
+
+        public bool IsSelectImageView = true;
+        public int SelectImageView = -1;
+
+        private bool SELECT_CLICKED(object sender, EventArgs e)
+        {
+            IsSelectImageView = true;
+            return true;
+        }
+
+        private bool ZOOM_IN_CLICKED(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    foreach (var item in imageParameters)
+                    {
+                        item.ScaleTransformScaleX += 0.12;
+                        item.ScaleTransformScaleY += 0.12;
+                    }
+                }
+                else
+                {
+                    if (SelectImageView >= 0&& SelectImageView< imageParameters.Count)
+                    {
+                        imageParameters[SelectImageView].ScaleTransformScaleX += 0.12;
+                        imageParameters[SelectImageView].ScaleTransformScaleY += 0.12;
+                    }
+                }
+            });
+
+            return true;
+        }
+
+        private bool ZOME_OUT_CLICKED(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    foreach (var item in imageParameters)
+                    {
+                        item.ScaleTransformScaleX -= 0.12;
+                        item.ScaleTransformScaleY -= 0.12;
+                    }
+                }
+                else
+                {
+                    if (SelectImageView >= 0 && SelectImageView < imageParameters.Count)
+                    {
+                        imageParameters[SelectImageView].ScaleTransformScaleX -= 0.12;
+                        imageParameters[SelectImageView].ScaleTransformScaleY -= 0.12;
+                    }
+                }
+            });
+
+            return true;
+        }
+
 
         ConfigBottomView.BottomView[] LambdaBottomViews = new ConfigBottomView.BottomView[100];
 
@@ -46,11 +153,11 @@ namespace Global
                 if (eventData != null)
                 {
                     int size = (int)eventData["size"];
-
                     IntPtr intPtr = (IntPtr)eventData["data"];
                     int[] aaa = new int[256];
                     Marshal.Copy(intPtr, aaa, 0, 256);
-                    LambdaBottomViews[size].SetHistogram(aaa);
+                    if (LambdaBottomViews[size] != null)
+                        LambdaBottomViews[size].SetHistogram(aaa);
                 }
             });
 
@@ -162,7 +269,7 @@ namespace Global
 
 
 
-        private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
+        private  bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int viewdex = (int)eventData["view"];
@@ -188,6 +295,7 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
+
             mulSummary.CollectionTimes = GetStringValue(eventData, "CollectionTimes");
             mulSummary.CollectionLayers = GetStringValue(eventData, "CollectionLayers");
             mulSummary.CollectionPoints = GetStringValue(eventData, "CollectionPoints");
@@ -199,7 +307,6 @@ namespace Global
             mulSummary.Storage = GetStringValue(eventData, "Storage");
             mulSummary.AllCollectionTime = GetStringValue(eventData, "AllCollectionTime");
             mulSummary.CameraWorkingTime = GetStringValue(eventData, "CameraWorkingTime");
-
             return true;
         }
 
@@ -301,13 +408,31 @@ namespace Global
         }
         private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a, int check)
         {
-            MenuItem1 menuItem1 = new MenuItem1() { Header = "明场" };
-            MenuItem1 menuItem2 = new MenuItem1() { Header = "暗场" };
-            MenuItem1 menuItem3 = new MenuItem1() { Header = "莱茵伯格" };
-            MenuItem1 menuItem4 = new MenuItem1() { Header = "相差" };
-            MenuItem1 menuItem5 = new MenuItem1() { Header = "差分" };
-            MenuItem1 menuItem6 = new MenuItem1() { Header = "定量相位" };
-            List<MenuItem1> menuItem1s = new List<MenuItem1> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
+            RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };
+            RadioMenuItem menuItem2 = new RadioMenuItem() { Header = "暗场" };
+            RadioMenuItem menuItem3 = new RadioMenuItem() { Header = "莱茵伯格" };
+            RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "相差" };
+            RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "差分" };
+            RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "定量相位" };
+            RadioMenuItem menuItem7 = new RadioMenuItem() { Header = "直方图" };
+
+            menuItem7.Click += delegate
+            {
+                menuItem1.IsChecked = true;
+                if (LambdaBottomViews[a] != null)
+                {
+                    if (menuItem7.IsChecked)
+                    {
+                        LambdaBottomViews[a].Show();
+                    }
+                    else
+                    {
+                        LambdaBottomViews[a].Hidden();
+                    }
+                }
+            };
+
+            List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
             for (int i = 0; i < menuItem1s.Count; i++)
             {
                 if (check == i)
@@ -323,7 +448,6 @@ namespace Global
             {
                 menuItem2.IsChecked = true;
                 LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 1 } });
-
             };
 
             menuItem3.Click += delegate
@@ -396,25 +520,6 @@ namespace Global
 
 
 
-                    //Window window = new Window();
-                    //window.Content = image;
-                    //window.Show();
-
-                    //using (System.IO.MemoryStream ms = new System.IO.MemoryStream(aaa))
-                    //{
-                    //    BitmapImage image = new BitmapImage();
-                    //    image.BeginInit();
-                    //    image.StreamSource = ms;
-                    //    image.EndInit();
-
-                    //    BitmapEncoder encoder = new PngBitmapEncoder();
-                    //    encoder.Frames.Add(BitmapFrame.Create(image));
-
-                    //    using (var fileStream = new System.IO.FileStream("1.jpg", System.IO.FileMode.Create))
-                    //    {
-                    //        encoder.Save(fileStream);
-                    //    }
-                    //}
                 }
             });
 

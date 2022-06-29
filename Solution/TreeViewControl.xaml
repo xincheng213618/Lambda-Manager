@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Solution"
              xmlns:Solution="clr-namespace:NLGSolution" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized">
+             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <StackPanel x:Name="mainView" Width="400">
+        <StackPanel x:Name="HeaderStackPanel" Width="400">
             <UniformGrid Columns="7">
                 <Button Content="导出" Click="Button_Click_1"/>
                 <Button Content="新建" Click="Button_Click_2"/>
@@ -26,7 +26,7 @@
                 <Button Content="查找"/>
                 <Button Content="导入"/>
             </UniformGrid>
-            <TreeView x:Name="SolutionTreeView" SelectedItemChanged="TreeView1_SelectedItemChanged"  >
+            <TreeView x:Name="SolutionTreeView">
                 <TreeView.Resources>
                     <DataTemplate x:Key="displayTemplate">
                         <TextBlock Text="{Binding Path=Name}" ></TextBlock>
@@ -63,6 +63,9 @@
                                     <MenuItem Header="取消隐藏" Command="{Binding VisibilityUnHidden}"  CommandParameter="{Binding .}"/>
                                     <Separator/>
                                     <MenuItem Header="在文件资源管理器中打开(_x)" Command="{Binding OpenExplorer}"  CommandParameter="{Binding .}"/>
+                                    <MenuItem Header="打开日志(_x)" Command="{Binding OpenLog}"  CommandParameter="{Binding .}"/>
+
+                                    
                                     <MenuItem Header="属性(_R)"  />
                                 </ContextMenu>
                             </StackPanel.ContextMenu>
@@ -70,23 +73,6 @@
 
                     </HierarchicalDataTemplate>
 
-
-                    <DataTemplate DataType="{x:Type Solution:SolutionLog}"  >
-                        <StackPanel Style="{StaticResource style_treeViewItem_panel}">
-                            <TextBlock>
-                            <Run Text="{Binding FileName}"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type Solution:SolutionConfig}">
-                        <StackPanel Style="{StaticResource style_treeViewItem_panel}">
-                            <TextBlock>
-                            <Run Text="{Binding FileName}"/>
-                            </TextBlock>
-
-                        </StackPanel>
-                    </DataTemplate>
 
                     <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectManager}" ItemsSource="{Binding Children}" >
                         <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
@@ -103,7 +89,6 @@
                                     <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
                                     <Separator/>
                                     <MenuItem Header="隐藏文件夹(_H)" Command="{Binding VisibilityHidden}" CommandParameter="{Binding .}"/>
-
                                     <Separator/>
 
                                     <MenuItem Header="属性(_R)"/>

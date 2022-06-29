@@ -14,7 +14,7 @@
     <Window.Resources>
         <ControlTemplate x:Key="ToggleButton10" TargetType="ToggleButton">
             <!--定义视觉树-->
-            <Border x:Name="border" BorderThickness="1.5" CornerRadius="7" BorderBrush="#aaa" Background="#6DA347">
+            <Border x:Name="border" BorderThickness="1.5" CornerRadius="7" BorderBrush="#aaa" Background="{TemplateBinding Background}">
                 <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
                     <Border x:Name="border1" Width="15" Height="15" CornerRadius="7" Background="White"/>
                 </Grid>
@@ -184,11 +184,11 @@
                             <TextBox Name="TextBox2" Style="{DynamicResource TextBoxStyle1}" VerticalContentAlignment="Center" Text="C:\dell\ZIRCON\Grid\default.gprj" Foreground="White" Margin="10,0" Background="#404040"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
-                            <TextBlock DockPanel.Dock="Left" Text="{x:Static resx:Resources.Reset_all_setting_at_startup__Initialize_motorized_stage_}" Foreground="White"/>
+                            <TextBlock DockPanel.Dock="Left" Text="{x:Static resx:Resources.Reset_all_setting_at_startup__Initialize_motorized_stage_}" VerticalAlignment="Center" Foreground="White"/>
                             <Border  DockPanel.Dock="Right"  Background="#262626" Padding="3" Margin="2,0" BorderBrush="#f3f3f3" BorderThickness="1" CornerRadius="3">
-                                <TextBlock  Text="true"  FontSize="11" IsEnabled="False" Foreground="Green" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBlock  Text="{Binding ElementName=ToggleButton1,Path=IsChecked}" TextAlignment="Center"  Width="30" HorizontalAlignment="Center"  FontSize="11" IsEnabled="False" Foreground="Green" VerticalAlignment="Center"/>
                             </Border>
-                            <ToggleButton DockPanel.Dock="Right"  Template="{DynamicResource ToggleButton10}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  HorizontalAlignment="Right"  Width="50" Margin="2"/>
+                            <ToggleButton x:Name="ToggleButton1" DockPanel.Dock="Right"  Template="{DynamicResource ToggleButton10}" Background="#6DA347" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  HorizontalAlignment="Right"  Width="50" Margin="2"/>
                         </DockPanel>
 
 
@@ -198,7 +198,7 @@
                 <DockPanel>
 
                     <DockPanel  DockPanel.Dock="Bottom" HorizontalAlignment="Right"  Margin="20" >
-                        <Button Style="{DynamicResource ButtonStyle1}"  Margin="5,0" Content="{x:Static resx:Resources.OK}" Foreground="White" Click="Button_Click" Width="60"  ToolTip="1111111"/>
+                        <Button Style="{DynamicResource ButtonStyle1}"  Margin="5,0" Content="{x:Static resx:Resources.OK}" Foreground="White" Click="Button_Click" Width="60" />
                         <Button  Style="{DynamicResource ButtonStyle1}"  Margin="5,0" Content="{x:Static resx:Resources.Cancel}" Foreground="White" Click="Button_Click" Width="60"/>
                     </DockPanel>
                     <Grid>

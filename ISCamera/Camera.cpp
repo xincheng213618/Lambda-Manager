@@ -11,7 +11,7 @@
 #include <opencv2/opencv.hpp>
 
 using namespace std;
-
+using namespace cv;
 LambdaView* pView = NULL;
 ConcurrentQueue<shared_future<cv::Mat*>> pipeline;
 ThreadPool pool;
@@ -23,7 +23,8 @@ void HistCalc(cv::Mat& MatPha,int i)
 	{
 		gray[i] = 0;
 	}
-
+	clock_t startTime, endTime;
+	startTime = clock();
 	for (int i = 0; i < MatPha.rows; i++)
 	{
 		cv::Vec3b* ptr_hist1 = MatPha.ptr<cv::Vec3b>(i);
@@ -34,15 +35,18 @@ void HistCalc(cv::Mat& MatPha,int i)
 			gray[z]++;
 		}
 	}
+	endTime = clock();
+	double a = (double)(endTime - startTime) / CLOCKS_PER_SEC;
+
 	int size = MatPha.rows * MatPha.cols;
-	//int * graydense = new int[256];
+	int* graydense = new int[256];
 	for (int i = 0; i < 256; i++)
 	{
 		double graydense = (gray[i] * 1.0) / size;
 		gray[i] = (int)(graydense * 255);
 	}
 
-	Event::Trigger("TestDataEvent2", gray, sizeof(char)*i);
+	Event::Trigger("TestDataEvent2", gray, sizeof(char) * i);
 }
 
 int OpenCamera()
@@ -125,6 +129,9 @@ int PlayFilms(json* eventData) {
 	return 0;
 }
 
+
+bool ssss = false;
+
 int PlayFilm(std::string fileName) {
 	cv::Mat frame;
 	cv::VideoCapture cap = cv::VideoCapture(fileName);
@@ -134,20 +141,29 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
+	LambdaView* pView1 = LambdaView::GetRegistered(-1);
+
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
 
 	for (;;)
 	{
 		// wait for a new frame from camera and store it into 'frame'
-		cap.read(frame);
+		if (ssss) {
+			ssss = false;
+			pView->Close();
+			break;
 
+		}
+
+		cap.read(frame);
 		// check if we succeeded
 		if (frame.empty()) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
 		pView->Show(frame);
+		pView1->Show(frame);
 		//HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
@@ -305,13 +321,22 @@ int OpenSerial(char* FullPath)
 
 
 int SleepTest() {
-	Sleep(3000);
+	//Sleep(3000);
+	ssss = true;
 	return  0;
 }
 
 int VideoTest() {
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 	return 0;
+}
+
+
+int MatShow(cv::Mat* Test) {
+	VideoTest();
+	//resize(*Test, *Test, cv::Size(300, 300), 0, 0);
+	return 0;
+
 }
 
 double x = 111.1111;
@@ -341,6 +366,7 @@ int CameraSettingExposure(int mode,double exposure)
 	//pView->Show(img1);
 	cv::Mat img2;
 	resize(img1, img2, cv::Size(300, 300), 0, 0);
+	Event::Dispatch("MatShow",(&img2));
 
 	////uchar b[] = { 1, 2, 3, 4, 5 };
 
@@ -358,34 +384,39 @@ int CameraSettingExposure(int mode,double exposure)
 
 
 
-	HistCalc(img2,0);
+	//HistCalc(img2,0);
 
 
-	//json j1;
+	json j1;
 
-	////采集次数
-	//j1["CollectionTimes"] = "1";
-	////采集层数
-	//j1["CollectionLayers"] = "5";
-	////采集点个数
-	//j1["CollectionPoints"] = "100";
-	////成像模式数
-	//j1["ViewModeCounts"] = "4";
-	////荧光通道数
-	//j1["FluorescenceChannels"] = "2";
-	////图像尺寸
-	//j1["ImageSize"] = "1280×960 (5.2MB)";
-	////图像总数
-	//j1["ImageNums"] = "1260";
-	////存储空间
-	//j1["Storage"] = "1.546G";
-	////全部采集耗时
-	//j1["AllCollectionTime"] = "23h 0m 0.002s";
-	////相机工作时长
-	//j1["CameraWorkingTime"] = "0h 0m 0.002s";
+	//采集次数
+	j1["CollectionTimes"] = "2";
+	//采集层数
+	j1["CollectionLayers"] = "5";
+	//采集点个数
+	j1["CollectionPoints"] = "100";
+	//成像模式数
+	j1["ViewModeCounts"] = "4";
+	//荧光通道数
+	j1["FluorescenceChannels"] = "2";
+	//图像尺寸
+	j1["ImageSize"] = "1280×960 (5.2MB)";
+	//图像总数
+	j1["ImageNums"] = "1260";
+	//存储空间
+	j1["Storage"] = "1.546G";
+	//全部采集耗时
+	j1["AllCollectionTime"] = "23h 0m 0.002s";
+	//相机工作时长
+	j1["CameraWorkingTime"] = "0h 0m 0.002s";
 
-	//
-	//Event::Trigger("UpdateMulSummary", &j1);
+	
+	Event::Trigger("UpdateMulSummary", &j1);
+
+	json j3;
+	j3["window"] =0;
+	j3["flag"] = 0;
+	Event::Trigger("HistogramImageShow", &j3);
 
 	
 	return  0;

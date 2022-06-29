@@ -39,6 +39,7 @@
     <Page Remove="resources\images\startimage\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Image\ZIRCON.png" />
     <None Remove="resources\icons\application-icon.png" />
     <None Remove="resources\icons\application-logo.png" />
     <None Remove="resources\icons\bottom-backward.png" />
@@ -91,8 +92,9 @@
     <None Remove="resources\icons\top-zoom-out.png" />
     <None Remove="resources\images\startpicture1.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\icons\bottom-forward.png" />
+	<ItemGroup>
+		<Resource Include="Image\ZIRCON.png" />
+		<Resource Include="resources\icons\bottom-forward.png" />
     <Resource Include="resources\icons\bottom-slider.png" />
     <Resource Include="resources\icons\bottom-start.png" />
     <Resource Include="resources\icons\bottom-stop.png" />
@@ -127,9 +129,15 @@
   <ItemGroup>
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\Global\Global.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\Solution\Solution.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="RangeSlider">
+      <HintPath>..\DLL\RangeSlider.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\icons\application-icon.png" />
@@ -165,6 +173,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="StartWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
@@ -188,6 +199,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\ControlSlider2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StartWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

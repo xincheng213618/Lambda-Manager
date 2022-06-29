@@ -17,7 +17,6 @@ using System.Windows.Controls.Primitives;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
-using NLGSolution.JsonHelper;
 
 namespace Solution
 {
@@ -94,7 +93,7 @@ namespace Solution
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullPath);
+                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
                     }
                 }
 
@@ -108,24 +107,6 @@ namespace Solution
             //{
             //    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
             //}
-        }
-
-        private void TreeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            TreeView treeView = sender as TreeView;
-            if (treeView.SelectedItem is SolutionLog solutionLog)
-            {
-                TextBox textBox = new TextBox();
-                textBox.Text = File.ReadAllText(solutionLog.FullPath);
-                ScrollViewer scrollViewer = new ScrollViewer();
-                scrollViewer.Content = textBox;
-                scrollViewer.ScrollToEnd();
-                Grid grid = new();
-                grid.Children.Add(scrollViewer);
-                Window window = new Window();
-                window.Content = grid;
-                window.ShowDialog();
-            }
         }
 
 
@@ -271,8 +252,8 @@ namespace Solution
                     }
                 }
             }
-            if (IsNotExit)
-                Directory.CreateDirectory($"{FullName}\\derives");
+            //if (IsNotExit)
+            //    Directory.CreateDirectory($"{FullName}\\derives");
             return baseObject;
         }
 
@@ -331,66 +312,24 @@ namespace Solution
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-          
+            if (this.Parent is StackPanel stackPanel)
+            {
+                stackPanel.Width = 420;
+            }
+
         }
-
-        [DllImport(@"lib\ISCamera.dll", EntryPoint = "CameraSettingExposure")]
-        public static extern int CameraSettingExposure(int mode,double exposure);
-
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
-
-
-            //Image image = new Image();
-            //View View = new View(image,99);
-            //LambdaControl.Trigger("IMAGE_VIEW_CREATED", this, new Dictionary<string, object> { { "view", View.Index } });
-            //try
-            //{
-            //    IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
-            //    IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //Stopwatch sw = new Stopwatch();
-            //sw.Start();
-            ////IntPtr address = NativeLibrary.Load(@"lib\ISCamera.dll");
-            ////IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    try
-            //    {
-            //        //IntPtr address = NativeLibrary.Load(@"ISCamera.dll");
-            //    }catch(Exception ex)
-            //    {
-
-            //    }
-            //    //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-            //    //IntPtr Export = NativeLibrary.GetExport(address, "CameraSettingExposure");
-
-
-            //    //CameraSettingExposure(0, 111111);
-
-
-
-
-            //    //((delegate* unmanaged[Cdecl]<int, double, int>)(void*)Export)(1, 11111);
-
-
-            //}
-
-            //sw.Stop();
-            //MessageBox.Show(sw.Elapsed.ToString());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (solutionExplorer != null)
-                solutionExplorer.ToLimitJsonFile($"{SolutionDir}\\{solutionExplorer.Name}.json");
+            //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
+            Image image = new Image();
+            HeaderStackPanel.Children.Add(image);
+            MessageBox.Show(LambdaControl.RegisterImageView(image).ToString());
         }
         GridLengthConverter gridLengthConverter = new GridLengthConverter();
         private void testt22_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -434,6 +373,22 @@ namespace Solution
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("这里添加命令");
+        }
+
+        bool fisrt = true;
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            //执行一次
+            if (fisrt)
+            {
+                View view = LambdaControl.GetImageView(0);
+                if (view != null)
+                {
+                    view.Image = null;
+                }
+                fisrt = false;
+            }
+
         }
     }
 

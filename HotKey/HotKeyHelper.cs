@@ -17,14 +17,7 @@ namespace HotKey
 
         public static HotKeyHelper GetInstance()
         {
-            lock (locker)
-            {
-                // 如果类的实例不存在则创建，否则直接返回
-                if (instance == null)
-                {
-                    instance = new HotKeyHelper();
-                }
-            }
+            lock (locker) { if (instance == null) { instance = new HotKeyHelper(); } }
             return instance;
         }
 

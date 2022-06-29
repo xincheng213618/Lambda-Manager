@@ -1,6 +1,7 @@
 ﻿using Lambda;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -23,7 +24,7 @@ namespace ConfigBottomView
     /// </summary>
     public partial class BottomView : UserControl
     {
-        public BottomView()
+        public BottomView( )
         {
             //InitializeComponent(); 
             this.LoadViewFromUri("/ConfigBottomView;component/bottomview.xaml");
@@ -38,7 +39,15 @@ namespace ConfigBottomView
 
         public void SetHistogram(int[] Histogramedata)
         {
-            HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
+            if (Histogramedata.Length == 256)
+            {
+                Text1.Text = "最小值" + Histogramedata.Min();
+                Text2.Text = "最大值" + Histogramedata.Max();
+                double avg = Histogramedata.Average();
+                Text3.Text = "平均值" + avg.ToString("f5");
+                Text4.Text = "方差" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
+                HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
+            }
         }
 
 
@@ -52,23 +61,6 @@ namespace ConfigBottomView
             {
                 BottomViewIsInitialized = true;
 
-                //if (this.Parent is StackPanel stackPanel1)
-                //{
-                //    this.Width = stackPanel1.ActualWidth;
-                //    this.Height = Grid1.Height;
-                //    Window mainwin = Application.Current.MainWindow;
-                //    mainwin.SizeChanged += delegate
-                //    {
-                //        this.Width = stackPanel1.ActualWidth;
-                //        Grid1.Width = stackPanel1.ActualWidth;
-                //    };
-                //    stackPanel1.SizeChanged += delegate
-                //    {
-                //        this.Width = stackPanel1.ActualWidth;
-                //        Grid1.Width = stackPanel1.ActualWidth;
-
-                //    };
-                //}
                 Window mainwin = Application.Current.MainWindow;
 
                 Grid mainView = (Grid)mainwin.FindName("mainView");
@@ -78,6 +70,26 @@ namespace ConfigBottomView
                 };
             }
 
+        }
+
+        public void Show()
+        {
+            this.Visibility = Visibility.Visible;
+        }
+        public void Hidden()
+        {
+            this.Visibility = Visibility.Collapsed;
+        }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Collapsed;
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            HistogramImage1.Height = this.ActualHeight-20;
         }
     }
 }

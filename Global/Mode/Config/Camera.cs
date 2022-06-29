@@ -1,10 +1,10 @@
 ﻿using Global.Common;
 using Mode;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Global.Mode.Config
@@ -14,112 +14,88 @@ namespace Global.Mode.Config
     {
         public int SelectViewMode = 0;
 
-        private double gamma = 1.0;
 
-        [JsonProperty("gamma")]
+        private double gamma = 1.0;
+        /// <summary>
+        /// 伽玛
+        /// </summary>
+        [JsonPropertyName("gamma")]
         public double Gamma
         {
-            get => gamma;
-            set  {
-                gamma = value;
-                NotifyPropertyChanged();
-            }
+            get { return gamma; }
+            set { gamma = value; NotifyPropertyChanged(); }
         }
-        private double gain = 0;
 
-        [JsonProperty("gain")]
+        private double gain = 0;
+        [JsonPropertyName("gain")]
         public double Gain
         {
-            get => gain;
-            set
-            {
-                gain = value;
-                NotifyPropertyChanged();
-            }
+            get { return gain; }
+            set { gain = value; NotifyPropertyChanged(); }
         }
 
         private bool gainAuto = false;
 
-        [JsonProperty("gainAuto")]
+        [JsonPropertyName("gainAuto")]
         public bool GainAuto
         {
-            get => gainAuto;
-            set
-            {
-                gainAuto = value;
-                NotifyPropertyChanged();
-            }
+            get { return gainAuto; }
+            set { gainAuto = value; NotifyPropertyChanged(); }
         }
 
         private double sharpness = 0;
-        [JsonProperty("sharpness")]
+        [JsonPropertyName("sharpness")]
         public double Sharpness
         {
-            get => sharpness;
-            set
-            {
-                sharpness = value;
-                NotifyPropertyChanged();
-            }
+            get { return sharpness; }
+            set { sharpness = value; NotifyPropertyChanged(); }
         }
 
         private double saturation = 0;
 
-        [JsonProperty("saturation")]
+        [JsonPropertyName("saturation")]
         public double Saturation
         {
-            get => saturation;
-            set
-            {
-                saturation = value;
-                NotifyPropertyChanged();
-            }
+            get { return saturation; }
+            set { saturation = value; NotifyPropertyChanged(); }
         }
 
         private int exposure = 60;
-        [JsonProperty("exposure")]
+        [JsonPropertyName("exposure")]
         public int Exposure
         {
-            get => exposure;
-            set
-            {
-                exposure = value;
-                NotifyPropertyChanged();
-            }
+            get { return exposure; }
+            set { exposure = value; NotifyPropertyChanged(); }
         }
 
         private bool exposureAuto = false;
 
-        [JsonProperty("exposureAuto")]
+        [JsonPropertyName("exposureAuto")]
         public bool ExposureAuto
         {
-            get => exposureAuto;
-            set
-            {
-                exposureAuto = value;
-                NotifyPropertyChanged();
-            }
+            get { return exposureAuto; }
+            set { exposureAuto = value; NotifyPropertyChanged(); }
         }
 
-        [JsonProperty("vedio-format")]
+        [JsonPropertyName("vedio-format")]
         public string? VideoFormat { get; set; }
-        [JsonProperty("fps")]
+        [JsonPropertyName("fps")]
         public double? Fps { get; set; }
-        [JsonProperty("brightness")]
+        [JsonPropertyName("brightness")]
         public double? Brightness { get; set; }
-        [JsonProperty("contrast")]
+        [JsonPropertyName("contrast")]
         public double? Contrast { get; set; }
-        [JsonProperty("hue")]
+        [JsonPropertyName("hue")]
         public double? Hue { get; set; }
 
-        [JsonProperty("white-balance")]
+        [JsonPropertyName("white-balance")]
         public WhiteBalance? WhiteBalance { get; set; }
 
-        [JsonProperty("trigger")]
+        [JsonPropertyName("trigger")]
         public Trigger? Trigger { get; set; }
-        [JsonProperty("denoise")]
+        [JsonPropertyName("denoise")]
         public bool? Denoise { get; set; }
-        [JsonProperty("strobe")]
+        [JsonPropertyName("strobe")]
         public bool? Strobe { get; set; }
 
         public void SetValue(Camera camera)

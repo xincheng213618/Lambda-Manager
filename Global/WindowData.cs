@@ -1,11 +1,14 @@
-﻿using Global.Hardware;
+﻿using Global.Common.Extensions;
+using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
 using Lambda;
 using Mode;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.ExceptionServices;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -25,16 +28,13 @@ namespace Global
 
         public DeviceInformation deviceInformation;
         public List<ObjectiveSetting> ObjectiveSettingList;
-        public StageTest StageTest = new StageTest();
         public MapModel mapModel = new MapModel();
 
         private WindowData()
         {
-            //LambdaControl.Initialize(null, null, null, Call, null, null);
             Hardware_Initialized();
             AddEventHandler();
 
-            //code to wipe ass
             AddInjection();
         }
 
@@ -65,7 +65,7 @@ namespace Global
 
                 ViewMode.SetValue(Config.ViewMode);
                 Stage.SetValue(Config.Stage);
-
+                ImageViewState.SetValue(Config.ImageViewState);
                 Update.UpdateGlobal();
             }
             else
@@ -74,6 +74,8 @@ namespace Global
             }
 
         }
+        public ImageViewState ImageViewState = new ImageViewState();
+
 
         public void SaveConfig()
         {
@@ -83,7 +85,8 @@ namespace Global
 
             Config.ViewMode.SetValue(ViewMode);
             Config.Stage.SetValue(Stage);
-            Utils.ToJsonFile(Config, FilePath);
+            Config.ImageViewState.SetValue(ImageViewState);
+            Config.ToJsonFile(FilePath);
         }
         
         /// <summary>
@@ -97,9 +100,8 @@ namespace Global
                 MessageBox.Show("找不到工程文件。");
                 return -1;
             }
-
-            string result = Utils.LoadResource(ConfigFileName);
-            if (result.IsNullOrEmpty())
+            string result = File.ReadAllText(ConfigFileName);
+            if (result==null)
             {
                 MessageBox.Show("未能加载项目文件。缺少根元素");
                 return -2;
@@ -107,7 +109,7 @@ namespace Global
  
             try
             {
-                Config = JsonConvert.DeserializeObject<Config>(result);
+                Config = JsonSerializer.Deserialize<Config>(result);
             }
             catch (Exception ex)
             {

@@ -20,11 +20,13 @@ namespace LambdaManager.Core;
 
 internal class Common
 {
+    public static View[] Views { get; } = new View[100];
 
-	private static List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
+    public static List<int> ClosingViewIndex { get; } = new List<int>();
 
+	public static List<View> RegisterImageViews = new List<View>();
 
-	private static readonly FPSCounter fps = new FPSCounter(((MainWindow)Application.Current.MainWindow).fpsState);
+    public static readonly FPSCounter fps = new FPSCounter();
 
 	private static readonly int RESERVED_EVENT_RESULT = 2147400000;
 
@@ -36,10 +38,9 @@ internal class Common
 
 	internal static IScheduler? Scheduler;
 
-	private static View[] Views { get; } = ((MainWindow)Application.Current.MainWindow).Views;
 
 
-	internal unsafe static void Init()
+    internal unsafe static void Init()
 	{
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
 		SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
@@ -62,22 +63,16 @@ internal class Common
 
         GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 
-
 		LambdaControl.Initialize(App.Report, App.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
 
-        //LambdaControl.LogHandler = new LogHandler(App.Report);
-        //LambdaControl.LogHandler2 = new LogHandler(App.Report2);
-
-        //LambdaControl.AddEventHandler = new AddEventHandler(AddEventHandler);
-        //LambdaControl.CallEventHandler = new CallEventHandler(CallEvent);
-        //LambdaControl.RegisterImageViewHandler = new RegisterImageViewHandler(RegisterImage);
-        //LambdaControl.Views = Views;
 		Initialize();
 	}
 
 	private static int RegisterImage(Image image)
 	{
-		return ViewGrid.AddView(image).Index;
+        View view = new View(image, -RegisterImageViews.Count-1);
+        RegisterImageViews.Add(view);
+        return view.Index;
 	}
 
 
@@ -94,16 +89,6 @@ internal class Common
 	[SuppressGCTransition]
 	private unsafe static void AddMessage1(int severity, sbyte* message)
 	{
-        //int length = default(int);
-        //sbyte* p2 = default(sbyte*);
-        //p2 = (sbyte*)message;
-        //while (*(p2++) != 0)
-        //    length++;
-        //LambdaControl.Log(new Message
-        //{
-        //    Severity = (Severity)severity,
-        //    Text = new string((sbyte*)message, 0, length, Encoding.UTF8)
-        //});
         LambdaControl.Log(new Message
         {
             Severity = (Severity)severity,
@@ -324,7 +309,7 @@ internal class Common
 
 	private static List<object?>? PrepareArguments(Routine routine, int index, Dictionary<string, object> eventObject)
 	{
-		Dictionary<string, int> dataMap = App.GetResolvedEvents()?[events[index]].GetEventMap(routine);
+		Dictionary<string, int> dataMap = FunctionExecutor.Solution?.Events?[events[index]].GetEventMap(routine);
 		if (dataMap == null)
 		{
 			return null;
@@ -564,20 +549,13 @@ internal class Common
 			writeableBitmap.Lock();
 			writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
 			writeableBitmap.Unlock();
-			MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 			Image image = GetImage(index, A_1, initial: true);
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
 				Views[index].State = ViewState.RUNING;
-				if (index == 0)
-				{
-					string text = Application.Current.Resources["FpsRunning"] as string;
-					mainWindow.fpsState.Text = text;
-				}
-				FunctionExecutor.Solution.Writer?.Flush();
-			}
-		});
+            }
+        });
 		return 2;
 	}
 
@@ -604,24 +582,31 @@ internal class Common
 	[SuppressGCTransition]
 	private static void CloseImageView(int index)
 	{
-		ViewGrid.CloseVieW(index);
+		Application.Current.Dispatcher.Invoke(delegate
+		{
+			ViewGrid.CloseVieW(index);
+		});
 	}
 
 	private static Image? GetImage(int index,int A_1, bool initial)
 	{
-		MainWindow main = (MainWindow)Application.Current.MainWindow;
-		if (main == null)
-		{
-			return null;
-		}
-		Image image = main.Views[index]?.Image;
-		if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
-		{
-			image = ViewGrid.GetIdleOrNewView(index)?.Image;
-		}
+		if (A_1 == 0)
+        {
+            Image image = Views[index]?.Image;
+            if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
+            {
+                image = ViewGrid.GetIdleOrNewView(index)?.Image;
+            }
+            return image;
 
-		return image;
-	}
+        }
+        else
+        {
+            View view2 =  RegisterImageViews[- A_1-1];
+            return view2.Image;
+
+        }
+    }
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]

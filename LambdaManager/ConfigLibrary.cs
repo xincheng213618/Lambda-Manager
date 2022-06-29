@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
 using Lambda;
@@ -28,7 +30,7 @@ internal class ConfigLibrary
 		Common.Init();
 	}
 
-	public bool Load(string path)
+    public bool Load(string path)
 	{
 		XElement root = XDocument.Load(path).Root;
 		if (root == null)
@@ -106,6 +108,9 @@ internal class ConfigLibrary
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
 		InitializeLibrary();
+  //      Thread thread = new Thread(new ThreadStart());
+		//thread.IsBackground = true;
+  //      thread.Start();
 		return validate.Severity < Severity.FATAL_ERROR;
 	}
 
@@ -1657,7 +1662,7 @@ internal class ConfigLibrary
 
 	private void InitializeLibrary()
 	{
-		if (solution.Routines.ContainsKey(solution.InitEvent))
+        if (solution.Routines.ContainsKey(solution.InitEvent))
         {
             foreach (Routine routine in solution.Routines[solution.InitEvent])
             {
@@ -1667,9 +1672,6 @@ internal class ConfigLibrary
                 });
             }
         }
-
-
-
 	}
 
 	private static async void InitializeScheduler()
@@ -1695,6 +1697,8 @@ internal class ConfigLibrary
 			i++;
 		}
 	}
+
+
 
 	private void RefineSolutionFunctionRaise()
 	{

@@ -70,11 +70,11 @@ internal static class FunctionExecutor
                     }
                     result = InvokeFunction(info);
                 }
-				//返回-1 直接退出循环
-                //if (result != 0 && result < 0)
-                //{
-                //    return result;
-                //}
+                //返回 - 1 直接退出循环
+                if (result != 0 && result < 0)
+                {
+                    return result;
+                }
             }
         }
         if (info.Caller != null && functions.Count == 1)

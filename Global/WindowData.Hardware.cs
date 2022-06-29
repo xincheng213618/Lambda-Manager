@@ -1,8 +1,10 @@
 ﻿using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode.Config;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
 
 namespace Global
 {
@@ -11,25 +13,30 @@ namespace Global
 
         private void Hardware_Initialized()
         {
-            if (File.Exists(Global.HardwareDeviceInformationSheet))
+            bool init = false;
+            if (File.Exists(GlobalConst.HardwareDeviceInformationSheet))
             {
-                string HardwareDeviceInformation = Utils.LoadResource(Global.HardwareDeviceInformationSheet);
+                string HardwareDeviceInformation = File.ReadAllText(GlobalConst.HardwareDeviceInformationSheet);
+
                 if (!string.IsNullOrEmpty(HardwareDeviceInformation))
                 {
-                    deviceInformation = JsonConvert.DeserializeObject<DeviceInformation>(HardwareDeviceInformation);
+                    deviceInformation = JsonSerializer.Deserialize<DeviceInformation>(HardwareDeviceInformation);
                     ObjectiveSettingList = deviceInformation.ObjectiveSettingList;
+                    if (ObjectiveSettingList==null)
+                        init = true;
                 }
             }
-            else
+
+            if (init)
             {
                 List<string> strings = new List<string>();
-                for (int i = 0; i < Global.expose.Count; i++)
+                for (int i = 0; i < GlobalConst.expose.Count; i++)
                 {
-                    strings.Add($"1/{Global.expose[i]:0.######}");
-                    Global.expose[i] = 1 / Global.expose[i];
+                    strings.Add($"1/{GlobalConst.expose[i]:0.######}");
+                    GlobalConst.expose[i] = 1 / GlobalConst.expose[i];
                 }
-                Global.expose.AddRange(Global.expose1);
-                strings.AddRange(Global.expose1.Select(x => x.ToString("0.######")).ToArray());
+                GlobalConst.expose.AddRange(GlobalConst.expose1);
+                strings.AddRange(GlobalConst.expose1.Select(x => x.ToString("0.######")).ToArray());
 
                 deviceInformation = new DeviceInformation()
                 {
@@ -40,13 +47,14 @@ namespace Global
                         new ObjectiveSetting() { ID = 3, Name = "奥林巴斯", Magnitude = "40X", NA = 0.65, IsEnabled = false },
                         new ObjectiveSetting() { ID = 4, Name = "奥林巴斯", Magnitude = "100X", NA = 0.65, IsEnabled = false },
                     },
-                    CameraExpose = Global.expose,
+                    CameraExpose = GlobalConst.expose,
                     CameraExposeShow = strings
 
                 };
-                deviceInformation.ToJsonFile(Global.HardwareDeviceInformationSheet);
+                deviceInformation.ToJsonFile(GlobalConst.HardwareDeviceInformationSheet);
                 ObjectiveSettingList = deviceInformation.ObjectiveSettingList;
             }
+
         }
 
     }

@@ -45,11 +45,6 @@ namespace ConfigObjective.UserControls
                     int size = (int)eventData["size"];
 
                     IntPtr intPtr = (IntPtr)eventData["data"];
-                    //byte[] aaa = new byte[size];
-                    //Marshal.Copy(intPtr, aaa, 0, size);
-                    //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
-                    //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                    //pinnedArray.Free();
 
                     if (mapCanvas.Source is WriteableBitmap writeableBitmap1)
                     {
@@ -68,7 +63,6 @@ namespace ConfigObjective.UserControls
                     }
                 }
             });
-
             return true;
         }
 
@@ -89,9 +83,7 @@ namespace ConfigObjective.UserControls
 
         private Brush selectionSquareBrush = Brushes.Transparent;
         private Pen selectionSquarePen = new Pen(Brushes.Black, 1);
-
-
-
+        public  List<Point> selectedPoints = new List<Point>();
 
 
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -99,9 +91,13 @@ namespace ConfigObjective.UserControls
             Point pointClicked = e.GetPosition(mapCanvas);
             pointClickLeft = pointClicked;
 
-            if (e.ClickCount == 2)
-            {
-                MessageBox.Show("Move to " + "(" + pointClicked.X.ToString() + "," + pointClicked.Y.ToString() + ")");
+            if (e.ClickCount == 2) { 
+                Dictionary<string, object> data = new Dictionary<string, object>()
+                {
+                    { "X", (int)(pointClicked.X) },
+                    { "Y", (int)(pointClicked.Y) },
+                };
+                LambdaControl.Trigger("MOTORCONTROL", this, data);
             }
             else
             {
@@ -159,6 +155,7 @@ namespace ConfigObjective.UserControls
                 visual.Opacity = 0.3;
                 mapCanvas.AddVisual(visual);
                 mapArrray[y, x] = 1;
+                selectedPoints.Add(drawpoint);
             }
             else if (mapArrray[y, x] == 0)
             {
@@ -286,7 +283,8 @@ namespace ConfigObjective.UserControls
                     if (visual != null) mapCanvas.DeleteVisual(visual);
                     if (b >= 42 || a >= 30) return;
                     mapArrray[b, a] = 0;
-
+                    Point removePoint = new Point(a * 10, b * 7);
+                    selectedPoints.Remove(removePoint);
                 }
             }
         }
@@ -324,7 +322,8 @@ namespace ConfigObjective.UserControls
                 mapCanvas.DeleteVisual(visual);
                 if (y >= 42 || x >= 30) return;
                 mapArrray[y, x] = 0;
-
+                Point removePoint = new Point(x * 10, y * 7);
+                selectedPoints.Remove(removePoint);
             }
 
 

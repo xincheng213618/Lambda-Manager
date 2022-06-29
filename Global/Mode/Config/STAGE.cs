@@ -1,9 +1,9 @@
 ﻿using Global.Common;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Global.Mode.Config
@@ -11,11 +11,11 @@ namespace Global.Mode.Config
     [Serializable]
     public class Stage : ViewModeBase
     {
-        [JsonProperty("moving-step")]
+        [JsonPropertyName("moving-step")]
         public MoveStep MoveStep { get; set; }= new MoveStep();
 
         private bool coarsefocus = true;
-        [JsonProperty("coarse-focus")]
+        [JsonPropertyName("coarse-focus")]
         public bool CoarseFocus
         {
             get { return coarsefocus; }
@@ -27,7 +27,7 @@ namespace Global.Mode.Config
         }
 
         private bool finefocus =false;
-        [JsonProperty("fine-focus")]
+        [JsonPropertyName("fine-focus")]
         public bool FineFocus
         {
             get { return finefocus; }
@@ -39,7 +39,7 @@ namespace Global.Mode.Config
         }
         
         private int focusingscope;
-        [JsonProperty("focusing-scope")]
+        [JsonPropertyName("focusing-scope")]
         public int FocusingScope
         {
             get { return focusingscope; }
@@ -64,7 +64,7 @@ namespace Global.Mode.Config
     public class MoveStep : ViewModeBase
     {
         private int xstep = 200 ;
-        [JsonProperty("x-step")]
+        [JsonPropertyName("x-step")]
         public int XStep
         {
             get { return xstep; }
@@ -76,7 +76,7 @@ namespace Global.Mode.Config
         }
 
         private int ystep = 200;
-        [JsonProperty("y-step")]
+        [JsonPropertyName("y-step")]
         public int YStep
         {
             get { return ystep; }
@@ -88,7 +88,7 @@ namespace Global.Mode.Config
         }
 
         private int zStep = 200;
-        [JsonProperty("z-step")]
+        [JsonPropertyName("z-step")]
         public int ZStep
         {
             get { return zStep; }

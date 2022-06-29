@@ -27,31 +27,26 @@ std::wstring StringUtils::string2wstring(const std::string& str)
 //https://www.cnblogs.com/ranjiewen/p/5770639.html
 wchar_t* StringUtils::Multi2WideByte(const char* p)
 {
-	//size_t length = strlen(p);
-	//std::wstring text_wchar(length, L'#');
+	const size_t cSize = strlen(p) + 1;
+	wchar_t* wc = new wchar_t[cSize];
+	setlocale(LC_ALL, "chs");
+	mbstowcs(wc, p, cSize);
+	setlocale(LC_ALL, "C");
 
-	//mbstowcs(&text_wchar[0], p, length);
-	int sBufSize = strlen(p);
-
-	DWORD dBufSize = MultiByteToWideChar(CP_ACP, 0, p, sBufSize, NULL, 0);
-	// allocate it
-	wchar_t* dBuf = new wchar_t[dBufSize];
-	wmemset(dBuf, 0, dBufSize);
-
-	int nRet = MultiByteToWideChar(CP_ACP, 0, p, sBufSize, dBuf, dBufSize);
-	return dBuf;
+	return wc;
 }
 
 char* StringUtils::Wide2MultiByte(const wchar_t* p)
 {
 	DWORD dBufSize = WideCharToMultiByte(CP_OEMCP, 0, p, -1, NULL, 0, NULL, FALSE);
 
-	//鍒嗛厤鐩爣缂撳瓨
+	//分配目标缓存
 	char* dBuf = new char[dBufSize];
 	memset(dBuf, 0, dBufSize);
 
-	//杞崲
-	int nRet = WideCharToMultiByte(CP_OEMCP, 0, p, -1, dBuf, dBufSize, NULL, FALSE);
+	sprintf(dBuf, "%ws", p);
+	//转换
+	//int nRet = WideCharToMultiByte(CP_OEMCP, 0, p, -1, dBuf, dBufSize, NULL, FALSE);
 
 	return dBuf;
 }

@@ -32,18 +32,7 @@ void Initialize() {
 
 	//const char* buffer = "long:8,unsigned long:8,long double:8";
 	const char* buffer = "long:4,unsigned long:4,long int:4,long long:8,long double:8";
-
-	
 	setCppSize((char*)buffer);
-	//std::thread t([=]() {
-	//	while (true)
-	//	{
-	//		cron22.tick();
-	//		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-	//	}		
-	//	});
-	//t.detach();
-
 }
 
 
@@ -52,9 +41,12 @@ LIB_API int GetArraySize(void* pArray)
 	return getArraySize(pArray);
 }
 
+ extern std::list<void*> RaiseEventMark_map;
+
 LIB_API int SetHandlerRaise(void* pArray) {
 
-	callHandlerRaise(pArray);
+	RaiseEventMark_map.push_back(pArray);
+	//callHandlerRaise(pArray);
 	return 1;
 }
 
@@ -156,11 +148,7 @@ void SetRoutineHandler(void* pRoutineHandler, int argType)
 
 
 
-
-
-
-
-LIB_API void ApplicationExit()
+ void ApplicationExit()
 {
 }
 

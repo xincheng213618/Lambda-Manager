@@ -16,7 +16,6 @@ namespace Solution
         private void IniCommand()
         {
             ApplicationCommands.Delete.InputGestures.Add(new KeyGesture(Key.Delete, ModifierKeys.None, "Del"));
-            CommandBindings.Add(new CommandBinding(AddNewProject, this.AddNewProject_Executed, this.AddNewProject_CanExecute));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, this.ExecutedCommand, this.CanExecuteCommand));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, this.ExecutedCommand, this.CanExecuteCommand));
@@ -153,32 +152,6 @@ namespace Solution
 
         }
 
-
-
         #endregion
-
-        private void AddNewProject_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void AddNewProject_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            //ProjectMannager projectMannager = new ProjectMannager()
-            //{
-            //    Name = "新建工程1"
-            //};
-            //SolutionExplorers[0].AddChild(projectMannager);
-        }
-
-        public static RoutedCommand NewProject = new RoutedCommand();
-        public static RoutedCommand OpenProject = new RoutedCommand();
-        public static RoutedCommand AddNewProject = new RoutedCommand();
-        public static RoutedCommand AddExistingProject = new RoutedCommand();
-        public static RoutedCommand CloseSolution = new RoutedCommand();
-        public static RoutedCommand Exit = new RoutedCommand();
-        public static RoutedCommand OpenLocalFolder = new RoutedCommand();
-
-
     }
 }

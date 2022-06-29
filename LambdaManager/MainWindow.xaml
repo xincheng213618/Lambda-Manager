@@ -218,7 +218,7 @@
                                         <Image Source="/Resources/Icons/top-select.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 29-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_21">
                                         <Image Source="/Resources/Icons/top-inline.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 30-->
                                     </ToggleButton>
@@ -230,18 +230,19 @@
                                         <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 32-->
                                     </Button>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+
+                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_24">
                                         <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 33-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_25">
                                         <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 34-->
                                     </ToggleButton>
-                                    <Button Style="{StaticResource ToolButton}">
+                                    <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 35-->
-                                    </Button>
+                                    </ToggleButton>
                                     <Border Height="22" Padding="1" CornerRadius="4">
                                         <Border.Background>
                                             <SolidColorBrush Color="{DynamicResource HighlightColor}" />
@@ -274,37 +275,28 @@
                                     </Separator>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 40-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 41-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 42-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 43-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-curve.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 44-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-circle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 45-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-rectangle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 46-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" Margin="0,0,3,0" />
-                                        <!--Unknown connection ID: 47-->
                                     </ToggleButton>
-                                    <!--Unknown connection ID: 28-->
                                 </WrapPanel>
                             </Border>
                             <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
@@ -329,7 +321,7 @@
                                         <!--Unknown connection ID: 52-->
                                     </Button>
                                     <TextBlock VerticalAlignment="Center">FPS:</TextBlock>
-                                    <TextBox Name="fpsState" Text="{DynamicResource Fps}" VerticalAlignment="Center">
+                                    <TextBox Name="fpsState" Text="{Binding FPS}" VerticalAlignment="Center">
                                         <!--Unknown connection ID: 53-->
                                     </TextBox>
                                     <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center">
@@ -378,8 +370,7 @@
                                             <!--Unknown connection ID: 63-->
                                         </ToggleButton>
                                     </WrapPanel>
-                                    <!--<Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />-->
-                                    <!--Unknown connection ID: 59-->
+                                    <Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
                                 </DockPanel>
                             </Border>
                             <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
@@ -521,6 +512,6 @@
 
         </Viewbox>
 
-        <Grid Name="stageConfig" Grid.Row="1" Grid.ColumnSpan="2" />
+        <Grid Name="stageConfig" Grid.Row="1"  Grid.ColumnSpan="2" />
     </Grid>
 </Base:BaseWindow>

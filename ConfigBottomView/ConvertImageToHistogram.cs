@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -99,6 +100,7 @@ namespace ConfigBottomView
         /// 
         public static Bitmap GenerateHistogramImage(List<int> histogram)
         {
+
             Bitmap histogramImageItem = new Bitmap(300, 300);
             int brightness;
 

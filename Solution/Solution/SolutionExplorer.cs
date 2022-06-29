@@ -17,6 +17,8 @@ namespace NLGSolution
         public RelayCommand AddNewProject { get; set; }
         public RelayCommand OpenExplorer { get; set; }
         public RelayCommand AddExistingProject { get; set; }
+        public RelayCommand OpenLog { get; set; }
+
 
         public SolutionExplorer(string FullPath):base(FullPath)
         {
@@ -35,8 +37,12 @@ namespace NLGSolution
 
             AddNewProject = new RelayCommand(OnAddNewProject, (object value) => { return true; });
             OpenExplorer = new RelayCommand(OpenFolder, (object value) => { return true; });
+            OpenLog = new RelayCommand(OpenLogFile, (object value) => { return true; });
         }
-
+        private void OpenLogFile(object value)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", @"C:\Users\Chen\AppData\Local\LambdaManager\lambda.log");
+        }
 
         private void OpenFolder(object value)
         {
@@ -144,7 +150,6 @@ namespace NLGSolution
         private void OnAddNewProject(object value)
         {
 
-
         }
 
 
@@ -157,8 +162,6 @@ namespace NLGSolution
 
         public string SolutionPath { get; set; }
 
-        public SolutionLog SolutionLog { get; set; }
-        public SolutionConfig SolutionConfig { get; set; }
 
         public ObservableCollection<ProjectManager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectManager>();
 

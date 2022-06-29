@@ -31,6 +31,7 @@ extern "C" CAMERA_API int SleepTest();
 
 extern "C" CAMERA_API int VideoTest();
 
+extern "C" CAMERA_API int MatShow(cv::Mat * Test);
 
 struct Cam
 {
