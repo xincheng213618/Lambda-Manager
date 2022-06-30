@@ -1,5 +1,4 @@
-﻿using LambdaManager.Features;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -41,7 +40,6 @@ namespace LambdaManager
             {
                 try
                 {
-                    UIEvents.Initialze();
                     bool num = new ConfigLibrary().Load("application.xml");
                     if (num)
                     {

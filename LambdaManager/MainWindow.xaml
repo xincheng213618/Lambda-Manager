@@ -247,8 +247,8 @@
                                         <Border.Background>
                                             <SolidColorBrush Color="{DynamicResource HighlightColor}" />
                                         </Border.Background>
-                                        <TextBox Name="ratio" VerticalAlignment="Center">25%
-                                            <!--Unknown connection ID: 36-->
+                                        <TextBox Name="ratio" VerticalAlignment="Center">100%
+
                                         </TextBox>
                                     </Border>
                                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">

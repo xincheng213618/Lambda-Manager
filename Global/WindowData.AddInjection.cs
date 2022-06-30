@@ -69,7 +69,7 @@ namespace Global
                 contextMenu.Items.Add(menuItem1);
                 contextMenu.Items.Add(menuItem2);
                 contextMenu.Items.Add(menuItem3);
-                buttton1.ContextMenu = contextMenu;
+                buttton1.ContextMenu = contextMenu;  
             }
             catch (Exception ex)
             {
@@ -292,15 +292,22 @@ namespace Global
                 ((ToggleButton)topToolbar.Children[1]).SetBinding(ToggleButton.IsCheckedProperty, binding2);
                 Binding binding3 = new Binding("DimensionChecked");
                 ((ToggleButton)topToolbar.Children[2]).SetBinding(ToggleButton.IsCheckedProperty, binding3);
-                //((ToggleButton)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
 
-                //Binding binding4 = new Binding("RulerChecked");
-                //((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, binding4);    
+
+                ((Button)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
+
+                Binding binding4 = new Binding("RulerChecked");
+                ((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, binding4);
 
 
                 Binding binding5 = new Binding("FocusChecked");
                 ((ToggleButton)topToolbar.Children[5]).SetBinding(ToggleButton.IsCheckedProperty, binding5);
 
+
+                Binding binding6 = new Binding("scale");
+                Border border1 = (Border)topToolbar.Children[5];
+
+                ((TextBox)border1.Child).SetBinding(TextBox.TextProperty, binding6);
 
 
                 Binding binding13 = new Binding("EraserChecked");

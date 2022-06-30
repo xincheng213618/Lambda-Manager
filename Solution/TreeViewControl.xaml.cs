@@ -321,15 +321,15 @@ namespace Solution
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
+            LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
-            //Image image = new Image();
-            //HeaderStackPanel.Children.Add(image);
-            //MessageBox.Show(LambdaControl.RegisterImageView(image).ToString());
+            Image image = new Image();
+            HeaderStackPanel.Children.Add(image);
+            MessageBox.Show(LambdaControl.RegisterImageView(image).ToString());
         }
 
         bool fisrt = true;

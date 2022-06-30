@@ -120,8 +120,6 @@ namespace Global
             {
                 canvas2.Children.Remove(image1);
                 canvas2.Children.Add(image);
-
-                
             }
 
 
@@ -130,14 +128,29 @@ namespace Global
                 ImageParameter imageParameter = new ImageParameter();
                 imageParameters.Add(imageParameter);
                 image.DataContext = imageParameter;
+                imageParameter.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName == "ScaleTransformScaleX")
+                    {
+                        Dictionary<string, object> parameters = new Dictionary<string, object>()
+                        {
+                            { "image",viewindex},
+                            {"scaletransformcenterx",imageParameter.ScaleTransformCenterX },
+                            {"scaletransformcentery",imageParameter.ScaleTransformCenterY },
+                            {"scaletransformscalex",imageParameter.ScaleTransformScaleX },
+                            {"scaletransformscaley",imageParameter.ScaleTransformScaleY }
+                        };
+                        LambdaControl.Trigger("IMAGE_SCALE", null, parameters);
+                    }
+                };
 
                 TransformGroup transformGroup = new();
                 TranslateTransform tlt = new();
                 ScaleTransform sfr = new();
-                BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterX"));
-                BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterY"));
-                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleXProperty, new Binding("ScaleTransformScaleX"));
-                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleYProperty, new Binding("ScaleTransformScaleY"));
+                //BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterX"));
+                //BindingOperations.SetBinding(sfr, ScaleTransform.CenterYProperty, new Binding("ScaleTransformCenterY"));
+                //BindingOperations.SetBinding(sfr, ScaleTransform.ScaleXProperty, new Binding("ScaleTransformScaleX"));
+                //BindingOperations.SetBinding(sfr, ScaleTransform.ScaleYProperty, new Binding("ScaleTransformScaleY"));
 
 
                 transformGroup.Children.Add(sfr);
@@ -152,7 +165,7 @@ namespace Global
                     }
                     else
                     {
-                        Point centerPoint = e.GetPosition(canvas);
+                        Point centerPoint = e.GetPosition(image);
 
                         if (Keyboard.IsKeyDown(Key.LeftCtrl))
                         {
