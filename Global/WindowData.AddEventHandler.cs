@@ -156,8 +156,11 @@ namespace Global
                     IntPtr intPtr = (IntPtr)eventData["data"];
                     int[] aaa = new int[256];
                     Marshal.Copy(intPtr, aaa, 0, 256);
-                    if (LambdaBottomViews[size] != null)
-                        LambdaBottomViews[size].SetHistogram(aaa);
+                    if (size >=0 && size < 100)
+                    {
+                        if (LambdaBottomViews[size] != null)
+                            LambdaBottomViews[size].SetHistogram(aaa);
+                    }
                 }
             });
 
@@ -229,7 +232,7 @@ namespace Global
         90, 91, 92, 93, 94, 95, 96, 97, 98, 99
 };
 
-        private static void GridSort(Grid[] GridLists)
+        private  void GridSort(Grid[] GridLists)
         {
             Window mainwin = Application.Current.MainWindow;
 
@@ -244,6 +247,8 @@ namespace Global
             {
                 if (GridLists[i] != null)
                 {
+                    if (newlist >= ShowWindow)
+                        break;
                     Grid grid = GridLists[i];
                     int location = Array.IndexOf(defaultViewIndexMap, newlist);
                     int row = (location / 10);
@@ -258,26 +263,44 @@ namespace Global
                         RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
                         mainView.RowDefinitions.Add(rowDefinition);
                     }
-
                     grid.SetValue(Grid.RowProperty, row);
                     grid.SetValue(Grid.ColumnProperty, col);
                     mainView.Children.Add(grid);
                     newlist++;
                 }
             }
+
+
+            for (int i = 0; i < 10; i++)
+            {
+                mainView.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                for (int j = 0; j < 10; j++)
+                {
+                    Grid grid = new Grid();
+                    mainView.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                    grid.SetValue(Grid.RowProperty, i);
+                    grid.SetValue(Grid.ColumnProperty, j);
+                    mainView.Children.Add(grid);
+                }
+            }
+
         }
 
+        int ShowWindow = 1;
 
-
-        private  bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
+        private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int viewdex = (int)eventData["view"];
+            //LambdaControl.Log2( new Message() { Severity = Severity.INFO, Text = viewdex.ToString()});
             View view = LambdaControl.GetImageView(viewdex);
+            if (view == null)
+                return true;
             if (view.Image.Parent is Grid grid)
             {
                 grid.Children.Remove(view.Image);
-                gridsList[viewdex] = GetNewGrid(view.Image);
+                grid = GetNewGrid(view.Image);
+                gridsList[viewdex] = grid;
             }
 
             GridSort(gridsList);

@@ -31,7 +31,6 @@ namespace Global
         List<ImageParameter> imageParameters = new List<ImageParameter>();
         public async void AddImageConfident(Image image1,int viewindex)
         {
-
             Canvas canvas1;
             if (image1.Parent is Grid grid)
             {
@@ -42,8 +41,7 @@ namespace Global
                     RowDefinition rowDefinition = new RowDefinition() { Height = GridLength.Auto};
                     grid.RowDefinitions.Add(rowDefinition);
                 }
-
-               
+             
                 grid.Children.Clear();
 
 
@@ -70,7 +68,7 @@ namespace Global
 
                 Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
                 Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
-                double height = 100;
+                double height = 150;
                 BottomView bottomView = new BottomView();
                 bottomView.SizeChanged += delegate
                 {
@@ -115,7 +113,7 @@ namespace Global
                 grid.Children.Add(stackPanel);
             }
 
-            await Task.Delay(1000);
+            await Task.Delay(1200);
             DrawingCanvas image = new DrawingCanvas();
             image.Source = image1.Source;
             if (image1.Parent is Canvas canvas2)
@@ -460,6 +458,37 @@ namespace Global
                     image.ReleaseMouseCapture();
                     Application.Current.MainWindow.Cursor = Cursors.Arrow;
                 };
+                //double v ;
+                //switch (imageParameters.Count)
+                //{
+                //    case 1:
+                //        v = 1;
+                //        break;
+                //    case 2:
+                //        v = 0.5;
+                //        break;
+                //    case 3:
+                //        v = 0.5;
+                //        break;
+                //    case 4:
+                //        v = 0.5;
+                //        break;
+                //    case 5:
+                //        v = 0.4;
+                //        break;
+                //    case 6:
+                //        v = 0.4;
+                //        break;
+                //    default:
+                //        v = 1;
+                //        break;
+                //}
+
+                //for (int i = 0; i < imageParameters.Count; i++)
+                //{
+                //    imageParameters[i].ScaleTransformScaleX = v;
+                //    imageParameters[i].ScaleTransformScaleY = v;
+                //}
             };
 
            

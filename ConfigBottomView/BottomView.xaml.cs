@@ -52,23 +52,8 @@ namespace ConfigBottomView
 
 
 
-
-        private bool BottomViewIsInitialized = false;
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!BottomViewIsInitialized)
-            {
-                BottomViewIsInitialized = true;
-
-                Window mainwin = Application.Current.MainWindow;
-
-                Grid mainView = (Grid)mainwin.FindName("mainView");
-                mainView.SizeChanged += delegate
-                {
-                    this.Width = mainView.ActualWidth;
-                };
-            }
 
         }
 
@@ -89,7 +74,7 @@ namespace ConfigBottomView
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            HistogramImage1.Height = this.ActualHeight-20;
+            HistogramImage1.Height = this.ActualHeight-10;
         }
     }
 }

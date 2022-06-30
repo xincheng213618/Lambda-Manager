@@ -553,7 +553,14 @@ internal class Common
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
-				Views[index].State = ViewState.RUNING;
+                if (A_1 == 0)
+                {
+                    Views[index].State = ViewState.RUNING;
+                }
+                else
+                {
+                    //Views[A_1].State = ViewState.RUNING;
+                }
             }
         });
 		return 2;
@@ -575,10 +582,17 @@ internal class Common
 				}
 			}
 		});
-		return (int)(Views[index]?.State ?? ((ViewState)(-1)));
-	}
+        if (A_1 == 0)
+        {
+            return (int)(Views[index]?.State ?? ((ViewState)(-1)));
+        }
+        else
+        {
+            return 2;       
+		}
+    }
 
-	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+    [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
 	private static void CloseImageView(int index)
 	{
@@ -602,9 +616,13 @@ internal class Common
         }
         else
         {
-            View view2 =  RegisterImageViews[- A_1-1];
-            return view2.Image;
-
+			int i = -A_1 - 1;
+			if (RegisterImageViews.Count > i)
+            {
+                View view2 = RegisterImageViews[-A_1 - 1];
+                return view2.Image;
+            }
+            return null;
         }
     }
 

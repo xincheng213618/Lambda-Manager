@@ -539,7 +539,6 @@
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
-	<component name="BottomView" lib="ConfigBottomView.dll" mount="bottom:0"/>
 
 	<component name="Interop Test" lib="lib\InteropTest.dll">
 		<procedure name="group1" async="true">

@@ -162,9 +162,9 @@ int PlayFilm(std::string fileName) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
-		pView->Show(frame);
 		pView1->Show(frame);
-		//HistCalc(frame, pView->GetIndex());
+		HistCalc(frame, pView->GetIndex());
+		pView->Show(frame);
 		Sleep(0);
 
 		if (pView->IsState(ViewState::CLOSED)) {

@@ -321,58 +321,15 @@ namespace Solution
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
+            //LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
-            Image image = new Image();
-            HeaderStackPanel.Children.Add(image);
-            MessageBox.Show(LambdaControl.RegisterImageView(image).ToString());
-        }
-        GridLengthConverter gridLengthConverter = new GridLengthConverter();
-        private void testt22_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            testt22.Children.Clear();
-            testt22.RowDefinitions.Clear();
-            int lendgth = (int)(testt22.ActualHeight / 26.66);
-            if (lendgth > 0)
-            {
-                Image image = new Image();
-                image.Source = new BitmapImage(new Uri("/Solution;component/images/图片2.png", UriKind.Relative));
-
-                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                testt22.RowDefinitions.Add(rowDefinition);
-                image.SetValue(Grid.RowProperty, 0);
-                image.SetValue(Grid.ColumnProperty, 0);
-                image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-                testt22.Children.Add(image);
-            }
-
-
-
-
-            for (int i = 1; i < lendgth; i++)
-            {
-                Image image = new Image();
-                image.Source = new BitmapImage(new Uri("/Solution;component/images/filer.png", UriKind.Relative));
-
-                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                testt22.RowDefinitions.Add(rowDefinition);
-                image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-                image.SetValue(Grid.RowProperty, i);
-                image.SetValue(Grid.ColumnProperty, 0);
-                testt22.Children.Add(image);
-
-            }
-
-
-        }
-
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("这里添加命令");
+            //Image image = new Image();
+            //HeaderStackPanel.Children.Add(image);
+            //MessageBox.Show(LambdaControl.RegisterImageView(image).ToString());
         }
 
         bool fisrt = true;

@@ -49,17 +49,21 @@ namespace Global
                 MenuItem menuItem1 = new MenuItem() { Header = "一" };
                 menuItem1.Click += delegate
                 {
+                    ShowWindow = 1;
+                    GridSort(gridsList);
                     LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
                 };
                 MenuItem menuItem2 = new MenuItem() { Header = "四" };
                 menuItem2.Click += delegate
                 {
+                    ShowWindow = 4;
                     LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
                 };
 
                 MenuItem menuItem3 = new MenuItem() { Header = "六" };
                 menuItem3.Click += delegate
                 {
+                    ShowWindow = 6;
                     LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
                 };
                 contextMenu.Items.Add(menuItem1);
@@ -78,14 +82,13 @@ namespace Global
 
                 DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
                 if (leftToolBar == null) return;
-                Image image = (Image)leftToolBar.Children[1];
+                 Image image = (Image)leftToolBar.Children[1];
                 leftToolBar.Children.Remove(image);
 
                 image.Visibility = Visibility.Collapsed;
                 ColorBarUser colorBarUser = new ColorBarUser();
                 leftToolBar.Children.Add(colorBarUser);
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
-
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
                 colorbarTogg.PreviewMouseRightButtonUp += delegate(object sender, MouseButtonEventArgs e)
                 {

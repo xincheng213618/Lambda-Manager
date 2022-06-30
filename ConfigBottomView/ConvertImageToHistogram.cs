@@ -115,7 +115,7 @@ namespace ConfigBottomView
             Graphics g = Graphics.FromImage(histogramImageItem);
             //绘制坐标轴
             g.DrawLine(curPen, 50, 240, 320, 240);//在点(50,240)与(320,240)间画条线，x轴
-            g.DrawLine(curPen, 50, 240, 50, 30);//y轴
+            //g.DrawLine(curPen, 50, 240, 50, 30);//y轴
 
             //绘制并标识坐标刻度
             g.DrawLine(curPen, 100, 240, 100, 242);//同上，画长度为2的线
@@ -125,16 +125,16 @@ namespace ConfigBottomView
             g.DrawLine(curPen, 300, 240, 300, 242);
 
             //在x轴上为刻度标出刻度值
-            g.DrawString("0", new Font("New Timer", 8), Brushes.Black, new PointF(46, 242));
-            g.DrawString("50", new Font("New Timer", 8), Brushes.Black, new PointF(92, 242));
-            g.DrawString("100", new Font("New Timer", 8), Brushes.Black, new PointF(139, 242));
-            g.DrawString("150", new Font("New Timer", 8), Brushes.Black, new PointF(189, 242));
-            g.DrawString("200", new Font("New Timer", 8), Brushes.Black, new PointF(239, 242));
-            g.DrawString("250", new Font("New Timer", 8), Brushes.Black, new PointF(289, 242));
+            //g.DrawString("0", new Font("New Timer", 8), Brushes.Black, new PointF(46, 242));
+            //g.DrawString("50", new Font("New Timer", 8), Brushes.Black, new PointF(92, 242));
+            //g.DrawString("100", new Font("New Timer", 8), Brushes.Black, new PointF(139, 242));
+            //g.DrawString("150", new Font("New Timer", 8), Brushes.Black, new PointF(189, 242));
+            //g.DrawString("200", new Font("New Timer", 8), Brushes.Black, new PointF(239, 242));
+            //g.DrawString("250", new Font("New Timer", 8), Brushes.Black, new PointF(289, 242));
 
             //在y轴上为标刻度及刻度值
             g.DrawLine(curPen, 48, 40, 50, 40);
-            g.DrawString("0", new Font("New Timer", 8), Brushes.Black, new PointF(34, 234));
+            //g.DrawString("0", new Font("New Timer", 8), Brushes.Black, new PointF(34, 234));
             g.DrawString(histogramMax.ToString(), new Font("New Timer", 8), Brushes.Black, new PointF(18, 34));
 
             //绘制直方图
