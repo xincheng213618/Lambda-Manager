@@ -48,7 +48,8 @@ namespace Global
                         new ObjectiveSetting() { ID = 4, Name = "奥林巴斯", Magnitude = "100X", NA = 0.65, IsEnabled = false },
                     },
                     CameraExpose = GlobalConst.expose,
-                    CameraExposeShow = strings
+                    CameraExposeShow = strings,
+                    CameraResolution = GlobalConst.CameraResolution
 
                 };
                 deviceInformation.ToJsonFile(GlobalConst.HardwareDeviceInformationSheet);

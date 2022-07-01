@@ -18,7 +18,7 @@ namespace ConfigObjective
 
         private void Stage_Initialize()
         {
-            Border41.DataContext = WindowData.WindowMsg;
+            Border41.DataContext = windowData.WindowMsg;
             MoveStep = Stage.MoveStep;
             _timer.Tick += Timer_Tick;
         }
@@ -30,7 +30,6 @@ namespace ConfigObjective
         }
         private void Stage_Update()
         {
-            Stage = WindowData.GetInstance().Stage;
             MoveStep = Stage.MoveStep;
 
             ToggleButtonXYF.IsChecked = Stage.MoveStep.XStep == 200;

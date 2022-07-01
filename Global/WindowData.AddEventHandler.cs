@@ -69,11 +69,11 @@ namespace Global
                 {
                     if (flag == 1)
                     {
-                        LambdaBottomViews[window].Show();
+                        LambdaBottomViews[window].Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        LambdaBottomViews[window].Hidden();
+                        LambdaBottomViews[window].Visibility = Visibility.Collapsed;
                     }
                 }
             }
@@ -437,23 +437,6 @@ namespace Global
             RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "相差" };
             RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "差分" };
             RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "定量相位" };
-            RadioMenuItem menuItem7 = new RadioMenuItem() { Header = "直方图" };
-
-            menuItem7.Click += delegate
-            {
-                menuItem1.IsChecked = true;
-                if (LambdaBottomViews[a] != null)
-                {
-                    if (menuItem7.IsChecked)
-                    {
-                        LambdaBottomViews[a].Show();
-                    }
-                    else
-                    {
-                        LambdaBottomViews[a].Hidden();
-                    }
-                }
-            };
 
             List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
             for (int i = 0; i < menuItem1s.Count; i++)

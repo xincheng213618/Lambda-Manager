@@ -12,24 +12,24 @@ namespace ConfigObjective
     {
         public void MulDimensional_Initialize()
         {
-            StackPanelMul.DataContext = WindowData.MulDimensional;
-            MulSummaryUniformGrid.DataContext = WindowData.mulSummary;
+            StackPanelMul.DataContext = windowData.MulDimensional;
+            MulSummaryUniformGrid.DataContext = windowData.mulSummary;
         }
         
         public void MulDimensional_Update()
         {
-            var MulDimensional = WindowData.MulDimensional;
+            var MulDimensional = windowData.MulDimensional;
             TextBoxZstart.Text = MulDimensional.ZStart.ToString();
             TextBoxZend.Text = MulDimensional.ZEnd.ToString();
             TextBoxZStep.Text = MulDimensional.Zstep.ToString();
-            var timeWiseSerial = WindowData.Config.Dimensional.TimeWiseSerial;
+            var timeWiseSerial = windowData.Config.Dimensional.TimeWiseSerial;
 
             MulDimensional.TNumberEnable = timeWiseSerial.Times == 0;
             MulDimensional.TNumber = timeWiseSerial.Times;
             MulDimensional.TIntervalEnable = timeWiseSerial.Duration == 0;
             MulDimensional.TInterval = timeWiseSerial.Duration;
 
-            var Dimensions = WindowData.Config.Dimensional.Dimensions;
+            var Dimensions = windowData.Config.Dimensional.Dimensions;
             if (Dimensions != null)
             {
                 ToggleButton501.IsChecked = Dimensions.Contains('x');
@@ -41,13 +41,13 @@ namespace ConfigObjective
             }
             else
             {
-                WindowData.Config.Dimensional.Dimensions = "xy";
+                windowData.Config.Dimensional.Dimensions = "xy";
                 ToggleButton501.IsChecked = true;
                 ToggleButton502.IsChecked = true;
             }
 
 
-            var mode = WindowData.Config.Dimensional.Mode;
+            var mode = windowData.Config.Dimensional.Mode;
 
             checkbox51.IsChecked = mode.Contains("bright-field");
             checkbox52.IsChecked = mode.Contains("dark-field");
@@ -59,18 +59,18 @@ namespace ConfigObjective
         }
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
-            WindowData.MulDimensional.ZEnd = WindowData.WindowMsg.StageZ;
+            windowData.MulDimensional.ZEnd = windowData.WindowMsg.StageZ;
         }
 
         private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
         {
-            WindowData.MulDimensional.ZStart = WindowData.WindowMsg.StageZ;
+            windowData.MulDimensional.ZStart = windowData.WindowMsg.StageZ;
         }
 
         private void UpdateMulZStep_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("算法计算");
-            WindowData.MulDimensional.Zstep = 400;
+            windowData.MulDimensional.Zstep = 400;
 
         }
 

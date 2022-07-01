@@ -26,55 +26,48 @@ namespace ConfigBottomView
     {
         public BottomView( )
         {
-            //InitializeComponent(); 
             this.LoadViewFromUri("/ConfigBottomView;component/bottomview.xaml");
-
         }
 
         /// 初始化和界面初始化的实际不对，和界面有关的初始化在Loading中加载，和控件相关的初始化加载在Initialized中
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            SizeChanged += UserControl_SizeChanged;
         }
-        List<ImageSource> ImageSources = new List<ImageSource>();
-
-        public void SetHistogram(int[] Histogramedata)
-        {
-            if (Histogramedata.Length == 256)
-            {
-                Text1.Text = "最小值" + Histogramedata.Min();
-                Text2.Text = "最大值" + Histogramedata.Max();
-                double avg = Histogramedata.Average();
-                Text3.Text = "平均值" + avg.ToString("f5");
-                Text4.Text = "方差" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
-                HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
-            }
-        }
-
-
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
 
-        public void Show()
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.Visibility = Visibility.Visible;
+            //HistogramImage1.Height = this.ActualHeight - 10;
         }
-        public void Hidden()
+
+        public void SetHistogram(int[] Histogramedata)
         {
-            this.Visibility = Visibility.Collapsed;
+            if (Histogramedata.Length == 256)
+            {
+                TextMin.Text = "最小值" + Histogramedata.Min();
+                TextMax.Text = "最大值" + Histogramedata.Max();
+                double avg = Histogramedata.Average();
+                TextAvg.Text = "平均值" + avg.ToString("f5");
+                TextvVariance.Text = "方差" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
+                //HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
+            }
         }
+
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            LambdaControl.Trigger("HistogramAuto", this, new Dictionary<string, object>() { { "image", 0 }, { "auto", true } });
         }
 
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            HistogramImage1.Height = this.ActualHeight-10;
+            LambdaControl.Trigger("HistogramLog", this, new Dictionary<string, object>() { { "image", 0 }, { "log", true } });
         }
     }
 }

@@ -17,56 +17,17 @@ namespace ConfigObjective
 
     public partial class ToolControl : UserControl
     {
-        WindowData WindowData = WindowData.GetInstance();
+        WindowData windowData;
         public ToolControl()
         {
+            windowData = WindowData.GetInstance();
             Update.UpdateEventHandler += UpdateGlobal;
             InitializeComponent();
         }
 
-        bool IsFirstUpdate = true;
-        private void UpdateGlobal()
-        {
-            if (!IsFirstUpdate)
-                MessageBox.Show("根据参数更新");
-
-            CameraSetting_Update();
-            ObjectiveSetting_Update();
-            ViewMode_Update();
-            Stage_Update();
-            MulDimensional_Update();
-            if (IsFirstUpdate)
-                IsFirstUpdate = false;
-
-
-
-
-
-
-        }
-
         /// <summary>
-        /// 日志监听
+        /// 初始化写在前面
         /// </summary>
-        private void LambdaLog(Message message)
-        {
-            //MessageBox.Show(message.Text);
-            //if (message.Text.Contains("[MotorControl]: Connect success"))
-            //    LambdaControl.Trigger("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
-            //if (message.Text.Contains("应用组件加载完毕"))
-            //    LambdaControl.Trigger("IMAGING_MODE_SETTING", this, new Dictionary<string, object>() { { "mode", ViewMode } });
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (this.Parent is StackPanel stackPanel)
-            {
-                stackPanel.Width = 420;
-            }
-        }
-
-
-
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             AddEventHandler();
@@ -76,21 +37,14 @@ namespace ConfigObjective
             ViewMode_Initialize();
             CameraSetting_Initialize();
 
-            Map.moveButton.DataContext = WindowData.mapModel;
+            Map.moveButton.DataContext = windowData.mapModel;
             Stage_Initialize();
             MulDimensional_Initialize();
 
             Update.UpdateGlobal();
             IsFirstUpdate = true;
 
-            //LambdaControl.Initialize(null, null, null, LambdaControlCall, null, null);
-            ////日志监听
-            //LambdaControl.LogHandler += LambdaLog;
-            ////事件监听
-            //LambdaControl.CallEventHandler += LambdaControlCall;
-
-
-            ComboBox1.ItemsSource = data1;
+            ComboBox1.ItemsSource = windowData.deviceInformation.CameraResolution;
             UpDownControl1.SelectedIndex = 60;
 
             #region slider
@@ -261,7 +215,37 @@ namespace ConfigObjective
 
         }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.Parent is StackPanel stackPanel)
+            {
+                stackPanel.Width = 420;
+            }
+        }
 
+
+        bool IsFirstUpdate = true;
+        private void UpdateGlobal()
+        {
+            if (!IsFirstUpdate)
+                MessageBox.Show("根据参数更新");
+
+            CameraSetting_Update();
+            ObjectiveSetting_Update();
+            ViewMode_Update();
+            Stage_Update();
+            MulDimensional_Update();
+            if (IsFirstUpdate)
+                IsFirstUpdate = false;
+
+
+        }
+
+
+
+
+
+        //修改滑块的时候会触发两次，所以在这里加一个Tigger用来屏蔽掉第二次的触发，这里得(未来)重写。
         bool sliderfirst = true;
 
         /// <summary>
@@ -272,7 +256,7 @@ namespace ConfigObjective
             slider.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
             {
 
-                if (!WindowData.ACQUIRE)
+                if (!windowData.ACQUIRE)
                 {
                     Dictionary<string, object> data = new() { { TriggerParameter, (int)slider.Value } };
                     LambdaControl.Trigger(TriggerName, slider, data);
@@ -305,7 +289,7 @@ namespace ConfigObjective
         {
             slider.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
             {
-                if (!WindowData.ACQUIRE)
+                if (!windowData.ACQUIRE)
                 {
                     Dictionary<string, object> data = new() { { TriggerParameter, (double)slider.Value } };
                     LambdaControl.Trigger(TriggerName, slider, data);

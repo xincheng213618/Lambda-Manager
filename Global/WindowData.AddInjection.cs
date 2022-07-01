@@ -17,9 +17,6 @@ using System.Windows.Media.Imaging;
 namespace Global
 {
 
-
-
-
     /// <summary>
     /// 监听AddInjection事件
     /// </summary>
@@ -305,7 +302,7 @@ namespace Global
 
 
                 Binding binding6 = new Binding("scale");
-                Border border1 = (Border)topToolbar.Children[5];
+                Border border1 = (Border)topToolbar.Children[7];
 
                 ((TextBox)border1.Child).SetBinding(TextBox.TextProperty, binding6);
 

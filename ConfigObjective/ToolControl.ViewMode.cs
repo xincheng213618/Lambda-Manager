@@ -301,7 +301,7 @@ namespace ConfigObjective
 
         private void SliderAbbreviation(Slider slider, RoutedPropertyChangedEventArgs<double> e,string TriggerName, Dictionary<string, object> data)
         {
-            if (!WindowData.ACQUIRE)
+            if (!windowData.ACQUIRE)
             {
                 LambdaControl.Trigger(TriggerName, slider, data);
             }
