@@ -102,6 +102,7 @@ namespace ConfigBottomView
         {
 
             Bitmap histogramImageItem = new Bitmap(300, 300);
+            int brightness;
 
             int histogramMax = histogram.Max();
             int histogramMin = histogram.Min();

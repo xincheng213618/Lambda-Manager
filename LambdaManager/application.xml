@@ -83,10 +83,18 @@
 		<procedure name="SleepTest" event="SleepTest" >
 			<action name="SleepTest"/>
 		</procedure>
+
 		<procedure name="VideoTest" event="VideoTest" >
 			<action name="VideoTest"/>
 		</procedure>
-		
+
+		<procedure name="FloatTest" event="FloatTest" key="num">
+			<action name="FloatTest">
+				<input name="num" type="float" />
+			</action>
+		</procedure>
+
+
 		<procedure  name ="MatShow" event="MatShow" arg="image" >
 			<action name ="MatShow" raise="VideoTest"  >
 				<input name="image" type="handle"/>

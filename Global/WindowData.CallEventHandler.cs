@@ -66,8 +66,8 @@ namespace Global
                 Grid.SetColumn(stackPanel, 0);
                 Grid.SetRow(stackPanel, 1);
 
-                Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
-                Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
+                //Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
+                //Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
                 double height = 150;
                 BottomView bottomView = new BottomView();
                 bottomView.SizeChanged += delegate
@@ -97,7 +97,7 @@ namespace Global
                         }
                     }
                 };
-                bottomView.Visibility = Visibility.Collapsed; 
+                bottomView.Visibility = Visibility.Visible; 
                 stackPanel.Children.Add(bottomView);
 
                 LambdaBottomViews[viewindex] = bottomView;
@@ -147,10 +147,10 @@ namespace Global
                 TransformGroup transformGroup = new();
                 TranslateTransform tlt = new();
                 ScaleTransform sfr = new();
-                //BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterX"));
-                //BindingOperations.SetBinding(sfr, ScaleTransform.CenterYProperty, new Binding("ScaleTransformCenterY"));
-                //BindingOperations.SetBinding(sfr, ScaleTransform.ScaleXProperty, new Binding("ScaleTransformScaleX"));
-                //BindingOperations.SetBinding(sfr, ScaleTransform.ScaleYProperty, new Binding("ScaleTransformScaleY"));
+                BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterX"));
+                BindingOperations.SetBinding(sfr, ScaleTransform.CenterYProperty, new Binding("ScaleTransformCenterY"));
+                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleXProperty, new Binding("ScaleTransformScaleX"));
+                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleYProperty, new Binding("ScaleTransformScaleY"));
 
 
                 transformGroup.Children.Add(sfr);

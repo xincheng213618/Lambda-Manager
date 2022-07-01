@@ -327,9 +327,16 @@ namespace Solution
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
-            Image image = new Image();
-            HeaderStackPanel.Children.Add(image);
-            MessageBox.Show(LambdaControl.RegisterImageView(image).ToString());
+
+            double num = 2222.222;
+            Dictionary<string, object> dict = new Dictionary<string, object>()
+            {
+                {"num",num }
+            };
+
+            LambdaControl.Trigger("FloatTest", this, dict);
+
+            
         }
 
         bool fisrt = true;

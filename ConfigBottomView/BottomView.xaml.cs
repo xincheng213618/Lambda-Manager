@@ -27,19 +27,15 @@ namespace ConfigBottomView
         public BottomView( )
         {
             this.LoadViewFromUri("/ConfigBottomView;component/bottomview.xaml");
+
         }
 
         /// 初始化和界面初始化的实际不对，和界面有关的初始化在Loading中加载，和控件相关的初始化加载在Initialized中
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            SizeChanged += UserControl_SizeChanged;
+            LambdaControl.RegisterImageView(HistogramImage1).ToString();
+            //this.SizeChanged += UserControl_SizeChanged;
         }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             //HistogramImage1.Height = this.ActualHeight - 10;
@@ -49,25 +45,30 @@ namespace ConfigBottomView
         {
             if (Histogramedata.Length == 256)
             {
-                TextMin.Text = "最小值" + Histogramedata.Min();
-                TextMax.Text = "最大值" + Histogramedata.Max();
+                Text1.Text = "Min:" + Histogramedata.Min();
+                Text2.Text = "Max:" + Histogramedata.Max();
                 double avg = Histogramedata.Average();
-                TextAvg.Text = "平均值" + avg.ToString("f5");
-                TextvVariance.Text = "方差" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
+                Text3.Text = "Avg:" + avg.ToString("f5");
+                Text4.Text = "δ:" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
                 //HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
             }
         }
 
 
 
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("HistogramAuto", this, new Dictionary<string, object>() { { "image", 0 }, { "auto", true } });
+            DoubleThumbSlider1.Visibility = Visibility.Collapsed;
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("HistogramLog", this, new Dictionary<string, object>() { { "image", 0 }, { "log", true } });
+            DoubleThumbSlider1.Visibility = Visibility.Visible;
         }
+
+
     }
 }

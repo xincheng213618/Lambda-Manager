@@ -48,6 +48,94 @@ void HistCalc(cv::Mat& MatPha,int i)
 
 	Event::Trigger("TestDataEvent2", gray, sizeof(char) * i);
 }
+Mat histnew(Mat& scr, int maxloc, double sumhist, int histmax, int histmin)
+{
+	Mat hist = Mat::zeros(1, 256, CV_32FC1);
+	float* ptr = scr.ptr<float>(0);
+	float* hptr = hist.ptr<float>(0);
+	hptr[maxloc] = ptr[maxloc];
+	float th = ptr[maxloc];
+	for (int i = maxloc; i < scr.cols - 1; i++)
+	{
+		int minloc = 2 * maxloc - i - 1;
+		float minval = ptr[2 * maxloc - i - 1];
+		if (minloc < 0)
+		{
+			minloc = 0;
+			minval = 0;
+		}
+		th = th + ptr[i + 1] + minval;
+		if (th / sumhist < 0.99)
+		{
+			hptr[i + 1] = ptr[i + 1];
+			hptr[minloc] = ptr[minloc];
+		}
+		else
+		{
+			histmax = i;
+			histmin = minloc + 1;
+			break;
+		}
+	}
+
+	return hist;
+}
+
+void Histograme(Mat Im1, LambdaView* pView1) {
+	double minVal = 0, maxVal = 0;
+	Mat Im;
+	cv::cvtColor(Im1, Im, cv::COLOR_RGBA2GRAY);
+	minMaxLoc(Im, &minVal, &maxVal, NULL, NULL);
+
+	Mat phase_norm, phase_hist;
+	phase_norm = Im;
+	//Im.convertTo(phase_norm, CV_8UC1, 255, 0);
+	int channel = 0;
+	int histSize[] = { 256 };
+	float ranges[] = { 0, 256 };
+	const float* range[] = { ranges };
+
+
+	cv::calcHist(&phase_norm, 1, &channel, cv::Mat(), phase_hist, 1, histSize, range, true, false);
+
+	Mat phaseMat_hist = phase_hist.t();
+	Scalar numsum = sum(phaseMat_hist);
+	double sumhist = numsum[0];
+
+	Point maxLoc;
+	double max_val = 0;
+	minMaxLoc(phase_hist, NULL, &max_val, NULL, NULL);
+
+	int scale = 2;
+	int hist_height = 256;
+	Mat hist_img_o = Mat::zeros(hist_height, 256 * scale, CV_8UC3);
+	for (int i = 0; i < 256; i++)
+	{
+		float bin_val = phase_hist.at<float>(i);
+		int intensity = cvRound(bin_val * hist_height / max_val);  //要绘制的高度
+		rectangle(hist_img_o, Point(i * scale, hist_height - 1),
+			Point((i + 1) * scale - 1, hist_height - intensity),
+			CV_RGB(255, 255, 255));
+	}
+
+
+	int maxloc = maxLoc.y;
+	int histmin = 0, histmax = 0;
+
+	Mat hist = histnew(phaseMat_hist, maxloc, sumhist, histmax, histmin);
+	minMaxLoc(hist, 0, &max_val, 0, 0);
+
+	Mat hist_img = Mat::zeros(hist_height, 256 * scale, CV_8UC3);
+	for (int i = 0; i < 256; i++)
+	{
+		float bin_val = hist.at<float>(i);
+		int intensity = cvRound(bin_val * hist_height / max_val);  //要绘制的高度
+		rectangle(hist_img, Point(i * scale, hist_height - 1),
+			Point((i + 1) * scale - 1, hist_height - intensity),
+			CV_RGB(255, 255, 255));
+	}
+	pView1->Show(hist_img);
+}
 
 int OpenCamera()
 {
@@ -129,7 +217,7 @@ int PlayFilms(json* eventData) {
 	return 0;
 }
 
-
+LambdaView* pView1;
 bool ssss = false;
 
 int PlayFilm(std::string fileName) {
@@ -162,9 +250,9 @@ int PlayFilm(std::string fileName) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
-		pView1->Show(frame);
-		HistCalc(frame, pView->GetIndex());
 		pView->Show(frame);
+		Histograme(frame, pView1);
+		//HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
 		if (pView->IsState(ViewState::CLOSED)) {
@@ -181,6 +269,13 @@ int CloseCamera()
 	Logger::Log1(Severity::INFO, "Invoke 'CloseCamera()'");
 	return  0;
 }
+
+int FloatTest(float num)
+{
+	Logger::Log1(Severity::INFO, "Invoke 'CloseCamera()%f'", num);
+	return  0;
+}
+
 
 int CaptureImage(int mode, void** image)
 {
