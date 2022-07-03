@@ -34,6 +34,7 @@ extern "C" CAMERA_API int VideoTest();
 extern "C" CAMERA_API int FloatTest(float num);
 
 extern "C" CAMERA_API int MatShow(cv::Mat * Test);
+extern "C" CAMERA_API int MatShow1(cv::Mat * Test , int num);
 
 struct Cam
 {

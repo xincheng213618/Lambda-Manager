@@ -95,9 +95,16 @@
 		</procedure>
 
 
-		<procedure  name ="MatShow" event="MatShow" arg="image" >
-			<action name ="MatShow" raise="VideoTest"  >
+		<procedure  event="MatShow222" arg="image" >
+
+
+			<action name ="MatShow"  >
 				<input name="image" type="handle"/>
+			</action>
+			<action name ="MatShow1">
+				<input name="image" type="handle"/>
+				<input name="num" type="int" value="1"/>
+
 			</action>
 		</procedure>
 

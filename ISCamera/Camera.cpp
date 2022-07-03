@@ -428,10 +428,15 @@ int VideoTest() {
 
 
 int MatShow(cv::Mat* Test) {
-	VideoTest();
-	//resize(*Test, *Test, cv::Size(300, 300), 0, 0);
+	//VideoTest();
+	resize(*Test, *Test, cv::Size(300, 300), 0, 0);
 	return 0;
+}
 
+int MatShow1(cv::Mat* Test ,int num) {
+	resize(*Test, *Test, cv::Size(222, 300), 0, 0);
+
+	return 0;
 }
 
 double x = 111.1111;
@@ -461,7 +466,7 @@ int CameraSettingExposure(int mode,double exposure)
 	//pView->Show(img1);
 	cv::Mat img2;
 	resize(img1, img2, cv::Size(300, 300), 0, 0);
-	Event::Dispatch("MatShow",(&img2));
+	Event::Dispatch("MatShow222",(&img2));
 
 	////uchar b[] = { 1, 2, 3, 4, 5 };
 

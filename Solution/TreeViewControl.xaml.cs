@@ -301,7 +301,6 @@ namespace Solution
 
         private void MenuItem3_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void MenuItem4_Click(object sender, RoutedEventArgs e)
@@ -328,15 +327,16 @@ namespace Solution
         {
             //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
 
-            double num = 2222.222;
-            Dictionary<string, object> dict = new Dictionary<string, object>()
-            {
-                {"num",num }
-            };
+            //double num = 2222.222;
+            //Dictionary<string, object> dict = new Dictionary<string, object>()
+            //{
+            //    {"num",num }
+            //};
 
-            LambdaControl.Trigger("FloatTest", this, dict);
+            //LambdaControl.Trigger("MatShow", this, dict);
+            int[] data2 = new int[] { 144, 2, 3, 4, 5 };
+            LambdaControl.Trigger("TEST211", null, data2);
 
-            
         }
 
         bool fisrt = true;

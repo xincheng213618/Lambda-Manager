@@ -123,8 +123,41 @@ internal class Common
 			return RaiseEvent(p, 0, IntPtr.Zero, sender);
 		}
 	}
+    public unsafe static int CallEvent(string type, Array arry, nint sender)
+    {
+        sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes(type);
 
-	public unsafe static int CallEvent(string type, string json, nint sender)
+        fixed (sbyte* p = obj)
+        {
+            if (arry is int[] i)
+            {
+                fixed (int* pData = i)
+                {
+                    return RaiseEvent(p, 1, (nint)pData, sender);
+                }
+            }
+            else if (arry is double[] dou)
+            {
+                fixed (double* pData = dou)
+                {
+                    return RaiseEvent(p, 1, (nint)pData, sender);
+                }
+            }
+            else if (arry is float[] fl)
+            {
+                fixed (float* pData = fl)
+                {
+                    return RaiseEvent(p, 1, (nint)pData, sender);
+                }
+            }
+            else
+            {
+				return 0;
+            }
+        }
+    }
+
+    public unsafe static int CallEvent(string type, string json, nint sender)
 	{
 		sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes(type);
 		sbyte[] pStr = (sbyte[])(object)Encoding.UTF8.GetBytes(json);
@@ -470,7 +503,7 @@ internal class Common
 		}
 	}
 
-	private static int CallEvent(string type, GCHandle handle, EventArgs e)
+	private  static int CallEvent(string type, GCHandle handle, EventArgs e)
 	{
 		type = type.Trim();
 		if (e == EventArgs.Empty)
@@ -493,7 +526,11 @@ internal class Common
                 string json = JSON.Stringify(dic);
                 return CallEvent(type, json, GCHandle.ToIntPtr(handle));
             }
-			App.Report(new Message
+            if (data is Array array)
+            {
+                return CallEvent(type, array, GCHandle.ToIntPtr(handle));
+            }
+            App.Report(new Message
 			{
 				Severity = Severity.FATAL_ERROR,
 				Text = Resources.EventDataNotSupport
