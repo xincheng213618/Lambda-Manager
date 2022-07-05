@@ -556,6 +556,13 @@
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
 
 	<component name="Interop Test" lib="lib\InteropTest.dll">
+
+		<procedure name ="Test" event ="Test211">
+			<action name ="Test211">
+				<input name="test" type="void*"/>
+			</action>
+		</procedure>
+		
 		<procedure name="group1" async="true">
 			<action name="Test0" />
 			<action name="Test1">
@@ -840,7 +847,7 @@
 		</procedure>
 	</component>
 
-	<component name="Event Test" lib="lib\InteropTest.dll" init="init,dispatch,proc5">
+	<component name="Event Test" lib="lib\InteropTest.dll" init="dispatch,proc5">
 		<procedure name="init">
 			<action name="Test120" raise="TEST_EVENT_A|TEST_EVENT_B" async="true"/>
 			<action name="Test124" raise="TEST_EVENT_1"/>
@@ -893,6 +900,8 @@
 			<action name="UpdateDisplayMode">
 			</action>
 		</procedure>
+
+
 	</component>
 
 	<component name="Scheduler Test" lib="lib\InteropTest.dll" init="schedule trigger job">

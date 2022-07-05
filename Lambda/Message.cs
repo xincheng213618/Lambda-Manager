@@ -1,8 +1,28 @@
-namespace Lambda;
+using System.ComponentModel;
 
-public class Message
+namespace Lambda
 {
-	public Severity Severity { get; set; }
+    public enum Severity
+    {
+        [Description("调试：")]
+        DEBUG,
+        [Description("信息：")]
+        INFO,
+        [Description("告警：")]
+        WARNING,
+        [Description("错误：")]
+        ERROR,
+        [Description("严重错误：")]
+        FATAL_ERROR
+    }
 
-	public string? Text { get; set; }
+    public class Message
+    {
+        public Severity Severity { get; set; }
+
+        public string? Text { get; set; }
+    }
 }
+
+
+

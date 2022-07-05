@@ -68,6 +68,10 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 				else if (argType == JSON_OBJECT || argType == STL_MAP) {
 					callBack3(it->first, eventObject, sender);
 				}
+				else {
+					callBack5(it->first, eventObject, sender);
+
+				}
 			}
 		}
 	}

@@ -327,15 +327,14 @@ namespace Solution
         {
             //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
 
-            //double num = 2222.222;
-            //Dictionary<string, object> dict = new Dictionary<string, object>()
-            //{
-            //    {"num",num }
-            //};
-
-            //LambdaControl.Trigger("MatShow", this, dict);
             int[] data2 = new int[] { 144, 2, 3, 4, 5 };
             LambdaControl.Trigger("TEST211", null, data2);
+
+            Node<int> doue = new Node<int>(1);
+            doue.Next = new Node<int>(2);
+            doue.Next.Next = doue;
+
+            MessageBox.Show(doue.Next.Next.Next.Data.ToString());
 
         }
 

@@ -13,30 +13,28 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Image Name="HistogramImage1"  HorizontalAlignment="Left">
+                <Image Name="HistogramImage1"  HorizontalAlignment="Left" >
                     <Image.RenderTransform>
                         <TransformGroup >
-                            <ScaleTransform />
+                            <ScaleTransform  ScaleX="2" />
                         </TransformGroup>
                     </Image.RenderTransform>
                 </Image>
-                <local:DoubleThumbSlider x:Name="DoubleThumbSlider1" Grid.Row="1" Width="{Binding ElementName=HistogramImage1,Path=ActualWidth}" Visibility="Collapsed" Background="Transparent"  LowerValue="20" UpperValue="200" Minimum="0" Maximum="255"/>
+                <local:DoubleThumbSlider x:Name="DoubleThumbSlider1" Grid.Row="1" Visibility="Collapsed" Background="Transparent"  LowerValue="20" UpperValue="200" Minimum="0" Maximum="255"/>
             </Grid>
             <StackPanel HorizontalAlignment="Left">
                 <DockPanel>
-                    <Button Content="自动" Background="Transparent" BorderThickness="1.5"  Click="Button_Click"  Margin="15,0" Padding="5,2"/>
-                    <Button Content="对数"  Background="Transparent" BorderThickness="1.5" Click="Button1_Click"   Margin="0,0,15,0" Padding="5,2"/>
+                    <Button Content="自动" Background="Transparent" BorderThickness="0.5"  Click="Button_Click"  Margin="10,0" Padding="5,1"/>
+                    <Button Content="对数"  Background="Transparent" BorderThickness="0.5" Click="Button1_Click"   Margin="0,0,10,0" Padding="5,1"/>
                 </DockPanel>
-                <DockPanel>
-                    <UniformGrid  Rows="6"  HorizontalAlignment="Center" Margin="5">
-                        <TextBlock x:Name="Text1" FontSize="8" Text="Min:1"/>
-                        <TextBlock x:Name="Text2" FontSize="8" Text="Max:240"/>
-                        <TextBlock x:Name="Text3" FontSize="8" Text="Avg:100"/>
-                        <TextBlock x:Name="Text4" FontSize="8" Text="δ:140"/>
-                        <TextBlock x:Name="Text5" FontSize="8" Text="Outlier:10" />
-                        <TextBlock x:Name="Text6" FontSize="8" Text="Gamma:15%"/>
-                    </UniformGrid>
-                </DockPanel>
+                <UniformGrid  Rows="6"  HorizontalAlignment="Center" Margin="5">
+                    <TextBlock x:Name="Text1" FontSize="9" Text="Min:1"/>
+                    <TextBlock x:Name="Text2" FontSize="9" Text="Max:240"/>
+                    <TextBlock x:Name="Text3" FontSize="9" Text="Avg:100"/>
+                    <TextBlock x:Name="Text4" FontSize="9" Text="δ:140"/>
+                    <TextBlock x:Name="Text5" FontSize="9" Text="Outlier:10" />
+                    <TextBlock x:Name="Text6" FontSize="9" Text="Gamma:15%"/>
+                </UniformGrid>
             </StackPanel>
                
         </DockPanel>

@@ -57,9 +57,12 @@ namespace Global
                 };
 
                 grid.Children.Remove(image1);
-                Grid.SetRow(canvas1, 0);
-                canvas1.Children.Add(image1);
-                grid.Children.Add(canvas1);
+                Grid.SetRow(image1, 0);
+                grid.Children.Add(image1);
+
+                //Grid.SetRow(canvas1, 0);
+                //canvas1.Children.Add(image1);
+                //grid.Children.Add(canvas1);
 
 
                 Grid stackPanel = new Grid() ;
@@ -102,7 +105,7 @@ namespace Global
 
                 LambdaBottomViews[viewindex] = bottomView;
 
-                GridSplitter gridSplitter = new GridSplitter() { Height = 2, ResizeDirection = GridResizeDirection.Rows, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Bottom};
+                GridSplitter gridSplitter = new GridSplitter() { Height = 2,Background= new SolidColorBrush(Color.FromRgb(68, 68, 68)), ResizeDirection = GridResizeDirection.Rows, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Bottom};
                 Grid.SetRow(gridSplitter, 0);
                 Binding binding = new Binding("Visibility");
                 binding.Source = bottomView;
@@ -116,12 +119,16 @@ namespace Global
             await Task.Delay(1200);
             DrawingCanvas image = new DrawingCanvas();
             image.Source = image1.Source;
-            if (image1.Parent is Canvas canvas2)
+            //if (image1.Parent is Canvas canvas2)
+            //{
+            //    canvas2.Children.Remove(image1);
+            //    canvas2.Children.Add(image);
+            //}
+            if (image1.Parent is Grid canvas2)
             {
                 canvas2.Children.Remove(image1);
                 canvas2.Children.Add(image);
             }
-
 
             if (image.Parent is Canvas canvas)
             {
@@ -471,6 +478,7 @@ namespace Global
                     image.ReleaseMouseCapture();
                     Application.Current.MainWindow.Cursor = Cursors.Arrow;
                 };
+
                 //double v ;
                 //switch (imageParameters.Count)
                 //{

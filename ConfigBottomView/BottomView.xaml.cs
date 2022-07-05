@@ -34,11 +34,11 @@ namespace ConfigBottomView
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             LambdaControl.RegisterImageView(HistogramImage1).ToString();
-            //this.SizeChanged += UserControl_SizeChanged;
+            this.SizeChanged += UserControl_SizeChanged;
         }
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //HistogramImage1.Height = this.ActualHeight - 10;
+            DoubleThumbSlider1.Width = HistogramImage1.ActualWidth * 2 + 75;
         }
 
         public void SetHistogram(int[] Histogramedata)
@@ -61,12 +61,16 @@ namespace ConfigBottomView
         {
             LambdaControl.Trigger("HistogramAuto", this, new Dictionary<string, object>() { { "image", 0 }, { "auto", true } });
             DoubleThumbSlider1.Visibility = Visibility.Collapsed;
+            HistogramImage1.Margin = new Thickness(0);
+
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("HistogramLog", this, new Dictionary<string, object>() { { "image", 0 }, { "log", true } });
             DoubleThumbSlider1.Visibility = Visibility.Visible;
+            DoubleThumbSlider1.Width = HistogramImage1.ActualWidth*2  + 75;
+            HistogramImage1.Margin = new Thickness(50, 0, 0, 0);
         }
 
 

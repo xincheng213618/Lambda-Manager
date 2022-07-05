@@ -243,7 +243,7 @@ int PlayFilm(std::string fileName) {
 			break;
 
 		}
-
+		 cap >> frame;
 		cap.read(frame);
 		// check if we succeeded
 		if (frame.empty()) {
@@ -441,7 +441,6 @@ int MatShow1(cv::Mat* Test ,int num) {
 
 double x = 111.1111;
 double y = 111.1111;
-
 int CameraSettingExposure(int mode,double exposure)
 {
 	json j;
