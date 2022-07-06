@@ -128,7 +128,7 @@ namespace Global.Mode.Config
         }
 
 
-        private double gamma = 1;
+        private double gamma = 0;
         public double Gamma
         {
             get { return gamma; }
@@ -207,7 +207,7 @@ namespace Global.Mode.Config
         }
 
 
-        private double gamma = 1;
+        private double gamma = 0;
         public double Gamma
         {
             get { return gamma; }
@@ -295,7 +295,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private double gamma = 1;
+        private double gamma = 0;
         public double Gamma
         {
             get { return gamma; }

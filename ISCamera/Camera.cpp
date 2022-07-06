@@ -249,15 +249,15 @@ int PlayFilm(std::string fileName) {
 			break;
 
 		}
-		 cap >> frame;
 		cap.read(frame);
 		// check if we succeeded
 		if (frame.empty()) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
+		resize(frame, frame, cv::Size(1200, 900), 0, 0);
 		pView->Show(frame);
-		//Histograme(frame, pView1);
+		Histograme(frame, pView1);
 		//HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
