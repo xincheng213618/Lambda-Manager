@@ -33,6 +33,7 @@ namespace ConfigBottomView
             return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         }
 
+
         public static void LoadViewFromUri(this FrameworkElement userControl, string baseUri)
         {
             try

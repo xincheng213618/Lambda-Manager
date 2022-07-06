@@ -25,13 +25,9 @@ namespace Global
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;
 
-
-
         static GridLengthConverter gridLengthConverter = new GridLengthConverter();
-        List<ImageParameter> imageParameters = new List<ImageParameter>();
         public async void AddImageConfident(Image image1,int viewindex)
         {
-            Canvas canvas1;
             if (image1.Parent is Grid grid)
             {
                 grid.RowDefinitions.Clear();
@@ -44,34 +40,14 @@ namespace Global
              
                 grid.Children.Clear();
 
-
-                canvas1 = new Canvas()
-                {
-                    Background = new SolidColorBrush(Color.FromRgb(68, 68, 68)),
-                    ClipToBounds = true
-                };
-                canvas1.MouseLeftButtonDown += delegate
-                {
-                    if (IsSelectImageView)
-                        SelectImageView = viewindex;
-                };
-
-                grid.Children.Remove(image1);
                 Grid.SetRow(image1, 0);
                 grid.Children.Add(image1);
 
-                //Grid.SetRow(canvas1, 0);
-                //canvas1.Children.Add(image1);
-                //grid.Children.Add(canvas1);
-
-
                 Grid stackPanel = new Grid() ;
-                Grid.SetColumn(stackPanel, 0);
                 Grid.SetRow(stackPanel, 1);
 
-                //Assembly assembly = Assembly.LoadFile(Environment.CurrentDirectory + "\\" + "ConfigBottomView");
-                //Control control = (Control)assembly.CreateInstance($"ConfigBottomView.BottomView");
-                double height = 150;
+                double height = 100;
+
                 BottomView bottomView = new BottomView();
                 bottomView.SizeChanged += delegate
                 {
@@ -100,6 +76,7 @@ namespace Global
                         }
                     }
                 };
+
                 bottomView.Visibility = Visibility.Visible; 
                 stackPanel.Children.Add(bottomView);
 
@@ -109,7 +86,6 @@ namespace Global
                 Grid.SetRow(gridSplitter, 0);
                 Binding binding = new Binding("Visibility");
                 binding.Source = bottomView;
-
                 gridSplitter.SetBinding(GridSplitter.VisibilityProperty, binding);
 
                 grid.Children.Add(gridSplitter);
@@ -119,79 +95,22 @@ namespace Global
             await Task.Delay(1200);
             DrawingCanvas image = new DrawingCanvas();
             image.Source = image1.Source;
-            //if (image1.Parent is Canvas canvas2)
-            //{
-            //    canvas2.Children.Remove(image1);
-            //    canvas2.Children.Add(image);
-            //}
-            if (image1.Parent is Grid canvas2)
+            if (image1.Parent is Grid grid1)
             {
-                canvas2.Children.Remove(image1);
-                canvas2.Children.Add(image);
+                grid1.Children.Remove(image1);
+                grid1.Children.Add(image);
             }
 
-            if (image.Parent is Canvas canvas)
+            if (image.Parent is Grid grid3)
             {
-                ImageParameter imageParameter = new ImageParameter();
-                imageParameters.Add(imageParameter);
-                image.DataContext = imageParameter;
-                imageParameter.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
-                {
-                    if (e.PropertyName == "ScaleTransformScaleX")
-                    {
-                        Dictionary<string, object> parameters = new Dictionary<string, object>()
-                        {
-                            { "image",viewindex},
-                            {"scaletransformcenterx",imageParameter.ScaleTransformCenterX },
-                            {"scaletransformcentery",imageParameter.ScaleTransformCenterY },
-                            {"scaletransformscalex",imageParameter.ScaleTransformScaleX },
-                            {"scaletransformscaley",imageParameter.ScaleTransformScaleY }
-                        };
-                        LambdaControl.Trigger("IMAGE_SCALE", null, parameters);
-                    }
-                };
-
                 TransformGroup transformGroup = new();
                 TranslateTransform tlt = new();
-                ScaleTransform sfr = new();
-                BindingOperations.SetBinding(sfr, ScaleTransform.CenterXProperty, new Binding("ScaleTransformCenterX"));
-                BindingOperations.SetBinding(sfr, ScaleTransform.CenterYProperty, new Binding("ScaleTransformCenterY"));
-                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleXProperty, new Binding("ScaleTransformScaleX"));
-                BindingOperations.SetBinding(sfr, ScaleTransform.ScaleYProperty, new Binding("ScaleTransformScaleY"));
-
-
-                transformGroup.Children.Add(sfr);
                 transformGroup.Children.Add(tlt);
                 image.RenderTransform = transformGroup;
 
                 image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
                 {
-                    if (((sfr.ScaleX < 0.2 || sfr.ScaleY < 0.2) && e.Delta < 0) || ((sfr.ScaleX > 5 || sfr.ScaleY > 5) && e.Delta > 0))
-                    {
-
-                    }
-                    else
-                    {
-                        Point centerPoint = e.GetPosition(image);
-
-                        if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                        {
-                            foreach (var item in imageParameters)
-                            {
-                                item.ScaleTransformCenterX = centerPoint.X;
-                                item.ScaleTransformCenterY = centerPoint.Y;
-                                item.ScaleTransformScaleX += (double)e.Delta / 1000;
-                                item.ScaleTransformScaleY += (double)e.Delta / 1000;
-                            }
-                        }
-                        else
-                        {
-                            imageParameter.ScaleTransformCenterX = centerPoint.X;
-                            imageParameter.ScaleTransformCenterY = centerPoint.Y;
-                            imageParameter.ScaleTransformScaleX += (double)e.Delta / 1000;
-                            imageParameter.ScaleTransformScaleY += (double)e.Delta / 1000;
-                        }
-                    }
+                    Point centerPoint = e.GetPosition(image);
                 };
                 bool isMouseLeftButtonDown = false;
                 Point start, MouseStart, mouseXY;
@@ -240,6 +159,8 @@ namespace Global
 
                 image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
                 {
+                    SelectImageView = viewindex;
+
                     image.Focus();
                     mouseXY = Mouse.GetPosition(Application.Current.MainWindow);
                     MouseStart = Mouse.GetPosition(image);
@@ -446,14 +367,6 @@ namespace Global
 
                         else if (ImageViewState.toolTop.PolygonChecked)
                         {
-                            //using (DrawingContext dc = drawingVisual.RenderOpen())
-                            //{
-                            //    for (int i = 0; i < PolygonList.Count - 1; i++)
-                            //    {
-                            //        dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[i], PolygonList[i + 1]);
-                            //    }
-                            //    dc.DrawLine(new Pen(Brushes.Red, 1), PolygonList[PolygonList.Count-1], PolygonList[PolygonList.Count-1] + (position - mouseXY));
-                            //}
                         }
 
                     };
@@ -479,37 +392,6 @@ namespace Global
                     Application.Current.MainWindow.Cursor = Cursors.Arrow;
                 };
 
-                //double v ;
-                //switch (imageParameters.Count)
-                //{
-                //    case 1:
-                //        v = 1;
-                //        break;
-                //    case 2:
-                //        v = 0.5;
-                //        break;
-                //    case 3:
-                //        v = 0.5;
-                //        break;
-                //    case 4:
-                //        v = 0.5;
-                //        break;
-                //    case 5:
-                //        v = 0.4;
-                //        break;
-                //    case 6:
-                //        v = 0.4;
-                //        break;
-                //    default:
-                //        v = 1;
-                //        break;
-                //}
-
-                //for (int i = 0; i < imageParameters.Count; i++)
-                //{
-                //    imageParameters[i].ScaleTransformScaleX = v;
-                //    imageParameters[i].ScaleTransformScaleY = v;
-                //}
             };
 
            
@@ -517,3 +399,4 @@ namespace Global
 
     }
 }
+  

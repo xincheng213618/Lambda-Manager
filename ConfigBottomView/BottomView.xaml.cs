@@ -27,7 +27,6 @@ namespace ConfigBottomView
         public BottomView( )
         {
             this.LoadViewFromUri("/ConfigBottomView;component/bottomview.xaml");
-
         }
 
         /// 初始化和界面初始化的实际不对，和界面有关的初始化在Loading中加载，和控件相关的初始化加载在Initialized中
@@ -38,8 +37,9 @@ namespace ConfigBottomView
         }
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            DoubleThumbSlider1.Width = HistogramImage1.ActualWidth * 2 + 75;
+
         }
+
 
         public void SetHistogram(int[] Histogramedata)
         {
@@ -50,7 +50,6 @@ namespace ConfigBottomView
                 double avg = Histogramedata.Average();
                 Text3.Text = "Avg:" + avg.ToString("f5");
                 Text4.Text = "δ:" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
-                //HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
             }
         }
 
@@ -69,10 +68,13 @@ namespace ConfigBottomView
         {
             LambdaControl.Trigger("HistogramLog", this, new Dictionary<string, object>() { { "image", 0 }, { "log", true } });
             DoubleThumbSlider1.Visibility = Visibility.Visible;
-            DoubleThumbSlider1.Width = HistogramImage1.ActualWidth*2  + 75;
-            HistogramImage1.Margin = new Thickness(50, 0, 0, 0);
+
         }
 
-
+        private void HistogramImage1_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            DoubleThumbSlider1.Width = HistogramImage1.ActualWidth + 110;
+            HistogramImage1.Margin = new Thickness(0, 0, 0, 0);
+        }
     }
 }

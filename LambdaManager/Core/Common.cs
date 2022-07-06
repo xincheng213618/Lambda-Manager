@@ -570,7 +570,7 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int InitialFrame(int index,int A_1, IntPtr buff, int rows, int cols, int type)
+	private static int InitialFrame(int index,int index2, IntPtr buff, int rows, int cols, int type)
 	{
 		PixelFormat format = type switch
 		{
@@ -586,17 +586,17 @@ internal class Common
 			writeableBitmap.Lock();
 			writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
 			writeableBitmap.Unlock();
-			Image image = GetImage(index, A_1, initial: true);
+			Image image = GetImage(index, index2, initial: true);
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
-                if (A_1 == 0)
+                if (index2 == 0)
                 {
                     Views[index].State = ViewState.RUNING;
                 }
                 else
                 {
-                    //Views[A_1].State = ViewState.RUNING;
+                    //Views[index2].State = ViewState.RUNING;
                 }
             }
         });
@@ -605,11 +605,11 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int UpdateFrame(int index, int A_1,IntPtr buffer, uint len, int stride)
+	private static int UpdateFrame(int index, int index2, IntPtr buffer, uint len, int stride)
 	{
 		Application.Current.Dispatcher.Invoke(delegate
 		{
-			if (GetImage(index, A_1,initial: false)?.Source is WriteableBitmap writeableBitmap)
+			if (GetImage(index, index2, initial: false)?.Source is WriteableBitmap writeableBitmap)
 			{
 				Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
 				writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
@@ -619,7 +619,7 @@ internal class Common
 				}
 			}
 		});
-        if (A_1 == 0)
+        if (index2 == 0)
         {
             return (int)(Views[index]?.State ?? ((ViewState)(-1)));
         }
@@ -639,9 +639,9 @@ internal class Common
 		});
 	}
 
-	private static Image? GetImage(int index,int A_1, bool initial)
+	private static Image? GetImage(int index,int index2, bool initial)
 	{
-		if (A_1 == 0)
+		if (index2 == 0)
         {
             Image image = Views[index]?.Image;
             if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
@@ -653,10 +653,10 @@ internal class Common
         }
         else
         {
-			int i = -A_1 - 1;
+			int i = -index2 - 1;
 			if (RegisterImageViews.Count > i)
             {
-                View view2 = RegisterImageViews[-A_1 - 1];
+                View view2 = RegisterImageViews[-index2 - 1];
                 return view2.Image;
             }
             return null;

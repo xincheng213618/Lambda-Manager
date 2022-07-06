@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ConfigBottomView"
              mc:Ignorable="d" 
              Name="root"
-             d:DesignHeight="15" d:DesignWidth="300" >
+             d:DesignHeight="15" d:DesignWidth="300"  Background="Transparent" >
     <UserControl.Resources>
         <Style x:Key="SliderThumbStyle" TargetType="Thumb">
             <Setter Property="SnapsToDevicePixels" Value="true"/>

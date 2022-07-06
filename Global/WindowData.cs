@@ -34,7 +34,6 @@ namespace Global
         {
             Hardware_Initialized();
             AddEventHandler();
-
             AddInjection();
         }
 

@@ -47,7 +47,6 @@ namespace Global
                 menuItem1.Click += delegate
                 {
                     ShowWindow = 1;
-                    GridSort(gridsList);
                     LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
                 };
                 MenuItem menuItem2 = new MenuItem() { Header = "四" };

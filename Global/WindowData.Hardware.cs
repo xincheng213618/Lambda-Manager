@@ -13,7 +13,7 @@ namespace Global
 
         private void Hardware_Initialized()
         {
-            bool init = false;
+            bool init = true;
             if (File.Exists(GlobalConst.HardwareDeviceInformationSheet))
             {
                 string HardwareDeviceInformation = File.ReadAllText(GlobalConst.HardwareDeviceInformationSheet);
@@ -22,8 +22,8 @@ namespace Global
                 {
                     deviceInformation = JsonSerializer.Deserialize<DeviceInformation>(HardwareDeviceInformation);
                     ObjectiveSettingList = deviceInformation.ObjectiveSettingList;
-                    if (ObjectiveSettingList==null)
-                        init = true;
+                    if (ObjectiveSettingList!=null)
+                        init = false;
                 }
             }
 

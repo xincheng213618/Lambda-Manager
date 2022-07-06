@@ -55,14 +55,18 @@ Mat histnew(Mat& scr, int maxloc, double sumhist, int histmax, int histmin)
 	float* hptr = hist.ptr<float>(0);
 	hptr[maxloc] = ptr[maxloc];
 	float th = ptr[maxloc];
+
 	for (int i = maxloc; i < scr.cols - 1; i++)
 	{
 		int minloc = 2 * maxloc - i - 1;
-		float minval = ptr[2 * maxloc - i - 1];
+		float minval;
 		if (minloc < 0)
 		{
 			minloc = 0;
 			minval = 0;
+		}
+		else {
+			minval = ptr[2 * maxloc - i - 1];
 		}
 		th = th + ptr[i + 1] + minval;
 		if (th / sumhist < 0.99)
@@ -134,7 +138,9 @@ void Histograme(Mat Im1, LambdaView* pView1) {
 			Point((i + 1) * scale - 1, hist_height - intensity),
 			CV_RGB(255, 255, 255));
 	}
-	pView1->Show(hist_img);
+	Mat hist_img1;
+	resize(hist_img, hist_img1, cv::Size(hist_img.cols*2, hist_img.rows), 0, 0);
+	pView1->Show(hist_img1);
 }
 
 int OpenCamera()
@@ -229,7 +235,7 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
-	LambdaView* pView1 = LambdaView::GetRegistered(-1);
+	LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
 
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
@@ -251,7 +257,7 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
-		Histograme(frame, pView1);
+		//Histograme(frame, pView1);
 		//HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
