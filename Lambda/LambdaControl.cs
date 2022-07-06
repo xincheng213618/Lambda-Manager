@@ -164,6 +164,17 @@ namespace Lambda
         /// </summary>
         public static void Trigger(string type, object sender, Array? array)
         {
+            if (array != null)
+            {
+                List<string> logarray = new List<string>();
+                foreach (var item in array)
+                {
+                    logarray.Add(item.ToString());
+                }
+                string temp = $"[{String.Join(",", logarray.ToArray())}]" ;
+                Log(new Message { Severity = Severity.INFO, Text = type + temp });
+            }
+
             CallEventHandler?.Invoke(type, sender, new LambdaArgs
             {
                 Data = array

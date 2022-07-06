@@ -159,7 +159,7 @@ namespace ConfigObjective
                 Slider312.Value = (int)(colorHelp1.Brightness * 240);
 
                 ViewMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, colorHelp1.SolidColorBrush.ToString());
+                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
             }
         }
         private void Button1_Click(object sender, RoutedEventArgs e)
@@ -178,7 +178,7 @@ namespace ConfigObjective
                 Slider324.Value = (int)(colorHelp2.Brightness * 240);
 
                 ViewMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
-                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, colorHelp2.SolidColorBrush.ToString());
+                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new int[] { colorHelp2.SolidColorBrush.Color.R, colorHelp2.SolidColorBrush.Color.G, colorHelp2.SolidColorBrush.Color.B });
             }
         }
 
@@ -189,7 +189,8 @@ namespace ConfigObjective
                 colorHelp1.ChangeBrightness(e.NewValue / 240);
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
                 ViewMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, colorHelp1.SolidColorBrush.ToString());
+                
+                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this,new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
             }
         }
 
@@ -200,7 +201,7 @@ namespace ConfigObjective
                 colorHelp2.ChangeBrightness(e.NewValue / 240);
                 ColorButton321.Background = colorHelp2.SolidColorBrush;
                 ViewMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
-                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, colorHelp2.SolidColorBrush.ToString());
+                LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new int[] { colorHelp2.SolidColorBrush.Color.R, colorHelp2.SolidColorBrush.Color.G, colorHelp2.SolidColorBrush.Color.B });
             }
         }
 

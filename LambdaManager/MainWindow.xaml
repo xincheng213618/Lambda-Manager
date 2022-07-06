@@ -353,8 +353,8 @@
                                 </Border.Background>
                                 <DockPanel Name="leftToolbar">
                                     <WrapPanel Orientation="Vertical" DockPanel.Dock="Top">
-                                        <ToggleButton Style="{StaticResource ToolButton2}">
-                                            <Image Source="/Resources/Icons/left-colorbar.png" Stretch="Fill" Margin="0,3,0,0" />
+                                        <ToggleButton Style="{StaticResource ToolButton2}"  Click="Button_Click_38">
+                                            <Image Source="/Resources/Icons/left-colorbar.png" Stretch="Fill" Margin="0,3,0,0"  />
                                             <!--Unknown connection ID: 60-->
                                         </ToggleButton>
                                         <ToggleButton Style="{StaticResource ToolButton2}">

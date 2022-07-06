@@ -276,7 +276,7 @@ int CloseCamera()
 	return  0;
 }
 
-int FloatTest(float num)
+int FloatTest(void* num)
 {
 	Logger::Log1(Severity::INFO, "Invoke 'CloseCamera()%f'", num);
 	return  0;

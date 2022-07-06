@@ -555,14 +555,7 @@
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
 
-	<component name="Interop Test" lib="lib\InteropTest.dll">
-
-		<procedure name ="Test" event ="Test211">
-			<action name ="Test211">
-				<input name="test" type="void*"/>
-			</action>
-		</procedure>
-		
+	<component name="Interop Test" lib="lib\InteropTest.dll">	
 		<procedure name="group1" async="true">
 			<action name="Test0" />
 			<action name="Test1">
@@ -920,9 +913,21 @@
 		</procedure>
 	</component>
 
-	<component name="Event object is array" lib="lib\InteropTest.dll" init="start">
-		<procedure name="start">
+	<component name="Event object is array" lib="lib\InteropTest.dll" >
+		<!--<procedure name="start">
 			<action name="Test210"/>
+		</procedure>-->
+		<procedure name="BrightFieldBrightness" event="BRIGHT_FIELD_BRIGHTNESS">
+			<action name="BrightFieldBrightness">
+				<input name="brightness" type="pointer" />
+			</action>
 		</procedure>
 	</component>
+	<component name="CUDA" lib="lib/CUDA.dll">
+		<procedure name="FFTCUDA_img" event="COLORBAR_CLICKED">
+			<action name="FFTCUDA_img">
+			</action>
+		</procedure>
+	</component>
+
 </main>
