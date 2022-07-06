@@ -88,7 +88,7 @@ namespace Global.Mode.Config
 
     public class DarkField : ViewModeBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 };
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 , Gamma =  1.67};
 
         private int innerAperture = 12;
 
@@ -128,7 +128,7 @@ namespace Global.Mode.Config
         }
 
 
-        private double gamma = 0;
+        private double gamma = 0.67;
         public double Gamma
         {
             get { return gamma; }
@@ -181,7 +181,7 @@ namespace Global.Mode.Config
     public class Reinberg : ViewModeBase
     {
 
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 };
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 , Gamma = 2 };
 
         private int innerAperture = 0;
         public int InnerAperture
@@ -207,7 +207,7 @@ namespace Global.Mode.Config
         }
 
 
-        private double gamma = 0;
+        private double gamma = 1;
         public double Gamma
         {
             get { return gamma; }
@@ -295,7 +295,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private double gamma = 0;
+        private double gamma = 1;
         public double Gamma
         {
             get { return gamma; }
