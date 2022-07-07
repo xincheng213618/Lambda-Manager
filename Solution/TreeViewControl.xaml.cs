@@ -321,6 +321,16 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
+
+            int[] data2 = new int[] { 144, 2, 3, 4, 5 };
+            LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
+
+            Node<int> doue = new Node<int>(1);
+            doue.Next = new Node<int>(2);
+            doue.Next.Next = doue;
+
+            
         }
 
         bool IsFirstLoad = true;

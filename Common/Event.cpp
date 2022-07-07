@@ -59,13 +59,13 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 		if (it->second == Event) {
 			auto it2 = ArgumentType_map.find(Event);
 			if (it2 != ArgumentType_map.end()) {
-				if (argType == NO_ARGS) {
+				if (it2->second == NO_ARGS) {
 					callBack1(it->first, sender);
 				}
-				else if (argType == JSON_STRING) {
+				else if (it2->second == JSON_STRING) {
 					callBack3(it->first, eventObject, sender);
 				}
-				else if (argType == JSON_OBJECT || argType == STL_MAP) {
+				else if (it2->second == JSON_OBJECT || it2->second == STL_MAP) {
 					callBack3(it->first, eventObject, sender);
 				}
 				else {

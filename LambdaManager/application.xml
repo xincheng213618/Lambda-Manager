@@ -914,11 +914,15 @@
 	</component>
 
 	<component name="Event object is array" lib="lib\InteropTest.dll" >
-		<!--<procedure name="start">
-			<action name="Test210"/>
-		</procedure>-->
-		<procedure name="BrightFieldBrightness" event="BRIGHT_FIELD_BRIGHTNESS">
+
+		<procedure name="BrightFieldBrightness" event="BRIGHT_FIELD_BRIGHTNESS" arg ="brightness">
 			<action name="BrightFieldBrightness">
+				<output name="brightness" type="pointer" />
+			</action>	
+		</procedure>
+
+		<procedure event="BRIGHT_FIELD_BRIGHTNESS1" arg ="brightness">
+			<action name="Test212">
 				<input name="brightness" type="pointer" />
 			</action>
 		</procedure>

@@ -629,6 +629,5 @@ int BrightFieldBrightness(void* brightness)
 	int* p = (int*)brightness;
 	int size = GetArraySize(p);
 	Logger::Log2(Severity::INFO, L" SDT event array: [%d, %d, %d,...], size: %d", *p, *(p + 1), *(p + 2), size);
-
 	return 0;
 }
