@@ -11,6 +11,7 @@ using Global.Mode.Config;
 using System.Text;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Data;
 
 namespace ConfigObjective
 {
@@ -30,6 +31,36 @@ namespace ConfigObjective
         /// </summary>
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+
+
+
+
+            //TabControl tabControl = (TabControl)mainwin.FindName("leftTab");
+            //Border border = (Border)tabControl.Parent;
+            ////tabControl.Parent 
+            //if (tabControl == null) return;
+            //TabItem propertySetItem = new TabItem();
+            //propertySetItem.Header = "属性设置";
+            //ScrollViewer scrollViewer = new ScrollViewer();
+            //scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            //scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            //Viewbox proViewBox = new Viewbox();
+            //proViewBox.VerticalAlignment = VerticalAlignment.Top;
+            //proViewBox.Stretch = Stretch.Uniform;
+            //Binding viewBoxWidthBind = new Binding();
+            //viewBoxWidthBind.Source = border;
+            //viewBoxWidthBind.Path = new PropertyPath("ActualWidth");
+            //proViewBox.SetBinding(Border.WidthProperty, viewBoxWidthBind);
+
+
+            //proViewBox.Child = stackPanel;
+            //scrollViewer.Content = proViewBox;
+            //propertySetItem.Content = scrollViewer;
+
+            //tabControl.Items.Add(propertySetItem);
+
+
+
             AddEventHandler();
             //初始化硬件
 
@@ -215,12 +246,28 @@ namespace ConfigObjective
 
         }
 
+        bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (this.Parent is StackPanel stackPanel)
+            if (IsFirstLoad)
             {
-                stackPanel.Width = 420;
+                IsFirstLoad = false;
+                if (this.Parent is StackPanel stackPanel1)
+                    if (stackPanel1.Parent is Viewbox viewbox1)
+                        if (viewbox1.Parent is ScrollViewer scrollViewer1)
+                        {
+                            stackPanel1.Children.Remove(this);
+
+                            StackPanel stackPanel = new StackPanel() { Name = "acquireView" };
+                            stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            stackPanel.Children.Add(this);
+                            Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top,Stretch = Stretch.Uniform};
+                            viewbox.Child = stackPanel;
+                            scrollViewer1.Content = viewbox;
+                        }
+
             }
+
         }
 
 

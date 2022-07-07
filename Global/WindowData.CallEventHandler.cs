@@ -77,7 +77,7 @@ namespace Global
                     }
                 };
 
-                bottomView.Visibility = Visibility.Collapsed; 
+                bottomView.Visibility = Visibility.Visible; 
                 stackPanel.Children.Add(bottomView);
 
                 LambdaBottomViews[viewindex] = bottomView;

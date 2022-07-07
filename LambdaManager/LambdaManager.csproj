@@ -135,6 +135,12 @@
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ColorPickerLib">
+      <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NumericUpDownLib">
+      <HintPath>..\DLL\NumericUpDownLib.dll</HintPath>
+    </Reference>
     <Reference Include="RangeSlider">
       <HintPath>..\DLL\RangeSlider.dll</HintPath>
     </Reference>

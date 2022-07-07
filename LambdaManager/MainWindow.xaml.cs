@@ -34,9 +34,11 @@ partial class MainWindow : BaseWindow
 	private bool multiChannel;
 	internal View[] Views = Common.Views;
 
+	public TabControl tabControl;
 
 
-	internal List<int> ClosingViewIndex = Common.ClosingViewIndex;
+
+    internal List<int> ClosingViewIndex = Common.ClosingViewIndex;
 
 
 

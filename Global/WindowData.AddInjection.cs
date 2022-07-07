@@ -5,6 +5,7 @@ using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,16 +23,35 @@ namespace Global
     /// </summary>
     public partial class WindowData
     {
+
+        private void WaiWindow(Visibility visibility)
+        {
+            Grid stageConfig = (Grid)Application.Current.MainWindow.FindName("stageConfig");
+            stageConfig.Visibility = visibility;
+            Grid grid1 = new Grid() { Background = Brushes.Gray, Opacity = 0.1 };
+            stageConfig.Children.Add(grid1);
+            Border border1 = new Border() { Background = new SolidColorBrush(Color.FromRgb(55,59,65)),Height=150,Width=550,CornerRadius=new CornerRadius(10)};
+            Border border2 = new Border() { Background = new SolidColorBrush(Color.FromRgb(72, 77, 79)), Height = 100, Width = 500, CornerRadius = new CornerRadius(5) };
+            Grid grid2 = new Grid() { Margin = new Thickness(10)};
+            TextBlock textBlock1 = new TextBlock() { Text = "计算中" };
+            ProgressBar progressBar = new ProgressBar() { Height=20, VerticalAlignment =VerticalAlignment.Bottom, IsIndeterminate=true, Foreground= new SolidColorBrush(Color.FromRgb(110, 166, 70)), Background= new SolidColorBrush(Color.FromRgb(36,38,39)) };
+            grid2.Children.Add(textBlock1);
+            grid2.Children.Add(progressBar);
+            border2.Child = grid2;
+            border1.Child = border2;
+            stageConfig.Children.Add(border1);
+            Application.Current.MainWindow.Cursor = visibility == Visibility.Visible? Cursors.Wait: Cursors.Arrow;
+            stageConfig.MouseRightButtonUp += delegate
+            {
+                stageConfig.Visibility = Visibility.Collapsed;
+            };
+        }
+
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
 
-             //等待窗口
-            //Grid stageConfig = (Grid)mainwin.FindName("stageConfig");
-            //stageConfig.Visibility = Visibility.Visible;
-            //stageConfig.Background = Brushes.White;
-            //stageConfig.Opacity = 0.1;
-            //Application.Current.MainWindow.Cursor = Cursors.Wait;
+            //等待窗口
 
             try
             {
@@ -46,12 +66,15 @@ namespace Global
                 MenuItem menuItem1 = new MenuItem() { Header = "一" };
                 menuItem1.Click += delegate
                 {
+                    WaiWindow(Visibility.Visible);
                     ShowWindow = 1;
                     LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
                 };
                 MenuItem menuItem2 = new MenuItem() { Header = "四" };
                 menuItem2.Click += delegate
                 {
+                    WaiWindow(Visibility.Collapsed);
+
                     ShowWindow = 4;
                     LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
                 };
