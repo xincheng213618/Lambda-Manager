@@ -43,6 +43,8 @@ namespace Mode
 
         public ImageViewState ImageViewState = new ImageViewState();
 
+        public RegisterInfo RegisterInfo { get; set; } = new RegisterInfo();
+
         [JsonPropertyName("log-file")]
         public string? LogFile { get; set; }
     }
@@ -66,6 +68,7 @@ namespace Mode
         public string? ConfigMultiDimensional { get; set; } = "1.0";
         [JsonPropertyName("dpc-algorithm")]
         public string? DpcAlgorithm { get; set; } = "1.0";
+
     }
     [Serializable]
     public class LambdaManager

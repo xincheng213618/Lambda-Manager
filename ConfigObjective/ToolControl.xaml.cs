@@ -118,6 +118,8 @@ namespace ConfigObjective
                         bright = -1;
                     }
 
+                    ViewMode.Reinberg.BrightColor = bright;
+
                     Dictionary<string, object> data = new() { { "mode", RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } };
                     LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, data);
                 }
@@ -147,6 +149,7 @@ namespace ConfigObjective
                     int darkness1 = HexToInt(Color331.Fill.ToString(), (int)Slider334.Value);
                     int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
                     int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
+                    ViewMode.Reinberg.BrightColor = darkness1;
 
                     if (RheinbergSelectMode == 0)
                     {

@@ -89,7 +89,9 @@ namespace Solution
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
-                        LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
+                        //LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
+
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {

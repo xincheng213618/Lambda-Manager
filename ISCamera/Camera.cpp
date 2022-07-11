@@ -440,7 +440,7 @@ int MatShow(cv::Mat* Test) {
 }
 
 int MatShow1(cv::Mat* Test ,int num) {
-	resize(*Test, *Test, cv::Size(222, 300), 0, 0);
+	//resize(*Test, *Test, cv::Size(222, 300), 0, 0);
 
 	return 0;
 }
@@ -449,6 +449,9 @@ double x = 111.1111;
 double y = 111.1111;
 int CameraSettingExposure(int mode,double exposure)
 {
+	x++;
+	y++;
+
 	json j;
 	j["x"] = std::to_string(x);
 	j["y"] = std::to_string(y);
@@ -471,7 +474,6 @@ int CameraSettingExposure(int mode,double exposure)
 	//pView->Show(img1);
 	cv::Mat img2;
 	resize(img1, img2, cv::Size(300, 300), 0, 0);
-	Event::Dispatch("MatShow222",(&img2));
 
 	////uchar b[] = { 1, 2, 3, 4, 5 };
 

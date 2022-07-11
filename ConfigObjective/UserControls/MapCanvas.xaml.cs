@@ -231,8 +231,7 @@ namespace ConfigObjective.UserControls
             if (isMultiSelecting)
             {
                 // Display all the squares in this region.
-                RectangleGeometry geometry = new RectangleGeometry(
-                    new Rect(selectionSquareTopLeft, e.GetPosition(mapCanvas)));
+                RectangleGeometry geometry = new RectangleGeometry(new Rect(selectionSquareTopLeft, e.GetPosition(mapCanvas)));
                 DrawMultiRec(pointClickLeft, pointClicked);
                 isMultiSelecting = false;
                 mapCanvas.DeleteVisual(selectionSquare);

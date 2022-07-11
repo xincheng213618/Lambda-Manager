@@ -96,6 +96,12 @@ void FFTCUDA_img()
 	nH = test_img.rows;
 	nW = test_img.cols;
 
+
+	int deviceCount = 0;
+	cudaError_t error_id = cudaGetDeviceCount(&deviceCount);
+	Logger::Log1(Severity::INFO, "cudaGetDeviceCoun %d", deviceCount);
+
+
 	cv::Mat planes[] = { cv::Mat_<float>(test_img), cv::Mat::zeros(test_img.size(), CV_32F) };
 	cufftComplex* cu_complexI_h, * cu_complexI_d;
 	cu_complexI_h = (cufftComplex*)malloc(sizeof(cufftComplex) * nW * nH);
@@ -115,7 +121,7 @@ void FFTCUDA_img()
 	fftshift(img_fft);
 
 	split(img_fft, planes);//多通道分离
-	magnitude(planes[0], planes[1], magnitudeImage);
+	magnitude(planes[0], planes[1], magnitudeImage); 
 	magnitudeImage += cv::Scalar::all(1);
 	log(magnitudeImage, magnitudeImage);
 	magnitudeImage = magnitudeImage(cv::Rect(0, 0, magnitudeImage.cols & -2, magnitudeImage.rows & -2));
@@ -123,5 +129,7 @@ void FFTCUDA_img()
 	magnitudeImage.convertTo(magnitudeImage, CV_8UC1, 255, 0);
 
 	Event::Trigger("SHOW_img", &magnitudeImage);
+
+
 	Logger::Log1(Severity::INFO, "Invoke FFTCUDA img");
 }

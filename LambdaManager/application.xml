@@ -88,12 +88,6 @@
 			<action name="VideoTest"/>
 		</procedure>
 
-		<procedure name="FloatTest" event="FloatTest" key="num">
-			<action name="FloatTest">
-				<input name="num" type="float" />
-			</action>
-		</procedure>
-
 
 		<procedure  event="MatShow222" arg="image" >
 
@@ -109,9 +103,9 @@
 		</procedure>
 
 
-		<procedure name="OpenSerial" event="projectManager" key ="FullPath" >
+		<procedure name="OpenSerial" event="projectManager" var ="FullPath" >
 			<action name="OpenSerial">
-				<input name="FullPath" type="#string" />
+				<input name="FullPath" type="String" />
 			</action>
 		</procedure>
 
@@ -551,6 +545,8 @@
 			</action>
 		</procedure>
 	</component>
+
+	<component name="MainWindow" lib="ACE.dll" mount="menu:帮助/注册"/>
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
