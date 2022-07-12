@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "common.h"
 #include <locale>         // std::wstring_convert
 #include <codecvt>        // std::codecvt_utf8
@@ -24,7 +24,6 @@ std::wstring StringUtils::string2wstring(const std::string& str)
 	return s2ws(str);
 }
 
-//https://www.cnblogs.com/ranjiewen/p/5770639.html
 wchar_t* StringUtils::Multi2WideByte(const char* p)
 {
 	const size_t cSize = strlen(p) + 1;
@@ -40,12 +39,12 @@ char* StringUtils::Wide2MultiByte(const wchar_t* p)
 {
 	DWORD dBufSize = WideCharToMultiByte(CP_OEMCP, 0, p, -1, NULL, 0, NULL, FALSE);
 
-	//∑÷≈‰ƒø±Íª∫¥Ê
+	//ÂàÜÈÖçÁõÆÊ†áÁºìÂ≠ò
 	char* dBuf = new char[dBufSize];
 	memset(dBuf, 0, dBufSize);
 
 	sprintf(dBuf, "%ws", p);
-	//◊™ªª
+	//ËΩ¨Êç¢
 	//int nRet = WideCharToMultiByte(CP_OEMCP, 0, p, -1, dBuf, dBufSize, NULL, FALSE);
 
 	return dBuf;

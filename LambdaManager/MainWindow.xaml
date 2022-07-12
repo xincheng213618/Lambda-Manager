@@ -5,9 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-        xmlns:local ="clr-namespace:LambdaManager" 
-                 
-        xmlns:controls="clr-namespace:LambdaManager.Controls" 
+        xmlns:local ="clr-namespace:LambdaManager"                 
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         Background="#333333" Width="1280"  Height="768" MinWidth="1024" MinHeight="768"  Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
 
@@ -117,11 +115,10 @@
                     <TabControl FontSize="15">
                         <TabItem Header="工程"  Visibility="Collapsed">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
-                                    <StackPanel Name="projectView"  Margin="10,10,10,20" >
+                                <Viewbox VerticalAlignment="Top" Stretch="Uniform" Width="400">
+                                    <StackPanel Name="projectView"  Margin="10,10,10,20"  >
                                     </StackPanel>
                                 </Viewbox>
-
                             </ScrollViewer>
                         </TabItem>
                         <TabItem Header="采集配置"  Visibility="Collapsed">
