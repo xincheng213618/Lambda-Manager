@@ -33,20 +33,12 @@ namespace ACE
         private void Window_Initialized(object sender, System.EventArgs e)
         {
             registerInfo = WindowData.GetInstance().RegisterInfo;
-            //registerInfo = new RegisterInfo();
-            //string ConfigFileName = "ace";
-            //if (File.Exists(ConfigFileName))
-            //    registerInfo = JsonSerializer.Deserialize<RegisterInfo>(File.ReadAllText(ConfigFileName));
             this.DataContext = registerInfo;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(registerInfo.GetSha512());
-
-            //byte[] trest= AES_EnorDecrypt.AESEncrypt(File.ReadAllBytes("application.xml"), SETSHA512(text),"111");
-            //byte[] trest1 = AES_EnorDecrypt.AESDecrypt(trest, SETSHA512(text), "111");
-            //MessageBox.Show(Encoding.UTF8.GetString(trest1));
+            AES.SetRegisterCode(registerInfo.GetSha512());
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
@@ -60,7 +52,8 @@ namespace ACE
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            byte[] trest1 = AES_EnorDecrypt.AESDecrypt(File.ReadAllBytes("application.sys"), registerInfo.GetSha512(), "111");
+            byte[] trest1 = AES_EnorDecrypt.AESDecrypt(File.ReadAllBytes("application.sys"), AES.GetRegisterCode(), "111");
+
             if (trest1 ==null)
             {
                 MessageBox.Show("软件注册信息损坏，请联系厂家修复。");
