@@ -37,7 +37,7 @@
 
 
             <DockPanel Margin="5" >
-                <Button Content="确认" Click="Button_Click"/>
+                <Button Content="注册" Click="Button_Click"/>
             </DockPanel>
             <DockPanel Margin="5" >
                 <Button Content="加密" Click="Button1_Click"/>
