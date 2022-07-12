@@ -17,6 +17,7 @@ using System.Windows.Controls.Primitives;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
+using Solution.RecentFile;
 
 namespace Solution
 {
@@ -143,6 +144,7 @@ namespace Solution
             {
                 if (windowData.ReadConfig(FilePath) == 0)
                 {
+                    recentFileList.InsertFile(FilePath);
                     windowData.FilePath = FilePath;
                     TreeViewInitialized(FilePath, windowData.Config);
                 }
@@ -309,12 +311,22 @@ namespace Solution
         {
 
         }
-
+        RecentFileList recentFileList = new RecentFileList();
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            if (recentFileList.RecentFiles.Count > 0)
+            {
+                string FilePath = recentFileList.RecentFiles[0];
+                if (windowData.ReadConfig(FilePath) == 0)
+                {
+                    windowData.FilePath = FilePath;
+                    TreeViewInitialized(FilePath, windowData.Config);
+                }
+            }
 
         }
+
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -341,23 +353,19 @@ namespace Solution
             //执行一次
             if (IsFirstLoad)
             {
-                if (IsFirstLoad)
-                {
-                    IsFirstLoad = false;
-                    if (this.Parent is StackPanel stackPanel1)
-                        if (stackPanel1.Parent is Viewbox viewbox1)
-                            if (viewbox1.Parent is ScrollViewer scrollViewer1)
-                            {
-                                stackPanel1.Children.Remove(this);
+                if (this.Parent is StackPanel stackPanel1)
+                    if (stackPanel1.Parent is Viewbox viewbox1)
+                        if (viewbox1.Parent is ScrollViewer scrollViewer1)
+                        {
+                            stackPanel1.Children.Remove(this);
 
-                                StackPanel stackPanel = new StackPanel() { Name = "projectView" };
-                                stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                                stackPanel.Children.Add(this);
-                                Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top, Stretch = Stretch.Uniform };
-                                viewbox.Child = stackPanel;
-                                scrollViewer1.Content = viewbox;
-                            }
-                }
+                            StackPanel stackPanel = new StackPanel() { Name = "projectView" ,Margin= new Thickness(2,2,2,0)};
+                            stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            stackPanel.Children.Add(this);
+                            Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top};
+                            viewbox.Child = stackPanel;
+                            scrollViewer1.Content = viewbox;
+                        }
 
                 //清理掉对第一个image的引用
                 View view = LambdaControl.GetImageView(0);

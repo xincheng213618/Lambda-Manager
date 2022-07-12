@@ -31,36 +31,6 @@ namespace ConfigObjective
         /// </summary>
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-
-
-
-
-            //TabControl tabControl = (TabControl)mainwin.FindName("leftTab");
-            //Border border = (Border)tabControl.Parent;
-            ////tabControl.Parent 
-            //if (tabControl == null) return;
-            //TabItem propertySetItem = new TabItem();
-            //propertySetItem.Header = "属性设置";
-            //ScrollViewer scrollViewer = new ScrollViewer();
-            //scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            //scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            //Viewbox proViewBox = new Viewbox();
-            //proViewBox.VerticalAlignment = VerticalAlignment.Top;
-            //proViewBox.Stretch = Stretch.Uniform;
-            //Binding viewBoxWidthBind = new Binding();
-            //viewBoxWidthBind.Source = border;
-            //viewBoxWidthBind.Path = new PropertyPath("ActualWidth");
-            //proViewBox.SetBinding(Border.WidthProperty, viewBoxWidthBind);
-
-
-            //proViewBox.Child = stackPanel;
-            //scrollViewer.Content = proViewBox;
-            //propertySetItem.Content = scrollViewer;
-
-            //tabControl.Items.Add(propertySetItem);
-
-
-
             AddEventHandler();
             //初始化硬件
 
@@ -261,7 +231,7 @@ namespace ConfigObjective
                         {
                             stackPanel1.Children.Remove(this);
 
-                            StackPanel stackPanel = new StackPanel() { Name = "acquireView" };
+                            StackPanel stackPanel = new StackPanel() { Name = "acquireView", Margin = new Thickness(2, 2, 2, 0) };
                             stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                             stackPanel.Children.Add(this);
                             Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top,Stretch = Stretch.Uniform};

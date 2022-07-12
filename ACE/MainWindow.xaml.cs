@@ -73,8 +73,7 @@ namespace ACE
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
-            string jsonString = JsonSerializer.Serialize(registerInfo);
-            File.WriteAllText("ace", jsonString);
+
         }
     }
 }

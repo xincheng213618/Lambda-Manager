@@ -29,10 +29,8 @@ namespace Global
         {
             Window mainwin = Application.Current.MainWindow;
 
-            //等待窗口
             try
             {
-
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
                 //检测如果找不到rightToolbar 直接退出
                 if (WrapPanel1 == null)
@@ -40,28 +38,40 @@ namespace Global
                 ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
 
                 ContextMenu contextMenu = new ContextMenu();
-                MenuItem menuItem1 = new MenuItem() { Header = "一" };
-                menuItem1.Click += delegate
+
+                string WindowType = "QUATER_CLICKED2";
+                buttton1.Checked += delegate
                 {
-                    WaitContorl.GetInstance().Timer(3000);
-                    ShowWindow = 1;
+                    //contextMenu.Visibility = Visibility.Visible;
+                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
+                };
+                buttton1.Unchecked += delegate
+                {
+                    //contextMenu.Visibility = Visibility.Collapsed;
+
                     LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
                 };
+
+
                 MenuItem menuItem2 = new MenuItem() { Header = "四" };
+                MenuItem menuItem3 = new MenuItem() { Header = "六" };
+
                 menuItem2.Click += delegate
                 {
+                    menuItem2.IsChecked = true;
+                    menuItem3.IsChecked = false;
 
-                    ShowWindow = 4;
-                    LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                    WindowType = "QUATER_CLICKED2";
+                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
                 };
 
-                MenuItem menuItem3 = new MenuItem() { Header = "六" };
                 menuItem3.Click += delegate
                 {
-                    ShowWindow = 6;
-                    LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                    menuItem2.IsChecked = false;
+                    menuItem3.IsChecked = true;
+                    WindowType = "QUATER_CLICKED3";
+                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
                 };
-                contextMenu.Items.Add(menuItem1);
                 contextMenu.Items.Add(menuItem2);
                 contextMenu.Items.Add(menuItem3);
                 buttton1.ContextMenu = contextMenu;  

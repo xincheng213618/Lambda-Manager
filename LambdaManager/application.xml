@@ -551,7 +551,7 @@
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
 
-	<component name="Interop Test" lib="lib\InteropTest.dll">	
+	<component name="Interop Test" lib="lib\InteropTest.dll" init ="group1">	
 		<procedure name="group1" async="true">
 			<action name="Test0" />
 			<action name="Test1">
