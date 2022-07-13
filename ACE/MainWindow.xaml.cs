@@ -68,5 +68,11 @@ namespace ACE
         {
 
         }
+
+        private void Button3_Click(object sender, RoutedEventArgs e)
+        {
+            AboutMsg aboutMsg = new AboutMsg();
+            aboutMsg.Show();
+        }
     }
 }
