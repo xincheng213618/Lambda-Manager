@@ -116,6 +116,7 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 	if (it53 != Callback5_map.end()) {
 		return (it53->second)(eventObject);
 	}
+	return 0;
 }
 
 
