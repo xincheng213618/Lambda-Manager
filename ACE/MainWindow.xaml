@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ACE"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Title="注册" Height="320" MinHeight="320" Width="330" MinWidth="330" Background="#3A3A3A" Foreground="White" Initialized="Window_Initialized" Closed="Window_Closed">
+        Title="注册" Height="360" MinHeight="320" Width="330" MinWidth="330" Background="#3A3A3A" Foreground="White" Initialized="Window_Initialized" Closed="Window_Closed">
     <Grid>
         <TextBlock Text="注册信息:" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <StackPanel Margin="20,10">
@@ -34,8 +34,7 @@
                 <TextBlock Text="联系电话" Width="100"/>
                 <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"/>
             </DockPanel>
-
-
+            
             <DockPanel Margin="5" >
                 <Button Content="注册" Click="Button_Click"/>
             </DockPanel>
@@ -44,6 +43,9 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <Button Content="解密" Click="Button2_Click"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Button Content="关于" Click="Button3_Click"/>
             </DockPanel>
         </StackPanel>  
 

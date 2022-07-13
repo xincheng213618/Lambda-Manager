@@ -547,6 +547,7 @@
 	</component>
 
 	<component name="MainWindow" lib="ACE.dll" mount="menu:帮助/注册"/>
+	<component name="AboutMsg" lib="ACE.dll" mount="menu:帮助/关于"/>
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
