@@ -1,15 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+	<UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Global\Global.csproj" />
-    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
-  </ItemGroup>
 
 </Project>

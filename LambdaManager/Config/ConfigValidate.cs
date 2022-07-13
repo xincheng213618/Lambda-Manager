@@ -45,7 +45,7 @@ internal class ConfigValidate
 
 	private readonly Dictionary<Action, List<int>> action_functionArgument = new Dictionary<Action, List<int>>();
 
-	internal Severity Severity { get; set; }
+	internal Severity Severity { get; set; }  
 
 	internal HashSet<string> Libs { get; } = new HashSet<string>();
 

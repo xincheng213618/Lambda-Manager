@@ -25,7 +25,7 @@ namespace Mode
         public string LastOpenTime { get; set; } = DateTime.Now.ToString("YYYY-MM-dd HH:mm:ss");
 
         [JsonPropertyName("lambda-manager")]
-        public LambdaManager LambdaManager { get; set; }
+        public LambdaManager LambdaManager { get; set; } = new LambdaManager();
         
         [JsonPropertyName("firmware")]
         public Firmware FirmwareSetting { get; set; }
@@ -74,7 +74,7 @@ namespace Mode
     public class LambdaManager
     {
         [JsonPropertyName("latest-closed")]
-        public List<string>? LatestClosed { get; set; }
+        public List<string>? RecentFileList { get; set; }
         [JsonPropertyName("default-directory")]
         public string?  DefaultDirectory { get; set; }   
     }

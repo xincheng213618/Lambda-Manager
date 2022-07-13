@@ -57,7 +57,7 @@ partial class MainWindow : BaseWindow
 
 	public MainWindow()
 	{
-		InitializeComponent();
+        InitializeComponent();
 		ChangeMiddleViewVisibility(false);
 
     }

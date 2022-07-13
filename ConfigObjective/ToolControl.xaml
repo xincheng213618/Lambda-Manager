@@ -167,7 +167,7 @@
                     <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
                     <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
                     <RadioButton Name="Button34" Tag="3" Style="{StaticResource ToggleButtonStyle1}" Content="差分" Margin="5,0"  Checked="ViewMode_Checked"  />
-                    <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"   Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"  Checked="ViewMode_Checked" />
                     <RadioButton Name="Button36" Tag="5" Style="{StaticResource ToggleButtonStyle1}" Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
                 </UniformGrid>
                 <Border x:Name="Border31"  Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">

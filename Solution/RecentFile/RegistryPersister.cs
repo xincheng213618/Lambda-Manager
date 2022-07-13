@@ -5,7 +5,10 @@ using System.Windows.Forms;
 
 namespace Solution.RecentFile
 {
-    internal class RegistryPersister : IPersist
+
+
+
+    public class RegistryPersister : IPersist
     {
         public string RegistryKey { get; set; }
         public RegistryPersister()
@@ -32,7 +35,6 @@ namespace Solution.RecentFile
             for (int i = 0; i < max; i++)
             {
                 string filename = (string)k.GetValue(Key(i));
-
                 if (string.IsNullOrEmpty(filename))
                 {
                     break;

@@ -48,8 +48,15 @@ namespace Global
 
             //控制直方图显示和隐藏
             LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
+            LambdaControl.AddLambdaEventHandler("seriesProjectManager", seriesProjectManager, false);
+
+            
         }
 
+        private bool seriesProjectManager(object sender, EventArgs e)
+        {
+            return true;
+        }
 
         /// <summary>
         /// 更新位移台坐标
@@ -181,6 +188,14 @@ namespace Global
             View view = LambdaControl.GetImageView(viewdex);
             if (view == null)
                 return true;
+            if (viewdex == 0&& FirstImage !=null)
+            {
+                if (FirstImage.Parent is Grid grid)
+                {
+                    grid.Children.Remove(FirstImage);
+                    FirstImage = null;
+                }
+            }
             AddImageConfident(view.Image,viewdex);
 
             return true;

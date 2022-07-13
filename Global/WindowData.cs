@@ -10,6 +10,7 @@ using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace Global
@@ -90,7 +91,10 @@ namespace Global
             
             Config.ToJsonFile(FilePath);
         }
-        
+
+        public Image FirstImage;
+
+
         /// <summary>
         /// 读取配置文件
         /// </summary>

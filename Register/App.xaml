@@ -1,7 +1,7 @@
-﻿<Application x:Class="ACE.App"
+﻿<Application x:Class="Register.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ACE"
+             xmlns:local="clr-namespace:Register"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

@@ -21,13 +21,13 @@ namespace ACE
             byte[] bVector = new byte[16];//密钥向量，为16位
             Array.Copy(Encoding.UTF8.GetBytes(Vector.PadRight(bVector.Length)), bVector, bVector.Length);//如果用户定义的密钥向量不足16位，自动填充空格至16位
             byte[] Cryptograph = null;//加密后的密文
-            Rijndael Aes = Rijndael.Create();
+            Aes Ae = Aes.Create();
             try
             {
                 using (MemoryStream Memory = new MemoryStream())
                 {
                     //把内存流对象包装成加密流对象
-                    using (CryptoStream Encryptor = new CryptoStream(Memory, Aes.CreateEncryptor(bKey, bVector), CryptoStreamMode.Write))
+                    using (CryptoStream Encryptor = new CryptoStream(Memory, Ae.CreateEncryptor(bKey, bVector), CryptoStreamMode.Write))
                     {
                         Encryptor.Write(Data, 0, Data.Length);
                         Encryptor.FlushFinalBlock();
@@ -56,13 +56,13 @@ namespace ACE
             byte[] bVector = new byte[16];
             Array.Copy(Encoding.UTF8.GetBytes(Vector.PadRight(bVector.Length)), bVector, bVector.Length);
             byte[] original = null;//解密后的明文
-            Rijndael Aes = Rijndael.Create();
+            Aes Ae = Aes.Create();
             try
             {
                 using (MemoryStream Memory = new MemoryStream(Data))
                 {
                     //把内存流对象包装成加密对象
-                    using (CryptoStream Decryptor = new CryptoStream(Memory, Aes.CreateDecryptor(bKey, bVector), CryptoStreamMode.Read))
+                    using (CryptoStream Decryptor = new CryptoStream(Memory, Ae.CreateDecryptor(bKey, bVector), CryptoStreamMode.Read))
                     {
                         //明文存储区
                         using (MemoryStream originalMemory = new MemoryStream())

@@ -96,7 +96,7 @@ namespace Solution
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
+                        LambdaControl.Trigger("seriesProjectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(seriesProjectManager1.FullPath) }});
                     }
                 }
 
@@ -105,7 +105,6 @@ namespace Solution
             {
                 SelectedTreeViewItem = null;
             }
-
             //if (e.RightButton == MouseButtonState.Pressed)
             //{
             //    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
@@ -332,6 +331,7 @@ namespace Solution
                     {
                         windowData.FilePath = FilePath;
                         TreeViewInitialized(FilePath, windowData.Config);
+                        windowData.SetValue();
                     }
                     else
                     {
@@ -342,7 +342,6 @@ namespace Solution
                 {
                     recentFileList.RemoveFile(FilePath);
                 }
-
             }
 
         }
@@ -391,6 +390,7 @@ namespace Solution
                 View view = LambdaControl.GetImageView(0);
                 if (view != null)
                 {
+                    WindowData.GetInstance().FirstImage = view.Image;
                     view.Image = null;
                 }
                 IsFirstLoad = false;
