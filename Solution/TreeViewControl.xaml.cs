@@ -274,20 +274,28 @@ namespace Solution
             {
                 if (Tool.Utils.SaveAsDialog(out windowData.FilePath))
                 {
-                    windowData.SaveConfig();
+                    if (Directory.GetFiles(windowData.SolutionDir).Length == 0)
+                    {
+                        windowData.SaveConfig();
+                        string ImageDiectory = windowData.SolutionDir + "\\Image";
+                        string VideoDiectory = windowData.SolutionDir + "\\Video";
 
-                    string ImageDiectory = windowData.SolutionDir + "\\Image";
-                    string VideoDiectory = windowData.SolutionDir + "\\Video";
+                        if (!Directory.Exists(ImageDiectory))
+                            Directory.CreateDirectory(ImageDiectory);
 
-                    if (!Directory.Exists(ImageDiectory))
-                        Directory.CreateDirectory(ImageDiectory);
-
-                    if (!Directory.Exists(VideoDiectory))
-                        Directory.CreateDirectory(VideoDiectory);
+                        if (!Directory.Exists(VideoDiectory))
+                            Directory.CreateDirectory(VideoDiectory);
 
 
-                    TreeViewInitialized(windowData.FilePath, windowData.Config);
-                    SolutionTreeView.ItemsSource = SolutionExplorers;
+                        TreeViewInitialized(windowData.FilePath, windowData.Config);
+                        SolutionTreeView.ItemsSource = SolutionExplorers;
+                    }
+                    else
+                    {
+                        MessageBox.Show("请选择空文件夹保存项目");
+                        windowData.FilePath = null;
+
+                    }
                 }
                 else
                 {
@@ -318,11 +326,23 @@ namespace Solution
             if (recentFileList.RecentFiles.Count > 0)
             {
                 string FilePath = recentFileList.RecentFiles[0];
-                if (windowData.ReadConfig(FilePath) == 0)
+                if (File.Exists(FilePath))
                 {
-                    windowData.FilePath = FilePath;
-                    TreeViewInitialized(FilePath, windowData.Config);
+                    if (windowData.ReadConfig(FilePath) == 0)
+                    {
+                        windowData.FilePath = FilePath;
+                        TreeViewInitialized(FilePath, windowData.Config);
+                    }
+                    else
+                    {
+                        recentFileList.RemoveFile(FilePath);
+                    }
                 }
+                else
+                {
+                    recentFileList.RemoveFile(FilePath);
+                }
+
             }
 
         }

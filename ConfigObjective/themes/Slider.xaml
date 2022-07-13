@@ -232,6 +232,31 @@
             </Track>
         </Grid>
     </ControlTemplate>
+    <ControlTemplate x:Key="LM_SliderControlTemplate11"  TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#######\}}" >
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton2}"  Height="10"  Command="Slider.IncreaseLarge" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
 
     <ControlTemplate x:Key="LM_SliderControlTemplate1"  TargetType="Slider">
         <Grid>
@@ -321,6 +346,29 @@
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
                 <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate}"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="MinHeight" Value="70" />
+                <Setter Property="MinWidth" Value="21" />
+                <Setter Property="Template" Value="{StaticResource Slider2}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LM_Slider11" TargetType="Slider">
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TickFrequency" Value="1"/>
+
+        <Setter Property="IsSnapToTickEnabled" Value="True"/>
+        <Setter Property="LargeChange" Value="2"/>
+        <Setter Property="SmallChange" Value="1"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="MinHeight" Value="21" />
+                <Setter Property="MinWidth" Value="70" />
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate11}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />

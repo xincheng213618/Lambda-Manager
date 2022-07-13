@@ -5,13 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Lambda;
-using ConfigObjective.UserControls;
-using System.Windows.Input;
 using Global.Mode.Config;
-using System.Text;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
-using System.Windows.Data;
 
 namespace ConfigObjective
 {

@@ -54,7 +54,7 @@
                     <TextBlock DockPanel.Dock="Left" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ToggleButton x:Name="ToggleButton210" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Width="50" IsChecked="{Binding Path=ExposureAuto}" Content="自动"  Click="ToggleButton210_Click"/>
                     <local:UpDownControl DockPanel.Dock="Right" x:Name="UpDownControl1" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" Loaded="UpDownControl_Loaded"  SelectionChanged="UpDownControl1_SelectionChanged" Width="95"/>
-                    <Slider  x:Name="Slider212"  Style="{StaticResource LM_Slider}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                    <Slider  x:Name="Slider212"  Style="{StaticResource LM_Slider11}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="锐度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
