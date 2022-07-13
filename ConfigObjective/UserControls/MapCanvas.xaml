@@ -26,13 +26,13 @@
         <Canvas x:Name="canvas" >
             <local:DrawCanvas   SnapsToDevicePixels="True" Stretch="UniformToFill" Source="Image/cell.png"  Width="300" Height="300" Opacity="1"   x:Name="mapCanvas" MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown" MouseMove="mapCanvas_MouseMove" MouseLeftButtonUp="mapCanvas_MouseLeftButtonUp" MouseRightButtonDown="mapCanvas_MouseRightButtonDown" MouseRightButtonUp="mapCanvas_MouseRightButtonUp" >
             </local:DrawCanvas>
-            <Button Width="10" Height="7" Style="{StaticResource BtnStyle}" x:Name="moveButton" Background="White" Canvas.Left="{Binding StageX}"  Canvas.Top="{Binding StageY}">
+            <Button Width="8" Height="6" Style="{StaticResource BtnStyle}" x:Name="moveButton" Background="White" Canvas.Left="{Binding StageX}"  Canvas.Top="{Binding StageY}">
             </Button>
         </Canvas>
-        <Path  Fill="#595959"  Margin="0"  >
+        <Path  Fill="#595959" StrokeThickness="0" Margin="-1" Stroke="#595959"  >
             <Path.Data>
                 <GeometryGroup>
-                    <RectangleGeometry Rect="0 0 300 300"></RectangleGeometry>
+                    <RectangleGeometry Rect="0 0 302 302"></RectangleGeometry>
                     <EllipseGeometry Center="150 150" RadiusX="150" RadiusY="150"></EllipseGeometry>
                 </GeometryGroup>
             </Path.Data>

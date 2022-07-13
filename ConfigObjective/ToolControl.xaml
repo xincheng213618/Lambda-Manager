@@ -36,41 +36,41 @@
         <Grid Margin="0,5,5,0">
             <ToggleButton x:Name="ToggleButton2"  Style="{StaticResource ButtonPageControl}" Content="相机设置" FontSize="14" Foreground="White" IsChecked="True" Margin="0,5,0,0"/>
             <DockPanel HorizontalAlignment="Right">
-                <Button x:Name="Button201" Content="重置"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Click="Button201_Click"/>
+                <Button x:Name="Button201" Content="重置" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,0" Click="Button201_Click"/>
             </DockPanel>
         </Grid>
         <Border  x:Name="Border2" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel>
                 <DockPanel>
-                    <TextBlock Text="白平衡" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                    <Button x:Name="Button211" Content="自动" Click="Button211_Click"/>
+                    <TextBlock Width="50" Text="白平衡" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <Button x:Name="Button211" Width="50" Content="自动" Click="Button211_Click" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <TextBlock  Width="50" Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ToggleButton x:Name="ToggleButton211"  DockPanel.Dock="Right" Content="自动" Width="50" Style="{StaticResource ToggleButtonStyle1}" IsChecked="{Binding Path=GainAuto}" Click="ToggleButton211_Click" />
                     <Slider x:Name="Slider211" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="48" IsSnapToTickEnabled="True" IsEnabled ="{Binding Path=GainAuto,Converter= {StaticResource InverseBooleanConverter}}"  TickFrequency="0.5"  ValueChanged="Slider211_ValueChanged"/>
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Left" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <TextBlock  Width="50" DockPanel.Dock="Left" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ToggleButton x:Name="ToggleButton210" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Width="50" IsChecked="{Binding Path=ExposureAuto}" Content="自动"  Click="ToggleButton210_Click"/>
                     <local:UpDownControl DockPanel.Dock="Right" x:Name="UpDownControl1" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" Loaded="UpDownControl_Loaded"  SelectionChanged="UpDownControl1_SelectionChanged" Width="95"/>
-                    <Slider  x:Name="Slider212"  Style="{StaticResource LM_Slider11}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                    <Slider  x:Name="Slider212"  Style="{StaticResource LM_Slider0}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="99" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock Text="锐度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <TextBlock Text="锐度"  Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <Slider x:Name="Slider213" Style="{StaticResource LM_Slider}" Value="{Binding Path=Sharpness}" Minimum="0" Maximum="14" IsSnapToTickEnabled="True"  TickFrequency="1" ValueChanged="Slider213_ValueChanged"/>
                 </DockPanel>
 
                 <DockPanel>
-                    <TextBlock Text="伽玛" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <TextBlock Text="伽玛"  Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <Slider x:Name="Slider214" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0.01" Maximum="5" IsSnapToTickEnabled="True"  TickFrequency="0.05" ValueChanged="Slider214_ValueChanged"/>
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock Text="降噪" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <TextBlock Text="降噪"  Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <Slider x:Name="Slider215" Style="{StaticResource LM_Slider}" Value="{Binding Path=Saturation}" Minimum="0" Maximum="25" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider215_ValueChanged"/>
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock Text="分辨率" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                    <TextBlock Text="分辨率"  Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ComboBox x:Name="ComboBox1"  SelectionChanged="ComboBox1_SelectionChanged"/>
 
                     <!--<Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>-->
@@ -95,9 +95,10 @@
 
         <Grid Margin="0,5,5,0">
             <ToggleButton x:Name="ToggleButton3"  Style="{StaticResource ButtonPageControl}" Content="成像模式" FontSize="14" Foreground="White" IsChecked="True" />
-            <DockPanel HorizontalAlignment="Right">
-                <Button x:Name="Button301" Content="重置"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Click="Button301_Click"/>
+            <DockPanel HorizontalAlignment="Right" Margin="0,0,5,0">
+
                 <Button x:Name="Button302"  Content="关闭光源" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Click="Button302_Click" />
+                <Button x:Name="Button301" Content="重置"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Width="50" Click="Button301_Click"/>
             </DockPanel>
         </Grid>
         <Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="#595959" Padding="5" Margin="5,0">
@@ -163,18 +164,18 @@
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Focusable="True" Background="#595959"  Padding="5" Margin="5,0">
             <StackPanel>
                 <UniformGrid Columns="6" >
-                    <RadioButton Name="Button31" Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
+                    <RadioButton Name="Button31"   Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button32"   Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button33"  Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
                     <RadioButton Name="Button34" Tag="3" Style="{StaticResource ToggleButtonStyle1}" Content="差分" Margin="5,0"  Checked="ViewMode_Checked"  />
-                    <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button36" Tag="5" Style="{StaticResource ToggleButtonStyle1}" Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button35" IsChecked="True" Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"   Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button36"  Tag="5" Style="{StaticResource ToggleButtonStyle1}" Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
                 </UniformGrid>
                 <Border x:Name="Border31"  Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
                         <DockPanel>
-                            <TextBlock Text="孔径" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
-                            <Slider x:Name="Slider311" Style="{StaticResource LM_Slider}" Value="{Binding Path=Aperture}" Minimum="0" Maximum="32" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                            <TextBlock Text="孔径" Width="80"  VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
+                            <Slider  x:Name="Slider311" Style="{StaticResource LM_Slider}"   Value="{Binding Path=Aperture}" Minimum="0" Maximum="32" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
                         <DockPanel>
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -193,10 +194,10 @@
                             <TextBlock Text="外径" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider322" Style="{StaticResource LM_Slider}" Value="{Binding Path=OutAperture}" Minimum="0" Maximum="32" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
-  
+
                         <DockPanel>
-                            <TextBlock Text="背景抑制" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider323" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01" ValueChanged="Slider323_ValueChanged"/>
+                            <TextBlock Text="背景抑制" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <Slider x:Name="Slider323"  Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01" ValueChanged="Slider323_ValueChanged"/>
                         </DockPanel>
                         <DockPanel>
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -216,24 +217,24 @@
                 <Border  x:Name="Border33"  Visibility="{Binding ElementName=Button33 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel >
                         <DockPanel>
-                            <TextBlock Text="背景抑制" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider335" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01"  ValueChanged="Slider335_ValueChanged"/>
+                            <TextBlock Width="80" Text="背景抑制" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <Slider x:Name="Slider335"  Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.01"  ValueChanged="Slider335_ValueChanged"/>
                         </DockPanel>
- 
+
                         <DockPanel x:Name="DockPanel332" >
-                            <TextBlock Text="明场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Width="80" Text="明场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Rectangle  x:Name="Color330"  DockPanel.Dock="Left" Fill="Red" Height="20" Width="20"   VerticalAlignment="Center"  HorizontalAlignment="Right" Margin="5,0,10,0" Visibility="Collapsed"/>
                             <Slider x:Name="Slider333" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
                         <DockPanel x:Name="DockPanel333" >
-                            <TextBlock Text="暗场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
+                            <TextBlock Width="80" Text="暗场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
                             <Rectangle x:Name="Color331"  DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed"/>
                             <Rectangle x:Name="Color332" DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Right" Margin="5,0,10,0"/>
                             <Slider x:Name="Slider334" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
 
                         <DockPanel >
-                            <TextBlock Text="选择图案"  Padding="5,0" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock  Width="80" Text="选择图案"  Padding="5,0" Foreground="White" VerticalAlignment="Center"/>
                             <Button Click="Button331_Click" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <DockPanel x:Name="DockPanel331">
                                     <Canvas  Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
@@ -259,11 +260,11 @@
                 <Border  x:Name="Border34"  Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
                         <DockPanel Visibility="Collapsed">
-                            <TextBlock Text="对比度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Text="对比度"  VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider341" Style="{StaticResource LM_Slider}" Value="{Binding Path=Contrast}" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1" />
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="衬度增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Text="衬度增益" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider342" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="5" IsSnapToTickEnabled="True" TickFrequency="0.1"  />
                         </DockPanel>
                         <DockPanel Visibility="Collapsed">
@@ -287,31 +288,31 @@
                             <TextBlock Text="相衬" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider347" Style="{StaticResource LM_Slider1}" Value="{Binding Path=DPWeight}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
                         </DockPanel>
-                        
+
                         <DockPanel>
-                            <TextBlock Text="差分角度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Width="80" Text="差分角度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider348" Style="{StaticResource LM_Slider}" Maximum="360" Minimum="0" SmallChange="15" LargeChange="30" TickFrequency="15" ValueChanged="Slider348_ValueChanged" />
                         </DockPanel>
-                        <Button x:Name="Button341" Content="背景校正" Width="100" Margin="0,0,0,0" Click="Button341_Click" />
+                        <Button x:Name="Button341" Content="背景校正" Width="70" Margin="0,0,0,0" Click="Button341_Click" HorizontalAlignment="Right" />
 
                     </StackPanel>
                 </Border>
                 <Border  x:Name="Border35"  Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
                         <DockPanel>
-                            <TextBlock Text="正则化参数" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider351" Style="{StaticResource LM_Slider4}" Value="{Binding Path=Regularization}" Minimum="0.0001" Maximum="0.01" IsSnapToTickEnabled="True"  TickFrequency="0.0001"/>
+                            <TextBlock Text="正则化参数"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="70" Padding="5,0" Foreground="White"/>
+                            <Slider x:Name="Slider351" Style="{StaticResource LM_Slider4}" Value="{Binding Path=Regularization}" Minimum="0.01" Maximum="1" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="细节增强" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock  Width="70" Text="细节增强" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider352" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Detail}" Minimum="0" Maximum="5" IsSnapToTickEnabled="True"  TickFrequency="0.1"  ValueChanged="Slider352_ValueChanged"/>
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="Min" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Text="Min"  Width="70" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider353" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Min}" Minimum="-20" Maximum="0" IsSnapToTickEnabled="True"  TickFrequency="0.1" />
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="Max" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Text="Max"  Width="70" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider354" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Max}" Minimum="0" Maximum="50" IsSnapToTickEnabled="True"  TickFrequency="0.1"/>
                         </DockPanel>
                         <DockPanel Visibility="Collapsed">
@@ -319,7 +320,7 @@
                             <Slider x:Name="Slider355" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Gamma}" Minimum="0" Maximum="1" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
                         </DockPanel>
                         <DockPanel>
-                            <Button x:Name="Button351" Content="背景校正" Margin="20,0" Click="Button351_Click"/>
+                            <Button x:Name="Button351" Content="背景校正" Margin="0,0" Width="70" Click="Button351_Click" HorizontalAlignment="Right"/>
                         </DockPanel>
                     </StackPanel>
                 </Border>
@@ -327,11 +328,11 @@
                 <Border x:Name="Border36"  Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
                         <DockPanel>
-                            <TextBlock Text="相差切趾" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Text="相差切趾" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider361" Style="{StaticResource LM_Slider2}" Value="{Binding Path=Filter}" Minimum="0" Maximum="0.2" IsSnapToTickEnabled="True"  TickFrequency="0.01"/>
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="衬度增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
+                            <TextBlock Text="衬度增益" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider363" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Gain}" Minimum="0" Maximum="5" IsSnapToTickEnabled="True"  TickFrequency="0.1" ValueChanged="Slider363_ValueChanged"/>
                         </DockPanel>
                         <DockPanel Visibility="Collapsed">
@@ -347,11 +348,11 @@
                             <Slider x:Name="Slider366" Style="{StaticResource LM_Slider1}" Value="{Binding Path=PCWeight}" Minimum="0" Maximum="2" IsSnapToTickEnabled="True"  TickFrequency="0.1"/>
                         </DockPanel>
                         <DockPanel>
-                            <Button x:Name="Button361" Content="背景校正" Margin="20,0"  Click="Button361_Click" />
+                            <Button x:Name="Button361" Content="背景校正"  Width="70"  Click="Button361_Click" HorizontalAlignment="Right" />
                         </DockPanel>
                         <DockPanel Margin="0,5,0,0">
                             <TextBlock Text="正负相衬" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <ToggleButton x:Name="Button362" Style="{StaticResource CheckButton1}" Width="50" Content="正负相称" Margin="20,0"  Checked="Button362_Checked" Unchecked="Button362_Unchecked" />
+                            <ToggleButton x:Name="Button362" Style="{StaticResource CheckButton1}" Width="70" Content="正负相称"   Checked="Button362_Checked" Unchecked="Button362_Unchecked" HorizontalAlignment="Right" />
                         </DockPanel>
                     </StackPanel>
                 </Border>
@@ -359,9 +360,13 @@
         </Border>
 
         <Grid Margin="0,5,5,0">
-            <ToggleButton x:Name="ToggleButton4"  Style="{StaticResource ButtonPageControl}" Content="载物台控制" FontSize="14" Foreground="White" IsChecked="True"/>
-            <DockPanel HorizontalAlignment="Right">
-                <Button x:Name="Button401" Content="复位"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Click="Stage_Reset_Click"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="14*"/>
+            </Grid.ColumnDefinitions>
+            <ToggleButton x:Name="ToggleButton4"  Style="{StaticResource ButtonPageControl}" Content="载物台控制" FontSize="14" Foreground="White" IsChecked="True" Grid.ColumnSpan="2"/>
+            <DockPanel HorizontalAlignment="Left" Grid.Column="1" Margin="112,0,0,0">
+                <Button x:Name="Button401" Content="复位" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,0" Click="Stage_Reset_Click"/>
             </DockPanel>
         </Grid>
         <Border x:Name="Border41"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="#595959" Padding="5" Margin="5,0">
@@ -475,13 +480,14 @@
             <StackPanel>
 
                 <UniformGrid Columns="7" Margin="0,10,0,5"  >
-                    <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True" />
-                    <ToggleButton x:Name="ToggleButton502" Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
-                    <ToggleButton x:Name="ToggleButton503"  Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked"/>
-                    <ToggleButton x:Name="ToggleButton504"  Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0"/>
-                    <ToggleButton x:Name="ToggleButton505" Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" IsChecked="False" Checked="ToggleButton505_Checked"/>
-                    <ToggleButton x:Name="ToggleButton506" Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-                    <ToggleButton x:Name="ToggleButton507" Style="{StaticResource ToggleButtonStyle1}" Content="M" IsChecked="False" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
+                    <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True" />
+                    <ToggleButton x:Name="ToggleButton502" Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
+                    <ToggleButton x:Name="ToggleButton503"  Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked"/>
+                    <ToggleButton x:Name="ToggleButton504"  Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"/>
+                    <ToggleButton x:Name="ToggleButton505" Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="5,0" IsChecked="False" Checked="ToggleButton505_Checked"/>
+                    <ToggleButton x:Name="ToggleButton506"  Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
+                    <ToggleButton x:Name="ToggleButton507" Style="{StaticResource ToggleButtonStyle1}" Content="M" IsChecked="False" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
+
                 </UniformGrid>
                 <UniformGrid  Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
                     <CheckBox x:Name="checkbox51" IsChecked="True" Content="明场" FontSize="15" />
@@ -540,29 +546,106 @@
                     </StackPanel>
                 </Border>
 
-                <ToggleButton x:Name="ToggleButton52"  Style="{StaticResource ButtonPageControl}" IsChecked="{Binding ElementName=ToggleButton506 ,Path=IsChecked}" Content="自动聚焦设置" FontSize="13" Foreground="White"  />
-                <Border Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <ToggleButton x:Name="ToggleButton52"  Style="{StaticResource ButtonPageControl}" Content="自动聚焦设置" FontSize="13" Foreground="White"  />
+                <Border Visibility="{Binding ElementName=ToggleButton52 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+
                     <StackPanel>
-                        <DockPanel>
-                            <ToggleButton Name="ToggleButtont5221" Style="{StaticResource CheckButton1}" Margin="0,0,0,0" Height="18" Width="70" IsChecked="{Binding Path=ZAbsolute, Mode=TwoWay}" />
-                            <TextBlock Text="仅首次" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Margin="-9,0,0,0" Width="54" />
-                        </DockPanel>
-                        <DockPanel>
-                            <ToggleButton Name="ToggleButtont5222" Style="{StaticResource CheckButton1}" Height="18" HorizontalAlignment="Right" Width="70" IsChecked="{Binding Path=ZAbsolute, Mode=TwoWay}" />
-                            <TextBlock Text="每次" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Width="56" />
-                        </DockPanel>
-                        <DockPanel>
-                            <ToggleButton Name="ToggleButtont5223" Style="{StaticResource CheckButton1}" Height="18" HorizontalAlignment="Right" Width="70" IsChecked="{Binding Path=ZAbsolute, Mode=TwoWay}" />
-                            <TextBlock Text="每" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Width="20" />
-                            <local:UpDownControl x:Name="UpDownControtl43012" Loaded="UpDownControl_Loaded" SelectionChanged="UpDownControl1_SelectionChanged" Margin="5,0,3,0" IsEnabled="{Binding ExposureAuto, Converter={StaticResource InverseBooleanConverter}}" />
-                            <TextBlock Text="次循环" FontSize="11" VerticalAlignment="Center" Padding="5,0" Foreground="#FFFFFFFF" HorizontalAlignment="Left" Width="44" />
-                        </DockPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <ToggleButton Name="Button521" IsChecked="True" Width="45"  Grid.Column="0" Style="{StaticResource ToggleButtonStyle1}" Content="设置"   HorizontalAlignment="Center" />
+                            <ToggleButton Name="Button522" Width="45" Grid.Column="3" Style="{StaticResource ToggleButtonStyle1}"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Content="T" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <ToggleButton Name="Button523" Width="45" Grid.Column="5" Style="{StaticResource ToggleButtonStyle1}"  Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Content="P"  VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0"   />
+
+                        </Grid>
+                        <Border x:Name="Border521"  Visibility="{Binding ElementName=Button521 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                            <TabControl>
+                                <TabItem Header="系统优化">
+                                    <StackPanel Orientation="Vertical">
+                                        <GroupBox Header="聚焦范围" BorderThickness="0.2">
+                                            <UniformGrid Columns="2" Rows="2">
+                                                <RadioButton  Content="全程自动聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
+                                                <RadioButton  Content="局部自动聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
+                                                <local:UpDownControl Margin="10,0,10,0"  ></local:UpDownControl>
+                                                <local:UpDownControl Margin="10,0,10,0"></local:UpDownControl>
+                                            </UniformGrid>
+                                        </GroupBox>
+                                        <GroupBox Header="精度" BorderThickness="0.2" >
+                                            <DockPanel>
+                                                <Label Content="速度"></Label>
+                                                <Slider Width="240" Style="{StaticResource LM_Slider6}" HorizontalAlignment="Left"  VerticalAlignment="Center" Orientation="Horizontal" Margin="18,0,0,0"></Slider>
+                                                <Label Content="精度" HorizontalAlignment="Right" Margin="0,0,10,0" ></Label>
+                                            </DockPanel>
+                                        </GroupBox>
+                                        <DockPanel Margin="0,2,0,0" >
+                                            <Label Content="优先选项"></Label>
+                                            <ComboBox Width="154" HorizontalAlignment="Right" Margin="0,0,15,0" ></ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem Header="自定义">
+                                    <StackPanel >
+                                        <GroupBox Header="聚焦范围" BorderThickness="0.2">
+                                            <UniformGrid Columns="2" Rows="2">
+                                                <RadioButton  Content="全程自动聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
+                                                <RadioButton  Content="局部自动聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
+                                                <local:UpDownControl Margin="10,0,10,0"  ></local:UpDownControl>
+                                                <local:UpDownControl Margin="10,0,10,0"></local:UpDownControl>
+                                            </UniformGrid>
+                                        </GroupBox>
+                                        <GroupBox Header="精度" BorderThickness="0.2" >
+                                            <DockPanel>
+                                                <Label Content="速度"></Label>
+                                                <Slider Width="240" Style="{StaticResource LM_Slider6}" HorizontalAlignment="Left"  VerticalAlignment="Center" Orientation="Horizontal" Margin="18,0,0,0"></Slider>
+                                                <Label Content="精度" HorizontalAlignment="Right" Margin="0,0,10,0" ></Label>
+                                            </DockPanel>
+                                        </GroupBox>
+                                        <DockPanel Margin="0,2,0,0" >
+                                            <Label Content="优先选项"></Label>
+                                            <ComboBox Width="154" HorizontalAlignment="Right" Margin="0,0,15,0" ></ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
 
 
+                                </TabItem>
+                            </TabControl>
+
+
+
+                        </Border>
+                        <Border x:Name="Border522"  Visibility="{Binding ElementName=Button522 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                            <StackPanel>
+                                <RadioButton Content="首循环聚焦一次"  Style="{StaticResource RadioButton1}" GroupName="T_Wise"></RadioButton>
+                                <RadioButton Content="每次循环聚焦一次"  Style="{StaticResource RadioButton1}" GroupName="T_Wise"></RadioButton>
+                                <DockPanel>
+                                    <RadioButton Content="每N次循环聚焦一次"  Style="{StaticResource RadioButton1}" GroupName="T_Wise"></RadioButton>
+                                    <local:UpDownControl Margin="20,0,10,0"  ></local:UpDownControl>
+                                </DockPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border x:Name="Border523"  Visibility="{Binding ElementName=Button523 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                            <StackPanel>
+                                <RadioButton Content="首个采集点聚焦一次"  Style="{StaticResource RadioButton1}" GroupName="P_Wise"></RadioButton>
+                                <RadioButton Content="每个采集点聚焦一次"  Style="{StaticResource RadioButton1}" GroupName="P_Wise"></RadioButton>
+                                <DockPanel>
+                                    <RadioButton Content="每N个采集点聚焦一次"  Style="{StaticResource RadioButton1}" GroupName="P_Wise"></RadioButton>
+                                    <local:UpDownControl Margin="20,0,10,0"  ></local:UpDownControl>
+                                </DockPanel>
+                            </StackPanel>
+                        </Border>
 
                     </StackPanel>
-                </Border>
 
+
+                </Border>
                 <ToggleButton x:Name="ToggleButton51"  Style="{StaticResource ButtonPageControl}" Content="采集摘要" FontSize="13" Foreground="White" IsChecked="True" />
                 <Border Visibility="{Binding ElementName=ToggleButton51 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <UniformGrid Columns="2" x:Name="MulSummaryUniformGrid" >

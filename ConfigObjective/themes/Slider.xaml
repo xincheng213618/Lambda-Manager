@@ -29,7 +29,7 @@
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Focusable" Value="false" />
-        <Setter Property="Height" Value="14" />
+        <Setter Property="Height" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
@@ -42,7 +42,7 @@
     <Style x:Key="SliderRepeatButton3" TargetType="RepeatButton">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Height" Value="14" />
+        <Setter Property="Height" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
@@ -208,12 +208,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
                     <TextBox  BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#####\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#######\}}"/>
                     </TextBlock>
@@ -232,7 +232,7 @@
             </Track>
         </Grid>
     </ControlTemplate>
-    <ControlTemplate x:Key="LM_SliderControlTemplate11"  TargetType="Slider">
+    <ControlTemplate x:Key="LM_SliderControlTemplate0"  TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -242,8 +242,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                
             </Grid.ColumnDefinitions>
+            
             <Track x:Name="PART_Track" Grid.Row="1" Grid.Column="1"  ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=\{0:0.#######\}}" >
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{StaticResource SliderRepeatButton3}" Height="10" Command="Slider.DecreaseLarge" />
@@ -258,6 +259,7 @@
         </Grid>
     </ControlTemplate>
 
+
     <ControlTemplate x:Key="LM_SliderControlTemplate1"  TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
@@ -268,12 +270,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
                     <TextBox  BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#\}}"/>
                     </TextBlock>
@@ -304,12 +306,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="3" Padding="3,0">
                 <DockPanel>
                     <TextBox  BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="Transparent" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0#\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.##\}}"/>
                     </TextBlock>
@@ -354,7 +356,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="LM_Slider11" TargetType="Slider">
+    <Style x:Key="LM_Slider0" TargetType="Slider">
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -368,7 +370,7 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21" />
                 <Setter Property="MinWidth" Value="70" />
-                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate11}"/>
+                <Setter Property="Template" Value="{StaticResource LM_SliderControlTemplate0}"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="MinHeight" Value="70" />
@@ -491,6 +493,29 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="LM_Slider6" TargetType="Slider">
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TickFrequency" Value="0.00001"/>
+        <Setter Property="LargeChange" Value="0.0001"/>
+        <Setter Property="SmallChange" Value="0.00001"/>
+        <Setter Property="IsSnapToTickEnabled" Value="True"/>
+
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="MinHeight" Value="10" />
+                <Setter Property="MinWidth" Value="70" />
+                <Setter Property="Template" Value="{StaticResource Slider1}"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="MinHeight" Value="70" />
+                <Setter Property="MinWidth" Value="21" />
+                <Setter Property="Template" Value="{StaticResource Slider2}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 
 

@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xmlns:localConverter="clr-namespace:ConfigObjective.Converter">
 
     <localConverter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
@@ -132,6 +133,58 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="border" Value="#333333"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RadioButton1" TargetType="{x:Type RadioButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+
+                    <Border Name="templateRoot"  SnapsToDevicePixels="True"  BorderThickness="1" CornerRadius="4" >
+
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border  BorderThickness="{TemplateBinding Border.BorderThickness}" Grid.Column="0" CornerRadius="100,100,100,100" BorderBrush="{TemplateBinding Border.BorderBrush}" Background="{TemplateBinding Panel.Background}" Name="radioButtonBorder"  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" Margin="2,2,2,2" VerticalAlignment="Center">
+                                <Grid Name="markGrid" Margin="2,2,2,2">
+                                    <Ellipse Fill="#FF212121" Name="optionMark" MinWidth="6" MinHeight="6" Opacity="0" />
+                                </Grid>
+                            </Border>
+                            <ContentPresenter RecognizesAccessKey="True" Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" Name="contentPresenter" Margin="{TemplateBinding Control.Padding}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Focusable="False" Grid.Column="1" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ToggleButton.IsChecked">
+                            <Setter Property="UIElement.Opacity" TargetName="optionMark">
+                                <Setter.Value>
+                                    <s:Double>1</s:Double>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Shape.Fill" TargetName="optionMark">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#6EA646"></SolidColorBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <s:Boolean>True</s:Boolean>
+                            </Trigger.Value>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked">
+                            <Setter Property="UIElement.Opacity" TargetName="optionMark">
+                                <Setter.Value>
+                                    <s:Double>0.56</s:Double>
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <x:Null />
+                            </Trigger.Value>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

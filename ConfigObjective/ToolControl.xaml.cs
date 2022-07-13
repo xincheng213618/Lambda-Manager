@@ -5,8 +5,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Lambda;
+using ConfigObjective.UserControls;
+using System.Windows.Input;
 using Global.Mode.Config;
+using System.Text;
+using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Data;
 
 namespace ConfigObjective
 {
@@ -71,6 +76,9 @@ namespace ConfigObjective
                     int darkness1 = HexToInt(Color331.Fill.ToString(), (int)Slider334.Value);
                     int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
                     int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
+                    ViewMode.Reinberg.BrightColor = bright;
+                    ViewMode.Reinberg.DarkColor = darkness1;
+                    ViewMode.Reinberg.DarkColor1 = darkness2;
 
                     if (RheinbergSelectMode == 0)
                     {
@@ -82,8 +90,6 @@ namespace ConfigObjective
                         darkness2 = -1;
                         bright = -1;
                     }
-
-                    ViewMode.Reinberg.BrightColor = bright;
 
                     Dictionary<string, object> data = new() { { "mode", RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } };
                     LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, data);
@@ -114,7 +120,11 @@ namespace ConfigObjective
                     int darkness1 = HexToInt(Color331.Fill.ToString(), (int)Slider334.Value);
                     int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
                     int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
-                    ViewMode.Reinberg.BrightColor = darkness1;
+
+                    ViewMode.Reinberg.BrightColor = bright;
+                    ViewMode.Reinberg.DarkColor = darkness1;
+                    ViewMode.Reinberg.DarkColor1 = darkness2;
+
 
                     if (RheinbergSelectMode == 0)
                     {
@@ -226,16 +236,14 @@ namespace ConfigObjective
                         {
                             stackPanel1.Children.Remove(this);
 
-                            StackPanel stackPanel = new StackPanel() { Name = "acquireView", Margin = new Thickness(2, 2, 2, 0) };
+                            StackPanel stackPanel = new StackPanel() { Name = "acquireView" };
                             stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                             stackPanel.Children.Add(this);
                             Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top,Stretch = Stretch.Uniform};
                             viewbox.Child = stackPanel;
                             scrollViewer1.Content = viewbox;
                         }
-
             }
-
         }
 
 

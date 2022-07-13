@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 
 namespace ConfigObjective.UserControls
 {
+
     /// <summary>
     /// MapCanvas.xaml 的交互逻辑
     /// </summary>
@@ -68,7 +69,7 @@ namespace ConfigObjective.UserControls
 
 
         private Point selectionSquareTopLeft;
-        int[,] mapArrray = new int[42, 30];
+        int[,] mapArrray = new int[50, 37];
         private bool isMultiSelecting = false;
         private bool isDraging = false;
         private Point pointClickLeft;
@@ -78,12 +79,12 @@ namespace ConfigObjective.UserControls
         private Brush drawingBrush0 = Brushes.Blue;
         private Brush drawingBrush1 = Brushes.Red;
         private Pen drawingPen = new Pen(Brushes.SteelBlue, 0.1);
-        private Size squareSize = new Size(10, 7);
+        private Size squareSize = new Size(8, 6);
         private DrawingVisual selectionSquare;
 
         private Brush selectionSquareBrush = Brushes.Transparent;
         private Pen selectionSquarePen = new Pen(Brushes.Black, 1);
-        public  List<Point> selectedPoints = new List<Point>();
+        public List<Point> selectedPoints = new List<Point>();
 
 
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -91,13 +92,30 @@ namespace ConfigObjective.UserControls
             Point pointClicked = e.GetPosition(mapCanvas);
             pointClickLeft = pointClicked;
 
-            if (e.ClickCount == 2) { 
+            if (e.ClickCount == 2)
+            {
+
+                int x = (int)Math.Floor(pointClicked.X/8);
+                int y = (int)Math.Floor(pointClicked.Y/6);
+                Point movePoint = new Point(x*8, y*6);
+
                 Dictionary<string, object> data = new Dictionary<string, object>()
                 {
-                    { "X", (int)(pointClicked.X) },
-                    { "Y", (int)(pointClicked.Y) },
+                    { "X", (int)(movePoint.X) },
+                    { "Y", (int)(movePoint.Y) },
                 };
                 LambdaControl.Trigger("MOTORCONTROL", this, data);
+
+                DrawingVisual visual = mapCanvas.GetVisual(pointClicked);
+                if (visual != null)
+                {
+                    mapCanvas.DeleteVisual(visual);
+                    if (y >= 50 || x >= 37) return;
+                    mapArrray[y, x] = 0;
+                    Point removePoint = new Point(x * 8, y * 6);
+                    selectedPoints.Remove(removePoint);
+                }
+
             }
             else
             {
@@ -118,8 +136,6 @@ namespace ConfigObjective.UserControls
 
                 }
 
-
-
             }
             //  DrawRectangle(pointClicked);
 
@@ -129,21 +145,21 @@ namespace ConfigObjective.UserControls
         {
             selectionSquareTopLeft = point;
 
-            int x = (int)Math.Floor(point.X / 10);
-            int y = (int)Math.Floor(point.Y / 7);
+            int x = (int)Math.Floor(point.X / 8);
+            int y = (int)Math.Floor(point.Y / 6);
 
-            Point drawpoint = new Point(x * 10, y * 7);
+            Point drawpoint = new Point(x * 8, y * 6);
             // Rectangle Point 
-            double Rx1 = Math.Pow(x * 10 - 150, 2.0);
-            double Ry1 = Math.Pow(y * 7 - 150, 2.0);
-            double Rx2 = Math.Pow(x * 10 + 10 - 150, 2.0);
-            double Ry2 = Math.Pow(y * 7 - 150, 2.0);
-            double Rx3 = Math.Pow(x * 10 - 150, 2.0);
-            double Ry3 = Math.Pow(y * 7 + 7 - 150, 2.0);
-            double Rx4 = Math.Pow(x * 10 + 10 - 150, 2.0);
-            double Ry4 = Math.Pow(y * 7 + 7 - 150, 2.0);
+            double Rx1 = Math.Pow(x * 8 - 150, 2.0);
+            double Ry1 = Math.Pow(y * 6 - 150, 2.0);
+            double Rx2 = Math.Pow(x * 8 + 8 - 150, 2.0);
+            double Ry2 = Math.Pow(y * 6 - 150, 2.0);
+            double Rx3 = Math.Pow(x * 8 - 150, 2.0);
+            double Ry3 = Math.Pow(y * 6 + 6 - 150, 2.0);
+            double Rx4 = Math.Pow(x * 8 + 8 - 150, 2.0);
+            double Ry4 = Math.Pow(y * 6 + 6 - 150, 2.0);
 
-            if (y >= 42 || x >= 30) return;
+            if (y >= 50 || x >= 37) return;
 
             if (Rx1 + Ry1 <= 22500 && Rx2 + Ry2 <= 22500 && Rx3 + Ry3 <= 22500 && Rx4 + Ry4 <= 22500 && mapArrray[y, x] == 0)
             {
@@ -168,9 +184,6 @@ namespace ConfigObjective.UserControls
 
             }
 
-
-
-
         }
 
 
@@ -188,9 +201,6 @@ namespace ConfigObjective.UserControls
 
 
         }
-
-
-
 
 
         private void DrawSelectionSquare(Point point1, Point point2)
@@ -231,7 +241,8 @@ namespace ConfigObjective.UserControls
             if (isMultiSelecting)
             {
                 // Display all the squares in this region.
-                RectangleGeometry geometry = new RectangleGeometry(new Rect(selectionSquareTopLeft, e.GetPosition(mapCanvas)));
+                RectangleGeometry geometry = new RectangleGeometry(
+                    new Rect(selectionSquareTopLeft, e.GetPosition(mapCanvas)));
                 DrawMultiRec(pointClickLeft, pointClicked);
                 isMultiSelecting = false;
                 mapCanvas.DeleteVisual(selectionSquare);
@@ -245,14 +256,14 @@ namespace ConfigObjective.UserControls
         public void DrawMultiRec(Point pointStart, Point pointStop) // LeftMouseBUtton draging
         {
             int i, j;
-            int m = (int)Math.Floor((pointStop.Y - pointStart.Y) / 7) + 1;
-            int n = (int)Math.Floor((pointStop.X - pointStart.X) / 10) + 1;
+            int m = (int)Math.Floor((pointStop.Y - pointStart.Y) / 6) + 1;
+            int n = (int)Math.Floor((pointStop.X - pointStart.X) / 8) + 1;
             for (i = 0; i < m; i++)
             {
                 for (j = 0; j < n; j++)
                 {
-                    int x = (int)pointStart.X + j * 10;
-                    int y = (int)pointStart.Y + i * 7;
+                    int x = (int)pointStart.X + j * 8;
+                    int y = (int)pointStart.Y + i * 6;
 
                     Point point = new Point(x, y);
                     DrawRectangle(point, false);
@@ -264,25 +275,25 @@ namespace ConfigObjective.UserControls
         public void DelMultiRec(Point pointStart, Point pointStop) // RightMouseBUtton draging
         {
             int i, j;
-            int m = (int)Math.Floor((pointStop.Y - pointStart.Y) / 7) + 1;
-            int n = (int)Math.Floor((pointStop.X - pointStart.X) / 10) + 1;
+            int m = (int)Math.Floor((pointStop.Y - pointStart.Y) / 6) + 1;
+            int n = (int)Math.Floor((pointStop.X - pointStart.X) / 8) + 1;
             for (i = 0; i < m; i++)
             {
                 for (j = 0; j < n; j++)
                 {
-                    int x = (int)pointStart.X + j * 10;
-                    int y = (int)pointStart.Y + i * 7;
+                    int x = (int)pointStart.X + j * 8;
+                    int y = (int)pointStart.Y + i * 6;
                     int c = x;
                     int d = y;
-                    int a = (int)Math.Floor((double)c / 10);
-                    int b = (int)Math.Floor((double)d / 7);
+                    int a = (int)Math.Floor((double)c / 8);
+                    int b = (int)Math.Floor((double)d / 6);
                     Point point = new Point(x, y);
                     if (x >= 300 || y >= 300) return;
                     DrawingVisual visual = mapCanvas.GetVisual(point);
                     if (visual != null) mapCanvas.DeleteVisual(visual);
-                    if (b >= 42 || a >= 30) return;
+                    if (b >= 50 || a >= 37) return;
                     mapArrray[b, a] = 0;
-                    Point removePoint = new Point(a * 10, b * 7);
+                    Point removePoint = new Point(a * 8, b * 6);
                     selectedPoints.Remove(removePoint);
                 }
             }
@@ -312,16 +323,16 @@ namespace ConfigObjective.UserControls
 
             }
 
-            int x = (int)Math.Floor(pointClicked.X / 10);
-            int y = (int)Math.Floor(pointClicked.Y / 7);
+            int x = (int)Math.Floor(pointClicked.X / 8);
+            int y = (int)Math.Floor(pointClicked.Y / 6);
             if (x >= 300 || y >= 300) return;
             DrawingVisual visual = mapCanvas.GetVisual(pointClicked);
             if (visual != null)
             {
                 mapCanvas.DeleteVisual(visual);
-                if (y >= 42 || x >= 30) return;
+                if (y >= 50 || x >= 37) return;
                 mapArrray[y, x] = 0;
-                Point removePoint = new Point(x * 10, y * 7);
+                Point removePoint = new Point(x * 8, y * 6);
                 selectedPoints.Remove(removePoint);
             }
 
