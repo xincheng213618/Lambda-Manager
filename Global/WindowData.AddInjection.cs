@@ -4,6 +4,7 @@ using Global.UserControls.DrawVisual;
 using Lambda;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 
 namespace Global
 {
@@ -24,63 +24,203 @@ namespace Global
     /// </summary>
     public partial class WindowData
     {
+        public TabItem propertySetItem;
+        public TabControl tabControl;
+
+        private void WaiWindow(Visibility visibility)
+        {
+            Grid stageConfig = (Grid)Application.Current.MainWindow.FindName("stageConfig");
+            stageConfig.Visibility = visibility;
+            Grid grid1 = new Grid() { Background = Brushes.Gray, Opacity = 0.1 };
+            stageConfig.Children.Add(grid1);
+            Border border1 = new Border() { Background = new SolidColorBrush(Color.FromRgb(55,59,65)),Height=150,Width=550,CornerRadius=new CornerRadius(10)};
+            Border border2 = new Border() { Background = new SolidColorBrush(Color.FromRgb(72, 77, 79)), Height = 100, Width = 500, CornerRadius = new CornerRadius(5) };
+            Grid grid2 = new Grid() { Margin = new Thickness(10)};
+            TextBlock textBlock1 = new TextBlock() { Text = "计算中" };
+            ProgressBar progressBar = new ProgressBar() { Height=20, VerticalAlignment =VerticalAlignment.Bottom, IsIndeterminate=true, Foreground= new SolidColorBrush(Color.FromRgb(110, 166, 70)), Background= new SolidColorBrush(Color.FromRgb(36,38,39)) };
+            grid2.Children.Add(textBlock1);
+            grid2.Children.Add(progressBar);
+            border2.Child = grid2;
+            border1.Child = border2;
+            stageConfig.Children.Add(border1);
+            Application.Current.MainWindow.Cursor = visibility == Visibility.Visible? Cursors.Wait: Cursors.Arrow;
+            stageConfig.MouseRightButtonUp += delegate
+            {
+                stageConfig.Visibility = Visibility.Collapsed;
+            };
+        }
 
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
 
+            //等待窗口
+
             try
             {
+
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
                 //检测如果找不到rightToolbar 直接退出
                 if (WrapPanel1 == null)
                     return;
-                ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
+
+                ToggleButton QuaterTogg = (ToggleButton)WrapPanel1.Children[0];
+                ToggleButton DualTogg = (ToggleButton)WrapPanel1.Children[1];
+                ToggleButton BFTogg = (ToggleButton)WrapPanel1.Children[2];
+                ToggleButton DFTogg = (ToggleButton)WrapPanel1.Children[3];
+                ToggleButton RITogg = (ToggleButton)WrapPanel1.Children[4];
+                ToggleButton DPTogg = (ToggleButton)WrapPanel1.Children[5];
+                ToggleButton PhiTogg = (ToggleButton)WrapPanel1.Children[6];
+                ToggleButton FLTogg = (ToggleButton)WrapPanel1.Children[7];
+                ToggleButton _3DTogg = (ToggleButton)WrapPanel1.Children[8];
+                ToggleButton CubeTogg = (ToggleButton)WrapPanel1.Children[9];
+                ToggleButton RepoTogg = (ToggleButton)WrapPanel1.Children[10];
+
+                List<ToggleButton> RightTools = new List<ToggleButton>() { QuaterTogg, DualTogg, BFTogg, DFTogg, RITogg, DPTogg, PhiTogg, FLTogg, _3DTogg, CubeTogg, RepoTogg };
+
+                foreach (var item in RightTools)
+                {
+                    item.Checked += delegate (object sender, RoutedEventArgs e)
+                    {
+
+                        foreach (var item1 in RightTools)
+                        {
+                            if (item1 != item)
+                            {
+                                if (item1.IsChecked == true)
+                                    item1.IsChecked = false;
+                            }
+
+                        }
+
+                    };
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 ContextMenu contextMenu = new ContextMenu();
 
-                string WindowType = "QUATER_CLICKED2";
-                buttton1.Checked += delegate
+                MenuItem menuItem1 = new MenuItem() { Header = "四",IsCheckable =true ,IsChecked=true};
+                MenuItem menuItem2 = new MenuItem() { Header = "六",IsCheckable = true };
+                menuItem1.Unchecked += delegate
                 {
-                    //contextMenu.Visibility = Visibility.Visible;
-                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
+                    menuItem2.IsChecked = true;
+                    //if (FourWindowTogg.IsChecked == false)
+                    //{
+                    //    LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
+                        
+                    //}
+                    //else
+                    //{
+                    //    FourWindowTogg.IsChecked = false;
+                    //}
+         
+                   
                 };
-                buttton1.Unchecked += delegate
+                menuItem2.Unchecked += delegate
                 {
-                    //contextMenu.Visibility = Visibility.Collapsed;
+                    menuItem1.IsChecked = true;
+                    //if (FourWindowTogg.IsChecked == false)
+                    //{
+                    //    LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
 
+                    //}
+                    //else
+                    //{
+                    //    FourWindowTogg.IsChecked = false;
+                    //}
+                };
+
+                menuItem1.Checked += delegate
+                {
+                    menuItem2.IsChecked= false;
+                    if (QuaterTogg.IsChecked==true)
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                    }
+                    else
+                    {
+                        QuaterTogg.IsChecked = true;
+                    }
+                  
+                    
+                };
+                menuItem2.Checked += delegate
+                {
+                    menuItem1.IsChecked = false;
+                    if (QuaterTogg.IsChecked == true)
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                    }
+                    else
+                    {
+                        QuaterTogg.IsChecked = true;
+                    }
+                  
+                };
+                void FourWindowTogg_Checked(object sender, RoutedEventArgs e)
+                {
+                    if (menuItem1.IsChecked)
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                    }
+                    else if (menuItem2.IsChecked)
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                    }
+
+
+                }
+
+                DualTogg.Click += delegate 
+                { 
+                    if(DualTogg.IsChecked == false)
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
+                    }
+                    
+                };
+
+                QuaterTogg.Checked += FourWindowTogg_Checked;
+                //FourWindowTogg.Checked += delegate
+                //{
+                //    if (menuItem1.IsChecked)
+                //    {
+                //        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                //    }
+                //    else
+                //    {
+                //        LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                //    }
+
+                //};
+                QuaterTogg.Unchecked += delegate
+                {
                     LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
                 };
 
-
-                MenuItem menuItem2 = new MenuItem() { Header = "四" };
-                MenuItem menuItem3 = new MenuItem() { Header = "六" };
-
-                menuItem2.Click += delegate
-                {
-                    menuItem2.IsChecked = true;
-                    menuItem3.IsChecked = false;
-
-                    WindowType = "QUATER_CLICKED2";
-                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
-                };
-
-                menuItem3.Click += delegate
-                {
-                    menuItem2.IsChecked = false;
-                    menuItem3.IsChecked = true;
-                    WindowType = "QUATER_CLICKED3";
-                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
-                };
+                contextMenu.Items.Add(menuItem1);
                 contextMenu.Items.Add(menuItem2);
-                contextMenu.Items.Add(menuItem3);
-                buttton1.ContextMenu = contextMenu;  
+                //contextMenu.Items.Add(menuItem3);
+                QuaterTogg.ContextMenu = contextMenu;  
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
+           
             //ColorBar ADD
             try
             {
@@ -92,17 +232,41 @@ namespace Global
 
                 image.Visibility = Visibility.Collapsed;
                 ColorBarUser colorBarUser = new ColorBarUser();
+                colorBarUser.Visibility = Visibility.Hidden;
                 leftToolBar.Children.Add(colorBarUser);
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
+
+                ViewMode.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName == "SelectViewMode")
+                    {
+                        if (ViewMode.SelectViewMode == 0 || ViewMode.SelectViewMode == 1 || ViewMode.SelectViewMode == 3 || ViewMode.SelectViewMode == 4)
+                            colorbarTogg.IsEnabled = true;
+                        else
+                            colorbarTogg.IsEnabled = false;
+                    }
+
+                };
+
                 colorbarTogg.PreviewMouseRightButtonUp += delegate(object sender, MouseButtonEventArgs e)
                 {
-                    colorbarTogg.ContextMenu.HorizontalOffset = 30;
-                    Point pointClicked = e.GetPosition(colorbarTogg);
-                    double x = pointClicked.X;
-                    double y = pointClicked.Y;
-                    colorbarTogg.ContextMenu.HorizontalOffset = 30 - x;
-                    colorbarTogg.ContextMenu.VerticalOffset = -y;
+                    if (colorbarTogg.IsChecked == false)
+                    {
+                        colorbarTogg.ContextMenu.Visibility = Visibility.Collapsed;
+                        return;
+                    }
+                    else
+                    {
+                        colorbarTogg.ContextMenu.Visibility = Visibility.Visible;
+                        colorbarTogg.ContextMenu.HorizontalOffset = 30;
+                        Point pointClicked = e.GetPosition(colorbarTogg);
+                        double x = pointClicked.X;
+                        double y = pointClicked.Y;
+                        colorbarTogg.ContextMenu.HorizontalOffset = 30 - x;
+                        colorbarTogg.ContextMenu.VerticalOffset = -y;
+
+                    }
                 };
 
                 colorbarTogg.Checked += delegate
@@ -114,13 +278,13 @@ namespace Global
                     colorBarUser.Visibility = Visibility.Hidden;
                 };
 
-                List<string> colorname = new List<string> { "GRAY", "AUTUMN", "BONE", "JET", "WINTER", "RAINBOW", "OCEAN", "SUMMER", "SPRING", "COOL", "HSV", "PINK", "HOT", "PARULA", "MAGMA", "INFERNO", "PLASMA", "VIRIDIS", "CIVIDIS", "TWILIGHT", "SHIFTED", "TURBO", "DEEPGREEN"};
+                List<string> colorname = new List<string> { "AUTUMN", "BONE", "JET", "WINTER", "RAINBOW", "OCEAN", "SUMMER", "SPRING", "COOL", "HSV", "PINK", "HOT", "PARULA", "MAGMA", "INFERNO", "PLASMA", "VIRIDIS", "CIVIDIS", "TWILIGHT", "SHIFTED", "TURBO", "DEEPGREEN"};
 
                 ContextMenu contextMenu = new ContextMenu();
 
                 //从配置文件中读取
                 string checkedname = "GRAY";
-
+                int i = 0;
                 foreach (var item in colorname)
                 {
                     RadioMenuItem menuItem = new RadioMenuItem();
@@ -139,14 +303,30 @@ namespace Global
                     stackPanel.Children.Add(textBlock);
 
                     menuItem.Header = stackPanel;
-                    menuItem.Tag = item;
+                    menuItem.Tag = i++;
 
-                    menuItem.Click += delegate (object sender, RoutedEventArgs e)
+
+                    menuItem.Checked += delegate (object sender, RoutedEventArgs e)
                     {
                         ResourceDictionary resourceDictionary = new ResourceDictionary();
                         resourceDictionary.Source = new Uri("Global;Component/Themes/ColorMap.xaml", UriKind.Relative);
                         LinearGradientBrush brush = (LinearGradientBrush)resourceDictionary[item];
                         colorBarUser.colorBar.SlidBackground = brush;
+                        Dictionary<string, object> data = new() { { "mode", menuItem.Tag } };
+                        LambdaControl.Trigger("COLORBAR_SELECTED_INDEX", this, data);
+                    };
+
+                    menuItem.Unchecked += delegate (object sender, RoutedEventArgs e)
+                    {
+                        if (contextMenu.Tag == null)
+                        {
+                            ResourceDictionary resourceDictionary = new ResourceDictionary();
+                            resourceDictionary.Source = new Uri("Global;Component/Themes/ColorMap.xaml", UriKind.Relative);
+                            LinearGradientBrush brush = (LinearGradientBrush)resourceDictionary["GRAY"];
+                            colorBarUser.colorBar.SlidBackground = brush;
+                            LambdaControl.Trigger("COLORBAR_SELECTED_INDEX", this, new Dictionary<string, object> { { "mode", 22 } });
+
+                        }
                     };
                     contextMenu.Items.Add(menuItem);
 
@@ -162,11 +342,11 @@ namespace Global
 
                 monoColorTogg.Checked += delegate
                 {
-                    colorBarUser.Visibility = Visibility.Hidden;
+                    colorBarUser.colorBar.SlidThumbVis = Visibility.Hidden;
                 };
                 monoColorTogg.Unchecked += delegate
                 {
-                    colorBarUser.Visibility = Visibility.Visible;
+                    colorBarUser.colorBar.SlidThumbVis = Visibility.Visible;
                 }; ;
 
             }
@@ -285,39 +465,107 @@ namespace Global
                 MessageBox.Show(ex.Message);
 
             }
+            try
+            {
+
+                tabControl = (TabControl)mainwin.FindName("leftTab");
+                Border border = (Border)tabControl.Parent;
+                //tabControl.Parent 
+                if (tabControl == null) return;
+                propertySetItem = new TabItem();
+                propertySetItem.Header = "属性设置";
+                ScrollViewer scrollViewer = new ScrollViewer();
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                Viewbox proViewBox = new Viewbox();
+                proViewBox.VerticalAlignment = VerticalAlignment.Top;
+                proViewBox.Stretch = Stretch.Uniform;
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                DimenPreoperty dimenPreoperty = new DimenPreoperty();
+                stackPanel.Children.Add(dimenPreoperty);
+                proViewBox.Child = stackPanel;
+                scrollViewer.Content = proViewBox;
+                propertySetItem.Content = scrollViewer;
+                propertySetItem.Visibility = Visibility.Collapsed;
+                tabControl.Items.Add(propertySetItem);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
 
             try
             {
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
                 topToolbar.DataContext = ImageViewState.toolTop;
 
-                Binding binding1 = new Binding("PointerChecked");
-                ((ToggleButton)topToolbar.Children[0]).SetBinding(ToggleButton.IsCheckedProperty, binding1);
+                Binding binding0 = new Binding("SelectChecked");
+                ToggleButton ToggleButtonSelect = ((ToggleButton)topToolbar.Children[0]);
+                ToggleButtonSelect.SetBinding(ToggleButton.IsCheckedProperty, binding0);
+
+                Binding binding1 = new Binding("InlineChecked");
+                ToggleButton ToggleButtonInline = ((ToggleButton)topToolbar.Children[1]);
+                ToggleButtonInline.SetBinding(ToggleButton.IsCheckedProperty, binding1);
+
                 Binding binding2 = new Binding("MoveChecked");
-                ((ToggleButton)topToolbar.Children[1]).SetBinding(ToggleButton.IsCheckedProperty, binding2);
-                Binding binding3 = new Binding("DimensionChecked");
-                ((ToggleButton)topToolbar.Children[2]).SetBinding(ToggleButton.IsCheckedProperty, binding3);
+                ToggleButton ToggleButtonMove = ((ToggleButton)topToolbar.Children[2]);
+                ToggleButtonMove.SetBinding(ToggleButton.IsCheckedProperty, binding2);
+
+                //Binding binding3 = new Binding("SearchChecked");
+                //ToggleButton ToggleButtonSearch = ((ToggleButton)topToolbar.Children[3]);
+                //ToggleButtonSearch.SetBinding(ToggleButton.IsCheckedProperty, binding3);
+
+                Binding binding4 = new Binding("ZoomOutChecked");
+                ToggleButton ToggleButtonZoomOut= ((ToggleButton)topToolbar.Children[4]);
+                ToggleButtonZoomOut.SetBinding(ToggleButton.IsCheckedProperty, binding4);
+
+                Binding binding5 = new Binding("ZoomInChecked");
+                ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
+                ToggleButtonZoomIn.SetBinding(ToggleButton.IsCheckedProperty, binding5);
+
+                //Binding binding6 = new Binding("ScaleInChecked");
+                //ToggleButton ToggleButtonScale = ((ToggleButton)topToolbar.Children[6]);
+                //ToggleButtonScale.SetBinding(ToggleButton.IsCheckedProperty, binding6);
+ 
+                Binding binding9 = new Binding("DimensionChecked");
+                ToggleButton ToggleButtonDimen = ((ToggleButton)topToolbar.Children[9]);
+                ToggleButtonDimen.SetBinding(ToggleButton.IsCheckedProperty, binding9);
+
+                Binding binding10 = new Binding("FocusChecked");
+                ToggleButton ToggleButtonFocus = ((ToggleButton)topToolbar.Children[10]);
+                ToggleButtonFocus.SetBinding(ToggleButton.IsCheckedProperty, binding10);
+
+                Binding binding11 = new Binding("RulerChecked");
+                ToggleButton ToggleButtonRuler= ((ToggleButton)topToolbar.Children[11]);
+                ToggleButtonRuler.SetBinding(ToggleButton.IsCheckedProperty, binding11);
+
+                ToggleButtonDimen.Checked += delegate
+                {
+
+                    propertySetItem.Visibility = Visibility.Visible;
+                    propertySetItem.DataContext = drawMethod.dimenViewModel;
+                    tabControl.SelectedIndex =5;
+                };
+                ToggleButtonDimen.Unchecked += delegate
+                {
+                    // propertySetItem.Content = null;
+                    propertySetItem.Visibility = Visibility.Collapsed;
+                    tabControl.SelectedIndex = 1;
+                };
 
 
-                ((Button)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
-
-                Binding binding4 = new Binding("RulerChecked");
-                ((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, binding4);
 
 
-                Binding binding5 = new Binding("FocusChecked");
-                ((ToggleButton)topToolbar.Children[5]).SetBinding(ToggleButton.IsCheckedProperty, binding5);
-
-
-                Binding binding6 = new Binding("scale");
-                Border border1 = (Border)topToolbar.Children[7];
-
-                ((TextBox)border1.Child).SetBinding(TextBox.TextProperty, binding6);
 
 
                 Binding binding13 = new Binding("EraserChecked");
-                ToggleButton ToggleButtonRuler = ((ToggleButton)topToolbar.Children[13]);
-                ToggleButtonRuler.SetBinding(ToggleButton.IsCheckedProperty, binding13);
+                ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[13]);
+                ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, binding13);
 
                 Binding binding14 = new Binding("TextChecked");
                 ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[14]);
@@ -349,7 +597,7 @@ namespace Global
                 ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[20]);
                 ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, binding20);
 
-                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonRuler, ToggleButtonText, ToggleButtonArrow , ToggleButtonLine , ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler,ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow , ToggleButtonLine , ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
 
                 foreach (var item in Tools)
                 {
@@ -359,8 +607,10 @@ namespace Global
                         foreach (var item1 in Tools)
                         {
                             if (item1!=item)
+                            {
                                 if (item1.IsChecked == true)
                                     item1.IsChecked = false;
+                            }
 
                         }
  
@@ -374,9 +624,6 @@ namespace Global
             }
         }
 
-
-
-        
-
+       
     }
 }

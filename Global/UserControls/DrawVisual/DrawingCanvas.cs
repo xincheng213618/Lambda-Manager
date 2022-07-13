@@ -1,13 +1,37 @@
 ﻿using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows;
+using System.Drawing;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
 
 namespace Global
 {
-    public class DrawingCanvas : Image
+    public class DrawingCanvas : System.Windows.Controls.Image
     {
-        private List<Visual> visuals = new List<Visual>();
+        public List<Visual> visuals = new List<Visual>();
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetDC(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        static extern Int32 ReleaseDC(IntPtr hwnd, IntPtr hdc);
+
+        [DllImport("gdi32.dll")]
+        static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+
+        static public System.Drawing.Color GetPixelColor(int x, int y)
+        {
+            IntPtr hdc = GetDC(IntPtr.Zero);
+            uint pixel = GetPixel(hdc, x, y);
+            ReleaseDC(IntPtr.Zero, hdc);
+            System.Drawing.Color color = System.Drawing.Color.FromArgb((int)(pixel & 0x000000FF),
+                         (int)(pixel & 0x0000FF00) >> 8,
+                         (int)(pixel & 0x00FF0000) >> 16);
+            return color;
+        }
+
 
         protected override Visual GetVisualChild(int index)
         {
@@ -37,7 +61,7 @@ namespace Global
             base.RemoveLogicalChild(visual);
         }
 
-        public DrawingVisual GetVisual(Point point)
+        public DrawingVisual GetVisual(System.Windows.Point point)
         {
             HitTestResult hitResult = VisualTreeHelper.HitTest(this, point);
             return hitResult.VisualHit as DrawingVisual;
@@ -62,6 +86,26 @@ namespace Global
             DrawingVisual visual = result.VisualHit as DrawingVisual;
             if (visual != null &&
                 geometryResult.IntersectionDetail == IntersectionDetail.FullyInside)
+            {
+                hits.Add(visual);
+            }
+            return HitTestResultBehavior.Continue;
+        }
+
+        public List<DrawingVisual> GetVisualsRev(Geometry region)
+        {
+            hits.Clear();
+            GeometryHitTestParameters parameters = new GeometryHitTestParameters(region);
+            HitTestResultCallback callback = new HitTestResultCallback(this.HitTestCallbackRev);
+            VisualTreeHelper.HitTest(this, null, callback, parameters);
+            return hits;
+        }
+        private HitTestResultBehavior HitTestCallbackRev(HitTestResult result)
+        {
+            GeometryHitTestResult geometryResult = (GeometryHitTestResult)result;
+            DrawingVisual visual = result.VisualHit as DrawingVisual;
+            if (visual != null &&
+                geometryResult.IntersectionDetail == IntersectionDetail.Intersects)
             {
                 hits.Add(visual);
             }

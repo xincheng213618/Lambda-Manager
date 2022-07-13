@@ -93,10 +93,16 @@ namespace Global.Mode.Config
 
             public void SetValue(ToolTop toolTop)
             {
-                this.PointerChecked = toolTop.PointerChecked;
+                this.SelectChecked = toolTop.SelectChecked;
+                this.InlineChecked = toolTop.InlineChecked;
                 this.MoveChecked = toolTop.MoveChecked;
+                this.SearchChecked = toolTop.SearchChecked;
+                this.ZoomOutChecked = toolTop.ZoomOutChecked;
+                this.ZoomInChecked = toolTop.ZoomInChecked;
+                this.ScaleChecked = toolTop.ScaleChecked;
                 this.DimensionChecked = toolTop.DimensionChecked;
                 this.FocusChecked = toolTop.FocusChecked;
+                this.RulerChecked = toolTop.RulerChecked;
                 this.EraserChecked = toolTop.EraserChecked;
                 this.TextChecked = toolTop.TextChecked;
                 this.ArrowChecked = toolTop.ArrowChecked;
@@ -105,10 +111,18 @@ namespace Global.Mode.Config
                 this.CurveChecked = toolTop.CurveChecked;
                 this.RectangleChecked = toolTop.RectangleChecked;
                 this.PolygonChecked = toolTop.PolygonChecked;
-                this.Selection = toolTop.Selection;
+                this.Select = toolTop.Select;
+                this.inline = toolTop.inline;
                 this.Move = toolTop.Move;
+                this.search = toolTop.search;
+                this.zoomOut = toolTop.zoomOut;
+                this.ZoomIn = toolTop.ZoomIn;
                 this.Scale = toolTop.Scale;
                 this.Dimension = toolTop.Dimension;
+                this.Focus = toolTop.Focus;
+              
+                this.Ruler = toolTop.Ruler;
+                this.Eraser= toolTop.Eraser;
                 this.Text = toolTop.Text;
                 this.Arrow = toolTop.Arrow;
                 this.Line = toolTop.Line;
@@ -118,13 +132,22 @@ namespace Global.Mode.Config
                 this.Polygon = toolTop.Polygon;
             }
 
-            private bool pointerChecked = false;
-            [JsonPropertyName("pointer-checked")]
-            public bool PointerChecked
+            private bool selectChecked = false;
+            [JsonPropertyName("select-checked")]
+            public bool SelectChecked
             {
-                get { return pointerChecked; }
-                set { pointerChecked = value; NotifyPropertyChanged(); }
+                get { return selectChecked; }
+                set { selectChecked = value; NotifyPropertyChanged(); }
             }
+
+            private bool inlineChecked = false;
+            [JsonPropertyName("inline-checked")]
+            public bool InlineChecked
+            {
+                get { return inlineChecked; }
+                set { inlineChecked = value; NotifyPropertyChanged(); }
+            }
+
 
             private bool moveChecked = false;
             [JsonPropertyName("move-checked")]
@@ -133,6 +156,39 @@ namespace Global.Mode.Config
                 get { return moveChecked; }
                 set { moveChecked = value; NotifyPropertyChanged(); }
             }
+
+            private bool searchChecked = false;
+            [JsonPropertyName("search-checked")]
+            public bool SearchChecked
+            {
+                get { return searchChecked; }
+                set { searchChecked = value; NotifyPropertyChanged(); }
+            }
+
+            private bool zoomOutChecked = false;
+            [JsonPropertyName("zoomOut-checked")]
+            public bool ZoomOutChecked
+            {
+                get { return zoomOutChecked; }
+                set { zoomOutChecked = value; NotifyPropertyChanged(); }
+            }
+
+            private bool zoomInChecked = false;
+            [JsonPropertyName("zoomIn-checked")]
+            public bool ZoomInChecked
+            {
+                get { return zoomInChecked; }
+                set { zoomInChecked = value; NotifyPropertyChanged(); }
+            }
+
+            private bool scaleChecked = false;
+            [JsonPropertyName("scale-checked")]
+            public bool ScaleChecked
+            {
+                get { return scaleChecked; }
+                set { scaleChecked = value; NotifyPropertyChanged(); }
+            }
+
 
             private bool dimensionChecked = false;
             [JsonPropertyName("dimension-checked")]
@@ -149,6 +205,18 @@ namespace Global.Mode.Config
                 get { return focusChecked; }
                 set { focusChecked = value; NotifyPropertyChanged(); }
             }
+
+            private bool rulerChecked = false;
+            [JsonPropertyName("ruler-checked")]
+            public bool RulerChecked
+            {
+                get { return rulerChecked; }
+                set { rulerChecked = value; NotifyPropertyChanged(); }
+            }
+
+
+
+
 
 
 
@@ -221,16 +289,30 @@ namespace Global.Mode.Config
             }
 
 
-            private object selection = false;
+            private object select = false;
             /// <summary>
             /// 所有选择区域
             /// </summary>
-            [JsonPropertyName("selection")]
-            public object Selection
+            [JsonPropertyName("select")]
+            public object Select
             {
-                get { return selection; }
-                set { selection = value; NotifyPropertyChanged(); }
+                get { return select; }
+                set { select = value; NotifyPropertyChanged(); }
             }
+            private object inline = false;
+            /// <summary>
+            /// 
+            /// </summary>
+            [JsonPropertyName("inline")]
+            public object Inline
+            {
+                get { return inline; }
+                set { inline = value; NotifyPropertyChanged(); }
+            }
+
+
+
+
 
             private object move = false;
             /// <summary>
@@ -241,6 +323,40 @@ namespace Global.Mode.Config
             {
                 get { return move; }
                 set { move = value; NotifyPropertyChanged(); }
+            }
+
+
+
+            private object search = false;
+            /// <summary>
+            /// 检索
+            /// </summary>
+            [JsonPropertyName("search")]
+            public object Search
+            {
+                get { return search; }
+                set { search = value; NotifyPropertyChanged(); }
+            }
+
+            private object zoomOut = false;
+            /// <summary>
+            /// 放大
+            /// </summary>
+            [JsonPropertyName("zoomOut")]
+            public object ZoomOut
+            {
+                get { return zoomOut; }
+                set { zoomOut = value; NotifyPropertyChanged(); }
+            }
+            private object zoomIn = false;
+            /// <summary>
+            /// 缩小
+            /// </summary>
+            [JsonPropertyName("zoomIn")]
+            public object ZoomIn
+            {
+                get { return zoomIn; }
+                set { zoomIn = value; NotifyPropertyChanged(); }
             }
 
             private double scale = 1;
@@ -265,6 +381,39 @@ namespace Global.Mode.Config
                 get { return dimension; }
                 set { dimension = value; NotifyPropertyChanged(); }
             }
+
+            private bool focus =false;
+            /// <summary>
+            /// 
+            /// </summary>
+            [JsonPropertyName("focus")]
+            public bool Focus
+            {
+                get { return focus; }
+                set { focus = value; NotifyPropertyChanged(); }
+            }
+            private bool ruler = false;
+            /// <summary>
+            /// 
+            /// </summary>
+            [JsonPropertyName("ruler")]
+            public bool Ruler
+            {
+                get { return ruler; }
+                set { ruler = value; NotifyPropertyChanged(); }
+            }
+            private bool eraser = false;
+            /// <summary>
+            /// 
+            /// </summary>
+            [JsonPropertyName("eraser")]
+            public bool Eraser
+            {
+                get { return eraser; }
+                set { eraser = value; NotifyPropertyChanged(); }
+            }
+
+
 
             private object text = null;
             [JsonPropertyName("text")]

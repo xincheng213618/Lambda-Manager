@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -49,14 +50,36 @@ namespace Global
             //控制直方图显示和隐藏
             LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
             LambdaControl.AddLambdaEventHandler("seriesProjectManager", seriesProjectManager, false);
-
-            
         }
 
         private bool seriesProjectManager(object sender, EventArgs e)
         {
+            Window mainwin = Application.Current.MainWindow;
+            if (mainwin == null) return false;
+            Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+            if (grid == null) return false;
+            DockPanel dockPanel = (DockPanel)grid.Children[1];
+            ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
+            if (toggleButton != null&& toggleButton.IsChecked == true)
+            {
+                toggleButton.IsChecked =false;
+                toggleButton.Content = "预览";
+                EventArgs eventArgs = new EventArgs();
+                LambdaControl.Trigger("STOP_ALIVE",this, eventArgs);
+
+                // toggleButton.PerformClick();
+            }
+           
             return true;
+   
         }
+
+        //private void ToggleButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MessageBox.Show("1111");
+
+        //}
+
 
         /// <summary>
         /// 更新位移台坐标
@@ -188,11 +211,11 @@ namespace Global
             View view = LambdaControl.GetImageView(viewdex);
             if (view == null)
                 return true;
-            if (viewdex == 0&& FirstImage !=null)
+            if (viewdex == 0&& FirstImage != null)
             {
-                if (FirstImage.Parent is Grid grid)
+                if (FirstImage.Parent is Grid gird)
                 {
-                    grid.Children.Remove(FirstImage);
+                    gird.Children.Remove(FirstImage);
                     FirstImage = null;
                 }
             }

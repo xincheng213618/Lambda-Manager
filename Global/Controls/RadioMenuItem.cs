@@ -16,6 +16,20 @@ namespace Global.Controls
 
         private void RadioMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            if (IsChecked)
+            {
+                if (this.Parent is ContextMenu contextMenu)
+                {
+                    if (contextMenu.Tag is RadioMenuItem MenuItem)
+                    {
+                        if (MenuItem == this)
+                        {
+                            contextMenu.Tag = null;
+                        }
+
+                    }
+                }
+            }
             IsChecked = !IsChecked;
         }
 
@@ -25,9 +39,11 @@ namespace Global.Controls
             {
                 if (contextMenu.Tag is RadioMenuItem MenuItem)
                 {
+
                     MenuItem.IsChecked = false;
                 }
                 contextMenu.Tag = this;
+
             }
             if (this.Parent is Menu menu)
             {

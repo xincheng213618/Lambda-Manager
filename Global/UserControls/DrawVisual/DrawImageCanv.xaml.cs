@@ -52,9 +52,9 @@ namespace Global.UserControls.DrawVisual
 
             if (ToolTop.RectangleChecked == true)
             {
-                drawMethod.selectionSquare = new DrawingVisual();
+                drawMethod.RectangleVisual = new DrawingVisual();
 
-                drawingSurface.AddVisual(drawMethod.selectionSquare);
+                drawingSurface.AddVisual(drawMethod.RectangleVisual);
 
                 selectionSquareTopLeft = pointClicked;
                 CanMove = true;

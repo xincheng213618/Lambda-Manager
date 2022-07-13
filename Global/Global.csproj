@@ -66,16 +66,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="RangeSlider">
-      <HintPath>..\DLL\RangeSlider.dll</HintPath>
-		<Private>True</Private>
+    <Reference Include="ColorPickerLib">
+      <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
     </Reference>
+
 	  <Reference Include="NumericUpDownLib">
-		  <HintPath>..\DLL\NumericUpDownLib.dll</HintPath>
-		  <Private>True</Private>
+		  <HintPath>..\..\NJUST\Lambda Manager\NumericUpDownLib.dll</HintPath>
 	  </Reference>
-	  <Reference Include="ColorPickerLib">
-		  <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
+	  <Reference Include="RangeSlider">
+		  <HintPath>..\DLL\RangeSlider.dll</HintPath>
 		  <Private>True</Private>
 	  </Reference>
   </ItemGroup>

@@ -488,7 +488,7 @@ namespace Global.Mode.Config
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 };
 
-        private double regularization = 0.001;
+        private double regularization = 0.1;
 
         public double Regularization
         {
