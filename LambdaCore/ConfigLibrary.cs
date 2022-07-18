@@ -36,7 +36,6 @@ internal class ConfigLibrary
 		{
 			return false;
 		}
-		ResolveMain(root);
 		List<Command> commands = (from c in root.Descendants("commands").Descendants("command")
 			select new Command
 			{
@@ -107,26 +106,9 @@ internal class ConfigLibrary
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
 		InitializeLibrary();
-  //      Thread thread = new Thread(new ThreadStart());
-		//thread.IsBackground = true;
-  //      thread.Start();
 		return validate.Severity < Severity.FATAL_ERROR;
 	}
 
-	private static void ResolveMain(XElement root)
-	{
-		string title = root.Attribute((XName?)"title")?.Value;
-		if (title != null)
-		{
-			//main.Title = title;
-		}
-		//main.Notice = root.Attribute((XName?)"notice")?.Value;
-		//if (root.Attribute((XName?)"maximize")?.Value == "true")
-		//{
-		//	main.Maximize = true;
-		//}
-		//InitializeSideSize(main, root);
-	}
 
 	private static List<string>? Split(string? text, char delimeter)
 	{
