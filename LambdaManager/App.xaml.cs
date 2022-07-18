@@ -15,7 +15,6 @@ namespace LambdaManager;
 
 partial class App : Application
 {
-
     private App()
     {
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;

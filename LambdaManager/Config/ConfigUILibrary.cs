@@ -41,7 +41,7 @@ internal class ConfigUILibrary
 		string name = component.Name;
 		if (name != null)
 		{
-			string fullName = lib.Replace(".dll", "") + "." + name;
+			string fullName = lib.Replace(".dll", "") + "." + name;     
 			Side side = GetConfigSide(mount);
 			if (side == Side.MENU)
 			{

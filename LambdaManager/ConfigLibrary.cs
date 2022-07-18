@@ -1690,8 +1690,6 @@ internal class ConfigLibrary
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();
             ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer)
                 .Build();
-
-
             await scheduler.ScheduleJob(job, trigger);
 			i++;
 		}
