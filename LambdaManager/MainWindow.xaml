@@ -112,7 +112,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
-                    <TabControl FontSize="15">
+                    <TabControl FontSize="15" x:Name="leftTab">
                         <TabItem Header="工程"  Visibility="Collapsed">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                 <Viewbox VerticalAlignment="Top" Stretch="Uniform" Width="400">

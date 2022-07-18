@@ -464,9 +464,8 @@ int CameraSettingExposure(int mode,double exposure)
 	//std::string name = "a中文";
 	//name = StringToUtf(name);
 	//Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
-	//uchar b[] = { 1,2,3,4,5 };
-
-	//Event::Trigger("TestDataEvent", b, sizeof(b) / sizeof(b[0]));
+	uchar b[] = { 1,2,3,4,5 };
+	Event::Trigger("TestDataEvent", b, sizeof(b) / sizeof(b[0]));
 
 	cv::Mat img1;
 	img1 = cv::imread("cat.jpg");

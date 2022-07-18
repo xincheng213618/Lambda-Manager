@@ -6,14 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ThemeManager.Controls;
 
-namespace Register
+namespace AboutMsg
 {
     /// <summary>
     /// AboutMsg.xaml 的交互逻辑
     /// </summary>
-    public partial class AboutMsg : BaseWindow
+    public partial class AboutMsgWindow : BaseWindow
     {
-        public AboutMsg()
+        public AboutMsgWindow()
         {
             InitializeComponent();
         }

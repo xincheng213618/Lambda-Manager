@@ -64,8 +64,7 @@ namespace Register
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            AboutMsg aboutMsg = new AboutMsg();
-            aboutMsg.Show();
+
         }
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -81,6 +80,9 @@ namespace Register
 
         private void BaseWindow_MouseMove(object sender, MouseEventArgs e)
         {
+
+
+            Dictionary<int, int> map = new Dictionary<int, int>();  
 
             Point p = PointToScreen(e.GetPosition(this));
             IntPtr desk = GetDesktopWindow();

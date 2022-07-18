@@ -48,6 +48,9 @@ namespace Solution
             {
                 windowData.SaveConfig();
             }
+
+
+
         }
         private static string ToStrings(string value)
         {
@@ -96,7 +99,8 @@ namespace Solution
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("seriesProjectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(seriesProjectManager1.FullPath) }});
+                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
+                        LambdaControl.Trigger("seriesProjectManager111", this, new Dictionary<string, object>() { } );
                     }
                 }
 

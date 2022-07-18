@@ -103,9 +103,9 @@
 		</procedure>
 
 
-		<procedure name="OpenSerial" event="projectManager" var ="FullPath" >
+		<procedure name="OpenSerial" event="seriesProjectManager" arg ="FullPath" >
 			<action name="OpenSerial">
-				<input name="FullPath" type="string" />
+				<input name="FullPath" type="#string" />
 			</action>
 		</procedure>
 
@@ -547,6 +547,8 @@
 	</component>
 
 	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册"/>
+	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于"/>
+
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />

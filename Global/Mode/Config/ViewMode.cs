@@ -144,7 +144,7 @@ namespace Global.Mode.Config
 
         public bool Auto
         {
-            get => auto;
+            get { return auto; }
             set
             {
                 auto = value;

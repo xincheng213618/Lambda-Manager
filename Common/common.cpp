@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "common.h"
 #include <chrono>
 #include <thread>
@@ -18,19 +18,12 @@ CallHandlerRaise callHandlerRaise = NULL;
 
 SetCppSize setCppSize =NULL;
 
-//extern libcron::Cron<libcron::LocalClock, libcron::NullLock> cron22;
-
-
 void GetCppSizeInfo(SetCppSize fn)
 {
 	setCppSize = fn;
 }
 
-
-
 void Initialize() {
-
-	//const char* buffer = "long:8,unsigned long:8,long double:8";
 	const char* buffer = "long:4,unsigned long:4,long int:4,long long:8,long double:8";
 	setCppSize((char*)buffer);
 }
@@ -46,7 +39,6 @@ LIB_API int GetArraySize(void* pArray)
 LIB_API int SetHandlerRaise(void* pArray) {
 
 	RaiseEventMark_map.push_back(pArray);
-	//callHandlerRaise(pArray);
 	return 1;
 }
 
@@ -150,6 +142,7 @@ void SetRoutineHandler(void* pRoutineHandler, int argType)
 
  void ApplicationExit()
 {
+
 }
 
 
@@ -172,9 +165,6 @@ void Service::Stop(const char* serviceName)
 	startService(serviceName);
 
 }
-
-
-
 
 //以下内容不在使用
 void SetMessageHandler1(LogCallBack1 fn)

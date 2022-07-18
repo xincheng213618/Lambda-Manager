@@ -1676,7 +1676,6 @@ internal class ConfigLibrary
 
 	private static async void InitializeScheduler()
 	{
-		LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
 		IScheduler scheduler = (Common.Scheduler = await new StdSchedulerFactory().GetScheduler());
 		await scheduler.Start();
 		int i = 0;

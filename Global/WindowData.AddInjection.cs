@@ -27,34 +27,10 @@ namespace Global
         public TabItem propertySetItem;
         public TabControl tabControl;
 
-        private void WaiWindow(Visibility visibility)
-        {
-            Grid stageConfig = (Grid)Application.Current.MainWindow.FindName("stageConfig");
-            stageConfig.Visibility = visibility;
-            Grid grid1 = new Grid() { Background = Brushes.Gray, Opacity = 0.1 };
-            stageConfig.Children.Add(grid1);
-            Border border1 = new Border() { Background = new SolidColorBrush(Color.FromRgb(55,59,65)),Height=150,Width=550,CornerRadius=new CornerRadius(10)};
-            Border border2 = new Border() { Background = new SolidColorBrush(Color.FromRgb(72, 77, 79)), Height = 100, Width = 500, CornerRadius = new CornerRadius(5) };
-            Grid grid2 = new Grid() { Margin = new Thickness(10)};
-            TextBlock textBlock1 = new TextBlock() { Text = "计算中" };
-            ProgressBar progressBar = new ProgressBar() { Height=20, VerticalAlignment =VerticalAlignment.Bottom, IsIndeterminate=true, Foreground= new SolidColorBrush(Color.FromRgb(110, 166, 70)), Background= new SolidColorBrush(Color.FromRgb(36,38,39)) };
-            grid2.Children.Add(textBlock1);
-            grid2.Children.Add(progressBar);
-            border2.Child = grid2;
-            border1.Child = border2;
-            stageConfig.Children.Add(border1);
-            Application.Current.MainWindow.Cursor = visibility == Visibility.Visible? Cursors.Wait: Cursors.Arrow;
-            stageConfig.MouseRightButtonUp += delegate
-            {
-                stageConfig.Visibility = Visibility.Collapsed;
-            };
-        }
 
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
-
-            //等待窗口
 
             try
             {
@@ -96,15 +72,6 @@ namespace Global
                     };
 
                 }
-
-
-
-
-
-
-
-
-
 
 
 

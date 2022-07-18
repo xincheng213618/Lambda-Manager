@@ -44,19 +44,11 @@ char* StringUtils::Wide2MultiByte(const wchar_t* p)
 	memset(dBuf, 0, dBufSize);
 
 	sprintf(dBuf, "%ws", p);
-	//转换
-	//int nRet = WideCharToMultiByte(CP_OEMCP, 0, p, -1, dBuf, dBufSize, NULL, FALSE);
-
 	return dBuf;
 }
 
 std::string Chartostring(char* cha)
 {
-	std::string str;
-	while (*cha)
-	{
-		str += *cha;
-		cha++;
-	}
+	std::string str(cha);
 	return str;
 }
