@@ -67,31 +67,5 @@ namespace Register
 
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr GetDesktopWindow();
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr GetWindowDC(IntPtr window);
-
-        [DllImport("gdi32.dll", SetLastError = true)]
-        public static extern uint GetPixel(IntPtr dc, int x, int y);
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern int ReleaseDC(IntPtr window, IntPtr dc);
-
-        private void BaseWindow_MouseMove(object sender, MouseEventArgs e)
-        {
-
-
-            Dictionary<int, int> map = new Dictionary<int, int>();  
-
-            Point p = PointToScreen(e.GetPosition(this));
-            IntPtr desk = GetDesktopWindow();
-            IntPtr dc = GetWindowDC(desk);
-            int c = (int)GetPixel(dc, (int)p.X, (int)p.Y);
-            int r = (c & 0xFF);//转换R 
-            int g = (c & 0xFF00) / 256;//转换G 
-            int b = (c & 0xFF0000) / 65536;//转换B 
-
-        }
     }
 }

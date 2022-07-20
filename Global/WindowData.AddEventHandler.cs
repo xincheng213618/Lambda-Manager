@@ -208,6 +208,10 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int viewdex = (int)eventData["view"];
             View view = LambdaControl.GetImageView(viewdex);
+
+
+
+
             if (view == null)
                 return true;
             if (viewdex == 0&& FirstImage != null)
@@ -219,10 +223,13 @@ namespace Global
                 }
             }
             AddImageConfident(view.Image,viewdex);
-
             return true;
         }
 
+        private void Image_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         public MulSummary mulSummary = new();
 

@@ -7,9 +7,40 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" >
     <Grid>
-        <StackPanel >
-            <Button Content="Hash 计算" Click="Button_Click"/>
+        <StackPanel Margin="20,10">
+            <DockPanel Margin="5" >
+                <Button Content="Hash 计算" Click="Button_Click"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <TextBlock Text="用户名"  Width="100"/>
+                <TextBox x:Name="H5a1" Text="{Binding UserName}"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <TextBlock Text="注册日期" Width="100"/>
+                <TextBox x:Name="H5a2" Text="{Binding RegistrationDate}"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <TextBlock Text="注册地址" Width="100"/>
+                <TextBox  x:Name="H5a3" Text="{Binding RegisteredAddress}"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <TextBlock Text="失效日期" Width="100"/>
+                <TextBox x:Name="H5a4" Text="{Binding ExpirationDate}"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <TextBlock Text="注册邮件地址" Width="100"/>
+                <TextBox x:Name="H5a5" Text="{Binding Email}"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <TextBlock Text="联系电话" Width="100"/>
+                <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"/>
+            </DockPanel>
+            <DockPanel Margin="5" >
+                <Button Content="加密" Click="Button1_Click"/>
+            </DockPanel>
         </StackPanel>
+
+
 
     </Grid>
 </Window>

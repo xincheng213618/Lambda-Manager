@@ -474,6 +474,8 @@ int CameraSettingExposure(int mode,double exposure)
 	cv::Mat img2;
 	resize(img1, img2, cv::Size(300, 300), 0, 0);
 
+	cv::Mat* imag11 = &img1;
+
 	////uchar b[] = { 1, 2, 3, 4, 5 };
 
 	Logger::Log2(Severity::INFO, L"Invoke 'CameraSettingExposure(exposure: %f)'", exposure);

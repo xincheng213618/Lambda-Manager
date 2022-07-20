@@ -6,10 +6,9 @@
         xmlns:local="clr-namespace:Register"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="300" MinHeight="300" Width="330" MinWidth="330" Background="#3A3A3A"  Foreground="White" Initialized="Window_Initialized" >
+        Height="300" MinHeight="300" Width="330" MinWidth="330" Background="#3A3A3A" ResizeMode="NoResize" Foreground="White" Initialized="Window_Initialized" >
     <Grid>
-        <Image Source="/startpicture1.png"/>
-        <TextBlock Text="注册信息:" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
+        <TextBlock Text="注册信息" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <StackPanel Margin="20,10">
             <DockPanel Margin="5">
                 <TextBlock Text="用户名"  Width="100"/>

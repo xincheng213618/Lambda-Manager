@@ -71,6 +71,7 @@ namespace LambdaManager
             await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "初始化主控";
             Task.Run(Update);
+
             await Task.Delay(10);
             TexoBoxMsg.Text += Environment.NewLine + "初始化相机";
             await Task.Delay(100);

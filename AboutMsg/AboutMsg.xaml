@@ -13,34 +13,63 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
-
             </Grid.RowDefinitions>
-            <StackPanel >
-                <DockPanel Margin="5">
+            <StackPanel Width="300" HorizontalAlignment="Left">
+                <DockPanel Margin="0,0,0,5" >
                     <TextBlock Text="用户名："  Width="100"/>
                     <TextBlock x:Name="H5a1" Text="{Binding UserName}"/>
                 </DockPanel>
-                <DockPanel Margin="5">
-                    <TextBlock Text="注册日期：" Width="100"/>
-                    <TextBlock x:Name="H5a2" Text="{Binding RegistrationDate}"/>
-                </DockPanel>
-                <DockPanel Margin="5">
-                    <TextBlock Text="注册地址：" Width="100"/>
-                    <TextBlock  x:Name="H5a3" Text="{Binding RegisteredAddress}"/>
-                </DockPanel>
-                <DockPanel Margin="5">
-                    <TextBlock Text="失效日期：" Width="100"/>
-                    <TextBlock x:Name="H5a4" Text="{Binding ExpirationDate}"/>
-                </DockPanel>
-                <DockPanel Margin="5">
-                    <TextBlock Text="注册邮件地址：" Width="100"/>
-                    <TextBlock x:Name="H5a5" Text="{Binding Email}"/>
-                </DockPanel>
-                <DockPanel Margin="5">
-                    <TextBlock Text="联系电话：" Width="100"/>
-                    <TextBlock x:Name="H5a6" Text="{Binding PhoneNumber}"/>
-                </DockPanel>
+                <StackPanel Margin="0,0,0,5">
+                    <TextBlock Text="已安装的模块："  Width="100" HorizontalAlignment="Left"/>
+                    <ListView x:Name="ListView1" Height="100" SelectionChanged="ListView1_SelectionChanged">
+                        <ListView.ItemContainerStyle >
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="#3D3D3D"/>
+                                        <Setter Property="BorderBrush" Value="#707070" />
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="true">
+                                        <Setter Property="Background" Value="#3D3D3D"/>
+                                        <Setter Property="BorderBrush" Value="#707070" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" Value="#3D3D3D"/>
+                                        <Setter Property="BorderBrush" Value="#707070" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                <Run Text="{Binding Path=Name}"/>
+                                <Run Text="+"/>
+                                <Run Text="{Binding Path=Version}"/>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+                <StackPanel Margin="0,0,0,5">
+                    <TextBlock Text="详细信息：" />
+                    <TextBlock x:Name="TextBlock1" Text="{Binding Path=Description}" Margin="5,10"/>
+                </StackPanel>
             </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Width="75" Height="100" Margin="0,-50,0,0">
+                <Button Content="复制信息" Margin="0,5"/>
+                <Button Content="系统信息" Click="Button1_Click" Margin="0,5"/>
+                <Button Content="DxDiag" Click="Button2_Click" Margin="0,5"/>
+
+            </StackPanel>
+            
+            
             <StackPanel Grid.Row="1" VerticalAlignment="Bottom" >
                 <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="CopyRight © 2021-2022 Grid All Rigths Reserved"/>
                 <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="Grid 的诞生离不开 OpenCV 开源项目以及其他开源软件" />

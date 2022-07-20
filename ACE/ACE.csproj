@@ -9,4 +9,9 @@
 	<Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Global\Global.csproj" />
+    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
+  </ItemGroup>
+
 </Project>

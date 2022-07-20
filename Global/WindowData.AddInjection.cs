@@ -187,7 +187,6 @@ namespace Global
             {
                 MessageBox.Show(ex.Message);
             }
-           
             //ColorBar ADD
             try
             {

@@ -49,34 +49,62 @@ internal static class FunctionExecutor
 		{
 			return 0;
 		}
-        using (List<Function>.Enumerator enumerator = functions.GetEnumerator())
-        {
-            while (enumerator.MoveNext())
+		foreach (var item in functions)
+		{
+			info.Function = item;
+            info.FunctionArguments = null;
+            info.Times = -1;
+            int result;
+            if (item.Routine != null)
             {
-                Function function = (info.Function = enumerator.Current);
-                info.FunctionArguments = null;
-                info.Times = -1;
-                int result;
-                if (function.Routine != null)
+                result = InvokeRoutine(info);
+            }
+            else
+            {
+                if (item.Async)
                 {
-                    result = InvokeRoutine(info);
+                    InvokeFunctionAsync(info);
+                    continue;
                 }
-                else
-                {
-                    if (function.Async)
-                    {
-                        InvokeFunctionAsync(info);
-                        continue;
-                    }
-                    result = InvokeFunction(info);
-                }
-                //返回 - 1 直接退出循环
-                if (result != 0 && result < 0)
-                {
-                    return result;
-                }
+                result = InvokeFunction(info);
+            }
+            //返回 - 1 直接退出循环
+            if (result != 0 && result < 0)
+            {
+                return result;
             }
         }
+
+        //using (List<Function>.Enumerator enumerator = functions.GetEnumerator())
+        //{
+        //    while (enumerator.MoveNext())
+        //    {
+        //        Function function = (info.Function = enumerator.Current);
+        //        info.FunctionArguments = null;
+        //        info.Times = -1;
+        //        int result;
+        //        if (function.Routine != null)
+        //        {
+        //            result = InvokeRoutine(info);
+        //        }
+        //        else
+        //        {
+        //            if (function.Async)
+        //            {
+        //                InvokeFunctionAsync(info);
+        //                continue;
+        //            }
+        //            result = InvokeFunction(info);
+        //        }
+        //        //返回 - 1 直接退出循环
+        //        if (result != 0 && result < 0)
+        //        {
+        //            return result;
+        //        }
+        //    }
+        //}
+
+
         if (info.Caller != null && functions.Count == 1)
 		{
 			info.Caller!.FunctionArguments = info.FunctionArguments;

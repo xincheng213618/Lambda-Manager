@@ -30,6 +30,7 @@ namespace Global
 
         public async void AddImageConfident(Image image1,int viewindex)
         {
+
             if (image1.Parent is Grid grid)
             {
                 grid.RowDefinitions.Clear();
@@ -103,6 +104,11 @@ namespace Global
                 grid1.Children.Remove(image1);
                 grid1.Children.Add(image);
             }
+            image.SizeChanged += delegate (object sender, SizeChangedEventArgs e)
+            {
+                LambdaControl.Trigger("ActualSize", this, new Dictionary<string, object>() { { "Hight", image.ActualHeight }, { "Width", image.ActualWidth } });
+            };
+
 
             if (image.Parent is Grid grid3)
             {

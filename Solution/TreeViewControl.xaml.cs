@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using Solution.RecentFile;
+using System.Threading;
 
 namespace Solution
 {
@@ -366,10 +367,7 @@ namespace Solution
             Node<int> doue = new Node<int>(1);
             doue.Next = new Node<int>(2);
             doue.Next.Next = doue;
-
-            
         }
-
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -397,10 +395,16 @@ namespace Solution
                     WindowData.GetInstance().FirstImage = view.Image;
                     view.Image = null;
                 }
+
+
+
+
+
                 IsFirstLoad = false;
             }
 
         }
+
     }
 
 }

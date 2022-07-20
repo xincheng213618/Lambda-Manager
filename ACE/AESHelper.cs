@@ -5,16 +5,23 @@ namespace ACE
     public class AESHelper
     {
         public IRegisterCode registerCode;
+        public string FilePath;
 
         public AESHelper()
         {
             registerCode = new FileRegisterCode();
+            FilePath = "application.xml";
+        }
+        public AESHelper(string filepath)
+        {
+            registerCode = new FileRegisterCode();
+            FilePath = filepath;
         }
 
         public void Encrypt()
         {
-            byte[] bytes = AES_EnorDecrypt.AESEncrypt(File.ReadAllBytes("application.xml"), registerCode.GetRegisterCode(), "Grid");
-            using (FileStream fs = new FileStream("application.sys", FileMode.OpenOrCreate, FileAccess.Write))
+            byte[] bytes = AES_EnorDecrypt.AESEncrypt(File.ReadAllBytes(FilePath), registerCode.GetRegisterCode(), "Grid");
+            using (FileStream fs = new FileStream(FilePath.Replace(".xml",".sys"), FileMode.OpenOrCreate, FileAccess.Write))
             {
                 fs.Write(bytes, 0, bytes.Length);
             }
@@ -22,7 +29,7 @@ namespace ACE
 
         public byte[] Decrypt()
         {
-            return AES_EnorDecrypt.AESDecrypt(File.ReadAllBytes("application.sys"), registerCode.GetRegisterCode(), "Grid");
+            return AES_EnorDecrypt.AESDecrypt(File.ReadAllBytes(FilePath.Replace(".xml", ".sys")), registerCode.GetRegisterCode(), "Grid");
         }
 
 

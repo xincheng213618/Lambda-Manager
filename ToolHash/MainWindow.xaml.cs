@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ACE;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -18,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
 using MessageBox = System.Windows.MessageBox;
 
 namespace ToolHash
@@ -29,9 +32,12 @@ namespace ToolHash
     {
         public MainWindow()
         {
+            this.DataContext = registerInfo;
             InitializeComponent();
         }
 
+        RegisterInfo registerInfo = new RegisterInfo();
+        string BasePath;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
@@ -40,44 +46,61 @@ namespace ToolHash
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string applicationxml = dialog.SelectedPath + "\\application.xml";
+                BasePath = dialog.SelectedPath;
                 XDocument xmlDoc = XDocument.Load(applicationxml);
                 XElement root = xmlDoc.Root;
 
-                foreach (var item in root.Descendants("component"))
+                XElement md5 = new XElement("md5", null);
+                root.Add(md5);
+                var Directoryroot = new DirectoryInfo(dialog.SelectedPath);
+                foreach (var item in Directoryroot.GetFiles())
                 {
-                    string FullName = dialog.SelectedPath + "\\" + item.Attribute("lib").Value.ToString();
-                    item.SetAttributeValue("md5", Hash.GetHash(FullName));
+                    if (item.Extension == ".dll")
+                    {
+                        XElement dll = new XElement("dll", null);
+                        dll.SetAttributeValue("path", item.FullName.Replace(BasePath+"\\","")); ;
+                        dll.SetAttributeValue("md5", Hash.GetHash(item.FullName));
+                        md5.Add(dll);
+                    }
                 }
+
+                foreach (var item in Directoryroot.GetDirectories())
+                {
+                    AddDirectory(md5, item.FullName);
+                }
+ 
                 xmlDoc.Save(applicationxml);
+
+                MessageBox.Show("hash创建成功");
             }
-
-
-
-            //FolderBrowserDialog dialog = new FolderBrowserDialog();
-            //dialog.Description = "请选择文件路径";
-
-            //if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    XmlDocument xmlDoc = new XmlDocument();
-            //    XmlDeclaration xmlSM = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
-            //    xmlDoc.AppendChild(xmlSM);
-            //    XmlElement xml = xmlDoc.CreateElement("", "main", "");
-            //    xml.SetAttribute("title", "NJUST-SCIL多模显微镜");
-            //    xmlDoc.AppendChild(xml);
-
-            //    string foldPath = dialog.SelectedPath;
-            //    DirectoryInfo root = new DirectoryInfo(foldPath);
-            //    foreach (var path in root.GetFiles())
-            //    {
-            //        XmlElement component = xmlDoc.CreateElement("", "component", "");
-            //        component.SetAttribute("lib", path.Name);
-            //        component.SetAttribute("md5", Hash.GetHash(path.FullName));
-            //        xml.AppendChild(component);
-            //    }
-            //    xmlDoc.Save("1.xml");
-            //}
         }
 
+        public void AddDirectory(XElement xElement, string FullName)
+        {
+            var Directoryroot = new DirectoryInfo(FullName);
+            foreach (var file in Directoryroot.GetFiles())
+            {
+                if (file.Extension==".dll")
+                {
+                    XElement dll = new XElement("dll", null);
+                    dll.SetAttributeValue("path", file.FullName.Replace(BasePath+"\\", ""));
+                    dll.SetAttributeValue("md5", Hash.GetHash(file.FullName));
+                    xElement.Add(dll);
+                }
+
+            }
+            foreach (var directoryInfo in Directoryroot.GetDirectories())
+            {
+                AddDirectory(xElement,directoryInfo.FullName);
+            }
+        }
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            AESHelper AESHelper = new AESHelper(BasePath + "\\application.xml");
+            AESHelper.registerCode.SetRegisterCode(registerInfo.GetSha512());
+            AESHelper.Encrypt();
+        }
     }
 
 

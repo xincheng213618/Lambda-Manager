@@ -8,5 +8,9 @@
 	<UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ACE\ACE.csproj" />
+  </ItemGroup>
+
 
 </Project>
