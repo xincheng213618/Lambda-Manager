@@ -35,6 +35,7 @@ namespace Wizard
         {
             (Application.Current.MainWindow as MainWindow).Close();
         }
+
         private void Pages()
         {
             Dispatcher.BeginInvoke(new Action(() => (Application.Current.MainWindow as MainWindow).frame.Navigate(Content)));

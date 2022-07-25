@@ -1,5 +1,12 @@
-#include "pch.h"
-#include "CUDA.h"
+ï»¿// CudaTest.cpp : æ­¤æ–‡ä»¶åŒ…å« "main" å‡½æ•°ã€‚ç¨‹åºæ‰§è¡Œå°†åœ¨æ­¤å¤„å¼€å§‹å¹¶ç»“æŸã€‚
+//
+
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <cufft.h>
+#include <cuda_runtime.h>
+#include <cuda_runtime_api.h>
+
 
 void Mat2Complex(cv::Mat src_r, cv::Mat src_i, cufftComplex* dst, int nH, int nW)
 {
@@ -37,13 +44,13 @@ void circshift(cv::Mat& out, const cv::Point& delta)
 {
 	cv::Size sz = out.size();
 
-	// ´íÎó¼ì²é
+	// é”™è¯¯æ£€æŸ¥
 	assert(sz.height > 0 && sz.width > 0);
-	// ´ËÖÖÇé¿ö²»ĞèÒªÒÆ¶¯
+	// æ­¤ç§æƒ…å†µä¸éœ€è¦ç§»åŠ¨
 	if ((sz.height == 1 && sz.width == 1) || (delta.x == 0 && delta.y == 0))
 		return;
 
-	// ĞèÒªÒÆ¶¯²ÎÊıµÄ±ä»»£¬ÕâÑù¾ÍÄÜÊäÈë¸÷ÖÖÕûÊıÁË
+	// éœ€è¦ç§»åŠ¨å‚æ•°çš„å˜æ¢ï¼Œè¿™æ ·å°±èƒ½è¾“å…¥å„ç§æ•´æ•°äº†
 	int x = delta.x;
 	int y = delta.y;
 	if (x > 0) x = x % sz.width;
@@ -51,13 +58,13 @@ void circshift(cv::Mat& out, const cv::Point& delta)
 	if (x < 0) x = x % sz.width + sz.width;
 	if (y < 0) y = y % sz.height + sz.height;
 
-	// ¶àÎ¬µÄMatÒ²ÄÜÒÆ¶¯
+	// å¤šç»´çš„Matä¹Ÿèƒ½ç§»åŠ¨
 	std::vector<cv::Mat> planes;
 	split(out, planes);
 
 	for (size_t i = 0; i < planes.size(); i++)
 	{
-		// ÊúÖ±·½ÏòÒÆ¶¯
+		// ç«–ç›´æ–¹å‘ç§»åŠ¨
 		cv::Mat tmp0, tmp1, tmp2, tmp3;
 		cv::Mat q0(planes[i], cv::Rect(0, 0, sz.width, sz.height - y));
 		cv::Mat q1(planes[i], cv::Rect(0, sz.height - y, sz.width, y));
@@ -66,7 +73,7 @@ void circshift(cv::Mat& out, const cv::Point& delta)
 		tmp0.copyTo(planes[i](cv::Rect(0, y, sz.width, sz.height - y)));
 		tmp1.copyTo(planes[i](cv::Rect(0, 0, sz.width, y)));
 
-		// Ë®Æ½·½ÏòÒÆ¶¯
+		// æ°´å¹³æ–¹å‘ç§»åŠ¨
 		cv::Mat q2(planes[i], cv::Rect(0, 0, sz.width - x, sz.height));
 		cv::Mat q3(planes[i], cv::Rect(sz.width - x, 0, x, sz.height));
 		q2.copyTo(tmp2);
@@ -89,7 +96,7 @@ void fftshift(cv::Mat& out)
 void FFTCUDA_img()
 {
 	cv::Mat test_img, img_fft, magnitudeImage;
-	test_img = cv::imread("001.BMP", 0);
+	test_img = cv::imread("C:\\Users\\Chen\\Desktop\\Lambda Manager\\x64\\Release\\001.BMP", 0);
 	test_img.convertTo(test_img, CV_32FC1);
 
 	int nH, nW;
@@ -99,12 +106,13 @@ void FFTCUDA_img()
 
 	int deviceCount = 0;
 	cudaError_t error_id = cudaGetDeviceCount(&deviceCount);
-	Logger::Log1(Severity::INFO, "cudaGetDeviceCoun %d", deviceCount);
 
 	cv::Mat planes[] = { cv::Mat_<float>(test_img), cv::Mat::zeros(test_img.size(), CV_32F) };
-	cufftComplex* cu_complexI_h, * cu_complexI_d;
+	cufftComplex* cu_complexI_h, * cu_complexI_d, cu_complexI_d1;
 	cu_complexI_h = (cufftComplex*)malloc(sizeof(cufftComplex) * nW * nH);
 	cudaMalloc((void**)&cu_complexI_d, sizeof(cufftComplex) * nW * nH);
+	cudaMalloc((void**)&cu_complexI_d1, sizeof(cufftComplex) * 54000 * 40000);
+
 	Mat2Complex(planes[0], planes[1], cu_complexI_h, nH, nW);
 	cudaMemcpy(cu_complexI_d, cu_complexI_h, sizeof(cufftComplex) * nW * nH, cudaMemcpyHostToDevice);
 	cufftHandle plan_forward;
@@ -119,17 +127,20 @@ void FFTCUDA_img()
 	merge(planes, 2, img_fft);
 	fftshift(img_fft);
 
-	split(img_fft, planes);//¶àÍ¨µÀ·ÖÀë
-	magnitude(planes[0], planes[1], magnitudeImage); 
+	split(img_fft, planes);//å¤šé€šé“åˆ†ç¦»
+	magnitude(planes[0], planes[1], magnitudeImage);
 	magnitudeImage += cv::Scalar::all(1);
 	log(magnitudeImage, magnitudeImage);
 	magnitudeImage = magnitudeImage(cv::Rect(0, 0, magnitudeImage.cols & -2, magnitudeImage.rows & -2));
 	normalize(magnitudeImage, magnitudeImage, 0, 1, cv::NORM_MINMAX);
 	magnitudeImage.convertTo(magnitudeImage, CV_8UC1, 255, 0);
 
-	Event::Trigger("SHOW_img", &magnitudeImage);
+}
 
 
-	Logger::Log1(Severity::INFO, "Invoke FFTCUDA img");
+int main()
+{
+	FFTCUDA_img();
+    std::cout << "Hello World!\n";
 }
 

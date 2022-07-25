@@ -46,7 +46,7 @@ internal class ViewGrid
     {
 		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
 
-		mainView.Children.Clear();
+		mainView.Children.Clear();  
 		mainView.ColumnDefinitions.Clear();
 		mainView.RowDefinitions.Clear();
 

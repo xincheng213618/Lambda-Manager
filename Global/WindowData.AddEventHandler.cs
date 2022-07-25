@@ -209,9 +209,6 @@ namespace Global
             int viewdex = (int)eventData["view"];
             View view = LambdaControl.GetImageView(viewdex);
 
-
-
-
             if (view == null)
                 return true;
             if (viewdex == 0&& FirstImage != null)
@@ -222,13 +219,20 @@ namespace Global
                     FirstImage = null;
                 }
             }
-            AddImageConfident(view.Image,viewdex);
+            view.ViewStateEventChanged += View_ViewStateEventChanged;
             return true;
         }
 
-        private void Image_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void View_ViewStateEventChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (sender is View view)
+            {
+                if (view.State == ViewState.RUNING)
+                {
+                    AddImageConfident(view.Image, view.Index);
+                    view.ViewStateEventChanged-= View_ViewStateEventChanged;
+                }
+            }
         }
 
         public MulSummary mulSummary = new();
@@ -341,7 +345,7 @@ namespace Global
             for (int i = 1; i < ints.Count; i++)
             {
                 await Task.Delay(800);
-                Image image = LambdaControl.GetImageView(i).Image;
+                var image = drawingCanvass[i];
                 if (image != null)
                 {
                     ContextMenu menu = new ContextMenu();

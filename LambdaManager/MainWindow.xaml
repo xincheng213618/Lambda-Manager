@@ -56,14 +56,15 @@
 
     <Grid  >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="141*"/>
-            <ColumnDefinition Width="499*"/>
+            <ColumnDefinition Width="282*"/>
+            <ColumnDefinition Width="805*"/>
+            <ColumnDefinition Width="193*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" Grid.ColumnSpan="2" >
+        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" Grid.ColumnSpan="3" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
@@ -84,7 +85,9 @@
                 <RadioButton Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
             </StackPanel>
             <DockPanel  Grid.Column="2">
-                <Menu DockPanel.Dock="Right" Name="menu" Background="Transparent" Margin="0,5,0,5" />
+                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent" Margin="0,5,0,5" >
+                    <MenuItem Header="文件"/>
+                </Menu>
 
 
                 <ComboBox Name="msgList" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" Height="30">
@@ -97,7 +100,7 @@
                 </ComboBox>
             </DockPanel>
         </Grid>
-        <Viewbox Grid.Row="1" Grid.ColumnSpan="2" >
+        <Viewbox Grid.Row="1" Grid.ColumnSpan="3" >
             <Grid Name="stageAcquisition" Grid.Row="1" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -509,7 +512,7 @@
 
         </Viewbox>
 
-        <Grid Name="stageConfig" Grid.Row="1"  Grid.ColumnSpan="2" >
+        <Grid Name="stageConfig" Grid.Row="1"  Grid.ColumnSpan="3" >
         </Grid>
     </Grid>
 </Base:BaseWindow>

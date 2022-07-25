@@ -71,7 +71,7 @@
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="分辨率"  Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                    <ComboBox x:Name="ComboBox1"  SelectionChanged="ComboBox1_SelectionChanged"/>
+                    <ComboBox x:Name="ComboBox1"  SelectionChanged="ComboBox1_SelectionChanged" />
 
                     <!--<Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>-->
                 </DockPanel>

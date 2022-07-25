@@ -5,11 +5,32 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System;
+using System.Threading;
 
 namespace Global
 {
     public class DrawingCanvas : System.Windows.Controls.Image
     {
+        public DrawingCanvas()
+        {
+
+        }
+        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.1) };
+        public DrawingCanvas(System.Windows.Controls.Image image)
+        {
+            _timer.Tick += delegate
+            {
+                if (image.Source != null)
+                {
+                    this.Source = image.Source;
+                    _timer.Stop();
+                }
+            };
+            _timer.Start();
+        }
+
+
+
         public List<Visual> visuals = new List<Visual>();
 
         [DllImport("user32.dll")]

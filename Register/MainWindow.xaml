@@ -32,7 +32,7 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <TextBlock Text="联系电话" Width="100"/>
-                <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"/>
+                <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"  TextChanged="H5a6_TextChanged"/>
             </DockPanel>
             <DockPanel Margin="5" >
                 <Button Content="注册" Click="Button_Click"/>

@@ -1,12 +1,9 @@
 ﻿using ACE;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -63,7 +60,6 @@ namespace ToolHash
                         md5.Add(dll);
                     }
                 }
-
                 foreach (var item in Directoryroot.GetDirectories())
                 {
                     AddDirectory(md5, item.FullName);
@@ -100,6 +96,7 @@ namespace ToolHash
             AESHelper AESHelper = new AESHelper(BasePath + "\\application.xml");
             AESHelper.registerCode.SetRegisterCode(registerInfo.GetSha512());
             AESHelper.Encrypt();
+
         }
     }
 

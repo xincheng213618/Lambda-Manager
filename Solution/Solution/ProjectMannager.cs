@@ -48,6 +48,17 @@ namespace NLGSolution
             }
             private set { }
         }
+        public override void AddChild(BaseObject baseObject)
+        {
+            base.AddChild(baseObject);
+            if (this.Parent != null)
+            {
+                string Extension = System.IO.Path.GetExtension(baseObject.FullPath);
+                if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
+                    this.Parent.AddChild(baseObject);
 
+            }
+
+        }
     }
 }

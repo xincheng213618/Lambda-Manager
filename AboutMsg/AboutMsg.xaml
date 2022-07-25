@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
-        Height="300" Width="400"  Background="#3A3A3A" Foreground="White" ResizeMode="NoResize"   Initialized="Window_Initialized" >
+        Height="400" Width="500"  Background="#3A3A3A" Foreground="White" ResizeMode="NoResize"   Initialized="Window_Initialized" >
 
     <Grid >
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="关于多模态显微镜"  Margin="10,-20,0,0"/>
@@ -14,14 +14,14 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Width="300" HorizontalAlignment="Left">
+            <StackPanel Width="400" HorizontalAlignment="Left">
                 <DockPanel Margin="0,0,0,5" >
                     <TextBlock Text="用户名："  Width="100"/>
                     <TextBlock x:Name="H5a1" Text="{Binding UserName}"/>
                 </DockPanel>
                 <StackPanel Margin="0,0,0,5">
                     <TextBlock Text="已安装的模块："  Width="100" HorizontalAlignment="Left"/>
-                    <ListView x:Name="ListView1" Height="100" SelectionChanged="ListView1_SelectionChanged">
+                    <ListView x:Name="ListView1" Height="150" SelectionChanged="ListView1_SelectionChanged">
                         <ListView.ItemContainerStyle >
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Style.Triggers>
@@ -62,7 +62,7 @@
                     <TextBlock x:Name="TextBlock1" Text="{Binding Path=Description}" Margin="5,10"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Right" Width="75" Height="100" Margin="0,-50,0,0">
+            <StackPanel HorizontalAlignment="Right" Width="75" Height="100" Margin="0,-100,0,0">
                 <Button Content="复制信息" Margin="0,5"/>
                 <Button Content="系统信息" Click="Button1_Click" Margin="0,5"/>
                 <Button Content="DxDiag" Click="Button2_Click" Margin="0,5"/>

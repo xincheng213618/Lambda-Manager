@@ -16,6 +16,26 @@ using System.Windows.Resources;
 
 namespace Global
 {
+
+    public class NewImage : Image
+    {
+
+        protected override Visual GetVisualChild(int index)
+        {
+            return base.GetVisualChild(index);
+        }
+
+        public NewImage(Image image)
+        {
+            this.image = image;
+            
+
+        }
+
+
+        public Image image { get; set; }
+
+    }
     /// <summary>
     /// 监听CallEventHandler事件
     /// </summary>
@@ -28,7 +48,10 @@ namespace Global
         private DrawMethod drawMethod = new DrawMethod();
         //private Pixel pixel = new Pixel();
 
-        public async void AddImageConfident(Image image1,int viewindex)
+        public DrawingCanvas[] drawingCanvass = new DrawingCanvas[100];
+
+
+        public void AddImageConfident(Image image1,int viewindex)
         {
 
             if (image1.Parent is Grid grid)
@@ -95,10 +118,8 @@ namespace Global
                 grid.Children.Add(stackPanel);
             }
 
-            await Task.Delay(1000);
-            DrawingCanvas image = new DrawingCanvas();
-
-            image.Source = image1.Source;
+            DrawingCanvas image = new DrawingCanvas(image1);
+            drawingCanvass[viewindex] = image;
             if (image1.Parent is Grid grid1)
             {
                 grid1.Children.Remove(image1);
@@ -112,7 +133,6 @@ namespace Global
 
             if (image.Parent is Grid grid3)
             {
-                await Task.Delay(100);
                 DrawingVisual dimDefaultVisual = new DrawingVisual();
                 image.AddVisual(dimDefaultVisual);
                 drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
@@ -153,6 +173,8 @@ namespace Global
 
                 ImageViewState.toolTop.PropertyChanged += delegate(object? sender, PropertyChangedEventArgs e)
                 {
+                    image.Source = image1.Source;
+
                     if (e.PropertyName == "PolygonChecked")
                     {
                         if (ImageViewState.toolTop.SelectChecked == false)
@@ -198,7 +220,7 @@ namespace Global
 
                 };
 
-                Application.Current.MainWindow.PreviewKeyDown += delegate (object sender, KeyEventArgs e)
+                Application.Current.MainWindow.PreviewKeyDown += (sender, e) =>
                 {
                     if (e.Key == Key.Escape && ImageViewState.toolTop.PolygonChecked)
                     {

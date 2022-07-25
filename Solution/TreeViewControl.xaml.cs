@@ -233,8 +233,7 @@ namespace Solution
                     //        }
                     //    }
                     //}
-
-                    //solutionExplorer.AddChild(seriesProjectManager);l
+                    //solutionExplorer.AddChild(seriesProjectManager);
                 }
 
             }
@@ -260,8 +259,8 @@ namespace Solution
                     }
                 }
             }
-            //if (IsNotExit)
-            //    Directory.CreateDirectory($"{FullName}\\derives");
+            if (IsNotExit)
+                Directory.CreateDirectory($"{FullName}\\derives");
             return baseObject;
         }
 
@@ -361,6 +360,8 @@ namespace Solution
         {
             //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
 
+            View view = LambdaControl.GetImageView(1);
+            view.State = ViewState.CLOSED;
             int[] data2 = new int[] { 144, 2, 3, 4, 5 };
             LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
 

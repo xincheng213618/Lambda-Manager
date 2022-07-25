@@ -42,6 +42,8 @@ void LambdaView::Show(cv::Mat mat)
 		if (updateFrame == NULL)
 			throw "updateFrame";
 		flag = updateFrame(index, index2, mat.data, mat.total() * mat.elemSize(), (int)mat.step);
+		if (flag == CLOSED)
+			closeImageView(index);
 	}
 }
 

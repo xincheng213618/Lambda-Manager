@@ -124,8 +124,10 @@ namespace LambdaManager
                     MenuItem menuItem = new MenuItem();
                     menuItem.Header = name;
                     items.Add(menuItem);
+                    items = menuItem.Items;
+
                     last = menuItem;
-                }
+                }   
             }
             return last;
         }
