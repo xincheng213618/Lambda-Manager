@@ -14,6 +14,7 @@ using Lambda;
 using LambdaManager.Core;
 using LambdaManager.DataType;
 using LambdaManager.Properties;
+using LambdaManager.Utils;
 using ThemeManager.Controls;
 
 
@@ -29,8 +30,7 @@ namespace LambdaManager
         internal View[] Views = Common.Views;
 
         public TabControl tabControl;
-
-
+        
 
         internal List<int> ClosingViewIndex = Common.ClosingViewIndex;
 
@@ -60,6 +60,8 @@ namespace LambdaManager
             SliderAll1.Value = 1920;
             SliderAll1.ValueChanged += Slider_ValueChanged;
             fpsState.DataContext = Common.fps;
+            mainView.Children.Clear();
+            mainView.Children.Add(ViewGrid.mainView);
         }
 
 
@@ -174,11 +176,6 @@ namespace LambdaManager
             return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager";
         }
 
-
-        private void InitViewer()
-        {
-            Views[0] = new View(view0, 0);
-        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

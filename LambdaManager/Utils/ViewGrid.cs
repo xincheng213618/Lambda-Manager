@@ -7,7 +7,7 @@ using Lambda;
 
 namespace LambdaManager.Utils;
 
-internal class ViewGrid
+public static class ViewGrid
 {
 	private static readonly int[] defaultViewIndexMap = new int[100]
 	{
@@ -42,10 +42,11 @@ internal class ViewGrid
         grid.Children.Add(image);
 		return grid;
 	}
+
+	public static Grid mainView = new Grid();
 	private static void GridSort(Grid[] GridLists)
     {
 
-		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
 		mainView.Children.Clear();  
 		mainView.ColumnDefinitions.Clear();
 		mainView.RowDefinitions.Clear();

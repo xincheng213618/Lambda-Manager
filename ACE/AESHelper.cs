@@ -9,12 +9,12 @@ namespace ACE
 
         public AESHelper()
         {
-            registerCode = new FileRegisterCode();
+            registerCode = new ReadRegisterCode();
             FilePath = "application.xml";
         }
         public AESHelper(string filepath)
         {
-            registerCode = new FileRegisterCode();
+            registerCode = new ReadRegisterCode();
             FilePath = filepath;
         }
 

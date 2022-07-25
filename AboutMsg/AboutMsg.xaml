@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
             <StackPanel Width="400" HorizontalAlignment="Left">
                 <DockPanel Margin="0,0,0,5" >
-                    <TextBlock Text="用户名："  Width="100"/>
+                    <TextBlock Text="用户名：" />
                     <TextBlock x:Name="H5a1" Text="{Binding UserName}"/>
                 </DockPanel>
                 <StackPanel Margin="0,0,0,5">

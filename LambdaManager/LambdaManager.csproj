@@ -33,9 +33,13 @@
     <Optimize>False</Optimize>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Controls\**" />
     <Compile Remove="resources\images\startimage\**" />
+    <EmbeddedResource Remove="Controls\**" />
     <EmbeddedResource Remove="resources\images\startimage\**" />
+    <None Remove="Controls\**" />
     <None Remove="resources\images\startimage\**" />
+    <Page Remove="Controls\**" />
     <Page Remove="resources\images\startimage\**" />
   </ItemGroup>
   <ItemGroup>
@@ -212,8 +216,5 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
   </ItemGroup>
 </Project>

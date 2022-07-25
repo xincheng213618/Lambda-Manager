@@ -48,7 +48,7 @@ void HistCalc(cv::Mat& MatPha,int i)
 
 	Event::Trigger("TestDataEvent2", gray, sizeof(char) * i);
 }
-Mat histnew(Mat& scr, int maxloc, double sumhist, int histmax, int histmin)
+Mat histnew(Mat& scr, int maxloc, double sumhist, int* histmax, int* histmin)
 {
 	Mat hist = Mat::zeros(1, 256, CV_32FC1);
 	float* ptr = scr.ptr<float>(0);
@@ -76,8 +76,8 @@ Mat histnew(Mat& scr, int maxloc, double sumhist, int histmax, int histmin)
 		}
 		else
 		{
-			histmax = i;
-			histmin = minloc + 1;
+			*histmax = i;
+			*histmin = minloc + 1;
 			break;
 		}
 	}
@@ -126,7 +126,7 @@ void Histograme(Mat Im1, LambdaView* pView1) {
 	int maxloc = maxLoc.y;
 	int histmin = 0, histmax = 0;
 
-	Mat hist = histnew(phaseMat_hist, maxloc, sumhist, histmax, histmin);
+	Mat hist = histnew(phaseMat_hist, maxloc, sumhist, &histmax, &histmin);
 	minMaxLoc(hist, 0, &max_val, 0, 0);
 
 	Mat hist_img = Mat::zeros(hist_height, 256 * scale, CV_8UC3);
@@ -259,13 +259,13 @@ int PlayFilm(std::string fileName) {
 		resize(frame, frame, cv::Size(1200, 900), 0, 0);
 		pView->Show(frame);
 		Histograme(frame, pView1);
-		//HistCalc(frame, pView->GetIndex());
+	    //HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
 		if (pView->IsState(ViewState::CLOSED)) {
 			delete pView;
 			break;
-		}
+		} 
 	}
 	// the camera will be deinitialized automatically in VideoCapture destructor
 	return 0;
