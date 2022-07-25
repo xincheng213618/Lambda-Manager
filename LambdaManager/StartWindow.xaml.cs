@@ -36,7 +36,6 @@ namespace LambdaManager
 
         private void Update()
         {
-
             Application.Current.Dispatcher.Invoke(delegate
             {
                 try

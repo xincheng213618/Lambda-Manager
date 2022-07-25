@@ -18,12 +18,8 @@ partial class App : Application
     private App()
     {
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
         Startup += (s, e) => App_Startup(s, e);
         Startup += (s, e) => Application_Startup(s, e);
-
-        //Startup += new StartupEventHandler(Taskbar_Initialized);
-        //Startup += new StartupEventHandler(jumpList_Initialized);
         Exit += new ExitEventHandler(Application_Exit);
     }
 
@@ -41,7 +37,6 @@ partial class App : Application
         mutex = new Mutex(true, "ElectronicNeedleTherapySystem", out bool ret);
         if (!ret)
         {
-            //MessageBox.Show("程序重复打开");
             Shutdown();
         }
         else

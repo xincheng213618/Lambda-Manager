@@ -1,14 +1,11 @@
 ﻿using System.Windows.Media;
 using System.Windows.Controls;
-using System.Windows;
-using System.Drawing;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
+
 
 namespace Global
 {
-    public class DrawingCanvas : System.Windows.Controls.Image
+    public class DrawingCanvas : Image
     {
         public List<DrawingVisual> visuals = new List<DrawingVisual>();
 

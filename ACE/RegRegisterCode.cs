@@ -27,7 +27,9 @@ namespace ACE
             {
                 k = Registry.CurrentUser.CreateSubKey(RegistryKey);
             }
-            return k.GetValue(Key).ToString();
+            object value = k.GetValue(Key);
+
+            return value != null ? (string)value : string.Empty;
         }
 
         public void SetRegisterCode(string Code)
