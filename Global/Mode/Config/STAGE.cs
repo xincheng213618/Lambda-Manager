@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class Stage : ViewModeBase
+    public class Stage : ViewModelBase
     {
         [JsonPropertyName("moving-step")]
         public MoveStep MoveStep { get; set; }= new MoveStep();
@@ -61,7 +61,7 @@ namespace Global.Mode.Config
     }
 
     [Serializable]
-    public class MoveStep : ViewModeBase
+    public class MoveStep : ViewModelBase
     {
         private int xstep = 200 ;
         [JsonPropertyName("x-step")]

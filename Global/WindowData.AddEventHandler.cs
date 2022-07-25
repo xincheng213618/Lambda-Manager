@@ -51,7 +51,6 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
             LambdaControl.AddLambdaEventHandler("seriesProjectManager111", seriesProjectManager, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
-
         }
 
         private bool seriesProjectManager(object sender, EventArgs e)

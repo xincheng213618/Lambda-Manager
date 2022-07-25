@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Global.Mode
 {
-    public class StageTest:ViewModeBase
+    public class StageTest:ViewModelBase
     {
         private double stageX;
 

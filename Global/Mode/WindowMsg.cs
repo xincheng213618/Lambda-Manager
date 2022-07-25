@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Global.Mode
 {
-    public class WindowMsg:ViewModeBase
+    public class WindowMsg:ViewModelBase
     {
         private int viewNums = 0;
         public int ViewNums

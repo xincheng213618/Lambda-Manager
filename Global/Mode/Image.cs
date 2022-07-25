@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Global.Mode
 {
-    public class ImageParameter: ViewModeBase
+    public class ImageParameter: ViewModelBase
     {
         private double scaleTransformCenterX = 0;
         public double ScaleTransformCenterX

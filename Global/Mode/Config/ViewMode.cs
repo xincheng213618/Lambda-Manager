@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Global.Mode.Config
 {
-    public class ViewMode : ViewModeBase
+    public class ViewMode : ViewModelBase
     {
         private int selectViewMode = 0;
         public int SelectViewMode
@@ -49,7 +49,7 @@ namespace Global.Mode.Config
 
     }
 
-    public class BrightField : ViewModeBase
+    public class BrightField : ViewModelBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 };
 
@@ -86,7 +86,7 @@ namespace Global.Mode.Config
         }
     };
 
-    public class DarkField : ViewModeBase
+    public class DarkField : ViewModelBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 , Gamma =  1.67};
 
@@ -178,7 +178,7 @@ namespace Global.Mode.Config
         }
     };
 
-    public class Reinberg : ViewModeBase
+    public class Reinberg : ViewModelBase
     {
 
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 , Gamma = 2 };
@@ -255,7 +255,7 @@ namespace Global.Mode.Config
     };
 
     //差分
-    public class ReliefContrast : ViewModeBase
+    public class ReliefContrast : ViewModelBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 3 } ;
 
@@ -381,7 +381,7 @@ namespace Global.Mode.Config
         }
     }
     //相位
-    public class PhaseContrast : ViewModeBase
+    public class PhaseContrast : ViewModelBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5};
 
@@ -484,7 +484,7 @@ namespace Global.Mode.Config
     }
 
 
-    public class QuantitativePhase : ViewModeBase
+    public class QuantitativePhase : ViewModelBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 };
 

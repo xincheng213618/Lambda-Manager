@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace LambdaManager.Utils;
 
-public class FPSCounter : ViewModeBase
+public class FPSCounter : ViewModelBase
 {
 	private string fps;
 

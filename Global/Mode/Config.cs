@@ -14,7 +14,7 @@ namespace Mode
     /// 本软件配置文件实体类
     /// </summary>
     [Serializable]
-    public class Config: ViewModeBase
+    public class Config: ViewModelBase
     {
         [JsonPropertyName("version")]
         public string? Version { get; set; }

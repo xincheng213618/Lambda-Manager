@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class Camera : ViewModeBase
+    public class Camera : ViewModelBase
     {
         public int SelectViewMode = 0;
 

@@ -7,7 +7,7 @@ namespace Global.Common
     /// <summary>
     /// 实例化一个Mode
     /// </summary>
-    public abstract class ViewModeBase :INotifyPropertyChanged
+    public abstract class ViewModelBase :INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

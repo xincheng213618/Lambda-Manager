@@ -7,7 +7,7 @@ using Global.Common;
 
 namespace Global.Mode
 {
-    public class HistogramModel : ViewModeBase
+    public class HistogramModel : ViewModelBase
     {
         private string min = "0";
         /// <summary>

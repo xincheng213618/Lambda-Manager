@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class MulDimensional: ViewModeBase
+    public class MulDimensional: ViewModelBase
     {
         public void Set(MulDimensional mulDimensional)
         {
@@ -340,7 +340,7 @@ namespace Global.Mode.Config
     }
 
 
-    public class Optimize : ViewModeBase
+    public class Optimize : ViewModelBase
     {
         private int global = 1;
 
@@ -380,7 +380,7 @@ namespace Global.Mode.Config
 
       
     }
-    public class UserDefine : ViewModeBase
+    public class UserDefine : ViewModelBase
     {
         private int global = 3;
 

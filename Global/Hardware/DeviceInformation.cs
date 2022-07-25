@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Global.Hardware
 {
-    public class DeviceInformation: ViewModeBase
+    public class DeviceInformation: ViewModelBase
     {
         //Objectiv
         public List<ObjectiveSetting> ObjectiveSettingList;

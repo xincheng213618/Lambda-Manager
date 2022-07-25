@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Mode
 {
-    public class UpdateStatus : ViewModeBase
+    public class UpdateStatus : ViewModelBase
     {
         private string window = "[6,1,2,3,4,5,6]";
 

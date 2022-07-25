@@ -13,9 +13,8 @@ namespace NLGSolution
     /// 工程文件的基础Object
     /// 继承自ViewModeBase的
     /// </summary>
-    public class BaseObject : ViewModeBase
+    public class BaseObject : ViewModelBase
     {
-
         public ObservableCollection<BaseObject> AdllChildren { get; set; }  
 
         public ObservableCollection<BaseObject> Children { get; set; }

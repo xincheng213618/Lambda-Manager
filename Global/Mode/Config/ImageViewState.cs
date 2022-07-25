@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Global.Mode.Config
 {
-    public class ImageViewState : ViewModeBase
+    public class ImageViewState : ViewModelBase
     {
         public void SetValue(ImageViewState imageViewState)
         {
@@ -25,7 +25,7 @@ namespace Global.Mode.Config
         /// <summary>
         /// 左侧工具栏状态
         /// </summary>
-        public class ToolLeft : ViewModeBase
+        public class ToolLeft : ViewModelBase
         {
             public void SetValue(ToolLeft toolLeft)
             {
@@ -85,7 +85,7 @@ namespace Global.Mode.Config
         /// <summary>
         /// 顶部工具栏状态
         /// </summary>
-        public class ToolTop : ViewModeBase
+        public class ToolTop : ViewModelBase
         {
             public ToolTop()
             {
@@ -485,7 +485,7 @@ namespace Global.Mode.Config
         /// <summary>
         /// 右侧工具栏状态
         /// </summary>
-        public class ToolRight : ViewModeBase
+        public class ToolRight : ViewModelBase
         {
             public void SetValue(ToolRight toolRight)
             {
@@ -619,7 +619,7 @@ namespace Global.Mode.Config
         /// <summary>
         /// 底部工具栏
         /// </summary>
-        public class ToolBottom : ViewModeBase
+        public class ToolBottom : ViewModelBase
         {
             public void SetValue(ToolBottom toolBottom)
             {

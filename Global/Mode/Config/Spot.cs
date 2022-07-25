@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class  TestMean:ViewModeBase
+    public class  TestMean:ViewModelBase
     {
         [JsonPropertyName("config-stage")]
         public Stage Stage { get; set; }    

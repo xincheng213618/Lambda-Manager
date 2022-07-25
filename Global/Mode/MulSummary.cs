@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Global.Mode
 {
-    public class MulSummary:ViewModeBase
+    public class MulSummary:ViewModelBase
     {
         private string collectionTimes = "0";
         /// <summary>

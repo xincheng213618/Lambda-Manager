@@ -6,7 +6,7 @@ namespace Global.Mode
     /// <summary>
     /// 注册信息
     /// </summary>
-    public class RegisterInfo : ViewModeBase
+    public class RegisterInfo : ViewModelBase
     {
 
         public void SetValue(RegisterInfo registerInfo)

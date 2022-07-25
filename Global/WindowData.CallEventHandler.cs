@@ -52,12 +52,12 @@ namespace Global
                     pixelAnalysis.Height = Double.NaN;
                     pixelAnalysis.DataContext = histogramModel;
 
-                    GridSplitter gridSplitter = (GridSplitter)grid1.Children[1];
-                    gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    gridSplitter.VerticalAlignment = VerticalAlignment.Center;
-                    Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
-                    gridSplitter.Background = brush;
-                    gridSplitter.Height = 3;
+                    //GridSplitter gridSplitter = (GridSplitter)grid1.Children[1];
+                    //gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    //gridSplitter.VerticalAlignment = VerticalAlignment.Center;
+                    //Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
+                    //gridSplitter.Background = brush;
+                    //gridSplitter.Height = 3;
                     grid1.Children.Add(pixelAnalysis);
                     Grid.SetRow(pixelAnalysis, 2);
 
@@ -70,20 +70,20 @@ namespace Global
                     if (leftToolBar == null) return;
                     WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
                     ToggleButton histogramTogg = (ToggleButton)leftToolBarChild.Children[3];
-                    histogramTogg.Checked += delegate
-                    {
-                        grid1.RowDefinitions[2].Height = new GridLength(200, GridUnitType.Pixel);
-                        pixelAnalysis.Visibility = Visibility.Visible;
 
-                    };
-                    histogramTogg.Unchecked += delegate
-                    {
-                        pixelAnalysis.Visibility = Visibility.Collapsed;
-                        grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
+                    //histogramTogg.Checked += delegate
+                    //{
+                    //    grid1.RowDefinitions[2].Height = new GridLength(200, GridUnitType.Pixel);
+                    //    pixelAnalysis.Visibility = Visibility.Visible;
 
-                    };
+                    //};
+                    //histogramTogg.Unchecked += delegate
+                    //{
+                    //    pixelAnalysis.Visibility = Visibility.Collapsed;
+                    //    grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
 
-                    // grid1.Children.Remove(image1);
+                    //};
+
                     image.Visibility = Visibility.Collapsed;
                     grid1.Children.Add(image);
                     Grid.SetRow(image, 0);
@@ -109,13 +109,8 @@ namespace Global
                             {"x",(int)MousePoint.X },
                             {"y",(int)MousePoint.Y },
                             {"flag",(int)1024 }
-
                             };
                             LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-                           // ratio = ratio * 1.2;
-                           // ration.Text = ratio.ToString("P");
-
-
                         }
                         else
                         {
@@ -127,8 +122,6 @@ namespace Global
                             {"flag",(int)-1024 }
                             };
                             LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-                            //ratio = ratio * 0.8;
-                           // ration.Text = ratio.ToString("P0");
                         }
 
                     };

@@ -8,28 +8,28 @@ namespace Global.Common.Extensions
         /// <summary>
         /// 导出json
         /// </summary>
-        public static string ToJson(this ViewModeBase viewModeBase)
+        public static string ToJson(this ViewModelBase viewModeBase)
         {
             if (viewModeBase == null)   
                 throw new ArgumentNullException(nameof(viewModeBase));
             return JsonHelper.ToJson(viewModeBase);
         }
 
-        public static int ToJsonFile(this ViewModeBase viewModeBase, string filePath)
+        public static int ToJsonFile(this ViewModelBase viewModeBase, string filePath)
         {
             if (viewModeBase == null)
                 throw new ArgumentNullException(nameof(viewModeBase));
             return JsonHelper.ToJsonFile(viewModeBase, filePath, false);
         }
 
-        public static string ToXML(this ViewModeBase viewModeBase)
+        public static string ToXML(this ViewModelBase viewModeBase)
         {
             if (viewModeBase == null)
                 throw new ArgumentNullException(nameof(viewModeBase));
             return viewModeBase.SerializeXml();
         }
 
-        public static int ToXMLFile(this ViewModeBase viewModeBase, string filePath)
+        public static int ToXMLFile(this ViewModelBase viewModeBase, string filePath)
         {
             if (viewModeBase == null)
                 throw new ArgumentNullException(nameof(viewModeBase));

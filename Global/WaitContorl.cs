@@ -7,10 +7,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Global.Common;
 
 namespace Global
 {
-    public class WaitContorl
+    public class WaitContorl:ViewModelBase 
     {
         private static WaitContorl instance;
         private static readonly object locker = new();
@@ -20,6 +21,14 @@ namespace Global
             lock (locker) { if (instance == null) { instance = new WaitContorl(); } }
             return instance;
         }
+
+        private bool _isWait = false;
+        public  bool IsWait
+        {
+            get { return _isWait; }
+            set { _isWait = value; }
+        }
+
 
 
         private Grid WaitWindow;
@@ -81,6 +90,7 @@ namespace Global
                 WaitWindow.Visibility = Visibility.Visible;
             }
         }
+        
 
         public async void Timer(int time)
         {
