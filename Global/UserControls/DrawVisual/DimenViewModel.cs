@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace Global
 {
-    public  class DimenViewModel: ViewModelBase
+    public  class DimenViewModel: ViewModelBase1
     {
 		#region fields
 

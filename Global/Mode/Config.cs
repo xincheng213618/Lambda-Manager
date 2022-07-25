@@ -26,7 +26,7 @@ namespace Mode
 
         [JsonPropertyName("lambda-manager")]
         public LambdaManager LambdaManager { get; set; } = new LambdaManager();
-        
+
         [JsonPropertyName("firmware")]
         public Firmware FirmwareSetting { get; set; }
 
@@ -68,13 +68,12 @@ namespace Mode
         public string? ConfigMultiDimensional { get; set; } = "1.0";
         [JsonPropertyName("dpc-algorithm")]
         public string? DpcAlgorithm { get; set; } = "1.0";
-
     }
     [Serializable]
     public class LambdaManager
     {
         [JsonPropertyName("latest-closed")]
-        public List<string>? RecentFileList { get; set; }
+        public List<string>? LatestClosed { get; set; }
         [JsonPropertyName("default-directory")]
         public string?  DefaultDirectory { get; set; }   
     }

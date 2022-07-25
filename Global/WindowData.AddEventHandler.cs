@@ -33,8 +33,8 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
             LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
 
-
-            LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
+           
+            //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
             LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
 
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
@@ -50,6 +50,8 @@ namespace Global
             //控制直方图显示和隐藏
             LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
             LambdaControl.AddLambdaEventHandler("seriesProjectManager111", seriesProjectManager, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
+
         }
 
         private bool seriesProjectManager(object sender, EventArgs e)
@@ -65,7 +67,7 @@ namespace Global
                 toggleButton.IsChecked =false;
                 toggleButton.Content = "预览";
                 EventArgs eventArgs = new EventArgs();
-                LambdaControl.Trigger("STOP_ALIVE",this, eventArgs);
+                //LambdaControl.Trigger("STOP_ALIVE",this, eventArgs);
 
                 // toggleButton.PerformClick();
             }
@@ -92,6 +94,7 @@ namespace Global
 
             int window = (int)eventData["window"];
             int flag = (int)eventData["flag"];
+
             if (window>=0&&window<= LambdaBottomViews.Length)
             {
                 if (LambdaBottomViews[window] != null)
@@ -208,7 +211,6 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int viewdex = (int)eventData["view"];
             View view = LambdaControl.GetImageView(viewdex);
-
             if (view == null)
                 return true;
             if (viewdex == 0&& FirstImage != null)
@@ -219,21 +221,36 @@ namespace Global
                     FirstImage = null;
                 }
             }
-            view.ViewStateEventChanged += View_ViewStateEventChanged;
+            AddImageConfident(view.Image,viewdex);
+
             return true;
         }
 
-        private void View_ViewStateEventChanged(object sender, EventArgs e)
+        public HistogramModel histogramModel = new HistogramModel();
+
+        private bool UpdateHistogramModel(object sender, EventArgs e)
         {
-            if (sender is View view)
-            {
-                if (view.State == ViewState.RUNING)
-                {
-                    AddImageConfident(view.Image, view.Index);
-                    view.ViewStateEventChanged-= View_ViewStateEventChanged;
-                }
-            }
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            histogramModel.Max= GetStringValue(eventData, "Max");
+            histogramModel.Min = GetStringValue(eventData, "Min");
+            histogramModel.Mean = GetStringValue(eventData, "Mean");  
+            histogramModel.Variance = GetStringValue(eventData, "Variance");       
+            histogramModel.Gamma= GetStringValue(eventData, "Gamma");
+            histogramModel.Outlier = GetStringValue(eventData, "Outlier");
+            histogramModel.RangeMin =int.Parse(GetStringValue(eventData, "RangeMin")); 
+            histogramModel.RangeMax = int.Parse(GetStringValue(eventData, "RangeMax"));
+
+            return true;
         }
+
+
+
+
+
+
 
         public MulSummary mulSummary = new();
 
@@ -336,7 +353,17 @@ namespace Global
             {
                 ints.Add(int.Parse(updateStatus.Window.Substring(j, 1)));
             }
-            asyncAdd(ints);
+            try
+            {
+                asyncAdd(ints);
+            }
+            catch(Exception ex)
+            {
+
+
+                Lambda.LambdaControl.Log(new Message { Severity = Severity.INFO, Text = ex.Message });
+            }
+           
             return true;
         }
 
@@ -427,11 +454,27 @@ namespace Global
                     int size = (int)eventData["size"];
 
                     IntPtr intPtr = (IntPtr)eventData["data"];
-                    byte[] aaa = new byte[size];
-                    Marshal.Copy(intPtr, aaa, 0, size);
+                    //byte[] aaa = new byte[size];
+                    //Marshal.Copy(intPtr, aaa, 0, size);
                     //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
                     //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
                     //pinnedArray.Free();
+
+                    if (image.Source is WriteableBitmap writeableBitmap1)
+                    {
+                        Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
+                        writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
+
+                    }
+                    else
+                    {
+                        WriteableBitmap writeableBitmap = new WriteableBitmap(300, 300, 96.0, 96.0, PixelFormats.Bgr24, null);
+                        RtlMoveMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
+                        writeableBitmap.Lock();
+                        writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+                        writeableBitmap.Unlock();
+                        image.Source = writeableBitmap;
+                    }
 
 
 

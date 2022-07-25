@@ -77,6 +77,7 @@ namespace Global
         }
         public ImageViewState ImageViewState = new ImageViewState();
         public RegisterInfo RegisterInfo = new RegisterInfo();
+
         public void SaveConfig()
         {
             Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
@@ -87,14 +88,10 @@ namespace Global
             Config.Stage.SetValue(Stage);
             Config.ImageViewState.SetValue(ImageViewState);
             Config.RegisterInfo.SetValue(RegisterInfo);
-
-            
             Config.ToJsonFile(FilePath);
         }
 
         public Image FirstImage;
-
-
         /// <summary>
         /// 读取配置文件
         /// </summary>

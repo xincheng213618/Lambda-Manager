@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Global.Mode.Config
 {
     [Serializable]
-    public class  TestMean : ViewModeBase
+    public class  TestMean:ViewModeBase
     {
         [JsonPropertyName("config-stage")]
         public Stage Stage { get; set; }    
@@ -21,7 +21,7 @@ namespace Global.Mode.Config
     }
 
     [Serializable]
-    public class Spot:ViewModeBase
+    public class Spot
     {
         [JsonPropertyName("includes")]
         public List<List<int>> Includes { get;set; } = new List<List<int>>();
@@ -30,7 +30,7 @@ namespace Global.Mode.Config
         public List<List<int>> Excludes { get; set; } = new List<List<int>>();
     }
     [Serializable]
-    public class Dimensional : ViewModeBase
+    public class Dimensional 
     {
         [JsonPropertyName("imaging-mode")]
         public List<string> Mode { get; set; } = new List<string>();
@@ -59,6 +59,13 @@ namespace Global.Mode.Config
 
         [JsonPropertyName("p-wise")]
         public Pwise Pwise { get; set; } = new();
+
+        [JsonPropertyName("optimized")]
+        public Optimized Optimized { get; set; } = new();
+
+
+
+
     }
     [Serializable]
     public class Twise
@@ -74,7 +81,7 @@ namespace Global.Mode.Config
     }
 
     [Serializable]
-    public class ZstackWiseSerial : ViewModeBase
+    public class ZstackWiseSerial 
     {
         [JsonPropertyName("z-begin")]
         public int ZBegin { get; set; } 
@@ -87,11 +94,28 @@ namespace Global.Mode.Config
 
 
     [Serializable]
-    public class TimeWiseSerial : ViewModeBase
+    public class TimeWiseSerial 
     {
         [JsonPropertyName("times")]
         public int Times { get; set; } = 0;
         [JsonPropertyName("duration")]
         public int Duration { get; set; } = 0;
+        [JsonPropertyName("mode")]
+        public String Mode { get; set; } = "s";
+
     }
+
+    [Serializable]
+    public class Optimized
+    {
+        [JsonPropertyName("global")]
+        public int Global { get; set; } = 0;
+        [JsonPropertyName("local")]
+        public int Local { get; set; } = 0;
+        [JsonPropertyName("precision")]
+        public int Precision { get; set; } = 0;
+    }
+
+
+
 }

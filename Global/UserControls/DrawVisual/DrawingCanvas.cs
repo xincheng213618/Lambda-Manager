@@ -5,54 +5,12 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System;
-using System.Threading;
 
 namespace Global
 {
     public class DrawingCanvas : System.Windows.Controls.Image
     {
-        public DrawingCanvas()
-        {
-
-        }
-        private readonly System.Windows.Threading.DispatcherTimer _timer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.1) };
-        public DrawingCanvas(System.Windows.Controls.Image image)
-        {
-            _timer.Tick += delegate
-            {
-                if (image.Source != null)
-                {
-                    this.Source = image.Source;
-                    _timer.Stop();
-                }
-            };
-            _timer.Start();
-        }
-
-
-
-        public List<Visual> visuals = new List<Visual>();
-
-        [DllImport("user32.dll")]
-        static extern IntPtr GetDC(IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        static extern Int32 ReleaseDC(IntPtr hwnd, IntPtr hdc);
-
-        [DllImport("gdi32.dll")]
-        static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
-
-        static public System.Drawing.Color GetPixelColor(int x, int y)
-        {
-            IntPtr hdc = GetDC(IntPtr.Zero);
-            uint pixel = GetPixel(hdc, x, y);
-            ReleaseDC(IntPtr.Zero, hdc);
-            System.Drawing.Color color = System.Drawing.Color.FromArgb((int)(pixel & 0x000000FF),
-                         (int)(pixel & 0x0000FF00) >> 8,
-                         (int)(pixel & 0x00FF0000) >> 16);
-            return color;
-        }
-
+        public List<DrawingVisual> visuals = new List<DrawingVisual>();
 
         protected override Visual GetVisualChild(int index)
         {
@@ -66,7 +24,7 @@ namespace Global
             }
         }
 
-        public void AddVisual(Visual visual)
+        public void AddVisual(DrawingVisual visual)
         {
             visuals.Add(visual);
 
@@ -74,7 +32,7 @@ namespace Global
             base.AddLogicalChild(visual);
         }
 
-        public void DeleteVisual(Visual visual)
+        public void DeleteVisual(DrawingVisual visual)
         {
             visuals.Remove(visual);
 

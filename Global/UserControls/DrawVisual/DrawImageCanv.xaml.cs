@@ -152,34 +152,7 @@ namespace Global.UserControls.DrawVisual
                 if (visual != null) drawingSurface.DeleteVisual(visual);
             }
 
-            //else if (ToolTop.EraserChecked == true)
-            //{
-            //    DrawingVisual visual = drawingSurface.GetVisual(pointClicked);
-            //    if (visual != null)
-            //    {
-            //        // Calculate the top-left corner of the square.
-            //        // This is done by looking at the current bounds and
-            //        // removing half the border (pen thickness).
-            //        // An alternate solution would be to store the top-left
-            //        // point of every visual in a collection in the 
-            //        // DrawingCanvas, and provide this point when hit testing.
-            //        Point topLeftCorner = new Point(
-            //            visual.ContentBounds.TopLeft.X + drawingPen.Thickness / 2,
-            //            visual.ContentBounds.TopLeft.Y + drawingPen.Thickness / 2);
-            //        DrawSquare(visual, topLeftCorner, true);
-
-            //        clickOffset = topLeftCorner - pointClicked;
-            //        isDragging = true;
-
-            //        if (selectedVisual != null && selectedVisual != visual)
-            //        {
-            //            // The selection has changed. Clear the previous selection.
-            //            ClearSelection();
-            //        }
-            //        selectedVisual = visual;
-            //    }
-            //}
-
+          
         }
         public void DrawingContent()
         {

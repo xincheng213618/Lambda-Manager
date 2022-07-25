@@ -10,7 +10,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Histogram.jpg" />
+    <None Remove="Resources\startpicture1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RangeSlider">
+      <HintPath>..\DLL\RangeSlider.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Histogram.jpg" />
+    <Resource Include="Resources\startpicture1.png" />
   </ItemGroup>
 
   <ItemGroup>

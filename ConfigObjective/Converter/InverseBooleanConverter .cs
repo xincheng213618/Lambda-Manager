@@ -25,6 +25,7 @@ namespace ConfigObjective.Converter
             System.Globalization.CultureInfo culture)
         {
             throw new NotSupportedException();
+            return !(bool)value;
         }
     }
 }

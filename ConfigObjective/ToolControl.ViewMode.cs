@@ -258,6 +258,7 @@ namespace ConfigObjective
                 {
                     Border2.DataContext = ViewMode.Reinberg.CameraSetting;
                 }
+
                 if (ViewMode.SelectViewMode == 3)
                 {
                     Border2.DataContext = ViewMode.ReliefContrast.CameraSetting;

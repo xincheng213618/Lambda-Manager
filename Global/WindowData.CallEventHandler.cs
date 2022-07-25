@@ -12,30 +12,12 @@ using System.Windows.Data;
 using Global.UserControls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Resources;
+using System.IO;
 
 namespace Global
 {
-
-    public class NewImage : Image
-    {
-
-        protected override Visual GetVisualChild(int index)
-        {
-            return base.GetVisualChild(index);
-        }
-
-        public NewImage(Image image)
-        {
-            this.image = image;
-            
-
-        }
-
-
-        public Image image { get; set; }
-
-    }
     /// <summary>
     /// 监听CallEventHandler事件
     /// </summary>
@@ -46,486 +28,609 @@ namespace Global
 
         static GridLengthConverter gridLengthConverter = new GridLengthConverter();
         private DrawMethod drawMethod = new DrawMethod();
-        //private Pixel pixel = new Pixel();
+        Window mainwin = Application.Current.MainWindow;
 
         public DrawingCanvas[] drawingCanvass = new DrawingCanvas[100];
+        public double ratio =1;
 
-
-        public void AddImageConfident(Image image1,int viewindex)
+        public async void AddImageConfident(Image image1, int viewindex)
         {
-
-            if (image1.Parent is Grid grid)
+            // MessageBox.Show("1111");
+            if (image1.Parent is Grid grid0)
             {
-                grid.RowDefinitions.Clear();
-                grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
-                for (int i = 0; i < 1; i++)
+
+
+                DrawingCanvas image = new DrawingCanvas();
+                drawingCanvass[viewindex] = image;
+
+                if (image1.Parent is Grid grid1)
                 {
-                    RowDefinition rowDefinition = new RowDefinition() { Height = GridLength.Auto};
-                    grid.RowDefinitions.Add(rowDefinition);
+
+                    PixelAnalysis pixelAnalysis = new PixelAnalysis();
+                    StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView0");
+
+                    pixelAnalysis.Height = Double.NaN;
+                    pixelAnalysis.DataContext = histogramModel;
+
+                    GridSplitter gridSplitter = (GridSplitter)grid1.Children[1];
+                    gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    gridSplitter.VerticalAlignment = VerticalAlignment.Center;
+                    Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
+                    gridSplitter.Background = brush;
+                    gridSplitter.Height = 3;
+                    grid1.Children.Add(pixelAnalysis);
+                    Grid.SetRow(pixelAnalysis, 2);
+
+
+                    grid1.Children.Remove(stackPanel);
+
+                    pixelAnalysis.Visibility = Visibility.Collapsed;
+
+                    DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
+                    if (leftToolBar == null) return;
+                    WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
+                    ToggleButton histogramTogg = (ToggleButton)leftToolBarChild.Children[3];
+                    histogramTogg.Checked += delegate
+                    {
+                        grid1.RowDefinitions[2].Height = new GridLength(200, GridUnitType.Pixel);
+                        pixelAnalysis.Visibility = Visibility.Visible;
+
+                    };
+                    histogramTogg.Unchecked += delegate
+                    {
+                        pixelAnalysis.Visibility = Visibility.Collapsed;
+                        grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
+
+                    };
+
+                    // grid1.Children.Remove(image1);
+                    image.Visibility = Visibility.Collapsed;
+                    grid1.Children.Add(image);
+                    Grid.SetRow(image, 0);
+
+
                 }
-             
-                grid.Children.Clear();
 
-                Grid.SetRow(image1, 0);
-                grid.Children.Add(image1);
-
-                Grid stackPanel = new Grid() ;
-                Grid.SetRow(stackPanel, 1);
-
-                double height = 100;
-
-                BottomView bottomView = new BottomView();
-                bottomView.SizeChanged += delegate
+                if (image.Parent is Grid grid3)
                 {
-                    height = bottomView.ActualHeight;
-                };
-                bottomView.IsVisibleChanged += delegate
-                {
-                    if (bottomView.Visibility == Visibility.Collapsed)
+
+                    TextBox ratioN = (TextBox)mainwin.FindName("ratio");
+                    string rat = ratioN.Text;
+                    ratio = Convert.ToDouble(rat.Trim('%')) / 100;
+
+                    image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
                     {
-                        grid.RowDefinitions.Clear();
-                        grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
-                        for (int i = 0; i < 1; i++)
+                        Point MousePoint = e.GetPosition(image);
+                        if (e.Delta > 0)
                         {
-                            RowDefinition rowDefinition = new RowDefinition() { Height = GridLength.Auto };
-                            grid.RowDefinitions.Add(rowDefinition);
-                        }
-                    }
-                    else
-                    {
-                        grid.RowDefinitions.Clear();
-                        grid.RowDefinitions.Add(new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") });
-                        for (int i = 0; i < 1; i++)
-                        {
-                            RowDefinition rowDefinition = new RowDefinition() { Height = new GridLength(height) };
-                            grid.RowDefinitions.Add(rowDefinition);
-                        }
-                    }
-                };
-
-                bottomView.Visibility = Visibility.Visible; 
-                stackPanel.Children.Add(bottomView);
-
-                LambdaBottomViews[viewindex] = bottomView;
-
-                GridSplitter gridSplitter = new GridSplitter() { Height = 2,Background= new SolidColorBrush(Color.FromRgb(68, 68, 68)), ResizeDirection = GridResizeDirection.Rows, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Bottom};
-                Grid.SetRow(gridSplitter, 0);
-                Binding binding = new Binding("Visibility");
-                binding.Source = bottomView;
-                gridSplitter.SetBinding(GridSplitter.VisibilityProperty, binding);
-
-                grid.Children.Add(gridSplitter);
-                grid.Children.Add(stackPanel);
-            }
-
-            DrawingCanvas image = new DrawingCanvas(image1);
-            drawingCanvass[viewindex] = image;
-            if (image1.Parent is Grid grid1)
-            {
-                grid1.Children.Remove(image1);
-                grid1.Children.Add(image);
-            }
-            image.SizeChanged += delegate (object sender, SizeChangedEventArgs e)
-            {
-                LambdaControl.Trigger("ActualSize", this, new Dictionary<string, object>() { { "Hight", image.ActualHeight }, { "Width", image.ActualWidth } });
-            };
-
-
-            if (image.Parent is Grid grid3)
-            {
-                DrawingVisual dimDefaultVisual = new DrawingVisual();
-                image.AddVisual(dimDefaultVisual);
-                drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
-
-
-                image.MouseWheel += delegate (object sender, MouseWheelEventArgs e)
-                {
-                    Point MousePoint = e.GetPosition(image);
-                    if (e.Delta > 0)
-                    {
-                        Dictionary<string, object> parameters = new Dictionary<string, object>()
-                        {
+                            Dictionary<string, object> parameters = new Dictionary<string, object>()
+                            {
                             { "event",(int)10},
                             {"x",(int)MousePoint.X },
                             {"y",(int)MousePoint.Y },
                             {"flag",(int)1024 }
 
-                        };
-                        LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+                            };
+                            LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+                           // ratio = ratio * 1.2;
+                           // ration.Text = ratio.ToString("P");
 
-                    }
-                    else
-                    {
-                        Dictionary<string, object> parameters = new Dictionary<string, object>()
+
+                        }
+                        else
                         {
+                            Dictionary<string, object> parameters = new Dictionary<string, object>()
+                            {
                             { "event",(int)10},
                             {"x",(int)MousePoint.X },
                             {"y",(int)MousePoint.Y },
                             {"flag",(int)-1024 }
-                        };
-                        LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-                    }
+                            };
+                            LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+                            //ratio = ratio * 0.8;
+                           // ration.Text = ratio.ToString("P0");
+                        }
 
-                };
-                bool isMouseLeftButtonDown = false;
-                Point start, MouseStart, mouseXY;
-                
+                    };
 
-                ImageViewState.toolTop.PropertyChanged += delegate(object? sender, PropertyChangedEventArgs e)
-                {
-                    image.Source = image1.Source;
+                   
 
-                    if (e.PropertyName == "PolygonChecked")
+                    
+
+                    ratioN.TextChanged += delegate (object sender, TextChangedEventArgs e)
                     {
-                        if (ImageViewState.toolTop.SelectChecked == false)
+                        List<Visual> visualsList = new List<Visual>();
+
+                        foreach (var item in image.visuals)
+                        {
+                            visualsList.Add(item);
+                        }
+
+                        if (visualsList.Count > 0)
+                        {
+                            foreach (DrawingVisual visual in visualsList)
+                            {
+                                image.DeleteVisual(visual);
+                            }
+                            visualsList.Clear();
+                        }
+
+
+                        if (image.visuals.Count == 0 && ImageViewState.toolTop.DimensionChecked)
+                        {
+                            DrawingVisual dimDefaultVisual = new DrawingVisual();
+                            image.AddVisual(dimDefaultVisual);
+                            drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight,ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
+                        }
+
+
+
+
+                    };
+
+
+
+
+
+
+                    bool isMouseLeftButtonDown = false;
+                    Point start, MouseStart, mouseXY;
+
+
+                    ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                    {
+                        image.Source = image1.Source;
+                        image1.Visibility = Visibility.Collapsed;
+                        image.Visibility = Visibility.Visible;
+                        if (e.PropertyName == "PolygonChecked")
+                        {
+                            if (ImageViewState.toolTop.SelectChecked == false)
+                            {
+                                if (drawMethod.PolygonList.Count > 1)
+                                {
+                                    drawMethod.DrawingPoly(new Point(0, 0), true);
+                                // PolygonList.Clear();
+                            }
+                                image.Cursor = Cursors.Arrow;
+                            }
+                            else
+                            {
+                                image.Cursor = Cursors.Cross;
+                            }
+                        }
+
+                        if (e.PropertyName == "EraserChecked")
+                        {
+                            if (ImageViewState.toolTop.EraserChecked == true)
+                            {
+                                StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
+                                image.Cursor = new Cursor(sri.Stream);
+                            }
+                            else
+                            {
+                                image.Cursor = Cursors.Arrow;
+                            }
+                        }
+                        if (e.PropertyName == "SelectChecked")
+                        {
+
+                            if (ImageViewState.toolTop.SelectChecked == true)
+                            {
+                                if (!image.visuals.Contains(drawMethod.pixelVisual))
+                                    image.AddVisual(drawMethod.pixelVisual);
+
+                            }
+                            else
+                            {
+                                if (image.visuals.Contains(drawMethod.pixelVisual))
+                                    image.DeleteVisual(drawMethod.pixelVisual);
+                            }
+                        }
+                        if (e.PropertyName == "DimensionChecked")
+                        {
+                            if (ImageViewState.toolTop.DimensionChecked == true)
+                            {
+                                DrawingVisual dimDefaultVisual = new DrawingVisual();
+                                image.AddVisual(dimDefaultVisual);
+                                drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
+                            }
+                            else
+                            {
+
+                            }
+
+                        }
+
+                    };
+
+                    Application.Current.MainWindow.PreviewKeyDown += delegate (object sender, KeyEventArgs e)
+                    {
+                        if (e.Key == Key.Escape && ImageViewState.toolTop.PolygonChecked)
                         {
                             if (drawMethod.PolygonList.Count > 1)
                             {
                                 drawMethod.DrawingPoly(new Point(0, 0), true);
-                               // PolygonList.Clear();
+
                             }
-                            image.Cursor = Cursors.Arrow;
                         }
-                        else
-                        {
-                            image.Cursor = Cursors.Cross;
-                        }
-                    }
+                    };
 
-                    if (e.PropertyName == "EraserChecked")
+                    image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
                     {
-                        if (ImageViewState.toolTop.EraserChecked == true)
-                        {
-                            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
-                            image.Cursor = new Cursor(sri.Stream);
-                        }
-                        else
-                        {
-                            image.Cursor = Cursors.Arrow;
-                        }
-                    }
-                    if (e.PropertyName == "SelectChecked")
-                    {
-                        
-                        if (ImageViewState.toolTop.SelectChecked == true)
-                        {
-                           // pixel.Show();
-                        
-                        }
-                        else
-                        {
-                           // pixel.Close();
-                        }
-                    }
+                        SelectImageView = viewindex;
+                        image.Focus();
+                        mouseXY = Mouse.GetPosition(Application.Current.MainWindow);
+                        MouseStart = Mouse.GetPosition(image);
 
-                };
-
-                Application.Current.MainWindow.PreviewKeyDown += (sender, e) =>
-                {
-                    if (e.Key == Key.Escape && ImageViewState.toolTop.PolygonChecked)
-                    {
-                        if (drawMethod.PolygonList.Count > 1)
+                        if (ImageViewState.toolTop.RectangleChecked)
                         {
-                            drawMethod.DrawingPoly(new Point(0, 0), true);
-                          
-                        }
-                    }
-                };
-
-                image.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
-                {
-                    SelectImageView = viewindex;
-                    image.Focus();
-                    mouseXY = Mouse.GetPosition(Application.Current.MainWindow);
-                    MouseStart = Mouse.GetPosition(image);
-                    // start = new Point(tlt.X, tlt.Y);
-                    if (ImageViewState.toolTop.MoveChecked)
-                    {
-                        isMouseLeftButtonDown = true;
-                        Application.Current.MainWindow.Cursor = Cursors.Hand;
-                    }
-                    else if (ImageViewState.toolTop.RectangleChecked)
-                    {
-                        isMouseLeftButtonDown = true;
-                        drawMethod.RectangleVisual = new DrawingVisual();
-                        image.AddVisual(drawMethod.RectangleVisual);
-                    }
-                    else if (ImageViewState.toolTop.CircleChecked)
-                    {
-                        isMouseLeftButtonDown = true;
-                        drawMethod.circleVisual = new DrawingVisual();
-                        image.AddVisual(drawMethod.circleVisual);
-                    }
-                    else if (ImageViewState.toolTop.LineChecked)
-                    {
-                        isMouseLeftButtonDown = true;
-                        drawMethod.LineVisual = new DrawingVisual();
-                        image.AddVisual(drawMethod.LineVisual);
-                    }
-
-                    else if (ImageViewState.toolTop.ArrowChecked)
-                    {
-                        isMouseLeftButtonDown = true;
-                        drawMethod.arrowVisual = new DrawingVisual();
-
-                        image.AddVisual(drawMethod.arrowVisual);
-
-                    }
-                    else if (ImageViewState.toolTop.EraserChecked == true)
-                    {
-                        isMouseLeftButtonDown = true;
-                        DrawingVisual visual = image.GetVisual(MouseStart);
-                        if (visual != null)
-                        {
-                            image.DeleteVisual(visual);
-
-                        }
-                        else
-                        {
-                            drawMethod.deleteVisual = new DrawingVisual();
-                            image.AddVisual(drawMethod.deleteVisual);
-                            //PointMoveOri = MouseStart;
-                            //CanMove = true;
+                            isMouseLeftButtonDown = true;
+                            drawMethod.RectangleVisual = new DrawingVisual();
+                            image.AddVisual(drawMethod.RectangleVisual);
                             image.CaptureMouse();
                         }
-                    }
-
-                    else if (ImageViewState.toolTop.DimensionChecked == true)
-                    {
-                        Application.Current.MainWindow.Cursor = Cursors.Cross;
-                        isMouseLeftButtonDown = true;
-                        drawMethod.dimensionVisual = new DrawingVisual();
-                        image.AddVisual(drawMethod.dimensionVisual);
-                        // drawMethod.DrawScale(MouseStart);
-
-
-                    }
-                    else if (ImageViewState.toolTop.TextChecked == true)
-                    {
-                        DrawingVisual visual = image.GetVisual(MouseStart);
-                        if (visual != null)
+                        else if (ImageViewState.toolTop.CircleChecked)
                         {
+                            isMouseLeftButtonDown = true;
+                            drawMethod.circleVisual = new DrawingVisual();
+                            image.AddVisual(drawMethod.circleVisual);
+                            image.CaptureMouse();
+                        }
+                        else if (ImageViewState.toolTop.LineChecked)
+                        {
+                            isMouseLeftButtonDown = true;
+                            drawMethod.LineVisual = new DrawingVisual();
+                            image.AddVisual(drawMethod.LineVisual);
+                            image.CaptureMouse();
+                        }
 
-                            if (visual.Transform != null && visual.Transform is TranslateTransform translate1)
+                        else if (ImageViewState.toolTop.ArrowChecked)
+                        {
+                            isMouseLeftButtonDown = true;
+                            drawMethod.arrowVisual = new DrawingVisual();
+
+                            image.AddVisual(drawMethod.arrowVisual);
+                            image.CaptureMouse();
+
+                        }
+                        else if (ImageViewState.toolTop.EraserChecked == true)
+                        {
+                            isMouseLeftButtonDown = true;
+                            DrawingVisual visual = image.GetVisual(MouseStart);
+                            if (visual != null)
                             {
-                                drawMethod.translateOri = new Point(translate1.X, translate1.Y);
+                                image.DeleteVisual(visual);
+
                             }
                             else
                             {
-                                TranslateTransform translate = new TranslateTransform();
-                                visual.Transform = translate;
-                                drawMethod.translateOri = new Point(translate.X, translate.Y);
+                                drawMethod.deleteVisual = new DrawingVisual();
+                                image.AddVisual(drawMethod.deleteVisual);
+
+                                image.CaptureMouse();
+                            }
+                        }
+
+                        else if (ImageViewState.toolTop.DimensionChecked == true)
+                        {
+                            Application.Current.MainWindow.Cursor = Cursors.Cross;
+                            isMouseLeftButtonDown = true;
+                            drawMethod.dimensionVisual = new DrawingVisual();
+                            image.AddVisual(drawMethod.dimensionVisual);
+                            image.CaptureMouse();
+
+                        }
+                        else if (ImageViewState.toolTop.TextChecked == true)
+                        {
+                            DrawingVisual visual = image.GetVisual(MouseStart);
+                            if (visual != null)
+                            {
+
+                                if (visual.Transform != null && visual.Transform is TranslateTransform translate1)
+                                {
+                                    drawMethod.translateOri = new Point(translate1.X, translate1.Y);
+                                }
+                                else
+                                {
+                                    TranslateTransform translate = new TranslateTransform();
+                                    visual.Transform = translate;
+                                    drawMethod.translateOri = new Point(translate.X, translate.Y);
+                                }
+
+                                drawMethod.isDragging = true;
+                                drawMethod.selectedVisual = visual;
                             }
 
-                            drawMethod.isDragging = true;
-                            drawMethod.selectedVisual = visual;
+
+
                         }
 
-
-
-                    }
-
-                    else if (ImageViewState.toolTop.PolygonChecked)
-                    {
-                        if (drawMethod.PolygonList.Count == 0)
+                        else if (ImageViewState.toolTop.PolygonChecked)
                         {
-                            drawMethod.polygonVisual = new DrawingVisual();
-                            image.AddVisual(drawMethod.polygonVisual);
-                            drawMethod.DrawingPoly(MouseStart, false);
+                            if (drawMethod.PolygonList.Count == 0)
+                            {
+                                drawMethod.polygonVisual = new DrawingVisual();
+                                image.AddVisual(drawMethod.polygonVisual);
+                                drawMethod.DrawingPoly(MouseStart, false);
+
+                            }
+                            else
+                            {
+                                drawMethod.DrawingPoly(MouseStart, false);
+                            }
 
                         }
+
+
+
                         else
                         {
-                            drawMethod.DrawingPoly(MouseStart, false);
-                        }
-
-                    }
-
-
-                    else
-                    {
-                        isMouseLeftButtonDown = true;
-                        Dictionary<string, object> parameters = new Dictionary<string, object>()
-                        {
+                            isMouseLeftButtonDown = true;
+                            Dictionary<string, object> parameters = new Dictionary<string, object>()
+                            {
                             {"event",(int)1},
                             {"x",(int)MouseStart.X },
                             {"y",(int)MouseStart.Y },
                             {"flag",(int)1 }
 
-                        };
-                        LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-                        Application.Current.MainWindow.Cursor = Cursors.Cross;
-                    }
-                };
-                image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
-                {
-                    if (isMouseLeftButtonDown)
+                            };
+                            LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+
+                        }
+                    };
+
+                    image.MouseLeftButtonUp += delegate (object sender, MouseButtonEventArgs e)
                     {
-                        isMouseLeftButtonDown = false;
-                        drawMethod.isDragging = false;
-                        Application.Current.MainWindow.Cursor = Cursors.Arrow;
-                    }
-                    if (ImageViewState.toolTop.EraserChecked)
-                    {
+                        if (isMouseLeftButtonDown)
+                        {
+                            isMouseLeftButtonDown = false;
+                            drawMethod.isDragging = false;
+                            Application.Current.MainWindow.Cursor = Cursors.Arrow;
+                            // 清除绘制超出边界的绘制元素
+                            List<DrawingVisual> visualsList = new List<DrawingVisual>();
+
+                            foreach (var item in image.visuals)
+                            {
+                                visualsList.Add(item);
+                            }
+
+                            if (visualsList.Count > 0)
+                            {
+                                foreach (DrawingVisual visual in visualsList)
+                                {
+                                    if(visual.ContentBounds.BottomRight.X>image.ActualWidth|| visual.ContentBounds.BottomRight.Y>image.ActualHeight || visual.ContentBounds.BottomLeft.X<0|| visual.ContentBounds.BottomLeft.Y>image.ActualHeight)
+
+                                    image.DeleteVisual(visual);
+                                    if (visual.ContentBounds.TopRight.X > image.ActualWidth || visual.ContentBounds.TopRight.Y < 0 || visual.ContentBounds.TopLeft.X < 0 || visual.ContentBounds.TopLeft.Y <0)
+                                    image.DeleteVisual(visual);
+
+
+                                }
+                                visualsList.Clear();
+                            }
+
+
+
+                        }
+                        if (ImageViewState.toolTop.EraserChecked)
+                        {
                         // Display all the squares in this region.
                         RectangleGeometry geometry = new RectangleGeometry(
-                            new Rect(MouseStart, e.GetPosition(image)));
-                        List<DrawingVisual> visualsInRegion = new List<DrawingVisual>();
-                        Point destPoint = e.GetPosition(image);
-                        if (MouseStart.X < destPoint.X && MouseStart.Y < destPoint.Y)
-                        {
-                            visualsInRegion =
-                             image.GetVisuals(geometry);
-                        }
-                        else
-                        {
-                            visualsInRegion =
-                            image.GetVisualsRev(geometry);
-                        }
+                                new Rect(MouseStart, e.GetPosition(image)));
+                            List<DrawingVisual> visualsInRegion = new List<DrawingVisual>();
+                            Point destPoint = e.GetPosition(image);
 
-                        // MessageBox.Show(String.Format("You selected {0 } drawingVisual(s).", visualsInRegion.Count));
-
-                        foreach (DrawingVisual visual in visualsInRegion)
-                        {
-                            image.DeleteVisual(visual);
-                        }
-                        //  isMultiSelecting = false;
-                       image.DeleteVisual(drawMethod.deleteVisual);
-                       image.ReleaseMouseCapture();
-                    }
-
-                
-                    image.ReleaseMouseCapture();
-                };
-
-                image.MouseMove += delegate (object sender, MouseEventArgs e)
-                {
-                    if (isMouseLeftButtonDown == true)
-                    {
-                        Point position = Mouse.GetPosition(Application.Current.MainWindow);
-                        Point mousePoint = Mouse.GetPosition(image);
-
-                        //if (ImageViewState.toolTop.MoveChecked)
-                        //{
-                        //    //tlt.X = start.X + position.X - mouseXY.X;
-                        //    //tlt.Y = start.Y + position.Y - mouseXY.Y;
-                        //}
-                        //else
-                        if (ImageViewState.toolTop.RectangleChecked)
-                        {
-                            
-                            drawMethod.DrawSelectionSquare(MouseStart, mousePoint);
-                            return;
-
-                        }
-                        else if (ImageViewState.toolTop.DimensionChecked)
-                        {
-                            drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, MouseStart, mousePoint,false,drawMethod.dimensionVisual);
-                            return;
-                        }
-
-                        else if (ImageViewState.toolTop.CircleChecked)
-                        {
-                            drawMethod.DrawEllipse(MouseStart, mousePoint);
-                            return;
-
-                        }
-                        else if (ImageViewState.toolTop.EraserChecked)
-                        {
-                            drawMethod.DrawDeleteSquare(MouseStart, mousePoint);
-                            return;
-                        }
-                        else if (drawMethod.isDragging)
-                        {
-                            if (drawMethod.selectedVisual.Transform is TranslateTransform translate)
+                            if (geometry.Rect.Width > 0)
                             {
-                                translate.X = drawMethod.translateOri.X + mousePoint.X - MouseStart.X;
-                                translate.Y = drawMethod.translateOri.Y + mousePoint.Y - MouseStart.Y;
+                                if (MouseStart.X < destPoint.X && MouseStart.Y < destPoint.Y)
+                                {
+                                    visualsInRegion =
+                                     image.GetVisuals(geometry);
+                                }
+                                else
+                                {
+                                    visualsInRegion =
+                                    image.GetVisualsRev(geometry);
+                                }
+                                foreach (DrawingVisual visual in visualsInRegion)
+                                {
+                                    image.DeleteVisual(visual);
+                                }
+
                             }
-                            return;
+
+
+                            image.DeleteVisual(drawMethod.deleteVisual);
+                            image.ReleaseMouseCapture();
                         }
-                        else if (ImageViewState.toolTop.LineChecked)
+
+
+                        image.ReleaseMouseCapture();
+                    };
+
+                    image.MouseMove += delegate (object sender, MouseEventArgs e)
+                    {
+                        if (isMouseLeftButtonDown == true)
                         {
-                            drawMethod.DrawLine(MouseStart, mousePoint);
-                            return;
-                        }
-                        else if (ImageViewState.toolTop.ArrowChecked)
-                        {
-                            drawMethod.DrawArrow(MouseStart, mousePoint);
-                            return;
-                        }
-                        else if (ImageViewState.toolTop.SelectChecked)
-                        {
-                            return;
-                        }
- 
-                        Dictionary<string, object> parameters = new Dictionary<string, object>()
-                          {
+                            Point position = Mouse.GetPosition(Application.Current.MainWindow);
+                            Point mousePoint = Mouse.GetPosition(image);
+
+
+                            if (ImageViewState.toolTop.RectangleChecked)
+                            {
+
+                                drawMethod.DrawSelectionSquare(MouseStart, mousePoint);
+
+                            }
+                            else if (ImageViewState.toolTop.DimensionChecked)
+                            {
+                                drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, MouseStart, mousePoint, false, drawMethod.dimensionVisual);
+
+                            }
+
+                            else if (ImageViewState.toolTop.CircleChecked)
+                            {
+                                //if (mousePoint.X<image.ActualWidth&& mousePoint.Y < image.ActualHeight)
+                                //{
+                                //    drawMethod.DrawEllipse(MouseStart, mousePoint);
+                                //}
+                                drawMethod.DrawEllipse(MouseStart, mousePoint);
+
+                           
+
+
+
+                            }
+                            else if (ImageViewState.toolTop.EraserChecked)
+                            {
+                                drawMethod.DrawDeleteSquare(MouseStart, mousePoint);
+
+                            }
+                            else if (drawMethod.isDragging)
+                            {
+                                if (drawMethod.selectedVisual.Transform is TranslateTransform translate)
+                                {
+                                    translate.X = drawMethod.translateOri.X + mousePoint.X - MouseStart.X;
+                                    translate.Y = drawMethod.translateOri.Y + mousePoint.Y - MouseStart.Y;
+                                }
+
+                            }
+                            else if (ImageViewState.toolTop.LineChecked)
+                            {
+                                drawMethod.DrawLine(MouseStart, mousePoint);
+
+                            }
+                            else if (ImageViewState.toolTop.ArrowChecked)
+                            {
+                                drawMethod.DrawArrow(MouseStart, mousePoint);
+
+                            }
+                            else if (ImageViewState.toolTop.MoveChecked)
+                            {
+                                Application.Current.MainWindow.Cursor = Cursors.Hand;
+                            }
+
+
+                            Dictionary<string, object> parameters = new Dictionary<string, object>()
+                              {
                             { "event",(int)0},
                             {"x",(int)mousePoint.X },
                             {"y",(int)mousePoint.Y },
                             {"flag",(int)1 }
 
-                             };
-                        LambdaControl.Trigger("MOUSE_EVENT", null, parameters); 
-                    }
-                    else
-                    {
-                        Point mousePoint = Mouse.GetPosition(image);
-                        if (ImageViewState.toolTop.SelectChecked)
+                                 };
+                            LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+                        }
+                        else
                         {
-                            //System.Drawing.Color color = new System.Drawing.Color();
-                            //color = DrawingCanvas.GetPixelColor((int)mousePoint.X,(int)mousePoint.Y);
-                            //pixel.textBlockXY.Text = mousePoint.ToString();
-                            //pixel.textBlockRGB.Text = color.ToString();
+
+
+                            if (ImageViewState.toolTop.SelectChecked)
+                            {
+                                if (!image.visuals.Contains(drawMethod.pixelVisual))
+                                    image.AddVisual(drawMethod.pixelVisual);
+                                WriteableBitmap writeableBitmap = image.Source as WriteableBitmap;
+                                Point topLeftCorner = e.GetPosition(image);
+
+                                try
+                                {
+                                    if (topLeftCorner.Y < image.ActualHeight - 130)
+                                    {
+                                        if (topLeftCorner.X < image.ActualWidth - 120)
+                                        {
+                                            drawMethod.DrawPixelSquare(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
+                                        }
+                                        else
+                                        {
+                                            drawMethod.DrawPixelSquareLeft(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
+                                        }
+
+                                    }
+                                    else if (topLeftCorner.Y >= image.ActualHeight - 130)
+                                    {
+                                        if (topLeftCorner.X < image.ActualWidth - 120)
+                                        {
+
+                                            drawMethod.DrawPixelSquareUp(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
+
+                                        }
+                                        else
+                                        {
+                                            drawMethod.DrawPixelSquareLeftUp(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
+                                        }
+
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+
+                                image.ReleaseMouseCapture();
+                            }
+                            if (ImageViewState.toolTop.MoveChecked)
+                            {
+                                Application.Current.MainWindow.Cursor = Cursors.Hand;
+                            }
+
                         }
 
-                    }
+                    };
 
-                };
-
-                image.MouseEnter += delegate (object sender, MouseEventArgs e)
-                {
-                   
-                };
-
-                image.SizeChanged += delegate (object sender, SizeChangedEventArgs e)
-                {
- 
-                    RectangleGeometry geometry = new RectangleGeometry(
-                    new Rect(new Point(0,0), new Point(image.ActualWidth,image.ActualHeight)));
-                    List<DrawingVisual> visualsInRegion = new List<DrawingVisual>();
-                    visualsInRegion =image.GetVisuals(geometry);
-                    foreach (DrawingVisual visual in visualsInRegion)
+                    image.MouseEnter += delegate (object sender, MouseEventArgs e)
                     {
-                        image.DeleteVisual(visual);
-                    }
-                    Task.Delay(100);
-                    if (image.visuals.Count==0 && image.ActualWidth>500)
+
+                    };
+
+                    image.SizeChanged += delegate (object sender, SizeChangedEventArgs e)
                     {
-                        DrawingVisual dimDefaultVisual = new DrawingVisual();
-                        image.AddVisual(dimDefaultVisual);
-                        drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
-                    }
-                   
+
+
+                        List< DrawingVisual> visualsList = new List<DrawingVisual>();
+
+                        foreach (var item in image.visuals)
+                        {
+                            visualsList.Add(item);
+                        }
+
+                        if (visualsList.Count > 0)
+                        {
+                            foreach (DrawingVisual visual in visualsList)
+                            {
+                                image.DeleteVisual(visual);
+                            }
+                            visualsList.Clear();
+                        }
+
+                    
+                    if (image.visuals.Count == 0&& ImageViewState.toolTop.DimensionChecked)
+                        {
+                            DrawingVisual dimDefaultVisual = new DrawingVisual();
+                            image.AddVisual(dimDefaultVisual);
+                            drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
+                        }
+
+
+                    };
+
+                    image.MouseLeave += delegate (object sender, MouseEventArgs e)
+                    {
+                        if (isMouseLeftButtonDown)
+                        {
+                            isMouseLeftButtonDown = false;
+                        }
+                        image.ReleaseMouseCapture();
+                        Application.Current.MainWindow.Cursor = Cursors.Arrow;
+                    };
 
                 };
 
-                image.MouseLeave += delegate (object sender, MouseEventArgs e)
-                {
-                    if (isMouseLeftButtonDown)
-                    {
-                        isMouseLeftButtonDown = false;
-                    }
-                    image.ReleaseMouseCapture();
-                    Application.Current.MainWindow.Cursor = Cursors.Arrow;
-                };
 
-            };
 
-           
+            }
+
         }
-
     }
 }
   

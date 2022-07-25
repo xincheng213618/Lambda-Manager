@@ -2,6 +2,7 @@
 using Global.Common;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Text.Json.Serialization;
 
 namespace Global.Mode.Config
@@ -21,6 +22,43 @@ namespace Global.Mode.Config
         
         public List<MulDimensionalArea> mulDimensionalAreas { get; set; } = new List<MulDimensionalArea> { };
         public List<MulDimensionalPoint> mulDimensionalPoints { get; set; } = new List<MulDimensionalPoint> { };
+
+        public List<string> TIntervalUnitsList { get; set; } = new List<string> {"毫秒","秒","分钟","小时","天"};
+
+        private string tIntervalUnits = "秒";
+        public string TIntervalUnits 
+        {
+            get { return tIntervalUnits; }
+            set { tIntervalUnits = value;
+                 NotifyPropertyChanged();
+            }
+        }
+        
+       
+
+        private bool optimizedSel=true;
+        public bool OptimizedSel
+        {
+            get { return optimizedSel; }
+            set
+            {
+                optimizedSel = value; NotifyPropertyChanged();
+            }
+        }
+
+        private bool userDefinedSel = false;
+        public bool UserDefinedSel
+        {
+            get { return userDefinedSel; }
+            set
+            {
+                userDefinedSel = value; NotifyPropertyChanged();
+            }
+        }
+
+
+
+
 
         [JsonPropertyName("Z-Enable")]
         public bool ZEnable { get; set; } = false;
@@ -142,9 +180,248 @@ namespace Global.Mode.Config
             }
         }
 
+        // FOCUS MODE
+        private bool setEnable = false;
+        public bool SetEnable
+        {
+            get { return setEnable; }
+            set
+            {
+                setEnable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+
+        private bool twiseEnable = false;
+        public  bool TwiseEnable
+        {
+            get { return twiseEnable; }
+            set
+            {
+                twiseEnable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool pwiseEnable = false;
+        public bool PwiseEnable
+        {
+            get { return pwiseEnable; }
+            set
+            {
+                pwiseEnable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+
+        // t-wise 
+        private bool tFirst=true;
+       public bool TFirst
+        {
+            get { return tFirst; }
+            set
+            {
+                tFirst = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private bool tEvery=false;
+        public bool TEvery
+        {
+            get { return tEvery; }
+            set
+            {
+                tEvery = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private bool tN = false;
+        public bool TN
+        {
+            get { return tN; }
+            set
+            {
+                tN = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int tWiseN = 10;
+        public int TWiseN
+        {
+            get { return tWiseN; }
+            set
+            {
+                tWiseN = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+
+        private bool pFirst= true;
+        public bool PFirst
+        {
+            get { return pFirst; }
+            set
+            {
+                pFirst = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private bool pEvery = false;
+        public bool PEvery
+        {
+            get { return pEvery; }
+            set
+            {
+                pEvery = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private bool pN = false;
+        public bool PN
+        {
+            get { return pN; }
+            set
+            {
+                pN = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+        private int pWiseN = 20;
+        public int PWiseN
+        {
+            get { return pWiseN; }
+            set
+            {
+                pWiseN = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+        private Optimize optimized = new Optimize();
+     public Optimize Optimized
+        {
+            get { return optimized; }
+            set 
+            {
+                optimized = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private UserDefine  userDefined = new UserDefine();
+        public UserDefine UserDefined
+        {
+            get { return userDefined; }
+            set
+            {
+                userDefined = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
 
 
     }
+
+
+    public class Optimize : ViewModeBase
+    {
+        private int global = 1;
+
+        public int Global
+        {
+            get { return global; }
+            set
+            {
+                global = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int local = 2;
+
+        public int Local
+        {
+            get { return local; }
+            set
+            {
+                local = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private int precision = 5;
+        public int Precision
+        {
+            get { return precision; }
+            set
+            {
+                precision = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+
+      
+    }
+    public class UserDefine : ViewModeBase
+    {
+        private int global = 3;
+
+        public int Global
+        {
+            get { return global; }
+            set
+            {
+                global = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int local = 5;
+
+        public int Local
+        {
+            get { return local; }
+            set
+            {
+                local = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private int precision = 2;
+        public int Precision
+        {
+            get { return precision; }
+            set
+            {
+                precision = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+    }
+
+
+
+
     public class MulDimensionalPoint
     {
         public MulDimensionalPoint(System.Windows.Point point)

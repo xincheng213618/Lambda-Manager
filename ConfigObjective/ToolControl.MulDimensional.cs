@@ -13,7 +13,10 @@ namespace ConfigObjective
         public void MulDimensional_Initialize()
         {
             StackPanelMul.DataContext = windowData.MulDimensional;
+            focusModePanel.DataContext = windowData.MulDimensional;
+            focusModeLab.DataContext = windowData.MulDimensional;
             MulSummaryUniformGrid.DataContext = windowData.mulSummary;
+
         }
         
         public void MulDimensional_Update()

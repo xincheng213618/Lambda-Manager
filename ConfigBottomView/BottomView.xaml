@@ -19,7 +19,9 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
+           
             <local:DoubleThumbSlider x:Name="DoubleThumbSlider1" HorizontalAlignment="Center" Grid.Row="1" Visibility="Collapsed" Background="Transparent"  LowerValue="20" UpperValue="200" Minimum="0" Maximum="255"/>
+            
             <StackPanel HorizontalAlignment="Right">
                 <DockPanel>
                     <Button Content="自动" Background="Transparent" BorderThickness="0.5"  Click="Button_Click"  Margin="10,0" Padding="5,1"/>

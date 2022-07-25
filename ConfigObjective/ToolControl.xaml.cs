@@ -314,8 +314,17 @@ namespace ConfigObjective
             {
                 if (!windowData.ACQUIRE)
                 {
-                    Dictionary<string, object> data = new() { { TriggerParameter, (double)slider.Value } };
-                    LambdaControl.Trigger(TriggerName, slider, data);
+                    if (slider.Name == "Slider351")
+                    {
+                        Dictionary<string, object> data = new() { { TriggerParameter, (double)slider.Value*0.01 } };
+                        LambdaControl.Trigger(TriggerName, slider, data);
+                    }
+                    else
+                    {
+                        Dictionary<string, object> data = new() { { TriggerParameter, (double)slider.Value } };
+                        LambdaControl.Trigger(TriggerName, slider, data);
+                    }
+
                 }
                 else
                 {
@@ -359,7 +368,15 @@ namespace ConfigObjective
             return toggleButton;
         }
 
+        private void ToggleButton222_Checked(object sender, RoutedEventArgs e)
+        {
+            windowData.MulDimensional.TInterval = 0;
+        }
 
+        private void ToggleButton221_Checked(object sender, RoutedEventArgs e)
+        {
+            windowData.MulDimensional.TNumber = 0;
+        }
     }
 
 

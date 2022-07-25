@@ -8,23 +8,14 @@ using System.Windows.Shapes;
 
 namespace ConfigObjective.UserControls
 {
-
-
-
-
     public class DrawCanvas : Image
     {
-        
-
         private List<Visual> visuals = new List<Visual>();
         
         protected override Visual GetVisualChild(int index)
         {
             return visuals[index];
         }
-        
-
-
         protected override int VisualChildrenCount
         {
             get

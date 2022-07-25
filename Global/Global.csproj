@@ -69,9 +69,10 @@
     <Reference Include="ColorPickerLib">
       <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
     </Reference>
-    <Reference Include="NumericUpDownLib">
-      <HintPath>..\DLL\NumericUpDownLib.dll</HintPath>
-    </Reference>
+
+	  <Reference Include="NumericUpDownLib">
+		  <HintPath>..\..\NJUST\Lambda Manager\NumericUpDownLib.dll</HintPath>
+	  </Reference>
 	  <Reference Include="RangeSlider">
 		  <HintPath>..\DLL\RangeSlider.dll</HintPath>
 		  <Private>True</Private>

@@ -25,6 +25,7 @@ namespace ConfigObjective
 
 		private bool STOP_ACQUIRE(object sender, EventArgs e)
 		{
+			MessageBox.Show("1");
             var mulDimensional = windowData.MulDimensional;
 			mulDimensional.mulDimensionalAreas.Clear();
 			mulDimensional.mulDimensionalPoints.Clear();
@@ -61,12 +62,91 @@ namespace ConfigObjective
 
 
 			Global.Mode.Config.TimeWiseSerial timeWiseSerial = new Global.Mode.Config.TimeWiseSerial();
+			Global.Mode.Config.Optimized optimized = new Optimized();
+			// focus-mode 
+			if (mulDimensional.OptimizedSel)
+            {
+				optimized.Global = mulDimensional.Optimized.Global;
+				optimized.Local = mulDimensional.Optimized.Local;
+				optimized.Precision = mulDimensional.Optimized.Precision;
+			}
+            else if (mulDimensional.UserDefinedSel)
+            {
+				optimized.Global = mulDimensional.UserDefined.Global;
+				optimized.Local = mulDimensional.UserDefined.Local;
+				optimized.Precision = mulDimensional.UserDefined.Precision;
+			}
+			Global.Mode.Config.Twise twise = new Twise();
+			// t-wise
+			if (mulDimensional.TFirst)
+            {
+				twise.Interval = "first";
 
+			}
+			else if (mulDimensional.TEvery)
+            {
+				twise.Interval = "every";
+			}
+            else if (mulDimensional.TN)
+            {
+				twise.Interval = mulDimensional.TWiseN.ToString();
+
+			}
+			testMean.Dimensional.Focusmode.Twise = twise;
+			Global.Mode.Config.Pwise pwise = new Pwise();
+			//p-wise
+			if (mulDimensional.PFirst)
+			{
+				pwise.Interval = "first";
+
+			}
+			else if (mulDimensional.PEvery)
+			{
+				pwise.Interval = "every";
+			}
+			else if (mulDimensional.PN)
+			{
+				pwise.Interval = mulDimensional.PWiseN.ToString();
+
+			}
+
+			testMean.Dimensional.Focusmode.Pwise = pwise;
+
+
+
+
+			testMean.Dimensional.Focusmode.Optimized = optimized;
 
 			timeWiseSerial.Times = mulDimensional.TNumberEnable ? 0 : mulDimensional.TNumber;
 			timeWiseSerial.Duration = mulDimensional.TIntervalEnable ? 0 : mulDimensional.TInterval;
 
-			testMean.Dimensional.TimeWiseSerial = timeWiseSerial;
+			switch (mulDimensional.TIntervalUnits)
+			{
+				case "毫秒":
+					timeWiseSerial.Mode = "ms";
+					break;
+				case "秒":
+					timeWiseSerial.Mode = "s";
+					break;
+				case "分钟":
+					timeWiseSerial.Mode = "min";
+					break;
+				case "小时":
+					timeWiseSerial.Mode = "h";
+					break;
+				case "天":
+					timeWiseSerial.Mode = "d";
+					break;
+
+				default: /* 可选的 */
+					timeWiseSerial.Mode = "s";
+					break;
+			}
+
+			
+
+
+		   testMean.Dimensional.TimeWiseSerial = timeWiseSerial;
 
 			Global.Mode.Config.ZstackWiseSerial zstackWiseSerial = new Global.Mode.Config.ZstackWiseSerial();
 			zstackWiseSerial.ZStep = mulDimensional.Zstep;
@@ -89,13 +169,13 @@ namespace ConfigObjective
 
 			testMean.Dimensional.Dimensions = Dimensions.ToString();
 			testMean.Dimensional.Savedir = windowData.SolutionDir;
-
+			
 			testMean.Stage = windowData.Stage;
 			windowData.Config.Dimensional = testMean.Dimensional;
 			windowData.Config.Spot = testMean.Spot;
 			windowData.Config.Stage = testMean.Stage;
 			LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
-			//MessageBox.Show(testMean.ToJson());
+			MessageBox.Show(testMean.ToJson());
 			return true;
         }
 	}

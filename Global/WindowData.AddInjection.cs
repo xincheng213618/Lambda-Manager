@@ -1,4 +1,5 @@
-﻿using Global.Controls;
+﻿using ConfigBottomView;
+using Global.Controls;
 using Global.UserControls;
 using Global.UserControls.DrawVisual;
 using Lambda;
@@ -26,31 +27,34 @@ namespace Global
     {
         public TabItem propertySetItem;
         public TabControl tabControl;
+        private ToggleButton histogramTogg;
 
 
-        private void AddInjection()
+
+      private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
+           
+            //等待窗口
 
             try
             {
-
+              
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
                 //检测如果找不到rightToolbar 直接退出
                 if (WrapPanel1 == null)
                     return;
-
                 ToggleButton QuaterTogg = (ToggleButton)WrapPanel1.Children[0];
-                ToggleButton DualTogg = (ToggleButton)WrapPanel1.Children[1];
-                ToggleButton BFTogg = (ToggleButton)WrapPanel1.Children[2];
-                ToggleButton DFTogg = (ToggleButton)WrapPanel1.Children[3];
-                ToggleButton RITogg = (ToggleButton)WrapPanel1.Children[4];
-                ToggleButton DPTogg = (ToggleButton)WrapPanel1.Children[5];
-                ToggleButton PhiTogg = (ToggleButton)WrapPanel1.Children[6];
-                ToggleButton FLTogg = (ToggleButton)WrapPanel1.Children[7];
-                ToggleButton _3DTogg = (ToggleButton)WrapPanel1.Children[8];
-                ToggleButton CubeTogg = (ToggleButton)WrapPanel1.Children[9];
-                ToggleButton RepoTogg = (ToggleButton)WrapPanel1.Children[10];
+                ToggleButton DualTogg =   (ToggleButton)WrapPanel1.Children[1];
+                ToggleButton BFTogg =     (ToggleButton)WrapPanel1.Children[2];
+                ToggleButton DFTogg =     (ToggleButton)WrapPanel1.Children[3];
+                ToggleButton RITogg =     (ToggleButton)WrapPanel1.Children[4];
+                ToggleButton DPTogg =     (ToggleButton)WrapPanel1.Children[5];
+                ToggleButton PhiTogg =    (ToggleButton)WrapPanel1.Children[6];
+                ToggleButton FLTogg =     (ToggleButton)WrapPanel1.Children[7];
+                ToggleButton _3DTogg =    (ToggleButton)WrapPanel1.Children[8];
+                ToggleButton CubeTogg =   (ToggleButton)WrapPanel1.Children[9];
+                ToggleButton RepoTogg =   (ToggleButton)WrapPanel1.Children[10];
 
                 List<ToggleButton> RightTools = new List<ToggleButton>() { QuaterTogg, DualTogg, BFTogg, DFTogg, RITogg, DPTogg, PhiTogg, FLTogg, _3DTogg, CubeTogg, RepoTogg };
 
@@ -73,127 +77,174 @@ namespace Global
 
                 }
 
+             
 
-
-
-
-                ContextMenu contextMenu = new ContextMenu();
-
-                MenuItem menuItem1 = new MenuItem() { Header = "四",IsCheckable =true ,IsChecked=true};
-                MenuItem menuItem2 = new MenuItem() { Header = "六",IsCheckable = true };
-                menuItem1.Unchecked += delegate
+                Popup popup = new Popup();
+                popup.PopupAnimation = PopupAnimation.Slide;
+                Binding binding8 = new Binding();
+                popup.PlacementTarget = QuaterTogg;
+               // Point point = Mouse.GetPosition(QuaterTogg);
+                popup.HorizontalOffset =-65;
+                
+                popup.VerticalOffset = -20;
+                popup.StaysOpen = false;
+                QuaterPopup quaterPopup = new QuaterPopup();
+                popup.Child = quaterPopup;
+                QuaterTogg.MouseEnter += delegate
                 {
-                    menuItem2.IsChecked = true;
-                    //if (FourWindowTogg.IsChecked == false)
-                    //{
-                    //    LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
-                        
-                    //}
-                    //else
-                    //{
-                    //    FourWindowTogg.IsChecked = false;
-                    //}
-         
-                   
+                    popup.IsOpen = true;
+
                 };
-                menuItem2.Unchecked += delegate
-                {
-                    menuItem1.IsChecked = true;
-                    //if (FourWindowTogg.IsChecked == false)
-                    //{
-                    //    LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
+                popup.Closed +=delegate { popup.IsOpen = false; };
 
-                    //}
-                    //else
-                    //{
-                    //    FourWindowTogg.IsChecked = false;
-                    //}
-                };
 
-                menuItem1.Checked += delegate
+
+
+                quaterPopup.dual.Checked += delegate
                 {
-                    menuItem2.IsChecked= false;
-                    if (QuaterTogg.IsChecked==true)
+                     if (QuaterTogg.IsChecked == true)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 2 } });
+                            histogramTogg.IsChecked = false;
+                            histogramTogg.IsEnabled = false;
+    
                     }
                     else
                     {
                         QuaterTogg.IsChecked = true;
                     }
-                  
-                    
+
                 };
-                menuItem2.Checked += delegate
+
+
+
+                quaterPopup.four.Checked += delegate
                 {
-                    menuItem1.IsChecked = false;
+                   
+                    if (QuaterTogg.IsChecked == true)
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 4 } });
+                        
+                        histogramTogg.IsChecked = false;
+                        histogramTogg.IsEnabled = false;
+                       
+                    }
+                    else
+                    {
+                        QuaterTogg.IsChecked = true;
+                    }
+
+
+                };
+                quaterPopup.six.Checked += delegate
+                {
+                   
                     if (QuaterTogg.IsChecked == true)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 6 } });
+
+                        histogramTogg.IsChecked = false;
+                        histogramTogg.IsEnabled = false;
+
                     }
                     else
                     {
                         QuaterTogg.IsChecked = true;
                     }
-                  
+
                 };
                 void FourWindowTogg_Checked(object sender, RoutedEventArgs e)
                 {
-                    if (menuItem1.IsChecked)
+                    if ((bool)quaterPopup.four.IsChecked)
+                       
                     {
                         LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 4 } });
+
+                        histogramTogg.IsChecked = false;
+                        histogramTogg.IsEnabled = false;
+
                     }
-                    else if (menuItem2.IsChecked)
+                    else if ((bool)quaterPopup.six.IsChecked)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
-                    }
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 6 } });
 
+                        histogramTogg.IsChecked = false;
+                        histogramTogg.IsEnabled = false;
+
+                    }
+                    else if ((bool)quaterPopup.dual.IsChecked)
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 2 } });
+
+                        histogramTogg.IsChecked = false;
+                        histogramTogg.IsEnabled = false;
+
+                    }
 
                 }
 
-                DualTogg.Click += delegate 
-                { 
-                    if(DualTogg.IsChecked == false)
+                DualTogg.Click += delegate
+                {
+                    if (DualTogg.IsChecked == false)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 1 } });
+                        if (histogramTogg.IsEnabled == false)
+                        {
+                            histogramTogg.IsEnabled = true;
+                        }
                     }
-                    
+
                 };
 
                 QuaterTogg.Checked += FourWindowTogg_Checked;
-                //FourWindowTogg.Checked += delegate
-                //{
-                //    if (menuItem1.IsChecked)
-                //    {
-                //        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
-                //    }
-                //    else
-                //    {
-                //        LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
-                //    }
 
-                //};
                 QuaterTogg.Unchecked += delegate
                 {
                     LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
+                    LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 1} });
+                    if (histogramTogg.IsEnabled == false)
+                    {
+                        histogramTogg.IsEnabled = true;
+                    }
                 };
-
-                contextMenu.Items.Add(menuItem1);
-                contextMenu.Items.Add(menuItem2);
-                //contextMenu.Items.Add(menuItem3);
-                QuaterTogg.ContextMenu = contextMenu;  
+               
+               
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+
             }
+            // histogramtogg
+            try
+            {
+                DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
+                if (leftToolBar == null) return;
+                WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
+                histogramTogg = (ToggleButton)leftToolBarChild.Children[3];
+
+
+            }
+            catch
+            {
+
+            }
+
+
             //ColorBar ADD
             try
             {
 
                 DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
                 if (leftToolBar == null) return;
-                 Image image = (Image)leftToolBar.Children[1];
+                Image image = (Image)leftToolBar.Children[1];
                 leftToolBar.Children.Remove(image);
 
                 image.Visibility = Visibility.Collapsed;
@@ -202,6 +253,7 @@ namespace Global
                 leftToolBar.Children.Add(colorBarUser);
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
+               
 
                 ViewMode.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
@@ -215,7 +267,7 @@ namespace Global
 
                 };
 
-                colorbarTogg.PreviewMouseRightButtonUp += delegate(object sender, MouseButtonEventArgs e)
+                colorbarTogg.PreviewMouseRightButtonUp += delegate (object sender, MouseButtonEventArgs e)
                 {
                     if (colorbarTogg.IsChecked == false)
                     {
@@ -244,7 +296,16 @@ namespace Global
                     colorBarUser.Visibility = Visibility.Hidden;
                 };
 
-                List<string> colorname = new List<string> { "AUTUMN", "BONE", "JET", "WINTER", "RAINBOW", "OCEAN", "SUMMER", "SPRING", "COOL", "HSV", "PINK", "HOT", "PARULA", "MAGMA", "INFERNO", "PLASMA", "VIRIDIS", "CIVIDIS", "TWILIGHT", "SHIFTED", "TURBO", "DEEPGREEN"};
+
+
+
+
+
+
+
+
+
+                List<string> colorname = new List<string> { "AUTUMN", "BONE", "JET", "WINTER", "RAINBOW", "OCEAN", "SUMMER", "SPRING", "COOL", "HSV", "PINK", "HOT", "PARULA", "MAGMA", "INFERNO", "PLASMA", "VIRIDIS", "CIVIDIS", "TWILIGHT", "SHIFTED", "TURBO", "DEEPGREEN" };
 
                 ContextMenu contextMenu = new ContextMenu();
 
@@ -259,7 +320,7 @@ namespace Global
                     StackPanel stackPanel = new StackPanel();
                     stackPanel.Orientation = Orientation.Horizontal;
 
-                    Image img = new Image() { Width =50};
+                    Image img = new Image() { Width = 50 };
                     img.Source = new BitmapImage(new Uri($"/Global;component/usercontrols/image/{item.ToLower()}.jpg", UriKind.Relative));
                     stackPanel.Children.Add(img);
 
@@ -426,7 +487,7 @@ namespace Global
                 };
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
 
@@ -487,7 +548,7 @@ namespace Global
                 //ToggleButtonSearch.SetBinding(ToggleButton.IsCheckedProperty, binding3);
 
                 Binding binding4 = new Binding("ZoomOutChecked");
-                ToggleButton ToggleButtonZoomOut= ((ToggleButton)topToolbar.Children[4]);
+                ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
                 ToggleButtonZoomOut.SetBinding(ToggleButton.IsCheckedProperty, binding4);
 
                 Binding binding5 = new Binding("ZoomInChecked");
@@ -497,7 +558,7 @@ namespace Global
                 //Binding binding6 = new Binding("ScaleInChecked");
                 //ToggleButton ToggleButtonScale = ((ToggleButton)topToolbar.Children[6]);
                 //ToggleButtonScale.SetBinding(ToggleButton.IsCheckedProperty, binding6);
- 
+
                 Binding binding9 = new Binding("DimensionChecked");
                 ToggleButton ToggleButtonDimen = ((ToggleButton)topToolbar.Children[9]);
                 ToggleButtonDimen.SetBinding(ToggleButton.IsCheckedProperty, binding9);
@@ -507,7 +568,7 @@ namespace Global
                 ToggleButtonFocus.SetBinding(ToggleButton.IsCheckedProperty, binding10);
 
                 Binding binding11 = new Binding("RulerChecked");
-                ToggleButton ToggleButtonRuler= ((ToggleButton)topToolbar.Children[11]);
+                ToggleButton ToggleButtonRuler = ((ToggleButton)topToolbar.Children[11]);
                 ToggleButtonRuler.SetBinding(ToggleButton.IsCheckedProperty, binding11);
 
                 ToggleButtonDimen.Checked += delegate
@@ -515,7 +576,7 @@ namespace Global
 
                     propertySetItem.Visibility = Visibility.Visible;
                     propertySetItem.DataContext = drawMethod.dimenViewModel;
-                    tabControl.SelectedIndex =5;
+                    tabControl.SelectedIndex = 5;
                 };
                 ToggleButtonDimen.Unchecked += delegate
                 {
@@ -523,11 +584,35 @@ namespace Global
                     propertySetItem.Visibility = Visibility.Collapsed;
                     tabControl.SelectedIndex = 1;
                 };
+                ToggleButtonInline.Checked += delegate
+                {
+                    
+                    Border border = (Border)mainwin.FindName("imagingView");
+                    Grid grid = (Grid)border.Child;
+                    grid.Children[0].Visibility = Visibility.Collapsed;
+                    grid.Children[1].Visibility = Visibility.Collapsed;
+                    grid.Children[2].Visibility = Visibility.Collapsed;
+                    grid.Children[3].Visibility = Visibility.Collapsed;
 
 
+                };
+                ToggleButtonInline.Unchecked += delegate
+                {
+                    Border border = (Border)mainwin.FindName("imagingView");
+                    Grid grid = (Grid)border.Child;
+                    grid.Children[0].Visibility = Visibility.Visible;
+                    grid.Children[1].Visibility = Visibility.Visible;
+                    grid.Children[2].Visibility = Visibility.Visible;
+                    grid.Children[3].Visibility = Visibility.Visible;
 
-
-
+                };
+                Application.Current.MainWindow.PreviewKeyDown += delegate (object sender, KeyEventArgs e)
+                {
+                    if ((e.Key == Key.LeftShift || e.Key == Key.RightShift) && ImageViewState.toolTop.InlineChecked)
+                    {
+                        ImageViewState.toolTop.InlineChecked = false;
+                    }
+                };
 
                 Binding binding13 = new Binding("EraserChecked");
                 ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[13]);
@@ -542,7 +627,7 @@ namespace Global
                 ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, binding15);
 
                 Binding binding16 = new Binding("LineChecked");
-                ToggleButton ToggleButtonLine= ((ToggleButton)topToolbar.Children[16]);
+                ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[16]);
                 ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, binding16);
 
 
@@ -563,26 +648,38 @@ namespace Global
                 ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[20]);
                 ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, binding20);
 
-                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler,ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow , ToggleButtonLine , ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
 
                 foreach (var item in Tools)
                 {
-                    item.Checked += delegate(object sender, RoutedEventArgs e)
+                    item.Checked += delegate (object sender, RoutedEventArgs e)
                     {
 
                         foreach (var item1 in Tools)
                         {
-                            if (item1!=item)
+                            if (item1 != item)
                             {
                                 if (item1.IsChecked == true)
                                     item1.IsChecked = false;
                             }
 
                         }
- 
+
                     };
 
                 }
+
+
+
+
+
+
+
+
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -590,6 +687,6 @@ namespace Global
             }
         }
 
-       
+
     }
 }
