@@ -224,6 +224,7 @@ int PlayFilms(json* eventData) {
 }
 
 LambdaView* pView1;
+
 bool ssss = false;
 
 int PlayFilm(std::string fileName) {
@@ -422,8 +423,8 @@ int OpenSerial(char* FullPath)
 
 
 int SleepTest() {
-	//Sleep(3000);
-	ssss = true;
+	Sleep(3000);
+	//ssss = true;
 	return  0;
 }
 

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using LambdaManager.Config;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,44 +22,41 @@ namespace LambdaManager
     /// </summary>
     public partial class StartWindow : Window
     {
+        public bool IsRunning { get; set; } = false;
         public StartWindow()
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
             InitializeComponent();
-            //Left = SystemParameters.WorkArea.Right - this.Width;
-            //Top = SystemParameters.WorkArea.Bottom - this.Height;
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+            Thread thread = new Thread(Load);
+            thread.Start();
             _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
         }
 
-        private void Update()
+        public void Load()
         {
+            bool num = new ConfigLibrary().Load("application.xml");
+            if (num)
+            {
+            }
+            else
+            {
+                MessageBox.Show("StartFatalError ");
+            }
             Application.Current.Dispatcher.Invoke(delegate
             {
-                try
+                if (IsRunning)
                 {
-                    bool num = new ConfigLibrary().Load("application.xml");
-                    if (num)
-                    {
-                    }
-                    else
-                    {
-                        MessageBox.Show("StartFatalError ");
-                    }
+                    Close();
                 }
-                catch (Exception ee)
+                else
                 {
-                    MessageBox.Show(ee.Message);
-                }
-                finally
-                {
+                    IsRunning = true;
                 }
             });
-
         }
 
 
@@ -69,18 +68,21 @@ namespace LambdaManager
             TexoBoxMsg.Text += Environment.NewLine + "初始化配置信息";  
             await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "初始化主控";
-            Task.Run(Update);
-
-            await Task.Delay(10);
+            await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "初始化相机";
             await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "初始化位移台";
             await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
-            Close();
-
-
+            if (IsRunning)
+            {
+                Close();
+            }
+            else
+            {
+                IsRunning = true;
+            }
         }
 
         private void TexoBoxMsg_TextChanged(object sender, TextChangedEventArgs e)

@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using Global;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.DataType;
@@ -11,16 +12,24 @@ using LambdaManager.Properties;
 
 namespace LambdaManager.Config;
 
-internal class ConfigUILibrary
+public class ConfigUILibrary
 {
 	private readonly Dictionary<Control, int> leftOrder = new Dictionary<Control, int>();
 
-	private MainWindow Main { get; set; }
+    private static ConfigUILibrary instance;
+    private static readonly object locker = new();
 
-	public ConfigUILibrary(MainWindow Main)
+    public static ConfigUILibrary GetInstance()
+    {
+        lock (locker) { if (instance == null) { instance = new ConfigUILibrary(); } }
+        return instance;
+    }
+
+    public MainWindow Main { get; set; }
+
+	private ConfigUILibrary()
 	{
-		this.Main = Main;
-		Main.acquireView.Children.Clear();
+
 	}
 
 	internal bool ResolveControl(Component component, ConfigValidate validate)
@@ -31,7 +40,10 @@ internal class ConfigUILibrary
 		{
 			return false;
 		}
-		LoadControl(component, validate, lib, mount);
+        Application.Current.Dispatcher.Invoke(delegate
+        {
+            LoadControl(component, validate, lib, mount);
+        });
 		return true;
 	}
 

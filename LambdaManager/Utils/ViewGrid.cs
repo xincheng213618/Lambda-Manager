@@ -44,8 +44,8 @@ internal class ViewGrid
 	}
 	private static void GridSort(Grid[] GridLists)
     {
-		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
 
+		Grid mainView = ((MainWindow)Application.Current.MainWindow).mainView;
 		mainView.Children.Clear();  
 		mainView.ColumnDefinitions.Clear();
 		mainView.RowDefinitions.Clear();

@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using Lambda;
+using LambdaManager.Config;
 using LambdaManager.Core;
 using LambdaManager.DataType;
 using Quartz;
@@ -48,6 +49,8 @@ partial class App : Application
     private void Application_Startup(object sender, StartupEventArgs e)
     {
 		MainWindow mainWindow = new MainWindow();
+        var configUILibrary = ConfigUILibrary.GetInstance();
+        configUILibrary.Main = mainWindow;
 
         StartWindow startWindow = new StartWindow();
         startWindow.Closed += delegate

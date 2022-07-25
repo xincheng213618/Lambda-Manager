@@ -37,7 +37,10 @@ internal class ConfigLibrary
 		{
 			return false;
 		}
-		ResolveMain(root);
+        Application.Current.Dispatcher.Invoke(delegate
+        {
+            ResolveMain(root);
+        });
 		List<Command> commands = (from c in root.Descendants("commands").Descendants("command")
 			select new Command
 			{
@@ -107,10 +110,9 @@ internal class ConfigLibrary
 		ResolveFunctionArgument(validate);
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
-		InitializeLibrary();
-  //      Thread thread = new Thread(new ThreadStart());
-		//thread.IsBackground = true;
-  //      thread.Start();
+		Thread thread = new Thread(new ThreadStart(InitializeLibrary));
+		thread.IsBackground = true;
+		thread.Start();
 		return validate.Severity < Severity.FATAL_ERROR;
 	}
 
@@ -265,8 +267,9 @@ internal class ConfigLibrary
 	private void LoadComponents(List<Component> components, List<Command> commands, ConfigValidate validate)
 	{
 		validate.CheckLocalActions();
-		ConfigUILibrary controlConfig = new ConfigUILibrary((MainWindow)Application.Current.MainWindow);
-		foreach (Component component in components)
+		ConfigUILibrary controlConfig = ConfigUILibrary.GetInstance();
+
+        foreach (Component component in components)
 		{
 			string lib = component.Lib;
 			if (lib != null && !validate.Libs.Contains(lib))
@@ -278,9 +281,13 @@ internal class ConfigLibrary
 				validate.Libs.Add(lib);
 			}
 		}
+
 		foreach (Command command in commands)
 		{
-			controlConfig.LoadMenuCommand(command, validate);
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                controlConfig.LoadMenuCommand(command, validate);
+            });
 		}
 	}
 

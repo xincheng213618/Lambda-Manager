@@ -390,12 +390,6 @@ namespace Solution
                         }
 
                 //清理掉对第一个image的引用
-                View view = LambdaControl.GetImageView(0);
-                if (view != null)
-                {
-                    WindowData.GetInstance().FirstImage = view.Image;
-                    view.Image = null;
-                }
 
 
 
