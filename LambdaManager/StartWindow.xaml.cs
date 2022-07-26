@@ -29,24 +29,26 @@ namespace LambdaManager
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
-
+        ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
+            ConfigLibrary = new ConfigLibrary();
             Thread thread = new Thread(Load);
             thread.Start();
             _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
         }
-
         public void Load()
         {
-            bool num = new ConfigLibrary().Load("application.xml");
+            bool num = ConfigLibrary.Load("application.xml");
             if (num)
             {
+
             }
             else
             {
                 MessageBox.Show("StartFatalError ");
             }
+            ConfigLibrary.InitializeLibrary();
             Application.Current.Dispatcher.Invoke(delegate
             {
                 if (IsRunning)
@@ -62,6 +64,8 @@ namespace LambdaManager
 
 
 
+
+
         private async Task InitializedOver()
         {
             TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接";
@@ -70,9 +74,7 @@ namespace LambdaManager
             await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "初始化主控";
             await Task.Delay(100);
-            TexoBoxMsg.Text += Environment.NewLine + "初始化相机";
-            await Task.Delay(100);
-            TexoBoxMsg.Text += Environment.NewLine + "初始化位移台";
+            TexoBoxMsg.Text += Environment.NewLine + "初始化设定函数";
             await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);

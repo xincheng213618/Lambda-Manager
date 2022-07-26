@@ -57,7 +57,6 @@ internal class ConfigLibrary
         {
             return false;
         }
-
         Application.Current.Dispatcher.Invoke(delegate
         {
             ResolveMain(root);
@@ -131,8 +130,7 @@ internal class ConfigLibrary
 		ResolveFunctionArgument(validate);
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
-        InitializeLibrary();
-
+        //InitializeLibrary();
         return validate.Severity < Severity.FATAL_ERROR;
 	}
 
@@ -1686,8 +1684,10 @@ internal class ConfigLibrary
 			}
 		}
 	}
-
-	private void InitializeLibrary()
+	/// <summary>
+	/// init需要初始化的代码
+	/// </summary>
+	public void InitializeLibrary()
 	{
         if (solution.Routines.ContainsKey(solution.InitEvent))
         {
