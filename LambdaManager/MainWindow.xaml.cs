@@ -248,7 +248,6 @@ namespace LambdaManager
                 Side.REPORT => reportView,
                 Side.ANALYSIS => analysisView,
                 Side.POCESS => proessView,
-
                 _ => throw new Exception("top view not supported"),
             };
         }

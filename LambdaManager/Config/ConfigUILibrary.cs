@@ -75,13 +75,13 @@ public class ConfigUILibrary
             validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, name, Resources.Class, null);
             return;
         }
-        if (Main.GetConfigPanel(side) is StackPanel stackPanel)
-            if (stackPanel.Parent is Viewbox viewbox)
-                if (viewbox.Parent is ScrollViewer scrollViewer)
-                    if (scrollViewer.Parent is TabItem tabItem)
-                        tabItem.Visibility = Visibility.Visible;
+		//if (Main.GetConfigPanel(side) is StackPanel stackPanel)
+		//	if (stackPanel.Parent is Viewbox viewbox)
+		//		if (viewbox.Parent is ScrollViewer scrollViewer)
+		//			if (scrollViewer.Parent is TabItem tabItem)
+		//				tabItem.Visibility = Visibility.Visible;
 
-        UIElementCollection list = Main.GetConfigPanel(side).Children;
+		UIElementCollection list = Main.GetConfigPanel(side).Children;
         bool found = false;
 		if (!found)
 		{

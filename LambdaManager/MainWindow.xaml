@@ -66,7 +66,7 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <RadioButton Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
+                <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
                 <RadioButton x:Name="RadioButton2" Style="{DynamicResource PhaseButton}" Content="采集"  Checked="RadioButton_Checked_1" />
                 <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked_2" />
                 <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked_3" />
@@ -93,8 +93,8 @@
             </Grid.ColumnDefinitions>
 
             <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
-                <TabControl FontSize="15" x:Name="leftTab">
-                    <TabItem Header="工程"  Visibility="Collapsed">
+                <TabControl  x:Name="leftTab">
+                    <TabItem Header="工程" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                             <Viewbox VerticalAlignment="Top" Stretch="Uniform" Width="400">
                                 <StackPanel Name="projectView" Margin="10,10,10,20"  >
