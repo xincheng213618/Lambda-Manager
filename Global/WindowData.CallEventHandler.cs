@@ -33,13 +33,10 @@ namespace Global
         public DrawingCanvas[] drawingCanvass = new DrawingCanvas[100];
         public double ratio =1;
 
-        public async void AddImageConfident(Image image1, int viewindex)
+        public  void AddImageConfident(Image image1, int viewindex)
         {
-            // MessageBox.Show("1111");
             if (image1.Parent is Grid grid0)
             {
-
-
                 DrawingCanvas image = new DrawingCanvas();
                 drawingCanvass[viewindex] = image;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -65,47 +66,65 @@ namespace LambdaManager
             mainView.Children.Add(ViewGrid.mainView);
             Log.LogWrite += AddMessage;
 
-
+            msgList.ItemsSource = Messagess;
         }
 
 
-
+        public ObservableCollection<Message> Messagess = new ObservableCollection<Message>();
 
         public void AddMessage(Message message)
         {
-            Application.Current.Dispatcher.Invoke(delegate
+            if (message.Severity < logLevel)
             {
-                if (message.Severity < logLevel)
-                {
-                    return;
-                }
+                return;
+            }
+            try
+            {
+                logger.WriteLine(message.Severity.Description() + message.Text);
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLine(ex.Message);
+            }
 
-                StackPanel panel = new StackPanel();
-                TextBlock textBlock = new TextBlock();
-                string text = message.Text;
-                if (text != null)
-                {
-                    textBlock.Text = text;
-                    panel.Children.Add(textBlock);
-                    ItemCollection items = msgList.Items;
-                    items.Add(panel);
-                    msgList.SelectedIndex = items.Count - 1;
-                    if (items.Count > 500)
-                    {
-                        items.RemoveAt(0);
-                    }
-                    try
-                    {
-                        logger.WriteLine(message.Severity.Description() + text);
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.WriteLine(ex.Message);
-                    }
-
-                }
+            System.Windows.Application.Current.Dispatcher.Invoke(delegate
+            {
+                Messagess.Add(message);
+                msgList.SelectedIndex = msgList.Items.Count - 1;
             });
-        
+
+            //Application.Current.Dispatcher.Invoke(delegate
+            //{
+            //    if (message.Severity < logLevel)
+            //    {
+            //        return;
+            //    }
+
+            //    StackPanel panel = new StackPanel();
+            //    TextBlock textBlock = new TextBlock();
+            //    string text = message.Text;
+            //    if (text != null)
+            //    {
+            //        textBlock.Text = text;
+            //        panel.Children.Add(textBlock);
+            //        ItemCollection items = msgList.Items;
+            //        items.Add(panel);
+            //        msgList.SelectedIndex = items.Count - 1;
+            //        if (items.Count > 500)
+            //        {
+            //            items.RemoveAt(0);
+            //        }
+            //        try
+            //        {
+            //            logger.WriteLine(message.Severity.Description() + text);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            logger.WriteLine(ex.Message);
+            //        }
+            //    }
+            //});
+
         }
 
         internal MenuItem? AddMenuItem(string path)

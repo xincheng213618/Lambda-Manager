@@ -50,6 +50,7 @@ partial class App : Application
     private void Application_Startup(object sender, StartupEventArgs e)
     {
 		MainWindow mainWindow = new MainWindow();
+
         var configUILibrary = ConfigUILibrary.GetInstance();
         configUILibrary.Main = mainWindow;
 
@@ -61,6 +62,9 @@ partial class App : Application
         startWindow.Show();
     }
 
+    /// <summary>
+    /// Application Close
+    /// </summary>
 	private  void Application_Exit(object sender, ExitEventArgs e)
 	{
 		foreach (Lib lib in FunctionExecutor.Solution.Libs)

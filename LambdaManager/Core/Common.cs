@@ -64,7 +64,6 @@ internal class Common
         GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 
 		LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
-
 		Initialize();
 	}
 

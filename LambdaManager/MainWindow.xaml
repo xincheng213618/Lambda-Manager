@@ -483,6 +483,11 @@
                 </StatusBarItem>
             </StatusBar>
             <ComboBox Name="msgList" Grid.Column="4" Grid.Row="2" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="300" Height="30">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Text}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
         </Grid>
     </Grid>
