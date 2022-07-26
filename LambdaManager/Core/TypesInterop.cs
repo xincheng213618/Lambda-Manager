@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace LambdaManager.Core;
-
-internal class TypesInterop
+namespace LambdaManager.Core
 {
-	[StructLayout(LayoutKind.Sequential, Size = 1)]
-	private struct Empty
-	{
-	}
+    internal class TypesInterop
+    {
+        [StructLayout(LayoutKind.Sequential, Size = 1)]
+        private struct Empty
+        {
+        }
 
-	private static readonly int size_ptr = Marshal.SizeOf(typeof(IntPtr));
+        private static readonly int size_ptr = Marshal.SizeOf(typeof(IntPtr));
 
-    private static readonly Dictionary<string, TypeInfo> valueTypes = new Dictionary<string, TypeInfo>
+        private static readonly Dictionary<string, TypeInfo> valueTypes = new Dictionary<string, TypeInfo>
     {
         {
             "#bool",
@@ -305,7 +305,7 @@ internal class TypesInterop
         }
     };
 
-    private static readonly Dictionary<string, TypeInfo> referenceTypes = new Dictionary<string, TypeInfo>
+        private static readonly Dictionary<string, TypeInfo> referenceTypes = new Dictionary<string, TypeInfo>
     {
         {
             "#string",
@@ -466,127 +466,130 @@ internal class TypesInterop
             }
         }
     };
- 
-	internal static int GetPtrSize()
-	{
-		return size_ptr;
-	}
 
-	internal static TypeInfo GetPointerTypeInfo()
-	{
-		return referenceTypes["pointer"];
-	}
+        internal static int GetPtrSize()
+        {
+            return size_ptr;
+        }
 
-	internal static void SetCppSize(string name, int size)
-	{
-		if (valueTypes.TryGetValue(name, out var typeInfo))
-		{
-			typeInfo.Size = size;
-		}
-	}
+        internal static TypeInfo GetPointerTypeInfo()
+        {
+            return referenceTypes["pointer"];
+        }
 
-	internal static TypeInfo? GetRefTypeInfo(string name)
-	{
-		if (name.EndsWith("*") || name.EndsWith("&"))
-		{
-			name = "pointer";
-		}
-		else if (name.EndsWith("[]"))
-		{
-			name = "array";
-		}
-		if (name.StartsWith("struct"))
-		{
-			return null;
-		}
-		if (referenceTypes.TryGetValue(name, out var info))
-		{
-			return info;
-		}
-		return null;
-	}
+        internal static void SetCppSize(string name, int size)
+        {
+            if (valueTypes.TryGetValue(name, out var typeInfo))
+            {
+                typeInfo.Size = size;
+            }
+        }
 
-	internal static int GetRefTypeSize(string name)
-	{
-		return GetRefTypeInfo(name)?.Size ?? (-1);
-	}
+        internal static TypeInfo? GetRefTypeInfo(string name)
+        {
+            if (name.EndsWith("*") || name.EndsWith("&"))
+            {
+                name = "pointer";
+            }
+            else if (name.EndsWith("[]"))
+            {
+                name = "array";
+            }
+            if (name.StartsWith("struct"))
+            {
+                return null;
+            }
+            if (referenceTypes.TryGetValue(name, out var info))
+            {
+                return info;
+            }
+            return null;
+        }
 
-	internal static TypeInfo? GetValueTypeInfo(string name)
-	{
-		if (valueTypes.TryGetValue(name, out var info))
-		{
-			return info;
-		}
-		return null;
-	}
+        internal static int GetRefTypeSize(string name)
+        {
+            return GetRefTypeInfo(name)?.Size ?? (-1);
+        }
 
-	internal static int GetValueTypeSize(string name)
-	{
-		return GetValueTypeInfo(name)?.Size ?? (-1);
-	}
+        internal static TypeInfo? GetValueTypeInfo(string name)
+        {
+            if (valueTypes.TryGetValue(name, out var info))
+            {
+                return info;
+            }
+            return null;
+        }
 
-	internal static TypeInfo? GetTypeInfo(string name)
-	{
-		TypeInfo info = GetValueTypeInfo(name);
-		if (info == null)
-		{
-			info = GetRefTypeInfo(name);
-		}
-		return info;
-	}
+        internal static int GetValueTypeSize(string name)
+        {
+            return GetValueTypeInfo(name)?.Size ?? (-1);
+        }
 
-	internal static string GetCodes(List<string>? argTypes)
-	{
-		if (argTypes == null)
-		{
-			return "";
-		}
-		string code = "";
-		foreach (string argType in argTypes!)
-		{
-			code += ToCode(argType);
-		}
-		return code;
-	}
+        internal static TypeInfo? GetTypeInfo(string name)
+        {
+            TypeInfo info = GetValueTypeInfo(name);
+            if (info == null)
+            {
+                info = GetRefTypeInfo(name);
+            }
+            return info;
+        }
 
-	internal static int ToCode(string type)
-	{
-		if (GetRefTypeSize(type) != -1)
-		{
-			return 7;
-		}
-		TypeInfo info = GetValueTypeInfo(type);
-		if (info == null)
-		{
-			return 7;
-		}
-		//double
-		if (info.Id == 55 || info.Id == 56  || info.Id == 62)
-		{
-			return 5;
-		}
-        //float
-        if (info.Id == 50||info.Id == 51)
-		{
-			return 6;
-		}
+        internal static string GetCodes(List<string>? argTypes)
+        {
+            if (argTypes == null)
+            {
+                return "";
+            }
+            string code = "";
+            foreach (string argType in argTypes!)
+            {
+                code += ToCode(argType);
+            }
+            return code;
+        }
 
-        return (int)Math.Log2(info.Size);
-	}
+        internal static int ToCode(string type)
+        {
+            if (GetRefTypeSize(type) != -1)
+            {
+                return 7;
+            }
+            TypeInfo info = GetValueTypeInfo(type);
+            if (info == null)
+            {
+                return 7;
+            }
+            //double
+            if (info.Id == 55 || info.Id == 56 || info.Id == 62)
+            {
+                return 5;
+            }
+            //float
+            if (info.Id == 50 || info.Id == 51)
+            {
+                return 6;
+            }
 
-	internal static string? ToType(int code)
-	{
-		return code switch
-		{
-			0 => "byte", 
-			1 => "short", 
-			2 => "int", 
-			3 => "long", 
-			4 => "decimal", 
-			5 => "double", 
-			6 => "float", 
-			7 => "nint", 
-			_ => null, 
-		};
-	}
+            return (int)Math.Log2(info.Size);
+        }
+
+        internal static string? ToType(int code)
+        {
+            return code switch
+            {
+                0 => "byte",
+                1 => "short",
+                2 => "int",
+                3 => "long",
+                4 => "decimal",
+                5 => "double",
+                6 => "float",
+                7 => "nint",
+                _ => null,
+            };
+        }
+    }
+
 }
+

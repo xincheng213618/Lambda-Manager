@@ -1,5 +1,11 @@
-namespace LambdaManager.Conversion;
-
-internal class MapConverter
+namespace LambdaManager.Conversion
 {
+
+
+    public class MapConverter
+    {
+
+    }
+
 }
+

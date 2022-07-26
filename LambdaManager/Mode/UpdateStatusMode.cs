@@ -1,38 +1,37 @@
-﻿using Global;
-using Global.Common;
-using Global.Mode;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Mode
+namespace LambdaManager.Mode
 {
-    public class UpdateStatus : ViewModelBase
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
-        private string window = "[6,1,2,3,4,5,6]";
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Window
-
+        /// <summary>
+        /// 触发消息通知事件
+        /// </summary>
+        /// <param name="propertyName"></param>
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            get { return window; }
-            set
-            {
-                if (value != null)
-                {
-                    window = value;
-                    NotifyPropertyChanged();
-                }
-
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+    public class UpdateStatusMode: ViewModelBase
+    {
 
-
-        private string imageX = "X:1234";
+        private string imageX = string.Empty;
 
         public string ImageX
 
         {
             get { return imageX; }
-            set {
+            set
+            {
                 if (value != null)
                 {
                     imageX = value;
@@ -42,7 +41,7 @@ namespace Mode
             }
         }
 
-        private string imageY = "Y:1234";
+        private string imageY = string.Empty;
 
         public string ImageY
 
@@ -57,7 +56,7 @@ namespace Mode
                 }
             }
         }
-        private string imageZ = "Z:1234";
+        private string imageZ = string.Empty;
 
         public string ImageZ
 
@@ -73,7 +72,7 @@ namespace Mode
 
             }
         }
-        private string imageSize = "1280";
+        private string imageSize = string.Empty;
 
         public string ImageSize
 
@@ -90,7 +89,7 @@ namespace Mode
             }
         }
 
-        public string imageFocus;
+        public string imageFocus = string.Empty;
         public string ImageFocus
 
         {
@@ -104,7 +103,7 @@ namespace Mode
                 }
             }
         }
-        public string createTime;
+        public string createTime = string.Empty;
         public string CreateTime
 
         {
@@ -118,8 +117,8 @@ namespace Mode
                 }
             }
         }
-        
-        public int frameIndex;
+
+        public int frameIndex = 0;
         public int FrameIndex
 
         {
@@ -145,7 +144,7 @@ namespace Mode
         }
 
 
-        public string timeElapsed;
+        public string timeElapsed =string.Empty;
         public string TimeElapsed
 
         {
@@ -174,7 +173,7 @@ namespace Mode
                 }
             }
         }
-        public int sliceIndex =0;
+        public int sliceIndex = 0;
         public int SliceIndex
 
         {
@@ -226,7 +225,6 @@ namespace Mode
         }
         public string zBottom;
         public string ZBottom
-
         {
             get { return zBottom; }
             set
@@ -238,7 +236,7 @@ namespace Mode
                 }
             }
         }
-        
+
         public string ratio;
         public string Ratio
         {
@@ -252,23 +250,5 @@ namespace Mode
                 }
             }
         }
-
-
-
-        public string fpsState ;
-        public string FpsState
-
-        {
-            get { return fpsState; }
-            set
-            {
-                if (value != null)
-                {
-                    fpsState = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
     }
-
 }

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.DataType;
+using LambdaManager.Features;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
 using ThemeManager.Controls;
@@ -67,6 +68,7 @@ namespace LambdaManager
             Log.LogWrite += AddMessage;
 
             msgList.ItemsSource = Messagess;
+            statusBar.DataContext = UIEvents.GetInstance().updateStatus;
         }
 
 
