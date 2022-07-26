@@ -106,9 +106,7 @@ namespace ToolHash
     {
         public static string GetHash(string path)
         {
-            //var hash = SHA256.Create();
             var hash = MD5.Create();
-            //var hash = SHA1.Create();
             var stream = new FileStream(path, FileMode.Open);
             byte[] hashByte = hash.ComputeHash(stream);
             stream.Close();

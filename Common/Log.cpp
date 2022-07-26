@@ -17,7 +17,6 @@ void Logger::Log1(Severity severity, std::string message)
 }
 
 //log 锁不能加在异步前面
-LPWSTR m_Buffer = NULL;
 void Logger::Log1(Severity severity, LPCSTR pstrFormat, ...)
 {
 	_lock.lock();
@@ -26,16 +25,10 @@ void Logger::Log1(Severity severity, LPCSTR pstrFormat, ...)
 	int nBuf;
 	CHAR szBuffer[1024];
 	nBuf = _vsnprintf(szBuffer, sizeof(szBuffer), pstrFormat, args);
-	if (m_Buffer)
-		free(m_Buffer);
-	m_Buffer = (LPWSTR)malloc((nBuf + 1) * sizeof(WCHAR));
-	MultiByteToWideChar(CP_ACP, 0, szBuffer, nBuf, m_Buffer, nBuf);
-	m_Buffer[nBuf] = L'\0';
-	va_end(args);
-	char buffer[500];
-	wcstombs(buffer, m_Buffer, 500);
+	char myC[1024];
+	sprintf(myC, "%hS", szBuffer);
 	_lock.unlock();
-	logCallBack1((int)severity, buffer);
+	logCallBack1((int)severity, myC);
 
 }
 

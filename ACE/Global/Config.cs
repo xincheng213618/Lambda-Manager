@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace ACE.Global
 {
@@ -8,6 +9,7 @@ namespace ACE.Global
     [Serializable]
     public class Config : ViewModelBase
     {
+        [JsonPropertyName("register-info")]
         public RegisterInfo RegisterInfo { get; set; } = new RegisterInfo();
     }
 }

@@ -31,9 +31,7 @@ namespace LambdaManager
 
         public TabControl tabControl;
         
-
         internal List<int> ClosingViewIndex = Common.ClosingViewIndex;
-
 
         internal string? Notice { get; set; }
 

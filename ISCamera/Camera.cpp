@@ -236,7 +236,7 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
-	LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
+	//LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
 
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
@@ -258,7 +258,7 @@ int PlayFilm(std::string fileName) {
 		}
 		resize(frame, frame, cv::Size(1200, 900), 0, 0);
 		pView->Show(frame);
-		Histograme(frame, pView1);
+		//Histograme(frame, pView1);
 	    //HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
@@ -465,8 +465,6 @@ int CameraSettingExposure(int mode,double exposure)
 	//std::string name = "a中文";
 	//name = StringToUtf(name);
 	//Logger::Log2(Severity::INFO, L"c+++++++++++++++ %d)'", a);
-	uchar b[] = { 1,2,3,4,5 };
-	Event::Trigger("TestDataEvent", b, sizeof(b) / sizeof(b[0]));
 
 	cv::Mat img1;
 	img1 = cv::imread("cat.jpg");

@@ -42,7 +42,7 @@ namespace Register
             registerInfo = WindowData.GetInstance().RegisterInfo;
             this.DataContext = registerInfo;
 
-            AESHelper = new AESHelper();
+            AESHelper = new AESHelper("C:\\Program Files\\NJUST-SCIL\\Lambda Manager\\application.xml");
             switch (mode)
             {
                 case 0:
@@ -84,8 +84,8 @@ namespace Register
                 return;
             }
 
-
             AESHelper.registerCode.SetRegisterCode(registerInfo.GetSha512());
+
             AESHelper.Encrypt();
             Dictionary<string, string> keyValues = new Dictionary<string, string>()
             {
