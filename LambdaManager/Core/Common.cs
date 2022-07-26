@@ -613,12 +613,9 @@ internal class Common
 			{
 				Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
 				writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
-				if (index == 0)
-				{
-					fps.Inc();
-				}
-			}
-		});
+                fps.Inc();
+            }
+        });
         if (index2 == 0)
         {
             return (int)(Views[index]?.State ?? ((ViewState)(-1)));

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
+
 using System.Windows;
 using System.Xml.Linq;
 using Lambda;
@@ -25,6 +24,10 @@ internal class ConfigLibrary
 {
 	private readonly DataType.Solution solution = FunctionExecutor.Solution;
 
+	private readonly string dllAce = "ACE.dll";
+
+
+
 	public ConfigLibrary()
 	{
 		Common.Init();
@@ -32,11 +35,32 @@ internal class ConfigLibrary
 
     public bool Load(string path)
 	{
-		XElement root = XDocument.Load(path).Root;
-		if (root == null)
+		XElement root = null; ;
+        if (File.Exists(path))
+        {
+            root = XDocument.Load(path).Root;
+
+        }
+		else if (File.Exists(dllAce))
 		{
-			return false;
-		}
+            var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
+            if (assembly == null)
+                return false;
+            var type = assembly.GetType("ACE.AES");
+            if (type == null)
+                return false;
+            string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+            if (s == null)
+                return false;
+            if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
+                s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
+            root = XDocument.Parse(s).Root;
+        }
+        if (root == null)
+        {
+            return false;
+        }
+
         Application.Current.Dispatcher.Invoke(delegate
         {
             ResolveMain(root);

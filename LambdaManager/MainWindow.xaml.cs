@@ -32,17 +32,11 @@ namespace LambdaManager
         public TabControl tabControl;
         
         internal List<int> ClosingViewIndex = Common.ClosingViewIndex;
-
         internal string? Notice { get; set; }
-
         internal bool Maximize { get; set; }
-
         internal bool IsLeftViewHidden { get; set; }
-
         internal bool IsMiddleViewHidden { get; set; }
-
         internal double LeftViewWidth { get; set; }
-
         internal double MiddleViewWidth { get; set; }
 
 
@@ -50,16 +44,27 @@ namespace LambdaManager
         {
             InitializeComponent();
             ChangeMiddleViewVisibility(false);
-
         }
+        private void AddEventHandler()
+        {
+            LambdaControl.AddLambdaEventHandler("UPDATE_PANEL_STATE", UPDATE_PANEL_STATE, false);
+        }
+        private bool UPDATE_PANEL_STATE(object sender, EventArgs e)
+        {
+
+
+            return true;
+        }
+
+
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            SliderAll1.Value = 1920;
-            SliderAll1.ValueChanged += Slider_ValueChanged;
             fpsState.DataContext = Common.fps;
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
+
+
         }
 
 
@@ -222,10 +227,13 @@ namespace LambdaManager
             };
         }
 
+
+
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            stageAcquisition.Width = SliderAll1.Value;
-            stageAcquisition.Height = SliderAll1.Value * (this.Height - 48) / (this.Width);
+            //stageAcquisition.Width = SliderAll1.Value;
+            //stageAcquisition.Height = SliderAll1.Value * (this.Height - 48) / (this.Width);
         }
 
 
@@ -233,20 +241,13 @@ namespace LambdaManager
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             LambdaControl.Trigger("GLOBAL_ZOOM", sender, e);
-            try
-            {
-                stageAcquisition.Width = SliderAll1.Value;
-                stageAcquisition.Height = SliderAll1.Value * (this.Height - 47) / (this.Width);
-            }
-            catch
-            {
 
-            }
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("PHASE_CHECKED", sender, e);
+
         }
 
         private void RadioButton_Checked_1(object sender, RoutedEventArgs e)

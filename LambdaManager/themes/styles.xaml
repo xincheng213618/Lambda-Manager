@@ -134,6 +134,7 @@
     <!--#region FontStyle-->
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
     </Style>
     <Style TargetType="{x:Type Control}">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>

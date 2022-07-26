@@ -48,17 +48,17 @@ void HistCalc(cv::Mat& MatPha,int i)
 
 	Event::Trigger("TestDataEvent2", gray, sizeof(char) * i);
 }
-Mat histnew(Mat& scr, int maxloc, double sumhist, int* histmax, int* histmin)
+Mat histnew(Mat& scr, int* maxloc, double sumhist, int* histmax, int* histmin)
 {
 	Mat hist = Mat::zeros(1, 256, CV_32FC1);
 	float* ptr = scr.ptr<float>(0);
 	float* hptr = hist.ptr<float>(0);
-	hptr[maxloc] = ptr[maxloc];
-	float th = ptr[maxloc];
+	hptr[*maxloc] = ptr[*maxloc];
+	float th = ptr[*maxloc];
 
-	for (int i = maxloc; i < scr.cols - 1; i++)
+	for (int i = *maxloc; i < scr.cols - 1; i++)
 	{
-		int minloc = 2 * maxloc - i - 1;
+		int minloc = 2 * *maxloc - i - 1;
 		float minval;
 		if (minloc < 0)
 		{
@@ -66,7 +66,7 @@ Mat histnew(Mat& scr, int maxloc, double sumhist, int* histmax, int* histmin)
 			minval = 0;
 		}
 		else {
-			minval = ptr[2 * maxloc - i - 1];
+			minval = ptr[2 * *maxloc - i - 1];
 		}
 		th = th + ptr[i + 1] + minval;
 		if (th / sumhist < 0.99)
@@ -109,7 +109,6 @@ void Histograme(Mat Im1, LambdaView* pView1) {
 	Point maxLoc;
 	double max_val = 0;
 	minMaxLoc(phase_hist, NULL, &max_val, NULL, NULL);
-
 	int scale = 2;
 	int hist_height = 256;
 	Mat hist_img_o = Mat::zeros(hist_height, 256 * scale, CV_8UC3);
@@ -126,7 +125,7 @@ void Histograme(Mat Im1, LambdaView* pView1) {
 	int maxloc = maxLoc.y;
 	int histmin = 0, histmax = 0;
 
-	Mat hist = histnew(phaseMat_hist, maxloc, sumhist, &histmax, &histmin);
+	Mat hist = histnew(phaseMat_hist, &maxloc, sumhist, &histmax, &histmin);
 	minMaxLoc(hist, 0, &max_val, 0, 0);
 
 	Mat hist_img = Mat::zeros(hist_height, 256 * scale, CV_8UC3);
@@ -236,7 +235,7 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
-	//LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
+	LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
 
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;

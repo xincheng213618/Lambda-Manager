@@ -24,6 +24,7 @@ public static class ViewGrid
 	};
 
 	private static readonly List<int> ClosingViewIndex = ((MainWindow)Application.Current.MainWindow).ClosingViewIndex;
+
 	private static View?[] Views { get; set; } = ((MainWindow)Application.Current.MainWindow).Views;
 
 	public static Grid[] gridsList=new Grid[100];

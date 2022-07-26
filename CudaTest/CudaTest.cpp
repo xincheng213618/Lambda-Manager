@@ -108,6 +108,7 @@ void FFTCUDA_img()
 	cudaError_t error_id = cudaGetDeviceCount(&deviceCount);
 
 	cv::Mat planes[] = { cv::Mat_<float>(test_img), cv::Mat::zeros(test_img.size(), CV_32F) };
+	
 	cufftComplex* cu_complexI_h, * cu_complexI_d, cu_complexI_d1;
 	cu_complexI_h = (cufftComplex*)malloc(sizeof(cufftComplex) * nW * nH);
 	cudaMalloc((void**)&cu_complexI_d, sizeof(cufftComplex) * nW * nH);

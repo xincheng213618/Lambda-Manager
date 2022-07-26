@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ACE
     public static class AES
     {
         public static AESHelper AESHelper = new AESHelper();
-        public static string GetSysConfig()
+        public static string? GetSysConfig()
         {
             byte[] trest1 = AESHelper.Decrypt();
             if (trest1 == null)
@@ -24,5 +25,19 @@ namespace ACE
                 return Encoding.UTF8.GetString(trest1);
             }
         }
+
+        public static string? GetExpireDate()
+        {
+            if (File.Exists("application.xml"))
+            {
+                return null;
+            }
+            else
+            {
+                return "1970/1/0";
+            }
+
+       }
+
     }
 }

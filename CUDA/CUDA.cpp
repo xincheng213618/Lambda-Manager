@@ -103,6 +103,7 @@ void FFTCUDA_img()
 
 	cv::Mat planes[] = { cv::Mat_<float>(test_img), cv::Mat::zeros(test_img.size(), CV_32F) };
 	cufftComplex* cu_complexI_h, * cu_complexI_d;
+
 	cu_complexI_h = (cufftComplex*)malloc(sizeof(cufftComplex) * nW * nH);
 	cudaMalloc((void**)&cu_complexI_d, sizeof(cufftComplex) * nW * nH);
 	Mat2Complex(planes[0], planes[1], cu_complexI_h, nH, nW);
