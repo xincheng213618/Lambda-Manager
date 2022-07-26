@@ -52,7 +52,7 @@ internal class ConfigValidate
 
 	internal void Report(Severity severity, Type type, string? name, string attr, string? value, string err)
 	{
-		App.Report(severity, type.Description(), name, attr, value, err);
+		Log.Report(severity, type.Description(), name, attr, value, err);
 		if (Severity < severity)
 		{
 			Severity = severity;

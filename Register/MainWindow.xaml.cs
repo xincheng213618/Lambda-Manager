@@ -108,7 +108,7 @@ namespace Register
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(AES.GetSysConfig());
+            MessageBox.Show(AES.GetExpireDate());
         }
 
         private void H5a6_TextChanged(object sender, TextChangedEventArgs e)

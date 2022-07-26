@@ -39,7 +39,7 @@ internal class FunctionResolver
 		}
 		catch (EntryPointNotFoundException)
 		{
-			App.Report(Severity.FATAL_ERROR, Resources.Lib, component.Lib, Resources.Action, action.Name, Resources.NotExist);
+			Log.Report(Severity.FATAL_ERROR, Resources.Lib, component.Lib, Resources.Action, action.Name, Resources.NotExist);
 			return IntPtr.Zero;
 		}
 	}

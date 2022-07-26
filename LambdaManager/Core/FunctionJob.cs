@@ -76,7 +76,7 @@ internal class FunctionJob : IJob
 		defaultInterpolatedStringHandler.AppendFormatted(Resources.Comma);
 		defaultInterpolatedStringHandler.AppendFormatted(DateTime.Now);
 		string text = defaultInterpolatedStringHandler.ToStringAndClear();
-		App.Report(new Message
+		Log.Report(new Message
 		{
 			Severity = Severity.INFO,
 			Text = text
@@ -101,7 +101,7 @@ internal class FunctionJob : IJob
 		Message message2 = message;
 		Task task = new Task(delegate
 		{
-			App.Report(message2);
+			Log.Report(message2);
 		});
 		task.Start();
 		await task;

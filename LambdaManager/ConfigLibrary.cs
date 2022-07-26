@@ -16,7 +16,6 @@ using LambdaManager.Utils;
 using LambdaUtils;
 using Quartz;
 using Quartz.Impl;
-using Quartz.Logging;
 
 namespace LambdaManager;
 
@@ -25,8 +24,6 @@ internal class ConfigLibrary
 	private readonly DataType.Solution solution = FunctionExecutor.Solution;
 
 	private readonly string dllAce = "ACE.dll";
-
-
 
 	public ConfigLibrary()
 	{
@@ -134,9 +131,6 @@ internal class ConfigLibrary
 		ResolveFunctionArgument(validate);
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
-		//Thread thread = new Thread(new ThreadStart());
-		//thread.IsBackground = true;
-		//thread.Start();
         InitializeLibrary();
 
         return validate.Severity < Severity.FATAL_ERROR;
@@ -1519,7 +1513,7 @@ internal class ConfigLibrary
 				evt.Type = (string)eventObject["type"];
 				if (evt.Type == null)
 				{
-					App.Report(new Message
+					Log.Report(new Message
 					{
 						Severity = Severity.FATAL_ERROR,
 						Text = raise + Resources.EventTypeNotSpecified

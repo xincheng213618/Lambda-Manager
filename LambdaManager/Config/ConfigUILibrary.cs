@@ -82,22 +82,7 @@ public class ConfigUILibrary
                         tabItem.Visibility = Visibility.Visible;
 
         UIElementCollection list = Main.GetConfigPanel(side).Children;
-
-
-
         bool found = false;
-
-		//for (int i = 0; i < list.Count; i++)
-		//{
-		//    if (list[i] is Control c && order < leftOrder[c])
-		//    {
-		//        list.Insert(i, control);
-		//        found = true;
-		//        break;
-		//    }
-		//}
-
-		//list.Clear();
 		if (!found)
 		{
 			list.Add(control);

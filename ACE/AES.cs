@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using ACE.Global;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -30,11 +33,33 @@ namespace ACE
         {
             if (File.Exists("application.xml"))
             {
-                return null;
+                return String.Empty;
             }
             else
             {
-                return "1970/1/0";
+                string result = File.ReadAllText("default.json");
+                if (result == null)
+                {
+                    return String.Empty;
+                }
+                var config = JsonSerializer.Deserialize<Config>(result);
+                if (config == null)
+                {
+                    return String.Empty;
+                }
+                else
+                {
+                    try
+                    {
+                        DateTime dt = DateTime.ParseExact(config.RegisterInfo.ExpirationDate, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                        return dt.ToString("yyyy/MM/dd");
+                    }
+                    catch
+                    {
+                        return  "1970/1/0";
+                    }
+
+                }
             }
 
        }

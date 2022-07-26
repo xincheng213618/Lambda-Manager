@@ -63,7 +63,7 @@ internal class Common
 
         GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 
-		LambdaControl.Initialize(App.Report, App.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
+		LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
 
 		Initialize();
 	}
@@ -530,7 +530,7 @@ internal class Common
             {
                 return CallEvent(type, array, GCHandle.ToIntPtr(handle));
             }
-            App.Report(new Message
+            Log.Report(new Message
 			{
 				Severity = Severity.FATAL_ERROR,
 				Text = Resources.EventDataNotSupport
@@ -579,13 +579,13 @@ internal class Common
 			4 => PixelFormats.Bgr32, 
 			_ => PixelFormats.Default, 
 		};
-		Application.Current.Dispatcher.Invoke(delegate
+        WriteableBitmap writeableBitmap = new WriteableBitmap(cols, rows, 96.0, 96.0, format, null);
+        CopyMemory(writeableBitmap.BackBuffer, buff, (uint)(cols * rows * type));
+        writeableBitmap.Lock();
+        writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+        writeableBitmap.Unlock();
+        Application.Current.Dispatcher.Invoke(delegate
 		{
-			WriteableBitmap writeableBitmap = new WriteableBitmap(cols, rows, 96.0, 96.0, format, null);
-			CopyMemory(writeableBitmap.BackBuffer, buff, (uint)(cols * rows * type));
-			writeableBitmap.Lock();
-			writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
-			writeableBitmap.Unlock();
 			Image image = GetImage(index, index2, initial: true);
 			if (image != null)
 			{

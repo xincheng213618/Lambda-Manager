@@ -63,6 +63,7 @@ namespace LambdaManager
             fpsState.DataContext = Common.fps;
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
+            Log.LogWrite += AddMessage;
 
 
         }
@@ -70,37 +71,41 @@ namespace LambdaManager
 
 
 
-        internal void AddMessage(Message message)
+        public void AddMessage(Message message)
         {
-            if (message.Severity < logLevel)
+            Application.Current.Dispatcher.Invoke(delegate
             {
-                return;
-            }
-
-            StackPanel panel = new StackPanel();
-            TextBlock textBlock = new TextBlock();
-            string text = message.Text;
-            if (text != null)
-            {
-                textBlock.Text = text;
-                panel.Children.Add(textBlock);
-                ItemCollection items = msgList.Items;
-                items.Add(panel);
-                msgList.SelectedIndex = items.Count - 1;
-                if (items.Count > 500)
+                if (message.Severity < logLevel)
                 {
-                    items.RemoveAt(0);
-                }
-                try
-                {
-                    logger.WriteLine(message.Severity.Description() + text);
-                }
-                catch (Exception ex)
-                {
-                    logger.WriteLine(ex.Message);
+                    return;
                 }
 
-            }
+                StackPanel panel = new StackPanel();
+                TextBlock textBlock = new TextBlock();
+                string text = message.Text;
+                if (text != null)
+                {
+                    textBlock.Text = text;
+                    panel.Children.Add(textBlock);
+                    ItemCollection items = msgList.Items;
+                    items.Add(panel);
+                    msgList.SelectedIndex = items.Count - 1;
+                    if (items.Count > 500)
+                    {
+                        items.RemoveAt(0);
+                    }
+                    try
+                    {
+                        logger.WriteLine(message.Severity.Description() + text);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.WriteLine(ex.Message);
+                    }
+
+                }
+            });
+        
         }
 
         internal MenuItem? AddMenuItem(string path)

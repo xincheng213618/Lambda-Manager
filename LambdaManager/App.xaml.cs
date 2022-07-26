@@ -30,6 +30,7 @@ partial class App : Application
     }
 
     private Mutex mutex;
+
     /// <summary>
     /// 软件是否多次打开判定
     /// </summary>
@@ -59,36 +60,6 @@ partial class App : Application
         };
         startWindow.Show();
     }
-
-	internal static void Report(Message message)
-	{
-        Message message2 = message;
-        if (Application.Current.Dispatcher.CheckAccess())
-        {
-            ((MainWindow)Application.Current.MainWindow)?.AddMessage(message2);
-        }
-        else
-        {
-            Application.Current.Dispatcher.Invoke(act);
-        }
-        void act()
-        {
-            ((MainWindow)Application.Current.MainWindow)?.AddMessage(message2);
-        }
-    }
-
-	internal static void Report2(Message message)
-	{
-        message.Text = DateTime.Now.ToString("mm.ss.fff") + ": " + message.Text;
-        Report(message);
-    }
-
-	internal static void Report(Severity severity, string obj, string? name, string attr, string? value, string err)
-	{
-        Report(new Message() {Severity = severity, Text = $"{obj}{name}{attr}{attr}{err}" });
-    }
-
-
 
 	private  void Application_Exit(object sender, ExitEventArgs e)
 	{

@@ -72,7 +72,7 @@
 
 	</component>
 
-	<component name="Camera" lib="lib\ISCamera.dll" init="SleepTest">
+	<component name="Camera" lib="lib\ISCamera.dll">
 
 		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
 			<action name="CameraSettingExposure">

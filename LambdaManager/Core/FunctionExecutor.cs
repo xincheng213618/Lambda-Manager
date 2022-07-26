@@ -182,7 +182,7 @@ internal static class FunctionExecutor
 		if (result == -1)
 		{
 			string text = Resources.Execute + Resources.Action + Resources.Error;
-			App.Report(new Message
+			Log.Report(new Message
 			{
 				Severity = Severity.ERROR,
 				Text = text
@@ -202,7 +202,7 @@ internal static class FunctionExecutor
 		}
 		catch (Exception ex)
 		{
-			App.Report(new Message
+			Log.Report(new Message
 			{
 				Severity = Severity.ERROR,
 				Text = ex.Message
@@ -380,7 +380,7 @@ internal static class FunctionExecutor
 		EntryPoint entry = function.EntryPoint;
 		if (entry == null)
 		{
-			App.Report(new Message
+			Log.Report(new Message
 			{
 				Severity = Severity.ERROR,
 				Text = Resources.Action + Resources.NotExist
@@ -499,7 +499,7 @@ internal static class FunctionExecutor
 					break;
 				}
 				case ArgumentType.STL_MAP:
-					App.Report(new Message
+					Log.Report(new Message
 					{
 						Severity = Severity.ERROR,
 						Text = Resources.STLMapNotSupport
