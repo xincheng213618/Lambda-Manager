@@ -10,14 +10,9 @@ namespace Global.Hardware
 {
     public class DeviceInformation: ViewModelBase
     {
-        //Objectiv
         public List<ObjectiveSetting> ObjectiveSettingList;
-        //相机曝光
         public List<double> CameraExpose;
-
         public List<string> CameraExposeShow;
-
-        public List<string> CameraResolution;   
-
+        public List<string> CameraResolution;
     }
 }

@@ -60,7 +60,7 @@ namespace Global.Mode.Config
             set { saturation = value; NotifyPropertyChanged(); }
         }
 
-        private int exposure = 60;
+        private int exposure = 35;
         [JsonPropertyName("exposure")]
         public int Exposure
         {
