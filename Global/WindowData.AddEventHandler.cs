@@ -346,7 +346,10 @@ namespace Global
             }
             try
             {
-                asyncAdd(ints);
+                Application.Current.Dispatcher.Invoke(delegate
+                {
+                    asyncAdd(ints);
+                });
             }
             catch(Exception ex)
             {

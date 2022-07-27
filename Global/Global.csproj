@@ -68,9 +68,11 @@
   <ItemGroup>
     <Reference Include="ColorPickerLib">
       <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="NumericUpDownLib">
       <HintPath>..\..\Lambda Update\DLL\NumericUpDownLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
 	  <Reference Include="RangeSlider">
 		  <HintPath>..\DLL\RangeSlider.dll</HintPath>

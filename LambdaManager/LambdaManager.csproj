@@ -142,6 +142,17 @@
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ColorPickerLib">
+      <HintPath>..\..\Lambda Update\DLL\ColorPickerLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NumericUpDownLib">
+      <HintPath>..\..\Lambda Update\DLL\NumericUpDownLib.dll</HintPath>
+    </Reference>
+    <Reference Include="RangeSlider">
+      <HintPath>..\..\Lambda Update\DLL\RangeSlider.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="resources\icons\application-icon.png" />
     <Resource Include="resources\icons\application-logo.png" />
     <Resource Include="resources\icons\bottom-backward.png" />

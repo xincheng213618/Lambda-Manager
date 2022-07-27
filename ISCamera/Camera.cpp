@@ -240,6 +240,12 @@ int PlayFilm(std::string fileName) {
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
 
+	if (pView->GetIndex() == 3) {
+		json j3;
+		j3["windowstatus"] = "2345";
+		Event::Trigger("UPDATE_WINDOWSTATUS", &j3);
+	}
+
 	for (;;)
 	{
 		// wait for a new frame from camera and store it into 'frame'

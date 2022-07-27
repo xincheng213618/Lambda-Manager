@@ -358,7 +358,7 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
+            LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
 
             View view = LambdaControl.GetImageView(1);
             view.State = ViewState.CLOSED;

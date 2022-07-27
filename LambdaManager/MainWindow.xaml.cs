@@ -94,39 +94,6 @@ namespace LambdaManager
                 Messagess.Add(message);
                 msgList.SelectedIndex = msgList.Items.Count - 1;
             });
-
-            //Application.Current.Dispatcher.Invoke(delegate
-            //{
-            //    if (message.Severity < logLevel)
-            //    {
-            //        return;
-            //    }
-
-            //    StackPanel panel = new StackPanel();
-            //    TextBlock textBlock = new TextBlock();
-            //    string text = message.Text;
-            //    if (text != null)
-            //    {
-            //        textBlock.Text = text;
-            //        panel.Children.Add(textBlock);
-            //        ItemCollection items = msgList.Items;
-            //        items.Add(panel);
-            //        msgList.SelectedIndex = items.Count - 1;
-            //        if (items.Count > 500)
-            //        {
-            //            items.RemoveAt(0);
-            //        }
-            //        try
-            //        {
-            //            logger.WriteLine(message.Severity.Description() + text);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            logger.WriteLine(ex.Message);
-            //        }
-            //    }
-            //});
-
         }
 
         internal MenuItem? AddMenuItem(string path)
