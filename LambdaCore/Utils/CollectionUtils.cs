@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using LambdaManager.DataType;
-using Action = LambdaManager.DataType.Action;
 
 namespace LambdaManager.Utils;
 

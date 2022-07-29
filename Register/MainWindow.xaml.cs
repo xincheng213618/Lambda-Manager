@@ -1,6 +1,5 @@
 ﻿using ACE;
-using Global;
-using Global.Mode;
+using ACE.Global;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,12 +36,14 @@ namespace Register
         int mode = 1;
         RegisterInfo registerInfo;
         AESHelper AESHelper;
+        IRegisterInfo iRegisterInfo;
         private void Window_Initialized(object sender, System.EventArgs e)
         {
-            registerInfo = WindowData.GetInstance().RegisterInfo;
+            iRegisterInfo = new FileRegisterinfo();
+            registerInfo = iRegisterInfo.GetRegisterInfo();
             this.DataContext = registerInfo;
 
-            AESHelper = new AESHelper("C:\\Program Files\\NJUST-SCIL\\Lambda Manager\\application.xml");
+            AESHelper = new AESHelper();
             switch (mode)
             {
                 case 0:
@@ -60,9 +61,6 @@ namespace Register
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            
-            
             if (!Regex.IsMatch(registerInfo.RegistrationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
             {
                 MessageBox.Show("请输入正确的注册日期");
@@ -85,6 +83,7 @@ namespace Register
             }
 
             AESHelper.registerCode.SetRegisterCode(registerInfo.GetSha512());
+            iRegisterInfo.SetRegisterInfo(registerInfo);
 
             AESHelper.Encrypt();
             Dictionary<string, string> keyValues = new Dictionary<string, string>()
@@ -97,12 +96,11 @@ namespace Register
                 { "phoneNumber",registerInfo.PhoneNumber},
                 { "registerCode",registerInfo.GetSha512()},
             };
-
             var content = new FormUrlEncodedContent(keyValues);
-            var response = await client.PostAsync("http://b.xincheng213618.com:18888/register", content);
+            //var response = await client.PostAsync("http://b.xincheng213618.com:18888/register", content);
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            MessageBox.Show(responseString);
+            //var responseString = await response.Content.ReadAsStringAsync();
+            //MessageBox.Show(responseString);
             //MessageBox.Show(Encoding.UTF8.GetString(AESHelper.Decrypt())); 
         }
 

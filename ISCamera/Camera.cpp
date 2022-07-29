@@ -438,6 +438,11 @@ int VideoTest() {
 	return 0;
 }
 
+CAMERA_API int FloatTest(float num)
+{
+	return 0;
+}
+
 
 int MatShow(cv::Mat* Test) {
 	//VideoTest();
@@ -453,6 +458,16 @@ int MatShow1(cv::Mat* Test ,int num) {
 
 double x = 111.1111;
 double y = 111.1111;
+
+
+
+int  test_double(double exposure)
+{
+	Logger::Log2(Severity::INFO, L"测试: Test8(x=%.8lf)", exposure);
+	return 0;
+}
+
+
 int CameraSettingExposure(int mode,double exposure)
 {
 	x++;

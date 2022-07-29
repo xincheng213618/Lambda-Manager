@@ -91,8 +91,8 @@ namespace ACE.Global
 
         public override string ToString()
         {
-            //return $"{UserName},{RegistrationDate},{RegisteredAddress},{ExpirationDate},{Email},{PhoneNumber}";
-            return $"{UserName},{RegisteredAddress},{ExpirationDate}";
+            return $"{UserName},{RegistrationDate},{RegisteredAddress},{ExpirationDate},{Email},{PhoneNumber}";
+            //return $"{UserName},{RegisteredAddress},{ExpirationDate}";
         }
 
 

@@ -37,28 +37,23 @@ namespace ACE
             }
             else
             {
-                string result = File.ReadAllText("default.json");
-                if (result == null)
+                try
                 {
-                    return String.Empty;
-                }
-                var config = JsonSerializer.Deserialize<Config>(result);
-                if (config == null)
-                {
-                    return String.Empty;
-                }
-                else
-                {
-                    try
+                    IRegisterInfo registerInfo = new FileRegisterinfo();
+                    var RegisterInfos = registerInfo.GetRegisterInfo();
+                    if (RegisterInfos != null)
                     {
-                        DateTime dt = DateTime.ParseExact(config.RegisterInfo.ExpirationDate, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                        DateTime dt = DateTime.ParseExact(RegisterInfos.ExpirationDate, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
                         return dt.ToString("yyyy/MM/dd");
                     }
-                    catch
+                    else
                     {
-                        return  "1970/1/0";
+                        return String.Empty;
                     }
-
+                }
+                catch
+                {
+                    return "1970/1/0";
                 }
             }
 

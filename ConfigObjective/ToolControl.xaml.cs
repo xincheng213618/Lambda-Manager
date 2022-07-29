@@ -342,7 +342,6 @@ namespace ConfigObjective
                         sliderfirst = true;
                     }
                 }
-
             };
             return slider;
         }

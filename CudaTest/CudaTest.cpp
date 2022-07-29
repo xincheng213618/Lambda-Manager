@@ -112,7 +112,7 @@ void FFTCUDA_img()
 	cufftComplex* cu_complexI_h, * cu_complexI_d, cu_complexI_d1;
 	cu_complexI_h = (cufftComplex*)malloc(sizeof(cufftComplex) * nW * nH);
 	cudaMalloc((void**)&cu_complexI_d, sizeof(cufftComplex) * nW * nH);
-	cudaMalloc((void**)&cu_complexI_d1, sizeof(cufftComplex) * 54000 * 40000);
+	cudaMalloc((void**)&cu_complexI_d1, sizeof(cufftComplex) * 54000 * 900000);
 
 	Mat2Complex(planes[0], planes[1], cu_complexI_h, nH, nW);
 	cudaMemcpy(cu_complexI_d, cu_complexI_h, sizeof(cufftComplex) * nW * nH, cudaMemcpyHostToDevice);

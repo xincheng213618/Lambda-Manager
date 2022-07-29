@@ -1,4 +1,5 @@
-﻿using Global;
+﻿using ACE;
+using ACE.Global;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -23,8 +24,9 @@ namespace AboutMsg
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            this.DataContext = WindowData.GetInstance().RegisterInfo;
-            
+            IRegisterInfo iRegisterInfo = new FileRegisterinfo();
+            this.DataContext = iRegisterInfo.GetRegisterInfo();
+
             produceInfos.Add(new ProduceInfo() { Name = "Register", Version = "1.0", Description = "注册" });
             produceInfos.Add(new ProduceInfo() { Name = "AboutMsg", Version = "1.0", Description = "关于" });
             produceInfos.Add(new ProduceInfo() { Name = "Solution", Version = "1.0", Description = "工程管理模块" });

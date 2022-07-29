@@ -363,7 +363,7 @@ namespace Global
 
         private async void asyncAdd(List<int> ints)
         {
-            for (int i = 1; i < ints.Count; i++)
+            for (int i = 0; i < ints.Count; i++)
             {
                 await Task.Delay(800);
                 var image = drawingCanvass[i];

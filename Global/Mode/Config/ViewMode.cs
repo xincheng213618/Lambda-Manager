@@ -234,9 +234,37 @@ namespace Global.Mode.Config
             }
         }
 
-        public int BrightColor = 4095;
-        public int DarkColor = 4095;
-        public int DarkColor1 = 4095;
+        private int brightColor = 1;
+        public int BrightColor
+        {
+            get { return brightColor; }
+            set
+            {
+                brightColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private int darkColor = 4080;
+        public int DarkColor
+        {
+            get { return darkColor; }
+            set
+            {
+                darkColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int darkColor1 = 4080;
+        public int DarkColor1
+        {
+            get { return darkColor; }
+            set
+            {
+                darkColor = value;
+                NotifyPropertyChanged();
+            }
+        }
 
 
         public void SetValue(Reinberg reinberg)

@@ -167,13 +167,14 @@
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Focusable="True" Background="#595959"  Padding="5" Margin="5,0">
             <StackPanel>
                 <UniformGrid Columns="6" >
-                    <RadioButton Name="Button31"   Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button32"   Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button33"  Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
+                    <RadioButton Name="Button31" Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button32" Tag="1" Style="{StaticResource ToggleButtonStyle1}" Content="暗场" Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button33" Tag="2" Style="{StaticResource ToggleButtonStyle1}" Content="莱茵" Margin="5,0"  Checked="ViewMode_Checked"  />
                     <RadioButton Name="Button34" Tag="3" Style="{StaticResource ToggleButtonStyle1}" Content="差分" Margin="5,0"  Checked="ViewMode_Checked"  />
-                    <RadioButton Name="Button35"  Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"   Checked="ViewMode_Checked" />
-                    <RadioButton Name="Button36"  Tag="5" Style="{StaticResource ToggleButtonStyle1}" Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button35" Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"   Checked="ViewMode_Checked" />
+                    <RadioButton Name="Button36" Tag="5" Style="{StaticResource ToggleButtonStyle1}" Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
                 </UniformGrid>
+                
                 <Border x:Name="Border31"  Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <StackPanel>
                         <DockPanel>
@@ -227,13 +228,13 @@
                         <DockPanel x:Name="DockPanel332" >
                             <TextBlock Width="80" Text="明场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Rectangle  x:Name="Color330"  DockPanel.Dock="Left" Fill="Red" Height="20" Width="20"   VerticalAlignment="Center"  HorizontalAlignment="Right" Margin="5,0,10,0" Visibility="Collapsed"/>
-                            <Slider x:Name="Slider333" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                            <Slider x:Name="Slider333" Style="{StaticResource LM_Slider}" Value="0" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
                         <DockPanel x:Name="DockPanel333" >
                             <TextBlock Width="80" Text="暗场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
                             <Rectangle x:Name="Color331"  DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed"/>
                             <Rectangle x:Name="Color332" DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Right" Margin="5,0,10,0"/>
-                            <Slider x:Name="Slider334" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                            <Slider x:Name="Slider334" Style="{StaticResource LM_Slider}" Value="15" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
 
                         <DockPanel >
@@ -241,8 +242,8 @@
                             <Button Click="Button331_Click" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <DockPanel x:Name="DockPanel331">
                                     <Canvas  Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
-                                        <Ellipse Width="40" Height="40" Fill="Lime"/>
-                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="Red"/>
+                                        <Ellipse Width="40" Height="40" Fill="Yellow"/>
+                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="Blue"/>
                                     </Canvas>
                                 </DockPanel>
                             </Button>

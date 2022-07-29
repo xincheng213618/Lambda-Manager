@@ -37,9 +37,9 @@
             <DockPanel Margin="5">
                 <Button Content="注册" Click="Button_Click"/>
             </DockPanel>
-            <DockPanel Margin="5">
+            <!--<DockPanel Margin="5">
                 <Button Content="解密" Click="Button1_Click"/>
-            </DockPanel>
+            </DockPanel>-->
         </StackPanel>  
 
     </Grid>

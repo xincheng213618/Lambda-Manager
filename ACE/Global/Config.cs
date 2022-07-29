@@ -10,6 +10,6 @@ namespace ACE.Global
     public class Config : ViewModelBase
     {
         [JsonPropertyName("register-info")]
-        public RegisterInfo RegisterInfo { get; set; } = new RegisterInfo();
+        public string RegisterInfo { get; set; } = string.Empty;
     }
 }

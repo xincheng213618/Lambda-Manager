@@ -12,6 +12,7 @@ namespace ACE
             registerCode = new ReadRegisterCode();
             FilePath = "application.xml";
         }
+
         public AESHelper(string filepath)
         {
             registerCode = new ReadRegisterCode();

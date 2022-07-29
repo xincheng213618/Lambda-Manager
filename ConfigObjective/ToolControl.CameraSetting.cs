@@ -164,7 +164,7 @@ namespace ConfigObjective
             if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
             {
                 Slider slider = sender as Slider;
-                Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "denoise", (int)slider.Value } };
+                Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "denoise", slider.Value } };
                 SliderAbbreviation(slider, e, "CAMERA_SETTING_DENOISE", data);
             }
 

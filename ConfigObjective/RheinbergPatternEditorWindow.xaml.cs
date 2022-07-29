@@ -22,7 +22,7 @@ namespace ConfigObjective
     {
         public List<RheinbergPattern> DefaultrheinbergPatterns =  new()
         {
-            new RheinbergPattern() { Rheinberg0 = (SolidColorBrush)Brushes.Red, Rheinberg1 = (SolidColorBrush)Brushes.Lime, Rheinberg2 = (SolidColorBrush)Brushes.Lime },
+            new RheinbergPattern() { Rheinberg0 = (SolidColorBrush)Brushes.Blue, Rheinberg1 = (SolidColorBrush)Brushes.Yellow, Rheinberg2 = (SolidColorBrush)Brushes.Yellow },
             new RheinbergPattern() { Rheinberg0 = (SolidColorBrush)Brushes.Blue, Rheinberg1 = (SolidColorBrush)Brushes.Red, Rheinberg2 = (SolidColorBrush)Brushes.Lime },
             new RheinbergPattern() { Rheinberg0 = (SolidColorBrush)Brushes.Black, Rheinberg1 = (SolidColorBrush)Brushes.Yellow, Rheinberg2 = (SolidColorBrush)Brushes.Blue },
             new RheinbergPattern() { Rheinberg0 = (SolidColorBrush)Brushes.Black, Rheinberg1 = (SolidColorBrush)Brushes.Yellow, Rheinberg2 = (SolidColorBrush)Brushes.Blue }

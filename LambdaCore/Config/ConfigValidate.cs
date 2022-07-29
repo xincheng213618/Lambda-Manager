@@ -3,13 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Lambda;
+using LambdaCore;
 using LambdaManager.Core;
 using LambdaManager.DataType;
 
-
 namespace LambdaManager.Config;
 
-public class ConfigValidate
+internal class ConfigValidate
 {
 	private readonly Dictionary<string, List<Action>> lib_actions = new Dictionary<string, List<Action>>();
 
@@ -45,14 +45,14 @@ public class ConfigValidate
 
 	private readonly Dictionary<Action, List<int>> action_functionArgument = new Dictionary<Action, List<int>>();
 
-	internal Severity Severity { get; set; }
+	internal Severity Severity { get; set; }  
 
 	internal HashSet<string> Libs { get; } = new HashSet<string>();
 
 
 	internal void Report(Severity severity, Type type, string? name, string attr, string? value, string err)
 	{
-		//App.Report(severity, type.Description(), name, attr, value, err);
+		Log.Report(severity, type.Description(), name, attr, value, err);
 		if (Severity < severity)
 		{
 			Severity = severity;
@@ -61,39 +61,60 @@ public class ConfigValidate
 
 	internal void ReportEmpty(Severity severity, Type type, string? name, string attr)
 	{
-		//Report(severity, type, name, attr, null, Resources.Empty);
+		Report(severity, type, name, attr, null, Resources.Empty);
 	}
 
 	internal void ReportNotExist(Severity severity, Type type, string? name, string attr, string? value)
 	{
-		//Report(severity, type, name, attr, value, Resources.NotExist);
+		Report(severity, type, name, attr, value, Resources.NotExist);
 	}
 
 	internal void ReportNotFound(Severity severity, Type type, string? name, string attr, string? value)
 	{
-		//Report(severity, type, name, attr, value, Resources.NotFound);
+		Report(severity, type, name, attr, value, Resources.NotFound);
 	}
 
 	internal void ReportFunctionReferenceNotFound(Component component, Procedure procedure, string? actionName, string referring)
 	{
 		string fullName = FunctionResolver.GetFullName(component, procedure, actionName);
-		//ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, Resources.Referring + Resources.Component, referring);
+		ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, Resources.Referring + Resources.Component, referring);
 	}
 
 	internal void ReportNotSupported(Severity severity, Type type, string? name, string attr, string? value)
 	{
-		//Report(severity, type, name, attr, value, Resources.NotSupported);
+		Report(severity, type, name, attr, value, Resources.NotSupported);
 	}
 
 	internal void ReportArgTypeAsPointer(Component component, Procedure procedure, Action action, string attr, string? value)
 	{
 		string fullName = FunctionResolver.GetFullName(component, procedure, action.Name);
-		//Report(Severity.WARNING, Type.Action, fullName, attr, value, Resources.AsPointer);
+		Report(Severity.WARNING, Type.Action, fullName, attr, value, Resources.AsPointer);
 	}
 
 	internal void ReportLinkNotMatch(Link best, Action action, int index)
 	{
-		//Report(Severity.FATAL_ERROR, Type.Action, name, attr, type, defaultInterpolatedStringHandler.ToStringAndClear());
+		string attr = (action.IsInputIO(index) ? Resources.InputType : Resources.OutputType);
+		string refering = Resources.Referring;
+		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 2);
+		defaultInterpolatedStringHandler.AppendFormatted(Type.Action);
+		defaultInterpolatedStringHandler.AppendLiteral("[");
+		defaultInterpolatedStringHandler.AppendFormatted(best.Source.Name);
+		defaultInterpolatedStringHandler.AppendLiteral("]");
+		string obj = defaultInterpolatedStringHandler.ToStringAndClear();
+		string attr2 = (best.IsInputSource() ? Resources.InputType : Resources.OutputType);
+		string value2 = best.GetSourceIO()?.Type;
+		string error = Resources.NotMatched;
+		string type = action.GetIO(index)?.Type;
+		string? name = action.Name;
+		defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 5);
+		defaultInterpolatedStringHandler.AppendFormatted(refering);
+		defaultInterpolatedStringHandler.AppendFormatted(obj);
+		defaultInterpolatedStringHandler.AppendFormatted(attr2);
+		defaultInterpolatedStringHandler.AppendLiteral("[");
+		defaultInterpolatedStringHandler.AppendFormatted(value2);
+		defaultInterpolatedStringHandler.AppendLiteral("]");
+		defaultInterpolatedStringHandler.AppendFormatted(error);
+		Report(Severity.FATAL_ERROR, Type.Action, name, attr, type, defaultInterpolatedStringHandler.ToStringAndClear());
 	}
 
 	internal void ReportActionImportNotSupported(Action action, List<ImportInfo> infos)
@@ -104,7 +125,7 @@ public class ConfigValidate
 			s = s + info.Name + ",";
 		}
 		s = s[0..^1];
-		//Report(Severity.WARNING, Type.Action, action.Name, Resources.Import, s, Resources.NotExportProc);
+		Report(Severity.WARNING, Type.Action, action.Name, Resources.Import, s, Resources.NotExportProc);
 	}
 
 	internal void Check(Component component)
@@ -113,15 +134,15 @@ public class ConfigValidate
 		string name = component.Name;
 		if (name == null)
 		{
-			//ReportEmpty(Severity.FATAL_ERROR, type, name, Resources.Name);
+			ReportEmpty(Severity.FATAL_ERROR, type, name, Resources.Name);
 		}
 		if (component.Lib == null)
 		{
-			//ReportEmpty(Severity.FATAL_ERROR, type, name, Resources.Lib);
+			ReportEmpty(Severity.FATAL_ERROR, type, name, Resources.Lib);
 		}
 		if (!File.Exists(component.Lib))
 		{
-			//ReportNotExist(Severity.FATAL_ERROR, type, name, Resources.Lib + Resources.File, component.Lib);
+			ReportNotExist(Severity.FATAL_ERROR, type, name, Resources.Lib + Resources.File, component.Lib);
 			component.Lib = null;
 		}
 	}
@@ -141,7 +162,7 @@ public class ConfigValidate
 			{
 				if (names[shortName].ToLower() != lib.ToLower())
 				{
-					//Report(Severity.WARNING, Type.Component, component.Name, Resources.Lib, lib, Resources.DuplicateLib);
+					Report(Severity.WARNING, Type.Component, component.Name, Resources.Lib, lib, Resources.DuplicateLib);
 				}
 			}
 			else
@@ -157,12 +178,12 @@ public class ConfigValidate
 		string name = procedure.Name;
 		if (name == null)
 		{
-			//ReportEmpty(Severity.WARNING, type, name, Resources.Name);
+			ReportEmpty(Severity.WARNING, type, name, Resources.Name);
 		}
 		int? count = procedure.Actions?.Count;
 		if (count == 0)
 		{
-			//ReportNotExist(Severity.WARNING, Type.Procedure, name, Resources.Action, null);
+			ReportNotExist(Severity.WARNING, Type.Procedure, name, Resources.Action, null);
 		}
 		List<string> evt = procedure.Event;
 		if (evt == null)
@@ -193,14 +214,14 @@ public class ConfigValidate
 						goto IL_0156;
 					}
 				}
-				//Report(Severity.ERROR, Type.Action, action.Name, Resources.Arguments, null, Resources.EventArgTypeNotMatch);
+				Report(Severity.ERROR, Type.Action, action.Name, Resources.Arguments, null, Resources.EventArgTypeNotMatch);
 			}
 		}
 		goto IL_0156;
 		IL_0156:
 		if (procedure.Aysnc == "true" && procedure.Key != null)
 		{
-			//Report(Severity.ERROR, Type.Procedure, procedure.Name, Resources.Async, null, Resources.AsyncWithEventDataNotSupport);
+			Report(Severity.ERROR, Type.Procedure, procedure.Name, Resources.Async, null, Resources.AsyncWithEventDataNotSupport);
 		}
 	}
 
@@ -211,11 +232,11 @@ public class ConfigValidate
 		string name = action.Name;
 		if (name == null)
 		{
-			//ReportEmpty(Severity.FATAL_ERROR, Type.Procedure, name, Resources.Name);
+			ReportEmpty(Severity.FATAL_ERROR, Type.Procedure, name, Resources.Name);
 		}
 		if (action.GetArgsCount() > 6)
 		{
-			//ReportNotSupported(Severity.FATAL_ERROR, Type.Action, action.Name, Resources.SystemNotSupport2, null);
+			ReportNotSupported(Severity.FATAL_ERROR, Type.Action, action.Name, Resources.SystemNotSupport2, null);
 		}
 		List<Procedure>? procedures = component.Procedures;
 		if (procedures != null && procedures!.Exists((Procedure p) => p != procedure2 && p.Name == name))
@@ -240,7 +261,7 @@ public class ConfigValidate
 		else if (!components.Exists((Component c) => c.Name == componentName))
 		{
 			string fullName = FunctionResolver.GetFullName(component, procedure2, name);
-			//ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, Resources.Referring + Resources.Component, componentName);
+			ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, Resources.Referring + Resources.Component, componentName);
 		}
 	}
 
@@ -327,13 +348,13 @@ public class ConfigValidate
 		int num = CheckArgType(io.Type ?? "string");
 		if (num == -1)
 		{
-			//string name2 = ((io is Input) ? Resources.InputType : Resources.OutputType);
-			//ReportArgTypeAsPointer(component, procedure, action, name2, io.Type);
+			string name2 = ((io is Input) ? Resources.InputType : Resources.OutputType);
+			ReportArgTypeAsPointer(component, procedure, action, name2, io.Type);
 		}
 		if (num < 4 && action.GetArgsCount() > 4)
 		{
-			//string name = action.Name ?? ((io is Input) ? new int?(index) : (index - action.Inputs?.Count)).ToString();
-			//Report(Severity.FATAL_ERROR, Type.Action, name, clazz.Description(), io.Name, Resources.SystemNotSupport1);
+			string name = action.Name ?? ((io is Input) ? new int?(index) : (index - action.Inputs?.Count)).ToString();
+			Report(Severity.FATAL_ERROR, Type.Action, name, clazz.Description(), io.Name, Resources.SystemNotSupport1);
 		}
 	}
 

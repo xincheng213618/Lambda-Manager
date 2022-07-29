@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
+
 using System.Windows;
 using System.Xml.Linq;
 using Lambda;
+using LambdaCore;
 using LambdaManager.Config;
 using LambdaManager.Core;
 using LambdaManager.DataType;
@@ -16,13 +16,14 @@ using LambdaManager.Utils;
 using LambdaUtils;
 using Quartz;
 using Quartz.Impl;
-using Quartz.Logging;
 
 namespace LambdaManager;
 
 internal class ConfigLibrary
 {
 	private readonly DataType.Solution solution = FunctionExecutor.Solution;
+
+	private readonly string dllAce = "ACE.dll";
 
 	public ConfigLibrary()
 	{
@@ -31,11 +32,31 @@ internal class ConfigLibrary
 
     public bool Load(string path)
 	{
-		XElement root = XDocument.Load(path).Root;
-		if (root == null)
+		XElement root = null; ;
+        if (File.Exists(path))
+        {
+            root = XDocument.Load(path).Root;
+
+        }
+		else if (File.Exists(dllAce))
 		{
-			return false;
-		}
+            var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
+            if (assembly == null)
+                return false;
+            var type = assembly.GetType("ACE.AES");
+            if (type == null)
+                return false;
+            string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+            if (s == null)
+                return false;
+            if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
+                s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
+            root = XDocument.Parse(s).Root;
+        }
+        if (root == null)
+        {
+            return false;
+        }
 		List<Command> commands = (from c in root.Descendants("commands").Descendants("command")
 			select new Command
 			{
@@ -105,8 +126,8 @@ internal class ConfigLibrary
 		ResolveFunctionArgument(validate);
 		RefineSolutionFunctionRaise();
 		InitializeScheduler();
-		InitializeLibrary();
-		return validate.Severity < Severity.FATAL_ERROR;
+        //InitializeLibrary();
+        return validate.Severity < Severity.FATAL_ERROR;
 	}
 
 
@@ -176,17 +197,30 @@ internal class ConfigLibrary
 
 	private void LoadComponents(List<Component> components, List<Command> commands, ConfigValidate validate)
 	{
-        validate.CheckLocalActions();
-        foreach (Component component in components)
-        {
-            string lib = component.Lib;
-            if (lib != null && !validate.Libs.Contains(lib))
+		validate.CheckLocalActions();
+		//ConfigUILibrary controlConfig = ConfigUILibrary.GetInstance();
+
+  //      foreach (Component component in components)
+		//{
+		//	string lib = component.Lib;
+		//	if (lib != null && !validate.Libs.Contains(lib))
+		//	{
+		//		if (!controlConfig.ResolveControl(component, validate))
+		//		{
+		//			LoadLibrary(component, validate);
+		//		}
+		//		validate.Libs.Add(lib);
+		//	}
+		//}
+
+		foreach (Command command in commands)
+		{
+            Application.Current.Dispatcher.Invoke(delegate
             {
-                LoadLibrary(component, validate);
-                validate.Libs.Add(lib);
-            }
-        }
-    }
+                controlConfig.LoadMenuCommand(command, validate);
+            });
+		}
+	}
 
 	private void LoadLibrary(Component component, ConfigValidate validate)
 	{
@@ -239,7 +273,7 @@ internal class ConfigLibrary
 		IntPtr addr = resolver.GetAddress(action, component);
 		if (addr == IntPtr.Zero)
 		{
-			//validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Signature, action.ToString());
+			validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Signature, action.ToString());
 			return null;
 		}
 		string code = resolver.GetSignatureCodes();
@@ -391,7 +425,7 @@ internal class ConfigLibrary
 			{
 				referred = action.Component + "::" + action.Name;
 			}
-			//validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, referring, Resources.Referring, referred);
+			validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, referring, Resources.Referring, referred);
 		}
 	}
 
@@ -428,7 +462,7 @@ internal class ConfigLibrary
 					}
 				}
 				string fullName = FunctionResolver.GetFullName(component, procedure, action.Name);
-				//validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, fullName, Resources.EntryPoint, null);
+				validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, fullName, Resources.EntryPoint, null);
 			}
 			else
 			{
@@ -479,7 +513,7 @@ internal class ConfigLibrary
 		Component component = validate.GetComponentOfLocalActions(componentName);
 		if (component == null)
 		{
-			//validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, componentName, Resources.Action, action.Name, Resources.Undefined);
+			validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, componentName, Resources.Action, action.Name, Resources.Undefined);
 			return null;
 		}
 		string sigName = action.GetSigName(component);
@@ -668,7 +702,7 @@ internal class ConfigLibrary
 			{
 				foreach (KeyValuePair<LambdaManager.DataType.Action, Procedure> item in remains)
 				{
-					//validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, item.Key.Name, Resources.EntryPoint, null);
+					validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, item.Key.Name, Resources.EntryPoint, null);
 				}
 				break;
 			}
@@ -820,7 +854,7 @@ internal class ConfigLibrary
 			List<string> exports = validate.GetProcedure(routine)?.Exports;
 			if (exports == null)
 			{
-				//validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Export, null);
+				validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Export, null);
 				continue;
 			}
 			Function function = action.Function;
@@ -833,7 +867,7 @@ internal class ConfigLibrary
 				int exportIndex = exports.IndexOf(info.Name);
 				if (exportIndex == -1)
 				{
-					//validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Import, info.Name);
+					validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Import, info.Name);
 					continue;
 				}
 				Dictionary<int, int> imports = function.Imports;
@@ -990,7 +1024,7 @@ internal class ConfigLibrary
 				}
 				if (!found)
 				{
-					//validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, LambdaManager.DataType.Type.Input.Description(), target[l].Name ?? ("index at " + l), Resources.OriginInputsNotMatch);
+					validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, LambdaManager.DataType.Type.Input.Description(), target[l].Name ?? ("index at " + l), Resources.OriginInputsNotMatch);
 				}
 			}
 			for (int j = 0; j < inputs!.Count; j++)
@@ -1102,7 +1136,7 @@ internal class ConfigLibrary
 			source.IsReferred = true;
 			if (source.Async && link.SourceIndex >= source.EntryPoint?.InputCount)
 			{
-				//validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Action, validate.GetAction(source)?.Name, Resources.Async, null, Resources.AsyncWithOutputReferredNotSupport);
+				validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Action, validate.GetAction(source)?.Name, Resources.Async, null, Resources.AsyncWithOutputReferredNotSupport);
 			}
 		}
 		if (routine == null)
@@ -1177,7 +1211,7 @@ internal class ConfigLibrary
 			if (typeInfo != null)
 			{
 				converter = typeInfo.GetConverter(castTypes);
-			}
+            }
 			bool isGetAddress = castTypes[0] == CastType.CAST_ADDRESS;
 			LocationConverter locationConverter = new LocationConverter
 			{
@@ -1334,8 +1368,8 @@ internal class ConfigLibrary
 				Target = target,
 				TargetIndex = indexArg.Key
 			};
-			link.CastTypes.Add(CastType.NO_CAST);
-			ResolveVariable(routine, link, byVariable: false, validate);
+            link.CastTypes.Add(CastType.NO_CAST);
+            ResolveVariable(routine, link, byVariable: false, validate);
 			indexArgs2.Add(sourceIndex, indexArg.Value);
 		}
 		return indexArgs2;
@@ -1390,9 +1424,13 @@ internal class ConfigLibrary
 				evt.Type = (string)eventObject["type"];
 				if (evt.Type == null)
 				{
-                    //Text = raise + Resources.EventTypeNotSpecified
-                }
-                evt.Data = raise;
+					Log.Report(new Message
+					{
+						Severity = Severity.FATAL_ERROR,
+						Text = raise + Resources.EventTypeNotSpecified
+					});
+				}
+				evt.Data = raise;
 				evt.SetArgType(hasKey: false, allJsonValue: false, hasBracket: true);
 			}
 			else
@@ -1450,7 +1488,7 @@ internal class ConfigLibrary
 			List<LambdaManager.DataType.Action> actions = validate.GetProcedure(action2.Function?.Routine)?.Actions;
 			if (actions == null)
 			{
-				//validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.RaiseKeys, remains.ToString());
+				validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.RaiseKeys, remains.ToString());
 				return null;
 			}
 			{
@@ -1538,7 +1576,7 @@ internal class ConfigLibrary
 				LambdaManager.DataType.Action refAction = validate.FindComponentAction(input.Name, input.Value);
 				if (refAction == null)
 				{
-					//validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.ReferredAction, input.Value);
+					validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.ReferredAction, input.Value);
 					continue;
 				}
 				EntryPoint entry = refAction.Function?.EntryPoint;
@@ -1559,8 +1597,10 @@ internal class ConfigLibrary
 			}
 		}
 	}
-
-	private void InitializeLibrary()
+	/// <summary>
+	/// init需要初始化的代码
+	/// </summary>
+	public void InitializeLibrary()
 	{
         if (solution.Routines.ContainsKey(solution.InitEvent))
         {
@@ -1576,7 +1616,6 @@ internal class ConfigLibrary
 
 	private static async void InitializeScheduler()
 	{
-		LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
 		IScheduler scheduler = (Common.Scheduler = await new StdSchedulerFactory().GetScheduler());
 		await scheduler.Start();
 		int i = 0;
@@ -1591,8 +1630,6 @@ internal class ConfigLibrary
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();
             ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{i}", "group1").StartNow().WithCronSchedule(info.Timer)
                 .Build();
-
-
             await scheduler.ScheduleJob(job, trigger);
 			i++;
 		}

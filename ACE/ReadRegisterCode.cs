@@ -39,10 +39,11 @@ namespace ACE
             {
                 return String.Empty;
             }
-            else
-            {
-                return Config.RegisterInfo.GetSha512();
-            }
+            string RegisterInfostring = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(Config.RegisterInfo));
+            var RegisterInfos = JsonSerializer.Deserialize<RegisterInfo>(RegisterInfostring);
+            if (RegisterInfos ==null)
+                return String.Empty;
+            return RegisterInfos.GetSha512();
         }
 
         /// <summary>

@@ -84,8 +84,17 @@
 			<action name="SleepTest"/>
 		</procedure>
 
+
+		<procedure name="test_double" event="test_double" key ="data">
+			<action name="test_double">
+				<input name="data" type="double"/>
+			</action>
+		</procedure>
+		
+
 		<procedure name="VideoTest" event="VideoTest" >
 			<action name="VideoTest"/>
+
 		</procedure>
 
 

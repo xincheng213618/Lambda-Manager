@@ -360,14 +360,18 @@ namespace Solution
         {
             LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
 
-            View view = LambdaControl.GetImageView(1);
-            view.State = ViewState.CLOSED;
-            int[] data2 = new int[] { 144, 2, 3, 4, 5 };
-            LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
+            LambdaControl.Trigger("test_double", this, new Dictionary<string, object>() { { "data", 1 } });
 
-            Node<int> doue = new Node<int>(1);
-            doue.Next = new Node<int>(2);
-            doue.Next.Next = doue;
+
+
+            //    View view = LambdaControl.GetImageView(1);
+            //    view.State = ViewState.CLOSED;
+            //    int[] data2 = new int[] { 144, 2, 3, 4, 5 };
+            //    LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
+
+            //    Node<int> doue = new Node<int>(1);
+            //    doue.Next = new Node<int>(2);
+            //    doue.Next.Next = doue;
         }
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

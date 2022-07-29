@@ -44,7 +44,7 @@ namespace Mode
         public ImageViewState ImageViewState = new ImageViewState();
 
         [JsonPropertyName("register-info")]
-        public RegisterInfo RegisterInfo { get; set; } = new RegisterInfo();
+        public string RegisterInfo { get; set; } = string.Empty;
 
         [JsonPropertyName("log-file")]
         public string? LogFile { get; set; }
