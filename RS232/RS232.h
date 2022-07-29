@@ -1,5 +1,6 @@
 #pragma once
 #include <utility>
+#include "common.h"
 
 #ifdef RS232_EXPORTS
 #define RS232_API __declspec(dllexport)
@@ -35,3 +36,5 @@ extern "C" RS232_API int SendLEDSignal(char* signal);
 extern "C" RS232_API int OpenSerial(char* fullPath);
 
 extern "C" RS232_API int OpenSerial2(wchar_t* fullPath);
+
+extern "C" RS232_API  int BilateralDenoise(cv::Mat & imgstr, double* Cdenoise);

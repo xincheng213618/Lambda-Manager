@@ -37,6 +37,13 @@
 	</component>
 
 	<component name="illu232" lib="lib\RS232.dll">
+		<procedure name="BilateralDenoise" event="BilateralDenoise" arg ="imgstr,Cdenoise">
+			<action name="BilateralDenoise">
+				<input name="imgstr" type="handle"/>
+				<input name="Cdenoise" type="handle"/>
+			</action>
+		</procedure>
+		
 		<procedure name="OpenLED" event="OPENLED">
 			<action name="OpenLED">
 				<![CDATA[ Open LED ]]>

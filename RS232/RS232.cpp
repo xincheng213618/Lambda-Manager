@@ -91,4 +91,12 @@ int OpenSerial2(wchar_t* fullPath)
 {
     Logger::Log2(Severity::INFO, L"Invoke 'OpenSerial(fullPath: %s)'", fullPath);
     return 0;
+}   
+
+int BilateralDenoise(cv::Mat& imgstr, double* Cdenoise)
+{
+    double a = *Cdenoise;
+    Logger::Log2(Severity::INFO, L"Invoke 'OpenSerial(fullPath: %s)'");
+    return 0;
 }
+

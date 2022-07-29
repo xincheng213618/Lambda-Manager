@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Global"
              xmlns:controls="clr-namespace:ColorPickerLib.Controls;assembly=ColorPickerLib"
              mc:Ignorable="d" 
-             Height="Auto"
-             Width="Auto" BorderBrush="#515151" BorderThickness="0" Background="#515151">
+             Height="auto"
+             Width="auto" BorderBrush="#515151" BorderThickness="0" Background="#515151">
     <UserControl.Resources>
 
         <local:ValueClassToUmConverter x:Key="um"></local:ValueClassToUmConverter>

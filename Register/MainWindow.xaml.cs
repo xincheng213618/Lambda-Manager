@@ -44,19 +44,23 @@ namespace Register
             this.DataContext = registerInfo;
 
             AESHelper = new AESHelper();
-            switch (mode)
-            {
-                case 0:
-                    AESHelper.registerCode = new RegRegisterCode();
-                    break;
-                case 1:
-                    AESHelper.registerCode = new FileRegisterCode();
-                    break;
-                default:
-                    AESHelper.registerCode = new RegRegisterCode();
-                    break;                
-            }
+            //switch (mode)
+            //{
+            //    case 0:
+            //        AESHelper.registerCode = new RegRegisterCode();
+            //        break;
+            //    case 1:
+            //        AESHelper.registerCode = new FileRegisterCode();
+            //        break;
+            //    default:
+            //        AESHelper.registerCode = new RegRegisterCode();
+            //        break;                
+            //}
         }
+
+
+
+
         private static readonly HttpClient client = new HttpClient();
 
         private async void Button_Click(object sender, RoutedEventArgs e)

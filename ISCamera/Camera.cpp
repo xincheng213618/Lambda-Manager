@@ -227,6 +227,9 @@ LambdaView* pView1;
 bool ssss = false;
 
 int PlayFilm(std::string fileName) {
+
+
+
 	cv::Mat frame;
 	cv::VideoCapture cap = cv::VideoCapture(fileName);
 
@@ -470,6 +473,8 @@ int  test_double(double exposure)
 
 int CameraSettingExposure(int mode,double exposure)
 {
+
+
 	x++;
 	y++;
 
@@ -488,6 +493,11 @@ int CameraSettingExposure(int mode,double exposure)
 
 	cv::Mat img1;
 	img1 = cv::imread("cat.jpg");
+
+	double a = 1.001;
+	Event::Trigger("BilateralDenoise", &img1, &a);
+
+
 	//LambdaView* pView = LambdaView::GetIdleOrNew();
 	//pView->Show(img1);
 	cv::Mat img2;

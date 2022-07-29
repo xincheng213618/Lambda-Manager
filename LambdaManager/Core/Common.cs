@@ -230,6 +230,8 @@ namespace LambdaManager.Core
                 ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{index}", "group2").StartNow().WithCronSchedule(info.Timer)
                     .Build();
                 Scheduler!.ScheduleJob(job, trigger);
+                Scheduler.Shutdown();
+
             }
         }
 
