@@ -224,6 +224,10 @@ extern "C" INTEROP_API int Test133(const char* event);
 extern "C" INTEROP_API int Test134();
 extern "C" INTEROP_API int Test135();
 extern "C" INTEROP_API int Test136(double value);
+extern "C" INTEROP_API int Test137(float value1, double value2);
+extern "C" INTEROP_API int Test138(double value1, double value2);
+extern "C" INTEROP_API int Test139(float value1, float value2);
+extern "C" INTEROP_API int Test140(double value1, float value2);
 
 //scheduler
 extern "C" INTEROP_API int Test150();
@@ -248,5 +252,13 @@ CString formatStringArray(wchar_t* a[], int size);
 extern "C" INTEROP_API  int Test210();
 extern "C" INTEROP_API  int Test211(void* a);
 extern "C" INTEROP_API  int Test212(void* a);
-
 extern "C" INTEROP_API int BrightFieldBrightness(void* brightness);
+
+//schedule api
+const char* timer = "0/2 * * * * ?";
+extern "C" INTEROP_API int Test300();
+extern "C" INTEROP_API int Test301();
+extern "C" INTEROP_API int Test302();
+extern "C" INTEROP_API int Test303();
+extern "C" INTEROP_API int Test304();
+extern "C" INTEROP_API int Test305();

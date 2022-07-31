@@ -921,6 +921,21 @@
 		</procedure>
 	</component>
 
+	<component name="Schedule API Test" lib="lib\InteropTest.dll" init="schedule,delay">
+		<procedure name="schedule">
+			<action name="Test300"/>
+			<action name="Test301"/>
+			<action name="Test302" async="true"/>
+		</procedure>
+
+		<procedure name="delay">
+			<action name="Test303"/>
+			<action name="Test304"/>
+			<action name="Test305" async="true"/>
+		</procedure>
+	</component>
+
+
 	<component name="UpdateState" lib="lib\DPC.dll" depend="opencv,illu232,Camera" init="start">
 		<procedure name="start">
 			<action name="UpdateStageInformation"/>

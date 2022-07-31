@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "common.h"
 #include <locale>         // std::wstring_convert
 #include <codecvt>        // std::codecvt_utf8
@@ -75,6 +75,8 @@ void Logger::Log2(Severity severity, LPCTSTR pstrFormat, ...)
 
 
 }
+
+
 
 
 void Trace(LPCTSTR pstrFormat, ...)

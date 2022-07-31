@@ -26,6 +26,7 @@ using json = nlohmann::json;
 #define MAX_VIEWS 100
 
 DECLARE_HANDLE(HIMAGE);
+typedef void (*Callback)();
 typedef int (*Callback1)();
 typedef int (*Callback2)(json*);
 typedef int (*Callback3)(const char*);
@@ -117,6 +118,12 @@ public:
 	static void Start(const char* serviceName);
 	static void Stop(const char* serviceName);
 };
+
+extern "C" COMMON_API const char* Schedule(const char* cron, int times, Callback callback); // times < 0 means forever, return schedule name
+extern "C" COMMON_API const char* Schedule2(const char* cron, int times, std::function<int()> callback);  // times < 0 means forever, return schedule name
+extern "C" COMMON_API const char* Delay(int seconds, int times, Callback callback); // times < 0 means forever, return schedule name if not delay once
+extern "C" COMMON_API const char* Delay2(int seconds, int times, std::function<int()> callback); // times < 0 means forever, return schedule name if not delay once
+extern "C" COMMON_API void StopSchedule(const char* scheduleName);
 
 extern "C" COMMON_API int GetArraySize(void* pArray);
 

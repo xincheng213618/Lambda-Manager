@@ -1,6 +1,11 @@
 #pragma once
 
-#define LIB_API  __declspec(dllexport)
+#ifdef COMMON_EXPORTS
+#define LIB_API __declspec(dllexport)
+#else
+#define LIB_API __declspec(dllimport)
+#endif
+
 #ifndef LOG_LEVEL
 #define LOG_LEVEL 0
 #endif
@@ -18,8 +23,9 @@
 
 using json = nlohmann::json;
 
-
+typedef void (__cdecl *Callback)();
 typedef int (__cdecl *Callback1)();
+
 typedef int (__cdecl *Callback2)(json*);
 typedef int (__cdecl *Callback3)(const char*);
 typedef int (__cdecl *Callback4)(std::map<std::string, json>*);
@@ -31,15 +37,23 @@ typedef int (__cdecl *Callback7)(void*, void*, void*, void*);
 typedef int(__cdecl* LogCallBack1)(int, char*);
 typedef int(__cdecl* LogCallBack2)(int, wchar_t*);
 typedef int(__cdecl* GetArraySize1)(void*);
-
 typedef int(__cdecl* InitialFrame)(int, int, void*, int, int, int);
 typedef int(__cdecl* UpdateFrame)(int, int, void*, int, int);
 typedef void(__cdecl* CloseImageView)(int);
-
 typedef void(__cdecl* Services)(const char*);
 
 typedef void(__cdecl* ScheduleEvent)(char*, char*, char*);
 typedef void(__cdecl* CallHandlerRaise)(void*);
+
+
+typedef const char* (__cdecl* CallbackSchedule)(const char*, int, Callback);
+typedef const char* (__cdecl* CallbackDelay)(int, int,Callback );
+typedef const char* (__cdecl* CallbackSchedule2)(const char* , int , int);
+typedef const char* (__cdecl* CallbackDelay2)(int, int, int);
+typedef void(__cdecl* CallbackStopSchedule)(const char*);
+
+
+
 
 typedef int(__cdecl* CallBack1)(int, void*);
 typedef int(__cdecl* CallBack2)(int, void*, void*);
@@ -142,6 +156,24 @@ public:
 	static void On(std::string type, Callback7 callback, bool once); //callback return -1 to stop event propogation
 
 };
+
+
+
+
+
+
+extern "C" LIB_API void InvokeCallback(void* callBack);
+extern "C" LIB_API void InvokeLambdaCallback(int callBack);
+
+
+
+extern "C" LIB_API const char* Schedule(const char* cron, int times, Callback callback); //times<0 means forever
+extern "C" LIB_API const char* Schedule2(const char* cron, int times, std::function<int()> callback); //times<0 means forever
+extern "C" LIB_API const char* Delay(int seconds, int times,Callback callback);
+extern "C" LIB_API const char* Delay2(int seconds, int times, std::function<int()> callback);
+extern "C" LIB_API void StopSchedule(const char* scheduleName);
+
+
 
 enum ViewState {
 	UNINITIALIZED, OCCUPIED, RUNING, CLOSED

@@ -15,7 +15,7 @@ int LEDDark()
 
 int ChangeMagnification(int mag)
 {
-	Logger::Log2(Severity::INFO, L"Invoke ChangeMagnification(mag=%d)",mag);
+	Logger::Log2(Severity::INFO, L"Invoke ChangeMagnification(mag=%d)", mag);
 	return 0;
 }
 
@@ -56,7 +56,7 @@ int UpdateStageInformation()
 	j["z"] = "Z:" + std::to_string(nZ);
 	j["size"] = "1280 * 960";
 	j["focus"] = "6062";
-	j["createTime"] = "中文";
+	j["createTime"] = "创建时间: 1234";
 
 	Event::Trigger("UPDATE_STATUS", &j);
 

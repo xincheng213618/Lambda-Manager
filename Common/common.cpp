@@ -16,6 +16,11 @@ Services StopService = NULL;
 ScheduleEvent scheduleEvent = NULL;
 CallHandlerRaise callHandlerRaise = NULL;
 
+CallbackSchedule callbackSchedule = NULL;
+CallbackDelay callbackDelay = NULL;
+CallbackSchedule2 callbackSchedule2 = NULL;
+CallbackDelay2 callbackDelay2 = NULL;
+CallbackStopSchedule callbackStopSchedule = NULL;
 SetCppSize setCppSize =NULL;
 
 void GetCppSizeInfo(SetCppSize fn)
@@ -44,46 +49,60 @@ LIB_API int SetHandlerRaise(void* pArray) {
 
 void SetHandler(void* pRoutineHandler, int handlerType) {
 
-	if (handlerType == 0)
+	switch (handlerType)
 	{
+	case 0:
 		logCallBack1 = (LogCallBack1)pRoutineHandler;
-	}
-	else if (handlerType == 1)
-	{
+		break;
+	case 1:
 		logCallBack2 = (LogCallBack2)pRoutineHandler;
-	}
-	else if (handlerType == 2)
-	{
+		break;
+	case 2:
 		getArraySize = (GetArraySize1)pRoutineHandler;
-	}
-	else if (handlerType == 3)
-	{
+		break;
+	case 3:
 		initialFrame = (InitialFrame)pRoutineHandler;
-	}
-	else if (handlerType == 4)
-	{
+		break;
+	case 4:
 		updateFrame = (UpdateFrame)pRoutineHandler;
-	}
-	else if (handlerType == 9)
-	{
+		break;
+	case 9:
 		closeImageView = (CloseImageView)pRoutineHandler;
-	}
-	else if (handlerType == 5)
-	{
+		break;
+	case 5:
 		startService = (Services)pRoutineHandler;
-	}
-	else if (handlerType == 6)
-	{
+		break;
+	case 6:
 		StopService = (Services)pRoutineHandler;
-	}
-	else if (handlerType == 7)
-	{
+		break;
+	case 7:
 		scheduleEvent = (ScheduleEvent)pRoutineHandler;
-	}
-	else if (handlerType == 8)
-	{
+		break;
+	case 8:
 		callHandlerRaise = (CallHandlerRaise)pRoutineHandler;
+		break;
+	case 10:
+		callbackSchedule = (CallbackSchedule)pRoutineHandler;
+		break;
+	case 11:
+		callbackDelay = (CallbackDelay)pRoutineHandler;
+		break;
+	case 12:
+		callbackSchedule2 = (CallbackSchedule2)pRoutineHandler;
+		break;
+	case 13:
+		callbackDelay2 = (CallbackDelay2)pRoutineHandler;
+		break;
+	case 14:
+		callbackStopSchedule = (CallbackStopSchedule)pRoutineHandler;
+		break;
+	default:
+		break;
 	}
+
+
+
+
 
 }
 
@@ -180,4 +199,54 @@ void SetMessageHandler2(LogCallBack2 fn)
 
 
 
+
+
+
+LIB_API const char* Schedule(const char* cron, int times, Callback callback)
+{
+	return callbackSchedule(cron,times, callback);
+}
+LIB_API const char* Delay(int seconds, int times,Callback callback)
+{
+	return callbackDelay(seconds, times,callback);
+}
+
+std::map<int, std::function<int()>> Schedule2_map;
+int i = 0;
+
+LIB_API const char* Schedule2(const char* cron, int times, std::function<int()> callback)
+{
+	i++;
+	Schedule2_map.insert(std::make_pair(i, callback));
+	return callbackSchedule2(cron, times, i);
+}
+
+
+
+LIB_API const char* Delay2(int seconds,int times, std::function<int()> callback)
+{
+	i++;
+	Schedule2_map.insert(std::make_pair(i, callback));
+	return callbackDelay2(seconds, times, i);
+}
+
+
+
+LIB_API void StopSchedule(const char* scheduleName)
+{
+	callbackStopSchedule(scheduleName);
+}
+
+
+LIB_API void InvokeCallback(void* callback)
+{
+	((Callback)callback)();
+}
+LIB_API void InvokeLambdaCallback(int callBack)
+{
+	auto it11 = Schedule2_map.find(callBack);
+	if (it11 != Schedule2_map.end()) {
+		it11->second();
+	}
+}
 

@@ -92,7 +92,7 @@ namespace LambdaManager
             System.Windows.Application.Current.Dispatcher.Invoke(delegate
             {
                 Messagess.Add(message);
-                msgList.SelectedIndex = msgList.Items.Count - 1;
+                //msgList.SelectedIndex = msgList.Items.Count - 1;
             });
         }
 

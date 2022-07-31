@@ -60,11 +60,21 @@ namespace LambdaManager.Core
             SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
             SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int, nint, int>)(&CallBack8), 7);
 
+
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, int, nint, sbyte*>)(&Schedule), 10);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, int, int, sbyte*>)(&Schedule2), 12);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<int, int,nint, sbyte*>)(&Delay), 11);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<int,int, int, sbyte*>)(&Delay2), 13);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*,void>)(&StopSchedule), 14);
+
             GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
 
             LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
             Initialize();
         }
+
+
+
 
         private static int RegisterImage(Image image)
         {
@@ -229,8 +239,8 @@ namespace LambdaManager.Core
                 TriggerBuilder triggerBuilder = TriggerBuilder.Create();
                 ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{index}", "group2").StartNow().WithCronSchedule(info.Timer)
                     .Build();
+
                 Scheduler!.ScheduleJob(job, trigger);
-                Scheduler.Shutdown();
 
             }
         }
@@ -701,6 +711,79 @@ namespace LambdaManager.Core
 
         [DllImport("lib\\common.dll", EntryPoint = "ApplicationExit")]
         public static extern void Exit();
+
+
+
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static sbyte* Schedule(sbyte* cron, int times, nint callback)
+        {
+            return AddSchedule<FunctionJob1>(cron, times, "id", callback);
+        }
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static sbyte* Schedule2(sbyte* cron, int times, int callback)
+        {
+            return AddSchedule<FunctionJob2>(cron, times, "id", callback);
+
+        }
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static sbyte* Delay(int seconds,int times ,nint callback)
+        {
+            FunctionJob1.Dealy(seconds * 1000, callback);
+            sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes("1");
+            fixed (sbyte* p = obj)
+            {
+                return p;
+            }
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static sbyte* Delay2(int seconds, int times, int callback)
+        {
+            FunctionJob2.Dealy(seconds * 1000, callback);
+
+            sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes("1");
+            fixed (sbyte* p = obj)
+            {
+                return p;
+            }
+        }
+        private unsafe static sbyte* AddSchedule<X>(sbyte* cron, int times, string kinds, object callback) where X : IJob
+        {
+            if (Scheduler == null)
+                return null;
+
+            IJobDetail job = JobBuilder.Create<X>().Build();
+            job.JobDataMap.Add(kinds, callback);
+
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(new string(cron)).Build();
+            trigger.JobDataMap.Add("times", times);
+            Scheduler!.ScheduleJob(job, trigger);
+
+            sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes("1");
+            fixed (sbyte* p = obj)
+            {
+                return p;
+            }
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static void StopSchedule(sbyte* scheduleName)
+        {
+
+        }
+
+        [DllImport("lib\\common.dll")]
+        public static extern void InvokeCallback(IntPtr callback);
+
+        [DllImport("lib\\common.dll")]
+        public static extern void InvokeLambdaCallback(int callback);
+
     }
 
 }
