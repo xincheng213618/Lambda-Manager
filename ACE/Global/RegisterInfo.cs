@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ACE.Global
 {
@@ -98,17 +100,12 @@ namespace ACE.Global
 
         public string GetSha512()
         {
-            var bytes = System.Text.Encoding.UTF8.GetBytes(this.ToString());
-            using (var hash = System.Security.Cryptography.SHA512.Create())
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
-                var hashedInputBytes = hash.ComputeHash(bytes);
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.ToString());
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                // Convert to text
-                // StringBuilder Capacity is 128, because 512 bits / 8 bits in byte * 2 symbols for byte 
-                var hashedInputStringBuilder = new System.Text.StringBuilder(128);
-                foreach (var b in hashedInputBytes)
-                    hashedInputStringBuilder.Append(b.ToString("X2"));
-                return hashedInputStringBuilder.ToString();
+                return Convert.ToHexString(hashBytes); // .NET 5 +
             }
         }
    

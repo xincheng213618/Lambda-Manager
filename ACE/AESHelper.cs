@@ -26,7 +26,7 @@ namespace ACE
             using (FileStream fs = new FileStream(FilePath.Replace(".xml",".sys"), FileMode.OpenOrCreate, FileAccess.Write))
             {
                 fs.Write(bytes, 0, bytes.Length);
-            }
+            }   
         }
 
         public byte[] Decrypt()

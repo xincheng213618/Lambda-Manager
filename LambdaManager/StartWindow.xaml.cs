@@ -27,6 +27,7 @@ namespace LambdaManager
             //{
             //    return;
             //}
+
             ConfigLibrary = new ConfigLibrary();
             Thread thread = new Thread(Load);
             thread.Start();
@@ -37,6 +38,8 @@ namespace LambdaManager
             {
                 IntPtr intPtr = NativeLibrary.Load(item.FullName);
             }
+
+
         }
         public void Load()
         {

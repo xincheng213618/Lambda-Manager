@@ -921,7 +921,7 @@
 		</procedure>
 	</component>
 
-	<component name="Schedule API Test" lib="lib\InteropTest.dll" init="schedule,delay">
+	<component name="Schedule API Test" lib="lib\InteropTest.dll" >
 		<procedure name="schedule">
 			<action name="Test300"/>
 			<action name="Test301"/>

@@ -75,8 +75,10 @@ namespace Register
                 return;
             }
 
-            iRegisterInfo.SetRegisterInfo(registerInfo);
 
+            string RegisterCode = registerInfo.GetSha512();
+
+            iRegisterInfo.SetRegisterInfo(registerInfo);
             AESHelper.Encrypt();
             Dictionary<string, string> keyValues = new Dictionary<string, string>()
             {
@@ -94,19 +96,7 @@ namespace Register
             //var responseString = await response.Content.ReadAsStringAsync();
             //MessageBox.Show(responseString);
 
-
-            byte[] bytes = AESHelper.Decrypt();
-            using (FileStream fs = new FileStream("1.xml", FileMode.OpenOrCreate, FileAccess.Write))
-            {
-                fs.Write(bytes, 0, bytes.Length);
-            }
-
-            //MessageBox.Show(Encoding.UTF8.GetString());
-
-            //string s = Encoding.UTF8.GetString(AESHelper.Decrypt());
-            //if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
-            //    s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
-            XDocument.Load("1.xml");
+            MessageBox.Show(Encoding.UTF8.GetString(AESHelper.Decrypt()));
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
