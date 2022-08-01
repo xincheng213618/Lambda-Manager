@@ -1,20 +1,11 @@
-﻿using LambdaManager.Config;
-using LambdaManager.Features;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System;
+
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LambdaManager
 {
@@ -32,6 +23,7 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
+
             ConfigLibrary = new ConfigLibrary();
             Thread thread = new Thread(Load);
             thread.Start();
@@ -40,14 +32,6 @@ namespace LambdaManager
         public void Load()
         {
             bool num = ConfigLibrary.Load("application.xml");
-            if (num)
-            {
-
-            }
-            else
-            {
-                MessageBox.Show("StartFatalError ");
-            }
             ConfigLibrary.InitializeLibrary();
             Application.Current.Dispatcher.Invoke(delegate
             {

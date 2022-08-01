@@ -24,6 +24,7 @@ partial class App : Application
         Exit += new ExitEventHandler(Application_Exit);
     }
 
+
     private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         //Log.WriteException(e.ExceptionObject as Exception, "UnhandledException");
@@ -49,8 +50,7 @@ partial class App : Application
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
-		MainWindow mainWindow = new MainWindow();
-
+        MainWindow mainWindow = new MainWindow();
         var configUILibrary = ConfigUILibrary.GetInstance();
         configUILibrary.Main = mainWindow;
 
@@ -60,6 +60,7 @@ partial class App : Application
             mainWindow.Show();
         };
         startWindow.Show();
+
     }
 
     /// <summary>

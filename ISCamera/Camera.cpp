@@ -473,8 +473,6 @@ int  test_double(double exposure)
 
 int CameraSettingExposure(int mode,double exposure)
 {
-
-
 	x++;
 	y++;
 

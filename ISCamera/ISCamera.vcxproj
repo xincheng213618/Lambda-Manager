@@ -74,6 +74,7 @@
     <Import Project="..\props\common.props" />
     <Import Project="..\props\OpenCV.Release.x64.props" />
     <Import Project="..\props\NativeCopy.props" />
+    <Import Project="..\props\TISCamera.Release.x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

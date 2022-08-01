@@ -929,7 +929,7 @@
 		</procedure>
 
 		<procedure name="delay">
-			<action name="Test303"/>
+			<action name="Test303" async="true"/>
 			<action name="Test304"/>
 			<action name="Test305" async="true"/>
 		</procedure>
@@ -948,12 +948,6 @@
 			<action name="BrightFieldBrightness">
 				<output name="brightness" type="pointer" />
 			</action>	
-		</procedure>
-
-		<procedure event="BRIGHT_FIELD_BRIGHTNESS1" arg ="brightness">
-			<action name="Test212">
-				<input name="brightness" type="pointer" />
-			</action>
 		</procedure>
 	</component>
 	<component name="CUDA" lib="lib/CUDA.dll">

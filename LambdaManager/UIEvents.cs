@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using Global;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.Mode;

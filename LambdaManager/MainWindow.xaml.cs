@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,16 +47,6 @@ namespace LambdaManager
         {
             InitializeComponent();
             ChangeMiddleViewVisibility(false);
-        }
-        private void AddEventHandler()
-        {
-            LambdaControl.AddLambdaEventHandler("UPDATE_PANEL_STATE", UPDATE_PANEL_STATE, false);
-        }
-        private bool UPDATE_PANEL_STATE(object sender, EventArgs e)
-        {
-
-
-            return true;
         }
 
 
@@ -239,7 +230,6 @@ namespace LambdaManager
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-
         }
 
         private void RadioButton_Checked_1(object sender, RoutedEventArgs e)

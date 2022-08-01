@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Global;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.DataType;

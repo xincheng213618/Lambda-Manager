@@ -1,18 +1,17 @@
-using Global.Common;
 using System;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
 namespace LambdaManager.Utils;
 
-public class FPSCounter : ViewModelBase
+public class FPSCounter 
 {
 	private string fps;
 
     public string FPS
     {
         get { return fps; }
-        set { fps = value; NotifyPropertyChanged(); }
+        set { fps = value; }
     }
 
 	internal int Counter;
