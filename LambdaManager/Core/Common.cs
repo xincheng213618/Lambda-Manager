@@ -718,33 +718,26 @@ namespace LambdaManager.Core
         [SuppressGCTransition]
         private unsafe static IntPtr Schedule(sbyte* cron, int times, nint callback)
         {
-            //return AddSchedule<FunctionJob1>(,cron, times, "callback", callback);
-            return IntPtr.Zero;
-
+            return AddSchedule(JobBuilder.Create<FunctionJob1>().Build(), cron, times, "callback", callback);
         }
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
         [SuppressGCTransition]
         private unsafe static IntPtr Schedule2(sbyte* cron, int times, int callback)
         {
-            //return AddSchedule<FunctionJob2>(cron, times, "id", callback);
-
-            return IntPtr.Zero;
-
-
+            return AddSchedule(JobBuilder.Create<FunctionJob2>().Build(), cron, times, "id", callback);
         }
 
-        //private unsafe static IntPtr AddSchedule<X>(sbyte* cron, int times, string kinds, object callback) where X : IJob
-        //{
+        private unsafe static IntPtr AddSchedule(IJobDetail job, sbyte* cron, int times, string kinds, object callback)
+        {
 
-        //    IJobDetail job = JobBuilder.Create<X>().Build();
-        //    job.JobDataMap.Add(kinds, callback);
+            job.JobDataMap.Add(kinds, callback);
 
-        //    TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-        //    ITrigger trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(new string(cron)).Build();
-        //    Scheduler!.ScheduleJob(job, trigger);
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(new string(cron)).Build();
+            Scheduler!.ScheduleJob(job, trigger);
 
-        //    return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
-        //}
+            return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
+        }
 
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
@@ -753,8 +746,7 @@ namespace LambdaManager.Core
         {
             if (times != 1)
             {
-                //return AddSchedule1<FunctionJob1>(seconds, times, "callback", callback);
-                return IntPtr.Zero;
+                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(), seconds, times, "callback", callback);
 
             }
             else
@@ -771,9 +763,7 @@ namespace LambdaManager.Core
         {
             if (times != 1)
             {
-                //return AddSchedule1<FunctionJob2>(seconds, times, "id", callback);
-                return IntPtr.Zero;
-
+                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(),seconds, times, "id", callback);
             }
             else
             {
@@ -782,18 +772,22 @@ namespace LambdaManager.Core
             }
         }
 
-        //private unsafe static IntPtr AddSchedule1<X>(int seconds, int times, string kinds, object callback) where X : IJob
+        private unsafe static IntPtr AddSchedule1(IJobDetail job, int seconds, int times, string kinds, object callback) 
+        {
+            job.JobDataMap.Add(kinds, callback);
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInSeconds(seconds).WithRepeatCount(times)).Build();
+            Scheduler!.ScheduleJob(job, trigger);
+
+            return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
+        }
+
+        //private unsafe static void Test<X>(int seconds, int times, string kinds, object callback) where X : IJob
         //{
 
-        //    IJobDetail job = JobBuilder.Create<X>().Build();
-        //    job.JobDataMap.Add(kinds, callback);
-
-        //    TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-        //    ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInSeconds(seconds).WithRepeatCount(times)).Build();
-        //    Scheduler!.ScheduleJob(job, trigger);
-
-        //    return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
         //}
+
+
 
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
