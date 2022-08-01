@@ -28,6 +28,12 @@ namespace LambdaManager
             Thread thread = new Thread(Load);
             thread.Start();
             _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
+
+            var root = new DirectoryInfo(@"C:\Users\Chen\Desktop\lib");
+            foreach (var item in root.GetFiles())
+            {
+                IntPtr intPtr = NativeLibrary.Load(item.FullName);
+            }
         }
         public void Load()
         {

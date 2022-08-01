@@ -61,19 +61,15 @@ namespace LambdaManager.Core
             SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
             SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int, nint, int>)(&CallBack8), 7);
 
-            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, int, nint,nint>)(&Schedule), 10);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, int, nint, nint>)(&Schedule), 10);
             SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, int, int, nint>)(&Schedule2), 12);
-            SetHandler((nint)(delegate* unmanaged[Cdecl]<int, int,nint, nint>)(&Delay), 11);
-            SetHandler((nint)(delegate* unmanaged[Cdecl]<int,int, int, nint>)(&Delay2), 13);
-            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*,void>)(&StopSchedule), 14);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<int, int, nint, nint>)(&Delay), 11);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<int, int, int, nint>)(&Delay2), 13);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopSchedule), 14);
 
             GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
-
             LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
             Initialize();
-
-
-
 
         }
 
@@ -722,37 +718,44 @@ namespace LambdaManager.Core
         [SuppressGCTransition]
         private unsafe static IntPtr Schedule(sbyte* cron, int times, nint callback)
         {
-            return AddSchedule<FunctionJob1>(cron, times, "callback", callback);
+            //return AddSchedule<FunctionJob1>(,cron, times, "callback", callback);
+            return IntPtr.Zero;
+
         }
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
         [SuppressGCTransition]
         private unsafe static IntPtr Schedule2(sbyte* cron, int times, int callback)
         {
-            return AddSchedule<FunctionJob2>(cron, times, "id", callback);
+            //return AddSchedule<FunctionJob2>(cron, times, "id", callback);
+
+            return IntPtr.Zero;
+
 
         }
 
-        private unsafe static IntPtr AddSchedule<X>(sbyte* cron, int times, string kinds, object callback) where X : IJob
-        {
+        //private unsafe static IntPtr AddSchedule<X>(sbyte* cron, int times, string kinds, object callback) where X : IJob
+        //{
 
-            IJobDetail job = JobBuilder.Create<X>().Build();
-            job.JobDataMap.Add(kinds, callback);
+        //    IJobDetail job = JobBuilder.Create<X>().Build();
+        //    job.JobDataMap.Add(kinds, callback);
 
-            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-            ITrigger trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(new string(cron)).Build();
-            Scheduler!.ScheduleJob(job, trigger);
+        //    TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+        //    ITrigger trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(new string(cron)).Build();
+        //    Scheduler!.ScheduleJob(job, trigger);
 
-            return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
-        }
+        //    return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
+        //}
 
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
         [SuppressGCTransition]
-        private unsafe static IntPtr Delay(int seconds,int times ,nint callback)
+        private unsafe static IntPtr Delay(int seconds, int times, nint callback)
         {
             if (times != 1)
             {
-                return AddSchedule1<FunctionJob1>(seconds, times,"callback", callback);
+                //return AddSchedule1<FunctionJob1>(seconds, times, "callback", callback);
+                return IntPtr.Zero;
+
             }
             else
             {
@@ -768,7 +771,9 @@ namespace LambdaManager.Core
         {
             if (times != 1)
             {
-                return AddSchedule1<FunctionJob2>(seconds, times, "id", callback);
+                //return AddSchedule1<FunctionJob2>(seconds, times, "id", callback);
+                return IntPtr.Zero;
+
             }
             else
             {
@@ -777,18 +782,18 @@ namespace LambdaManager.Core
             }
         }
 
-        private unsafe static IntPtr AddSchedule1<X>(int seconds, int times, string kinds, object callback) where X : IJob
-        {
+        //private unsafe static IntPtr AddSchedule1<X>(int seconds, int times, string kinds, object callback) where X : IJob
+        //{
 
-            IJobDetail job = JobBuilder.Create<X>().Build();
-            job.JobDataMap.Add(kinds, callback);
+        //    IJobDetail job = JobBuilder.Create<X>().Build();
+        //    job.JobDataMap.Add(kinds, callback);
 
-            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-            ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInSeconds(seconds).WithRepeatCount(times)).Build();
-            Scheduler!.ScheduleJob(job, trigger);
+        //    TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+        //    ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInSeconds(seconds).WithRepeatCount(times)).Build();
+        //    Scheduler!.ScheduleJob(job, trigger);
 
-            return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
-        }
+        //    return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
+        //}
 
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
