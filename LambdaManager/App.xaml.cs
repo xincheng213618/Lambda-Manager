@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -24,7 +25,15 @@ partial class App : Application
         Exit += new ExitEventHandler(Application_Exit);
     }
 
-
+    public static string GetExpireDate()
+    {
+        var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/ACE.dll");
+        if (assembly == null)
+            return String.Empty;
+        var type = assembly.GetType("ACE.AES");
+        string? s = type.InvokeMember("GetExpireDate", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+        return s;
+    }
     private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         //Log.WriteException(e.ExceptionObject as Exception, "UnhandledException");

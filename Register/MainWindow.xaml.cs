@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using ThemeManager.Controls;
 
 namespace Register
@@ -43,19 +44,7 @@ namespace Register
             registerInfo = iRegisterInfo.GetRegisterInfo();
             this.DataContext = registerInfo;
 
-            AESHelper = new AESHelper();
-            //switch (mode)
-            //{
-            //    case 0:
-            //        AESHelper.registerCode = new RegRegisterCode();
-            //        break;
-            //    case 1:
-            //        AESHelper.registerCode = new FileRegisterCode();
-            //        break;
-            //    default:
-            //        AESHelper.registerCode = new RegRegisterCode();
-            //        break;                
-            //}
+            AESHelper = new AESHelper("C:\\Users\\Chen\\Desktop\\lambda\\application.xml");
         }
 
 
@@ -86,7 +75,6 @@ namespace Register
                 return;
             }
 
-            AESHelper.registerCode.SetRegisterCode(registerInfo.GetSha512());
             iRegisterInfo.SetRegisterInfo(registerInfo);
 
             AESHelper.Encrypt();
@@ -105,7 +93,20 @@ namespace Register
 
             //var responseString = await response.Content.ReadAsStringAsync();
             //MessageBox.Show(responseString);
-            //MessageBox.Show(Encoding.UTF8.GetString(AESHelper.Decrypt())); 
+
+
+            byte[] bytes = AESHelper.Decrypt();
+            using (FileStream fs = new FileStream("1.xml", FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                fs.Write(bytes, 0, bytes.Length);
+            }
+
+            //MessageBox.Show(Encoding.UTF8.GetString());
+
+            //string s = Encoding.UTF8.GetString(AESHelper.Decrypt());
+            //if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
+            //    s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
+            XDocument.Load("1.xml");
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)

@@ -117,6 +117,7 @@ namespace ConfigObjective
 
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
             {
                 LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "format", ComboBox1.SelectedItem } });

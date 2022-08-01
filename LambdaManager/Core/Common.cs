@@ -782,10 +782,10 @@ namespace LambdaManager.Core
             return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
         }
 
-        //private unsafe static void Test<X>(int seconds, int times, string kinds, object callback) where X : IJob
-        //{
+        private unsafe static void Test<X>(int seconds, int times, string kinds, object callback) where X : IJob
+        {
 
-        //}
+        }
 
 
 

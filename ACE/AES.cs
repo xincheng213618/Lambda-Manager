@@ -33,7 +33,7 @@ namespace ACE
         {
             if (File.Exists("application.xml"))
             {
-                return String.Empty;
+                return null;
             }
             else
             {
@@ -43,17 +43,17 @@ namespace ACE
                     var RegisterInfos = registerInfo.GetRegisterInfo();
                     if (RegisterInfos != null)
                     {
-                        DateTime dt = DateTime.ParseExact(RegisterInfos.ExpirationDate, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                        DateTime dt = Convert.ToDateTime(RegisterInfos.ExpirationDate);
                         return dt.ToString("yyyy/MM/dd");
                     }
                     else
                     {
-                        return String.Empty;
+                        return null;
                     }
                 }
                 catch
                 {
-                    return "1970/1/0";
+                    return "1970/1/1";
                 }
             }
 

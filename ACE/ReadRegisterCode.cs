@@ -15,7 +15,7 @@ namespace ACE
 
         public ReadRegisterCode()
         {
-            Filepath = "default.json";
+            Filepath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager\\"+"default.json";
             if (!File.Exists(Filepath))
             {
                 File.WriteAllText(Filepath, JsonSerializer.Serialize(new Config(), new JsonSerializerOptions()));
@@ -32,17 +32,17 @@ namespace ACE
             string result = File.ReadAllText(Filepath);
             if (result == null)
             {
-                return String.Empty;
+                return null;
             }
             var Config = JsonSerializer.Deserialize<Config>(result);
             if (Config == null)
             {
-                return String.Empty;
+                return null;
             }
             string RegisterInfostring = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(Config.RegisterInfo));
             var RegisterInfos = JsonSerializer.Deserialize<RegisterInfo>(RegisterInfostring);
             if (RegisterInfos ==null)
-                return String.Empty;
+                return null;
             return RegisterInfos.GetSha512();
         }
 

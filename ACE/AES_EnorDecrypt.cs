@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows;
 
 namespace ACE
 {
@@ -22,6 +23,7 @@ namespace ACE
             Array.Copy(Encoding.UTF8.GetBytes(Vector.PadRight(bVector.Length)), bVector, bVector.Length);//如果用户定义的密钥向量不足16位，自动填充空格至16位
             byte[] Cryptograph = null;//加密后的密文
             Aes Ae = Aes.Create();
+            Ae.Padding = PaddingMode.Zeros;
             try
             {
                 using (MemoryStream Memory = new MemoryStream())
@@ -78,8 +80,9 @@ namespace ACE
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 original = null;
             }
             return original;

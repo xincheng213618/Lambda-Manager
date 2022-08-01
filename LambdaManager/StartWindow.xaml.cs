@@ -23,7 +23,10 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
-
+            //if (!(DateTime.Now < Convert.ToDateTime(App.GetExpireDate() ?? "2022/8/30")))
+            //{
+            //    return;
+            //}
             ConfigLibrary = new ConfigLibrary();
             Thread thread = new Thread(Load);
             thread.Start();

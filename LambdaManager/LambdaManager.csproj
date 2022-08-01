@@ -132,8 +132,14 @@
     <PackageReference Include="Quartz" Version="3.4.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AboutMsg\AboutMsg.csproj" />
+    <ProjectReference Include="..\ACE\ACE.csproj" />
+    <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
+    <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="..\LambdaUtils\LambdaUtils.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
+    <ProjectReference Include="..\Register\Register.csproj" />
+    <ProjectReference Include="..\Solution\Solution.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
   <ItemGroup>
