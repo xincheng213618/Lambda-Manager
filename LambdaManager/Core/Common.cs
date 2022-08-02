@@ -722,8 +722,16 @@ namespace LambdaManager.Core
             StreamWriter writer = FunctionExecutor.Solution.Writer;
             if (writer != null)
             {
-                writer.Flush();
-                writer.Close();
+                try
+                {
+                    writer.Flush();
+                    writer.Close();
+                }
+                catch
+                {
+
+                }
+
             }
             IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
             if (scheduler != null)

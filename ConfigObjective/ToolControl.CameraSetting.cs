@@ -86,7 +86,7 @@ namespace ConfigObjective
                     if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
                     {
                         Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", windowData.deviceInformation.CameraExpose[(int)Slider212.Value] } };
-                        LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE", this, data);
+                        LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
                     }
 
                 }

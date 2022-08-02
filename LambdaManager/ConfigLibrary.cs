@@ -36,36 +36,14 @@ namespace LambdaManager
     {
         private readonly DataType.Solution solution = FunctionExecutor.Solution;
 
-        private readonly string dllAce = "ACE.dll";
         public ILambdaUI lambdaUI;
         public ConfigLibrary()
         {
             Common.Init();
         }
 
-        public bool Load(string path)
+        public bool Load(XElement root)
         {
-            XElement root = null; ;
-            if (File.Exists(path))
-            {
-                root = XDocument.Load(path).Root;
-
-            }
-            else if (File.Exists(dllAce))
-            {
-                var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
-                if (assembly == null)
-                    return false;
-                var type = assembly.GetType("ACE.AES");
-                if (type == null)
-                    return false;
-                string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
-                if (s == null)
-                    return false;
-                if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
-                    s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
-                root = XDocument.Parse(s).Root;
-            }
             if (root == null)
             {
                 return false;

@@ -56,7 +56,14 @@ namespace LambdaManager.Core
 
         public static void Report(Message message)
         {
-            logger.WriteLine(message.Severity.Description() + message.Text);
+            try
+            {
+                logger.WriteLine(message.Severity.Description() + message.Text);
+            }
+            catch 
+            {
+
+            }
             System.Windows.Application.Current.Dispatcher.Invoke(delegate
             {
                 LogWrite?.Invoke(message);

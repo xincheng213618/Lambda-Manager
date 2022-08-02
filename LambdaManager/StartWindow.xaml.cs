@@ -3,10 +3,13 @@ using System;
 
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace LambdaManager
 {
@@ -23,13 +26,12 @@ namespace LambdaManager
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
+        private readonly string dllAce = "ACE.dll";
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
-            //if (!(DateTime.Now < Convert.ToDateTime(App.GetExpireDate() ?? "2022/8/30")))
-            //{
-            //    return;
-            //}
+
+
 
             ConfigLibrary = new ConfigLibrary();
             ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
@@ -39,15 +41,48 @@ namespace LambdaManager
 
 
         }
+        public XElement loadxml()
+        {
+            XElement root = null; ;
+            string path = "application.xml";
+            if (File.Exists(path))
+            {
+                root = XDocument.Load(path).Root;
+            }
+            else if (File.Exists(dllAce))
+            {
+                var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
+                if (assembly == null)
+                    return null;
+                var type = assembly.GetType("ACE.AES");
+                if (type == null)
+                    return null;
+                string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+                if (s == null)
+                    return null;
+                if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
+                    s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
+                root = XDocument.Parse(s).Root;
+            }
+            return root;
+        }
+
         public void Load()
         {
-            bool num = ConfigLibrary.Load("application.xml");
-            ConfigLibrary.InitializeLibrary();
+            bool num = ConfigLibrary.Load(loadxml());
+            if (num == true)
+            {
+                ConfigLibrary.InitializeLibrary();
+            }
+            else
+            {
+                MessageBox.Show("主控初始化失败");
+            }
             Application.Current.Dispatcher.Invoke(delegate
             {
                 if (IsRunning)
                 {
-                    Close();
+                    Closedd();
                 }
                 else
                 {
@@ -68,18 +103,23 @@ namespace LambdaManager
             await Task.Delay(100);
             TexoBoxMsg.Text += Environment.NewLine + "初始化主控";
             await Task.Delay(100);
-            TexoBoxMsg.Text += Environment.NewLine + "初始化设定函数";
-            await Task.Delay(100);
-            TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
+            TexoBoxMsg.Text += Environment.NewLine + "初始化其他配置";
             await Task.Delay(100);
             if (IsRunning)
             {
-                Close();
+                Closedd();
             }
             else
             {
                 IsRunning = true;
             }
+        }
+
+        public async Task Closedd()
+        {
+            TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
+            await Task.Delay(100);
+            this.Close();
         }
 
         private void TexoBoxMsg_TextChanged(object sender, TextChangedEventArgs e)
