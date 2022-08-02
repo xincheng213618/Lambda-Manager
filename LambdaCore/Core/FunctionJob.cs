@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Lambda;
-using LambdaCore;
 using LambdaManager.DataType;
+using LambdaManager.Properties;
 using Quartz;
 
 namespace LambdaManager.Core
@@ -91,6 +93,123 @@ namespace LambdaManager.Core
             });
             task.Start();
             await task;
+        }
+    }
+    internal class FunctionJob1 : IJob
+    {
+        private static readonly List<Scheduler> schedules = new List<Scheduler>();
+
+        public static int AddSchedule(Scheduler schedule)
+        {
+            int count = schedules.Count;
+            schedules.Add(schedule);
+            return count;
+        }
+
+        public static List<Scheduler> GetSchedules()
+        {
+            return schedules;
+        }
+
+        private sealed class Schedule
+        {
+            public object callback;
+            public void Invoke()
+            {
+                Common.InvokeCallback((IntPtr)callback);
+            }
+        }
+        private sealed class Schedule1
+        {
+            public int times;
+            public IntPtr callback;
+
+            public Task Invoke()
+            {
+                Schedule schedule = new Schedule() { callback = callback };
+                Task.Delay(times);
+                return Task.Run(delegate
+                {
+                    schedule.Invoke();
+                });
+            }
+        }
+
+        public  Task Execute(IJobExecutionContext context)
+        {
+            Schedule schedule = new Schedule();
+            context.JobDetail.JobDataMap.TryGetValue("callback", out schedule.callback);
+            if (schedule.callback!=null)
+                return Task.Run(schedule.Invoke);
+            else
+                return null;
+        }
+
+        public static Task Dealy(int times, IntPtr callback)
+        {
+            Schedule1 schedule1 = new Schedule1() { times = times, callback = callback };
+            return Task.Run(delegate
+            {
+                schedule1.Invoke();
+            });
+        }
+    }
+
+
+    internal class FunctionJob2 : IJob
+    {
+        private static readonly List<Scheduler> schedules = new List<Scheduler>();
+
+        public static int AddSchedule(Scheduler schedule)
+        {
+            int count = schedules.Count;
+            schedules.Add(schedule);
+            return count;
+        }
+
+        public static List<Scheduler> GetSchedules()
+        {
+            return schedules;
+        }
+
+        private sealed class Schedule
+        {
+            public object callback;
+            public void Invoke()
+            {
+                Common.InvokeLambdaCallback((int)callback);
+            }
+        }
+        private sealed class Schedule1
+        {
+            public int times;
+            public int callback;
+
+            public Task Invoke()
+            {
+                Schedule schedule = new Schedule() { callback = callback };
+                Task.Delay(times);
+                return Task.Run(delegate
+                {
+                    schedule.Invoke();
+                });
+            }
+        }
+
+        public Task Execute(IJobExecutionContext context)
+        {
+            Schedule schedule = new Schedule();
+            context.JobDetail.JobDataMap.TryGetValue("id", out schedule.callback);
+            return Task.Factory.StartNew(schedule.Invoke);
+        }
+
+        public static Task Dealy(int times, int callback)
+        {
+            Schedule1 schedule = new Schedule1() { times = times, callback = callback };
+            return Task.Run(delegate
+            {
+                schedule.Invoke();
+            });
         }
     }
 

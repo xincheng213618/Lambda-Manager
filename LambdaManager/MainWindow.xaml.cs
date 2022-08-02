@@ -25,16 +25,13 @@ namespace LambdaManager
 {
     partial class MainWindow : BaseWindow
     {
-        private readonly StreamWriter logger = InitLogger();
-        private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
-
         private bool multiMode;
         private bool multiChannel;
-        internal View[] Views = Common.Views;
+        public View[] Views = Common.Views;
 
         public TabControl tabControl;
-        
-        internal List<int> ClosingViewIndex = Common.ClosingViewIndex;
+
+        public List<int> ClosingViewIndex = Common.ClosingViewIndex;
         internal string? Notice { get; set; }
         internal bool Maximize { get; set; }
         internal bool IsLeftViewHidden { get; set; }
@@ -67,24 +64,9 @@ namespace LambdaManager
 
         public void AddMessage(Message message)
         {
-            if (message.Severity < logLevel)
-            {
-                return;
-            }
-            try
-            {
-                logger.WriteLine(message.Severity.Description() + message.Text);
-            }
-            catch (Exception ex)
-            {
-                logger.WriteLine(ex.Message);
-            }
+            Messagess.Add(message);
 
-            System.Windows.Application.Current.Dispatcher.Invoke(delegate
-            {
-                Messagess.Add(message);
-                //msgList.SelectedIndex = msgList.Items.Count - 1;
-            });
+
         }
 
         internal MenuItem? AddMenuItem(string path)
@@ -121,47 +103,6 @@ namespace LambdaManager
             return last;
         }
 
-        private static StreamWriter InitLogger()
-        {
-            string dir = GetLogDir();
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-            string fileName = dir + "\\lambda";
-            string fileExtension = "log";
-            string logPath = fileName + "." + fileExtension;
-            FileInfo fileInfo = new FileInfo(logPath);
-
-            StreamWriter writer;
-            if (fileInfo.Exists)
-            {
-                if (fileInfo.Length > 10485760)
-                {
-                    DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(1, 3);
-                    defaultInterpolatedStringHandler.AppendFormatted(fileName);
-                    defaultInterpolatedStringHandler.AppendFormatted(DateTime.Now, "yyyyMMdd");
-                    defaultInterpolatedStringHandler.AppendLiteral(".");
-                    defaultInterpolatedStringHandler.AppendFormatted(fileExtension);
-                    File.Move(logPath, defaultInterpolatedStringHandler.ToStringAndClear());
-                }
-                writer = File.AppendText(logPath);
-                writer.WriteLine("");
-            }
-            else
-            {
-                writer = new StreamWriter(File.Open(logPath, FileMode.OpenOrCreate), Encoding.UTF8);
-            }
-            writer.WriteLine(Severity.INFO.Description() + LambdaManager.Properties.Resources.StartUp + DateTime.Now);
-            FunctionExecutor.Solution.Writer = writer;
-
-            return writer;
-        }
-
-        private static string GetLogDir()
-        {
-            return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager";
-        }
 
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

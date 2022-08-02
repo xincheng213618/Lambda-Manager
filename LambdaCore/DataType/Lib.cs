@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace LambdaManager.DataType;
 
-internal class Lib
+public class Lib
 {
-	internal IntPtr Addr { get; set; }
+	public IntPtr Addr { get; set; }
 
 	internal string? Path { get; set; }
 

@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace LambdaManager.DataType;
 
-internal class Command
+public class Command
 {
-	internal string? Name { get; set; }
+    public string? Name { get; set; }
 
-	internal List<string>? Raise { get; set; }
+    public List<string>? Raise { get; set; }
 
-	internal string? Icon { get; set; }
+    public string? Icon { get; set; }
 }

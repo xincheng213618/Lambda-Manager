@@ -85,7 +85,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView"  Width="200"/>
+                <ColumnDefinition Name="leftView"  Width="400"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
                 <ColumnDefinition Width="auto" />

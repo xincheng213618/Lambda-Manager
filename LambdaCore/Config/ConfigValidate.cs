@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Lambda;
-using LambdaCore;
 using LambdaManager.Core;
 using LambdaManager.DataType;
+using LambdaManager.Properties;
 
 namespace LambdaManager.Config;
 

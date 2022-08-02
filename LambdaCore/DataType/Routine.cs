@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace LambdaManager.DataType;
 
-internal class Routine
+public class Routine
 {
 	internal static Routine PLACEHOLDER = new Routine();
 

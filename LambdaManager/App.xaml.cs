@@ -60,10 +60,8 @@ partial class App : Application
     private void Application_Startup(object sender, StartupEventArgs e)
     {
         MainWindow mainWindow = new MainWindow();
-        var configUILibrary = ConfigUILibrary.GetInstance();
-        configUILibrary.Main = mainWindow;
 
-        StartWindow startWindow = new StartWindow();
+        StartWindow startWindow = new StartWindow(mainWindow);
         startWindow.Closed += delegate
         {
             mainWindow.Show();
@@ -77,22 +75,7 @@ partial class App : Application
     /// </summary>
 	private  void Application_Exit(object sender, ExitEventArgs e)
 	{
-		foreach (Lib lib in FunctionExecutor.Solution.Libs)
-		{
-			NativeLibrary.Free(lib.Addr);
-		}
-		Common.Exit();
-		StreamWriter writer = FunctionExecutor.Solution.Writer;
-		if (writer != null)
-		{
-			writer.Flush();
-			writer.Close();
-		}
-		IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
-		if (scheduler != null)
-		{
-			 scheduler.Shutdown();
-		}
+		Common.AppClose();
 		Environment.Exit(-1);
 	}
 

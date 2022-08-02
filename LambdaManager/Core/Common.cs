@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -712,6 +713,26 @@ namespace LambdaManager.Core
         [DllImport("lib\\common.dll", EntryPoint = "ApplicationExit")]
         public static extern void Exit();
 
+        public static void AppClose()
+        {
+            foreach (Lib lib in FunctionExecutor.Solution.Libs)
+            {
+                NativeLibrary.Free(lib.Addr);
+            }
+            StreamWriter writer = FunctionExecutor.Solution.Writer;
+            if (writer != null)
+            {
+                writer.Flush();
+                writer.Close();
+            }
+            IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
+            if (scheduler != null)
+            {
+                scheduler.Shutdown();
+            }
+            Exit();
+        }
+
 
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
@@ -763,7 +784,7 @@ namespace LambdaManager.Core
         {
             if (times != 1)
             {
-                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(),seconds, times, "id", callback);
+                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(), seconds, times, "id", callback);
             }
             else
             {
@@ -772,7 +793,7 @@ namespace LambdaManager.Core
             }
         }
 
-        private unsafe static IntPtr AddSchedule1(IJobDetail job, int seconds, int times, string kinds, object callback) 
+        private unsafe static IntPtr AddSchedule1(IJobDetail job, int seconds, int times, string kinds, object callback)
         {
             job.JobDataMap.Add(kinds, callback);
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();

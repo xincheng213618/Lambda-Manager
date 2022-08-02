@@ -4,10 +4,10 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Lambda;
-using LambdaCore;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.DataType.SigTable;
+using LambdaManager.Properties;
 using LambdaUtils;
 
 namespace LambdaManager.Core

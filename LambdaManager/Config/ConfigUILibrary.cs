@@ -11,45 +11,20 @@ using LambdaManager.Properties;
 
 namespace LambdaManager.Config;
 
-public class ConfigUILibrary
+public class ConfigUILibrary: ILambdaUI
 {
 	private readonly Dictionary<Control, int> leftOrder = new Dictionary<Control, int>();
 
-    private static ConfigUILibrary instance;
-    private static readonly object locker = new();
-
-    public static ConfigUILibrary GetInstance()
-    {
-        lock (locker) { if (instance == null) { instance = new ConfigUILibrary(); } }
-        return instance;
-    }
-
     public MainWindow Main { get; set; }
 
-	private ConfigUILibrary()
+	public ConfigUILibrary(MainWindow Main)
 	{
+		this.Main = Main;
+    }
 
-	}
-
-	internal bool ResolveControl(Component component, ConfigValidate validate)
-	{
-		string mount = component.Mount;
-		string lib = component.Lib;
-		if (mount == null || lib == null)
-		{
-			return false;
-		}
-        Application.Current.Dispatcher.Invoke(delegate
-        {
-            LoadControl(component, validate, lib, mount);
-        });
-		return true;
-	}
-
-	private void LoadControl(Component component, ConfigValidate validate, string lib, string mount)
+    public void LoadControl(string name, string lib, string mount)
 	{
 		Assembly assembly = Assembly.LoadFile(Directory.GetCurrentDirectory() + "/" + lib);
-		string name = component.Name;
 		if (name != null)
 		{
 			string fullName = lib.Replace(".dll", "") + "." + name;     
@@ -57,28 +32,22 @@ public class ConfigUILibrary
 			if (side == Side.MENU)
 			{
 				string menuPath = GetMenuPath(mount);
-				LoadMenuDialog(assembly, fullName, menuPath, validate);
+				LoadMenuDialog(assembly, fullName, menuPath);
 			}
 			else
 			{
 				int order = GetConfigPanelOrder(mount);
-				LoadConfigPanel(assembly, fullName, order, validate, side);
+				LoadConfigPanel(assembly, fullName, order, side);
 			}
 		}
 	}
 
-	private void LoadConfigPanel(Assembly assembly, string name, int order, ConfigValidate validate, Side side)
+	private void LoadConfigPanel(Assembly assembly, string name, int order, Side side)
     {
         if (!(assembly.CreateInstance(name) is Control control))
         {
-            validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, name, Resources.Class, null);
             return;
         }
-		//if (Main.GetConfigPanel(side) is StackPanel stackPanel)
-		//	if (stackPanel.Parent is Viewbox viewbox)
-		//		if (viewbox.Parent is ScrollViewer scrollViewer)
-		//			if (scrollViewer.Parent is TabItem tabItem)
-		//				tabItem.Visibility = Visibility.Visible;
 
 		UIElementCollection list = Main.GetConfigPanel(side).Children;
         bool found = false;
@@ -89,11 +58,10 @@ public class ConfigUILibrary
 		leftOrder[control] = order;
 	}
 
-	private void LoadMenuDialog(Assembly assembly, string name, string path, ConfigValidate validate)
+	private void LoadMenuDialog(Assembly assembly, string name, string path)
 	{
 		Assembly assembly2 = assembly;
 		string name2 = name;
-		ConfigValidate validate2 = validate;
 		MenuItem menu = Main.AddMenuItem(path);
 		if (menu != null)
 		{
@@ -101,7 +69,7 @@ public class ConfigUILibrary
 			{
 				if (!(assembly2.CreateInstance(name2) is Window window))
 				{
-					validate2.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, name2, Resources.Class, null);
+
 				}
 				else
 				{
@@ -113,11 +81,11 @@ public class ConfigUILibrary
 		}
 		else
 		{
-			validate2.Report(Severity.ERROR, LambdaManager.DataType.Type.Component, name2, Resources.Menu, null, Resources.CreateFailed);
+
 		}
 	}
 
-	internal void LoadMenuCommand(Command command, ConfigValidate validate)
+	public void LoadMenuCommand(Command command)
 	{
 		string name = command.Name;
 		List<string> raises = command.Raise;
@@ -138,7 +106,6 @@ public class ConfigUILibrary
 		}
 		else
 		{
-			validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Component, name, Resources.Menu, null, Resources.CreateFailed);
 		}
 	}
 
@@ -157,4 +124,5 @@ public class ConfigUILibrary
 	{
 		return mount.Split(':')[1].Trim();
 	}
+
 }

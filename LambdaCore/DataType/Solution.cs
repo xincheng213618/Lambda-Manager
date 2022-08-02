@@ -4,9 +4,9 @@ using Quartz;
 
 namespace LambdaManager.DataType;
 
-internal class Solution
+public class Solution
 {
-	internal List<Lib> Libs { get; set; } = new List<Lib>();
+	public List<Lib> Libs { get; set; } = new List<Lib>();
 
 
 	internal Dictionary<Event, List<Routine>> Routines { get; set; } = new Dictionary<Event, List<Routine>>();

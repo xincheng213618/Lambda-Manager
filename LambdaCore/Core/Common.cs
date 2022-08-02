@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -8,16 +9,16 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Lambda;
-using LambdaCore;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
+using LambdaManager.Properties;
 using LambdaManager.Utils;
 using LambdaUtils;
 using Quartz;
 
 namespace LambdaManager.Core
 {
-    internal  class Common
+    public static  class Common
     {
         public static View[] Views { get; } = new View[100];
 
@@ -41,6 +42,7 @@ namespace LambdaManager.Core
 
         internal unsafe static void Init()
         {
+
             SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
             SetHandler((nint)(delegate* unmanaged[Cdecl]<int, char*, void>)(&AddMessage2), 1);
             SetHandler((nint)(delegate* unmanaged[Cdecl]<nint, int>)(&GetArraySize), 2);
@@ -60,11 +62,20 @@ namespace LambdaManager.Core
             SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, nint, nint, nint, nint, int>)(&CallBack7), 6);
             SetRoutineHandler((nint)(delegate* unmanaged[Cdecl]<int, nint, int, nint, int>)(&CallBack8), 7);
 
-            GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, int, nint, nint>)(&Schedule), 10);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, int, int, nint>)(&Schedule2), 12);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<int, int, nint, nint>)(&Delay), 11);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<int, int, int, nint>)(&Delay2), 13);
+            SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopSchedule), 14);
 
+            GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
             LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
             Initialize();
+
         }
+
+
+
 
         private static int RegisterImage(Image image)
         {
@@ -229,7 +240,9 @@ namespace LambdaManager.Core
                 TriggerBuilder triggerBuilder = TriggerBuilder.Create();
                 ITrigger trigger = triggerBuilder.WithIdentity($"Trigger{index}", "group2").StartNow().WithCronSchedule(info.Timer)
                     .Build();
+
                 Scheduler!.ScheduleJob(job, trigger);
+
             }
         }
 
@@ -699,6 +712,115 @@ namespace LambdaManager.Core
 
         [DllImport("lib\\common.dll", EntryPoint = "ApplicationExit")]
         public static extern void Exit();
+
+        public static void AppClose()
+        {
+            foreach (Lib lib in FunctionExecutor.Solution.Libs)
+            {
+                NativeLibrary.Free(lib.Addr);
+            }
+            StreamWriter writer = FunctionExecutor.Solution.Writer;
+            if (writer != null)
+            {
+                writer.Flush();
+                writer.Close();
+            }
+            IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
+            if (scheduler != null)
+            {
+                scheduler.Shutdown();
+            }
+            Exit();
+        }
+
+
+
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static IntPtr Schedule(sbyte* cron, int times, nint callback)
+        {
+            return AddSchedule(JobBuilder.Create<FunctionJob1>().Build(), cron, times, "callback", callback);
+        }
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static IntPtr Schedule2(sbyte* cron, int times, int callback)
+        {
+            return AddSchedule(JobBuilder.Create<FunctionJob2>().Build(), cron, times, "id", callback);
+        }
+
+        private unsafe static IntPtr AddSchedule(IJobDetail job, sbyte* cron, int times, string kinds, object callback)
+        {
+
+            job.JobDataMap.Add(kinds, callback);
+
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(new string(cron)).Build();
+            Scheduler!.ScheduleJob(job, trigger);
+
+            return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
+        }
+
+
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static IntPtr Delay(int seconds, int times, nint callback)
+        {
+            if (times != 1)
+            {
+                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(), seconds, times, "callback", callback);
+
+            }
+            else
+            {
+                FunctionJob1.Dealy(seconds * 1000, callback);
+                return IntPtr.Zero;
+            }
+
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static IntPtr Delay2(int seconds, int times, int callback)
+        {
+            if (times != 1)
+            {
+                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(),seconds, times, "id", callback);
+            }
+            else
+            {
+                FunctionJob2.Dealy(seconds * 1000, callback);
+                return IntPtr.Zero;
+            }
+        }
+
+        private unsafe static IntPtr AddSchedule1(IJobDetail job, int seconds, int times, string kinds, object callback) 
+        {
+            job.JobDataMap.Add(kinds, callback);
+            TriggerBuilder triggerBuilder = TriggerBuilder.Create();
+            ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInSeconds(seconds).WithRepeatCount(times)).Build();
+            Scheduler!.ScheduleJob(job, trigger);
+
+            return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+        [SuppressGCTransition]
+        private unsafe static void StopSchedule(sbyte* scheduleName)
+        {
+            if (Scheduler != null)
+            {
+                TriggerKey triggerKey = new TriggerKey(new string(scheduleName));
+                Scheduler.UnscheduleJob(triggerKey);
+                Marshal.FreeHGlobal((nint)scheduleName);
+            }
+        }
+
+        [DllImport("lib\\common.dll")]
+        public static extern void InvokeCallback(IntPtr callback);
+
+        [DllImport("lib\\common.dll")]
+        public static extern void InvokeLambdaCallback(int callback);
+
     }
 
 }

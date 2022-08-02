@@ -4,9 +4,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Lambda;
-using LambdaCore;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
+using LambdaManager.Properties;
 
 namespace LambdaManager.Core
 {

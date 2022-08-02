@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LambdaManager.Config;
+using System;
 
 using System.IO;
 using System.Runtime.InteropServices;
@@ -15,8 +16,10 @@ namespace LambdaManager
     public partial class StartWindow : Window
     {
         public bool IsRunning { get; set; } = false;
-        public StartWindow()
+        MainWindow mainWindow;
+        public StartWindow( MainWindow mainWindow)
         {
+            this.mainWindow = mainWindow;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
@@ -29,6 +32,7 @@ namespace LambdaManager
             //}
 
             ConfigLibrary = new ConfigLibrary();
+            ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
             Thread thread = new Thread(Load);
             thread.Start();
             _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
