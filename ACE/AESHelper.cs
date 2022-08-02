@@ -23,6 +23,9 @@ namespace ACE
         {
             string RegisterCode = registerCode.GetRegisterCode();
             byte[] bytes = AES_EnorDecrypt.AESEncrypt(File.ReadAllBytes(FilePath), RegisterCode, "Grid");
+            string Filesys = FilePath.Replace(".xml", ".sys");
+            if (File.Exists(Filesys))
+                File.Delete(Filesys);
             using (FileStream fs = new FileStream(FilePath.Replace(".xml",".sys"), FileMode.OpenOrCreate, FileAccess.Write))
             {
                 fs.Write(bytes, 0, bytes.Length);

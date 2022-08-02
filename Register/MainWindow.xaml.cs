@@ -44,7 +44,7 @@ namespace Register
             registerInfo = iRegisterInfo.GetRegisterInfo();
             this.DataContext = registerInfo;
 
-            AESHelper = new AESHelper("C:\\Users\\Chen\\Desktop\\lambda\\application.xml");
+            AESHelper = new AESHelper();
         }
 
 

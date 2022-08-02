@@ -7,7 +7,12 @@
     <UseWPF>true</UseWPF>
 	<UseWindowsForms>True</UseWindowsForms>
 	<Platforms>AnyCPU;x64</Platforms>
+	<ApplicationIcon>Paomedia-Small-N-Flat-Key.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Paomedia-Small-N-Flat-Key.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ACE\ACE.csproj" />

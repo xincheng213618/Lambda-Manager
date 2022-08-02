@@ -5,12 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToolHash"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" >
+        Title="LambdaManager注册机" Height="300" Width="400" >
     <Grid>
-        <StackPanel Margin="20,10">
-            <DockPanel Margin="5" >
-                <Button Content="Hash 计算" Click="Button_Click"/>
-            </DockPanel>
+        <StackPanel Margin="5,10">
             <DockPanel Margin="5">
                 <TextBlock Text="用户名"  Width="100"/>
                 <TextBox x:Name="H5a1" Text="{Binding UserName}"/>
