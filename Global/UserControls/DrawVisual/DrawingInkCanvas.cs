@@ -8,7 +8,7 @@ using System;
 
 namespace Global
 {
-    public class DrawingCanvas : System.Windows.Controls.Image
+    public  class DrawingInkCanvas: InkCanvas
     {
         public List<DrawingVisual> visuals = new List<DrawingVisual>();
 
@@ -92,4 +92,8 @@ namespace Global
         }
 
     }
+
+
+
 }
+

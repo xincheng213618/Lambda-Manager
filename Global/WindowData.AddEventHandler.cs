@@ -40,6 +40,8 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
+            LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED1", IMAGE_VIEW_CREATED, false);
+
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
@@ -49,6 +51,7 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
             LambdaControl.AddLambdaEventHandler("seriesProjectManager111", seriesProjectManager, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
+
         }
 
         private bool seriesProjectManager(object sender, EventArgs e)
@@ -197,6 +200,12 @@ namespace Global
             return true;
         }
 
+
+
+
+
+        int ShowWindow = 1;
+
         private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
@@ -204,14 +213,14 @@ namespace Global
             View view = LambdaControl.GetImageView(viewdex);
             if (view == null)
                 return true;
-            if (viewdex == 0&& FirstImage != null)
-            {
-                if (FirstImage.Parent is Grid gird)
-                {
-                    gird.Children.Remove(FirstImage);
-                    FirstImage = null;
-                }
-            }
+            //if (viewdex == 0&& FirstImage != null)
+            //{
+            //    if (FirstImage.Parent is Grid gird)
+            //    {
+            //        gird.Children.Remove(FirstImage);
+            //        FirstImage = null;
+            //    }
+            //}
             AddImageConfident(view.Image,viewdex);
 
             return true;
@@ -224,12 +233,14 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
+           
 
             histogramModel.Max= GetStringValue(eventData, "Max");
+            histogramModel.HalfMax = int.Parse(GetStringValue(eventData, "Max"))/2;
             histogramModel.Min = GetStringValue(eventData, "Min");
             histogramModel.Mean = GetStringValue(eventData, "Mean");  
             histogramModel.Variance = GetStringValue(eventData, "Variance");       
-            histogramModel.Gamma= GetStringValue(eventData, "Gamma");
+            //histogramModel.Gamma= GetStringValue(eventData, "Gamma");
             histogramModel.Outlier = GetStringValue(eventData, "Outlier");
             histogramModel.RangeMin =int.Parse(GetStringValue(eventData, "RangeMin")); 
             histogramModel.RangeMax = int.Parse(GetStringValue(eventData, "RangeMax"));
@@ -346,10 +357,8 @@ namespace Global
             }
             try
             {
-                Application.Current.Dispatcher.Invoke(delegate
-                {
-                    asyncAdd(ints);
-                });
+                Application.Current.Dispatcher.Invoke(delegate { asyncAdd(ints);});
+                ;
             }
             catch(Exception ex)
             {
@@ -365,16 +374,17 @@ namespace Global
         {
             for (int i = 0; i < ints.Count; i++)
             {
-                await Task.Delay(800);
-                var image = drawingCanvass[i];
-                if (image != null)
+               await Task.Delay(800);
+               // var image = drawingCanvasInk[i];
+                if (drawingCanvasInk[i] != null)
                 {
                     ContextMenu menu = new ContextMenu();
                     menu = MenuItemAdd(menu, i, ints[i]);
-                    image.ContextMenu = menu;
+                    drawingCanvasInk[i].InkCanvas.ContextMenu = menu;
                 }
             }
         }
+
         private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a, int check)
         {
             RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };

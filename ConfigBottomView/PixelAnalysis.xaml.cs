@@ -47,17 +47,41 @@ namespace ConfigBottomView
         }
 
 
-        /// <summary>
-        /// R4 G2 B1
-        /// </summary>
+
         private int RGBMode(bool m,bool n,bool k)
         {
-            return (m ? 4 : 0 )+ (n ? 2 : 0) + (k ? 1 : 0);
+            int R, G, B;
+            if (m)
+            {
+                R = 4;
+            }
+            else
+            {
+                R = 0;
+            };
+            if (n)
+            {
+                G = 2;
+            }
+            else
+            {
+                G = 0;
+            }
+            if (k)
+            {
+                B = 1;
+
+            }
+            else
+            {
+                B = 0;
+            }
+           
+
+            return R + G + B;
+
         }
-        bool auto= false; 
-
-        bool log= false;
-
+        bool auto= false; bool log= false;
         private void Auto_Click(object sender, RoutedEventArgs e)
         {
             if (!auto)
@@ -77,9 +101,19 @@ namespace ConfigBottomView
         }
 
         private void Log_Click(object sender, RoutedEventArgs e)
+
         {
-            log = !log;
-            LambdaControl.Trigger("HISTOGRAM_LOGMODE", this, new Dictionary<string, object> { { "logMode", log } });      
+            if (!log)
+            {
+                LambdaControl.Trigger("HISTOGRAM_LOGMODE", this, new Dictionary<string, object> { { "logMode", true } });
+                log  = true;
+            }
+            else
+            {
+                LambdaControl.Trigger("HISTOGRAM_LOGMODE", this, new Dictionary<string, object> { { "logMode", false } });
+                log = false;
+            }
+           
         }
 
         private void RangeSlider_LowerValueChanged(object sender, RoutedEventArgs e)
@@ -105,6 +139,11 @@ namespace ConfigBottomView
 
 
         }
+
+       
+
+
+       
 
         //private void UserControl_Initialized(object sender, EventArgs e)
         //{

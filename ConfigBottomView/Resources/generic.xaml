@@ -212,4 +212,107 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--updown-->
+    <Style x:Key="RepeatButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Width" Value="20"  />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid Margin="-0.5"  Background="#444444">
+                        <Rectangle Name="Border" StrokeThickness="0" Stroke="#444444" 
+                     Fill="#444444">
+
+                        </Rectangle>
+
+                        <ContentPresenter  HorizontalAlignment="Center" x:Name="path1" VerticalAlignment="Center"></ContentPresenter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Fill" Value="Transparent" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+    <Style  x:Key="updown" TargetType="{x:Type Slider}">
+        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
+        <Setter Property="SmallChange" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Slider}">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"  CornerRadius="3,0,0,3" BorderThickness="3" BorderBrush="#444444">
+                            <TextBox  Foreground="White" VerticalAlignment="Center"  Background="#444444" Height="Auto" 
+                                Margin="-1" Padding="15,0,0,0" VerticalContentAlignment="Center" BorderBrush="#444444" BorderThickness="0"
+                               
+                                Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay,StringFormat='F2'}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Gesture="Up" Command="{x:Static Slider.IncreaseSmall}" Key="Up" />
+                                    <KeyBinding Gesture="Down" Command="{x:Static Slider.DecreaseSmall}"  />
+                                    <KeyBinding Gesture="PageUp" Command="{x:Static Slider.IncreaseLarge}" />
+                                    <KeyBinding Gesture="PageDown" Command="{x:Static Slider.DecreaseLarge}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                        </Border>
+                        <Border Grid.Row="0" Name="borderUp" Grid.Column="1" CornerRadius="0,3,3,0" BorderBrush="#444444" BorderThickness="3">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <RepeatButton Name="RepeatUp" Grid.Row="0" Background="#595959" BorderThickness="0"
+                                    Command="{x:Static Slider.IncreaseSmall}"
+                                    Style="{StaticResource RepeatButtonStyle}">
+                                    <Path Data="M0,3 L6,-1 12,3 " Fill="Transparent" StrokeThickness="1" Stroke="White" VerticalAlignment="Bottom" Name="PathUp" >
+
+                                    </Path>
+                                </RepeatButton>
+                                <RepeatButton  Grid.Row="1" Name="RepeatDown" BorderThickness="0"   BorderBrush="#444444"
+                                    Command="{x:Static Slider.DecreaseSmall}"
+                                    Style="{StaticResource RepeatButtonStyle}">
+                                    <Path Data="M0,0 L6,4 12,0 " Name="PathDown" StrokeThickness="1" Fill="Transparent"  Stroke="White"   >
+                                    </Path>
+                                </RepeatButton>
+                            </Grid>
+
+                        </Border>
+
+                        <Border x:Name="TrackBackground" Visibility="Collapsed">
+                            <Rectangle x:Name="PART_SelectionRange" Visibility="Collapsed" />
+                        </Border>
+                        <Thumb x:Name="Thumb" Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="RepeatDown">
+                            <Setter Property="Stroke" TargetName="PathDown" Value="black" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="RepeatUp">
+                            <Setter Property="Stroke" TargetName="PathUp" Value="black" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True" SourceName="RepeatUp">
+                            <Setter Property="Stroke" TargetName="PathUp" Value= "#70AD47" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True" SourceName="RepeatDown">
+                            <Setter Property="Stroke" TargetName="PathDown" Value= "#70AD47" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
 </ResourceDictionary>

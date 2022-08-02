@@ -108,6 +108,8 @@ namespace Global.Mode.Config
     [Serializable]
     public class Optimized
     {
+        [JsonPropertyName("optimize")]
+        public bool Optimize { get; set; } = false;
         [JsonPropertyName("global")]
         public int Global { get; set; } = 0;
         [JsonPropertyName("local")]
@@ -115,6 +117,7 @@ namespace Global.Mode.Config
         [JsonPropertyName("precision")]
         public int Precision { get; set; } = 0;
     }
+    
 
 
 

@@ -51,7 +51,7 @@ namespace Global.Mode.Config
 
     public class BrightField : ViewModelBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 };
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 ,Gain = 0,Gamma = 1 };
 
         private int aperture = 9;
         [JsonPropertyName("led-diameter")]
@@ -88,7 +88,7 @@ namespace Global.Mode.Config
 
     public class DarkField : ViewModelBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 , Gamma =  1.67};
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 , Gamma =  1.67,Gain=17};
 
         private int innerAperture = 12;
 
@@ -144,7 +144,7 @@ namespace Global.Mode.Config
 
         public bool Auto
         {
-            get { return auto; }
+            get => auto;
             set
             {
                 auto = value;
@@ -181,7 +181,7 @@ namespace Global.Mode.Config
     public class Reinberg : ViewModelBase
     {
 
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 , Gamma = 2 };
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 , Gamma = 1.67,Gain =15 };
 
         private int innerAperture = 0;
         public int InnerAperture
@@ -207,7 +207,7 @@ namespace Global.Mode.Config
         }
 
 
-        private double gamma = 1;
+        private double gamma = 0.67;
         public double Gamma
         {
             get { return gamma; }
@@ -234,37 +234,9 @@ namespace Global.Mode.Config
             }
         }
 
-        private int brightColor = 1;
-        public int BrightColor
-        {
-            get { return brightColor; }
-            set
-            {
-                brightColor = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private int darkColor = 4080;
-        public int DarkColor
-        {
-            get { return darkColor; }
-            set
-            {
-                darkColor = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int darkColor1 = 4080;
-        public int DarkColor1
-        {
-            get { return darkColor; }
-            set
-            {
-                darkColor = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public int BrightColor = 1;
+        public int DarkColor = 4080;
+        public int DarkColor1 = 4080;
 
 
         public void SetValue(Reinberg reinberg)
@@ -277,15 +249,14 @@ namespace Global.Mode.Config
             this.Mode = reinberg.Mode;
             this.BrightColor = reinberg.BrightColor;
             this.DarkColor = reinberg.DarkColor;
-            this.DarkColor1 = reinberg.DarkColor1;
-        }
+            this.DarkColor1 = reinberg.DarkColor1;        }
 
     };
 
     //差分
     public class ReliefContrast : ViewModelBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 3 } ;
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 3 , Gamma = 1 } ;
 
         public int rotationangle = 0;
         public int Rotationangle
@@ -335,7 +306,7 @@ namespace Global.Mode.Config
         }
 
 
-        private double gain = 2.0;
+        private double gain = 0;
         public double Gain
         {
             get { return gain; }
@@ -411,7 +382,7 @@ namespace Global.Mode.Config
     //相位
     public class PhaseContrast : ViewModelBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5};
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5, Gamma = 1};
 
         private double filter = 0.07;
         public double Filter
@@ -438,7 +409,7 @@ namespace Global.Mode.Config
 
 
 
-        private double gain = 2.5;
+        private double gain = 0;
 
         public double Gain
         {
@@ -452,7 +423,7 @@ namespace Global.Mode.Config
 
 
 
-        private double gamma = 1    ;
+        private double gamma = 0    ;
 
         public double Gamma
         {
@@ -514,7 +485,7 @@ namespace Global.Mode.Config
 
     public class QuantitativePhase : ViewModelBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 };
+        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 ,Gamma =1};
 
         private double regularization = 0.1;
 

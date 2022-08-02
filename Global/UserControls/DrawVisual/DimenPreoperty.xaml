@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Global"
              xmlns:controls="clr-namespace:ColorPickerLib.Controls;assembly=ColorPickerLib"
+             xmlns:bottomView="clr-namespace:ConfigBottomView;assembly=ConfigBottomView"  
              mc:Ignorable="d" 
-             Height="auto"
-             Width="auto" BorderBrush="#515151" BorderThickness="0" Background="#515151">
+             Height="Auto"
+             Width="Auto" BorderBrush="#515151" BorderThickness="0" Background="#515151">
     <UserControl.Resources>
 
         <local:ValueClassToUmConverter x:Key="um"></local:ValueClassToUmConverter>
@@ -64,11 +65,11 @@
                     <RowDefinition Height="Auto" ></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="60"></RowDefinition>
-                    <RowDefinition Height="0"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Label Content="形态" Foreground="White"/>
-                    <ComboBox   BorderThickness="0.6" Width="300"  SelectedIndex="{Binding DimSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Stretch" Margin="50,0,30,0" SelectionChanged="ComboBox_SelectionChanged"  >
+                    <ComboBox   BorderThickness="0.6" Width="300"  SelectedIndex="{Binding DimSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Right" Margin="50,0,35,0" SelectionChanged="ComboBox_SelectionChanged"  >
                         <ComboBoxItem  Tag="A"   Foreground="White"  Height="23">
                             <Path Stroke="White" StrokeThickness="1">
                                 <Path.Data >
@@ -175,20 +176,20 @@
                 <Grid Grid.Row="1"  >
 
                     <Label Content="长度" Foreground="White" ></Label>
-                    <TextBox Width="300"  Style="{StaticResource TextBoxSty}" Padding="0,0,10,0"  HorizontalContentAlignment="Right" Background="#515151"   Foreground="White" Height="25"   Text="{Binding Length,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Margin="50,0,30,0" ></TextBox>
+                    <TextBox Width="300"  Style="{StaticResource TextBoxSty}" Padding="0,0,10,0"  HorizontalContentAlignment="Right" Background="#515151"   Foreground="White" Height="25"   Text="{Binding Length,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="50,0,35,0" ></TextBox>
                     <Label Content="μm" Foreground="White" Width="30" HorizontalAlignment="Right" Margin="0,0,0,0"  ></Label>
 
                 </Grid>
                 <Grid Grid.Row="2">
                     <Label Content="角度" Foreground="White" VerticalAlignment="Top" Margin="0,0,0,0" ></Label>
-                    <TextBox    Style="{StaticResource TextBoxSty}"  Width="300" Padding="0,0,10,0"  Height="25"  Background="#515151" Foreground="White" VerticalContentAlignment="Center" Text="{Binding Angle,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" HorizontalAlignment="Stretch" Margin="50,2,30,2" HorizontalContentAlignment="Right" ></TextBox>
+                    <TextBox    Style="{StaticResource TextBoxSty}"  Width="300" Padding="0,0,10,0"  Height="25"  Background="#515151" Foreground="White" VerticalContentAlignment="Center" Text="{Binding Angle,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" HorizontalAlignment="Right" Margin="50,2,35,2" HorizontalContentAlignment="Right" ></TextBox>
                     <Ellipse Width="6" Height="6" StrokeThickness="1" Stroke="White" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,7,20,0" ></Ellipse>
                 </Grid>
                 
                 <Grid Grid.Row="3"  HorizontalAlignment="Stretch" >
 
                     <CheckBox Content="显示标签" IsChecked="{Binding Label}"  Foreground="White" Width="80" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"></CheckBox>
-                    <ComboBox HorizontalAlignment="Right" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding Label,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Margin="0,0,30,0" Width="100" ></ComboBox>
+                    <ComboBox HorizontalAlignment="Right" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding Label,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Margin="0,0,35,0" Width="100" ></ComboBox>
 
                 </Grid>
                 <Grid Grid.Row="4" >
@@ -257,12 +258,11 @@
                         <CheckBox Content="采集时保存" Foreground="White" Margin="10,10,0,0"></CheckBox>
                     </StackPanel>
                 </Grid>
-                <!--
+               
                 <Grid Grid.Row="7" >
-                    <Button Content="确认" Style="{StaticResource Button}" Width="50" HorizontalAlignment="Right" Margin="0,0,70,0" ></Button>
-                    <Button Content="取消" Style="{StaticResource Button}" Width="50" HorizontalAlignment="Right" Margin="0,0,10,0" ></Button>
+                   <!-- <bottomView:PixelAnalysis Name="Histogram" Width="500"></bottomView:PixelAnalysis>-->
                 </Grid>
-                -->
+               
             </Grid>
         </Border>
     </Grid>

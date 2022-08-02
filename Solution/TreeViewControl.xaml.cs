@@ -259,8 +259,8 @@ namespace Solution
                     }
                 }
             }
-            if (IsNotExit)
-                Directory.CreateDirectory($"{FullName}\\derives");
+            //if (IsNotExit)
+            //    Directory.CreateDirectory($"{FullName}\\derives");
             return baseObject;
         }
 
@@ -358,20 +358,14 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
+            //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
 
-            LambdaControl.Trigger("test_double", this, new Dictionary<string, object>() { { "data", 1 } });
+            int[] data2 = new int[] { 144, 2, 3, 4, 5 };
+            LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
 
-
-
-            //    View view = LambdaControl.GetImageView(1);
-            //    view.State = ViewState.CLOSED;
-            //    int[] data2 = new int[] { 144, 2, 3, 4, 5 };
-            //    LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
-
-            //    Node<int> doue = new Node<int>(1);
-            //    doue.Next = new Node<int>(2);
-            //    doue.Next.Next = doue;
+            Node<int> doue = new Node<int>(1);
+            doue.Next = new Node<int>(2);
+            doue.Next.Next = doue;
         }
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -394,6 +388,12 @@ namespace Solution
                         }
 
                 //清理掉对第一个image的引用
+                View view = LambdaControl.GetImageView(0);
+                //if (view != null)
+                //{
+                //    WindowData.GetInstance().FirstImage = view.Image;
+                //    view.Image = null;
+                //}
 
 
 

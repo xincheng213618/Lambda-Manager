@@ -30,6 +30,7 @@
     <None Remove="UserControls\Image\COOL.jpg" />
     <None Remove="UserControls\Image\DEEPGREEN.jpg" />
     <None Remove="UserControls\Image\GRAY.jpg" />
+    <None Remove="UserControls\Image\hold.cur" />
     <None Remove="UserControls\Image\HOT.jpg" />
     <None Remove="UserControls\Image\HSV.jpg" />
     <None Remove="UserControls\Image\INFERNO.jpg" />
@@ -51,6 +52,7 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <Resource Include="UserControls\Image\hold.cur" />
     <Resource Include="UserControls\Image\PLASMA.jpg" />
     <Resource Include="UserControls\Image\Eraser.cur" />
     <DesignDataWithDesignTimeCreatableTypes Include="UserControls\Image\startpicture1.png" />
@@ -68,11 +70,9 @@
   <ItemGroup>
     <Reference Include="ColorPickerLib">
       <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NumericUpDownLib">
-      <HintPath>..\..\Lambda Update\DLL\NumericUpDownLib.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\DLL\NumericUpDownLib.dll</HintPath>
     </Reference>
 	  <Reference Include="RangeSlider">
 		  <HintPath>..\DLL\RangeSlider.dll</HintPath>

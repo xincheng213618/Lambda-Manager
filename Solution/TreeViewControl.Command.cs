@@ -122,7 +122,6 @@ namespace Solution
                 }
 
             }
-            
             else if (e.Command == Commands.ReName)
             {
                 if (e.Parameter != null)

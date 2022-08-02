@@ -25,7 +25,7 @@ namespace ConfigObjective
 
 		private bool STOP_ACQUIRE(object sender, EventArgs e)
 		{
-			MessageBox.Show("1");
+			//MessageBox.Show("1");
             var mulDimensional = windowData.MulDimensional;
 			mulDimensional.mulDimensionalAreas.Clear();
 			mulDimensional.mulDimensionalPoints.Clear();
@@ -70,8 +70,9 @@ namespace ConfigObjective
 				optimized.Local = mulDimensional.Optimized.Local;
 				optimized.Precision = mulDimensional.Optimized.Precision;
 			}
-            else if (mulDimensional.UserDefinedSel)
+            else if (!mulDimensional.OptimizedSel)
             {
+				optimized.Optimize = mulDimensional.OptimizedSel;
 				optimized.Global = mulDimensional.UserDefined.Global;
 				optimized.Local = mulDimensional.UserDefined.Local;
 				optimized.Precision = mulDimensional.UserDefined.Precision;
@@ -92,6 +93,11 @@ namespace ConfigObjective
 				twise.Interval = mulDimensional.TWiseN.ToString();
 
 			}
+			else if (mulDimensional.TwiseEnable)
+			{
+				twise.Interval = "null";
+
+			}
 			testMean.Dimensional.Focusmode.Twise = twise;
 			Global.Mode.Config.Pwise pwise = new Pwise();
 			//p-wise
@@ -108,6 +114,10 @@ namespace ConfigObjective
 			{
 				pwise.Interval = mulDimensional.PWiseN.ToString();
 
+			}
+			else if (mulDimensional.PwiseEnable)
+            {
+				pwise.Interval = "null";
 			}
 
 			testMean.Dimensional.Focusmode.Pwise = pwise;

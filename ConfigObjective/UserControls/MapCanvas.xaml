@@ -29,15 +29,15 @@
             <Button Width="9" Height="7" Style="{StaticResource BtnStyle}" x:Name="moveButton" Background="White" Canvas.Left="{Binding StageX}"  Canvas.Top="{Binding StageY}">
             </Button>
         </Canvas>
-        <Path  Fill="#595959" StrokeThickness="0" Margin="-1" Stroke="#595959"  >
+        <Path  Fill="#595959" StrokeThickness="0" Margin="-1"  Stroke="#595959"  >
             <Path.Data>
                 <GeometryGroup>
                     <RectangleGeometry Rect="0 0 302 302"></RectangleGeometry>
-                    <EllipseGeometry Center="150 150" RadiusX="150" RadiusY="150"></EllipseGeometry>
+                    <EllipseGeometry Center="151 151" RadiusX="149" RadiusY="149" ></EllipseGeometry>
                 </GeometryGroup>
             </Path.Data>
         </Path>
         <Line Stroke="white" Canvas.Top="0" Canvas.Left="150" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="150" X2="300" Y2="150" />
-        <Line Stroke="White" Canvas.Top="0" Canvas.Left="150" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="150" Y1="0" X2="150" Y2="300"/>
+        <Line Stroke="White" Canvas.Top="0" Canvas.Left="150" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="150" Y1="2" X2="150" Y2="300"/>
     </Grid>
 </UserControl>

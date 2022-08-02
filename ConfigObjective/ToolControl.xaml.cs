@@ -342,6 +342,7 @@ namespace ConfigObjective
                         sliderfirst = true;
                     }
                 }
+
             };
             return slider;
         }
@@ -375,6 +376,27 @@ namespace ConfigObjective
         private void ToggleButton221_Checked(object sender, RoutedEventArgs e)
         {
             windowData.MulDimensional.TNumber = 0;
+        }
+
+        private void ToggleButton504_Checked(object sender, RoutedEventArgs e)
+        {
+           if (!(bool)ToggleButton503.IsChecked)
+            {
+                ZwisePanel.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void ToggleButton504_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (!(bool)ToggleButton503.IsChecked)
+            {
+                ZwisePanel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void ToggleButton503_Checked(object sender, RoutedEventArgs e)
+        {
+            ZwisePanel.Visibility = Visibility.Visible;
         }
     }
 

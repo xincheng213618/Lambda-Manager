@@ -243,6 +243,8 @@ namespace ConfigObjective
         {
             RadioButton radioButton = sender as RadioButton;
             string s = radioButton.Tag.ToString();
+            LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
+            //LambdaControl.Trigger("NATIVE_RECEIVE_IMAGE_DISENABLE", this, new Dictionary<string, object>() { });
             if (s != null)
             {
                 ViewMode.SelectViewMode = int.Parse(s);
@@ -272,11 +274,10 @@ namespace ConfigObjective
                     Border2.DataContext = ViewMode.PhaseContrast.CameraSetting;
                 }
 
+
+                await Task.Delay(300);
                 CameraMode_Changed();
                 ViewMode_Update();
-
-                LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
-                await Task.Delay(300);
                 Dictionary<string, object> data = new() { { "mode", ViewMode.SelectViewMode } };
                 LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
             }

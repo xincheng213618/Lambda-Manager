@@ -132,7 +132,7 @@ namespace Mode
         }
 
 
-        public int totalFrame = 4;
+        public int totalFrame = 0;
         public int TotalFrame
 
         {
@@ -145,7 +145,7 @@ namespace Mode
         }
 
 
-        public string timeElapsed;
+        public string timeElapsed="00:00:00";
         public string TimeElapsed
 
         {
@@ -160,7 +160,7 @@ namespace Mode
             }
         }
 
-        public string totalTime;
+        public string totalTime ="00:00:00";
         public string TotalTime
 
         {
@@ -185,7 +185,7 @@ namespace Mode
                 NotifyPropertyChanged();
             }
         }
-        public int totalSlice = 4;
+        public int totalSlice = 0;
         public int TotalSlice
 
         {
@@ -196,7 +196,7 @@ namespace Mode
                 NotifyPropertyChanged();
             }
         }
-        public string zTop;
+        public string zTop= "0μm";
         public string ZTop
 
         {
@@ -210,7 +210,7 @@ namespace Mode
                 }
             }
         }
-        public string zCurrent;
+        public string zCurrent= "0μm";
         public string ZCurrent
 
         {
@@ -224,7 +224,7 @@ namespace Mode
                 }
             }
         }
-        public string zBottom;
+        public string zBottom="0μm";
         public string ZBottom
 
         {
@@ -269,6 +269,10 @@ namespace Mode
                 }
             }
         }
-    }
 
+
+
+
+
+    }
 }

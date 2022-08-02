@@ -80,10 +80,22 @@ namespace ConfigObjective
         private void ToggleButton503_Unchecked(object sender, RoutedEventArgs e)
         {
             ToggleButton505.IsChecked = false;
+            if ((bool)ToggleButton504.IsChecked)
+            {
+                ZwisePanel.Visibility = Visibility.Hidden;
+
+            }
+            else
+            {
+                ZwisePanel.Visibility = Visibility.Collapsed;
+
+            }
+           
         }
 
         private void ToggleButton505_Checked(object sender, RoutedEventArgs e)
         {
+            
             ToggleButton503.IsChecked = true;
         }
 

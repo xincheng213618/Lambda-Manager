@@ -19,7 +19,7 @@ namespace Global.Mode
             set { min = value; NotifyPropertyChanged(); }
         }
 
-        private string max = "255";
+        private string max = "14400";
         /// <summary>
         /// 最大值
         /// </summary>
@@ -28,6 +28,21 @@ namespace Global.Mode
             get { return max; }
             set { max = value; NotifyPropertyChanged(); }
         }
+
+        private int halfmax = 7200;
+        /// <summary>
+        /// 最大值
+        /// </summary>
+        public int HalfMax
+        {
+            get { return halfmax; }
+            set { halfmax = value; NotifyPropertyChanged(); }
+        }
+
+
+
+
+
 
         private string mean= "140";
         /// <summary>
@@ -49,11 +64,11 @@ namespace Global.Mode
             set { variance = value; NotifyPropertyChanged(); }
         }
 
-        private string gamma = "10";
+        private double gamma = 1.00;
         /// <summary>
         /// 伽马值
         /// </summary>
-        public string Gamma
+        public double Gamma
         {
             get { return gamma; }
             set { gamma = value; NotifyPropertyChanged(); }

@@ -2,16 +2,13 @@
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
-using Lambda;
 using Mode;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace Global
 {
@@ -66,7 +63,6 @@ namespace Global
                 ViewMode.SetValue(Config.ViewMode);
                 Stage.SetValue(Config.Stage);
                 ImageViewState.SetValue(Config.ImageViewState);
-
                 Update.UpdateGlobal();
             }
             else
@@ -76,6 +72,7 @@ namespace Global
 
         }
         public ImageViewState ImageViewState = new ImageViewState();
+
 
         public void SaveConfig()
         {

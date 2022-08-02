@@ -36,7 +36,7 @@ namespace Global.Mode.Config
         
        
 
-        private bool optimizedSel=true;
+        private bool optimizedSel=false;
         public bool OptimizedSel
         {
             get { return optimizedSel; }
@@ -195,8 +195,17 @@ namespace Global.Mode.Config
 
 
 
-        private bool twiseEnable = false;
-        public  bool TwiseEnable
+       
+
+      
+
+
+
+
+        // t-wise 
+
+        private bool twiseEnable = true;
+        public bool TwiseEnable
         {
             get { return twiseEnable; }
             set
@@ -205,23 +214,7 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
-        private bool pwiseEnable = false;
-        public bool PwiseEnable
-        {
-            get { return pwiseEnable; }
-            set
-            {
-                pwiseEnable = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-
-
-        // t-wise 
-        private bool tFirst=true;
+        private bool tFirst=false;
        public bool TFirst
         {
             get { return tFirst; }
@@ -263,10 +256,20 @@ namespace Global.Mode.Config
             }
         }
 
+        //p-wise
+        private bool pwiseEnable = true;
+        public bool PwiseEnable
+        {
+            get { return pwiseEnable; }
+            set
+            {
+                pwiseEnable = value;
+                NotifyPropertyChanged();
+            }
+        }
 
 
-
-        private bool pFirst= true;
+        private bool pFirst= false;
         public bool PFirst
         {
             get { return pFirst; }

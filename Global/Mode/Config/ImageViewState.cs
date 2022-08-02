@@ -111,6 +111,7 @@ namespace Global.Mode.Config
                 this.CurveChecked = toolTop.CurveChecked;
                 this.RectangleChecked = toolTop.RectangleChecked;
                 this.PolygonChecked = toolTop.PolygonChecked;
+               
                 this.Select = toolTop.Select;
                 this.inline = toolTop.inline;
                 this.Move = toolTop.Move;
@@ -470,13 +471,7 @@ namespace Global.Mode.Config
                 get { return polygon; }
                 set { polygon = value; NotifyPropertyChanged(); }
             }
-
-
-
-
-
-
-
+           
 
         }
 

@@ -25,8 +25,8 @@ namespace Mode
         public string LastOpenTime { get; set; } = DateTime.Now.ToString("YYYY-MM-dd HH:mm:ss");
 
         [JsonPropertyName("lambda-manager")]
-        public LambdaManager LambdaManager { get; set; } = new LambdaManager();
-
+        public LambdaManager LambdaManager { get; set; }
+        
         [JsonPropertyName("firmware")]
         public Firmware FirmwareSetting { get; set; }
 
@@ -42,9 +42,6 @@ namespace Mode
         public Dimensional Dimensional { get; set; } = new();
 
         public ImageViewState ImageViewState = new ImageViewState();
-
-        [JsonPropertyName("register-info")]
-        public string RegisterInfo { get; set; } = string.Empty;
 
         [JsonPropertyName("log-file")]
         public string? LogFile { get; set; }

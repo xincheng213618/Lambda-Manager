@@ -100,6 +100,7 @@ namespace Global.Mode.Config
 
         public void SetValue(Camera camera)
         {
+           // this.SelectViewMode = camera.SelectViewMode;
             this.Gamma = camera.gamma;
             this.Gain = camera.gain;
             this.GainAuto = camera.GainAuto;
@@ -107,6 +108,7 @@ namespace Global.Mode.Config
             this.Saturation = camera.saturation;
             this.Exposure = camera.Exposure;
             this.ExposureAuto = camera.ExposureAuto;
+            
         }
     }
 }

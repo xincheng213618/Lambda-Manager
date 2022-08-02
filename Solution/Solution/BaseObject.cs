@@ -15,6 +15,7 @@ namespace NLGSolution
     /// </summary>
     public class BaseObject : ViewModelBase
     {
+
         public ObservableCollection<BaseObject> AdllChildren { get; set; }  
 
         public ObservableCollection<BaseObject> Children { get; set; }

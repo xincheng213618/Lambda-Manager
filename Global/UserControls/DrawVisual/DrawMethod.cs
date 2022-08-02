@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Global
 {
-    public class DrawMethod
+    public class DrawMethod 
     {
         public Brush selectionGeometryBrush = Brushes.Transparent;
         public static Brush pixelRecBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#595959"));
@@ -375,10 +376,6 @@ namespace Global
 
         }
 
-
-
-
-
         public void DrawPixelSquareUp(WriteableBitmap bitmapImage, DrawingVisual visual, Point bottomLeftCorner, double width, double height)
         {
             using (DrawingContext dc = visual.RenderOpen())
@@ -456,16 +453,6 @@ namespace Global
 
             }
         }
-
-
-
-
-
-
-
-
-
-
 
         public void DrawDimension(double length, double height, double ratio, Point point1, Point point2,bool isdefault,DrawingVisual drawingVisual )
         {
