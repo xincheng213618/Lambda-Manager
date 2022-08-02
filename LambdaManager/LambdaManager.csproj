@@ -20,6 +20,8 @@
     <Product>$(AssemblyName) </Product>
     <TargetFramework>net6.0-windows</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <StartupObject>LambdaManager.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
@@ -96,6 +98,9 @@
     <None Remove="resources\icons\top-zoom-in.png" />
     <None Remove="resources\icons\top-zoom-out.png" />
     <None Remove="resources\images\startpicture1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logo.ico" />
   </ItemGroup>
 	<ItemGroup>
 		<Resource Include="Image\ZIRCON.png" />
