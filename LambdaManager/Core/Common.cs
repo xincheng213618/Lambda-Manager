@@ -782,14 +782,6 @@ namespace LambdaManager.Core
             return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
         }
 
-        private unsafe static void Test<X>(int seconds, int times, string kinds, object callback) where X : struct
-        {
-
-        }
-
-
-
-
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
         [SuppressGCTransition]
         private unsafe static void StopSchedule(sbyte* scheduleName)
