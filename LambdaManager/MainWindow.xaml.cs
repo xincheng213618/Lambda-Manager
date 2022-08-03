@@ -3,23 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Lambda;
 using LambdaManager.Core;
-using LambdaManager.DataType;
 using LambdaManager.Features;
-using LambdaManager.Properties;
 using LambdaManager.Utils;
 using ThemeManager.Controls;
-
 
 namespace LambdaManager
 {
@@ -28,7 +21,6 @@ namespace LambdaManager
         private bool multiMode;
         private bool multiChannel;
         public View[] Views = Common.Views;
-
         public TabControl tabControl;
 
         public List<int> ClosingViewIndex = Common.ClosingViewIndex;
@@ -65,8 +57,6 @@ namespace LambdaManager
         public void AddMessage(Message message)
         {
             Messagess.Add(message);
-
-
         }
 
         internal MenuItem? AddMenuItem(string path)

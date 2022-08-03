@@ -5,12 +5,13 @@
     <OutputType>WinExe</OutputType>
     <UseWPF>True</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
+	<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+	<PreserveCompilationContext>false</PreserveCompilationContext>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>Preview</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup>
+
     <RootNamespace />
     <UseWindowsForms>True</UseWindowsForms>
     <Nullable>disable</Nullable>

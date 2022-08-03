@@ -1,5 +1,6 @@
 ﻿using Global.Controls;
 using Global.Mode;
+using Global.UserControls.DrawVisual;
 using Lambda;
 using Mode;
 using System;
@@ -358,12 +359,9 @@ namespace Global
             try
             {
                 Application.Current.Dispatcher.Invoke(delegate { asyncAdd(ints);});
-                ;
             }
             catch(Exception ex)
             {
-
-
                 Lambda.LambdaControl.Log(new Message { Severity = Severity.INFO, Text = ex.Message });
             }
            
@@ -372,75 +370,52 @@ namespace Global
 
         private async void asyncAdd(List<int> ints)
         {
-            for (int i = 0; i < ints.Count; i++)
+            for (int view = 0; view < ints.Count; view++)
             {
-               await Task.Delay(800);
-               // var image = drawingCanvasInk[i];
-                if (drawingCanvasInk[i] != null)
+               await Task.Delay(50);
+                if (drawingCanvasInk[view] != null)
                 {
-                    ContextMenu menu = new ContextMenu();
-                    menu = MenuItemAdd(menu, i, ints[i]);
-                    drawingCanvasInk[i].InkCanvas.ContextMenu = menu;
+                    ContextMenu contextMenu = new ContextMenu();
+
+                    RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };
+                    RadioMenuItem menuItem2 = new RadioMenuItem() { Header = "暗场" };
+                    RadioMenuItem menuItem3 = new RadioMenuItem() { Header = "莱茵伯格" };
+                    RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "相差" };
+                    RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "差分" };
+                    RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "定量相位" };
+                    List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
+
+                    for (int i = 0; i < menuItem1s.Count; i++)
+                    {
+                        menuItem1s[i].Click += delegate
+                        {
+                            menuItem1.IsChecked = true;
+                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", i } });
+                        };
+                        contextMenu.Items.Add(menuItem1s[i]);
+                        if (view == i)
+                            menuItem1s[i].IsChecked = true;
+                    }
+                    DrawingInkCanvas drawingInkCanvas = drawingCanvasInk[view].InkCanvas;
+                    drawingInkCanvas.ContextMenu = contextMenu;
+
+                    drawingInkCanvas.PreviewMouseMove += delegate
+                    {
+                        if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
+                        {
+                            menuItem1s[0].IsChecked = true;
+                        }
+                        else
+                        {
+                            menuItem1s[5].IsChecked = true;
+                        }
+                    };
+
                 }
             }
         }
 
-        private ContextMenu MenuItemAdd(ContextMenu contextMenu, int a, int check)
-        {
-            RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };
-            RadioMenuItem menuItem2 = new RadioMenuItem() { Header = "暗场" };
-            RadioMenuItem menuItem3 = new RadioMenuItem() { Header = "莱茵伯格" };
-            RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "相差" };
-            RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "差分" };
-            RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "定量相位" };
 
-            List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
-            for (int i = 0; i < menuItem1s.Count; i++)
-            {
-                if (check == i)
-                    menuItem1s[i].IsChecked = true;
-            }
-
-            menuItem1.Click += delegate
-            {
-                menuItem1.IsChecked = true;
-                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 0 } });
-            };
-            menuItem2.Click += delegate
-            {
-                menuItem2.IsChecked = true;
-                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 1 } });
-            };
-
-            menuItem3.Click += delegate
-            {
-                menuItem3.IsChecked = true;
-                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 2 } });
-
-            };
-            menuItem4.Click += delegate
-            {
-                menuItem4.IsChecked = true;
-                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 3 } });
-            };
-            menuItem5.Click += delegate
-            {
-                menuItem5.IsChecked = true;
-                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 4 } });
-            };
-            menuItem6.Click += delegate
-            {
-                menuItem6.IsChecked = true;
-                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", a }, { "mode", 5 } });
-
-            };
-
-            for (int i = 0; i < menuItem1s.Count; i++)
-            {
-                contextMenu.Items.Add(menuItem1s[i]);
-            }
-            return contextMenu;
-        }
 
 
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
