@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Solution"
              xmlns:Solution="clr-namespace:NLGSolution" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
+             d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -64,8 +64,6 @@
                                     <Separator/>
                                     <MenuItem Header="在文件资源管理器中打开(_x)" Command="{Binding OpenExplorer}"  CommandParameter="{Binding .}"/>
                                     <MenuItem Header="打开日志(_x)" Command="{Binding OpenLog}"  CommandParameter="{Binding .}"/>
-
-                                    
                                     <MenuItem Header="属性(_R)"  />
                                 </ContextMenu>
                             </StackPanel.ContextMenu>

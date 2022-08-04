@@ -79,10 +79,12 @@ namespace Global
             Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
             Config.Dimensional.ZstackWiseSerial.ZStep = MulDimensional.Zstep;
             Config.Dimensional.ZstackWiseSerial.ZEnd = MulDimensional.ZEnd;
-
             Config.ViewMode.SetValue(ViewMode);
             Config.Stage.SetValue(Stage);
             Config.ImageViewState.SetValue(ImageViewState);
+
+            Config.LastOpenTime = DateTime.Now.ToString();
+
             Config.ToJsonFile(FilePath);
         }
 

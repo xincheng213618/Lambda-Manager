@@ -29,7 +29,7 @@ namespace Solution
     {
         public TreeViewControl()
         {
-            Window window = Window.GetWindow(this);
+            Window window = Application.Current.MainWindow;
             if (window != null)
                 window.Closing += Window_Closed;
             InitializeComponent();
