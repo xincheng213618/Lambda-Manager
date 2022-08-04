@@ -245,7 +245,7 @@ int PlayFilm(std::string fileName) {
 
 	if (pView->GetIndex() == 3) {
 		json j3;
-		j3["windowstatus"] = "2345";
+		j3["windowstatus"] = "0,12;1,3;2,4;3,5";
 		Event::Trigger("UPDATE_WINDOWSTATUS", &j3);
 	}
 

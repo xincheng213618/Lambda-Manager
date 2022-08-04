@@ -351,68 +351,86 @@ namespace Global
                 return false;
 
             updateStatus.Window = GetStringValue(eventData, "windowstatus");
-            List<int> ints = new List<int> { };
-            for (int j = 0; j < updateStatus.Window.Length; j++)
-            {
-                ints.Add(int.Parse(updateStatus.Window.Substring(j, 1)));
-            }
             try
             {
-                Application.Current.Dispatcher.Invoke(delegate { asyncAdd(ints);});
+                foreach (var item in updateStatus.Window.Split(";"))
+                {
+                    string[] views = item.Split(",");
+                    if (views.Length == 2)
+                    {
+                        if (int.TryParse(views[0], out int value))
+                        {
+                            List<int> ints = new List<int> { };
+                            for (int j = 0; j < views[1].Length; j++)
+                            {
+
+                                ints.Add(int.Parse(views[1].Substring(j, 1)));
+                            }
+                            Application.Current.Dispatcher.Invoke(delegate
+                            {
+                                asyncAdd(value, ints);
+                            });
+                        }
+                    }
+
+                }
             }
             catch(Exception ex)
             {
-                Lambda.LambdaControl.Log(new Message { Severity = Severity.INFO, Text = ex.Message });
+                LambdaControl.Log(new Message { Severity = Severity.INFO, Text = ex.Message });
             }
            
             return true;
         }
 
-        private async void asyncAdd(List<int> ints)
+        private async void asyncAdd(int view,List<int> ints)
         {
-            for (int view = 0; view < ints.Count; view++)
+            await Task.Delay(50);
+            if (drawingCanvasInk[view] != null)
             {
-               await Task.Delay(50);
-                if (drawingCanvasInk[view] != null)
+                ContextMenu contextMenu = new ContextMenu();
+
+                RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };
+                RadioMenuItem menuItem2 = new RadioMenuItem() { Header = "暗场" };
+                RadioMenuItem menuItem3 = new RadioMenuItem() { Header = "莱茵伯格" };
+                RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "差分" };
+                RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "相位" };
+                RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "相差" };
+                List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
+
+                for (int i = 0; i < menuItem1s.Count; i++)
                 {
-                    ContextMenu contextMenu = new ContextMenu();
-
-                    RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };
-                    RadioMenuItem menuItem2 = new RadioMenuItem() { Header = "暗场" };
-                    RadioMenuItem menuItem3 = new RadioMenuItem() { Header = "莱茵伯格" };
-                    RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "相差" };
-                    RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "差分" };
-                    RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "定量相位" };
-                    List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
-
-                    for (int i = 0; i < menuItem1s.Count; i++)
+                    menuItem1s[i].Click += delegate
                     {
-                        menuItem1s[i].Click += delegate
-                        {
-                            menuItem1.IsChecked = true;
-                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", i } });
-                        };
-                        contextMenu.Items.Add(menuItem1s[i]);
-                        if (view == i)
-                            menuItem1s[i].IsChecked = true;
-                    }
-                    DrawingInkCanvas drawingInkCanvas = drawingCanvasInk[view].InkCanvas;
-                    drawingInkCanvas.ContextMenu = contextMenu;
+                        menuItem1.IsChecked = true;
+                        LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", i } });
+                    };
+                    contextMenu.Items.Add(menuItem1s[i]);
 
+                    if (ints.Count==1&& ints[0]==i)
+                        menuItem1s[i].IsChecked = true;
+                }
+                DrawingInkCanvas drawingInkCanvas = drawingCanvasInk[view].InkCanvas;
+                drawingInkCanvas.ContextMenu = contextMenu;
+
+                if (ints.Count == 2)
+                {
                     drawingInkCanvas.PreviewMouseMove += delegate
                     {
                         if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
                         {
-                            menuItem1s[0].IsChecked = true;
+                            menuItem1s[ints[0]].IsChecked = true;
                         }
                         else
                         {
-                            menuItem1s[5].IsChecked = true;
+                            menuItem1s[ints[1]].IsChecked = true;
                         }
                     };
-
                 }
+
+
             }
+
         }
 
 
