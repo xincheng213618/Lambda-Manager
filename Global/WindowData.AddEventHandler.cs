@@ -386,7 +386,7 @@ namespace Global
         private async void asyncAdd(int view,List<int> ints)
         {
             await Task.Delay(50);
-            if (drawingCanvasInk[view] != null)
+            if (view >=0 && view <= drawingCanvasInk.Length&&drawingCanvasInk[view] != null)
             {
                 ContextMenu contextMenu = new ContextMenu();
 

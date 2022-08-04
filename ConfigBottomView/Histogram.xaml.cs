@@ -35,39 +35,14 @@ namespace ConfigBottomView
         {
             LambdaControl.RegisterImageView(HistogramImage).ToString();
         }
+        /// <summary>
+        /// R4 G2 B1
+        /// </summary>
         private int RGBMode(bool m, bool n, bool k)
         {
-            int R, G, B;
-            if (m)
-            {
-                R = 4;
-            }
-            else
-            {
-                R = 0;
-            };
-            if (n)
-            {
-                G = 2;
-            }
-            else
-            {
-                G = 0;
-            }
-            if (k)
-            {
-                B = 1;
-
-            }
-            else
-            {
-                B = 0;
-            }
-
-
-            return R + G + B;
-
+            return (m ? 4 : 0) + (n ? 2 : 0) + (k ? 1 : 0);
         }
+
         bool auto = false; bool log = false;
 
 

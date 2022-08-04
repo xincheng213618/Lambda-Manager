@@ -275,30 +275,45 @@ namespace Solution
             }
             else
             {
-                if (Tool.Utils.SaveAsDialog(out windowData.FilePath))
+                System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+                dialog.Description = "请选择保存的位置";
+                if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    if (Directory.GetFiles(windowData.SolutionDir).Length == 0)
+                    if (string.IsNullOrEmpty(dialog.SelectedPath))
                     {
-                        windowData.SaveConfig();
-                        string ImageDiectory = windowData.SolutionDir + "\\Image";
-                        string VideoDiectory = windowData.SolutionDir + "\\Video";
+                        string SolutionDir = dialog.SelectedPath + "新建文件夹";
+                        if (Directory.Exists(SolutionDir))
+                        {
+                            Directory.CreateDirectory(SolutionDir);
+                            string ImageDiectory = windowData.SolutionDir + "\\Image";
+                            string VideoDiectory = windowData.SolutionDir + "\\Video";
+                            if (!Directory.Exists(ImageDiectory))
+                                Directory.CreateDirectory(ImageDiectory);
 
-                        if (!Directory.Exists(ImageDiectory))
-                            Directory.CreateDirectory(ImageDiectory);
-
-                        if (!Directory.Exists(VideoDiectory))
-                            Directory.CreateDirectory(VideoDiectory);
+                            if (!Directory.Exists(VideoDiectory))
+                                Directory.CreateDirectory(VideoDiectory);
+                            windowData.SaveConfig();
 
 
-                        TreeViewInitialized(windowData.FilePath, windowData.Config);
-                        SolutionTreeView.ItemsSource = SolutionExplorers;
+                        }
+
+                        windowData.FilePath = dialog.SelectedPath +"新建文件夹";
+                        if (Directory.GetFiles(windowData.SolutionDir).Length == 0)
+                        {
+
+
+
+
+                            TreeViewInitialized(windowData.FilePath, windowData.Config);
+                            SolutionTreeView.ItemsSource = SolutionExplorers;
+                        }
+                        else
+                        {
+                            MessageBox.Show("请选择空文件夹保存项目");
+                            windowData.FilePath = null;
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("请选择空文件夹保存项目");
-                        windowData.FilePath = null;
 
-                    }
                 }
                 else
                 {
