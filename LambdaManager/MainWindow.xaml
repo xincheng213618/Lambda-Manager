@@ -193,39 +193,38 @@
                             <WrapPanel Name="topToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
                                 <ToggleButton Style="{StaticResource ToolButton2}" Margin="3,0,0,0">
                                     <Image Source="/Resources/Icons/top-select.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 29-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_21">
-                                    <Image Source="/Resources/Icons/top-inline.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 30-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/top-move.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 31-->
-                                </ToggleButton>
-                                <Button Style="{StaticResource ToolButton}">
-                                    <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 32-->
-                                </Button>
-
-                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_24">
-                                    <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
                                     <!--Unknown connection ID: 33-->
                                 </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}" Click="Button_Click_25">
-                                    <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/top-inline.png" Stretch="Fill" />
                                     <!--Unknown connection ID: 34-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
+                                    <Image Source="/Resources/Icons/top-move.png" Stretch="Fill" />
                                     <!--Unknown connection ID: 35-->
                                 </ToggleButton>
+                                <Button Style="{StaticResource ToolButton}">
+                                    <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 36-->
+                                </Button>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 37-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 38-->
+                                </ToggleButton>
+                                <Button Style="{StaticResource ToolButton}">
+                                    <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 39-->
+                                </Button>
                                 <Border Height="22" Padding="1" CornerRadius="4">
                                     <Border.Background>
                                         <SolidColorBrush Color="{DynamicResource HighlightColor}" />
                                     </Border.Background>
-                                    <TextBox Name="ratio" VerticalAlignment="Center">100%
-
+                                    <TextBox Name="ratio" VerticalAlignment="Center">25%
+                                        <!--Unknown connection ID: 40-->
                                     </TextBox>
                                 </Border>
                                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
@@ -235,15 +234,19 @@
                                 </Separator>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-dimension.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 37-->
+                                    <!--Unknown connection ID: 41-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-focus.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 38-->
+                                    <!--Unknown connection ID: 42-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-ruler.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 39-->
+                                    <!--Unknown connection ID: 43-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/top-profile.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 44-->
                                 </ToggleButton>
                                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
                                     <Control.BorderBrush>
@@ -252,27 +255,35 @@
                                 </Separator>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 45-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 46-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 47-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 48-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-curve.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 49-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-circle.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 50-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
                                     <Image Source="/Resources/Icons/top-rectangle.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 51-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" Margin="0,0,3,0" />
+                                    <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 52-->
                                 </ToggleButton>
                             </WrapPanel>
                         </Border>
@@ -330,21 +341,25 @@
                             </Border.Background>
                             <DockPanel Name="leftToolbar">
                                 <WrapPanel Orientation="Vertical" DockPanel.Dock="Top">
-                                    <ToggleButton Style="{StaticResource ToolButton2}"  Click="Button_Click_38">
-                                        <Image Source="/Resources/Icons/left-colorbar.png" Stretch="Fill" Margin="0,3,0,0"  />
-                                        <!--Unknown connection ID: 60-->
+                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                        <Image Source="/Resources/Icons/left-colorbar.png" Stretch="Fill" />
+                                        <!--Unknown connection ID: 66-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/left-monocolor.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 61-->
+                                        <!--Unknown connection ID: 67-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/left-divcolor.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 62-->
+                                        <!--Unknown connection ID: 68-->
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource ToolButton2}">
                                         <Image Source="/Resources/Icons/left-histogram.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 63-->
+                                        <!--Unknown connection ID: 69-->
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                        <Image Source="/Resources/Icons/left-range.png" Stretch="Fill" />
+                                        <!--Unknown connection ID: 70-->
                                     </ToggleButton>
                                 </WrapPanel>
                                 <Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
@@ -356,48 +371,48 @@
                             </Border.Background>
                             <WrapPanel Name="rightToolbar" Orientation="Vertical" VerticalAlignment="Center">
                                 <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-quater.png" Stretch="Fill" Margin="0,3,0,0" />
-                                    <!--Unknown connection ID: 65-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-dual.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 66-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-BF.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 67-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-DF.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 68-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-RI.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 69-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-DP.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 70-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-Phi.png" Stretch="Fill" />
-                                    <!--Unknown connection ID: 71-->
-                                </ToggleButton>
-                                <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-FL.png" Stretch="Fill" />
+                                    <Image Source="/Resources/Icons/right-quater.png" Stretch="Fill" />
                                     <!--Unknown connection ID: 72-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-3D.png" Stretch="Fill" />
+                                    <Image Source="/Resources/Icons/right-dual.png" Stretch="Fill" />
                                     <!--Unknown connection ID: 73-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-cube.png" Stretch="Fill" />
+                                    <Image Source="/Resources/Icons/right-BF.png" Stretch="Fill" />
                                     <!--Unknown connection ID: 74-->
                                 </ToggleButton>
                                 <ToggleButton Style="{StaticResource ToolButton2}">
-                                    <Image Source="/Resources/Icons/right-repo.png" Stretch="Fill" />
+                                    <Image Source="/Resources/Icons/right-DF.png" Stretch="Fill" />
                                     <!--Unknown connection ID: 75-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/right-RI.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 76-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/right-DP.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 77-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/right-Phi.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 78-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/right-FL.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 79-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/right-3D.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 80-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/right-cube.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 81-->
+                                </ToggleButton>
+                                <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <Image Source="/Resources/Icons/right-repo.png" Stretch="Fill" />
+                                    <!--Unknown connection ID: 82-->
                                 </ToggleButton>
                                 <TextBlock>Slice</TextBlock>
                                 <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="0,2,0,2" Padding="2,0,2,0">

@@ -61,6 +61,7 @@
     <None Remove="resources\icons\left-glitter.jpg" />
     <None Remove="resources\icons\left-histogram.png" />
     <None Remove="resources\icons\left-monocolor.png" />
+    <None Remove="resources\icons\left-range.png" />
     <None Remove="resources\icons\right-3d.png" />
     <None Remove="resources\icons\right-bf.png" />
     <None Remove="resources\icons\right-cube.png" />
@@ -90,6 +91,7 @@
     <None Remove="resources\icons\top-move.png" />
     <None Remove="resources\icons\top-outline.png" />
     <None Remove="resources\icons\top-polygon.png" />
+    <None Remove="resources\icons\top-profile.png" />
     <None Remove="resources\icons\top-rectangle.png" />
     <None Remove="resources\icons\top-ruler.png" />
     <None Remove="resources\icons\top-scale.png" />
@@ -115,6 +117,7 @@
     <Resource Include="resources\icons\left-glitter.jpg" />
     <Resource Include="resources\icons\left-histogram.png" />
     <Resource Include="resources\icons\left-monocolor.png" />
+    <Resource Include="resources\icons\left-range.png" />
     <Resource Include="resources\icons\right-3d.png" />
     <Resource Include="resources\icons\right-bf.png" />
     <Resource Include="resources\icons\right-cube.png" />
@@ -163,6 +166,7 @@
     <Resource Include="resources\icons\top-move.png" />
     <Resource Include="resources\icons\top-outline.png" />
     <Resource Include="resources\icons\top-polygon.png" />
+    <Resource Include="resources\icons\top-profile.png" />
     <Resource Include="resources\icons\top-rectangle.png" />
     <Resource Include="resources\icons\top-ruler.png" />
     <Resource Include="resources\icons\top-scale.png" />

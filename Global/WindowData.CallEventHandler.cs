@@ -40,6 +40,7 @@ namespace Global
            
             DrawMethod drawMethod = new DrawMethod();
             DrawingVisualInk drawingVisualInk = new DrawingVisualInk(ImageViewState.toolTop, drawMethod, ratio);
+
             // MessageBox.Show("1111");
             if (image1.Parent is Grid grid0)
             {
@@ -48,6 +49,8 @@ namespace Global
                 {
                    
                     drawingCanvasInk[viewindex] = drawingVisualInk;
+                    if (ViewContentMenuCache.ContainsKey(viewindex))
+                        AddViewContentMenu(viewindex, ViewContentMenuCache[viewindex]);
 
                     if (image1.Parent is Grid grid1)
                     {

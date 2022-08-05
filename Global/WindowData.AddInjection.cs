@@ -317,15 +317,7 @@ namespace Global
 
                 };
                 popup.Closed +=delegate { popup.IsOpen = false; };
-                //popup.MouseLeave += delegate
-                // {
-                //     if (popup.IsOpen)
-                //     {
-                //         popup.IsOpen = false;
-                //     };
-                // };
-
-
+;
 
                 quaterPopup.dual.Checked += delegate
                 {
@@ -890,8 +882,8 @@ namespace Global
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;
 
                 };
-                try
-                {
+                try 
+                { 
                     Application.Current.MainWindow.PreviewKeyDown += delegate (object sender, KeyEventArgs e)
                     {
                         if ((e.Key == Key.Escape) && ImageViewState.toolTop.InlineChecked)
@@ -906,39 +898,31 @@ namespace Global
                 }
                
 
-                Binding binding13 = new Binding("EraserChecked");
-                ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[13]);
-                ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, binding13);
+                ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[14]);
+                ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
 
-                Binding binding14 = new Binding("TextChecked");
-                ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[14]);
-                ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, binding14);
+                ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[15]);
+                ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, new Binding("TextChecked"));
 
-                Binding binding15 = new Binding("ArrowChecked");
-                ToggleButton ToggleButtonArrow = ((ToggleButton)topToolbar.Children[15]);
-                ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, binding15);
+                ToggleButton ToggleButtonArrow = ((ToggleButton)topToolbar.Children[16]);
+                ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ArrowChecked"));
 
-                Binding binding16 = new Binding("LineChecked");
-                ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[16]);
-                ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, binding16);
+                ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[17]);
+                ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, new Binding("LineChecked"));
 
 
 
-                Binding binding17 = new Binding("CurveChecked");
-                ToggleButton ToggleButtonCurve = ((ToggleButton)topToolbar.Children[17]);
-                ToggleButtonCurve.SetBinding(ToggleButton.IsCheckedProperty, binding17);
+                ToggleButton ToggleButtonCurve = ((ToggleButton)topToolbar.Children[18]);
+                ToggleButtonCurve.SetBinding(ToggleButton.IsCheckedProperty, new Binding("CurveChecked"));
 
-                Binding binding18 = new Binding("CircleChecked");
-                ToggleButton ToggleButtonCircle = ((ToggleButton)topToolbar.Children[18]);
-                ToggleButtonCircle.SetBinding(ToggleButton.IsCheckedProperty, binding18);
+                ToggleButton ToggleButtonCircle = ((ToggleButton)topToolbar.Children[19]);
+                ToggleButtonCircle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("CircleChecked"));
 
-                Binding binding19 = new Binding("RectangleChecked");
-                ToggleButton ToggleButtonRectangle = ((ToggleButton)topToolbar.Children[19]);
-                ToggleButtonRectangle.SetBinding(ToggleButton.IsCheckedProperty, binding19);
+                ToggleButton ToggleButtonRectangle = ((ToggleButton)topToolbar.Children[20]);
+                ToggleButtonRectangle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("RectangleChecked"));
 
-                Binding binding20 = new Binding("PolygonChecked");
-                ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[20]);
-                ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, binding20);
+                ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[21]);
+                ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, new Binding("PolygonChecked"));
 
                 List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
 

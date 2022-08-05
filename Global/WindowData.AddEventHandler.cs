@@ -1,6 +1,5 @@
 ﻿using Global.Controls;
 using Global.Mode;
-using Global.UserControls.DrawVisual;
 using Lambda;
 using Mode;
 using System;
@@ -366,9 +365,19 @@ namespace Global
 
                                 ints.Add(int.Parse(views[1].Substring(j, 1)));
                             }
+
+                            if (ViewContentMenuCache.ContainsKey(value))
+                            {
+                                ViewContentMenuCache[value] = ints;
+                            }
+                            else
+                            {
+                                ViewContentMenuCache.Add(value, ints);
+                            };
+
                             Application.Current.Dispatcher.Invoke(delegate
                             {
-                                asyncAdd(value, ints);
+                                AddViewContentMenu(value, ints);
                             });
                         }
                     }
@@ -382,10 +391,10 @@ namespace Global
            
             return true;
         }
+        Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
 
-        private async void asyncAdd(int view,List<int> ints)
+        private void AddViewContentMenu(int view,List<int> ints)
         {
-            await Task.Delay(50);
             if (view >=0 && view <= drawingCanvasInk.Length&&drawingCanvasInk[view] != null)
             {
                 ContextMenu contextMenu = new ContextMenu();
@@ -400,10 +409,11 @@ namespace Global
 
                 for (int i = 0; i < menuItem1s.Count; i++)
                 {
+                    int mode = i;
                     menuItem1s[i].Click += delegate
                     {
                         menuItem1.IsChecked = true;
-                        LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", i } });
+                        LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
                     };
                     contextMenu.Items.Add(menuItem1s[i]);
 
