@@ -249,6 +249,13 @@ int PlayFilm(std::string fileName) {
 		Event::Trigger("UPDATE_WINDOWSTATUS", &j3);
 	}
 
+	if (pView->GetIndex() == 4) {
+		json j4;
+		Event::Trigger("CollectionCompleted", &j4);
+	}
+
+	
+
 	for (;;)
 	{
 		// wait for a new frame from camera and store it into 'frame'

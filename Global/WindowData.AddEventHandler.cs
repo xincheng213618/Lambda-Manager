@@ -52,8 +52,40 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("seriesProjectManager111", seriesProjectManager, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
 
+            LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
+
+            LambdaControl.AddLambdaEventHandler("CollectionCompleted", CollectionCompleted, false);
+
+           
         }
 
+        private bool CollectionCompleted(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
+                {
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)stackPanel.Children[0];
+
+                        if (toggleButton != null && toggleButton.IsChecked == true)
+                        {
+                            toggleButton.IsChecked = false;
+                            toggleButton.Content = "开始采集";
+                        }
+                    }
+
+                }
+
+
+            });
+            return true;
+        }
         private bool seriesProjectManager(object sender, EventArgs e)
         {
             Window mainwin = Application.Current.MainWindow;
@@ -75,10 +107,6 @@ namespace Global
             return true;
    
         }
-
-        //private void ToggleButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MessageBox.Show("1111");
 
         //}
 

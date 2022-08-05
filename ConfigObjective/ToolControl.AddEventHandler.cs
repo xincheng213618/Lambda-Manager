@@ -185,7 +185,6 @@ namespace ConfigObjective
 			windowData.Config.Spot = testMean.Spot;
 			windowData.Config.Stage = testMean.Stage;
 			LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
-			MessageBox.Show(testMean.ToJson());
 			return true;
         }
 	}
