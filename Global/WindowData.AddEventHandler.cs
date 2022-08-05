@@ -49,8 +49,6 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("PREVIEW_CLOSE", seriesProjectManager, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
 
-            LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
-
             //采集关闭
             LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);         
         }
