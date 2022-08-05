@@ -33,14 +33,10 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
             LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
 
-           
-            //LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
-            LambdaControl.AddLambdaEventHandler("TestDataEvent2", TestDataEvent2, false);
-
             LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
+
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
-            LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED1", IMAGE_VIEW_CREATED, false);
 
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
@@ -113,8 +109,6 @@ namespace Global
    
         }
 
-        //}
-
 
         /// <summary>
         /// 更新位移台坐标
@@ -159,38 +153,11 @@ namespace Global
 
         private bool ZOOM_IN_CLICKED(object sender, EventArgs e)
         {
-
             return true;
         }
 
         private bool ZOME_OUT_CLICKED(object sender, EventArgs e)
         {
-
-
-            return true;
-        }
-
-
-        ConfigBottomView.BottomView[] LambdaBottomViews = new ConfigBottomView.BottomView[100];
-
-        private bool TestDataEvent2(object sender, EventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-                if (eventData != null)
-                {
-                    int size = (int)eventData["size"];
-                    IntPtr intPtr = (IntPtr)eventData["data"];
-                    int[] aaa = new int[256];
-                    Marshal.Copy(intPtr, aaa, 0, 256);
-                    if (size >=0 && size < 100)
-                    {
-                        if (LambdaBottomViews[size] != null)
-                            LambdaBottomViews[size].SetHistogram(aaa);
-                    }
-                }
-            });
 
             return true;
         }
@@ -371,6 +338,7 @@ namespace Global
                 return false;
 
             updateStatus.Window = GetStringValue(eventData, "windowstatus");
+
             try
             {
                 foreach (var item in updateStatus.Window.Split(";"))
@@ -382,18 +350,13 @@ namespace Global
                         {
                             List<int> ints = new List<int> { };
                             for (int j = 0; j < views[1].Length; j++)
-                            {
                                 ints.Add(int.Parse(views[1].Substring(j, 1)));
-                            }
+
 
                             if (ViewContentMenuCache.ContainsKey(value))
-                            {
                                 ViewContentMenuCache[value] = ints;
-                            }
                             else
-                            {
                                 ViewContentMenuCache.Add(value, ints);
-                            };
 
                             Application.Current.Dispatcher.Invoke(delegate
                             {
@@ -411,42 +374,41 @@ namespace Global
            
             return true;
         }
+
+
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
+        List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
 
         private void AddViewContentMenu(int view,List<int> ints)
         {
             if (view >=0 && view <= drawingCanvasInk.Length&&drawingCanvasInk[view] != null)
             {
                 ContextMenu contextMenu = new ContextMenu();
-
-                RadioMenuItem menuItem1 = new RadioMenuItem() { Header = "明场" };
-                RadioMenuItem menuItem2 = new RadioMenuItem() { Header = "暗场" };
-                RadioMenuItem menuItem3 = new RadioMenuItem() { Header = "莱茵伯格" };
-                RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "差分" };
-                RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "相位" };
-                RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "相差" };
-                List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
-
-                for (int i = 0; i < menuItem1s.Count; i++)
+                List<RadioMenuItem> menuItem1s= new List<RadioMenuItem>();
+                foreach (var item in ViewContentMenuContent)
                 {
-                    int mode = i;
-                    menuItem1s[i].Click += delegate
-                    {
-                        menuItem1.IsChecked = true;
-                        if (ints.Count == 1)
-                        {
-                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
-                        }
-                        else if (ints.Count == 2)
-                        {
-                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
-                        }
+                    menuItem1s.Add(new RadioMenuItem() { Header = item });
+                }
 
+                bool IsLeft = true;
+                for (int i = 0; i < ViewContentMenuContent.Count; i++)
+                {
+                    RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
+                    int mode = i;
+                    radioMenuItem.Click += delegate
+                    {
+                        radioMenuItem.IsChecked = true;
+                        if (ints.Count == 2)
+                        {
+                            mode = IsLeft ? mode * 10 + ints[1] : ints[0] + mode;
+                            mode += 10;
+                        }
+                        LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
                     };
-                    contextMenu.Items.Add(menuItem1s[i]);
+                    contextMenu.Items.Add(radioMenuItem);
 
                     if (ints.Count==1&& ints[0]==i)
-                        menuItem1s[i].IsChecked = true;
+                        radioMenuItem.IsChecked = true;
                 }
                 DrawingInkCanvas drawingInkCanvas = drawingCanvasInk[view].InkCanvas;
                 drawingInkCanvas.ContextMenu = contextMenu;
@@ -457,10 +419,12 @@ namespace Global
                     {
                         if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
                         {
+                            IsLeft = true;
                             menuItem1s[ints[0]].IsChecked = true;
                         }
                         else
                         {
+                            IsLeft = false;
                             menuItem1s[ints[1]].IsChecked = true;
                         }
                     };
@@ -470,51 +434,6 @@ namespace Global
             }
 
         }
-
-
-
-
-        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
-        public static extern void RtlMoveMemory(IntPtr Destination, IntPtr Source, uint Length);
-
-        public Image image = new Image();
-
-        private bool TestDataEvent(object sender, EventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-                if (eventData != null)
-                {
-                    int size = (int)eventData["size"];
-
-                    IntPtr intPtr = (IntPtr)eventData["data"];
-
-                    if (image.Source is WriteableBitmap writeableBitmap1)
-                    {
-                        Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap1.Width, (int)writeableBitmap1.Height);
-                        writeableBitmap1.WritePixels(sourceRect, intPtr, (int)size, (int)writeableBitmap1.Width * writeableBitmap1.Format.BitsPerPixel / 8);
-
-                    }
-                    else
-                    {
-                        WriteableBitmap writeableBitmap = new WriteableBitmap(300, 300, 96.0, 96.0, PixelFormats.Bgr24, null);
-                        RtlMoveMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
-                        writeableBitmap.Lock();
-                        writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
-                        writeableBitmap.Unlock();
-                        image.Source = writeableBitmap;
-                    }
-
-
-
-                }
-            });
-
-            return true;
-        }
-
-
 
 
         private static string? GetStringValue(Dictionary<string, object>? data, string key)
