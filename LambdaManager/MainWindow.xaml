@@ -505,5 +505,9 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </Grid>
+
+        <Grid Name="stageConfig" Row="1">
+            <!--Unknown connection ID: 13-->
+        </Grid>
     </Grid>
 </Base:BaseWindow>

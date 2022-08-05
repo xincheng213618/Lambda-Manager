@@ -6,6 +6,7 @@ using Lambda;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Resources;
 
 namespace Global
@@ -332,10 +334,9 @@ namespace Global
                      if (QuaterTogg.IsChecked == true)
                     {
 
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", ViewWindowMode.SECOND_WINDOW } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
                             histogramTogg.IsChecked = false;
                             histogramTogg.IsEnabled = false;
-    
                     }
                     else
                     {
@@ -803,33 +804,35 @@ namespace Global
                     propertySetItem.Visibility = Visibility.Collapsed;
                     tabControl.SelectedIndex = 1;
                 };
+                GridLength leftViewtemp = new GridLength(0);
+
+                double tempLeft=0, tempTop=0, tempWidth = 0, tempHeight = 0;
 
                 // viewMax
                 ToggleButtonInline.Checked += delegate
                 {
-                    
+
+                    ColumnDefinition leftView = (ColumnDefinition)mainwin.FindName("leftView");
+                    leftViewtemp = leftView.Width;
+                    leftView.Width = new GridLength(0);
+
+
                     Border border = (Border)mainwin.FindName("imagingView");
                     border.Background = Brushes.Transparent;
                     border.BorderThickness = new Thickness(0);
                     Grid grid = (Grid)border.Child;
-                    Grid grid1 = (Grid)grid.Children[0];
 
-                    grid1.Children[0].Visibility = Visibility.Collapsed;
-                    grid1.Children[1].Visibility = Visibility.Collapsed;
-                    grid1.Children[2].Visibility = Visibility.Collapsed;
-                    grid1.Children[3].Visibility = Visibility.Collapsed;
-                   // grid1.Children[4].Visibility = Visibility.Collapsed;
+                    grid.Children[0].Visibility = Visibility.Collapsed;
                     grid.Children[1].Visibility = Visibility.Collapsed;
                     grid.Children[2].Visibility = Visibility.Collapsed;
+                    grid.Children[3].Visibility = Visibility.Collapsed;
 
                     StatusBar statusBar = (StatusBar)mainwin.FindName("statusBar");
                     Grid stageAcquisition = (Grid)mainwin.FindName("stageAcquisition");
-                    Grid stageConfig = (Grid)mainwin.FindName("stageConfig");
                     Grid mainGrid = (Grid)stageAcquisition.Parent;
+
+
                     mainGrid.Children[0].Visibility = Visibility.Collapsed;
-                    //GridSplitter MiddleSplitter = (GridSplitter)mainwin.FindName("MiddleSplitte");
-                    //if (MiddleSplitter != null) MiddleSplitter.Visibility = Visibility.Collapsed;
-                    // Grid upGrid = (Grid)mainGrid.Children[0];
 
                     statusBar.Visibility = Visibility.Collapsed;
                     stageAcquisition.Children[0].Visibility = Visibility.Collapsed;
@@ -838,9 +841,21 @@ namespace Global
                     stageAcquisition.Children[3].Visibility = Visibility.Collapsed;
                     stageAcquisition.Children[4].Visibility = Visibility.Collapsed;
                     stageAcquisition.Children[5].Visibility = Visibility.Collapsed;
-                    // stageAcquisition.Visibility = Visibility.Collapsed;
-                    stageConfig.Visibility = Visibility.Collapsed;
+                    System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
                     mainwin.WindowStyle = WindowStyle.None;
+
+                    tempLeft = mainwin.Left;
+                    tempTop = mainwin.Top;
+                    tempWidth = mainwin.Width;
+                    tempHeight = mainwin.Height;
+
+
+                    mainwin.Left = screen.Bounds.Left;
+                    mainwin.Top = screen.Bounds.Top;
+                    mainwin.Width = screen.Bounds.Width;
+                    mainwin.Height = screen.Bounds.Height; ;
+
+
                     DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
                     if (leftToolBar == null) return;
                     WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
@@ -848,24 +863,24 @@ namespace Global
                     if (histogramTogg.IsChecked == true)
                     {
                         histogramTogg.IsChecked =false;
-                  }
+                    }
                 };
                 ToggleButtonInline.Unchecked += delegate
                 {
+                    ColumnDefinition leftView = (ColumnDefinition)mainwin.FindName("leftView");
+                    leftView.Width = leftViewtemp;
+
                     Border border = (Border)mainwin.FindName("imagingView");
-                    Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
-                    border.Background = brush;
+                    border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
                     border.BorderThickness =new Thickness(2);
                     Grid grid = (Grid)border.Child;
-                    Grid grid1 = (Grid)grid.Children[0];
 
-                    grid1.Children[0].Visibility = Visibility.Visible;
-                    grid1.Children[1].Visibility = Visibility.Visible;
-                    grid1.Children[2].Visibility = Visibility.Visible;
-                    grid1.Children[3].Visibility = Visibility.Visible;
+                    grid.Children[0].Visibility = Visibility.Visible;
+                    grid.Children[1].Visibility = Visibility.Visible;
+                    grid.Children[2].Visibility = Visibility.Visible;
+                    grid.Children[3].Visibility = Visibility.Visible;
                     StatusBar statusBar = (StatusBar)mainwin.FindName("statusBar");
                     Grid stageAcquisition = (Grid)mainwin.FindName("stageAcquisition");
-                    Grid stageConfig = (Grid)mainwin.FindName("stageConfig");
                     Grid mainGrid = (Grid)stageAcquisition.Parent;
                    
                     mainGrid.Children[0].Visibility = Visibility.Visible;
@@ -874,12 +889,13 @@ namespace Global
                     stageAcquisition.Children[2].Visibility = Visibility.Visible;
                     stageAcquisition.Children[3].Visibility = Visibility.Visible;
                     stageAcquisition.Children[4].Visibility = Visibility.Visible;
-                    stageAcquisition.Children[5].Visibility = Visibility.Visible;
                     statusBar.Visibility = Visibility.Visible;
                     stageAcquisition.Visibility = Visibility.Visible;
-                    stageConfig.Visibility = Visibility.Visible;
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;
-
+                    mainwin.Left = tempLeft;
+                    mainwin.Top = tempTop;
+                    mainwin.Width = tempWidth;
+                    mainwin.Height = tempHeight;
                 };
                 try 
                 { 
@@ -893,7 +909,7 @@ namespace Global
                 }
                 catch (Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message);
                 }
                
 
