@@ -35,6 +35,33 @@ namespace Solution
             InitializeComponent();
             IniCommand();
         }
+
+        bool IsFirstLoad = true;
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            //执行一次
+            if (IsFirstLoad)
+            {
+                if (this.Parent is StackPanel stackPanel1)
+                    if (stackPanel1.Parent is Viewbox viewbox1)
+                        if (viewbox1.Parent is ScrollViewer scrollViewer1)
+                        {
+                            stackPanel1.Children.Remove(this);
+
+                            StackPanel stackPanel = new StackPanel() { Name = "projectView", Margin = new Thickness(2, 2, 2, 0) };
+                            stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            stackPanel.Children.Add(this);
+                            Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top };
+                            viewbox.Child = stackPanel;
+                            scrollViewer1.Content = viewbox;
+                        }
+
+                //清理掉对第一个image的引用
+                View view = LambdaControl.GetImageView(0);
+                IsFirstLoad = false;
+            }
+        }
+
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
 
@@ -276,44 +303,27 @@ namespace Solution
             else
             {
                 System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-                dialog.Description = "请选择保存的位置";
-                if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                dialog.Description = "项目位置";
+                System.Windows.Forms.DialogResult dialogResult = dialog.ShowDialog();
+
+                if (dialogResult == System.Windows.Forms.DialogResult.OK)
                 {
-                    if (string.IsNullOrEmpty(dialog.SelectedPath))
+                    string SolutionDir = dialog.SelectedPath + "\\新建文件夹";
+
+                    if (!Directory.Exists(SolutionDir))
                     {
-                        string SolutionDir = dialog.SelectedPath + "新建文件夹";
-                        if (Directory.Exists(SolutionDir))
-                        {
-                            Directory.CreateDirectory(SolutionDir);
-                            string ImageDiectory = windowData.SolutionDir + "\\Image";
-                            string VideoDiectory = windowData.SolutionDir + "\\Video";
-                            if (!Directory.Exists(ImageDiectory))
-                                Directory.CreateDirectory(ImageDiectory);
+                        Directory.CreateDirectory(SolutionDir);
+                        string ImageDiectory = windowData.SolutionDir + "\\Image";
+                        string VideoDiectory = windowData.SolutionDir + "\\Video";
+                        if (!Directory.Exists(ImageDiectory))
+                            Directory.CreateDirectory(ImageDiectory);
 
-                            if (!Directory.Exists(VideoDiectory))
-                                Directory.CreateDirectory(VideoDiectory);
-                            windowData.SaveConfig();
-
-
-                        }
-
-                        windowData.FilePath = dialog.SelectedPath +"新建文件夹";
-                        if (Directory.GetFiles(windowData.SolutionDir).Length == 0)
-                        {
-
-
-
-
-                            TreeViewInitialized(windowData.FilePath, windowData.Config);
-                            SolutionTreeView.ItemsSource = SolutionExplorers;
-                        }
-                        else
-                        {
-                            MessageBox.Show("请选择空文件夹保存项目");
-                            windowData.FilePath = null;
-                        }
+                        if (!Directory.Exists(VideoDiectory))
+                            Directory.CreateDirectory(VideoDiectory);
+                        windowData.FilePath = SolutionDir + "\\*.lmp";
+                        windowData.SaveConfig();
+                        TreeViewInitialized(windowData.FilePath, windowData.Config);
                     }
-
                 }
                 else
                 {
@@ -335,6 +345,7 @@ namespace Solution
 
         private void MenuItem4_Click(object sender, RoutedEventArgs e)
         {
+
 
         }
         RecentFileList recentFileList = new RecentFileList();
@@ -373,52 +384,19 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
-
-            int[] data2 = new int[] { 144, 2, 3, 4, 5 };
-            LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
-
-            Node<int> doue = new Node<int>(1);
-            doue.Next = new Node<int>(2);
-            doue.Next.Next = doue;
+            NewCreatWindow newCreatWindow = new NewCreatWindow();
+            newCreatWindow.ShowDialog();
         }
-        bool IsFirstLoad = true;
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+
+
+
+        private void Close_Click(object sender, RoutedEventArgs e)
         {
-            //执行一次
-            if (IsFirstLoad)
-            {
-                if (this.Parent is StackPanel stackPanel1)
-                    if (stackPanel1.Parent is Viewbox viewbox1)
-                        if (viewbox1.Parent is ScrollViewer scrollViewer1)
-                        {
-                            stackPanel1.Children.Remove(this);
-
-                            StackPanel stackPanel = new StackPanel() { Name = "projectView" ,Margin= new Thickness(2,2,2,0)};
-                            stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                            stackPanel.Children.Add(this);
-                            Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top};
-                            viewbox.Child = stackPanel;
-                            scrollViewer1.Content = viewbox;
-                        }
-
-                //清理掉对第一个image的引用
-                View view = LambdaControl.GetImageView(0);
-                //if (view != null)
-                //{
-                //    WindowData.GetInstance().FirstImage = view.Image;
-                //    view.Image = null;
-                //}
-
-
-
-
-
-                IsFirstLoad = false;
-            }
+            windowData.SaveConfig();
+            windowData.FilePath = null;
+            SolutionTreeView.ItemsSource = null;
 
         }
-
     }
 
 }

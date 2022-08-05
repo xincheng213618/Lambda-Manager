@@ -11,6 +11,7 @@ namespace Lambda
     public delegate bool LambdaHandler(object sender, EventArgs e);
     public delegate void LogHandler(Message message);
     public delegate int RegisterImageViewHandler(Image image);
+    public delegate void RemoveImageViewHandler(int register);
 
     public class LambdaArgs : EventArgs
     {
@@ -42,30 +43,22 @@ namespace Lambda
 
     public class LambdaControl : Control
     {
-        private static event LogHandler? LogHandler;
+        public static event LogHandler? LogHandler;
 
-        private static event LogHandler? LogHandler2;
+        public static event LogHandler? LogHandler2;
 
-        private static event AddEventHandler? AddEventHandler;
+        public static event AddEventHandler? AddEventHandler;
 
-        private static event CallEventHandler? CallEventHandler;
+        public static event CallEventHandler? CallEventHandler;
 
-        private static event RegisterImageViewHandler? RegisterImageViewHandler;
+        public static event RegisterImageViewHandler? RegisterImageViewHandler;
+
+        public static event RemoveImageViewHandler? RemoveImageViewHandler;
 
         private static View[]? Views { get; set; }
 
-        //保留原先的写法，记忆错乱，lambda.dll 并未做出正确的更改
-        //沟通过这个实现细节，为了防止子程序附加委托，错误的情况会让其修正
-
         public static void Initialize(LogHandler logHandler, LogHandler logHandler2, AddEventHandler addEventHandler, CallEventHandler callEventHandler, RegisterImageViewHandler registerImageViewHandler, View[] views)
         {
-            //LogHandler = logHandler;
-            //LogHandler2 = logHandler2;
-            //AddEventHandler = addEventHandler;
-            //CallEventHandler = callEventHandler;
-            //RegisterImageViewHandler = registerImageViewHandler;
-            //Views = views;
-
             if (logHandler != null)
                 LogHandler = (LogHandler)Delegate.Combine(LogHandler, logHandler);
 
