@@ -246,17 +246,16 @@ namespace ConfigObjective
         private void UpdateGlobal()
         {
             if (!IsFirstUpdate)
+            {
+                IsFirstUpdate = false;
                 MessageBox.Show("根据参数更新");
+            }
 
             CameraSetting_Update();
             ObjectiveSetting_Update();
             ViewMode_Update();
             Stage_Update();
             MulDimensional_Update();
-            if (IsFirstUpdate)
-                IsFirstUpdate = false;
-
-
         }
 
 
