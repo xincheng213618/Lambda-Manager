@@ -1,5 +1,6 @@
 ﻿using ConfigBottomView;
 using Global.Controls;
+using Global.Mode.Config;
 using Global.UserControls;
 using Global.UserControls.DrawVisual;
 using Lambda;
@@ -762,6 +763,7 @@ namespace Global
                 Binding binding2 = new Binding("MoveChecked");
                 ToggleButton ToggleButtonMove = ((ToggleButton)topToolbar.Children[2]);
                 ToggleButtonMove.SetBinding(ToggleButton.IsCheckedProperty, binding2);
+                ImageViewState.toolTop.MoveChecked = true;
 
                 //Binding binding3 = new Binding("SearchChecked");
                 //ToggleButton ToggleButtonSearch = ((ToggleButton)topToolbar.Children[3]);

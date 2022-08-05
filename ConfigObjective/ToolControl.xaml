@@ -476,6 +476,8 @@
                 <TextBlock Text="{Binding ElementName=ToggleButton503,Path=Content}" Visibility="{Binding ElementName=ToggleButton503 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
                 <TextBlock Text="{Binding ElementName=ToggleButton504,Path=Content}" Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
                 <TextBlock Text="{Binding ElementName=ToggleButton505,Path=Content}" Visibility="{Binding ElementName=ToggleButton505 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
+                <TextBlock Text="{Binding ElementName=ToggleButton506,Path=Content}" Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
+
             </StackPanel>
         </StackPanel>
 
