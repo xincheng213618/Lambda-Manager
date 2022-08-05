@@ -807,6 +807,7 @@ namespace Global
                 GridLength leftViewtemp = new GridLength(0);
 
                 double tempLeft=0, tempTop=0, tempWidth = 0, tempHeight = 0;
+                ResizeMode resizeMode = new ResizeMode();
 
                 // viewMax
                 ToggleButtonInline.Checked += delegate
@@ -821,11 +822,12 @@ namespace Global
                     border.Background = Brushes.Transparent;
                     border.BorderThickness = new Thickness(0);
                     Grid grid = (Grid)border.Child;
+                    Grid Grid1 = (Grid)grid.Children[0];
 
-                    grid.Children[0].Visibility = Visibility.Collapsed;
-                    grid.Children[1].Visibility = Visibility.Collapsed;
-                    grid.Children[2].Visibility = Visibility.Collapsed;
-                    grid.Children[3].Visibility = Visibility.Collapsed;
+                    Grid1.Children[0].Visibility = Visibility.Collapsed;
+                    Grid1.Children[1].Visibility = Visibility.Collapsed;
+                    Grid1.Children[2].Visibility = Visibility.Collapsed;
+                    Grid1.Children[3].Visibility = Visibility.Collapsed;
 
                     StatusBar statusBar = (StatusBar)mainwin.FindName("statusBar");
                     Grid stageAcquisition = (Grid)mainwin.FindName("stageAcquisition");
@@ -843,6 +845,8 @@ namespace Global
                     stageAcquisition.Children[5].Visibility = Visibility.Collapsed;
                     System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
                     mainwin.WindowStyle = WindowStyle.None;
+                    resizeMode = mainwin.ResizeMode;
+                    mainwin.ResizeMode = ResizeMode.NoResize;
 
                     tempLeft = mainwin.Left;
                     tempTop = mainwin.Top;
@@ -874,11 +878,12 @@ namespace Global
                     border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
                     border.BorderThickness =new Thickness(2);
                     Grid grid = (Grid)border.Child;
+                    Grid Grid1 = (Grid)grid.Children[0];
 
-                    grid.Children[0].Visibility = Visibility.Visible;
-                    grid.Children[1].Visibility = Visibility.Visible;
-                    grid.Children[2].Visibility = Visibility.Visible;
-                    grid.Children[3].Visibility = Visibility.Visible;
+                    Grid1.Children[0].Visibility = Visibility.Visible;
+                    Grid1.Children[1].Visibility = Visibility.Visible;
+                    Grid1.Children[2].Visibility = Visibility.Visible;
+                    Grid1.Children[3].Visibility = Visibility.Visible;
                     StatusBar statusBar = (StatusBar)mainwin.FindName("statusBar");
                     Grid stageAcquisition = (Grid)mainwin.FindName("stageAcquisition");
                     Grid mainGrid = (Grid)stageAcquisition.Parent;
@@ -892,6 +897,8 @@ namespace Global
                     statusBar.Visibility = Visibility.Visible;
                     stageAcquisition.Visibility = Visibility.Visible;
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;
+                    mainwin.ResizeMode = resizeMode;
+
                     mainwin.Left = tempLeft;
                     mainwin.Top = tempTop;
                     mainwin.Width = tempWidth;
