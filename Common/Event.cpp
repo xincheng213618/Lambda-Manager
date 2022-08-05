@@ -132,7 +132,6 @@ Event::~Event()
 
 void Event::Trigger(std::string type)
 {
-
 	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
 	{
 		if (it->second == type) {
@@ -140,7 +139,9 @@ void Event::Trigger(std::string type)
 			if (it2 != ArgumentType_map.end()) {
 				if (it2->second == NO_ARGS) {
 					callBack1(it->first, NULL);
-					return;
+				}
+				else if (it2->second == JSON_STRING) {
+					callBack3(it->first, NULL, NULL);
 				}
 			}
 		}
@@ -174,6 +175,7 @@ void Event::Trigger(std::string type, const json* event)
 			callBack3(it->first, (void*)((json*)event)->dump().c_str(), NULL);
 		}
 	}
+
 
 	auto it11 = FunctionEvent_map.find(type);
 	if (it11 != FunctionEvent_map.end()) {

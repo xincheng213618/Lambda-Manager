@@ -250,8 +250,7 @@ int PlayFilm(std::string fileName) {
 	}
 
 	if (pView->GetIndex() == 4) {
-		json j4;
-		Event::Trigger("CollectionCompleted", &j4);
+		Event::Trigger("COLLECTION_COMPLETED");
 	}
 
 	

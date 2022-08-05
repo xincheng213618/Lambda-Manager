@@ -54,9 +54,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
 
-            LambdaControl.AddLambdaEventHandler("CollectionCompleted", CollectionCompleted, false);
-
-           
+            LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);         
         }
 
         private bool CollectionCompleted(object sender, EventArgs e)
