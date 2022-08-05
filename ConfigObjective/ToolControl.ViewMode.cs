@@ -440,15 +440,8 @@ namespace ConfigObjective
             DockPanel335.Visibility = Visibility.Collapsed;
             Slider336.Visibility = Visibility.Collapsed;
 
-            //Color330.Visibility = Visibility.Visible;
-            //Color331.Visibility = Visibility.Visible;
-            //Color332.Visibility = Visibility.Visible;
-
             if (RheinbergSelectMode == 0)
             {
-                //Color332.Visibility =Visibility.Collapsed;
-
-
                 darkness2 = -1;
             }
             if (RheinbergSelectMode == 3)

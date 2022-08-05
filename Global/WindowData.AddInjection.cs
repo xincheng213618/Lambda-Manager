@@ -21,6 +21,15 @@ using System.Windows.Resources;
 namespace Global
 {
 
+    enum ViewWindowMode
+    {
+        FIRST_WINDOW,
+        SECOND_WINDOW,
+        FOURTH_WINDOW,
+        SIXTH_WINDOW,
+        DOUBLE_WINDOW
+    };
+
     /// <summary>
     /// 监听AddInjection事件
     /// </summary>
@@ -288,7 +297,6 @@ namespace Global
                 {
                     item.Checked += delegate (object sender, RoutedEventArgs e)
                     {
-
                         foreach (var item1 in RightTools)
                         {
                             if (item1 != item)
@@ -324,7 +332,7 @@ namespace Global
                      if (QuaterTogg.IsChecked == true)
                     {
 
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 2 } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", ViewWindowMode.SECOND_WINDOW } });
                             histogramTogg.IsChecked = false;
                             histogramTogg.IsEnabled = false;
     
@@ -344,8 +352,7 @@ namespace Global
                    
                     if (QuaterTogg.IsChecked == true)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 4 } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
                         
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
@@ -363,8 +370,7 @@ namespace Global
                    
                     if (QuaterTogg.IsChecked == true)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 6 } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
 
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
@@ -383,7 +389,7 @@ namespace Global
                     {
                         LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
 
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 4 } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
 
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
@@ -392,7 +398,7 @@ namespace Global
                     else if ((bool)quaterPopup.six.IsChecked)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 6 } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
 
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
@@ -400,7 +406,7 @@ namespace Global
                     }
                     else if ((bool)quaterPopup.dual.IsChecked)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 2 } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
 
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
@@ -414,46 +420,39 @@ namespace Global
                 {
                     if (DualTogg.IsChecked == false)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 1 } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW} });
                         if (histogramTogg.IsEnabled == false)
                         {
                             histogramTogg.IsEnabled = true;
                         }
-                        try
+                        if (drawingCanvasInk[0] != null)
                         {
                             if (drawingCanvasInk[0].InkCanvas.ContextMenu != null)
                             {
                                 drawingCanvasInk[0].InkCanvas.ContextMenu = null;
                             }
                         }
-                       catch (Exception ex)
-                        {
-
-                        }
-
+                    }
+                    else
+                    {
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.DOUBLE_WINDOW } });
                     }
 
                 };
                 QuaterTogg.Checked += FourWindowTogg_Checked;
                 QuaterTogg.Unchecked += delegate
                 {
-                    LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
-                    LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", 1} });
+                    LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW } });
                     if (histogramTogg.IsEnabled == false)
                     {
                         histogramTogg.IsEnabled = true;
                     }
-                    try
+                    if (drawingCanvasInk[0] != null)
                     {
                         if (drawingCanvasInk[0].InkCanvas.ContextMenu != null)
                         {
                             drawingCanvasInk[0].InkCanvas.ContextMenu = null;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-
                     }
                 };                           
             }

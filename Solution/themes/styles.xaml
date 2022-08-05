@@ -147,7 +147,25 @@
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
     </Style>
     <!--#endregion-->
-
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <Border Name="Border" Background="#1F1F1F" BorderBrush="#707070"  BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <ContentPresenter Margin="4"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasDropShadow"  Value="true">
+                            <Setter TargetName="Border"  Property="CornerRadius" Value="4" />
+                            <Setter TargetName="Border"  Property="SnapsToDevicePixels" Value="true" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!--#region TabControl-->
     <Style x:Key="NormalTabItem" TargetType="{x:Type TabItem}">
         <Setter Property="FocusVisualStyle" Value="{DynamicResource TabItemFocusVisual}"/>

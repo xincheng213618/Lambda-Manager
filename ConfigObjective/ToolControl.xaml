@@ -226,13 +226,13 @@
 
                         <DockPanel x:Name="DockPanel332" >
                             <TextBlock Width="80" Text="明场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Rectangle  x:Name="Color330"  DockPanel.Dock="Left" Fill="Red" Height="20" Width="20"   VerticalAlignment="Center"  HorizontalAlignment="Right" Margin="5,0,10,0" Visibility="Collapsed"/>
+                            <Rectangle  x:Name="Color330"  DockPanel.Dock="Left" Fill="blue" Height="20" Width="20"   VerticalAlignment="Center"  HorizontalAlignment="Right" Margin="5,0,10,0" Visibility="Collapsed"/>
                             <Slider x:Name="Slider333" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
                         <DockPanel x:Name="DockPanel333" >
                             <TextBlock Width="80" Text="暗场亮度" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
-                            <Rectangle x:Name="Color331"  DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed"/>
-                            <Rectangle x:Name="Color332" DockPanel.Dock="Left" Fill="Lime" Height="20" Width="20"  VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Right" Margin="5,0,10,0"/>
+                            <Rectangle x:Name="Color331"  DockPanel.Dock="Left" Fill="Yellow" Height="20" Width="20"  VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed"/>
+                            <Rectangle x:Name="Color332" DockPanel.Dock="Left" Fill="Yellow" Height="20" Width="20"  VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Right" Margin="5,0,10,0"/>
                             <Slider x:Name="Slider334" Style="{StaticResource LM_Slider}" Value="5" Minimum="0" Maximum="15" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                         </DockPanel>
 
