@@ -11,7 +11,7 @@ namespace Lambda
     public delegate bool LambdaHandler(object sender, EventArgs e);
     public delegate void LogHandler(Message message);
     public delegate int RegisterImageViewHandler(Image image);
-    public delegate void RemoveImageViewHandler(int register);
+    public delegate void StopRegisteredImageView(int register);
 
     public class LambdaArgs : EventArgs
     {
@@ -53,7 +53,7 @@ namespace Lambda
 
         public static event RegisterImageViewHandler? RegisterImageViewHandler;
 
-        public static event RemoveImageViewHandler? RemoveImageViewHandler;
+        public static event StopRegisteredImageView? RemoveImageViewHandler;
 
         private static View[]? Views { get; set; }
 

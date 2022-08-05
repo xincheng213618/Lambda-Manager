@@ -253,7 +253,7 @@ int PlayFilm(std::string fileName) {
 		Event::Trigger("COLLECTION_COMPLETED");
 	}
 
-	
+	Event::Trigger("PREVIEW_CLOSE");
 
 	for (;;)
 	{

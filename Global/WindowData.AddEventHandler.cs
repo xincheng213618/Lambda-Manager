@@ -49,11 +49,13 @@ namespace Global
 
             //控制直方图显示和隐藏
             LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
-            LambdaControl.AddLambdaEventHandler("seriesProjectManager111", seriesProjectManager, false);
+            //预览关闭
+            LambdaControl.AddLambdaEventHandler("PREVIEW_CLOSE", seriesProjectManager, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
 
+            //采集关闭
             LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);         
         }
 
@@ -86,21 +88,26 @@ namespace Global
         }
         private bool seriesProjectManager(object sender, EventArgs e)
         {
-            Window mainwin = Application.Current.MainWindow;
-            if (mainwin == null) return false;
-            Grid grid = (Grid)mainwin.FindName("stageAcquisition");
-            if (grid == null) return false;
-            DockPanel dockPanel = (DockPanel)grid.Children[1];
-            ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
-            if (toggleButton != null&& toggleButton.IsChecked == true)
+            Application.Current.Dispatcher.Invoke(delegate
             {
-                toggleButton.IsChecked =false;
-                toggleButton.Content = "预览";
-                EventArgs eventArgs = new EventArgs();
-                //LambdaControl.Trigger("STOP_ALIVE",this, eventArgs);
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
+                {
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
+                        if (toggleButton != null && toggleButton.IsChecked == true)
+                        {
+                            toggleButton.IsChecked = false;
+                            toggleButton.Content = "预览";
+                            EventArgs eventArgs = new EventArgs();
+                        }
+                    }
+                }
 
-                // toggleButton.PerformClick();
-            }
+            });
            
             return true;
    
@@ -230,7 +237,6 @@ namespace Global
 
 
 
-        int ShowWindow = 1;
 
         private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
@@ -239,16 +245,7 @@ namespace Global
             View view = LambdaControl.GetImageView(viewdex);
             if (view == null)
                 return true;
-            //if (viewdex == 0&& FirstImage != null)
-            //{
-            //    if (FirstImage.Parent is Grid gird)
-            //    {
-            //        gird.Children.Remove(FirstImage);
-            //        FirstImage = null;
-            //    }
-            //}
             AddImageConfident(view.Image,viewdex);
-
             return true;
         }
 
@@ -315,11 +312,9 @@ namespace Global
                 return false;
             updateStatus.ImageX = GetStringValue(eventData, "x");
             WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
-            //mapModel.StageX = WindowMsg.StageX / 150;
 
             updateStatus.ImageY = GetStringValue(eventData, "y");
             WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
-            //mapModel.StageY = WindowMsg.StageY / 150;
 
             updateStatus.ImageZ = GetStringValue(eventData, "z");
             WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
@@ -388,7 +383,6 @@ namespace Global
                             List<int> ints = new List<int> { };
                             for (int j = 0; j < views[1].Length; j++)
                             {
-
                                 ints.Add(int.Parse(views[1].Substring(j, 1)));
                             }
 
@@ -439,7 +433,15 @@ namespace Global
                     menuItem1s[i].Click += delegate
                     {
                         menuItem1.IsChecked = true;
-                        LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
+                        if (ints.Count == 1)
+                        {
+                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
+                        }
+                        else if (ints.Count == 2)
+                        {
+                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
+                        }
+
                     };
                     contextMenu.Items.Add(menuItem1s[i]);
 
@@ -487,11 +489,6 @@ namespace Global
                     int size = (int)eventData["size"];
 
                     IntPtr intPtr = (IntPtr)eventData["data"];
-                    //byte[] aaa = new byte[size];
-                    //Marshal.Copy(intPtr, aaa, 0, size);
-                    //GCHandle pinnedArray = GCHandle.Alloc(aaa, GCHandleType.Pinned);
-                    //IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                    //pinnedArray.Free();
 
                     if (image.Source is WriteableBitmap writeableBitmap1)
                     {

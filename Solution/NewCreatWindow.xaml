@@ -6,12 +6,60 @@
         xmlns:local="clr-namespace:Solution"
         xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Title="NewCreatWindow" Height="450" Width="800" Background="#242424">
+        Height="450" Width="800" Background="#242424" Initialized="BaseWindow_Initialized">
     <Grid>
-        
-        
-        
-      
-        
+        <TextBlock Text="新建工程" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
+        <Grid Margin="10">
+            <StackPanel>
+                <DockPanel>
+                    <TextBlock Text="选择文件位置"/>
+                    <TextBox Text=""/>
+                    <Button Content="..." Click="Button_Click"/>
+
+                </DockPanel>
+                <ListView x:Name="ListView1" >
+                    
+                    <ListView.ItemContainerStyle >
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            
+                            <Style.Triggers>  
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" Value="#333333"/>
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="true">
+                                    <Setter Property="Background" Value="#333333"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background" Value="#333333"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                        <Run Text="{Binding Path=Name}"/>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </StackPanel>
+            
+            
+
+        </Grid>
+
+
+
+
+
+
     </Grid>
 </Base:BaseWindow>

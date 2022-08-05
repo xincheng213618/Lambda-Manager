@@ -128,7 +128,7 @@ namespace Solution
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
                         LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
-                        LambdaControl.Trigger("seriesProjectManager111", this, new Dictionary<string, object>() { } );
+                        LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { } );
                     }
                 }
 
