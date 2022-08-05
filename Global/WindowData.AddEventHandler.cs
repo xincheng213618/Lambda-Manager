@@ -43,8 +43,6 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
 
-            //控制直方图显示和隐藏
-            LambdaControl.AddLambdaEventHandler("HistogramImageShow", HistogramImageShow, false);
             //预览关闭
             LambdaControl.AddLambdaEventHandler("PREVIEW_CLOSE", seriesProjectManager, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
@@ -107,38 +105,6 @@ namespace Global
    
         }
 
-
-        /// <summary>
-        /// 更新位移台坐标
-        /// </summary>
-        private bool HistogramImageShow(object sender, EventArgs e)
-        {
-            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-            if (eventData == null)
-                return false;
-
-            int window = (int)eventData["window"];
-            int flag = (int)eventData["flag"];
-
-            if (window>=0&&window<= LambdaBottomViews.Length)
-            {
-                if (LambdaBottomViews[window] != null)
-                {
-                    if (flag == 1)
-                    {
-                        LambdaBottomViews[window].Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        LambdaBottomViews[window].Visibility = Visibility.Collapsed;
-                    }
-                }
-            }
-
-
-
-            return true;
-        }
 
         public bool IsSelectImageView = true;
         public int SelectImageView = -1;

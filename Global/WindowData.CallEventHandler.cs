@@ -35,9 +35,8 @@ namespace Global
         public double ratio =1;
 
 
-        public async void AddImageConfident(Image image1, int viewindex)
+        public  void AddImageConfident(Image image1, int viewindex)
         {
-           
             DrawMethod drawMethod = new DrawMethod();
             DrawingVisualInk drawingVisualInk = new DrawingVisualInk(ImageViewState.toolTop, drawMethod, ratio);
 
@@ -96,7 +95,7 @@ namespace Global
                                 {
                                     DrawingVisual dimDefaultVisual = new DrawingVisual();
                                     drawingVisualInk.InkCanvas.AddVisual(dimDefaultVisual);
-                                    drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
+                                    drawMethod.DrawDimension(image1.ActualWidth, image1.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
                                 }
                             }
                         };
@@ -183,9 +182,9 @@ namespace Global
                                         }
 
                                     }
-                                    else if (topLeftCorner.Y >= image.ActualHeight - 130)
+                                    else if (topLeftCorner.Y >= image1.ActualHeight - 130)
                                     {
-                                        if (topLeftCorner.X < image.ActualWidth - 120)
+                                        if (topLeftCorner.X < image1.ActualWidth - 120)
                                         {
 
                                             drawMethod.DrawPixelSquareUp(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image1.ActualWidth, image1.ActualHeight);
