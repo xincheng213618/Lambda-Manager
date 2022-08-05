@@ -39,25 +39,16 @@ namespace Solution
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //执行一次
-            if (IsFirstLoad)
+            if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
-                if (this.Parent is StackPanel stackPanel1)
-                    if (stackPanel1.Parent is Viewbox viewbox1)
-                        if (viewbox1.Parent is ScrollViewer scrollViewer1)
-                        {
-                            stackPanel1.Children.Remove(this);
+                stackPanel1.Children.Remove(this);
 
-                            StackPanel stackPanel = new StackPanel() { Name = "projectView", Margin = new Thickness(2, 2, 2, 0) };
-                            stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                            stackPanel.Children.Add(this);
-                            Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top };
-                            viewbox.Child = stackPanel;
-                            scrollViewer1.Content = viewbox;
-                        }
-
-                //清理掉对第一个image的引用
-                View view = LambdaControl.GetImageView(0);
+                StackPanel stackPanel = new StackPanel() { Name = "projectView", Margin = new Thickness(2, 2, 2, 0) };
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                stackPanel.Children.Add(this);
+                Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top };
+                viewbox.Child = stackPanel;
+                scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
             }
         }
