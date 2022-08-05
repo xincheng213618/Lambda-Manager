@@ -69,14 +69,21 @@ namespace LambdaManager.Core
             SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopSchedule), 14);
 
             GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
-            LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
+            LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, StopRegisterImage, Views);
             Initialize();
 
         }
 
 
 
-
+        private static void StopRegisterImage(int index)
+        {
+            foreach (var item in RegisterImageViews)
+            {
+                if (item.Index == index)
+                    RegisterImageViews.Remove(item);
+            }
+        }
         private static int RegisterImage(Image image)
         {
             View view = new View(image, -RegisterImageViews.Count - 1);
