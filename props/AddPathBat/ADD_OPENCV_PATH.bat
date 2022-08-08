@@ -1,0 +1,1 @@
+setx OPENCV_PATH %cd%
