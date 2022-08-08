@@ -1,10 +1,13 @@
-namespace LambdaManager.DataType;
-
-internal class IO
+namespace LambdaManager.DataType
 {
-	internal string? Name { get; set; }
+    public class IO
+    {
+        public string? Name { get; set; }
 
-	internal string? Type { get; set; }
+        public string? Type { get; set; }
 
-	internal string? Value { get; set; }
+        public string? Value { get; set; }
+    }
+
 }
+

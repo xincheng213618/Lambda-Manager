@@ -1,14 +1,17 @@
-namespace LambdaManager.DataType;
-
-internal class VirtualLink : Link
+namespace LambdaManager.DataType
 {
-	internal Function SourceFunction { get; set; }
+    public class VirtualLink : Link
+    {
+        public Function SourceFunction { get; set; }
 
-	internal int TargetGroup { get; set; }
+        public int TargetGroup { get; set; }
 
-	internal VirtualLink(Function srcFunction, int group)
-	{
-		SourceFunction = srcFunction;
-		TargetGroup = group;
-	}
+        public VirtualLink(Function srcFunction, int group)
+        {
+            SourceFunction = srcFunction;
+            TargetGroup = group;
+        }
+    }
 }
+
+

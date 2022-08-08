@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T12
+public class T12
 {
 	public static object ToBool(TypeInfo info, object value)
 	{

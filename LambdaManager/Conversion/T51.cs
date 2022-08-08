@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T51
+public class T51
 {
 	public static object ToFloat(TypeInfo info, object value)
 	{

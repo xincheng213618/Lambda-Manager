@@ -1,8 +1,11 @@
-namespace LambdaManager.DataType;
-
-internal class InputFor
+namespace LambdaManager.DataType
 {
-	internal int FuncIndex { get; set; }
+    public class InputFor
+    {
+        public int FuncIndex { get; set; }
 
-	internal int ArgIndex { get; set; }
+        public int ArgIndex { get; set; }
+    }
+
 }
+

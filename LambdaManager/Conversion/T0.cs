@@ -5,7 +5,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T0
+public class T0
 {
 	public static nint ToAddress(TypeInfo? typeInfo, object value)
 	{

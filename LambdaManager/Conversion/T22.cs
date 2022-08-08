@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T22
+public class T22
 {
 	public static object ToUChar(TypeInfo info, object value)
 	{

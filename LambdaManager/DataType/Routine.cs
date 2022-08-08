@@ -2,19 +2,19 @@ using System.Collections.Generic;
 
 namespace LambdaManager.DataType;
 
-internal class Routine
+public class Routine
 {
-	internal static Routine PLACEHOLDER = new Routine();
+	public static Routine PLACEHOLDER = new Routine();
 
-	internal bool Async;
+	public bool Async;
 
-	internal List<Function>? Functions { get; set; }
+	public List<Function>? Functions { get; set; }
 
-	internal Dictionary<Location, LocationConverter>? Referring { get; set; }
+	public Dictionary<Location, LocationConverter>? Referring { get; set; }
 
-	internal Dictionary<Function, List<Location>>? Referred { get; set; }
+	public Dictionary<Function, List<Location>>? Referred { get; set; }
 
-	internal Routine Clone()
+	public Routine Clone()
 	{
 		return new Routine
 		{

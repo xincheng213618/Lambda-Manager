@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T41
+public class T41
 {
 	public static object ToInt64(TypeInfo info, object value)
 	{

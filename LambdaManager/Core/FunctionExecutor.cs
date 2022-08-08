@@ -12,7 +12,7 @@ using LambdaUtils;
 
 namespace LambdaManager.Core
 {
-    internal static class FunctionExecutor
+    public static class FunctionExecutor
     {
         private static readonly Location RotineScope = new Location();
 
@@ -476,7 +476,7 @@ namespace LambdaManager.Core
             }
         }
 
-        internal static void RaiseEvents(List<Event> Events, List<object?>? arguments, EntryPoint? entry)
+        public static void RaiseEvents(List<Event> Events, List<object?>? arguments, EntryPoint? entry)
         {
             int result = 0;
             foreach (Event evt in Events)

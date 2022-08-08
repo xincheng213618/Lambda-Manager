@@ -31,7 +31,7 @@ namespace LambdaManager.Core
         CLOSE_IMAGE_VIEW
     }
 
-    internal class TypeInfo
+    public class TypeInfo
     {
         private static int[] nonJsonTypes = new int[11]
         {
@@ -39,11 +39,11 @@ namespace LambdaManager.Core
         83
         };
 
-        internal int Id { get; set; }
+        public int Id { get; set; }
 
-        internal int Size { get; set; }
+        public int Size { get; set; }
 
-        internal Converter? GetConverter(List<CastType> castTypes)
+        public Converter? GetConverter(List<CastType> castTypes)
         {
             if (castTypes.Count == 0)
             {
@@ -95,12 +95,12 @@ namespace LambdaManager.Core
             return converter;
         }
 
-        internal object? GetAddress(object value)
+        public object? GetAddress(object value)
         {
             return T0.ToAddress(this, value);
         }
 
-        internal object? GetValue(object address)
+        public object? GetValue(object address)
         {
             return T0.ToValue(this, address);
         }
@@ -185,7 +185,7 @@ namespace LambdaManager.Core
             return T66.ToDecimal(this, value);
         }
 
-        internal bool IsJsonType()
+        public bool IsJsonType()
         {
             return Array.IndexOf(nonJsonTypes, Id) == -1;
         }

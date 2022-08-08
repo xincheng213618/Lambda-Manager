@@ -37,7 +37,7 @@ extern "C" CAMERA_API int test_double(double exposure);
 
 extern "C" CAMERA_API int MatShow(cv::Mat * Test);
 extern "C" CAMERA_API int MatShow1(cv::Mat * Test , int num);
-
+extern "C" CAMERA_API  int ViewWindow(int type, int window, int mode1, int mode2);
 struct Cam
 {
 	char ip[16];

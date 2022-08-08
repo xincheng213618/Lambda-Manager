@@ -24,11 +24,11 @@ namespace LambdaManager
         public TabControl tabControl;
 
         public List<int> ClosingViewIndex = Common.ClosingViewIndex;
-        internal bool Maximize { get; set; }
-        internal bool IsLeftViewHidden { get; set; }
-        internal bool IsMiddleViewHidden { get; set; }
-        internal double LeftViewWidth { get; set; }
-        internal double MiddleViewWidth { get; set; }
+        public bool Maximize { get; set; }
+        public bool IsLeftViewHidden { get; set; }
+        public bool IsMiddleViewHidden { get; set; }
+        public double LeftViewWidth { get; set; }
+        public double MiddleViewWidth { get; set; }
 
         public MainWindow()
         {
@@ -55,9 +55,11 @@ namespace LambdaManager
         public void AddMessage(Message message)
         {
             Messagess.Add(message);
+            msgList.SelectedIndex = Messagess.Count - 1;
+
         }
 
-        internal MenuItem? AddMenuItem(string path)
+        public MenuItem? AddMenuItem(string path)
         {
             ItemCollection items = menu.Items;
             if (items == null)

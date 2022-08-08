@@ -18,7 +18,7 @@ using Quartz;
 
 namespace LambdaManager.Core
 {
-    internal  class Common
+    public  class Common
     {
         public static View[] Views { get; } = new View[100];
 
@@ -36,11 +36,11 @@ namespace LambdaManager.Core
 
         private static readonly List<LambdaHandler> ui_handlers = new List<LambdaHandler>();
 
-        internal static IScheduler? Scheduler;
+        public static IScheduler? Scheduler;
 
 
 
-        internal unsafe static void Init()
+        public unsafe static void Init()
         {
 
             SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);

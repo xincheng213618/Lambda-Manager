@@ -3,7 +3,7 @@ using LambdaManager.DataType;
 
 namespace LambdaManager.Utils;
 
-internal class CollectionUtils
+public class CollectionUtils
 {
 	public static object? Insert<T>(List<T?> list, int index, T? value)
 	{

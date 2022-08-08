@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T66
+public class T66
 {
 	public static object ToDecimal(TypeInfo info, object value)
 	{

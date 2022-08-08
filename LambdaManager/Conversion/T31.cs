@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T31
+public class T31
 {
 	public static object ToInt32(TypeInfo info, object value)
 	{

@@ -14,9 +14,9 @@ public class FPSCounter
         set { fps = value; }
     }
 
-	internal int Counter;
+	public int Counter;
 
-	internal DateTime Start = DateTime.Now;
+	public DateTime Start = DateTime.Now;
 
 
 	public void Inc()

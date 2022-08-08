@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T11
+public class T11
 {
 	public static object ToBoolean(TypeInfo info, object value)
 	{

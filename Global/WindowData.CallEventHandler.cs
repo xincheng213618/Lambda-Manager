@@ -42,16 +42,19 @@ namespace Global
             DrawMethod drawMethod = new DrawMethod();
             DrawingVisualInk drawingVisualInk = new DrawingVisualInk(ImageViewState.toolTop, drawMethod, ratio);
 
-            // MessageBox.Show("1111");
             if (image1.Parent is Grid grid0)
             {
-
                 try
                 {
-                   
                     drawingCanvasInk[viewindex] = drawingVisualInk;
                     if (ViewContentMenuCache.ContainsKey(viewindex))
                         AddViewContentMenu(viewindex, ViewContentMenuCache[viewindex]);
+
+                    if (FirstImage != null && FirstImage.Parent is Grid gridss)
+                    {
+                        gridss.Children.Remove(FirstImage);
+                        FirstImage = null;
+                    }
 
                     if (image1.Parent is Grid grid1)
                     {

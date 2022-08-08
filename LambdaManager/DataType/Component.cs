@@ -3,21 +3,21 @@ using System.Text.RegularExpressions;
 
 namespace LambdaManager.DataType;
 
-internal class Component
+public class Component
 {
-	internal string? Name { get; set; }
+	public string? Name { get; set; }
 
-	internal string? Lib { get; set; }
+	public string? Lib { get; set; }
 
-	internal List<string>? Init { get; set; }
+	public List<string>? Init { get; set; }
 
-	internal string? Mount { get; set; }
+	public string? Mount { get; set; }
 
-	internal List<string>? Depend { get; set; }
+	public List<string>? Depend { get; set; }
 
-	internal List<Procedure>? Procedures { get; set; }
+	public List<Procedure>? Procedures { get; set; }
 
-	internal string? GetLibShortName()
+	public string? GetLibShortName()
 	{
 		if (Lib == null)
 		{
@@ -26,7 +26,7 @@ internal class Component
 		return Regex.Replace(Regex.Split(Lib, "[/\\\\]+")[^1], "\\.dll", "", RegexOptions.IgnoreCase);
 	}
 
-	internal bool IsGUIComponent()
+	public bool IsGUIComponent()
 	{
 		return Mount != null;
 	}

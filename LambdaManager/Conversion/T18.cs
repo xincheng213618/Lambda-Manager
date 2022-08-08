@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T18
+public class T18
 {
 	public static object ToSByte(TypeInfo info, object value)
 	{

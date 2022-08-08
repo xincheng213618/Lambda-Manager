@@ -9,7 +9,7 @@ using LambdaManager.Properties;
 
 namespace LambdaManager.Config;
 
-internal class ConfigValidate
+public class ConfigValidate
 {
 	private readonly Dictionary<string, List<Action>> lib_actions = new Dictionary<string, List<Action>>();
 
@@ -45,12 +45,12 @@ internal class ConfigValidate
 
 	private readonly Dictionary<Action, List<int>> action_functionArgument = new Dictionary<Action, List<int>>();
 
-	internal Severity Severity { get; set; }  
+	public Severity Severity { get; set; }  
 
-	internal HashSet<string> Libs { get; } = new HashSet<string>();
+	public HashSet<string> Libs { get; } = new HashSet<string>();
 
 
-	internal void Report(Severity severity, Type type, string? name, string attr, string? value, string err)
+	public void Report(Severity severity, Type type, string? name, string attr, string? value, string err)
 	{
 		Log.Report(severity, type.Description(), name, attr, value, err);
 		if (Severity < severity)
@@ -59,39 +59,39 @@ internal class ConfigValidate
 		}
 	}
 
-	internal void ReportEmpty(Severity severity, Type type, string? name, string attr)
+	public void ReportEmpty(Severity severity, Type type, string? name, string attr)
 	{
 		Report(severity, type, name, attr, null, Resources.Empty);
 	}
 
-	internal void ReportNotExist(Severity severity, Type type, string? name, string attr, string? value)
+	public void ReportNotExist(Severity severity, Type type, string? name, string attr, string? value)
 	{
 		Report(severity, type, name, attr, value, Resources.NotExist);
 	}
 
-	internal void ReportNotFound(Severity severity, Type type, string? name, string attr, string? value)
+	public void ReportNotFound(Severity severity, Type type, string? name, string attr, string? value)
 	{
 		Report(severity, type, name, attr, value, Resources.NotFound);
 	}
 
-	internal void ReportFunctionReferenceNotFound(Component component, Procedure procedure, string? actionName, string referring)
+	public void ReportFunctionReferenceNotFound(Component component, Procedure procedure, string? actionName, string referring)
 	{
 		string fullName = FunctionResolver.GetFullName(component, procedure, actionName);
 		ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, Resources.Referring + Resources.Component, referring);
 	}
 
-	internal void ReportNotSupported(Severity severity, Type type, string? name, string attr, string? value)
+	public void ReportNotSupported(Severity severity, Type type, string? name, string attr, string? value)
 	{
 		Report(severity, type, name, attr, value, Resources.NotSupported);
 	}
 
-	internal void ReportArgTypeAsPointer(Component component, Procedure procedure, Action action, string attr, string? value)
+	public void ReportArgTypeAsPointer(Component component, Procedure procedure, Action action, string attr, string? value)
 	{
 		string fullName = FunctionResolver.GetFullName(component, procedure, action.Name);
 		Report(Severity.WARNING, Type.Action, fullName, attr, value, Resources.AsPointer);
 	}
 
-	internal void ReportLinkNotMatch(Link best, Action action, int index)
+	public void ReportLinkNotMatch(Link best, Action action, int index)
 	{
 		string attr = (action.IsInputIO(index) ? Resources.InputType : Resources.OutputType);
 		string refering = Resources.Referring;
@@ -117,7 +117,7 @@ internal class ConfigValidate
 		Report(Severity.FATAL_ERROR, Type.Action, name, attr, type, defaultInterpolatedStringHandler.ToStringAndClear());
 	}
 
-	internal void ReportActionImportNotSupported(Action action, List<ImportInfo> infos)
+	public void ReportActionImportNotSupported(Action action, List<ImportInfo> infos)
 	{
 		string s = "";
 		foreach (ImportInfo info in infos)
@@ -128,7 +128,7 @@ internal class ConfigValidate
 		Report(Severity.WARNING, Type.Action, action.Name, Resources.Import, s, Resources.NotExportProc);
 	}
 
-	internal void Check(Component component)
+	public void Check(Component component)
 	{
 		Type type = Type.Component;
 		string name = component.Name;
@@ -147,7 +147,7 @@ internal class ConfigValidate
 		}
 	}
 
-	internal void CheckLibShortName(List<Component> components)
+	public void CheckLibShortName(List<Component> components)
 	{
 		Dictionary<string, string> names = new Dictionary<string, string>();
 		foreach (Component component in components)
@@ -172,7 +172,7 @@ internal class ConfigValidate
 		}
 	}
 
-	internal void Check(Procedure procedure)
+	public void Check(Procedure procedure)
 	{
 		Type type = Type.Procedure;
 		string name = procedure.Name;
@@ -225,7 +225,7 @@ internal class ConfigValidate
 		}
 	}
 
-	internal void Check(Action action, Procedure procedure, Component component, List<Component> components)
+	public void Check(Action action, Procedure procedure, Component component, List<Component> components)
 	{
 		Procedure procedure2 = procedure;
 		action.Parent = procedure2;
@@ -265,7 +265,7 @@ internal class ConfigValidate
 		}
 	}
 
-	internal void CheckLocalActions()
+	public void CheckLocalActions()
 	{
 		foreach (KeyValuePair<Component, List<Action>> item in component_actions)
 		{
@@ -292,7 +292,7 @@ internal class ConfigValidate
 		}
 	}
 
-	internal List<Action>? GetLocalActions(Component component)
+	public List<Action>? GetLocalActions(Component component)
 	{
 		string libShortName = component.GetLibShortName();
 		if (libShortName == null)
@@ -303,7 +303,7 @@ internal class ConfigValidate
 		return actions;
 	}
 
-	internal void Check(Input input, int index, Action action, Procedure procedure, Component component)
+	public void Check(Input input, int index, Action action, Procedure procedure, Component component)
 	{
 		if (input.Type == "action")
 		{
@@ -331,12 +331,12 @@ internal class ConfigValidate
 		}
 	}
 
-	internal void Check(Output output, int index, Action action, Procedure procedure, Component component)
+	public void Check(Output output, int index, Action action, Procedure procedure, Component component)
 	{
 		CheckIO(output, index, action, procedure, component);
 	}
 
-	internal void CheckIO(IO io, int index, Action action, Procedure procedure, Component component)
+	public void CheckIO(IO io, int index, Action action, Procedure procedure, Component component)
 	{
 		Type clazz = ((io is Input) ? Type.Input : Type.Output);
 		if (io.Name != null)
@@ -419,7 +419,7 @@ internal class ConfigValidate
 		imports.Add(info);
 	}
 
-	internal List<string> CheckActionImports(List<ImportInfo>? infos, Action action)
+	public List<string> CheckActionImports(List<ImportInfo>? infos, Action action)
 	{
 		List<string> imports = new List<string>();
 		if (infos == null)
@@ -455,7 +455,7 @@ internal class ConfigValidate
 		return size;
 	}
 
-	internal EntryPoint? GetEntryPoint(string sigName)
+	public EntryPoint? GetEntryPoint(string sigName)
 	{
 		if (!sigName_entrypoints.TryGetValue(sigName, out var entrypoint))
 		{
@@ -464,19 +464,19 @@ internal class ConfigValidate
 		return entrypoint;
 	}
 
-	internal List<KeyValuePair<string, EntryPoint>> GetSimilarEntryPoints(string sigNameWithoutParameters)
+	public List<KeyValuePair<string, EntryPoint>> GetSimilarEntryPoints(string sigNameWithoutParameters)
 	{
 		string sigNameWithoutParameters2 = sigNameWithoutParameters;
 		return sigName_entrypoints.Where<KeyValuePair<string, EntryPoint>>((KeyValuePair<string, EntryPoint> prop) => prop.Key.StartsWith(sigNameWithoutParameters2)).ToList();
 	}
 
-	internal void AddEntryPoint(string sigName, EntryPoint entry, Action action)
+	public void AddEntryPoint(string sigName, EntryPoint entry, Action action)
 	{
 		sigName_entrypoints.Add(sigName, entry);
 		entry_actions.Add(entry, action);
 	}
 
-	internal List<object?>? GetDefaultValues(EntryPoint entry)
+	public List<object?>? GetDefaultValues(EntryPoint entry)
 	{
 		entry_actions.TryGetValue(entry, out var action);
 		if (action == null)
@@ -488,22 +488,22 @@ internal class ConfigValidate
 		return functionResolver.DefaultValues;
 	}
 
-	internal void AddFunctionAction(Function function, Action action)
+	public void AddFunctionAction(Function function, Action action)
 	{
 		function_actions.Add(function, action);
 	}
 
-	internal Action? GetAction(Function function)
+	public Action? GetAction(Function function)
 	{
 		return function_actions[function];
 	}
 
-	internal Action? GetAction(EntryPoint entry)
+	public Action? GetAction(EntryPoint entry)
 	{
 		return entry_actions[entry];
 	}
 
-	internal Action? GetOriginalAction(Function function)
+	public Action? GetOriginalAction(Function function)
 	{
 		EntryPoint entry = function.EntryPoint;
 		if (entry == null)
@@ -513,7 +513,7 @@ internal class ConfigValidate
 		return entry_actions[entry];
 	}
 
-	internal List<object?>? GetDefaultValues(Action action, EntryPoint entry)
+	public List<object?>? GetDefaultValues(Action action, EntryPoint entry)
 	{
 		FunctionResolver functionResolver = new FunctionResolver(null);
 		functionResolver.Parse(action);
@@ -534,12 +534,12 @@ internal class ConfigValidate
 		return defultValues;
 	}
 
-	internal void AddRoutineProcedure(Routine routine, Procedure procedure)
+	public void AddRoutineProcedure(Routine routine, Procedure procedure)
 	{
 		routine_procedures.Add(routine, procedure);
 	}
 
-	internal Procedure? GetProcedure(Routine? routine)
+	public Procedure? GetProcedure(Routine? routine)
 	{
 		if (routine == null)
 		{
@@ -552,17 +552,17 @@ internal class ConfigValidate
 		return procedure;
 	}
 
-	internal Dictionary<Action, Procedure> GetDeferResolvedActions()
+	public Dictionary<Action, Procedure> GetDeferResolvedActions()
 	{
 		return defer_resolved_actions;
 	}
 
-	internal void AddDeferResolvedAction(Action action, Procedure procedure)
+	public void AddDeferResolvedAction(Action action, Procedure procedure)
 	{
 		defer_resolved_actions.Add(action, procedure);
 	}
 
-	internal Component? GetComponentOfLocalActions(string name)
+	public Component? GetComponentOfLocalActions(string name)
 	{
 		foreach (Component component in component_actions.Keys)
 		{
@@ -574,17 +574,17 @@ internal class ConfigValidate
 		return null;
 	}
 
-	internal Dictionary<string, List<Procedure>> GetEventProcedure()
+	public Dictionary<string, List<Procedure>> GetEventProcedure()
 	{
 		return event_procedure;
 	}
 
-	internal void AddDeferEvents(Procedure procedure, List<Event> events)
+	public void AddDeferEvents(Procedure procedure, List<Event> events)
 	{
 		defer_events.Add(procedure, events);
 	}
 
-	internal List<Event>? GetDeferEvents(Procedure procedure)
+	public List<Event>? GetDeferEvents(Procedure procedure)
 	{
 		if (!defer_events.TryGetValue(procedure, out var events))
 		{
@@ -593,12 +593,12 @@ internal class ConfigValidate
 		return events;
 	}
 
-	internal void AddEventGroup(Procedure procedure, int groupId)
+	public void AddEventGroup(Procedure procedure, int groupId)
 	{
 		procedure_event_groups.Add(procedure, groupId);
 	}
 
-	internal int GetEventGroup(Procedure procedure)
+	public int GetEventGroup(Procedure procedure)
 	{
 		if (!procedure_event_groups.TryGetValue(procedure, out var id))
 		{
@@ -607,37 +607,37 @@ internal class ConfigValidate
 		return id;
 	}
 
-	internal void AddFunctionRoutine(Function function, Routine routine)
+	public void AddFunctionRoutine(Function function, Routine routine)
 	{
 		function_routines.Add(function, routine);
 	}
 
-	internal Routine GetRoutine(Function function)
+	public Routine GetRoutine(Function function)
 	{
 		return function_routines[function];
 	}
 
-	internal Dictionary<Procedure, List<ExportInfo>> GetProcedureExports()
+	public Dictionary<Procedure, List<ExportInfo>> GetProcedureExports()
 	{
 		return procedure_exports;
 	}
 
-	internal Dictionary<Action, List<ImportInfo>> GetActionImports()
+	public Dictionary<Action, List<ImportInfo>> GetActionImports()
 	{
 		return action_imports;
 	}
 
-	internal Dictionary<Action, List<int>> GetActionInputFor()
+	public Dictionary<Action, List<int>> GetActionInputFor()
 	{
 		return action_inputFor;
 	}
 
-	internal Dictionary<Action, List<int>> GetFunctionArguments()
+	public Dictionary<Action, List<int>> GetFunctionArguments()
 	{
 		return action_functionArgument;
 	}
 
-	internal Action? FindComponentAction(string? componentName, string? actionName)
+	public Action? FindComponentAction(string? componentName, string? actionName)
 	{
 		string actionName2 = actionName;
 		if (componentName == null || actionName2 == null)
@@ -654,7 +654,7 @@ internal class ConfigValidate
 		return null;
 	}
 
-	internal Action GetVirtualAction(Routine entryRoutine)
+	public Action GetVirtualAction(Routine entryRoutine)
 	{
 		if (virtual_actions.TryGetValue(entryRoutine, out var action))
 		{

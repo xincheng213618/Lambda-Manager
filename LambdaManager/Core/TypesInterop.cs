@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace LambdaManager.Core
 {
-    internal class TypesInterop
+    public class TypesInterop
     {
         [StructLayout(LayoutKind.Sequential, Size = 1)]
         private struct Empty
@@ -467,17 +467,17 @@ namespace LambdaManager.Core
         }
     };
 
-        internal static int GetPtrSize()
+        public static int GetPtrSize()
         {
             return size_ptr;
         }
 
-        internal static TypeInfo GetPointerTypeInfo()
+        public static TypeInfo GetPointerTypeInfo()
         {
             return referenceTypes["pointer"];
         }
 
-        internal static void SetCppSize(string name, int size)
+        public static void SetCppSize(string name, int size)
         {
             if (valueTypes.TryGetValue(name, out var typeInfo))
             {
@@ -485,7 +485,7 @@ namespace LambdaManager.Core
             }
         }
 
-        internal static TypeInfo? GetRefTypeInfo(string name)
+        public static TypeInfo? GetRefTypeInfo(string name)
         {
             if (name.EndsWith("*") || name.EndsWith("&"))
             {
@@ -506,12 +506,12 @@ namespace LambdaManager.Core
             return null;
         }
 
-        internal static int GetRefTypeSize(string name)
+        public static int GetRefTypeSize(string name)
         {
             return GetRefTypeInfo(name)?.Size ?? (-1);
         }
 
-        internal static TypeInfo? GetValueTypeInfo(string name)
+        public static TypeInfo? GetValueTypeInfo(string name)
         {
             if (valueTypes.TryGetValue(name, out var info))
             {
@@ -520,12 +520,12 @@ namespace LambdaManager.Core
             return null;
         }
 
-        internal static int GetValueTypeSize(string name)
+        public static int GetValueTypeSize(string name)
         {
             return GetValueTypeInfo(name)?.Size ?? (-1);
         }
 
-        internal static TypeInfo? GetTypeInfo(string name)
+        public static TypeInfo? GetTypeInfo(string name)
         {
             TypeInfo info = GetValueTypeInfo(name);
             if (info == null)
@@ -535,7 +535,7 @@ namespace LambdaManager.Core
             return info;
         }
 
-        internal static string GetCodes(List<string>? argTypes)
+        public static string GetCodes(List<string>? argTypes)
         {
             if (argTypes == null)
             {
@@ -549,7 +549,7 @@ namespace LambdaManager.Core
             return code;
         }
 
-        internal static int ToCode(string type)
+        public static int ToCode(string type)
         {
             if (GetRefTypeSize(type) != -1)
             {
@@ -574,7 +574,7 @@ namespace LambdaManager.Core
             return (int)Math.Log2(info.Size);
         }
 
-        internal static string? ToType(int code)
+        public static string? ToType(int code)
         {
             return code switch
             {

@@ -104,7 +104,15 @@
 
 		</procedure>
 
-
+		<procedure name="ViewWindow" event="VIEW_WINDOW" key="type,window,mode1,mode2">
+			<action name="ViewWindow">
+				<input name="type" type="int" />
+				<input name="window" type="int" />
+				<input name="mode1" type="int" />
+				<input name="mode2" type="int" />
+			</action>
+		</procedure>
+		
 		<procedure  event="MatShow222" arg="image" >
 
 

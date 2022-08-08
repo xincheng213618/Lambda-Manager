@@ -328,9 +328,9 @@ namespace Global
                     }
                 }
             }
-            catch 
+            catch (Exception ex)
             {
-                
+                MessageBox.Show(ex.Message);
             }
             return true;
         }
@@ -342,35 +342,59 @@ namespace Global
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
 
         private void AddViewContentMenu(int view,List<int> ints)
-                {
-                    if (view >= 0 && view <= drawingCanvasInk.Length && drawingCanvasInk[view] != null)
-                    {
-                        ContextMenu contextMenu = new ContextMenu();
-                        List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
-                        foreach (var item in ViewContentMenuContent)
-                        {
-                            menuItem1s.Add(new RadioMenuItem() { Header = item });
-                        }
+        {
+            if (view >= 0 && view <= drawingCanvasInk.Length && drawingCanvasInk[view] != null)
+            {
+                ContextMenu contextMenu = new ContextMenu();
+                List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
 
-                        bool IsLeft = true;
-                        for (int i = 0; i < ViewContentMenuContent.Count; i++)
+                bool IsLeft = true;
+                for (int i = 0; i < ViewContentMenuContent.Count; i++)
+                {
+                    RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
+                    int mode = i;
+                    radioMenuItem.Click += delegate
+                    {
+                        radioMenuItem.IsChecked = true;
+                        if (ints.Count == 1)
                         {
-                            RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
-                            int mode = i;
-                            radioMenuItem.Click += delegate
-                            {
-                                radioMenuItem.IsChecked = true;
-                                if (ints.Count == 2)
-                                {
-                                    mode = IsLeft ? mode * 10 + ints[1] : ints[0] + mode;
-                                    mode += 10;
-                                }
-                                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
-                            };
-                            contextMenu.Items.Add(radioMenuItem);
+                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 },{ "window", view }, { "mode1",mode }, { "mode2", -1 } });
                         }
-                    }
+                        else if (ints.Count == 2)
+                        {
+                            ints[IsLeft ? 0 : 1] = mode;
+                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW}, { "window", view }, { "mode1", ints[0] } , { "mode2", ints[1] } });
+                        }
+                    };
+
+                    contextMenu.Items.Add(radioMenuItem);
+                    menuItem1s.Add(radioMenuItem);
                 }
+
+                DrawingInkCanvas drawingInkCanvas = drawingCanvasInk[view].InkCanvas;
+                drawingInkCanvas.ContextMenu = contextMenu;
+                if (ints.Count == 1)
+                {
+                    menuItem1s[ints[0]].IsChecked = true;
+                }
+                else if (ints.Count == 2)
+                {
+                    drawingInkCanvas.PreviewMouseMove += delegate
+                    {
+                        if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
+                        {
+                            IsLeft = true;
+                            menuItem1s[ints[0]].IsChecked = true;
+                        }
+                        else
+                        {
+                            IsLeft = false;
+                            menuItem1s[ints[1]].IsChecked = true;
+                        }
+                    };
+                }
+            }
+        }
 
 
 

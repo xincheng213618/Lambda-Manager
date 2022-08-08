@@ -2,35 +2,38 @@ using System.Collections.Generic;
 using System.IO;
 using Quartz;
 
-namespace LambdaManager.DataType;
-
-internal class Solution
+namespace LambdaManager.DataType
 {
-	internal List<Lib> Libs { get; set; } = new List<Lib>();
+
+    public class Solution
+    {
+        public List<Lib> Libs { get; set; } = new List<Lib>();
 
 
-	internal Dictionary<Event, List<Routine>> Routines { get; set; } = new Dictionary<Event, List<Routine>>();
+        public Dictionary<Event, List<Routine>> Routines { get; set; } = new Dictionary<Event, List<Routine>>();
 
 
-	internal Dictionary<string, Event> Events { get; set; } = new Dictionary<string, Event>();
+        public Dictionary<string, Event> Events { get; set; } = new Dictionary<string, Event>();
 
 
-	internal List<Function> Functions { get; set; } = new List<Function>();
+        public List<Function> Functions { get; set; } = new List<Function>();
 
 
-	internal Event UndefinedEvent { get; set; } = new Event
-	{
-		Type = "UNDEFINED"
-	};
+        public Event UndefinedEvent { get; set; } = new Event
+        {
+            Type = "UNDEFINED"
+        };
 
 
-	internal Event InitEvent { get; set; } = new Event
-	{
-		Type = "INIT"
-	};
+        public Event InitEvent { get; set; } = new Event
+        {
+            Type = "INIT"
+        };
 
 
-	internal StreamWriter? Writer { get; set; }
+        public StreamWriter? Writer { get; set; }
 
-	internal IScheduler? Scheduler { get; set; }
+        public IScheduler? Scheduler { get; set; }
+    }
+
 }

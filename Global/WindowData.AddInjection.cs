@@ -43,8 +43,7 @@ namespace Global
         private ToggleButton histogramTogg;
 
 
-
-      private void AddInjection()
+        private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
 

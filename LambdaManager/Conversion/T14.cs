@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T14
+public class T14
 {
 	public static object ToByte(TypeInfo info, object value)
 	{

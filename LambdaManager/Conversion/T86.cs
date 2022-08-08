@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T86
+public class T86
 {
 	public static Array ToArrayPtr(TypeInfo info, object?[] value)
 	{

@@ -10,7 +10,7 @@ using Quartz;
 
 namespace LambdaManager.Core
 {
-    internal class FunctionJob : IJob
+    public class FunctionJob : IJob
     {
         private static readonly List<Scheduler> schedules = new List<Scheduler>();
 
@@ -95,7 +95,7 @@ namespace LambdaManager.Core
             await task;
         }
     }
-    internal class FunctionJob1 : IJob
+    public class FunctionJob1 : IJob
     {
         private static readonly List<Scheduler> schedules = new List<Scheduler>();
 
@@ -156,7 +156,7 @@ namespace LambdaManager.Core
     }
 
 
-    internal class FunctionJob2 : IJob
+    public class FunctionJob2 : IJob
     {
         private static readonly List<Scheduler> schedules = new List<Scheduler>();
 

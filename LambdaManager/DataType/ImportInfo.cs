@@ -1,9 +1,12 @@
-namespace LambdaManager.DataType;
-
-internal class ImportInfo
+namespace LambdaManager.DataType
 {
-	internal string Name { get; set; } = "";
+    public class ImportInfo
+    {
+        public string Name { get; set; } = "";
 
 
-	internal int ArgumentIndex { get; set; }
+        public int ArgumentIndex { get; set; }
+    }
+
 }
+

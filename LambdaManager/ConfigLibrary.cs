@@ -29,7 +29,7 @@ namespace LambdaManager
         /// <summary>
         /// Ìí¼ÓCommmand
         /// </summary>
-        void LoadMenuCommand(Command command);
+        void LoadMenuCommand(LambdaManager.DataType.Command command);
     }
 
     public class ConfigLibrary
@@ -49,8 +49,8 @@ namespace LambdaManager
                 return false;
             }
 
-            List<Command> commands = (from c in root.Descendants("commands").Descendants("command")
-                                      select new Command
+            List<LambdaManager.DataType.Command> commands = (from c in root.Descendants("commands").Descendants("command")
+                                      select new LambdaManager.DataType.Command
                                       {
                                           Name = c.Attribute((XName?)"name")?.Value,
                                           Icon = c.Attribute((XName?)"icon")?.Value,
@@ -187,7 +187,7 @@ namespace LambdaManager
             return validate;
         }
 
-        private void LoadComponents(List<Component> components, List<Command> commands, ConfigValidate validate)
+        private void LoadComponents(List<Component> components, List<LambdaManager.DataType.Command> commands, ConfigValidate validate)
         {
             validate.CheckLocalActions();
             foreach (Component component in components)
@@ -215,7 +215,7 @@ namespace LambdaManager
             {
                 Application.Current.Dispatcher.Invoke(delegate
                 {
-                    foreach (Command command in commands)
+                    foreach (LambdaManager.DataType.Command command in commands)
                     {
                         lambdaUI.LoadMenuCommand(command);
                     }

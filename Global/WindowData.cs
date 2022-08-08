@@ -24,8 +24,8 @@ namespace Global
             return instance;
         }
 
-        public DeviceInformation deviceInformation;
-        public List<ObjectiveSetting> ObjectiveSettingList;
+        public DeviceInformation deviceInformation = new DeviceInformation();
+        public List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>();
         public MapModel mapModel = new MapModel();
 
         private WindowData()

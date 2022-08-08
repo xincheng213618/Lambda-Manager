@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T28
+public class T28
 {
 	public static object ToUInt16(TypeInfo info, object value)
 	{

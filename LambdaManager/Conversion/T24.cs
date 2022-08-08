@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T24
+public class T24
 {
 	public static object ToInt16(TypeInfo info, object value)
 	{

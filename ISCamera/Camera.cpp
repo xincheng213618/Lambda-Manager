@@ -297,6 +297,11 @@ int FloatTest(void* num)
 	return  0;
 }
 
+int ViewWindow(int type,int window,int mode1,int mode2)
+{
+	Logger::Log1(Severity::INFO, "Invoke type=%d,window=%d,mode1=%d,mode2=%d'", type, window, mode1, mode2);
+	return  0;
+}
 
 int CaptureImage(int mode, void** image)
 {

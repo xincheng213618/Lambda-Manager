@@ -1,8 +1,11 @@
-namespace LambdaManager.DataType;
-
-internal class Variable
+namespace LambdaManager.DataType
 {
-	internal Location Location { get; set; } = new Location();
+    public class Variable
+    {
+        public Location Location { get; set; } = new Location();
 
-	internal object? Value { get; set; }
+        public object? Value { get; set; }
+    }
+
 }
+
