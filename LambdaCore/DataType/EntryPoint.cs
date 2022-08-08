@@ -4,16 +4,16 @@ using LambdaManager.Core;
 
 namespace LambdaManager.DataType;
 
-internal class EntryPoint
+public class EntryPoint
 {
-	internal IntPtr FuncAddr { get; set; }
+    public IntPtr FuncAddr { get; set; }
 
-	internal List<TypeInfo?>? Paremeters { get; set; }
+    public List<TypeInfo?>? Paremeters { get; set; }
 
-	internal int InputCount { get; set; }
+    public int InputCount { get; set; }
 
-	internal string Code { get; set; } = "";
+    public string Code { get; set; } = "";
 
 
-	internal Dictionary<int, int>? Exports { get; set; }
+    public Dictionary<int, int>? Exports { get; set; }
 }

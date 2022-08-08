@@ -1,5 +1,5 @@
 namespace LambdaManager.DataType;
 
-internal class Output : IO
+public class Output : IO
 {
 }

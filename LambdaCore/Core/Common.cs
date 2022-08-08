@@ -11,14 +11,13 @@ using System.Windows.Media.Imaging;
 using Lambda;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 using LambdaManager.Utils;
 using LambdaUtils;
 using Quartz;
 
 namespace LambdaManager.Core
 {
-    public static  class Common
+    public  class Common
     {
         public static View[] Views { get; } = new View[100];
 
@@ -69,14 +68,21 @@ namespace LambdaManager.Core
             SetHandler((nint)(delegate* unmanaged[Cdecl]<sbyte*, void>)(&StopSchedule), 14);
 
             GetCppSizeInfo((delegate* unmanaged[Cdecl]<sbyte*, void>)(&SetCppSize));
-            LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, Views);
+            LambdaControl.Initialize(Log.Report, Log.Report2, AddEventHandler, CallEvent, RegisterImage, StopRegisterImage, Views);
             Initialize();
 
         }
 
 
 
-
+        private static void StopRegisterImage(int index)
+        {
+            foreach (var item in RegisterImageViews)
+            {
+                if (item.Index == index)
+                    RegisterImageViews.Remove(item);
+            }
+        }
         private static int RegisterImage(Image image)
         {
             View view = new View(image, -RegisterImageViews.Count - 1);
@@ -544,7 +550,7 @@ namespace LambdaManager.Core
                 Log.Report(new Message
                 {
                     Severity = Severity.FATAL_ERROR,
-                    Text = Resources.EventDataNotSupport
+                    Text = "事件传递的数据类型不支持"
                 });
                 return -1;
             }
@@ -722,8 +728,16 @@ namespace LambdaManager.Core
             StreamWriter writer = FunctionExecutor.Solution.Writer;
             if (writer != null)
             {
-                writer.Flush();
-                writer.Close();
+                try
+                {
+                    writer.Flush();
+                    writer.Close();
+                }
+                catch
+                {
+
+                }
+
             }
             IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
             if (scheduler != null)
@@ -784,7 +798,7 @@ namespace LambdaManager.Core
         {
             if (times != 1)
             {
-                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(),seconds, times, "id", callback);
+                return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(), seconds, times, "id", callback);
             }
             else
             {
@@ -793,7 +807,7 @@ namespace LambdaManager.Core
             }
         }
 
-        private unsafe static IntPtr AddSchedule1(IJobDetail job, int seconds, int times, string kinds, object callback) 
+        private unsafe static IntPtr AddSchedule1(IJobDetail job, int seconds, int times, string kinds, object callback)
         {
             job.JobDataMap.Add(kinds, callback);
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();

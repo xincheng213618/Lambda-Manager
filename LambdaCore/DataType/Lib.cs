@@ -5,9 +5,9 @@ namespace LambdaManager.DataType;
 
 public class Lib
 {
-	public IntPtr Addr { get; set; }
+    public IntPtr Addr { get; set; }
 
-	internal string? Path { get; set; }
+    public string? Path { get; set; }
 
-	internal List<EntryPoint>? EntryPoints { get; set; }
+    public List<EntryPoint>? EntryPoints { get; set; }
 }

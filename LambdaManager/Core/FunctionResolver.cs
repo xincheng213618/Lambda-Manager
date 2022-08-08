@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using Lambda;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 
 namespace LambdaManager.Core
 {

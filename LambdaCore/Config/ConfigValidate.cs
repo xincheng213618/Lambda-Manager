@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 
 namespace LambdaManager.Config;
 
@@ -61,49 +60,49 @@ internal class ConfigValidate
 
 	internal void ReportEmpty(Severity severity, Type type, string? name, string attr)
 	{
-		Report(severity, type, name, attr, null, Resources.Empty);
+		Report(severity, type, name, attr, null, "空");
 	}
 
 	internal void ReportNotExist(Severity severity, Type type, string? name, string attr, string? value)
 	{
-		Report(severity, type, name, attr, value, Resources.NotExist);
+		Report(severity, type, name, attr, value,"不存在");
 	}
 
 	internal void ReportNotFound(Severity severity, Type type, string? name, string attr, string? value)
 	{
-		Report(severity, type, name, attr, value, Resources.NotFound);
+		Report(severity, type, name, attr, value, "找不到");
 	}
 
 	internal void ReportFunctionReferenceNotFound(Component component, Procedure procedure, string? actionName, string referring)
 	{
 		string fullName = FunctionResolver.GetFullName(component, procedure, actionName);
-		ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, Resources.Referring + Resources.Component, referring);
+		ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, "引用" + "模块", referring);
 	}
 
 	internal void ReportNotSupported(Severity severity, Type type, string? name, string attr, string? value)
 	{
-		Report(severity, type, name, attr, value, Resources.NotSupported);
+		Report(severity, type, name, attr, value, "不支持");
 	}
 
 	internal void ReportArgTypeAsPointer(Component component, Procedure procedure, Action action, string attr, string? value)
 	{
 		string fullName = FunctionResolver.GetFullName(component, procedure, action.Name);
-		Report(Severity.WARNING, Type.Action, fullName, attr, value, Resources.AsPointer);
+		Report(Severity.WARNING, Type.Action, fullName, attr, value, "按指针类型处理");
 	}
 
 	internal void ReportLinkNotMatch(Link best, Action action, int index)
 	{
-		string attr = (action.IsInputIO(index) ? Resources.InputType : Resources.OutputType);
-		string refering = Resources.Referring;
+		string attr = (action.IsInputIO(index) ? "输入类型" : "输出类型");
+		string refering = "引用";
 		DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 2);
 		defaultInterpolatedStringHandler.AppendFormatted(Type.Action);
 		defaultInterpolatedStringHandler.AppendLiteral("[");
 		defaultInterpolatedStringHandler.AppendFormatted(best.Source.Name);
 		defaultInterpolatedStringHandler.AppendLiteral("]");
 		string obj = defaultInterpolatedStringHandler.ToStringAndClear();
-		string attr2 = (best.IsInputSource() ? Resources.InputType : Resources.OutputType);
+		string attr2 = (best.IsInputSource() ? "输入类型" : "输出类型");
 		string value2 = best.GetSourceIO()?.Type;
-		string error = Resources.NotMatched;
+		string error = "类型不匹配";
 		string type = action.GetIO(index)?.Type;
 		string? name = action.Name;
 		defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(2, 5);
@@ -125,7 +124,7 @@ internal class ConfigValidate
 			s = s + info.Name + ",";
 		}
 		s = s[0..^1];
-		Report(Severity.WARNING, Type.Action, action.Name, Resources.Import, s, Resources.NotExportProc);
+		Report(Severity.WARNING, Type.Action, action.Name,  "Import", s,  "NotExportProc");
 	}
 
 	internal void Check(Component component)
@@ -134,15 +133,15 @@ internal class ConfigValidate
 		string name = component.Name;
 		if (name == null)
 		{
-			ReportEmpty(Severity.FATAL_ERROR, type, name, Resources.Name);
+			ReportEmpty(Severity.FATAL_ERROR, type, name, "名称");
 		}
 		if (component.Lib == null)
 		{
-			ReportEmpty(Severity.FATAL_ERROR, type, name, Resources.Lib);
+			ReportEmpty(Severity.FATAL_ERROR, type, name, "库");
 		}
 		if (!File.Exists(component.Lib))
 		{
-			ReportNotExist(Severity.FATAL_ERROR, type, name, Resources.Lib + Resources.File, component.Lib);
+			ReportNotExist(Severity.FATAL_ERROR, type, name, "库" +  "File", component.Lib);
 			component.Lib = null;
 		}
 	}
@@ -162,7 +161,7 @@ internal class ConfigValidate
 			{
 				if (names[shortName].ToLower() != lib.ToLower())
 				{
-					Report(Severity.WARNING, Type.Component, component.Name, Resources.Lib, lib, Resources.DuplicateLib);
+					Report(Severity.WARNING, Type.Component, component.Name, "库", lib,  "DuplicateLib");
 				}
 			}
 			else
@@ -178,12 +177,12 @@ internal class ConfigValidate
 		string name = procedure.Name;
 		if (name == null)
 		{
-			ReportEmpty(Severity.WARNING, type, name, Resources.Name);
+			ReportEmpty(Severity.WARNING, type, name, "名称");
 		}
 		int? count = procedure.Actions?.Count;
 		if (count == 0)
 		{
-			ReportNotExist(Severity.WARNING, Type.Procedure, name, Resources.Action, null);
+			ReportNotExist(Severity.WARNING, Type.Procedure, name, "函数", null);
 		}
 		List<string> evt = procedure.Event;
 		if (evt == null)
@@ -214,14 +213,14 @@ internal class ConfigValidate
 						goto IL_0156;
 					}
 				}
-				Report(Severity.ERROR, Type.Action, action.Name, Resources.Arguments, null, Resources.EventArgTypeNotMatch);
+				Report(Severity.ERROR, Type.Action, action.Name,  "Arguments", null,  "EventArgTypeNotMatch");
 			}
 		}
 		goto IL_0156;
 		IL_0156:
 		if (procedure.Aysnc == "true" && procedure.Key != null)
 		{
-			Report(Severity.ERROR, Type.Procedure, procedure.Name, Resources.Async, null, Resources.AsyncWithEventDataNotSupport);
+			Report(Severity.ERROR, Type.Procedure, procedure.Name,  "Async", null,  "AsyncWithEventDataNotSupport");
 		}
 	}
 
@@ -232,11 +231,11 @@ internal class ConfigValidate
 		string name = action.Name;
 		if (name == null)
 		{
-			ReportEmpty(Severity.FATAL_ERROR, Type.Procedure, name, Resources.Name);
+			ReportEmpty(Severity.FATAL_ERROR, Type.Procedure, name, "名称");
 		}
 		if (action.GetArgsCount() > 6)
 		{
-			ReportNotSupported(Severity.FATAL_ERROR, Type.Action, action.Name, Resources.SystemNotSupport2, null);
+			ReportNotSupported(Severity.FATAL_ERROR, Type.Action, action.Name, "参数个数大于6的函数", null);
 		}
 		List<Procedure>? procedures = component.Procedures;
 		if (procedures != null && procedures!.Exists((Procedure p) => p != procedure2 && p.Name == name))
@@ -261,7 +260,7 @@ internal class ConfigValidate
 		else if (!components.Exists((Component c) => c.Name == componentName))
 		{
 			string fullName = FunctionResolver.GetFullName(component, procedure2, name);
-			ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, Resources.Referring + Resources.Component, componentName);
+			ReportNotExist(Severity.FATAL_ERROR, Type.Action, fullName, "引用" + "模块", componentName);
 		}
 	}
 
@@ -348,13 +347,13 @@ internal class ConfigValidate
 		int num = CheckArgType(io.Type ?? "string");
 		if (num == -1)
 		{
-			string name2 = ((io is Input) ? Resources.InputType : Resources.OutputType);
+			string name2 = ((io is Input) ?  "InputType" :  "OutputType");
 			ReportArgTypeAsPointer(component, procedure, action, name2, io.Type);
 		}
 		if (num < 4 && action.GetArgsCount() > 4)
 		{
 			string name = action.Name ?? ((io is Input) ? new int?(index) : (index - action.Inputs?.Count)).ToString();
-			Report(Severity.FATAL_ERROR, Type.Action, name, clazz.Description(), io.Name, Resources.SystemNotSupport1);
+			Report(Severity.FATAL_ERROR, Type.Action, name, clazz.Description(), io.Name,  "事件对象不支持二进制类型数据传递");
 		}
 	}
 

@@ -3,56 +3,56 @@ using LambdaManager.Core;
 
 namespace LambdaManager.DataType;
 
-internal class Link
+public class Link
 {
-	internal int SourceIndex;
+	public int SourceIndex;
 
-	internal int TargetIndex;
+	public int TargetIndex;
 
-	internal Action Source { get; set; } = new Action();
-
-
-	internal Action Target { get; set; } = new Action();
+	public Action Source { get; set; } = new Action();
 
 
-	internal List<CastType> CastTypes { get; set; } = new List<CastType>();
+	public Action Target { get; set; } = new Action();
 
 
-	internal bool IsInputSource()
+	public List<CastType> CastTypes { get; set; } = new List<CastType>();
+
+
+	public bool IsInputSource()
 	{
 		int? obj = Source.Inputs?.Count;
 		return SourceIndex < obj;
 	}
 
-	internal bool IsOutputSource()
+	public bool IsOutputSource()
 	{
 		int? obj = Source.Inputs?.Count;
 		return SourceIndex >= obj;
 	}
 
-	internal IO? GetSourceIO()
+	public IO? GetSourceIO()
 	{
 		return Source.GetIO(SourceIndex);
 	}
 
-	internal bool IsInputTarget()
+	public bool IsInputTarget()
 	{
 		int? obj = Target.Inputs?.Count;
 		return TargetIndex < obj;
 	}
 
-	internal bool IsOutputTarget()
+	public bool IsOutputTarget()
 	{
 		int? obj = Target.Inputs?.Count;
 		return TargetIndex >= obj;
 	}
 
-	internal IO? GetTargetIO()
+	public IO? GetTargetIO()
 	{
 		return Target.GetIO(TargetIndex);
 	}
 
-	internal TypeInfo? GetSourceType()
+	public TypeInfo? GetSourceType()
 	{
 		string type = Source.GetIO(SourceIndex)?.Type;
 		if (type != null)
@@ -62,7 +62,7 @@ internal class Link
 		return null;
 	}
 
-	internal TypeInfo? GetTargetType()
+	public TypeInfo? GetTargetType()
 	{
 		string type = Target.GetIO(TargetIndex)?.Type;
 		if (type != null)

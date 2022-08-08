@@ -1,11 +1,11 @@
 namespace LambdaManager.DataType;
 
-internal class ExportInfo
+public class ExportInfo
 {
-	internal Action Action { get; set; } = new Action();
+	public Action Action { get; set; } = new Action();
 
 
-	internal int ExportIndex { get; set; }
+	public int ExportIndex { get; set; }
 
-	internal int ArgumentIndex { get; set; }
+	public int ArgumentIndex { get; set; }
 }

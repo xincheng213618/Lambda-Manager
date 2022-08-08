@@ -1,6 +1,5 @@
 ﻿using Lambda;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,7 +46,7 @@ namespace LambdaManager.Core
             {
                 writer = new StreamWriter(File.Open(logPath, FileMode.OpenOrCreate), Encoding.UTF8);
             }
-            writer.WriteLine(Severity.INFO.Description() + LambdaManager.Properties.Resources.StartUp + DateTime.Now);
+            writer.WriteLine(Severity.INFO.Description() + "程序启动" + DateTime.Now);
             FunctionExecutor.Solution.Writer = writer;
             return writer;
         }
@@ -56,8 +55,18 @@ namespace LambdaManager.Core
 
         public static void Report(Message message)
         {
-            logger.WriteLine(message.Severity.Description() + message.Text);
-            LogWrite?.Invoke(message);
+            try
+            {
+                logger.WriteLine(message.Severity.Description() + message.Text);
+            }
+            catch 
+            {
+
+            }
+            System.Windows.Application.Current.Dispatcher.Invoke(delegate
+            {
+                LogWrite?.Invoke(message);
+            });
         }
 
         public static void Report2(Message message)

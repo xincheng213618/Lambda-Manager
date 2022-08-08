@@ -5,9 +5,9 @@ using LambdaManager.Utils;
 
 namespace LambdaManager.Conversion;
 
-internal class T70
+public class T70
 {
-	internal static object? Parse(TypeInfo info, string text, string type)
+	public static object? Parse(TypeInfo info, string text, string type)
 	{
 		switch (info.Id)
 		{
@@ -112,7 +112,7 @@ internal class T70
 		}
 	}
 
-	internal static Array? ParseArray(string type, string text)
+	public static Array? ParseArray(string type, string text)
 	{
 		type = type[0..^2].Trim();
 		TypeInfo info = TypesInterop.GetTypeInfo(type);

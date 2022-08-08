@@ -1,61 +1,64 @@
 using System.Collections.Generic;
 using LambdaManager.Utils;
 
-namespace LambdaManager.DataType;
-
-internal class Function
+namespace LambdaManager.DataType
 {
-	internal static Function PLACEHOLDER = new Function();
+    public class Function
+    {
+        public static Function PLACEHOLDER = new Function();
 
-	internal bool Async;
+        public bool Async;
 
-	internal Routine? Routine { get; set; }
+        public Routine? Routine { get; set; }
 
-	internal EntryPoint? EntryPoint { get; set; }
+        public EntryPoint? EntryPoint { get; set; }
 
-	internal int Times { get; set; } = 1;
+        public int Times { get; set; } = 1;
 
 
-	internal List<object?>? Values { get; set; }
+        public List<object?>? Values { get; set; }
 
-	internal List<object?>? DefaultValues { get; set; }
+        public List<object?>? DefaultValues { get; set; }
 
-	internal bool IsReferred { get; set; }
+        public bool IsReferred { get; set; }
 
-	internal Dictionary<Location, LocationConverter>? Exports { get; set; }
+        public Dictionary<Location, LocationConverter>? Exports { get; set; }
 
-	internal Dictionary<int, int>? Imports { get; set; }
+        public Dictionary<int, int>? Imports { get; set; }
 
-	internal List<Event>? Raise { get; set; }
+        public List<Event>? Raise { get; set; }
 
-	internal bool IsVariable(object? value)
-	{
-		return value == this;
-	}
+        public bool IsVariable(object? value)
+        {
+            return value == this;
+        }
 
-	internal void MarkVariable(int index)
-	{
-		if (Values == null)
-		{
-			Values = new List<object>();
-		}
-		object oldValue = CollectionUtils.Insert(Values, index, this);
-		if (oldValue != null)
-		{
-			if (DefaultValues == null)
-			{
-				DefaultValues = new List<object>();
-			}
-			CollectionUtils.Insert(DefaultValues, index, oldValue);
-		}
-	}
+        public void MarkVariable(int index)
+        {
+            if (Values == null)
+            {
+                Values = new List<object>();
+            }
+            object oldValue = CollectionUtils.Insert(Values, index, this);
+            if (oldValue != null)
+            {
+                if (DefaultValues == null)
+                {
+                    DefaultValues = new List<object>();
+                }
+                CollectionUtils.Insert(DefaultValues, index, oldValue);
+            }
+        }
 
-	internal void AddValue(object? value)
-	{
-		if (Values == null)
-		{
-			Values = new List<object>();
-		}
-		Values!.Add(value);
-	}
+        public void AddValue(object? value)
+        {
+            if (Values == null)
+            {
+                Values = new List<object>();
+            }
+            Values!.Add(value);
+        }
+    }
+
 }
+

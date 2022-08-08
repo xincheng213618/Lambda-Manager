@@ -1,6 +1,5 @@
 ﻿using Lambda;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,12 +1,15 @@
-namespace LambdaManager.DataType;
-
-internal class Scheduler
+namespace LambdaManager.DataType
 {
-	internal string? Name { get; set; }
+    public class Scheduler
+    {
+        public string? Name { get; set; }
 
-	internal Routine? Routine { get; set; }
+        public Routine? Routine { get; set; }
 
-	internal string? EventObject { get; set; }
+        public string? EventObject { get; set; }
 
-	internal string? Timer { get; set; }
+        public string? Timer { get; set; }
+    }
 }
+
+

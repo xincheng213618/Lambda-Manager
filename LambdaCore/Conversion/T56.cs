@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T56
+public class T56
 {
 	public static object ToDouble(TypeInfo info, object value)
 	{

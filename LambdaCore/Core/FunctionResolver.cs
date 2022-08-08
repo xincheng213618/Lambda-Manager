@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using Lambda;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 
 namespace LambdaManager.Core
 {
@@ -16,16 +15,16 @@ namespace LambdaManager.Core
 
         private List<string>? argTypes;
 
-        internal List<TypeInfo?>? TypeInfos { get; set; }
+        public List<TypeInfo?>? TypeInfos { get; set; }
 
-        internal List<object?>? DefaultValues { get; set; }
+        public List<object?>? DefaultValues { get; set; }
 
-        internal FunctionResolver(Lib? lib)
+        public FunctionResolver(Lib? lib)
         {
             this.lib = lib;
         }
 
-        internal IntPtr GetAddress(LambdaManager.DataType.Action action, Component component)
+        public IntPtr GetAddress(LambdaManager.DataType.Action action, Component component)
         {
             Parse(action);
             string name = action.Name;
@@ -39,17 +38,17 @@ namespace LambdaManager.Core
             }
             catch (EntryPointNotFoundException)
             {
-                Log.Report(Severity.FATAL_ERROR, Resources.Lib, component.Lib, Resources.Action, action.Name, Resources.NotExist);
+                Log.Report(Severity.FATAL_ERROR, "¿â", component.Lib, "º¯Êý", action.Name, "²»´æÔÚ");
                 return IntPtr.Zero;
             }
         }
 
-        internal string GetSignatureCodes()
+        public string GetSignatureCodes()
         {
             return TypesInterop.GetCodes(argTypes);
         }
 
-        internal void Parse(LambdaManager.DataType.Action action)
+        public void Parse(LambdaManager.DataType.Action action)
         {
             TypeInfos = new List<TypeInfo>();
             argTypes = new List<string>();
@@ -119,7 +118,7 @@ namespace LambdaManager.Core
             return T70.Parse(typeInfo, value, type);
         }
 
-        internal static ArgumentType? GetEventArgType(LambdaManager.DataType.Action? action)
+        public static ArgumentType? GetEventArgType(LambdaManager.DataType.Action? action)
         {
             if (action == null)
             {
@@ -153,7 +152,7 @@ namespace LambdaManager.Core
             return null;
         }
 
-        internal static string GetFullName(Component? component, Procedure procedure, string? actionName)
+        public static string GetFullName(Component? component, Procedure procedure, string? actionName)
         {
             DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 3);
             defaultInterpolatedStringHandler.AppendFormatted(component?.Name);
@@ -164,7 +163,7 @@ namespace LambdaManager.Core
             return defaultInterpolatedStringHandler.ToStringAndClear();
         }
 
-        internal static List<CastType> ResolveLinkCastType(string? targetName, string? targetType, string? sourceName, string? sourceType)
+        public static List<CastType> ResolveLinkCastType(string? targetName, string? targetType, string? sourceName, string? sourceType)
         {
             if (targetName != sourceName)
             {
@@ -173,7 +172,7 @@ namespace LambdaManager.Core
             return ResolveLinkCastType(targetType, sourceType);
         }
 
-        internal static List<CastType> ResolveLinkCastType(string? targetType, string? sourceType)
+        public static List<CastType> ResolveLinkCastType(string? targetType, string? sourceType)
         {
             if (targetType == sourceType)
             {
@@ -364,12 +363,12 @@ namespace LambdaManager.Core
             return !suffix.Contains(c);
         }
 
-        internal static string GetCleanType(string type)
+        public static string GetCleanType(string type)
         {
             return new Regex("[\\*&\\[\\]]{1,2}$").Replace(type, "");
         }
 
-        internal static string? CleanSuffix(string? type, string suffix)
+        public static string? CleanSuffix(string? type, string suffix)
         {
             if (type == null)
             {

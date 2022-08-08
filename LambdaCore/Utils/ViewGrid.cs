@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Lambda;
+using LambdaManager.Core;
 
 namespace LambdaManager.Utils;
 
@@ -23,9 +24,9 @@ public static class ViewGrid
 		90, 91, 92, 93, 94, 95, 96, 97, 98, 99
 	};
 
-	private static readonly List<int> ClosingViewIndex;
+	private static readonly List<int> ClosingViewIndex = Common.ClosingViewIndex;
 
-	private static View?[] Views { get; set; }
+	private static View?[] Views { get; set; } = Common.Views;
 
 	public static Grid[] gridsList=new Grid[100];
 
@@ -126,9 +127,10 @@ public static class ViewGrid
 			return;
 
 		ClosingViewIndex.Add(index);
+
+
 		gridsList[index] = null;
 		GridSort(gridsList);
-
 
 		Views[index] = view;
 		Views[index] = null;

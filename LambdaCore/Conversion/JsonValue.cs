@@ -4,9 +4,9 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion
 {
-    internal class JsonValue
+    public class JsonValue
     {
-        internal static object? From(TypeInfo info, object value)
+        public static object? From(TypeInfo info, object value)
         {
             if (info.Id == 71)
             {

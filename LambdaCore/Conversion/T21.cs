@@ -3,7 +3,7 @@ using LambdaManager.Core;
 
 namespace LambdaManager.Conversion;
 
-internal class T21
+public class T21
 {
 	public static object ToChar(TypeInfo info, object value)
 	{
