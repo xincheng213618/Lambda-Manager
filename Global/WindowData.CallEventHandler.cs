@@ -29,9 +29,11 @@ namespace Global
 
        // static GridLengthConverter gridLengthConverter = new GridLengthConverter();
         public DrawMethod drawMethod = new DrawMethod();
+        public DrawInkMethod inkMethod = new DrawInkMethod();
         Window mainwin = Application.Current.MainWindow;
 
         public DrawingVisualInk[] drawingCanvasInk = new DrawingVisualInk[100];
+        public InkVisual[] inkVisuals = new InkVisual[100];
         public double ratio =1;
 
 

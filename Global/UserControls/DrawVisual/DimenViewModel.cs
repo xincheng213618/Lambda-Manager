@@ -24,7 +24,7 @@ namespace Global
 		#endregion fields
 		public DimenViewModel()
 		{
-			_SelectedAccentColor = Color.FromArgb(240, 112, 173, 71);
+			_SelectedAccentColor = Color.FromArgb(240, 240, 0, 0);
 
 			FontSizeList = new List<int> { 8, 9, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 26, 28, 36, 48, 72 };
 			LabelPosList = new List<string> { " 上左", " 上中", " 上右", " 下左", " 下中", " 下右" };

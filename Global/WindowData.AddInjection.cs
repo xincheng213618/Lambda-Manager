@@ -65,6 +65,7 @@ namespace Global
                 bindingH.Source = image;
                 bindingH.Path = new PropertyPath("ActualHeight");
                 drawingVisualInk.SetBinding(DrawingVisualInk.HeightProperty, bindingH);
+                drawingVisualInk.Visibility = Visibility.Collapsed; //add 
                 grid.Children.Add(drawingVisualInk);
                 Grid.SetRow(drawingVisualInk, 0);
                 // Add Histogram
@@ -102,37 +103,37 @@ namespace Global
                 };
                 
 
-                updateStatus.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
-                 {
-                     if (e.PropertyName == "Ratio")
-                     {
-                         ratio = Convert.ToDouble(updateStatus.Ratio.Trim('%')) / 100;
+                //updateStatus.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                // {
+                //     if (e.PropertyName == "Ratio")
+                //     {
+                //         ratio = Convert.ToDouble(updateStatus.Ratio.Trim('%')) / 100;
 
-                         List<Visual> visualsList = new List<Visual>();
+                //         List<Visual> visualsList = new List<Visual>();
 
-                         foreach (var item in drawingVisualInk.InkCanvas.visuals)
-                         {
-                             visualsList.Add(item);
-                         }
+                //         foreach (var item in drawingVisualInk.InkCanvas.visuals)
+                //         {
+                //             visualsList.Add(item);
+                //         }
 
-                         if (visualsList.Count > 0)
-                         {
-                             foreach (DrawingVisual visual in visualsList)
-                             {
-                                 drawingVisualInk.InkCanvas.DeleteVisual(visual);
-                             }
-                             visualsList.Clear();
-                         }
+                //         if (visualsList.Count > 0)
+                //         {
+                //             foreach (DrawingVisual visual in visualsList)
+                //             {
+                //                 drawingVisualInk.InkCanvas.DeleteVisual(visual);
+                //             }
+                //             visualsList.Clear();
+                //         }
 
 
-                         if (drawingVisualInk.InkCanvas.visuals.Count == 0 && ImageViewState.toolTop.DimensionChecked)
-                         {
-                             DrawingVisual dimDefaultVisual = new DrawingVisual();
-                             drawingVisualInk.InkCanvas.AddVisual(dimDefaultVisual);
-                             drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
-                         }
-                     }
-                 };
+                //         if (drawingVisualInk.InkCanvas.visuals.Count == 0 && ImageViewState.toolTop.DimensionChecked)
+                //         {
+                //             DrawingVisual dimDefaultVisual = new DrawingVisual();
+                //             drawingVisualInk.InkCanvas.AddVisual(dimDefaultVisual);
+                //             drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
+                //         }
+                //     }
+                // };
 
 
 
@@ -146,7 +147,7 @@ namespace Global
                     {
                         if (ImageViewState.toolTop.EraserChecked == true)
                         {
-                            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
+                            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
                             drawingVisualInk.InkCanvas.Cursor = new Cursor(sri.Stream);
                         }
                         else
@@ -171,12 +172,14 @@ namespace Global
                     {
                         if ((bool)ImageViewState.toolTop.DimensionChecked)
                         {
-                            DrawingVisual dimDefaultVisual = new DrawingVisual();
+                            
+                               DrawingVisual dimDefaultVisual = new DrawingVisual();
                             drawingVisualInk.InkCanvas.AddVisual(dimDefaultVisual);
                             drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
                         }
                         else
                         {
+                            
 
                         }
 
@@ -186,6 +189,8 @@ namespace Global
 
                         if (ImageViewState.toolTop.SelectChecked == true)
                         {
+                            drawingVisualInk.Visibility = Visibility.Visible;
+
                             if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
                                 drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
 
@@ -194,6 +199,7 @@ namespace Global
                         {
                             if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
                                 drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
+                            drawingVisualInk.Visibility = Visibility.Collapsed;
                         }
                     }
                     if(e.PropertyName== "CurveChecked")
@@ -294,13 +300,13 @@ namespace Global
                 ToggleButton CubeTogg =   (ToggleButton)WrapPanel1.Children[9];
                 ToggleButton RepoTogg =   (ToggleButton)WrapPanel1.Children[10];
 
-                List<ToggleButton> RightTools = new List<ToggleButton>() { QuaterTogg, DualTogg, BFTogg, DFTogg, RITogg, DPTogg, PhiTogg, FLTogg, _3DTogg, CubeTogg, RepoTogg };
+                List<ToggleButton> RightTools2 = new List<ToggleButton>() { QuaterTogg, DualTogg, BFTogg, DFTogg, RITogg, DPTogg, PhiTogg, FLTogg, _3DTogg, CubeTogg, RepoTogg };
 
-                foreach (var item in RightTools)
+                foreach (var item in RightTools2)
                 {
                     item.Checked += delegate (object sender, RoutedEventArgs e)
                     {
-                        foreach (var item1 in RightTools)
+                        foreach (var item1 in RightTools2)
                         {
                             if (item1 != item)
                             {
@@ -311,7 +317,7 @@ namespace Global
 
                     };
 
-                }            
+                }
                 Popup popup = new Popup();
                 popup.PopupAnimation = PopupAnimation.Slide;
                 Binding binding8 = new Binding();
@@ -329,29 +335,30 @@ namespace Global
                 };
                 popup.Closed +=delegate { popup.IsOpen = false; };
 ;
-
+                //popup.MouseLeave += delegate
+                // {
+                //     if (popup.IsOpen)
+                //     {
+                //         popup.IsOpen = false;
+                //     };
+                // };
                 quaterPopup.dual.Checked += delegate
                 {
-                     if (QuaterTogg.IsChecked == true)
+                    if (QuaterTogg.IsChecked == true)
                     {
-
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
-                            histogramTogg.IsChecked = false;
-                            histogramTogg.IsEnabled = false;
+                        histogramTogg.IsChecked = false;
+                        histogramTogg.IsEnabled = false;
                     }
                     else
                     {
                         QuaterTogg.IsChecked = true;
                     }
-
                    popup.IsOpen = false;
                 };
 
-
-
                 quaterPopup.four.Checked += delegate
-                {
-                   
+                {    
                     if (QuaterTogg.IsChecked == true)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
@@ -387,24 +394,17 @@ namespace Global
                 void FourWindowTogg_Checked(object sender, RoutedEventArgs e)
                 {
                     if ((bool)quaterPopup.four.IsChecked)
-                       
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
-
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
-
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
 
                     }
                     else if ((bool)quaterPopup.six.IsChecked)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
-
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
-
                     }
                     else if ((bool)quaterPopup.dual.IsChecked)
                     {
@@ -731,12 +731,18 @@ namespace Global
                 stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                 DimenPreoperty dimenPreoperty = new DimenPreoperty();
                 stackPanel.Children.Add(dimenPreoperty);
-                //dimenPreoperty.Histogram.DataContext = histogramModel;
+                dimenPreoperty.DataContext = DrawInkMethod.dimenViewModel;
                 proViewBox.Child = stackPanel;
                 scrollViewer.Content = proViewBox;
                 propertySetItem.Content = scrollViewer;
                 propertySetItem.Visibility = Visibility.Collapsed;
                 tabControl.Items.Add(propertySetItem);
+
+                dimenPreoperty.ColorTextBox.TextChanged += delegate
+                {
+                    inkMethod.drawingAttributes.Color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                };
+
 
 
             }
@@ -773,6 +779,9 @@ namespace Global
                 ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
                 ToggleButtonZoomOut.SetBinding(ToggleButton.IsCheckedProperty, binding4);
 
+
+
+
                 Binding binding5 = new Binding("ZoomInChecked");
                 ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
                 ToggleButtonZoomIn.SetBinding(ToggleButton.IsCheckedProperty, binding5);
@@ -807,12 +816,11 @@ namespace Global
                     tabControl.SelectedIndex = 1;
                 };
                 GridLength leftViewtemp = new GridLength(0);
+    double tempLeft = 0, tempTop = 0, tempWidth = 0, tempHeight = 0;
+    ResizeMode resizeMode = new ResizeMode();
 
-                double tempLeft=0, tempTop=0, tempWidth = 0, tempHeight = 0;
-                ResizeMode resizeMode = new ResizeMode();
-
-                // viewMax
-                ToggleButtonInline.Checked += delegate
+    // viewMax
+    ToggleButtonInline.Checked += delegate
                 {
 
                     ColumnDefinition leftView = (ColumnDefinition)mainwin.FindName("leftView");

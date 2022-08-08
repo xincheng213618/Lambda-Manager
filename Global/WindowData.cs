@@ -33,6 +33,7 @@ namespace Global
             Hardware_Initialized();
             AddEventHandler();
             AddInjection();
+            AddInjection1();
         }
 
         public string SolutionDir{

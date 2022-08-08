@@ -199,17 +199,17 @@
                                 <TextBlock Text="颜色" Foreground="White" VerticalAlignment="Center"></TextBlock>
                             </StackPanel>
                         </Expander.Header>
-                        <controls:ColorCanvas Margin="5" SelectedColor="{Binding SelectedAccentColor}"></controls:ColorCanvas>
+                        <controls:ColorCanvas Margin="5" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
                         <!-- <userControl:ColorPicker ></userControl:ColorPicker> -->
                     </Expander>
                     <Grid Height="30"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="50,0,0,0" >
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Height="23"  Foreground="White"  VerticalAlignment="Center" Text="{Binding SelectedAccentColor }"  Width="70" Background="#515151"  HorizontalAlignment="Left" Margin="10,1,0,0" ></TextBlock>
+                            <TextBox Height="23" Name="ColorTextBox"  Foreground="White"  VerticalAlignment="Center" Text="{Binding SelectedAccentColor }"  Width="75" Background="#515151" IsReadOnly="True"  HorizontalAlignment="Left" Margin="6,1,0,0"  ></TextBox>
                             <!--<TextBox Foreground="White" BorderBrush="#515151" Padding="10,0,0,0"  behav:AllowableCharactersTextBoxBehavior.RegularExpressionProperty="^[0-9|a-f|A-F|#]+$" MaxLength="9" SelectionLength="9"  Height="23" VerticalContentAlignment="Center"  Text="{Binding SelectedAccentColor }"  Width="100" Background="#515151" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,1,0,0" ></TextBox> -->
-                            <controls:ColorPicker  Height="40" Width="40" Visibility="{Binding ElementName=expander,Path=IsExpanded,Converter={StaticResource Visb}}"  IsEnabled="False"  Name="_colorPicker" SelectedColor="{Binding SelectedAccentColor}" Margin="5,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></controls:ColorPicker>
+                            <controls:ColorPicker  Height="40" Width="40" Visibility="{Binding ElementName=expander,Path=IsExpanded,Converter={StaticResource Visb}}"  IsEnabled="True"  Name="_colorPicker" SelectedColor="{Binding SelectedAccentColor}" Margin="5,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></controls:ColorPicker>
 
                         </StackPanel>
-                        <CheckBox Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Center" Margin="0,4,10,0" Height="20" Content="自动设色" VerticalAlignment="Top" ></CheckBox>
+                        <CheckBox Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0" Height="20" Content="自动设色" ></CheckBox>
                     </Grid>
 
                 </Grid>

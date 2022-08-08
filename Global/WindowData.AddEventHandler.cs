@@ -1,9 +1,11 @@
 ﻿using Global.Controls;
 using Global.Mode;
 using Lambda;
+using Microsoft.VisualBasic.Logging;
 using Mode;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -165,10 +167,6 @@ namespace Global
         }
 
 
-
-
-
-
         private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
@@ -328,76 +326,52 @@ namespace Global
                             });
                         }
                     }
-
                 }
             }
-            catch(Exception ex)
+            catch 
             {
-                LambdaControl.Log(new Message { Severity = Severity.INFO, Text = ex.Message });
+                
             }
-           
             return true;
         }
+
+                    
 
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
 
         private void AddViewContentMenu(int view,List<int> ints)
-        {
-            if (view >=0 && view <= drawingCanvasInk.Length&&drawingCanvasInk[view] != null)
-            {
-                ContextMenu contextMenu = new ContextMenu();
-                List<RadioMenuItem> menuItem1s= new List<RadioMenuItem>();
-                foreach (var item in ViewContentMenuContent)
                 {
-                    menuItem1s.Add(new RadioMenuItem() { Header = item });
-                }
-
-                bool IsLeft = true;
-                for (int i = 0; i < ViewContentMenuContent.Count; i++)
-                {
-                    RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
-                    int mode = i;
-                    radioMenuItem.Click += delegate
+                    if (view >= 0 && view <= drawingCanvasInk.Length && drawingCanvasInk[view] != null)
                     {
-                        radioMenuItem.IsChecked = true;
-                        if (ints.Count == 2)
+                        ContextMenu contextMenu = new ContextMenu();
+                        List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
+                        foreach (var item in ViewContentMenuContent)
                         {
-                            mode = IsLeft ? mode * 10 + ints[1] : ints[0] + mode;
-                            mode += 10;
+                            menuItem1s.Add(new RadioMenuItem() { Header = item });
                         }
-                        LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
-                    };
-                    contextMenu.Items.Add(radioMenuItem);
 
-                    if (ints.Count==1&& ints[0]==i)
-                        radioMenuItem.IsChecked = true;
-                }
-                DrawingInkCanvas drawingInkCanvas = drawingCanvasInk[view].InkCanvas;
-                drawingInkCanvas.ContextMenu = contextMenu;
-
-                if (ints.Count == 2)
-                {
-                    drawingInkCanvas.PreviewMouseMove += delegate
-                    {
-                        if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
+                        bool IsLeft = true;
+                        for (int i = 0; i < ViewContentMenuContent.Count; i++)
                         {
-                            IsLeft = true;
-                            menuItem1s[ints[0]].IsChecked = true;
+                            RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
+                            int mode = i;
+                            radioMenuItem.Click += delegate
+                            {
+                                radioMenuItem.IsChecked = true;
+                                if (ints.Count == 2)
+                                {
+                                    mode = IsLeft ? mode * 10 + ints[1] : ints[0] + mode;
+                                    mode += 10;
+                                }
+                                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "window", view }, { "mode", mode } });
+                            };
+                            contextMenu.Items.Add(radioMenuItem);
                         }
-                        else
-                        {
-                            IsLeft = false;
-                            menuItem1s[ints[1]].IsChecked = true;
-                        }
-                    };
+                    }
                 }
 
-
-            }
-
-        }
 
 
         private static string? GetStringValue(Dictionary<string, object>? data, string key)

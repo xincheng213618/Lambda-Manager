@@ -355,7 +355,7 @@ namespace Global.UserControls.DrawVisual
 
                     if (InkCanvas.Cursor == Cursors.Hand)
                     {
-                        StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
+                        StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
                         InkCanvas.Cursor = new Cursor(sri.Stream);
                     }
                     Dictionary<string, object> parameters = new Dictionary<string, object>()
