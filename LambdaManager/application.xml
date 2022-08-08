@@ -90,6 +90,11 @@
 		<procedure name="SleepTest" event="SleepTest" >
 			<action name="SleepTest"/>
 		</procedure>
+		<procedure name="StageSettingReset" event="STAGE_SETTING_RESET">
+			<action name="StageSettingReset"/>
+		</procedure>
+
+		
 
 
 		<procedure name="test_double" event="test_double" key ="data">

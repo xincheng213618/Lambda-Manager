@@ -41,7 +41,7 @@ namespace LambdaManager
             Common.Init();
         }
 
-        public bool load()
+        public bool Load()
         {
             string path = "application.xml";
             if (File.Exists(path))

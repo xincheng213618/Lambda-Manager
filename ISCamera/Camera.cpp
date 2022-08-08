@@ -451,6 +451,12 @@ int VideoTest() {
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 	return 0;
 }
+int StageSettingReset() {
+	Sleep(10000);
+	Event::Trigger("STAGE_INI_CLOSE");
+	return 0;
+}
+
 
 CAMERA_API int FloatTest(float num)
 {

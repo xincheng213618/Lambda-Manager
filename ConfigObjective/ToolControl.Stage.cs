@@ -39,7 +39,9 @@ namespace ConfigObjective
 
         private void Stage_Reset_Click(object sender, RoutedEventArgs e)
         {
-            LambdaControl.Trigger("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
+            WaitContorl.GetInstance().Show();
+            WaitContorl.GetInstance().textBox.Text = "位移台校准中";
+            LambdaControl.Dispatch("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
         }
 
         private void ToggleButtonXYF_Checked(object sender, RoutedEventArgs e)

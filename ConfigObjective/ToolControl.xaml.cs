@@ -238,6 +238,10 @@ namespace ConfigObjective
                 viewbox.Child = stackPanel;
                 scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
+
+                WaitContorl.GetInstance().Show();
+                WaitContorl.GetInstance().textBox.Text = "位移台校准中";
+                LambdaControl.Dispatch("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
             }
         }
 

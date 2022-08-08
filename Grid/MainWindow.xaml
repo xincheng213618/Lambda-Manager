@@ -184,11 +184,8 @@
                             <TextBox Name="TextBox2" Style="{DynamicResource TextBoxStyle1}" VerticalContentAlignment="Center" Text="C:\dell\ZIRCON\Grid\default.gprj" Foreground="White" Margin="10,0" Background="#404040"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
-                            <TextBlock DockPanel.Dock="Left" Text="{x:Static resx:Resources.Reset_all_setting_at_startup__Initialize_motorized_stage_}" VerticalAlignment="Center" Foreground="White"/>
-                            <Border  DockPanel.Dock="Right"  Background="#262626" Padding="3" Margin="2,0" BorderBrush="#f3f3f3" BorderThickness="1" CornerRadius="3">
-                                <TextBlock  Text="{Binding ElementName=ToggleButton1,Path=IsChecked}" TextAlignment="Center"  Width="30" HorizontalAlignment="Center"  FontSize="11" IsEnabled="False" Foreground="Green" VerticalAlignment="Center"/>
-                            </Border>
-                            <ToggleButton x:Name="ToggleButton1" DockPanel.Dock="Right"  Template="{DynamicResource ToggleButton10}" Background="#6DA347" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  HorizontalAlignment="Right"  Width="50" Margin="2"/>
+                            <CheckBox IsChecked="True"/>
+                            <TextBlock  Margin="10,0"  Text="{x:Static resx:Resources.Reset_all_setting_at_startup__Initialize_motorized_stage_}" VerticalAlignment="Center" Foreground="White"/>
                         </DockPanel>
 
 

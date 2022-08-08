@@ -28,6 +28,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
+            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
@@ -51,6 +52,15 @@ namespace Global
 
             //采集关闭
             LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);         
+        }
+
+        private bool StaheIniClose(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                WaitContorl.GetInstance().Hidden();
+            });
+            return true;
         }
 
         private bool CollectionCompleted(object sender, EventArgs e)

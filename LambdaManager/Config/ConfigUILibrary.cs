@@ -23,7 +23,11 @@ public class ConfigUILibrary: ILambdaUI
     public void LoadControl(string name, string lib, string mount)
 	{
 		Assembly assembly = Assembly.LoadFile(Directory.GetCurrentDirectory() + "/" + lib);
-		if (name != null)
+        if ((assembly.CreateInstance(name) is Control control))
+		{
+			MessageBox.Show("1");
+		}
+            if (name != null)
 		{
 			string fullName = lib.Replace(".dll", "") + "." + name;     
 			Side side = GetConfigSide(mount);
