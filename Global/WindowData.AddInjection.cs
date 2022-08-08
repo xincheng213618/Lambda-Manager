@@ -5,6 +5,7 @@ using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,32 +14,23 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Global
 {
-
-
-
 
     /// <summary>
     /// 监听AddInjection事件
     /// </summary>
     public partial class WindowData
     {
+
         private void AddInjection()
         {
             Window mainwin = Application.Current.MainWindow;
 
-             //等待窗口
-            //Grid stageConfig = (Grid)mainwin.FindName("stageConfig");
-            //stageConfig.Visibility = Visibility.Visible;
-            //stageConfig.Background = Brushes.White;
-            //stageConfig.Opacity = 0.1;
-            //Application.Current.MainWindow.Cursor = Cursors.Wait;
-
             try
             {
-
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
                 //检测如果找不到rightToolbar 直接退出
                 if (WrapPanel1 == null)
@@ -46,26 +38,43 @@ namespace Global
                 ToggleButton buttton1 = (ToggleButton)WrapPanel1.Children[0];
 
                 ContextMenu contextMenu = new ContextMenu();
-                MenuItem menuItem1 = new MenuItem() { Header = "一" };
-                menuItem1.Click += delegate
+
+                string WindowType = "QUATER_CLICKED2";
+                buttton1.Checked += delegate
                 {
+                    //contextMenu.Visibility = Visibility.Visible;
+                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
+                };
+                buttton1.Unchecked += delegate
+                {
+                    //contextMenu.Visibility = Visibility.Collapsed;
+
                     LambdaControl.Trigger("QUATER_CLICKED1", mainwin, new EventArgs());
                 };
+
+
                 MenuItem menuItem2 = new MenuItem() { Header = "四" };
+                MenuItem menuItem3 = new MenuItem() { Header = "六" };
+
                 menuItem2.Click += delegate
                 {
-                    LambdaControl.Trigger("QUATER_CLICKED2", mainwin, new EventArgs());
+                    menuItem2.IsChecked = true;
+                    menuItem3.IsChecked = false;
+
+                    WindowType = "QUATER_CLICKED2";
+                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
                 };
 
-                MenuItem menuItem3 = new MenuItem() { Header = "六" };
                 menuItem3.Click += delegate
                 {
-                    LambdaControl.Trigger("QUATER_CLICKED3", mainwin, new EventArgs());
+                    menuItem2.IsChecked = false;
+                    menuItem3.IsChecked = true;
+                    WindowType = "QUATER_CLICKED3";
+                    LambdaControl.Trigger(WindowType, mainwin, new EventArgs());
                 };
-                contextMenu.Items.Add(menuItem1);
                 contextMenu.Items.Add(menuItem2);
                 contextMenu.Items.Add(menuItem3);
-                buttton1.ContextMenu = contextMenu;
+                buttton1.ContextMenu = contextMenu;  
             }
             catch (Exception ex)
             {
@@ -78,14 +87,13 @@ namespace Global
 
                 DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
                 if (leftToolBar == null) return;
-                Image image = (Image)leftToolBar.Children[1];
+                 Image image = (Image)leftToolBar.Children[1];
                 leftToolBar.Children.Remove(image);
 
                 image.Visibility = Visibility.Collapsed;
                 ColorBarUser colorBarUser = new ColorBarUser();
                 leftToolBar.Children.Add(colorBarUser);
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
-
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
                 colorbarTogg.PreviewMouseRightButtonUp += delegate(object sender, MouseButtonEventArgs e)
                 {
@@ -289,15 +297,22 @@ namespace Global
                 ((ToggleButton)topToolbar.Children[1]).SetBinding(ToggleButton.IsCheckedProperty, binding2);
                 Binding binding3 = new Binding("DimensionChecked");
                 ((ToggleButton)topToolbar.Children[2]).SetBinding(ToggleButton.IsCheckedProperty, binding3);
-                //((ToggleButton)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
 
-                //Binding binding4 = new Binding("RulerChecked");
-                //((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, binding4);    
+
+                ((Button)topToolbar.Children[3]).SetBinding(ToggleButton.IsCheckedProperty, new Binding("FocusChecked"));
+
+                Binding binding4 = new Binding("RulerChecked");
+                ((ToggleButton)topToolbar.Children[4]).SetBinding(ToggleButton.IsCheckedProperty, binding4);
 
 
                 Binding binding5 = new Binding("FocusChecked");
                 ((ToggleButton)topToolbar.Children[5]).SetBinding(ToggleButton.IsCheckedProperty, binding5);
 
+
+                Binding binding6 = new Binding("scale");
+                Border border1 = (Border)topToolbar.Children[7];
+
+                ((TextBox)border1.Child).SetBinding(TextBox.TextProperty, binding6);
 
 
                 Binding binding13 = new Binding("EraserChecked");

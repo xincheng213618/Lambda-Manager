@@ -48,7 +48,6 @@ namespace NLGSolution
         }
 
 
-
         public override bool IsEditMode
         {
             get { return isEditMode; }

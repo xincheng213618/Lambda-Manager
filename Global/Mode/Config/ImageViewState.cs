@@ -151,6 +151,7 @@ namespace Global.Mode.Config
             }
 
 
+
             private bool eraserChecked = false;
             [JsonPropertyName("eraser-checked")]
             public bool EraserChecked

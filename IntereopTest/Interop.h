@@ -245,6 +245,8 @@ template <typename T>CString format(T a[], size_t size);
 CString formatStringArray(wchar_t* a[], int size);
 
 //event array
-extern "C" INTEROP_API int Test210();
-int Test211(void* a);
-int Test212(void* a);
+extern "C" INTEROP_API  int Test210();
+extern "C" INTEROP_API  int Test211(void* a);
+extern "C" INTEROP_API  int Test212(void* a);
+
+extern "C" INTEROP_API int BrightFieldBrightness(void* brightness);

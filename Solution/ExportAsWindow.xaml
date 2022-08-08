@@ -11,7 +11,7 @@
         <DockPanel   >
             <UniformGrid Columns="2" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="15,5">
                 <Button Content="取消" Height="20" Width="75" Click="Cancel_Click"/>
-                <Button Content="导出为" Height="20" Width="75" Click="OK_Click" />
+                <Button Content="导出" Height="20" Width="75" Click="OK_Click" />
             </UniformGrid>
 
             <Border  CornerRadius="3" Margin="5">

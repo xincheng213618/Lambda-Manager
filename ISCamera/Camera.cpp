@@ -48,6 +48,100 @@ void HistCalc(cv::Mat& MatPha,int i)
 
 	Event::Trigger("TestDataEvent2", gray, sizeof(char) * i);
 }
+Mat histnew(Mat& scr, int maxloc, double sumhist, int histmax, int histmin)
+{
+	Mat hist = Mat::zeros(1, 256, CV_32FC1);
+	float* ptr = scr.ptr<float>(0);
+	float* hptr = hist.ptr<float>(0);
+	hptr[maxloc] = ptr[maxloc];
+	float th = ptr[maxloc];
+
+	for (int i = maxloc; i < scr.cols - 1; i++)
+	{
+		int minloc = 2 * maxloc - i - 1;
+		float minval;
+		if (minloc < 0)
+		{
+			minloc = 0;
+			minval = 0;
+		}
+		else {
+			minval = ptr[2 * maxloc - i - 1];
+		}
+		th = th + ptr[i + 1] + minval;
+		if (th / sumhist < 0.99)
+		{
+			hptr[i + 1] = ptr[i + 1];
+			hptr[minloc] = ptr[minloc];
+		}
+		else
+		{
+			histmax = i;
+			histmin = minloc + 1;
+			break;
+		}
+	}
+
+	return hist;
+}
+
+void Histograme(Mat Im1, LambdaView* pView1) {
+	double minVal = 0, maxVal = 0;
+	Mat Im;
+	cv::cvtColor(Im1, Im, cv::COLOR_RGBA2GRAY);
+	minMaxLoc(Im, &minVal, &maxVal, NULL, NULL);
+
+	Mat phase_norm, phase_hist;
+	phase_norm = Im;
+	//Im.convertTo(phase_norm, CV_8UC1, 255, 0);
+	int channel = 0;
+	int histSize[] = { 256 };
+	float ranges[] = { 0, 256 };
+	const float* range[] = { ranges };
+
+
+	cv::calcHist(&phase_norm, 1, &channel, cv::Mat(), phase_hist, 1, histSize, range, true, false);
+
+	Mat phaseMat_hist = phase_hist.t();
+	Scalar numsum = sum(phaseMat_hist);
+	double sumhist = numsum[0];
+
+	Point maxLoc;
+	double max_val = 0;
+	minMaxLoc(phase_hist, NULL, &max_val, NULL, NULL);
+
+	int scale = 2;
+	int hist_height = 256;
+	Mat hist_img_o = Mat::zeros(hist_height, 256 * scale, CV_8UC3);
+	for (int i = 0; i < 256; i++)
+	{
+		float bin_val = phase_hist.at<float>(i);
+		int intensity = cvRound(bin_val * hist_height / max_val);  //要绘制的高度
+		rectangle(hist_img_o, Point(i * scale, hist_height - 1),
+			Point((i + 1) * scale - 1, hist_height - intensity),
+			CV_RGB(255, 255, 255));
+	}
+
+
+	int maxloc = maxLoc.y;
+	int histmin = 0, histmax = 0;
+
+	Mat hist = histnew(phaseMat_hist, maxloc, sumhist, histmax, histmin);
+	minMaxLoc(hist, 0, &max_val, 0, 0);
+
+	Mat hist_img = Mat::zeros(hist_height, 256 * scale, CV_8UC3);
+	for (int i = 0; i < 256; i++)
+	{
+		float bin_val = hist.at<float>(i);
+		int intensity = cvRound(bin_val * hist_height / max_val);  //要绘制的高度
+		rectangle(hist_img, Point(i * scale, hist_height - 1),
+			Point((i + 1) * scale - 1, hist_height - intensity),
+			CV_RGB(255, 255, 255));
+	}
+	Mat hist_img1;
+	resize(hist_img, hist_img1, cv::Size(hist_img.cols*2, hist_img.rows), 0, 0);
+	pView1->Show(hist_img1);
+}
 
 int OpenCamera()
 {
@@ -129,7 +223,7 @@ int PlayFilms(json* eventData) {
 	return 0;
 }
 
-
+LambdaView* pView1;
 bool ssss = false;
 
 int PlayFilm(std::string fileName) {
@@ -141,7 +235,7 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
-	LambdaView* pView1 = LambdaView::GetRegistered(-1);
+	LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
 
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
@@ -155,15 +249,15 @@ int PlayFilm(std::string fileName) {
 			break;
 
 		}
-
 		cap.read(frame);
 		// check if we succeeded
 		if (frame.empty()) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
+		resize(frame, frame, cv::Size(1200, 900), 0, 0);
 		pView->Show(frame);
-		pView1->Show(frame);
+		Histograme(frame, pView1);
 		//HistCalc(frame, pView->GetIndex());
 		Sleep(0);
 
@@ -181,6 +275,13 @@ int CloseCamera()
 	Logger::Log1(Severity::INFO, "Invoke 'CloseCamera()'");
 	return  0;
 }
+
+int FloatTest(void* num)
+{
+	Logger::Log1(Severity::INFO, "Invoke 'CloseCamera()%f'", num);
+	return  0;
+}
+
 
 int CaptureImage(int mode, void** image)
 {
@@ -333,17 +434,24 @@ int VideoTest() {
 
 
 int MatShow(cv::Mat* Test) {
-	VideoTest();
-	//resize(*Test, *Test, cv::Size(300, 300), 0, 0);
+	//VideoTest();
+	resize(*Test, *Test, cv::Size(300, 300), 0, 0);
 	return 0;
+}
 
+int MatShow1(cv::Mat* Test ,int num) {
+	//resize(*Test, *Test, cv::Size(222, 300), 0, 0);
+
+	return 0;
 }
 
 double x = 111.1111;
 double y = 111.1111;
-
 int CameraSettingExposure(int mode,double exposure)
 {
+	x++;
+	y++;
+
 	json j;
 	j["x"] = std::to_string(x);
 	j["y"] = std::to_string(y);
@@ -366,7 +474,6 @@ int CameraSettingExposure(int mode,double exposure)
 	//pView->Show(img1);
 	cv::Mat img2;
 	resize(img1, img2, cv::Size(300, 300), 0, 0);
-	Event::Dispatch("MatShow",(&img2));
 
 	////uchar b[] = { 1, 2, 3, 4, 5 };
 

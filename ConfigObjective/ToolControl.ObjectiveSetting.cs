@@ -18,7 +18,7 @@ namespace ConfigObjective
         private void ObjectiveSetting_Update()
         {
             ObjectiveSettingStackPanel.Children.Clear();
-            foreach (var item in WindowData.ObjectiveSettingList)
+            foreach (var item in windowData.ObjectiveSettingList)
             {
                 RadioButton radioButton = new RadioButton
                 {

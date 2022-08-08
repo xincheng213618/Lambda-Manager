@@ -29,6 +29,13 @@ namespace Wizard
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1())));
+
+            Uri url = new Uri("/Images/图片1.png", UriKind.Relative);
+
+            Image image = new Image() { Source = new BitmapImage(url) };
+            Window window = new Window();
+            window.Content = image;
+            window.Show();
         }
     }
 }

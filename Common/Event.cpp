@@ -59,19 +59,22 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 		if (it->second == Event) {
 			auto it2 = ArgumentType_map.find(Event);
 			if (it2 != ArgumentType_map.end()) {
-				if (argType == NO_ARGS) {
+				if (it2->second == NO_ARGS) {
 					callBack1(it->first, sender);
 				}
-				else if (argType == JSON_STRING) {
+				else if (it2->second == JSON_STRING) {
 					callBack3(it->first, eventObject, sender);
 				}
-				else if (argType == JSON_OBJECT || argType == STL_MAP) {
+				else if (it2->second == JSON_OBJECT || it2->second == STL_MAP) {
 					callBack3(it->first, eventObject, sender);
+				}
+				else {
+					callBack5(it->first, eventObject, sender);
+
 				}
 			}
 		}
 	}
-
 
 	auto it11 = FunctionEvent_map.find(Event);
 	if (it11 != FunctionEvent_map.end()) {
@@ -101,13 +104,18 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 	auto it2 = Callback1_map.find(Event);
 	if (it2 != Callback1_map.end()) {
 			 (it2->second)();
+			 return 0;
 	}
 
 	auto it23 = Callback3_map.find(Event);
 	if (it23 != Callback3_map.end()) {
 		return (it23->second)((char*)eventObject);
 	}
-	return 0;
+
+	auto it53 = Callback5_map.find(Event);
+	if (it53 != Callback5_map.end()) {
+		return (it53->second)(eventObject);
+	}
 }
 
 
@@ -401,49 +409,11 @@ void Event::Dispatch(std::string type, void* object1, void* object2, void* objec
 	t.detach();
 }
 
-//libcron::Cron<libcron::LocalClock, libcron::NullLock> cron22 =  libcron::Cron<libcron::LocalClock, libcron::NullLock>();
-//
-//time_t now = time(0);
 
 extern ScheduleEvent scheduleEvent;
 void Event::Schedule(std::string type, const char* cron, const char* event)
 {
-
 	scheduleEvent(const_cast<char*>(type.c_str()), (char*)cron, (char*)event);
-
-	//cron22.add_schedule(type, cron, [=](auto&) {
-	//	auto RoutineEvent = RoutineEvent_map.find(type);
-
-	//	if (event == NULL) {
-	//		if (RoutineEvent != RoutineEvent_map.end()) {
-	//			callBack1(RoutineEvent->second, NULL);
-	//		}
-	//		else {
-	//			auto it2 = Callback1_map.find(type);
-	//			if (it2 != Callback1_map.end()) {
-	//				(it2->second)();
-	//			}
-	//		}
-	//	}
-	//	else {
-	//		if (RoutineEvent != RoutineEvent_map.end()) {
-	//			callBack2(RoutineEvent->second, (void*)event, NULL);
-	//		}
-	//		else {
-	//			auto it2 = Callback3_map.find(type);
-	//			if (it2 != Callback3_map.end()) {
-	//				(it2->second)((char*)event);
-	//			}
-	//		}
-	//	}
-	//	});
-
-
-
-
-
-
-
 }
 
 void Event::On(std::string type, Callback1 callback, bool once)

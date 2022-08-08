@@ -96,7 +96,7 @@ namespace NLGSolution
 
         }
 
-        public void Watcher_Renamed(object sender, RenamedEventArgs e)
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
             if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
             {
@@ -108,7 +108,7 @@ namespace NLGSolution
             }
         }
 
-        public void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
             if (!(File.Exists(e.FullPath) || Directory.Exists(e.FullPath)))
             {
@@ -124,7 +124,7 @@ namespace NLGSolution
 
         }
 
-        public void Watcher_Created(object sender, FileSystemEventArgs e)
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
         {
             if (File.Exists(e.FullPath))
             {

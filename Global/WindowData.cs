@@ -34,7 +34,6 @@ namespace Global
         {
             Hardware_Initialized();
             AddEventHandler();
-
             AddInjection();
         }
 
@@ -66,6 +65,7 @@ namespace Global
                 ViewMode.SetValue(Config.ViewMode);
                 Stage.SetValue(Config.Stage);
                 ImageViewState.SetValue(Config.ImageViewState);
+                RegisterInfo.SetValue(Config.RegisterInfo);
                 Update.UpdateGlobal();
             }
             else
@@ -75,8 +75,7 @@ namespace Global
 
         }
         public ImageViewState ImageViewState = new ImageViewState();
-
-
+        public RegisterInfo RegisterInfo = new RegisterInfo();
         public void SaveConfig()
         {
             Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
@@ -86,6 +85,9 @@ namespace Global
             Config.ViewMode.SetValue(ViewMode);
             Config.Stage.SetValue(Stage);
             Config.ImageViewState.SetValue(ImageViewState);
+            Config.RegisterInfo.SetValue(RegisterInfo);
+
+            
             Config.ToJsonFile(FilePath);
         }
         

@@ -13,7 +13,7 @@ namespace Global
 
         private void Hardware_Initialized()
         {
-            bool init = false;
+            bool init = true;
             if (File.Exists(GlobalConst.HardwareDeviceInformationSheet))
             {
                 string HardwareDeviceInformation = File.ReadAllText(GlobalConst.HardwareDeviceInformationSheet);
@@ -22,8 +22,8 @@ namespace Global
                 {
                     deviceInformation = JsonSerializer.Deserialize<DeviceInformation>(HardwareDeviceInformation);
                     ObjectiveSettingList = deviceInformation.ObjectiveSettingList;
-                    if (ObjectiveSettingList==null)
-                        init = true;
+                    if (ObjectiveSettingList!=null)
+                        init = false;
                 }
             }
 
@@ -48,7 +48,8 @@ namespace Global
                         new ObjectiveSetting() { ID = 4, Name = "奥林巴斯", Magnitude = "100X", NA = 0.65, IsEnabled = false },
                     },
                     CameraExpose = GlobalConst.expose,
-                    CameraExposeShow = strings
+                    CameraExposeShow = strings,
+                    CameraResolution = GlobalConst.CameraResolution
 
                 };
                 deviceInformation.ToJsonFile(GlobalConst.HardwareDeviceInformationSheet);

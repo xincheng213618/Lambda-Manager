@@ -43,44 +43,13 @@ namespace Mode
 
         public ImageViewState ImageViewState = new ImageViewState();
 
+        public RegisterInfo RegisterInfo { get; set; } = new RegisterInfo();
+
         [JsonPropertyName("log-file")]
         public string? LogFile { get; set; }
-
-        public Hotkey Hotkey { get; set; }
     }
 
 
-
-    [Serializable]
-    public class Hotkey
-    {
-        [JsonPropertyName("Key")]
-        public Key Key { get; }
-        [JsonPropertyName("Modifiers")]
-        public ModifierKeys Modifiers { get; }
-        public Hotkey(Key key, ModifierKeys modifiers)
-        {
-            Key = key;
-            Modifiers = modifiers;
-        }
-
-        public override string ToString()
-        {
-            var str = new StringBuilder();
-            if (Modifiers.HasFlag(ModifierKeys.Windows))
-                str.Append("Win + ");
-            if (Modifiers.HasFlag(ModifierKeys.Control))
-                str.Append("Ctrl + ");
-            if (Modifiers.HasFlag(ModifierKeys.Shift))
-                str.Append("Shift + ");
-            if (Modifiers.HasFlag(ModifierKeys.Alt))
-                str.Append("Alt + ");
-
-
-            str.Append(Key);
-            return str.ToString();
-        }
-    }
 
     [Serializable]
     public class Modules
@@ -99,6 +68,7 @@ namespace Mode
         public string? ConfigMultiDimensional { get; set; } = "1.0";
         [JsonPropertyName("dpc-algorithm")]
         public string? DpcAlgorithm { get; set; } = "1.0";
+
     }
     [Serializable]
     public class LambdaManager

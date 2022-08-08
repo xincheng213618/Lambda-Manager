@@ -321,7 +321,13 @@ internal static class FunctionExecutor
 			ulong y = (ulong)value;
 			return Unsafe.As<ulong, long>(ref y);
 		}
-		case 46:
+		case 50:
+		case 51:
+					return Convert.ToSingle(value);
+			case 55:
+            case 56:
+                return Convert.ToDouble(value);
+            case 46:
 		{
 			if (info.Size == 4)
 			{

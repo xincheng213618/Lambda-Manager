@@ -17,6 +17,7 @@ using System.Windows.Controls.Primitives;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
+using Solution.RecentFile;
 
 namespace Solution
 {
@@ -89,7 +90,9 @@ namespace Solution
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
-                        LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
+                        //LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
+
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
@@ -141,6 +144,7 @@ namespace Solution
             {
                 if (windowData.ReadConfig(FilePath) == 0)
                 {
+                    recentFileList.InsertFile(FilePath);
                     windowData.FilePath = FilePath;
                     TreeViewInitialized(FilePath, windowData.Config);
                 }
@@ -301,23 +305,28 @@ namespace Solution
 
         private void MenuItem3_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void MenuItem4_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
+        RecentFileList recentFileList = new RecentFileList();
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            if (this.Parent is StackPanel stackPanel)
+            if (recentFileList.RecentFiles.Count > 0)
             {
-                stackPanel.Width = 420;
+                string FilePath = recentFileList.RecentFiles[0];
+                if (windowData.ReadConfig(FilePath) == 0)
+                {
+                    windowData.FilePath = FilePath;
+                    TreeViewInitialized(FilePath, windowData.Config);
+                }
             }
 
         }
+
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -327,66 +336,44 @@ namespace Solution
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             //LambdaControl.Dispatch("SleepTest", this, new Dictionary<string, object>());
-            Image image = new Image();
-            HeaderStackPanel.Children.Add(image);
-            MessageBox.Show(LambdaControl.RegisterImageView(image).ToString());
-        }
-        GridLengthConverter gridLengthConverter = new GridLengthConverter();
-        private void testt22_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            testt22.Children.Clear();
-            testt22.RowDefinitions.Clear();
-            int lendgth = (int)(testt22.ActualHeight / 26.66);
-            if (lendgth > 0)
-            {
-                Image image = new Image();
-                image.Source = new BitmapImage(new Uri("/Solution;component/images/图片2.png", UriKind.Relative));
 
-                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                testt22.RowDefinitions.Add(rowDefinition);
-                image.SetValue(Grid.RowProperty, 0);
-                image.SetValue(Grid.ColumnProperty, 0);
-                image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-                testt22.Children.Add(image);
-            }
+            int[] data2 = new int[] { 144, 2, 3, 4, 5 };
+            LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", null, data2);
 
+            Node<int> doue = new Node<int>(1);
+            doue.Next = new Node<int>(2);
+            doue.Next.Next = doue;
 
-
-
-            for (int i = 1; i < lendgth; i++)
-            {
-                Image image = new Image();
-                image.Source = new BitmapImage(new Uri("/Solution;component/images/filer.png", UriKind.Relative));
-
-                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                testt22.RowDefinitions.Add(rowDefinition);
-                image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-                image.SetValue(Grid.RowProperty, i);
-                image.SetValue(Grid.ColumnProperty, 0);
-                testt22.Children.Add(image);
-
-            }
-
-
+            
         }
 
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("这里添加命令");
-        }
-
-        bool fisrt = true;
+        bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             //执行一次
-            if (fisrt)
+            if (IsFirstLoad)
             {
+                if (this.Parent is StackPanel stackPanel1)
+                    if (stackPanel1.Parent is Viewbox viewbox1)
+                        if (viewbox1.Parent is ScrollViewer scrollViewer1)
+                        {
+                            stackPanel1.Children.Remove(this);
+
+                            StackPanel stackPanel = new StackPanel() { Name = "projectView" ,Margin= new Thickness(2,2,2,0)};
+                            stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            stackPanel.Children.Add(this);
+                            Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top};
+                            viewbox.Child = stackPanel;
+                            scrollViewer1.Content = viewbox;
+                        }
+
+                //清理掉对第一个image的引用
                 View view = LambdaControl.GetImageView(0);
                 if (view != null)
                 {
                     view.Image = null;
                 }
-                fisrt = false;
+                IsFirstLoad = false;
             }
 
         }

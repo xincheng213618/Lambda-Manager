@@ -127,6 +127,7 @@
     <PackageReference Include="Quartz" Version="3.4.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ACE\ACE.csproj" />
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="..\Global\Global.csproj" />
@@ -135,6 +136,12 @@
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ColorPickerLib">
+      <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NumericUpDownLib">
+      <HintPath>..\DLL\NumericUpDownLib.dll</HintPath>
+    </Reference>
     <Reference Include="RangeSlider">
       <HintPath>..\DLL\RangeSlider.dll</HintPath>
     </Reference>

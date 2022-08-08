@@ -123,8 +123,41 @@ internal class Common
 			return RaiseEvent(p, 0, IntPtr.Zero, sender);
 		}
 	}
+    public unsafe static int CallEvent(string type, Array arry, nint sender)
+    {
+        sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes(type);
 
-	public unsafe static int CallEvent(string type, string json, nint sender)
+        fixed (sbyte* p = obj)
+        {
+            if (arry is int[] i)
+            {
+                fixed (int* pData = i)
+                {
+                    return RaiseEvent(p, 1, (nint)pData, sender);
+                }
+            }
+            else if (arry is double[] dou)
+            {
+                fixed (double* pData = dou)
+                {
+                    return RaiseEvent(p, 1, (nint)pData, sender);
+                }
+            }
+            else if (arry is float[] fl)
+            {
+                fixed (float* pData = fl)
+                {
+                    return RaiseEvent(p, 1, (nint)pData, sender);
+                }
+            }
+            else
+            {
+				return 0;
+            }
+        }
+    }
+
+    public unsafe static int CallEvent(string type, string json, nint sender)
 	{
 		sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes(type);
 		sbyte[] pStr = (sbyte[])(object)Encoding.UTF8.GetBytes(json);
@@ -470,7 +503,7 @@ internal class Common
 		}
 	}
 
-	private static int CallEvent(string type, GCHandle handle, EventArgs e)
+	private  static int CallEvent(string type, GCHandle handle, EventArgs e)
 	{
 		type = type.Trim();
 		if (e == EventArgs.Empty)
@@ -493,7 +526,11 @@ internal class Common
                 string json = JSON.Stringify(dic);
                 return CallEvent(type, json, GCHandle.ToIntPtr(handle));
             }
-			App.Report(new Message
+            if (data is Array array)
+            {
+                return CallEvent(type, array, GCHandle.ToIntPtr(handle));
+            }
+            App.Report(new Message
 			{
 				Severity = Severity.FATAL_ERROR,
 				Text = Resources.EventDataNotSupport
@@ -533,7 +570,7 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int InitialFrame(int index,int A_1, IntPtr buff, int rows, int cols, int type)
+	private static int InitialFrame(int index,int index2, IntPtr buff, int rows, int cols, int type)
 	{
 		PixelFormat format = type switch
 		{
@@ -549,11 +586,18 @@ internal class Common
 			writeableBitmap.Lock();
 			writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
 			writeableBitmap.Unlock();
-			Image image = GetImage(index, A_1, initial: true);
+			Image image = GetImage(index, index2, initial: true);
 			if (image != null)
 			{
 				image.Source = writeableBitmap;
-				Views[index].State = ViewState.RUNING;
+                if (index2 == 0)
+                {
+                    Views[index].State = ViewState.RUNING;
+                }
+                else
+                {
+                    //Views[index2].State = ViewState.RUNING;
+                }
             }
         });
 		return 2;
@@ -561,11 +605,11 @@ internal class Common
 
 	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
-	private static int UpdateFrame(int index, int A_1,IntPtr buffer, uint len, int stride)
+	private static int UpdateFrame(int index, int index2, IntPtr buffer, uint len, int stride)
 	{
 		Application.Current.Dispatcher.Invoke(delegate
 		{
-			if (GetImage(index, A_1,initial: false)?.Source is WriteableBitmap writeableBitmap)
+			if (GetImage(index, index2, initial: false)?.Source is WriteableBitmap writeableBitmap)
 			{
 				Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
 				writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
@@ -575,10 +619,17 @@ internal class Common
 				}
 			}
 		});
-		return (int)(Views[index]?.State ?? ((ViewState)(-1)));
-	}
+        if (index2 == 0)
+        {
+            return (int)(Views[index]?.State ?? ((ViewState)(-1)));
+        }
+        else
+        {
+            return 2;       
+		}
+    }
 
-	[UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+    [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
 	[SuppressGCTransition]
 	private static void CloseImageView(int index)
 	{
@@ -588,9 +639,9 @@ internal class Common
 		});
 	}
 
-	private static Image? GetImage(int index,int A_1, bool initial)
+	private static Image? GetImage(int index,int index2, bool initial)
 	{
-		if (A_1 == 0)
+		if (index2 == 0)
         {
             Image image = Views[index]?.Image;
             if (image == null && (initial || ClosingViewIndex.IndexOf(index) == -1))
@@ -602,9 +653,13 @@ internal class Common
         }
         else
         {
-            View view2 =  RegisterImageViews[- A_1-1];
-            return view2.Image;
-
+			int i = -index2 - 1;
+			if (RegisterImageViews.Count > i)
+            {
+                View view2 = RegisterImageViews[-index2 - 1];
+                return view2.Image;
+            }
+            return null;
         }
     }
 

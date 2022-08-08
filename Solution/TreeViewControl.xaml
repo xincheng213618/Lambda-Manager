@@ -15,9 +15,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <StackPanel x:Name="HeaderStackPanel" Width="400">
-            <UniformGrid Columns="7">
+    <Grid MinHeight="300">
+        <StackPanel x:Name="HeaderStackPanel" >
+            <UniformGrid Columns="7" Width="400">
                 <Button Content="导出" Click="Button_Click_1"/>
                 <Button Content="新建" Click="Button_Click_2"/>
                 <Button Content="打开" Click="Button_Click"/>
@@ -107,9 +107,6 @@
                             </TextBlock>
                             <StackPanel.ContextMenu>
                                 <ContextMenu >
-                                    <MenuItem Header="添加(_D)"  Command="{Binding AddChildren}" CommandParameter="{Binding .}" >
-
-                                    </MenuItem>
                                     <Separator/>
                                     <!--<MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />-->
                                     <MenuItem Header="删除(_D)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
@@ -127,7 +124,7 @@
                                     </MenuItem>
                                     <MenuItem Header="应用参数(_Y)"  CommandParameter="{Binding .}"/>
                                     <MenuItem Header="文件属性(_R)"  CommandParameter="{Binding .}" />
-                                    <MenuItem Header="导出图片设置(_Y)"  CommandParameter="{Binding .}"/>
+                                    <MenuItem Header="导入图片设置(_Y)"  CommandParameter="{Binding .}"/>
                                     <Separator/>
                                 </ContextMenu>
                             </StackPanel.ContextMenu>
@@ -269,7 +266,7 @@
             </TreeView>
         </StackPanel>
 
-        <Grid x:Name="testt22" Visibility="Collapsed" SizeChanged="testt22_SizeChanged" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
+        <Grid x:Name="testt22" Visibility="Collapsed" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
             
         </Grid>
 

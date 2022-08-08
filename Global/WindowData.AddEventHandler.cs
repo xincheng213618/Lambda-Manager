@@ -69,11 +69,11 @@ namespace Global
                 {
                     if (flag == 1)
                     {
-                        LambdaBottomViews[window].Show();
+                        LambdaBottomViews[window].Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        LambdaBottomViews[window].Hidden();
+                        LambdaBottomViews[window].Visibility = Visibility.Collapsed;
                     }
                 }
             }
@@ -94,50 +94,13 @@ namespace Global
 
         private bool ZOOM_IN_CLICKED(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    foreach (var item in imageParameters)
-                    {
-                        item.ScaleTransformScaleX += 0.12;
-                        item.ScaleTransformScaleY += 0.12;
-                    }
-                }
-                else
-                {
-                    if (SelectImageView >= 0&& SelectImageView< imageParameters.Count)
-                    {
-                        imageParameters[SelectImageView].ScaleTransformScaleX += 0.12;
-                        imageParameters[SelectImageView].ScaleTransformScaleY += 0.12;
-                    }
-                }
-            });
 
             return true;
         }
 
         private bool ZOME_OUT_CLICKED(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    foreach (var item in imageParameters)
-                    {
-                        item.ScaleTransformScaleX -= 0.12;
-                        item.ScaleTransformScaleY -= 0.12;
-                    }
-                }
-                else
-                {
-                    if (SelectImageView >= 0 && SelectImageView < imageParameters.Count)
-                    {
-                        imageParameters[SelectImageView].ScaleTransformScaleX -= 0.12;
-                        imageParameters[SelectImageView].ScaleTransformScaleY -= 0.12;
-                    }
-                }
-            });
+
 
             return true;
         }
@@ -156,8 +119,11 @@ namespace Global
                     IntPtr intPtr = (IntPtr)eventData["data"];
                     int[] aaa = new int[256];
                     Marshal.Copy(intPtr, aaa, 0, 256);
-                    if (LambdaBottomViews[size] != null)
-                        LambdaBottomViews[size].SetHistogram(aaa);
+                    if (size >=0 && size < 100)
+                    {
+                        if (LambdaBottomViews[size] != null)
+                            LambdaBottomViews[size].SetHistogram(aaa);
+                    }
                 }
             });
 
@@ -203,84 +169,18 @@ namespace Global
         }
 
 
-        public static Grid[] gridsList = new Grid[100];
-
-        private static Grid GetNewGrid(Image image)
-        {
-            Grid grid = new Grid()
-            {
-                Margin = new Thickness(2, 2, 2, 2),
-            };
-
-            grid.Children.Add(image);
-            return grid;
-        }
-        private static readonly int[] defaultViewIndexMap = new int[100]
-{
-        0, 1, 4, 9, 16, 25, 36, 49, 64, 81,
-        2, 3, 5, 10, 17, 26, 37, 50, 65, 82,
-        6, 7, 8, 11, 18, 27, 38, 51, 66, 83,
-        12, 13, 14, 15, 19, 28, 39, 52, 67, 84,
-        20, 21, 22, 23, 24, 29, 40, 53, 68, 85,
-        30, 31, 32, 33, 34, 35, 41, 54, 69, 86,
-        42, 43, 44, 45, 46, 47, 48, 55, 70, 87,
-        56, 57, 58, 59, 60, 61, 62, 63, 71, 88,
-        72, 73, 74, 75, 76, 77, 78, 79, 80, 89,
-        90, 91, 92, 93, 94, 95, 96, 97, 98, 99
-};
-
-        private static void GridSort(Grid[] GridLists)
-        {
-            Window mainwin = Application.Current.MainWindow;
-
-            Grid mainView = (Grid)mainwin.FindName("mainView");
-
-            mainView.Children.Clear();
-            mainView.ColumnDefinitions.Clear();
-            mainView.RowDefinitions.Clear();
-
-            int newlist = 0;
-            for (int i = 0; i < GridLists.Length; i++)
-            {
-                if (GridLists[i] != null)
-                {
-                    Grid grid = GridLists[i];
-                    int location = Array.IndexOf(defaultViewIndexMap, newlist);
-                    int row = (location / 10);
-                    int col = (location % 10);
-                    if (mainView.ColumnDefinitions.Count <= col)
-                    {
-                        ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                        mainView.ColumnDefinitions.Add(columnDefinition);
-                    }
-                    if (mainView.RowDefinitions.Count <= row)
-                    {
-                        RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)gridLengthConverter.ConvertFrom("*") };
-                        mainView.RowDefinitions.Add(rowDefinition);
-                    }
-
-                    grid.SetValue(Grid.RowProperty, row);
-                    grid.SetValue(Grid.ColumnProperty, col);
-                    mainView.Children.Add(grid);
-                    newlist++;
-                }
-            }
-        }
 
 
 
-        private  bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
+        int ShowWindow = 1;
+
+        private bool IMAGE_VIEW_CREATED(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int viewdex = (int)eventData["view"];
             View view = LambdaControl.GetImageView(viewdex);
-            if (view.Image.Parent is Grid grid)
-            {
-                grid.Children.Remove(view.Image);
-                gridsList[viewdex] = GetNewGrid(view.Image);
-            }
-
-            GridSort(gridsList);
+            if (view == null)
+                return true;
             AddImageConfident(view.Image,viewdex);
 
             return true;
@@ -414,23 +314,6 @@ namespace Global
             RadioMenuItem menuItem4 = new RadioMenuItem() { Header = "相差" };
             RadioMenuItem menuItem5 = new RadioMenuItem() { Header = "差分" };
             RadioMenuItem menuItem6 = new RadioMenuItem() { Header = "定量相位" };
-            RadioMenuItem menuItem7 = new RadioMenuItem() { Header = "直方图" };
-
-            menuItem7.Click += delegate
-            {
-                menuItem1.IsChecked = true;
-                if (LambdaBottomViews[a] != null)
-                {
-                    if (menuItem7.IsChecked)
-                    {
-                        LambdaBottomViews[a].Show();
-                    }
-                    else
-                    {
-                        LambdaBottomViews[a].Hidden();
-                    }
-                }
-            };
 
             List<RadioMenuItem> menuItem1s = new List<RadioMenuItem> { menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6 };
             for (int i = 0; i < menuItem1s.Count; i++)

@@ -25,7 +25,7 @@ namespace ConfigObjective
 
 		private bool STOP_ACQUIRE(object sender, EventArgs e)
 		{
-            var mulDimensional = WindowData.MulDimensional;
+            var mulDimensional = windowData.MulDimensional;
 			mulDimensional.mulDimensionalAreas.Clear();
 			mulDimensional.mulDimensionalPoints.Clear();
 
@@ -88,12 +88,12 @@ namespace ConfigObjective
 
 
 			testMean.Dimensional.Dimensions = Dimensions.ToString();
-			testMean.Dimensional.Savedir = WindowData.SolutionDir;
+			testMean.Dimensional.Savedir = windowData.SolutionDir;
 
-			testMean.Stage = WindowData.Stage;
-			WindowData.Config.Dimensional = testMean.Dimensional;
-			WindowData.Config.Spot = testMean.Spot;
-			WindowData.Config.Stage = testMean.Stage;
+			testMean.Stage = windowData.Stage;
+			windowData.Config.Dimensional = testMean.Dimensional;
+			windowData.Config.Spot = testMean.Spot;
+			windowData.Config.Stage = testMean.Stage;
 			LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
 			//MessageBox.Show(testMean.ToJson());
 			return true;

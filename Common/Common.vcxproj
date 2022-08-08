@@ -137,10 +137,12 @@
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib";
-copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib";
-copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
-copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";
+      <Command>if not exist "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib");
+	  if not exist "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib");
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib";
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib";
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
+	  copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -151,10 +153,12 @@ copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib";
-copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib";
-copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
-copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";
+      <Command>if not exist "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib");
+	  if not exist "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib");
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib";
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib";
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
+	  copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

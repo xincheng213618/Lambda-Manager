@@ -26,70 +26,55 @@ namespace ConfigBottomView
     {
         public BottomView( )
         {
-            //InitializeComponent(); 
             this.LoadViewFromUri("/ConfigBottomView;component/bottomview.xaml");
-
         }
 
         /// 初始化和界面初始化的实际不对，和界面有关的初始化在Loading中加载，和控件相关的初始化加载在Initialized中
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            LambdaControl.RegisterImageView(HistogramImage1).ToString();
+            this.SizeChanged += UserControl_SizeChanged;
         }
-        List<ImageSource> ImageSources = new List<ImageSource>();
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
+
 
         public void SetHistogram(int[] Histogramedata)
         {
             if (Histogramedata.Length == 256)
             {
-                Text1.Text = "最小值" + Histogramedata.Min();
-                Text2.Text = "最大值" + Histogramedata.Max();
+                Text1.Text = "Min:" + Histogramedata.Min();
+                Text2.Text = "Max:" + Histogramedata.Max();
                 double avg = Histogramedata.Average();
-                Text3.Text = "平均值" + avg.ToString("f5");
-                Text4.Text = "方差" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
-                HistogramImage1.Source = Extensions.GetBitmapSource(ConvertImageToHistogram.GenerateHistogramImage(Histogramedata.ToList()));
+                Text3.Text = "Avg:" + avg.ToString("f5");
+                Text4.Text = "δ:" + (Histogramedata.Sum(x => Math.Pow(x - avg, 2)) / (Histogramedata.Count() - 1)).ToString("f5");
             }
         }
 
 
-
-
-        private bool BottomViewIsInitialized = false;
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!BottomViewIsInitialized)
-            {
-                BottomViewIsInitialized = true;
-
-                Window mainwin = Application.Current.MainWindow;
-
-                Grid mainView = (Grid)mainwin.FindName("mainView");
-                mainView.SizeChanged += delegate
-                {
-                    this.Width = mainView.ActualWidth;
-                };
-            }
-
-        }
-
-        public void Show()
-        {
-            this.Visibility = Visibility.Visible;
-        }
-        public void Hidden()
-        {
-            this.Visibility = Visibility.Collapsed;
-        }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            LambdaControl.Trigger("HistogramAuto", this, new Dictionary<string, object>() { { "image", 0 }, { "auto", true } });
+            DoubleThumbSlider1.Visibility = Visibility.Collapsed;
+            HistogramImage1.Margin = new Thickness(0);
+
         }
 
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            HistogramImage1.Height = this.ActualHeight-20;
+            LambdaControl.Trigger("HistogramLog", this, new Dictionary<string, object>() { { "image", 0 }, { "log", true } });
+            DoubleThumbSlider1.Visibility = Visibility.Visible;
+
+        }
+
+        private void HistogramImage1_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            DoubleThumbSlider1.Width = HistogramImage1.ActualWidth + 110;
+            HistogramImage1.Margin = new Thickness(0, 0, 0, 0);
         }
     }
 }

@@ -17,5 +17,7 @@ namespace Global.Hardware
 
         public List<string> CameraExposeShow;
 
+        public List<string> CameraResolution;   
+
     }
 }

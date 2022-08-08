@@ -83,20 +83,29 @@
 		<procedure name="SleepTest" event="SleepTest" >
 			<action name="SleepTest"/>
 		</procedure>
+
 		<procedure name="VideoTest" event="VideoTest" >
 			<action name="VideoTest"/>
 		</procedure>
-		
-		<procedure  name ="MatShow" event="MatShow" arg="image" >
-			<action name ="MatShow" raise="VideoTest"  >
+
+
+		<procedure  event="MatShow222" arg="image" >
+
+
+			<action name ="MatShow"  >
 				<input name="image" type="handle"/>
+			</action>
+			<action name ="MatShow1">
+				<input name="image" type="handle"/>
+				<input name="num" type="int" value="1"/>
+
 			</action>
 		</procedure>
 
 
-		<procedure name="OpenSerial" event="projectManager" key ="FullPath" >
+		<procedure name="OpenSerial" event="projectManager" var ="FullPath" >
 			<action name="OpenSerial">
-				<input name="FullPath" type="#string" />
+				<input name="FullPath" type="String" />
 			</action>
 		</procedure>
 
@@ -537,11 +546,13 @@
 		</procedure>
 	</component>
 
+	<component name="MainWindow" lib="ACE.dll" mount="menu:帮助/注册"/>
+	<component name="AboutMsg" lib="ACE.dll" mount="menu:帮助/关于"/>
+
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
-	<component name="BottomView" lib="ConfigBottomView.dll" mount="bottom:0"/>
 
-	<component name="Interop Test" lib="lib\InteropTest.dll">
+	<component name="Interop Test" lib="lib\InteropTest.dll" init ="group1">	
 		<procedure name="group1" async="true">
 			<action name="Test0" />
 			<action name="Test1">
@@ -826,7 +837,7 @@
 		</procedure>
 	</component>
 
-	<component name="Event Test" lib="lib\InteropTest.dll" init="init,dispatch,proc5">
+	<component name="Event Test" lib="lib\InteropTest.dll" init="dispatch,proc5">
 		<procedure name="init">
 			<action name="Test120" raise="TEST_EVENT_A|TEST_EVENT_B" async="true"/>
 			<action name="Test124" raise="TEST_EVENT_1"/>
@@ -879,6 +890,8 @@
 			<action name="UpdateDisplayMode">
 			</action>
 		</procedure>
+
+
 	</component>
 
 	<component name="Scheduler Test" lib="lib\InteropTest.dll" init="schedule trigger job">
@@ -897,9 +910,25 @@
 		</procedure>
 	</component>
 
-	<component name="Event object is array" lib="lib\InteropTest.dll" init="start">
-		<procedure name="start">
-			<action name="Test210"/>
+	<component name="Event object is array" lib="lib\InteropTest.dll" >
+
+		<procedure name="BrightFieldBrightness" event="BRIGHT_FIELD_BRIGHTNESS" arg ="brightness">
+			<action name="BrightFieldBrightness">
+				<output name="brightness" type="pointer" />
+			</action>	
+		</procedure>
+
+		<procedure event="BRIGHT_FIELD_BRIGHTNESS1" arg ="brightness">
+			<action name="Test212">
+				<input name="brightness" type="pointer" />
+			</action>
 		</procedure>
 	</component>
+	<component name="CUDA" lib="lib/CUDA.dll">
+		<procedure name="FFTCUDA_img" event="COLORBAR_CLICKED">
+			<action name="FFTCUDA_img">
+			</action>
+		</procedure>
+	</component>
+
 </main>

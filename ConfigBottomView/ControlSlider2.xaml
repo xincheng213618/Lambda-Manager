@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ConfigBottomView"
              mc:Ignorable="d" 
              Name="root"
-             d:DesignHeight="33" d:DesignWidth="300" >
+             d:DesignHeight="15" d:DesignWidth="300"  Background="Transparent" >
     <UserControl.Resources>
         <Style x:Key="SliderThumbStyle" TargetType="Thumb">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -125,7 +125,7 @@
             <Setter Property="Background" Value="#0F110B"/>
             <Setter Property="BorderBrush" Value="#696969"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="2"/>   
+            <Setter Property="BorderThickness" Value="1"/>   
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -163,34 +163,31 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border CornerRadius="3" Background="#333333">
+    <Border CornerRadius="3" >
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width = "auto"/>
-                <ColumnDefinition Width = "auto"/>
+                <ColumnDefinition Width = "30"/>
+                <ColumnDefinition Width = "20"/>
                 <ColumnDefinition Width = "*"/>
-                <ColumnDefinition Width = "auto"/>
-                <ColumnDefinition Width = "auto"/>
+                <ColumnDefinition Width = "20"/>
+                <ColumnDefinition Width = "30"/>
             </Grid.ColumnDefinitions>
-            <TextBox Style="{DynamicResource TextBoxStyle1}" Grid.Column="0" Text="{Binding ElementName=lowerSlider ,Path=Value,StringFormat=N0}" VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="3"/>
-            <TextBlock Grid.Column="1" Text="{Binding ElementName=lowerSlider ,Path=Minimum}"  VerticalAlignment="Center" HorizontalAlignment="Center"   Foreground="White" Padding="5,0"/>
+            <TextBlock Background="#000000" Grid.Column="0" Text="{Binding ElementName=lowerSlider ,Path=Value,StringFormat=N0}" TextAlignment="Center"  />
+            <TextBlock Grid.Column="1" Text="{Binding ElementName=lowerSlider ,Path=Minimum}"  TextAlignment="Center"   />
             <Border Grid.Column="2" SnapsToDevicePixels="True"  BorderBrush="#f5f5f5" BorderThickness="1"  Height="15" VerticalAlignment="Center" CornerRadius="7" Margin="0,0,0,0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1.2,0">
-                        <GradientStop Offset="0" Color="#9D9D9D"/>
-                        <GradientStop Offset="1" Color="Black"/>
+                        <GradientStop Offset="0" Color="Black"/>
+                        <GradientStop Offset="1" Color="#9D9D9D"/>
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
             <Slider Grid.Column="2" x:Name="lowerSlider" Orientation="Horizontal" Template="{StaticResource SliderVertical}" VerticalAlignment="Center"  Minimum="{Binding ElementName=root, Path=Minimum}" Maximum="{Binding ElementName=root, Path=Maximum}" Value="{Binding ElementName=root, Path=LowerValue, Mode=TwoWay}" IsSnapToTickEnabled="{Binding ElementName=root, Path=IsSnapToTickEnabled}" TickFrequency="{Binding ElementName=root, Path=TickFrequency}" TickPlacement="{Binding ElementName=root, Path=TickPlacement}" Ticks="{Binding ElementName=root, Path=Ticks}">
-                <Slider.Effect>
-                    <DropShadowEffect  />
-                </Slider.Effect>
             </Slider>
 
-            <Slider Grid.Column="2" x:Name="upperSlider" Orientation="Horizontal" Template="{StaticResource SliderVertical}"  VerticalAlignment="Center" Minimum="{Binding ElementName=root, Path=Minimum}" Maximum="{Binding ElementName=root, Path=Maximum}" Value="{Binding ElementName=root, Path=UpperValue, Mode=TwoWay}" IsSnapToTickEnabled="{Binding ElementName=root, Path=IsSnapToTickEnabled}" TickFrequency="{Binding ElementName=root, Path=TickFrequency}" TickPlacement="{Binding ElementName=root, Path=TickPlacement}" Ticks="{Binding ElementName=root, Path=Ticks}" />
-            <TextBlock Grid.Column="3" Text="{Binding ElementName=upperSlider ,Path=Maximum}"  VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Padding="5,0"/>
-            <TextBox Grid.Column="4"  Style="{DynamicResource TextBoxStyle1}"  Text="{Binding ElementName=upperSlider ,Path=Value,StringFormat=N0}" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="3"/>
+            <Slider  Grid.Column="2" x:Name="upperSlider" Orientation="Horizontal" Template="{StaticResource SliderVertical}"  VerticalAlignment="Center" Minimum="{Binding ElementName=root, Path=Minimum}" Maximum="{Binding ElementName=root, Path=Maximum}" Value="{Binding ElementName=root, Path=UpperValue, Mode=TwoWay}" IsSnapToTickEnabled="{Binding ElementName=root, Path=IsSnapToTickEnabled}" TickFrequency="{Binding ElementName=root, Path=TickFrequency}" TickPlacement="{Binding ElementName=root, Path=TickPlacement}" Ticks="{Binding ElementName=root, Path=Ticks}" />
+            <TextBlock Grid.Column="3" Text="{Binding ElementName=upperSlider ,Path=Maximum}"   TextAlignment="Center"/>
+            <TextBlock Background="#000000" Grid.Column="4" Text="{Binding ElementName=upperSlider ,Path=Value,StringFormat=N0}" TextAlignment="Center"/>
         </Grid>
 
     </Border>

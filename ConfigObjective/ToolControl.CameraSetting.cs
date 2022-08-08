@@ -19,8 +19,6 @@ namespace ConfigObjective
             {
                 LambdaControl.Trigger("CAMERA_SETTING_GAMMA", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "gamma", cameraSetting.Gamma } });
             }
-
-
         }
         public void CameraSetting_Update()
         {
@@ -68,7 +66,7 @@ namespace ConfigObjective
         private void UpDownControl_Loaded(object sender, RoutedEventArgs e)
         {
             UpDownControl upDownButton1 = sender as UpDownControl;
-            upDownButton1.SetList(WindowData.deviceInformation.CameraExposeShow);
+            upDownButton1.SetList(windowData.deviceInformation.CameraExposeShow);
 
         }
 
@@ -81,13 +79,13 @@ namespace ConfigObjective
                 ToggleButton210.IsChecked = false;
             }
 
-            if (!WindowData.ACQUIRE)
+            if (!windowData.ACQUIRE)
             {
-                if (Slider212.Value < WindowData.deviceInformation.CameraExpose.Count)
+                if (Slider212.Value < windowData.deviceInformation.CameraExpose.Count)
                 {
                     if (Border2.DataContext is Global.Mode.Config.Camera cameraSetting)
                     {
-                        Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", WindowData.deviceInformation.CameraExpose[(int)Slider212.Value] } };
+                        Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", windowData.deviceInformation.CameraExpose[(int)Slider212.Value] } };
                         LambdaControl.Trigger("CAMERA_SETTING_EXPOSURE", this, data);
                     }
 
@@ -116,7 +114,6 @@ namespace ConfigObjective
             Slider212.Value = UpDownControl1.SelectedIndex;
         }
 
-        List<string> data1 = new() { "RGB32 (640x480)", "RGB32 (1280x960)", "RGB64 (2448x2048)" };
 
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

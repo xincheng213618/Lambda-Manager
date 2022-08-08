@@ -5,42 +5,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConfigBottomView"
              mc:Ignorable="d" 
-             Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" SizeChanged="UserControl_SizeChanged">
-    <Grid x:Name="Grid1"  >
-        <Border >
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid>
-                    <local:DoubleThumbSlider Height="25" Margin="2,0,20,0" VerticalAlignment="Bottom" LowerValue="20" UpperValue="200" Minimum="0" Maximum="255"/>
-                    <Image Name="HistogramImage1" Stretch="Uniform"  HorizontalAlignment="Left" Margin="2,0,0,20">
-                        <Image.RenderTransform>
-                            <TransformGroup >
-                                <ScaleTransform  ScaleX="3"/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
-
-
-                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Button Content="自动" Background="Transparent" BorderThickness="1.5"  Click="Button_Click"  Margin="15,0" Padding="5,2"/>
-                        <Button Content="对数"  Background="Transparent" BorderThickness="1.5"  Margin="0,0,15,0" Padding="5,2"/>
-                    </DockPanel>
-
-                </Grid>
-
-                <UniformGrid Grid.Column="1" Columns="1" Rows="10" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="5,0">
-                    <TextBlock x:Name="Text1"  FontSize="8" Text="最小值 1"/>
-                    <TextBlock x:Name="Text2"   FontSize="8" Text="最大值 240"/>
-                    <TextBlock x:Name="Text3"  FontSize="8" Text="平均值 100"/>
-                    <TextBlock x:Name="Text4" FontSize="8" Text="方差 140"/>
-                    <TextBlock x:Name="Text5"  FontSize="8" Text="离群值 10" />
-                    <TextBlock x:Name="Text6" FontSize="8" Text="gamma值 15%"/>
+             Initialized="UserControl_Initialized">
+    <Grid x:Name="Grid1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Image Name="HistogramImage1"  HorizontalAlignment="Center" SizeChanged="HistogramImage1_SizeChanged" >
+                <Image.RenderTransform>
+                    <TransformGroup >
+                        <ScaleTransform   />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <local:DoubleThumbSlider x:Name="DoubleThumbSlider1" HorizontalAlignment="Center" Grid.Row="1" Visibility="Collapsed" Background="Transparent"  LowerValue="20" UpperValue="200" Minimum="0" Maximum="255"/>
+            <StackPanel HorizontalAlignment="Right">
+                <DockPanel>
+                    <Button Content="自动" Background="Transparent" BorderThickness="0.5"  Click="Button_Click"  Margin="10,0" Padding="5,1"/>
+                    <Button Content="对数"  Background="Transparent" BorderThickness="0.5" Click="Button1_Click"   Margin="0,0,10,0" Padding="5,1"/>
+                </DockPanel>
+                <UniformGrid Grid.RowSpan="2"  Rows="6"  HorizontalAlignment="Center"  Panel.ZIndex="9">
+                    <TextBlock x:Name="Text1" FontSize="9" Text="Min:1"/>
+                    <TextBlock x:Name="Text2" FontSize="9" Text="Max:240"/>
+                    <TextBlock x:Name="Text3" FontSize="9" Text="Avg:100"/>
+                    <TextBlock x:Name="Text4" FontSize="9" Text="δ:140"/>
+                    <TextBlock x:Name="Text5" FontSize="9" Text="Outlier:10" />
+                    <TextBlock x:Name="Text6" FontSize="9" Text="Gamma:15%"/>
                 </UniformGrid>
-            </Grid>
-        </Border>
+            </StackPanel>
+
+        </Grid>
+
 
     </Grid>
 </UserControl>

@@ -73,7 +73,6 @@
                     <TextBlock Text="分辨率" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ComboBox x:Name="ComboBox1"  SelectionChanged="ComboBox1_SelectionChanged"/>
 
-
                     <!--<Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>-->
                 </DockPanel>
             </StackPanel>
@@ -350,7 +349,7 @@
                         <DockPanel>
                             <Button x:Name="Button361" Content="背景校正" Margin="20,0"  Click="Button361_Click" />
                         </DockPanel>
-                        <DockPanel>
+                        <DockPanel Margin="0,5,0,0">
                             <TextBlock Text="正负相衬" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <ToggleButton x:Name="Button362" Style="{StaticResource CheckButton1}" Width="50" Content="正负相称" Margin="20,0"  Checked="Button362_Checked" Unchecked="Button362_Unchecked" />
                         </DockPanel>

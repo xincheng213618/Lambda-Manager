@@ -3,7 +3,4 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Wizard"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-        <ResourceDictionary Source="ThemeManager\Styles\Window.xaml"/>
-    </Application.Resources>
 </Application>

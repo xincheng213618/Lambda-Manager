@@ -1273,7 +1273,7 @@ internal class ConfigLibrary
 			if (typeInfo != null)
 			{
 				converter = typeInfo.GetConverter(castTypes);
-			}
+            }
 			bool isGetAddress = castTypes[0] == CastType.CAST_ADDRESS;
 			LocationConverter locationConverter = new LocationConverter
 			{
@@ -1430,8 +1430,8 @@ internal class ConfigLibrary
 				Target = target,
 				TargetIndex = indexArg.Key
 			};
-			link.CastTypes.Add(CastType.NO_CAST);
-			ResolveVariable(routine, link, byVariable: false, validate);
+            link.CastTypes.Add(CastType.NO_CAST);
+            ResolveVariable(routine, link, byVariable: false, validate);
 			indexArgs2.Add(sourceIndex, indexArg.Value);
 		}
 		return indexArgs2;
