@@ -11,8 +11,6 @@
   <PropertyGroup>
     <LangVersion>Preview</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-
-    <RootNamespace />
     <UseWindowsForms>True</UseWindowsForms>
     <Nullable>disable</Nullable>
     <Title>LambdaManager</Title>
@@ -22,19 +20,6 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <ApplicationIcon>logo.ico</ApplicationIcon>
-    <StartupObject>LambdaManager.App</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Optimize>False</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controls\**" />

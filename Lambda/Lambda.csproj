@@ -12,6 +12,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <IncludeSymbols>False</IncludeSymbols>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <IsPublishable>True</IsPublishable>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Microsoft.CodeAnalysis\**" />

@@ -2,13 +2,11 @@
 using System;
 
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 using System.Xml.Linq;
 
 namespace LambdaManager
@@ -30,6 +28,7 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
+            labelVersion.Content = string.Format("V8.0 - {0}",File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
             ConfigLibrary = new ConfigLibrary();
             ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
             Thread thread = new Thread(Load);

@@ -452,7 +452,7 @@ int VideoTest() {
 	return 0;
 }
 int StageSettingReset() {
-	Sleep(10000);
+	Sleep(3000);
 	Event::Trigger("STAGE_INI_CLOSE");
 	return 0;
 }

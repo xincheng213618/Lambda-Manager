@@ -17,7 +17,7 @@
         <Border  Grid.Row="1" CornerRadius="10,10,0,0" Background="#2D333A">
             <StackPanel Margin="10,0">
                 <Label Content="LMP" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"  FontSize="20"/>
-                <Label Content="Version 0.7 2022.7.25" HorizontalAlignment="Left" Foreground="White"  />
+                <Label x:Name="labelVersion" Content="Version 0.7 2022.7.25" HorizontalAlignment="Left" Foreground="White"  />
             </StackPanel>
         </Border>
         <Image   Grid.Row="1" Source="/Image/zircon.png" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,-20" />
