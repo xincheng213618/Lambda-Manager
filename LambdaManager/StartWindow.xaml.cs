@@ -87,10 +87,6 @@ namespace LambdaManager
             });
         }
 
-
-
-
-
         private async Task InitializedOver()
         {
             TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接";
@@ -120,8 +116,6 @@ namespace LambdaManager
 
         private void TexoBoxMsg_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //TexoBoxMsg.SelectionStart = TexoBoxMsg.;
-            //将控件内容滚动到当前插入符号位置
             TexoBoxMsg.ScrollToEnd();
         }
     }

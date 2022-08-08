@@ -41,6 +41,16 @@ namespace LambdaManager
             Common.Init();
         }
 
+        public bool load()
+        {
+            string path = "application.xml";
+            if (File.Exists(path))
+            {
+                return Load(XDocument.Load(path).Root);
+            }
+            return false;
+        }
+
         public bool Load(XElement root)
         {
             if (root == null)

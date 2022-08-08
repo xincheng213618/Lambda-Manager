@@ -1,23 +1,29 @@
 using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
 namespace LambdaManager.Utils;
 
-public class FPSCounter 
+public class FPSCounter: INotifyPropertyChanged
 {
 	private string fps;
 
     public string FPS
     {
         get { return fps; }
-        set { fps = value; }
+        set { fps = value; NotifyPropertyChanged(); }
+    }
+    public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-	public int Counter;
+    public int Counter;
 
 	public DateTime Start = DateTime.Now;
 
+	public event PropertyChangedEventHandler PropertyChanged;
 
 	public void Inc()
 	{
