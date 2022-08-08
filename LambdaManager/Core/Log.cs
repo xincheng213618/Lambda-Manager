@@ -47,7 +47,7 @@ namespace LambdaManager.Core
             {
                 writer = new StreamWriter(File.Open(logPath, FileMode.OpenOrCreate), Encoding.UTF8);
             }
-            writer.WriteLine(Severity.INFO.Description() + LambdaManager.Properties.Resources.StartUp + DateTime.Now);
+            writer.WriteLine(Severity.INFO.Description() + "程序启动" + DateTime.Now);
             FunctionExecutor.Solution.Writer = writer;
             return writer;
         }

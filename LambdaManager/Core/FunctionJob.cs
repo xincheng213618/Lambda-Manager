@@ -71,7 +71,7 @@ namespace LambdaManager.Core
             Log.Report(new Message
             {
                 Severity = Severity.INFO,
-                Text = $"{(routine ? Resources.ScheduleStart : Resources.ScheduleTrigger)}\\{scheduler.Name}\\{Resources.Comma} {DateTime.Now}"
+                Text = $"{(routine ? "定时执行" : "定时触发")}\\{scheduler.Name}\\:{DateTime.Now}"
             });
         }
 
@@ -80,7 +80,7 @@ namespace LambdaManager.Core
             await Report(new Message
             {
                 Severity = Severity.INFO,
-                Text = $"{Resources.ScheduleEnd}:{scheduler.Name} {Resources.Comma} {DateTime.Now}"
+                Text = $"定时完成:{scheduler.Name} : {DateTime.Now}"
             });
         }
 

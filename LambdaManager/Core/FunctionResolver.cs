@@ -39,7 +39,7 @@ namespace LambdaManager.Core
             }
             catch (EntryPointNotFoundException)
             {
-                Log.Report(Severity.FATAL_ERROR, Resources.Lib, component.Lib, Resources.Action, action.Name, Resources.NotExist);
+                Log.Report(Severity.FATAL_ERROR, "¿â", component.Lib, "º¯Êý", action.Name, "²»´æÔÚ");
                 return IntPtr.Zero;
             }
         }

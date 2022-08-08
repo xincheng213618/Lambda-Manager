@@ -48,15 +48,8 @@
   <BitmapImage x:Key="BOTTOM_STOP" UriSource="Icons/bottom-stop.png" />
   <BitmapImage x:Key="BOTTOM_FORWARD" UriSource="Icons/bottom-forward.png" />
   <BitmapImage x:Key="BOTTOM_BACKWARD" UriSource="Icons/bottom-backward.png" />
-  <BitmapImage x:Key="BOTTOM_SLIDER" UriSource="Icons/bottom-slider.png" />
-  <Style x:Key="styleBackground">
-    <Setter Property="Control.Background">
-      <Setter.Value>
-        <ImageBrush ImageSource="/Resources/Images/backgroud.png" />
-      </Setter.Value>
-    </Setter>
-  </Style>
-  <Style x:Key="styleBanner">
+    <BitmapImage x:Key="BOTTOM_SLIDER" UriSource="Icons/bottom-slider.png" />
+    <Style x:Key="styleBanner">
     <Setter Property="Panel.Background">
       <Setter.Value>
         <LinearGradientBrush StartPoint="0,0.25" EndPoint="1,0.5">

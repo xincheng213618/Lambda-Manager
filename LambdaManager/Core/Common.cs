@@ -11,7 +11,6 @@ using System.Windows.Media.Imaging;
 using Lambda;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 using LambdaManager.Utils;
 using LambdaUtils;
 using Quartz;
@@ -36,11 +35,11 @@ namespace LambdaManager.Core
 
         private static readonly List<LambdaHandler> ui_handlers = new List<LambdaHandler>();
 
-        public static IScheduler? Scheduler;
+        internal static IScheduler? Scheduler;
 
 
 
-        public unsafe static void Init()
+        internal unsafe static void Init()
         {
 
             SetHandler((nint)(delegate* unmanaged[Cdecl]<int, sbyte*, void>)(&AddMessage1), 0);
@@ -551,7 +550,7 @@ namespace LambdaManager.Core
                 Log.Report(new Message
                 {
                     Severity = Severity.FATAL_ERROR,
-                    Text = Resources.EventDataNotSupport
+                    Text = "事件传递的数据类型不支持"
                 });
                 return -1;
             }

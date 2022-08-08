@@ -10,7 +10,6 @@ using Lambda;
 using LambdaManager.Config;
 using LambdaManager.Core;
 using LambdaManager.DataType;
-using LambdaManager.Properties;
 using LambdaManager.Utils;
 using LambdaUtils;
 using Quartz;
@@ -276,7 +275,7 @@ namespace LambdaManager
             IntPtr addr = resolver.GetAddress(action, component);
             if (addr == IntPtr.Zero)
             {
-                validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Signature, action.ToString());
+                validate.ReportNotExist(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, "签名", action.ToString());
                 return null;
             }
             string code = resolver.GetSignatureCodes();
@@ -428,7 +427,7 @@ namespace LambdaManager
                 {
                     referred = action.Component + "::" + action.Name;
                 }
-                validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, referring, Resources.Referring, referred);
+                validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, referring, "引用", referred);
             }
         }
 
@@ -465,7 +464,7 @@ namespace LambdaManager
                         }
                     }
                     string fullName = FunctionResolver.GetFullName(component, procedure, action.Name);
-                    validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, fullName, Resources.EntryPoint, null);
+                    validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, fullName, "接入点", null);
                 }
                 else
                 {
@@ -516,7 +515,7 @@ namespace LambdaManager
             Component component = validate.GetComponentOfLocalActions(componentName);
             if (component == null)
             {
-                validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, componentName, Resources.Action, action.Name, Resources.Undefined);
+                validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Component, componentName, "函数", action.Name, "未定义");
                 return null;
             }
             string sigName = action.GetSigName(component);
@@ -705,7 +704,7 @@ namespace LambdaManager
                 {
                     foreach (KeyValuePair<LambdaManager.DataType.Action, Procedure> item in remains)
                     {
-                        validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, item.Key.Name, Resources.EntryPoint, null);
+                        validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, item.Key.Name, "接入点", null);
                     }
                     break;
                 }
@@ -857,7 +856,7 @@ namespace LambdaManager
                 List<string> exports = validate.GetProcedure(routine)?.Exports;
                 if (exports == null)
                 {
-                    validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Export, null);
+                    validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, "输出", null);
                     continue;
                 }
                 Function function = action.Function;
@@ -870,7 +869,7 @@ namespace LambdaManager
                     int exportIndex = exports.IndexOf(info.Name);
                     if (exportIndex == -1)
                     {
-                        validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.Import, info.Name);
+                        validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, "输入", info.Name);
                         continue;
                     }
                     Dictionary<int, int> imports = function.Imports;
@@ -1027,7 +1026,7 @@ namespace LambdaManager
                     }
                     if (!found)
                     {
-                        validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, LambdaManager.DataType.Type.Input.Description(), target[l].Name ?? ("index at " + l), Resources.OriginInputsNotMatch);
+                        validate.Report(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, LambdaManager.DataType.Type.Input.Description(), target[l].Name ?? ("index at " + l), "和定义的输入参数不匹配");
                     }
                 }
                 for (int j = 0; j < inputs!.Count; j++)
@@ -1139,7 +1138,7 @@ namespace LambdaManager
                 source.IsReferred = true;
                 if (source.Async && link.SourceIndex >= source.EntryPoint?.InputCount)
                 {
-                    validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Action, validate.GetAction(source)?.Name, Resources.Async, null, Resources.AsyncWithOutputReferredNotSupport);
+                    validate.Report(Severity.ERROR, LambdaManager.DataType.Type.Action, validate.GetAction(source)?.Name, "异步设置", null, "不支持输出数据被引用的情况");
                 }
             }
             if (routine == null)
@@ -1430,7 +1429,7 @@ namespace LambdaManager
                         Log.Report(new Message
                         {
                             Severity = Severity.FATAL_ERROR,
-                            Text = raise + Resources.EventTypeNotSpecified
+                            Text = raise + "事件类型未指定"
                         });
                     }
                     evt.Data = raise;
@@ -1491,7 +1490,7 @@ namespace LambdaManager
                 List<LambdaManager.DataType.Action> actions = validate.GetProcedure(action2.Function?.Routine)?.Actions;
                 if (actions == null)
                 {
-                    validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.RaiseKeys, remains.ToString());
+                    validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, "RaiseKeys", remains.ToString());
                     return null;
                 }
                 {
@@ -1579,7 +1578,7 @@ namespace LambdaManager
                     LambdaManager.DataType.Action refAction = validate.FindComponentAction(input.Name, input.Value);
                     if (refAction == null)
                     {
-                        validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, Resources.ReferredAction, input.Value);
+                        validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, "引用的函数", input.Value);
                         continue;
                     }
                     EntryPoint entry = refAction.Function?.EntryPoint;

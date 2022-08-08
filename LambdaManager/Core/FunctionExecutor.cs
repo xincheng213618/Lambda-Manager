@@ -7,7 +7,6 @@ using Lambda;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.DataType.SigTable;
-using LambdaManager.Properties;
 using LambdaUtils;
 
 namespace LambdaManager.Core
@@ -181,7 +180,7 @@ namespace LambdaManager.Core
             }
             if (result == -1)
             {
-                string text = Resources.Execute + Resources.Action + Resources.Error;
+                string text = "执行函数错误";
                 Log.Report(new Message
                 {
                     Severity = Severity.ERROR,
@@ -383,7 +382,7 @@ namespace LambdaManager.Core
                 Log.Report(new Message
                 {
                     Severity = Severity.ERROR,
-                    Text = Resources.Action + Resources.NotExist
+                    Text = "函数不存在"
                 });
                 return -1;
             }
@@ -502,7 +501,7 @@ namespace LambdaManager.Core
                             Log.Report(new Message
                             {
                                 Severity = Severity.ERROR,
-                                Text = Resources.STLMapNotSupport
+                                Text = "事件对象不支持二进制类型数据传递"
                             });
                             break;
                         case ArgumentType.POINTER:
