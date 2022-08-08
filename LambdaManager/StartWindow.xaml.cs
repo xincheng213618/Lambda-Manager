@@ -30,15 +30,11 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
-
-
-
             ConfigLibrary = new ConfigLibrary();
             ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
             Thread thread = new Thread(Load);
             thread.Start();
             _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
-
 
         }
         public XElement loadxml()
