@@ -93,10 +93,30 @@ int OpenSerial2(wchar_t* fullPath)
     return 0;
 }   
 
+int Phase_Seg1(void* cell_img, void* array_int, void* array_float, void* array_add)
+{
+
+    //Event::Trigger("SHOW_img", &cell_img);
+    Logger::Log1(Severity::INFO, "Invoke Phase Seg");
+
+    return 0;
+}
+
 int BilateralDenoise(cv::Mat& imgstr, double* Cdenoise)
 {
     double a = *Cdenoise;
     Logger::Log2(Severity::INFO, L"Invoke 'OpenSerial(fullPath: %s)'");
+    return 0;
+}
+
+
+
+
+int Phase_Seg(cv::Mat& cell_img, void* array_int, void* array_float, void* array_add)
+{
+    cell_img.convertTo(cell_img, CV_8UC1, 255, 0);
+    //Event::Trigger("SHOW_img", &cell_img);
+    Logger::Log1(Severity::INFO, "Invoke Phase Seg");
     return 0;
 }
 

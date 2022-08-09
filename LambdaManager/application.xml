@@ -43,7 +43,18 @@
 				<input name="Cdenoise" type="handle"/>
 			</action>
 		</procedure>
+
+		<procedure name="Phase_Seg" event="Phase_Seg" arg ="imgstr,Cdenoise">
+			<action name="Phase_Seg">
+				<input name="imgstr" type="handle"/>
+				<input name="p" type="handle"/>
+				<input name="k" type="handle"/>
+				<input name="k1" type="handle"/>
+			</action>
+		</procedure>
+
 		
+
 		<procedure name="OpenLED" event="OPENLED">
 			<action name="OpenLED">
 				<![CDATA[ Open LED ]]>
