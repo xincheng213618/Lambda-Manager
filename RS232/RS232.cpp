@@ -114,7 +114,7 @@ int BilateralDenoise(cv::Mat& imgstr, double* Cdenoise)
 
 int Phase_Seg(cv::Mat& cell_img, void* array_int, void* array_float, void* array_add)
 {
-    cell_img.convertTo(cell_img, CV_8UC1, 255, 0);
+    //cell_img.convertTo(cell_img, CV_8UC1, 255, 0);
     //Event::Trigger("SHOW_img", &cell_img);
     Logger::Log1(Severity::INFO, "Invoke Phase Seg");
     return 0;

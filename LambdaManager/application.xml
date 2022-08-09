@@ -44,7 +44,7 @@
 			</action>
 		</procedure>
 
-		<procedure name="Phase_Seg" event="Phase_Seg" arg ="imgstr,Cdenoise">
+		<procedure name="Phase_Seg" event="Phase_Seg" arg ="imgstr,p,k,k1">
 			<action name="Phase_Seg">
 				<input name="imgstr" type="handle"/>
 				<input name="p" type="handle"/>
