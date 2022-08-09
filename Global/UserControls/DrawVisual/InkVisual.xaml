@@ -6,10 +6,10 @@
               xmlns:draw="clr-namespace:Global"
              xmlns:local="clr-namespace:Global.UserControls.DrawVisual"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Name="R" SizeChanged="inkCanvas_SizeChanged">
     <Grid>
         <InkCanvas
-            EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas" MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" SizeChanged="inkCanvas_SizeChanged" ></InkCanvas>
+            EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown"  ></InkCanvas>
     </Grid>
    
 </UserControl>

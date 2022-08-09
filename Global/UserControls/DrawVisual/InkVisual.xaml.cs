@@ -2,6 +2,7 @@
 using Lambda;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -16,19 +17,28 @@ namespace Global.UserControls.DrawVisual
     /// </summary>
     public partial class InkVisual : UserControl
     {
-        public InkVisual(ImageViewState.ToolTop ToolTop, DrawInkMethod inkMethod, double ratio)
+        
+        public InkVisual(ImageViewState.ToolTop ToolTop, DrawInkMethod inkMethod)
         {
             InitializeComponent();
             this.ToolTop = ToolTop;
             this.inkMethod = inkMethod;
-            this.ratio = ratio;
+           // imagingView = ImagingView;
             topToolbar =(WrapPanel)mainwin.FindName("topToolbar");
+
+          
         }
+
+
+
+
+
         Window mainwin = Application.Current.MainWindow;
         WrapPanel topToolbar;
         private double width;
         private double height;
         public ImageViewState.ToolTop ToolTop;
+        //private Border imagingView;
         public double ratio = 1;
         DrawInkMethod inkMethod;
         bool isMouseDown = false;
@@ -40,7 +50,7 @@ namespace Global.UserControls.DrawVisual
         public  StrokeCollection tempStroke = new StrokeCollection();
         public StrokeCollection RegisterStroke = new StrokeCollection();
         public bool saveTempStroke = true;
-
+        
 
         private void inkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
@@ -372,6 +382,8 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            
+           
             if (saveTempStroke&& inkCanvas.Strokes.Count>0 )
             {
                 if (inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
@@ -382,8 +394,13 @@ namespace Global.UserControls.DrawVisual
                 }
 
                 tempStroke = inkCanvas.Strokes.Clone();
-                inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                inkCanvas.Strokes.Add(inkMethod.Textstroke);
+                if (inkMethod.Dimstroke!= null && inkMethod.Textstroke!= null)
+                    
+                {
+                    inkCanvas.Strokes.Add(inkMethod.Dimstroke);
+                    inkCanvas.Strokes.Add(inkMethod.Textstroke);
+                }
+               
                 saveTempStroke = false;
             }
             Point curPoint = e.GetPosition(e.Device.Target);
@@ -459,45 +476,36 @@ namespace Global.UserControls.DrawVisual
         private int i = 0;
         private double toptoolHeight;
         private double inkWidthLim = 0;
+        private Point ScreenP = new Point(0, 0);
+        private Point screenPoint;
+
+       
+        private async void MatrixTransform()
+        {
+           
+            Point beforePoint = new Point(width, height);
+            Point point = new Point(R.ActualWidth, ActualHeight);
+            double wRatio = R.ActualWidth / width;
+            double hRatio = R.ActualHeight / height;
+            Matrix matrix = new Matrix();
+            matrix.ScaleAt(wRatio, hRatio, beforePoint.X / 2 , beforePoint.Y / 2 );
+            inkCanvas.Strokes.Transform(matrix, false);
+            Matrix matrixMove1 = new Matrix();
+            matrixMove1.Translate((R.ActualWidth - width) / 2 , (ActualHeight - height) / 2 );
+            inkCanvas.Strokes.Transform(matrixMove1, false);
+            width = R.ActualWidth;
+            height = ActualHeight;
+        }
+
+
+
         private void inkCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (toptoolHeight > 0 && topToolbar.ActualHeight - toptoolHeight > 10)
+            if(ActualHeight>0&& ActualWidth > 0)
             {
-               // MessageBox.Show(inkCanvas.ActualWidth.ToString());
-                inkWidthLim = inkCanvas.ActualWidth;
-                toptoolHeight = topToolbar.ActualHeight;
-
-            };
-
-            if ( ActualWidth <= inkWidthLim) 
-                return;
-
-            Point beforePoint = new Point(width, height);
-            Point point = new Point(ActualWidth, ActualHeight);
-            clickOffset = point - beforePoint;
-            Matrix matrixMove = new Matrix();
-            matrixMove.Translate(clickOffset.X, clickOffset.Y / 2);
-            inkCanvas.Strokes.Transform(matrixMove, false);
-
-
-            double wRatio = inkCanvas.ActualWidth / width;
-            double hRatio = inkCanvas.ActualHeight / height;
-
-            //Point curPoint = new Point(ActualWidth / 2, ActualHeight / 2);
-            Matrix matrix = new Matrix();
-            matrix.ScaleAt(wRatio, hRatio, beforePoint.X / 2 + clickOffset.X, beforePoint.Y / 2 + clickOffset.Y/2);
-            inkCanvas.Strokes.Transform(matrix, false);
-
-
-            Matrix matrixMove1 = new Matrix();
-            matrixMove1.Translate(-clickOffset.X / 2, 0);
-            inkCanvas.Strokes.Transform(matrixMove1, false);
-
-
-            width = inkCanvas.ActualWidth;
-            height = inkCanvas.ActualHeight;
-
-            toptoolHeight = topToolbar.ActualHeight;
+                MatrixTransform();
+            }
+          
 
         }
 

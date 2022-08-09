@@ -311,8 +311,8 @@ namespace Global
                 // var bitmapImage = new BitmapImage(new Uri("/Global;component/usercontrols/image/startpicture1.png", UriKind.Relative));
                 if (topLeftCorner.X > 30 && topLeftCorner.Y > 22.5 && topLeftCorner.X < width - 30 && topLeftCorner.Y < height - 22.5)
                 {
-                    double w = bitmapImage.Width / width;
-                    double h = bitmapImage.Height / height;
+                    double w = bitmapImage.PixelWidth / width;
+                    double h = bitmapImage.PixelHeight / height;
 
                     int RecW = (int)(60 * w);
                     int RecH = (int)(45 * h);
@@ -357,8 +357,8 @@ namespace Global
                 // var bitmapImage = new BitmapImage(new Uri("/Global;component/usercontrols/image/startpicture1.png", UriKind.Relative));
                 if (topRightCorner.X > 30 && topRightCorner.Y > 22.5 && topRightCorner.X < width - 30 && topRightCorner.Y < height - 22.5)
                 {
-                    double w = bitmapImage.Width / width;
-                    double h = bitmapImage.Height / height;
+                    double w = bitmapImage.PixelWidth / width;
+                    double h = bitmapImage.PixelHeight / height;
 
                     int RecW = (int)(60 * w);
                     int RecH = (int)(45 * h);
@@ -397,8 +397,8 @@ namespace Global
                 // var bitmapImage = new BitmapImage(new Uri("/Global;component/usercontrols/image/startpicture1.png", UriKind.Relative));
                 if (bottomLeftCorner.X > 30 && bottomLeftCorner.Y > 22.5 && bottomLeftCorner.X < width - 30 && bottomLeftCorner.Y < height - 22.5)
                 {
-                    double w = bitmapImage.Width / width;
-                    double h = bitmapImage.Height / height;
+                    double w = bitmapImage.PixelWidth / width;
+                    double h = bitmapImage.PixelHeight / height;
 
                     int RecW = (int)(60 * w);
                     int RecH = (int)(45 * h);
@@ -436,8 +436,8 @@ namespace Global
                 // var bitmapImage = new BitmapImage(new Uri("/Global;component/usercontrols/image/startpicture1.png", UriKind.Relative));
                 if (bottomLeftCorner.X > 30 && bottomLeftCorner.Y > 22.5 && bottomLeftCorner.X < width - 30 && bottomLeftCorner.Y < height - 22.5)
                 {
-                    double w = bitmapImage.Width / width;
-                    double h = bitmapImage.Height / height;
+                    double w = bitmapImage.PixelWidth / width;
+                    double h = bitmapImage.PixelHeight / height;
 
                     int RecW = (int)(60 * w);
                     int RecH = (int)(45 * h);

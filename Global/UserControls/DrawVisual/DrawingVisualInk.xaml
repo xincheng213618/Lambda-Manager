@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Global.UserControls.DrawVisual"
               xmlns:draw="clr-namespace:Global"
-             mc:Ignorable="d" SizeChanged="UserControl_SizeChanged" 
+             mc:Ignorable="d" Name="h" SizeChanged="UserControl_SizeChanged" 
             >
     <Grid>
         <draw:DrawingInkCanvas EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="InkCanvas" MouseLeftButtonDown="InkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="InkCanvas_MouseLeftButtonUp" MouseMove="InkCanvas_MouseMove" MouseWheel="InkCanvas_MouseWheel"  PreviewKeyDown="InkCanvas_PreviewKeyDown"  ></draw:DrawingInkCanvas>
