@@ -49,8 +49,8 @@ namespace Global
                 {
                     //drawingCanvasInk[viewindex] = drawingVisualInk;
                     inkVisuals[viewindex] = inkVisual;
-                    //if (ViewContentMenuCache.ContainsKey(viewindex))
-                    //    AddViewContentMenu(viewindex, ViewContentMenuCache[viewindex]);
+                    if (ViewContentMenuCache.ContainsKey(viewindex))
+                        AddViewContentMenu(viewindex, ViewContentMenuCache[viewindex]);
 
                     if (image1.Parent is Grid grid1)
                     {

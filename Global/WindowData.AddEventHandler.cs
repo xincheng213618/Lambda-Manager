@@ -354,7 +354,7 @@ namespace Global
 
         private void AddViewContentMenu(int view, List<int> ints)
         {
-            if (view >= 0 && view <= drawingCanvasInk.Length && drawingCanvasInk[view] != null)
+            if (view >= 0 && view <= inkVisuals.Length && inkVisuals[view] != null)
             {
                 ContextMenu contextMenu = new ContextMenu();
                 List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
@@ -382,7 +382,7 @@ namespace Global
                     menuItem1s.Add(radioMenuItem);
                 }
 
-                DrawingInkCanvas drawingInkCanvas = drawingCanvasInk[view].InkCanvas;
+                InkCanvas drawingInkCanvas = inkVisuals[view].inkCanvas;
                 drawingInkCanvas.ContextMenu = contextMenu;
                 if (ints.Count == 1)
                 {
