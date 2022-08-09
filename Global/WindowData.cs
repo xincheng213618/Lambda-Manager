@@ -89,7 +89,6 @@ namespace Global
             Config.ToJsonFile(FilePath);
         }
 
-        public Image FirstImage;
         /// <summary>
         /// 读取配置文件
         /// </summary>

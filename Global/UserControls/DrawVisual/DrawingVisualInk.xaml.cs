@@ -25,12 +25,11 @@ namespace Global.UserControls.DrawVisual
     public partial class DrawingVisualInk : UserControl
     {
 
-        public DrawingVisualInk(ImageViewState.ToolTop ToolTop,DrawMethod drawMethod,double ratio)
+        public DrawingVisualInk(ImageViewState.ToolTop ToolTop,DrawMethod drawMethod)
         {
             InitializeComponent();
             this.ToolTop = ToolTop;
             this.drawMethod = drawMethod;
-            this.ratio = ratio;
 
         }
         public ImageViewState.ToolTop ToolTop;
