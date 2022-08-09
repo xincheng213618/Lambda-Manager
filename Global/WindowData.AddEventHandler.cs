@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +29,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
+            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
@@ -50,7 +52,16 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
 
             //采集关闭
-            LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);         
+            LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);
+        }
+
+        private bool StaheIniClose(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                WaitContorl.GetInstance().Hidden();
+            });
+            return true;
         }
 
         private bool CollectionCompleted(object sender, EventArgs e)
@@ -102,9 +113,9 @@ namespace Global
                 }
 
             });
-           
+
             return true;
-   
+
         }
 
 
@@ -174,7 +185,7 @@ namespace Global
             View view = LambdaControl.GetImageView(viewdex);
             if (view == null)
                 return true;
-            AddImageConfident(view.Image,viewdex);
+            AddImageConfident(view.Image, viewdex);
             return true;
         }
 
@@ -185,16 +196,16 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-           
 
-            histogramModel.Max= GetStringValue(eventData, "Max");
-            histogramModel.HalfMax = int.Parse(GetStringValue(eventData, "Max"))/2;
+
+            histogramModel.Max = GetStringValue(eventData, "Max");
+            histogramModel.HalfMax = int.Parse(GetStringValue(eventData, "Max")) / 2;
             histogramModel.Min = GetStringValue(eventData, "Min");
-            histogramModel.Mean = GetStringValue(eventData, "Mean");  
-            histogramModel.Variance = GetStringValue(eventData, "Variance");       
+            histogramModel.Mean = GetStringValue(eventData, "Mean");
+            histogramModel.Variance = GetStringValue(eventData, "Variance");
             //histogramModel.Gamma= GetStringValue(eventData, "Gamma");
             histogramModel.Outlier = GetStringValue(eventData, "Outlier");
-            histogramModel.RangeMin =int.Parse(GetStringValue(eventData, "RangeMin")); 
+            histogramModel.RangeMin = int.Parse(GetStringValue(eventData, "RangeMin"));
             histogramModel.RangeMax = int.Parse(GetStringValue(eventData, "RangeMax"));
 
             return true;
@@ -335,13 +346,13 @@ namespace Global
             return true;
         }
 
-                    
+
 
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
 
-        private void AddViewContentMenu(int view,List<int> ints)
+        private void AddViewContentMenu(int view, List<int> ints)
         {
             if (view >= 0 && view <= drawingCanvasInk.Length && drawingCanvasInk[view] != null)
             {
@@ -358,12 +369,12 @@ namespace Global
                         radioMenuItem.IsChecked = true;
                         if (ints.Count == 1)
                         {
-                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 },{ "window", view }, { "mode1",mode }, { "mode2", -1 } });
+                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
                         }
                         else if (ints.Count == 2)
                         {
                             ints[IsLeft ? 0 : 1] = mode;
-                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW}, { "window", view }, { "mode1", ints[0] } , { "mode2", ints[1] } });
+                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ints[0] }, { "mode2", ints[1] } });
                         }
                     };
 
