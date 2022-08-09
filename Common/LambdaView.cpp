@@ -34,7 +34,7 @@ void LambdaView::Show(cv::Mat mat)
 		if (initialFrame == NULL)
 			throw "initialFrame";
 
-		int i = initialFrame(index, index2, mat.data, mat.rows, mat.cols, 3);
+		int i = initialFrame(index, index2, mat.data, mat.rows, mat.cols, mat.channels());
 		flag = RUNING;
 	}
 	else if (flag == RUNING)
