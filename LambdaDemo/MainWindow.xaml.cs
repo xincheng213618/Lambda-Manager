@@ -1,4 +1,5 @@
 ﻿using LambdaManager;
+using LambdaManager.Core;
 using LambdaManager.DataType;
 using LambdaManager.Utils;
 using Mode;
@@ -106,6 +107,12 @@ namespace LambdaDemo
 
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Common.AppClose();
+            Environment.Exit(-1);
         }
     }
 
