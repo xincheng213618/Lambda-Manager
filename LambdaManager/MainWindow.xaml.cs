@@ -131,7 +131,7 @@ namespace LambdaManager
                 Side.PROJECT => projectView,
                 Side.REPORT => reportView,
                 Side.ANALYSIS => analysisView,
-                Side.POCESS => proessView,
+                Side.PROCESS => proessView,
                 _ => throw new Exception("top view not supported"),
             };
         }
@@ -328,7 +328,7 @@ namespace LambdaManager
         MENU,
         CONFIG,
         ACQUIRE,
-        POCESS,
+        PROCESS,
         ANALYSIS,
         REPORT,
         PROJECT
