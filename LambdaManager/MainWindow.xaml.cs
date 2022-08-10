@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.Features;
+using LambdaManager.Properties;
 using LambdaManager.Utils;
 using ThemeManager.Controls;
 
@@ -49,14 +50,17 @@ namespace LambdaManager
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
         }
 
+        private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
         public ObservableCollection<Message> Messagess = new ObservableCollection<Message>();
 
         public void AddMessage(Message message)
         {
-            Messagess.Add(message);
-            msgList.SelectedIndex = Messagess.Count - 1;
-
+            if (message.Severity >= logLevel)
+            {
+                Messagess.Add(message);
+                msgList.SelectedIndex = Messagess.Count - 1;
+            }
         }
 
         public MenuItem? AddMenuItem(string path)

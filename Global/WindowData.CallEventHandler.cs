@@ -182,6 +182,8 @@ namespace Global
                         if (image1.Parent is Grid grid3)
                         {
                             WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
+                            if (topToolbar == null)
+                                return;
                             ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
                             ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
                             Button ScaleButton = (Button)topToolbar.Children[6];

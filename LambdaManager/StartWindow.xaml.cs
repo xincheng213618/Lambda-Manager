@@ -77,7 +77,8 @@ namespace LambdaManager
             {
                 if (IsRunning)
                 {
-                    Closedd();
+                    _ = Dispatcher.BeginInvoke(new Action(async () => await StartMainWindow()));
+
                 }
                 else
                 {
@@ -98,7 +99,7 @@ namespace LambdaManager
             await Task.Delay(100);
             if (IsRunning)
             {
-                Closedd();
+               await  StartMainWindow();
             }
             else
             {
@@ -106,7 +107,7 @@ namespace LambdaManager
             }
         }
 
-        public async Task Closedd()
+        public async Task StartMainWindow()
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
