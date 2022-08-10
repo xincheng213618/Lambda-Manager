@@ -339,9 +339,15 @@
                                                 <TextBlock Name="timeElapsed" Foreground="#FF00BFFF">00:00:00<!--Unknown connection ID: 57--></TextBlock>
                                                 <TextBlock>/</TextBlock>
                                                 <TextBlock Name="totalTime">00:00:00<!--Unknown connection ID: 58--></TextBlock>
+                                                
+                                                
                                             </StackPanel>
                                         </Border>
                                     </StackPanel>
+                                    <Button Style="{StaticResource ToolButton}">
+                                        <Image Source="/Resources/Icons/bottom-place.png" Stretch="Fill" />
+                                        <!--Unknown connection ID: 64-->
+                                    </Button>
                                     <!--Unknown connection ID: 48-->
                                 </WrapPanel>
                             </Border>

@@ -39,7 +39,10 @@ namespace Grid
         {
             StartWindow startWindow = new StartWindow();
             startWindow.Show();
-            this.Close();
+            startWindow.Closed += delegate
+            {
+                this.Close();
+            };
         }
 
 

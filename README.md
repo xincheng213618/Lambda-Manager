@@ -8,6 +8,10 @@ git clone https://github.com/NJUST-SCIL/Lambda-Manager
 
 需要先将程序编译环境从AnyCPU 改成 X64 然后 Build  Lambda 目录下的LambdaManager 。
 
+
+
+common  的环境已经内置，OpenCV 的环境需要自行编辑，并配置
+
 之后需要将packages中的opencv 的dll copy 到debug 或者release 目录中，然后创建lib目录。
 
 之后bulid common 项目
@@ -17,6 +21,8 @@ git clone https://github.com/NJUST-SCIL/Lambda-Manager
 之后运行LambdaManager  即可看见初始界面
 
 将已有的c++项目copy进来，编译，就可以进行联合调试
+
+
 
 
 
