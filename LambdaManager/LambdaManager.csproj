@@ -37,6 +37,7 @@
     <None Remove="resources\icons\application-logo.png" />
     <None Remove="resources\icons\bottom-backward.png" />
     <None Remove="resources\icons\bottom-forward.png" />
+    <None Remove="resources\icons\bottom-place.png" />
     <None Remove="resources\icons\bottom-slider.png" />
     <None Remove="resources\icons\bottom-start.png" />
     <None Remove="resources\icons\bottom-stop.png" />
@@ -93,6 +94,7 @@
 	<ItemGroup>
 		<Resource Include="Image\ZIRCON.png" />
 		<Resource Include="resources\icons\bottom-forward.png" />
+		<Resource Include="resources\icons\bottom-place.png" />
     <Resource Include="resources\icons\bottom-slider.png" />
     <Resource Include="resources\icons\bottom-start.png" />
     <Resource Include="resources\icons\bottom-stop.png" />
