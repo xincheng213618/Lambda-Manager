@@ -51,6 +51,7 @@ namespace Global
             try
             {
                 Grid grid = (Grid)mainwin.FindName("grid0");
+                if (grid == null) return;
                 Image image = (Image)grid.Children[0];
 
                 DrawingVisualInk drawingVisualInk = new DrawingVisualInk(ImageViewState.toolTop, drawMethod);

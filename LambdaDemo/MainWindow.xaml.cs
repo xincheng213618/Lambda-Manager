@@ -52,8 +52,6 @@ namespace LambdaDemo
                 }
                 else
                 {
-                    if (first)
-                        return;
                     stackpanel1.Children.Add(control);
                     first = true;
                 }

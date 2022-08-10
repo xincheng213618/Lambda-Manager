@@ -31,6 +31,7 @@ namespace Global
             try
             {
                 Grid grid = (Grid)mainwin.FindName("grid0");
+                if (grid == null) return;
                 Image image = (Image)grid.Children[0];
                 InkVisual inkVisual = new InkVisual(ImageViewState.toolTop, inkMethod);
                 inkVisuals[0] = inkVisual; // First InkCanvas
