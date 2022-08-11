@@ -1,5 +1,5 @@
 ﻿using Mode;
-using NLGSolution;
+using XSolution;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -94,7 +94,7 @@ namespace Solution
                 if (item == null)
                     return;
 
-                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is NLGSolution.BaseObject viewModeBase)
+                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is XSolution.BaseObject viewModeBase)
                 {
                     viewModeBase.IsEditMode = false;
                 }
@@ -104,21 +104,21 @@ namespace Solution
                 {
                     if (item.DataContext is ProjectFile projectFile1)
                     {
-                        LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullPath));
+                        LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullName));
                     }
                     if (item.DataContext is ProjectFolder projectFolder1)
                     {
-                        LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullPath));
+                        LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullName));
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
                         //LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName);
 
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
+                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullName));
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { } );
                     }
                 }
@@ -138,7 +138,7 @@ namespace Solution
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is NLGSolution.BaseObject baseObject )
+            if (tb.Tag is XSolution.BaseObject baseObject )
             {
                 baseObject.IsEditMode = false;
             }
@@ -147,7 +147,7 @@ namespace Solution
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is NLGSolution.BaseObject baseObject)
+            if (tb.Tag is XSolution.BaseObject baseObject)
             {
                 baseObject.Name = tb.Text;
                 if (e.Key == Key.Escape || e.Key == Key.Enter)
@@ -186,7 +186,7 @@ namespace Solution
             foreach (var item in root.GetFiles())
             {
                 ProjectFile projectFile = new ProjectFile(item.FullName);
-                string Extension = Path.GetExtension(projectFile.FullPath);
+                string Extension = Path.GetExtension(projectFile.FullName);
                 projectFolder.AddChild(projectFile);
                 if (Extension == "png" || Extension == "jpg" || Extension == "tiff")
                 {
@@ -222,7 +222,7 @@ namespace Solution
                     foreach (var item in dic.GetFiles())
                     {
                         ProjectFile projectFile = new ProjectFile(item.FullName);
-                        string Extension = Path.GetExtension(projectFile.FullPath);
+                        string Extension = Path.GetExtension(projectFile.FullName);
 
                         projectMannager.AddChild(projectFile);
 

@@ -6,49 +6,75 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Xml.Linq;
 
-namespace NLGSolution
+namespace XSolution
 {
+
     /// <summary>
     /// 工程文件的基础Object
     /// 继承自ViewModeBase的
     /// </summary>
-    public class BaseObject : ViewModelBase
+    public class BaseObject : DependencyObject, INotifyPropertyChanged, IDisposable
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<BaseObject> AdllChildren { get; set; }  
+        /// <summary>
+        /// 触发消息通知事件
+        /// </summary>
+        /// <param name="propertyName"></param>
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public void Dispose()
+        {
+            this.Parent = null;
+        }
 
-        public ObservableCollection<BaseObject> Children { get; set; }
-        public ObservableCollection<BaseObject> ChildrenHidden { get; set; }
 
-        protected Visibility visibility = Visibility.Visible;
+        /// <summary>
+        /// 显示的子集
+        /// </summary>
+        public ObservableCollection<BaseObject> VisualChildren { get; set; }
+
+        /// <summary>
+        /// 被隐藏的子集
+        /// </summary>
+        public ObservableCollection<BaseObject> VisualChildrenHidden { get; set; }
+
+
+        protected Visibility _visibility = Visibility.Visible;
 
         public Visibility Visibility
         {
-            get { return visibility; }
+            get { return _visibility; }
             set {
-                visibility = value;
-
-                if (this.Parent != null && this.Parent is BaseObject baseObject)
+                if (value != _visibility)
                 {
-                    if (visibility == Visibility.Visible)
+                    _visibility = value;
+
+                    if (this.Parent != null && this.Parent is BaseObject baseObject)
                     {
-                        if (baseObject.ChildrenHidden.Contains(this))
+                        if (_visibility == Visibility.Visible)
                         {
-                            baseObject.ChildrenHidden.Remove(this);
-                            baseObject.Children.SortedAdd(this);
+                            if (baseObject.VisualChildrenHidden.Contains(this))
+                            {
+                                baseObject.VisualChildrenHidden.Remove(this);
+                                baseObject.VisualChildren.SortedAdd(this);
+                            }
+                        }
+                        else
+                        {
+                            if (baseObject.VisualChildren.Contains(this))
+                            {
+                                baseObject.VisualChildren.Remove(this);
+                                baseObject.VisualChildrenHidden.SortedAdd(this);
+                            }
                         }
                     }
-                    else
-                    {
-                        if (baseObject.Children.Contains(this))
-                        {
-                            baseObject.Children.Remove(this);
-                            baseObject.ChildrenHidden.SortedAdd(this);
-                        }
-                    }
+                    NotifyPropertyChanged();
                 }
-                NotifyPropertyChanged();
 
             }
         }
@@ -57,21 +83,29 @@ namespace NLGSolution
         public RelayCommand AddChildren { get; set; }
         public RelayCommand RemoveChildren { get; set; }
 
+        /// <summary>
+        /// 隐藏取消
+        /// </summary>
         public RelayCommand VisibilityHidden { get; set; }
+
+        /// <summary>
+        /// 隐藏一键取消
+        /// </summary>
         public RelayCommand VisibilityUnHidden { get; set; }
 
 
 
-        public BaseObject(string FullPath)
+        public BaseObject(string FullName)
         {
-            this.FullPath = FullPath;
+            this.FullName = FullName;
+
             AddChildren = new RelayCommand(AddChild, (object value) => { return true; });
             VisibilityHidden = new RelayCommand(VisibilityChanged, (object value) => { return true; });
             VisibilityUnHidden = new RelayCommand(VisibilityUnChanged, (object value) => { return true; });
 
 
-            Children = new ObservableCollection<BaseObject>() { };
-            ChildrenHidden = new ObservableCollection<BaseObject>() { };
+            VisualChildren = new ObservableCollection<BaseObject>() { };
+            VisualChildrenHidden = new ObservableCollection<BaseObject>() { };
         }
         
 
@@ -79,36 +113,35 @@ namespace NLGSolution
 
         public virtual void AddChild(object obj)
         {
-            OpenFileDialog dialog = new()
-            {
-                Title = "请选择文件",
-                RestoreDirectory = true,
-                Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif |JPEG Image (.jpeg)|*.jpeg |Png Image (.png)|*.png |Tiff Image (.tiff)|*.tiff |Wmf Image (.wmf)|*.wmf"
-            };
-            bool? result = dialog.ShowDialog();
-            AddChild(new BaseObject(dialog.FileName));
+
         }
 
         public virtual void VisibilityChanged(object obj)
         {
             this.Visibility = Visibility.Hidden;
         }
+
         public virtual void VisibilityUnChanged(object obj)
         {
-            foreach (var item in ChildrenHidden)
+            foreach (var item in VisualChildrenHidden)
             {
-                Children.SortedAdd(item);
+                VisualChildren.SortedAdd(item);
             }
-            ChildrenHidden.Clear(); 
+            VisualChildrenHidden.Clear(); 
         }
 
-
-
-        public BaseObject Parent = null;
-
-        public BaseObject GetParent()
+        private BaseObject parent = null;
+        public BaseObject Parent
         {
-            return Parent;
+            get { return parent; }
+            set
+            {
+                if (value != parent && value is BaseObject)
+                {
+                    parent = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -123,11 +156,11 @@ namespace NLGSolution
             AddChildEventHandler?.Invoke(this, new EventArgs());
             if (baseObject.Visibility == Visibility.Visible)
             {
-                Children.SortedAdd(baseObject);
+                VisualChildren.SortedAdd(baseObject);
             }
             else
             {
-                ChildrenHidden.SortedAdd(baseObject);
+                VisualChildrenHidden.SortedAdd(baseObject);
             }
         }
 
@@ -186,21 +219,44 @@ namespace NLGSolution
             set { name = value;  NotifyPropertyChanged();}
         }
 
-        protected string fullPath;
+        protected string fullName;
 
         /// <summary>
         /// 文件地址
         /// </summary>
-        public string FullPath
+        public string FullName
         {
-            get { return fullPath; }
+            get { return fullName; }
             set {
-                fullPath = value;
-                this.Name = Path.GetFileNameWithoutExtension(fullPath);
+                fullName = value;
+                this.Name = Path.GetFileNameWithoutExtension(fullName);
                 NotifyPropertyChanged();
             }
         }
 
+
+
+        /// <summary>
+        /// 得到指定数据类型的祖先节点。
+        /// </summary>
+        public BaseObject GetAncestor(System.Type type)
+        {
+            if (type == null)
+                return null;
+
+            if (type.Equals(this.GetType()))
+                return this;
+            if (type.IsAssignableFrom(this.GetType()))
+                return this;
+            if (this.GetType().IsSubclassOf(type))
+                return this;
+
+            if (this.Parent == null)
+                return null;
+
+            return this.Parent.GetAncestor(type);
+        }
+
     }
-    
+
 }

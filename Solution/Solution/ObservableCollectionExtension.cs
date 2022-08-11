@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLGSolution
+namespace XSolution
 {
     /// <summary>
     /// ObservableCollection 类的一些扩展函数。

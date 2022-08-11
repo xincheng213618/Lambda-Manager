@@ -1,4 +1,4 @@
-﻿using NLGSolution;
+﻿using XSolution;
 using System.Windows;
 using ThemeManager.Controls;
 
@@ -20,7 +20,7 @@ namespace Solution
         {
             if (Tool.Utils.OpenFileDialog(out string FilePath))
             {
-                Lambda.LambdaControl.Trigger("ProjectExportAs", this, BaseObject.FullPath);
+                Lambda.LambdaControl.Trigger("ProjectExportAs", this, BaseObject.FullName);
             };
             this.Close();
         }

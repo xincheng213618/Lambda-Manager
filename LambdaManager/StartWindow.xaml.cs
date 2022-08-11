@@ -98,7 +98,6 @@ namespace LambdaManager
                 if (IsRunning)
                 {
                     _ = Dispatcher.BeginInvoke(new Action(async () => await StartMainWindow()));
-
                 }
                 else
                 {

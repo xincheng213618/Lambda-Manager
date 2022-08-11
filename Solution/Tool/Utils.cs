@@ -71,28 +71,5 @@ namespace Tool
             }
             return false;
         }
-
-        /// <summary>
-        /// 取得存储资源
-        /// </summary>
-        /// <returns></returns>
-        public static string LoadResource(string res)
-        {
-            string result = string.Empty;
-
-            try
-            {
-                using (StreamReader reader = new StreamReader(res))
-                {
-                    result = reader.ReadToEnd();
-                }
-            }
-            catch 
-            {
-
-            }
-            return result;
-        }
-
     }
 }

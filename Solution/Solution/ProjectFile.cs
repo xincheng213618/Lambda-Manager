@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Tool;
 
-namespace NLGSolution
+namespace XSolution
 {
     public class ProjectFile : BaseObject
     {
@@ -19,12 +19,18 @@ namespace NLGSolution
         }
         public RelayCommand OpenExplorer { get; set; }
 
-        public ProjectFile(string FilePath):base(FilePath)
+        protected FileInfo FileInfo;
+        public ProjectFile(string FullName) :base(FullName)
         {
+            FileInfo = new FileInfo(FullName);
+            this.Name = Path.GetFileNameWithoutExtension(fullName);
             OpenExplorer = new RelayCommand(OpenFolder, (object value) => { return true; });
-            Task.Run(CalculSize);
 
+            Task.Run(CalculSize);
         }
+
+
+
         public override void AddChild(object obj)
         {
             OpenFileDialog dialog = new()
@@ -38,13 +44,15 @@ namespace NLGSolution
         }
         private void OpenFolder(object value)
         {
-            System.Diagnostics.Process.Start("explorer.exe", FullPath);
+            System.Diagnostics.Process.Start("explorer.exe", FullName);
         }
 
         public void CalculSize()
         {
-            FileInfo fileinfo = new FileInfo(FullPath);
-            FileSize = MemorySize.MemorySizeText(fileinfo.Length);
+            if (FileInfo.Exists)
+            {
+                FileSize = MemorySize.MemorySizeText(FileInfo.Length);
+            }
         }
 
 
@@ -53,26 +61,29 @@ namespace NLGSolution
             get { return isEditMode; }
             set
             {
-                isEditMode = value;
-                if (!isEditMode)
+                if (value != isEditMode)
                 {
-                    string oldpath = FullPath;
-                    string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, Extension);
-                    if (newpath != FullPath)
+                    isEditMode = value;
+                    if (!isEditMode)
                     {
-                        try
+                        string oldpath = FullName;
+                        string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, Extension);
+                        if (newpath != FullName)
                         {
-                            File.Move(oldpath, newpath);
-                            FullPath = newpath;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("文件名冲突" + ex.Message);
-                            isEditMode = true;
+                            try
+                            {
+                                File.Move(oldpath, newpath);
+                                FullName = newpath;
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("文件名冲突" + ex.Message);
+                                isEditMode = true;
+                            }
                         }
                     }
+                    NotifyPropertyChanged();
                 }
-                NotifyPropertyChanged();
             }
         }
 
@@ -81,15 +92,13 @@ namespace NLGSolution
             base.Delete();
             try
             {
-                if (File.Exists(FullPath))
-                    File.Delete(FullPath);
+                if (File.Exists(FullName))
+                    File.Delete(FullName);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
-
         }
 
 
@@ -108,7 +117,7 @@ namespace NLGSolution
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;
-                Children.Remove(baseObject);
+                VisualChildren.Remove(baseObject);
                 baseObject.Delete();
             }
         }
@@ -116,7 +125,7 @@ namespace NLGSolution
 
         public string Extension
         {
-            get { return Path.GetExtension(FullPath); }
+            get { return Path.GetExtension(FullName); }
             protected set { }
         }   
 

@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
-namespace NLGSolution
+namespace XSolution
 {
     public class DerivativeFile: BaseObject
     {
 
-        public DerivativeFile(string FullPath):base(FullPath)
+        public DerivativeFile(string FullName) :base(FullName)
         {
 
         }
@@ -20,8 +15,7 @@ namespace NLGSolution
 
     public class DerivativeSeriesFile : BaseObject
     {
-
-        public DerivativeSeriesFile(string FullPath) : base(FullPath)
+        public DerivativeSeriesFile(string FullName) : base(FullName)
         {
 
         }
@@ -31,8 +25,8 @@ namespace NLGSolution
             base.Delete();
             try
             {
-                if (Directory.Exists(FullPath))
-                    Directory.Delete(FullPath, true);
+                if (Directory.Exists(FullName))
+                    Directory.Delete(FullName, true);
             }
             catch (Exception ex)
             {

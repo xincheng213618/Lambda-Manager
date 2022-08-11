@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
-namespace NLGSolution
+namespace XSolution
 {
     public class ProjectManager : ProjectFolder
     {
@@ -22,7 +22,7 @@ namespace NLGSolution
         { 
             get { 
                 var projectFolders = new ObservableCollection<ProjectFolder>();
-                foreach (var item in Children)
+                foreach (var item in VisualChildren)
                 {
                     if (item is ProjectFolder projectfolder)
                         projectFolders.Add(projectfolder);
@@ -38,7 +38,7 @@ namespace NLGSolution
             get
             {
                 var projectFiles = new ObservableCollection<ProjectFile>();
-                foreach (var item in Children)
+                foreach (var item in VisualChildren)
                 {
                     if (item is ProjectFile projectFile)
                         projectFiles.Add(projectFile);
@@ -54,7 +54,7 @@ namespace NLGSolution
             if (this.Parent != null)
                 if (this.Parent != null)
                 {
-                    string Extension = System.IO.Path.GetExtension(baseObject.FullPath);
+                    string Extension = System.IO.Path.GetExtension(baseObject.FullName);
                     if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt"|| Extension == ".grif")
                         this.Parent.AddChild(baseObject);
 
