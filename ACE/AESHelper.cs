@@ -5,38 +5,57 @@ namespace ACE
     public class AESHelper
     {
         public IRegisterCode registerCode;
-        public string FilePath;
 
         public AESHelper()
         {
             registerCode = new ReadRegisterCode();
-            FilePath = "application.xml";
         }
+        public string DecryptFileName = "application.sys";
+        public string EncryptFileName = "application.xml";
+        public string Vector = "Grid";
+
 
         public AESHelper(string filepath)
         {
             registerCode = new ReadRegisterCode();
-            FilePath = filepath;
+            EncryptFileName = filepath;
         }
 
-        public void Encrypt()
+
+        public bool Encrypt()
+        {
+            if (File.Exists(EncryptFileName))
+            {
+                string RegisterCode = registerCode.GetRegisterCode();
+                byte[] bytes = AES_EnorDecrypt.AESEncrypt(File.ReadAllBytes(EncryptFileName), RegisterCode ?? string.Empty, Vector);
+                if (File.Exists(DecryptFileName))
+                    File.Delete(DecryptFileName);
+                using FileStream fs = new FileStream(DecryptFileName, FileMode.OpenOrCreate, FileAccess.Write);
+                fs.Write(bytes, 0, bytes.Length);
+                File.Delete(EncryptFileName);
+                return true;
+            }
+            return false;
+
+        }
+        public bool Encrypt(byte[] EncryptData)
         {
             string RegisterCode = registerCode.GetRegisterCode();
-            byte[] bytes = AES_EnorDecrypt.AESEncrypt(File.ReadAllBytes(FilePath), RegisterCode, "Grid");
-            string Filesys = FilePath.Replace(".xml", ".sys");
-            if (File.Exists(Filesys))
-                File.Delete(Filesys);
-            using (FileStream fs = new FileStream(FilePath.Replace(".xml",".sys"), FileMode.OpenOrCreate, FileAccess.Write))
+            byte[] bytes = AES_EnorDecrypt.AESEncrypt(EncryptData, RegisterCode ?? string.Empty, "Grid");
+
+            if (File.Exists(DecryptFileName))
+                File.Delete(DecryptFileName);
+            using (FileStream fs = new FileStream(DecryptFileName, FileMode.OpenOrCreate, FileAccess.Write))
             {
                 fs.Write(bytes, 0, bytes.Length);
-            }   
+            }
+            return true;    
         }
 
         public byte[] Decrypt()
         {
             string RegisterCode = registerCode.GetRegisterCode();
-            byte[] bytes = File.ReadAllBytes(FilePath.Replace(".xml", ".sys"));
-            return AES_EnorDecrypt.AESDecrypt(bytes, RegisterCode, "Grid");
+            return AES_EnorDecrypt.AESDecrypt(File.ReadAllBytes(DecryptFileName), RegisterCode ?? string.Empty, "Grid");
         }
 
 

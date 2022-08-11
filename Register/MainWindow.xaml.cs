@@ -36,17 +36,22 @@ namespace Register
 
         int mode = 1;
         RegisterInfo registerInfo;
+
         AESHelper AESHelper;
         IRegisterInfo iRegisterInfo;
+
         private void Window_Initialized(object sender, System.EventArgs e)
         {
+            if (!File.Exists("application.xml"))
+            {
+                Button1.Content = "重新注册";
+            }
+
             iRegisterInfo = new FileRegisterinfo();
             registerInfo = iRegisterInfo.GetRegisterInfo();
             this.DataContext = registerInfo;
-
             AESHelper = new AESHelper();
         }
-
 
 
 
@@ -75,11 +80,19 @@ namespace Register
                 return;
             }
 
+            string RegisterCode = registerInfo.MD5();
+            if (File.Exists("application.xml"))
+            {
+                iRegisterInfo.SetRegisterInfo(registerInfo);
+                AESHelper.Encrypt();
+            }
+            else
+            {
+                byte[] Caches = AESHelper.Decrypt();
+                iRegisterInfo.SetRegisterInfo(registerInfo);
+                AESHelper.Encrypt(Caches);
+            }
 
-            string RegisterCode = registerInfo.GetSha512();
-
-            iRegisterInfo.SetRegisterInfo(registerInfo);
-            AESHelper.Encrypt();
             Dictionary<string, string> keyValues = new Dictionary<string, string>()
             {
                 { "userName",registerInfo.UserName },
@@ -88,7 +101,7 @@ namespace Register
                 { "expirationDate",registerInfo.ExpirationDate },
                 { "email",registerInfo.Email },
                 { "phoneNumber",registerInfo.PhoneNumber},
-                { "registerCode",registerInfo.GetSha512()},
+                { "registerCode",registerInfo.MD5()},
             };
             var content = new FormUrlEncodedContent(keyValues);
             //var response = await client.PostAsync("http://b.xincheng213618.com:18888/register", content);
@@ -96,13 +109,17 @@ namespace Register
             //var responseString = await response.Content.ReadAsStringAsync();
             //MessageBox.Show(responseString);
 
-            MessageBox.Show(Encoding.UTF8.GetString(AESHelper.Decrypt()));
+            if (!String.IsNullOrEmpty(Encoding.UTF8.GetString(AESHelper.Decrypt())))
+                MessageBox.Show("注册成功");
+
+            if (File.Exists("application.xml"))
+                File.Delete("application.xml");
+            if (!File.Exists("application.xml"))
+            {
+                Button1.Content = "重新注册";
+            }
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(AES.GetExpireDate());
-        }
 
         private void H5a6_TextChanged(object sender, TextChangedEventArgs e)
         {

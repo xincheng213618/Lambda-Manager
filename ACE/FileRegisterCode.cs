@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACE.Global;
+using System;
 using System.IO;
 
 namespace ACE
@@ -25,9 +26,9 @@ namespace ACE
             return File.ReadAllText(Filepath);
         }
 
-        public void SetRegisterCode(string Code)
+        public void SetRegisterCode(RegisterInfo registerInfo)
         {
-            File.WriteAllText(Filepath, Code);
+            File.WriteAllText(Filepath, registerInfo.MD5());
         }
     }
 }

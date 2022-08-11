@@ -1,4 +1,6 @@
-﻿namespace ACE
+﻿using ACE.Global;
+
+namespace ACE
 {
     /// <summary>
     /// 注册码接口
@@ -8,11 +10,11 @@
         /// <summary>
         /// 设置注册码
         /// </summary>
-        void SetRegisterCode(string Code);
+        void SetRegisterCode(RegisterInfo registerInfo);
 
         /// <summary>
         /// 获取注册码
         /// </summary>
-        string GetRegisterCode();
+        string? GetRegisterCode();
     }
 }
