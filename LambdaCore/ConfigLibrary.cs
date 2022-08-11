@@ -224,7 +224,7 @@ namespace LambdaManager
             }
         }
 
-        private void LoadComponents1()
+        public void LoadUIComponents()
         {
             foreach (Component component in all)
             {
@@ -1652,8 +1652,6 @@ namespace LambdaManager
                     });
                 }
             }
-
-            LoadComponents1();
         }
 
         private static async void InitializeScheduler()

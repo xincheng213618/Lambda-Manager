@@ -104,6 +104,7 @@ namespace LambdaDemo
             ConfigLibrary.lambdaUI = this;
             ConfigLibrary.Load();
             ConfigLibrary.InitializeLibrary();
+            ConfigLibrary.LoadUIComponents();
 
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);

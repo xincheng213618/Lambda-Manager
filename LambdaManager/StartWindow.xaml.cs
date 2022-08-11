@@ -68,6 +68,7 @@ namespace LambdaManager
             if (num == true)
             {
                 ConfigLibrary.InitializeLibrary();
+                ConfigLibrary.LoadUIComponents();
             }
             else
             {
