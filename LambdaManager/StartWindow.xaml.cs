@@ -28,13 +28,32 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
-            labelVersion.Content = string.Format("V8.0 - {0}",File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
-            ConfigLibrary = new ConfigLibrary();
-            ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
-            Thread thread = new Thread(Load);
-            thread.Start();
-            _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
+            if (DateTime.Now > Convert.ToDateTime(GetExpireDate() ?? "2025/1/1"))
+            {
+                MessageBox.Show("过期了");
+                this.Close();
+            }
+            else
+            {
+                labelVersion.Content = string.Format("V8.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
+                ConfigLibrary = new ConfigLibrary();
+                ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
+                Thread thread = new Thread(Load);
+                thread.Start();
+                _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
+            }
 
+
+        }
+
+        public static string GetExpireDate()
+        {
+            var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/ACE.dll");
+            if (assembly == null)
+                return null;
+            var type = assembly.GetType("ACE.AES");
+            string? s = type.InvokeMember("GetExpireDate", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+            return s;
         }
         public XElement loadxml()
         {
@@ -112,6 +131,7 @@ namespace LambdaManager
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
+            mainWindow.Show();
             this.Close();
         }
 
