@@ -2,6 +2,7 @@
 using Lambda;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,10 +30,6 @@ namespace Global.UserControls.DrawVisual
           
         }
 
-
-
-
-
         Window mainwin = Application.Current.MainWindow;
         WrapPanel topToolbar;
         private double width;
@@ -50,7 +47,14 @@ namespace Global.UserControls.DrawVisual
         public  StrokeCollection tempStroke = new StrokeCollection();
         public StrokeCollection RegisterStroke = new StrokeCollection();
         public bool saveTempStroke = true;
-        
+        private int textFlag = 0;
+
+        private Point movePoint= new Point(0, 0);
+
+
+
+       
+
 
         private void inkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
@@ -130,7 +134,7 @@ namespace Global.UserControls.DrawVisual
 
                 double theta = Math.Atan2(endP.Y-iniP.Y  , endP.X-iniP.X);
                 double dist = GetDistance(iniP, endP);
-                DrawInkMethod.dimenViewModel.Length = (double)dist / inkCanvas.ActualWidth * 1689.12 / ratio;
+                DrawInkMethod.dimenViewModel.Length = (double)dist / ActualWidth * 1689.12 / ratio;
 
                 if (theta/ Math.PI * 180 == 0)
                 {
@@ -174,6 +178,23 @@ namespace Global.UserControls.DrawVisual
 
                                  };
                 LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+
+
+                if (ratio != 1)
+                {
+                    Matrix matrixMove1 = new Matrix();
+                    matrixMove1.Translate(endP.X - movePoint.X, endP.Y - movePoint.Y);
+                    inkCanvas.Strokes.Transform(matrixMove1, false);
+                    movePoint = endP;
+
+                }
+
+                //var container = VisualTreeHelper.GetChild(this,0) as UIElement;
+                //container.RenderTransform = new TranslateTransform(endP.X - movePoint.X, endP.Y - movePoint.Y);
+
+               
+
+
             }
 
             if (isMouseDown && ToolTop.CircleChecked)
@@ -271,8 +292,27 @@ namespace Global.UserControls.DrawVisual
         {
             iniP = e.GetPosition(inkCanvas);
             isMouseDown = true;
-            inkCanvas.CaptureMouse();
+           // inkCanvas.CaptureMouse();
+            Stroke stroke;
+            Stroke stroke0;
 
+           if (ToolTop.MoveChecked == true)
+            {
+                StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
+                inkCanvas.Cursor = new Cursor(hold.Stream);
+
+                // CanMove = true;
+                Dictionary<string, object> parameters = new Dictionary<string, object>()
+                            {
+                            {"event",(int)1},
+                            {"x",(int)iniP.X },
+                            {"y",(int)iniP.Y },
+                            {"flag",(int)1 }
+
+                            };
+                LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+                movePoint = iniP;
+            };
 
             if (ToolTop.PolygonChecked == true)
             {
@@ -302,25 +342,55 @@ namespace Global.UserControls.DrawVisual
                 }
 
             }
-            else if (ToolTop.MoveChecked == true)
+           
+            else if (ToolTop.TextChecked)
             {
-                StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
-                inkCanvas.Cursor = new Cursor(hold.Stream);
+               
+                if (textFlag == 2) textFlag = 0;
+                if (textFlag == 0)
+                {
+                    TextBox textBox = new TextBox()
+                    {
+                        Width = 60,
+                        Style = (Style)(this.FindResource("TextBoxSty")),
+                        TextWrapping = TextWrapping.Wrap
 
-                // CanMove = true;
-                Dictionary<string, object> parameters = new Dictionary<string, object>()
-                            {
-                            {"event",(int)1},
-                            {"x",(int)iniP.X },
-                            {"y",(int)iniP.Y },
-                            {"flag",(int)1 }
+                    };
+                    inkCanvas.Children.Add(textBox);
+                    InkCanvas.SetLeft(textBox, iniP.X);
+                    InkCanvas.SetTop(textBox, iniP.Y);
+                    textBox.Focus();
 
-                            };
-                LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+
+                    textBox.LostFocus += delegate
+                    {
+                        if (textBox.Text == "")
+                            inkCanvas.Children.Remove(textBox);
+                        string label = (string)textBox.Text;
+                        FormattedText text = new FormattedText(label, CultureInfo.CurrentCulture,
+                                                  FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, Brushes.White, 1.25);
+                         DrawInkMethod.customTextInput = text;
+                        double height = text.Height;
+                        double width = text.Width;
+
+                        Stroke stroke = DrawInkMethod.InkCanvasMethod.CreateTextInput(iniP, height, width);
+                        // Stroke stroke1 = drawMethod.GenerateSquareStroke(iniP, new Point(iniP.X + 30, iniP.Y + 30));
+                        inkCanvas.Strokes.Add(stroke);
+                        // inkCanvas.Strokes.Add(stroke1);
+                        inkCanvas.Children.Remove(textBox);
+                       
+                    };
+
+
+                }
+                textFlag++;
+
             }
 
 
         }
+      
+
 
         private void inkCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -339,6 +409,9 @@ namespace Global.UserControls.DrawVisual
             if (ToolTop.MoveChecked == true)
             {
                 inkCanvas.Cursor = Cursors.Hand;
+
+                movePoint= e.GetPosition(inkCanvas);
+
             }
         }
 

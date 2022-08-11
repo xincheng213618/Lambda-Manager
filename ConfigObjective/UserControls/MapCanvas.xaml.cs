@@ -295,7 +295,9 @@ namespace ConfigObjective.UserControls
                     mapArrray[b, a] = 0;
                     Point removePoint = new Point(a * 8, b * 6);
                     selectedPoints.Remove(removePoint);
+                    
                 }
+               
             }
         }
 

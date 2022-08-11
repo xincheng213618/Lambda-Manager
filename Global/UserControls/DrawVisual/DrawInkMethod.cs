@@ -483,6 +483,7 @@ namespace Global
                     Brush = StrokeBrushDefault,
                     Thickness = thickness,
                     DashCap = PenLineCap.Round,
+                    
                     LineJoin = PenLineJoin.Round,
                     MiterLimit = 0.0
                 };
@@ -523,6 +524,23 @@ namespace Global
                 return stroke;
             }
 
+            public static CustomTextInput CreateTextInput(Point point1, double height, double width)
+            {
+                StylusPointCollection points = new StylusPointCollection()
+                  {
+                   new StylusPoint(point1.X, point1.Y),
+                   new StylusPoint(point1.X+width, point1.Y),
+                   new StylusPoint(point1.X, point1.Y+height),
+                   new StylusPoint(point1.X+width, point1.Y+height),
+                    };
+                CustomTextInput stroke = new CustomTextInput(new StylusPointCollection(points))
+                {
+                    DrawingAttributes = SetInkAttributes(),
+                };
+                return stroke;
+            }
+
+
         }
 
 
@@ -540,21 +558,40 @@ namespace Global
                 double y1 = StylusPoints[0].Y;
                 double x2 = StylusPoints[1].X;
                 double y2 = StylusPoints[1].Y;
-                Point labPoint = new Point((x1+x2)/2-30, y1 - 20);
+                Point labPoint = new Point((x1+x2)/2-20, y1 - 20);
 
                 drawingContext.DrawText(new FormattedText("100 μm", CultureInfo.CurrentCulture,
-                FlowDirection.LeftToRight, new Typeface("Arial"), 16, Brushes.White, 1.25), labPoint);
+                FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, Brushes.White, 1.25), labPoint);
+
+            }
+        }
+        public static FormattedText customTextInput;
+
+        public class CustomTextInput : Stroke
+        {
+            public CustomTextInput(StylusPointCollection points) : base(points)
+            {
+                StylusPoints = points.Clone();
+            }
+
+            protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+            {
+
+                double x1 = StylusPoints[0].X;
+                double y1 = StylusPoints[0].Y;
+                
+                Point labPoint = new Point(x1 + 5, y1 + 3);
+
+                drawingContext.DrawText(customTextInput, labPoint);
 
             }
         }
 
-   
 
 
 
 
-
-    public class CustomText : Stroke
+        public class CustomText : Stroke
         {
             public CustomText(StylusPointCollection points) : base(points)
             {

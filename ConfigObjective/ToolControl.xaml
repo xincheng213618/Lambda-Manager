@@ -368,7 +368,8 @@
                 <ColumnDefinition Width="14*"/>
             </Grid.ColumnDefinitions>
             <ToggleButton x:Name="ToggleButton4"  Style="{StaticResource ButtonPageControl}" Content="载物台控制" FontSize="14" Foreground="White" IsChecked="True" Grid.ColumnSpan="2"/>
-            <DockPanel HorizontalAlignment="Left" Grid.Column="1" Margin="112,0,0,0">
+            <DockPanel HorizontalAlignment="Right"  Grid.Column="1" Margin="0,0,0,0">
+                <Button x:Name="FullImage"   Content="全图" Width="50"   Margin="0,0,5,3"  Click="FullImage_Click"/>
                 <Button x:Name="Button401"  Content="复位" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,3" Click="Stage_Reset_Click"/>
             </DockPanel>
         </Grid>
@@ -432,8 +433,8 @@
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </Button>
-                        <Button x:Name="ButtonRear"  Grid.Row="2"  Grid.Column="1" Content="V" Margin="5"  PreviewMouseDown="ButtonRear_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp"/>
-                        <Button x:Name="ButtonLeft"  Grid.Row="1" Grid.Column="0" Margin="5" PreviewMouseDown="ButtonLeft_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
+                        <Button x:Name="ButtonRear"   Grid.Row="2"  Grid.Column="1" Content="V" Margin="5"  PreviewMouseDown="ButtonRear_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp"/>
+                        <Button x:Name="ButtonLeft" Grid.Row="1" Grid.Column="0" Margin="5" PreviewMouseDown="ButtonLeft_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="90"/>
@@ -447,13 +448,13 @@
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </Button>
-                        <Button x:Name="FullImage"  Grid.Row="2" Content="全图"  Grid.Column="2"  Margin="5"  Click="FullImage_Click"/>
+                       
                         <Button x:Name="ButtonRe"  Grid.Row="1" Grid.Column="1" Content="O" Margin="5" Click="ButtonRe_Click"/>
 
                         <ToggleButton x:Name="ToggleButtonZF" Grid.Row="0" Grid.Column="3" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5" Checked="ToggleButtonZF_Checked" Unchecked="ToggleButtonZF_Unchecked" />
                         <TextBlock Grid.Row="3" Grid.Column="3" Text="Z控制" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                        <Button x:Name="ButtonUp"  Grid.Row="0" Grid.Column="4"  Margin="5" PreviewMouseDown="ButtonUp_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
+                        <Button x:Name="ButtonUp" Grid.Row="0" Grid.Column="4"  Margin="5" PreviewMouseDown="ButtonUp_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="180"/>
@@ -510,12 +511,12 @@
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="Z-起始位置" FontSize="11" Width="65" VerticalAlignment="Center" Foreground="White" />
                                 <TextBox x:Name="TextBoxZstart"  PreviewKeyDown="NumberValidationTextBox"  Text="{Binding Path=ZStart}" Background="#262626"  HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                <Button  DockPanel.Dock="Right" Padding="5,0"  Content="设置" Click="UpdateMulZstart_Click"/>
+                                <Button DockPanel.Dock="Right" Padding="5,0"  Content="设置" Click="UpdateMulZstart_Click"/>
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="Z-停止位置"  FontSize="11" Width="65" VerticalAlignment="Center"  Foreground="White"/>
                                 <TextBox  x:Name="TextBoxZend" PreviewKeyDown="NumberValidationTextBox" Text="{Binding Path=ZEnd}"  Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                <Button DockPanel.Dock="Right"   Content="设置" Padding="5,0" Click="UpdateMulZend_Click"/>
+                                <Button DockPanel.Dock="Right"  Content="设置" Padding="5,0" Click="UpdateMulZend_Click"/>
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="z-移动步长" FontSize="11"  Width="65" VerticalAlignment="Center" Foreground="White" />
@@ -737,6 +738,6 @@
                 <Border  Width="400" Height="100" Background="Transparent"/>
             </StackPanel>
         </Border>
-</StackPanel>
+    </StackPanel>
 
 </UserControl>

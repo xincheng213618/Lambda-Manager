@@ -50,9 +50,6 @@ namespace Solution
                 viewbox.Child = stackPanel;
                 scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
-
-
-
             }
         }
 

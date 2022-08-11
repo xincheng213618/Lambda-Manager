@@ -20,9 +20,9 @@ namespace ConfigBottomView
             InitializeComponent();
             drawingAttributes = new DrawingAttributes
             {
-                Color = Colors.Black,
-                Width = 2,
-                Height = 2,
+                Color = Colors.White,
+                Width = 1,
+                Height = 1,
                 StylusTip = StylusTip.Rectangle,
                 FitToCurve = false,
                 IsHighlighter = true,
@@ -94,15 +94,23 @@ namespace ConfigBottomView
 
         }
 
+        public Stroke lStroke;
+        public Stroke hStroke;
+
+
         private void RangeSlider_LowerValueChanged(object sender, RoutedEventArgs e)
         {
+
             if (!auto)
             {
                 int min = (int)RangeSlider.LowerValue;
                 int max = (int)RangeSlider.HigherValue;
                 LambdaControl.Trigger("BRIGHTNESS_RANGE", this, new Dictionary<string, object>() { { "Min", min }, { "Max", max } });
+                drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.LowerValue);
 
             }
+
+
         }
 
         private void RangeSlider_HigherValueChanged(object sender, RoutedEventArgs e)
@@ -112,6 +120,7 @@ namespace ConfigBottomView
                 int min = (int)RangeSlider.LowerValue;
                 int max = (int)RangeSlider.HigherValue;
                 LambdaControl.Trigger("BRIGHTNESS_RANGE", this, new Dictionary<string, object>() { { "Min", min }, { "Max", max } });
+                drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.HigherValue);
 
             }
 
@@ -171,11 +180,11 @@ namespace ConfigBottomView
             {
                 if (i % 5 == 0)
                 {
-                    YpointsSt.Add(new Point(10, list[i] + 1));
+                    YpointsSt.Add(new Point(13, list[i] + 1));
                 }
                 else
                 {
-                    YpointsSt.Add(new Point(15, list[i] + 1));
+                    YpointsSt.Add(new Point(17, list[i] + 1));
                 }
 
             }
@@ -203,17 +212,17 @@ namespace ConfigBottomView
             for (int i = 0; i < list.Count; i++)
             {
 
-                XPointsSt.Add(new Point(list[i] + 1, h + 5));
+                XPointsSt.Add(new Point(list[i] + 1, h + 4));
             }
             for (int i = 0; i < list.Count; i++)
             {
                 if (i % 5 == 0)
                 {
-                    XPointsEd.Add(new Point(list[i] + 1, h + 15));
+                    XPointsEd.Add(new Point(list[i] + 1, h + 11));
                 }
                 else
                 {
-                    XPointsEd.Add(new Point(list[i] + 1, h + 10));
+                    XPointsEd.Add(new Point(list[i] + 1, h + 7));
                 }
             }
         }
@@ -236,6 +245,9 @@ namespace ConfigBottomView
             }
 
         }
+
+
+
         private void drawXAxis(double width, double height, int m)
         {
             if (height <= 0)
@@ -254,10 +266,43 @@ namespace ConfigBottomView
 
         }
 
+
+        private void drawLimitLineL(double width, double height,double lowValue)
+        {
+            if (height <= 0)
+                return;
+            if (inkCanvas.Strokes.Contains(lStroke))
+                inkCanvas.Strokes.Remove(lStroke);
+            Point pointS = new Point(lowValue/255* (width-10)+(255- lowValue)/255*2 + 19, 0);
+            Point pointE=new Point(lowValue / 255 * (width-10) + (255 - lowValue)/255 * 2 + 19, height);
+            lStroke = GenerateLineStroke(pointS, pointE);
+            inkCanvas.Strokes.Add(lStroke);
+        }
+
+
+        private void drawLimitLineH(double width, double height, double highValue)
+        {
+            if (height <= 0)
+                return;
+            if (inkCanvas.Strokes.Contains(hStroke))
+                inkCanvas.Strokes.Remove(hStroke);
+            Point pointS = new Point(highValue / 255 * width+ 20-(highValue-128)/128*6+7, 0);
+            Point pointE = new Point(highValue / 255 *width + 20 -(highValue-128)/128*6+7, height);
+            hStroke = GenerateLineStroke(pointS, pointE);
+            inkCanvas.Strokes.Add(hStroke);
+        }
+
+
+
+
+
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             drawYAxis(HistogramImage.ActualHeight, 10);
             drawXAxis(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 20);
+            drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 0);
+            drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 255);
         }
 
         private void HistogramImage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -265,6 +310,16 @@ namespace ConfigBottomView
             inkCanvas.Strokes.Clear();   
             drawYAxis(HistogramImage.ActualHeight, 10);
             drawXAxis(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 20);
+            drawLimitLineL(HistogramImage.ActualWidth,HistogramImage.ActualHeight, RangeSlider.LowerValue);
+            drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.HigherValue);
+        }
+
+        private void inkCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //inkCanvas.Strokes.Clear();
+            //drawYAxis(HistogramImage.ActualHeight, 10);
+            //drawXAxis(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 20);
+            //drawLimitLineL(inkCanvas.ActualHeight, RangeSlider.LowerValue);
         }
     }
 }

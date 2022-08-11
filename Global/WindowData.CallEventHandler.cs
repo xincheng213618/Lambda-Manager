@@ -301,6 +301,8 @@ namespace Global
                             };
                             ScaleButton.Click += delegate
                             {
+                               if (inkVisual.saveTempStroke)
+                                    return;
                                 if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
                                 {
                                     inkVisual.tempStroke.Add(inkMethod.Dimstroke);
@@ -329,7 +331,7 @@ namespace Global
                                 inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
                                 //inkVisual.lastTempStroke = null;
                                 inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                    inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
+                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
 
                                 }
                             };
@@ -362,7 +364,13 @@ namespace Global
                                     {
                                         drawingVisualInk.Visibility = Visibility.Visible;
                                         if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
+                                        {
+                                            drawMethod.pixelVisual = new DrawingVisual();
                                             drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
+                                           
+                                        }                                          
+                                            ;
+                                       
 
                                     }
                                     else
@@ -370,16 +378,21 @@ namespace Global
                                         drawingVisualInk.Visibility = Visibility.Collapsed;
                                         if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
                                             drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
+                                       
                                     }
                                 }
                             };
 
-                                drawingVisualInk.InkCanvas.MouseMove += delegate (object sender, MouseEventArgs e)
+                           drawingVisualInk.InkCanvas.MouseMove += delegate (object sender, MouseEventArgs e)
                             {
                                 if (ImageViewState.toolTop.SelectChecked)
                                 {
                                     if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
+                                    {
+                                        drawMethod.pixelVisual = new DrawingVisual();
                                         drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
+                                    }
+                                        
                                     WriteableBitmap writeableBitmap = image1.Source as WriteableBitmap;
                                     Point topLeftCorner = e.GetPosition(image1);
                                     try
@@ -428,6 +441,7 @@ namespace Global
                                 {
                                     if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
                                         drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
+                                    
                                 }
                             };                       
                         }

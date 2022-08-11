@@ -157,13 +157,18 @@ namespace Global
                             drawingVisualInk.Visibility = Visibility.Visible;
 
                             if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
+                            {
+                                drawMethod.pixelVisual = new DrawingVisual();
                                 drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
+                            }
+                               
 
                         }
                         else
                         {
                             if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
                                 drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
+                           
                             drawingVisualInk.Visibility = Visibility.Collapsed;
                         }
                     }
@@ -186,7 +191,10 @@ namespace Global
                     if (ImageViewState.toolTop.SelectChecked)
                     {
                         if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
+                        {
+                            drawMethod.pixelVisual = new DrawingVisual();
                             drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
+                        }
                         WriteableBitmap writeableBitmap = image.Source as WriteableBitmap;
                         Point topLeftCorner = e.GetPosition(image);
                         try
@@ -237,6 +245,7 @@ namespace Global
                     {
                         if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
                             drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
+                       
                     }
                 };
                 }
