@@ -17,6 +17,22 @@ using ThemeManager.Controls;
 
 namespace LambdaManager
 {
+    public enum Side
+    {
+        TOP,
+        LEFT,
+        MIDDLE,
+        RIGHT,
+        BOTTOM,
+        MENU,
+        CONFIG,
+        ACQUIRE,
+        PROCESS,
+        ANALYSIS,
+        REPORT,
+        PROJECT
+    }
+
     partial class MainWindow : BaseWindow
     {
         private bool multiMode;
@@ -322,19 +338,5 @@ namespace LambdaManager
     }
 
 
-    public enum Side
-    {
-        TOP,
-        LEFT,
-        MIDDLE,
-        RIGHT,
-        BOTTOM,
-        MENU,
-        CONFIG,
-        ACQUIRE,
-        PROCESS,
-        ANALYSIS,
-        REPORT,
-        PROJECT
-    }
+
 }

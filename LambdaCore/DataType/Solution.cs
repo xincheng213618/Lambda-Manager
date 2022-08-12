@@ -31,8 +31,6 @@ namespace LambdaManager.DataType
         };
 
 
-        public StreamWriter? Writer { get; set; }
-
         public IScheduler? Scheduler { get; set; }
     }
 

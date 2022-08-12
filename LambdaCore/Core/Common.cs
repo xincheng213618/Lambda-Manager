@@ -725,20 +725,6 @@ namespace LambdaManager.Core
             {
                 NativeLibrary.Free(lib.Addr);
             }
-            StreamWriter writer = FunctionExecutor.Solution.Writer;
-            if (writer != null)
-            {
-                try
-                {
-                    writer.Flush();
-                    writer.Close();
-                }
-                catch
-                {
-
-                }
-
-            }
             IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
             if (scheduler != null)
             {
