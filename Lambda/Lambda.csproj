@@ -16,6 +16,8 @@
     <IncludeSymbols>False</IncludeSymbols>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <IsPublishable>True</IsPublishable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LambdaUtils\LambdaUtils.csproj" />
