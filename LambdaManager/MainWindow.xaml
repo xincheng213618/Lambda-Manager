@@ -70,8 +70,8 @@
                 </Button>
             </StackPanel>
             <DockPanel Grid.Column="1" HorizontalAlignment="Left"    WindowChrome.IsHitTestVisibleInChrome="True">
-                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent"  VerticalAlignment="Center" >
-                </Menu>
+                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent"  VerticalAlignment="Center" />
+
             </DockPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
