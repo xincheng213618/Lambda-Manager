@@ -6,6 +6,8 @@
     <Nullable>disable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Platforms>AnyCPU;x64</Platforms>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

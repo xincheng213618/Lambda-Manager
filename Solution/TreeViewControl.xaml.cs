@@ -204,6 +204,7 @@ namespace Solution
             {
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
             };
+            
 
             SolutionDir = System.IO.Path.GetDirectoryName(FilePath);
 
@@ -289,28 +290,11 @@ namespace Solution
             }
             else
             {
-                System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-                dialog.Description = "项目位置";
-                System.Windows.Forms.DialogResult dialogResult = dialog.ShowDialog();
-
-                if (dialogResult == System.Windows.Forms.DialogResult.OK)
+                if (Utils.SaveFileDialog(out string FileName))
                 {
-                    string SolutionDir = dialog.SelectedPath + "\\新建文件夹";
-
-                    if (!Directory.Exists(SolutionDir))
-                    {
-                        Directory.CreateDirectory(SolutionDir);
-                        string ImageDiectory = windowData.SolutionDir + "\\Image";
-                        string VideoDiectory = windowData.SolutionDir + "\\Video";
-                        if (!Directory.Exists(ImageDiectory))
-                            Directory.CreateDirectory(ImageDiectory);
-
-                        if (!Directory.Exists(VideoDiectory))
-                            Directory.CreateDirectory(VideoDiectory);
-                        windowData.FilePath = SolutionDir + "\\*.lmp";
-                        windowData.SaveConfig();
-                        TreeViewInitialized(windowData.FilePath, windowData.Config);
-                    }
+                    windowData.FilePath = FileName;
+                    windowData.SaveConfig();
+                    TreeViewInitialized(windowData.FilePath, windowData.Config);
                 }
                 else
                 {
