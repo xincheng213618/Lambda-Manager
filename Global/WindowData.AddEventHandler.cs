@@ -37,7 +37,7 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
             LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
 
-            LambdaControl.AddLambdaEventHandler("UpdateMulSummary", UpdateMulSummary, false);
+            LambdaControl.AddLambdaEventHandler("UPDATE_MUL_SUMMARY", UpdateMulSummary, false);
 
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
@@ -222,21 +222,26 @@ namespace Global
 
         private bool UpdateMulSummary(object sender, EventArgs e)
         {
+
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
 
-            mulSummary.CollectionTimes = GetStringValue(eventData, "CollectionTimes");
-            mulSummary.CollectionLayers = GetStringValue(eventData, "CollectionLayers");
-            mulSummary.CollectionPoints = GetStringValue(eventData, "CollectionPoints");
-            mulSummary.FluorescenceChannels = GetStringValue(eventData, "FluorescenceChannels");
-            mulSummary.ViewModeCounts = GetStringValue(eventData, "ViewModeCounts");
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                mulSummary.CollectionTimes = GetStringValue(eventData, "CollectionTimes");
+                mulSummary.CollectionLayers = GetStringValue(eventData, "CollectionLayers");
+                mulSummary.CollectionPoints = GetStringValue(eventData, "CollectionPoints");
+                mulSummary.FluorescenceChannels = GetStringValue(eventData, "FluorescenceChannels");
+                mulSummary.ViewModeCounts = GetStringValue(eventData, "ViewModeCounts");
 
-            mulSummary.ImageSize = GetStringValue(eventData, "ImageSize");
-            mulSummary.ImageNums = GetStringValue(eventData, "ImageNums");
-            mulSummary.Storage = GetStringValue(eventData, "Storage");
-            mulSummary.AllCollectionTime = GetStringValue(eventData, "AllCollectionTime");
-            mulSummary.CameraWorkingTime = GetStringValue(eventData, "CameraWorkingTime");
+                mulSummary.ImageSize = GetStringValue(eventData, "ImageSize");
+                mulSummary.ImageNums = GetStringValue(eventData, "ImageNums");
+                mulSummary.Storage = GetStringValue(eventData, "Storage");
+                mulSummary.AllCollectionTime = GetStringValue(eventData, "AllCollectionTime");
+                mulSummary.CameraWorkingTime = GetStringValue(eventData, "CameraWorkingTime");
+            });
+
             return true;
         }
 

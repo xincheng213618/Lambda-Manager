@@ -43,18 +43,7 @@
 				<input name="Cdenoise" type="handle"/>
 			</action>
 		</procedure>
-
-		<procedure name="Phase_Seg" event="Phase_Seg" arg ="imgstr,p,k,k1">
-			<action name="Phase_Seg">
-				<input name="imgstr" type="handle"/>
-				<input name="p" type="handle"/>
-				<input name="k" type="handle"/>
-				<input name="k1" type="handle"/>
-			</action>
-		</procedure>
-
 		
-
 		<procedure name="OpenLED" event="OPENLED">
 			<action name="OpenLED">
 				<![CDATA[ Open LED ]]>
@@ -591,7 +580,7 @@
 
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
-	<component name="ToolControl" lib="ConfigObjective.dll" mount="ACQUIRE:0" />
+	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
 
 	<component name="Interop Test" lib="lib\InteropTest.dll" init ="group1">	
 		<procedure name="group1" async="true">

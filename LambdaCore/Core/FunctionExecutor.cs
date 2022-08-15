@@ -74,6 +74,35 @@ namespace LambdaManager.Core
                 }
             }
 
+            //using (List<Function>.Enumerator enumerator = functions.GetEnumerator())
+            //{
+            //    while (enumerator.MoveNext())
+            //    {
+            //        Function function = (info.Function = enumerator.Current);
+            //        info.FunctionArguments = null;
+            //        info.Times = -1;
+            //        int result;
+            //        if (function.Routine != null)
+            //        {
+            //            result = InvokeRoutine(info);
+            //        }
+            //        else
+            //        {
+            //            if (function.Async)
+            //            {
+            //                InvokeFunctionAsync(info);
+            //                continue;
+            //            }
+            //            result = InvokeFunction(info);
+            //        }
+            //        //返回 - 1 直接退出循环
+            //        if (result != 0 && result < 0)
+            //        {
+            //            return result;
+            //        }
+            //    }
+            //}
+
 
             if (info.Caller != null && functions.Count == 1)
             {
