@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Lambda;
-using LambdaCore.Core;
+using LambdaCore;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.Utils;
@@ -616,18 +616,19 @@ namespace LambdaManager.Core
             if (index2 == 0)
             {
                 Views[index].State = ViewState.RUNING;
+                ViewManager.Add(Views[index]);
             }
             else
             {
                 if (-index2 - 1 > RegisterImageViews.Count)
                 {
                     RegisterImageViews[-index2 - 1].State = ViewState.RUNING;
+
                 }
             }
-
-
             return (int)ViewState.RUNING;
         }
+        public static ViewManager ViewManager = ViewManager.GetInstance();
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
         [SuppressGCTransition]
@@ -639,11 +640,11 @@ namespace LambdaManager.Core
                 {
                     Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
                     writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
-                    Views[index].Inc();
+                    //Views[index].Inc();
+                    ViewManager.Inc();
                 }
             });
             return (int)(index2 == 0 ? (Views[index]?.State?? 0) : RegisterImageViews[-RegisterImageViews.Count - 1]?.State??0);
-
         }
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]

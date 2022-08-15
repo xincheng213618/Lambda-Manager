@@ -319,10 +319,14 @@
                                         <Image Source="/Resources/Icons/bottom-backward.png" Stretch="Fill" Margin="-2,0,0,0" />
                                         <!--Unknown connection ID: 52-->
                                     </Button>
-                                    <TextBlock VerticalAlignment="Center">FPS:</TextBlock>
-                                    <TextBox Name="fpsState" Text="{Binding FPS}" VerticalAlignment="Center">
-                                        <!--Unknown connection ID: 53-->
-                                    </TextBox>
+                                    <TextBlock>
+                                        <Run Text="FPS:"/>
+                                        <Run x:Name="fpsState" Text="{Binding FPS}"/>
+                                        <Run Text="/"/>
+                                        <Run x:Name="allfpsState" Text="{Binding AllFPS}"/>
+                                    </TextBlock>
+                                    <TextBox/>
+
                                     <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center">
                                         <!--Unknown connection ID: 54-->
                                     </Slider>

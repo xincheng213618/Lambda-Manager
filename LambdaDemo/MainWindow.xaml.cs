@@ -33,7 +33,6 @@ namespace LambdaDemo
             InitializeComponent();
         }
 
-        bool first = false;
         public void LoadControl(string name, string lib, string mount)
         {
             Assembly assembly = Assembly.LoadFile(Directory.GetCurrentDirectory() + "/" + lib);
@@ -54,7 +53,6 @@ namespace LambdaDemo
                 else
                 {
                     stackpanel1.Children.Add(control);
-                    first = true;
                 }
 
             }
@@ -93,10 +91,7 @@ namespace LambdaDemo
             return last;
         }
 
-        public void LoadMenuCommand(Command command)
-        {
 
-        }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
@@ -114,6 +109,11 @@ namespace LambdaDemo
         {
             Common.CommonExit();
             Environment.Exit(-1);
+        }
+
+        public void LoadMenuCommand(string name, List<string> raises)
+        {
+
         }
     }
 

@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Lambda;
+using LambdaCore;
 using LambdaManager.Core;
 using LambdaManager.Features;
 using LambdaManager.Mode;
@@ -58,13 +59,20 @@ namespace LambdaManager
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)
         {
-            fpsState.DataContext = Common.Views[0];
+            ViewManager.GetInstance().ViewChanged += ViewChanged;
+            allfpsState.DataContext = ViewManager.GetInstance();
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
             Log.LogWrite += AddMessage;
             performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
+        }
+
+        public void ViewChanged(object sender, ViewChangedEvent e)
+        {
+            if (e.View.Index ==0)
+                fpsState.DataContext = e.View;
         }
 
         private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
