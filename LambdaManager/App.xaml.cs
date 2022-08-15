@@ -63,7 +63,7 @@ partial class App : Application
     /// </summary>
 	private  void Application_Exit(object sender, ExitEventArgs e)
 	{
-		Common.AppClose();
+		Common.CommonExit();
 		Environment.Exit(-1);
 	}
 

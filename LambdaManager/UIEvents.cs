@@ -62,7 +62,7 @@ public class UIEvents
         }
         return null;
     }
-    public UpdateStatusMode updateStatus = new UpdateStatusMode();
+    public UpdateStatus updateStatus = new UpdateStatus();
 
     private  bool OnUpdateStatus(object sender, EventArgs e)
     {

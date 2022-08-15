@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,11 @@ namespace Solution
         {
             foreach (var item in recentFileList.RecentFiles)
             {
-                SoulutionInfos.Add(new SoulutionInfo() { Name =item ,Path =item});
+                FileInfo fileInfo = new FileInfo(item);
+                if (fileInfo.Exists)
+                {
+                    SoulutionInfos.Add(new SoulutionInfo() { Name = fileInfo.Name, FullName = fileInfo.FullName, CreationTime = fileInfo.CreationTime.ToString("yyyy/MM/dd H:mm") });
+                }
             }
             ListView1.ItemsSource = SoulutionInfos;
         }
@@ -43,12 +48,18 @@ namespace Solution
         {
 
         }
+
+        private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
+
+        }
     }
 
     public class SoulutionInfo
     {
         public string Name { get; set; }
-        public string Path { get; set; }
-
+        public string FullName { get; set; }
+        public string CreationTime { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.Features;
+using LambdaManager.Mode;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
 using ThemeManager.Controls;
@@ -54,14 +55,14 @@ namespace LambdaManager
         }
 
 
-
+        StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)
         {
             fpsState.DataContext = Common.fps;
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
             Log.LogWrite += AddMessage;
-
+            performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
         }

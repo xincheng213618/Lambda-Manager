@@ -133,6 +133,7 @@
 
     <!--#region FontStyle-->
     <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style TargetType="{x:Type Control}">
@@ -1846,15 +1847,14 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource SelectedListItem}"/>
-                            <Setter Property="Foreground" Value="{StaticResource SelectedListItemForeground}"/>
+                            <Setter Property="Background" TargetName="Bd" Value="#333333"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsSelected" Value="false"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource MouseOverListItem}"/>
+                            <Setter Property="Background" TargetName="Bd" Value="#333333"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{StaticResource DisabledMenuForeground}"/>
@@ -1897,7 +1897,6 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsGrouping" Value="true"/>
-                                <!--<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>-->
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
                         </MultiTrigger>
@@ -3045,17 +3044,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource SelectedListItem}"/>
-                            <Setter Property="Foreground" Value="{StaticResource SelectedListItemForeground}"/>
+                            <Setter Property="Background" TargetName="Bd" Value="#333333"/>
                         </Trigger>
-                        <!--<MultiTrigger>
-								<MultiTrigger.Conditions>
-									<Condition Property="IsSelected" Value="true"/>
-									<Condition Property="Selector.IsSelectionActive" Value="false"/>
-								</MultiTrigger.Conditions>
-								<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
-							</MultiTrigger>-->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>

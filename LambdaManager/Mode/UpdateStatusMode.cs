@@ -1,27 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LambdaManager.Mode
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        /// <summary>
-        /// 触发消息通知事件
-        /// </summary>
-        /// <param name="propertyName"></param>
-        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-    public class UpdateStatusMode: ViewModelBase
+    public class UpdateStatus: ViewModelBase
     {
 
         private string imageX = string.Empty;
@@ -32,7 +17,7 @@ namespace LambdaManager.Mode
             get { return imageX; }
             set
             {
-                if (value != null)
+                if (value != null&&value!=imageX)
                 {
                     imageX = value;
                     NotifyPropertyChanged();

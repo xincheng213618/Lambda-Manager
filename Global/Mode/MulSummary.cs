@@ -16,7 +16,8 @@ namespace Global.Mode
         public string CollectionTimes
         {
             get { return collectionTimes; }
-            set { collectionTimes = value; NotifyPropertyChanged(); }
+            set { if (value != null&& value != collectionTimes) 
+                    collectionTimes = value; NotifyPropertyChanged(); }
         }
 
         private string collectionLayers = "0";
@@ -26,7 +27,7 @@ namespace Global.Mode
         public string CollectionLayers
         {
             get { return collectionLayers; }
-            set { collectionLayers = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes) collectionLayers = value; NotifyPropertyChanged(); }
         }
 
         private string collectionPoints = "0";
@@ -36,7 +37,8 @@ namespace Global.Mode
         public string CollectionPoints
         {
             get { return collectionPoints; }
-            set { collectionPoints = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    collectionPoints = value; NotifyPropertyChanged(); }
         }
 
         private string viewModeCounts = "0";
@@ -46,7 +48,8 @@ namespace Global.Mode
         public string ViewModeCounts
         {
             get { return viewModeCounts; }
-            set { viewModeCounts = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    viewModeCounts = value; NotifyPropertyChanged(); }
         }
 
         private string fluorescenceChannels = "0";
@@ -56,7 +59,8 @@ namespace Global.Mode
         public string FluorescenceChannels
         {
             get { return fluorescenceChannels; }
-            set { fluorescenceChannels = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    fluorescenceChannels = value; NotifyPropertyChanged(); }
         }
 
         private string imageSize = "";
@@ -66,7 +70,8 @@ namespace Global.Mode
         public string ImageSize
         {
             get { return imageSize; }
-            set { imageSize = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    imageSize = value; NotifyPropertyChanged(); }
         }
 
         private string imageNums = "";
@@ -76,7 +81,8 @@ namespace Global.Mode
         public string ImageNums
         {
             get { return imageNums; }
-            set { imageNums = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    imageNums = value; NotifyPropertyChanged(); }
         }
 
         private string storage = "";
@@ -86,7 +92,8 @@ namespace Global.Mode
         public string Storage
         {
             get { return storage; }
-            set { storage = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    storage = value; NotifyPropertyChanged(); }
         }
 
         private string allCollectionTime = "";
@@ -96,7 +103,8 @@ namespace Global.Mode
         public string AllCollectionTime
         {
             get { return allCollectionTime; }
-            set { allCollectionTime = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    allCollectionTime = value; NotifyPropertyChanged(); }
         }
 
         private string cameraWorkingTime = "";
@@ -106,7 +114,8 @@ namespace Global.Mode
         public string CameraWorkingTime
         {
             get { return cameraWorkingTime; }
-            set { cameraWorkingTime = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes)
+                    cameraWorkingTime = value; NotifyPropertyChanged(); }
         }
         
 

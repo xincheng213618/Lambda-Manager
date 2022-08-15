@@ -112,7 +112,7 @@ namespace LambdaDemo
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Common.AppClose();
+            Common.CommonExit();
             Environment.Exit(-1);
         }
     }

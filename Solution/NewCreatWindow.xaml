@@ -6,22 +6,27 @@
         xmlns:local="clr-namespace:Solution"
         xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="450" Width="800" Background="#242424" Initialized="BaseWindow_Initialized">
+        Height="500" Width="800" MinWidth="500" MinHeight="400" Background="#242424" Initialized="BaseWindow_Initialized">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Solution;component/themes/styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <TextBlock Text="新建工程" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
-        <Grid Margin="10">
+        <TextBlock Text="新建工程" FontSize="15"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
+        <Grid Margin="10,20" >
             <StackPanel>
                 <DockPanel>
                     <TextBlock Text="选择文件位置"/>
                     <TextBox Text=""/>
-                    <Button Content="..." Click="Button_Click"/>
-
+                    <Button Width="100" HorizontalAlignment="Right" Content="..." Click="Button_Click"/>
                 </DockPanel>
-                <ListView x:Name="ListView1" >
-                    
+                <ListView x:Name="ListView1"  ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemContainerStyle >
                         <Style TargetType="{x:Type ListBoxItem}">
-                            
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Style.Triggers>  
                                 <Trigger Property="IsMouseOver" Value="true">
                                     <Setter Property="Background" Value="#333333"/>
@@ -37,12 +42,21 @@
                     </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn>
+                            <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock>
-                                        <Run Text="{Binding Path=Name}"/>
-                                        </TextBlock>
+                                    <DataTemplate >
+                                        <Grid Height="40" Margin="0,0,5,0" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>      
+                                            <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
+                                            <Grid Grid.Column="1" Margin="2">
+                                                <TextBlock Text="{Binding Path = Name}" FontWeight="Bold" VerticalAlignment="Top"/>
+                                                <TextBlock Text="{Binding Path = FullName}" VerticalAlignment="Bottom"/>
+                                                <TextBlock Text="{Binding Path = CreationTime}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                            </Grid>
+                                        </Grid>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

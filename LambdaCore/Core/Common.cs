@@ -719,19 +719,7 @@ namespace LambdaManager.Core
         [DllImport("lib\\common.dll", EntryPoint = "ApplicationExit")]
         public static extern void Exit();
 
-        public static void AppClose()
-        {
-            foreach (Lib lib in FunctionExecutor.Solution.Libs)
-            {
-                NativeLibrary.Free(lib.Addr);
-            }
-            IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
-            if (scheduler != null)
-            {
-                scheduler.Shutdown();
-            }
-            Exit();
-        }
+
 
 
 
@@ -820,6 +808,21 @@ namespace LambdaManager.Core
 
         [DllImport("lib\\common.dll")]
         public static extern void InvokeLambdaCallback(int callback);
+
+        public static void CommonExit()
+        {
+            foreach (Lib lib in FunctionExecutor.Solution.Libs)
+            {
+                NativeLibrary.Free(lib.Addr);
+            }
+            IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
+            if (scheduler != null)
+            {
+                scheduler.Shutdown();
+            }
+            Exit();
+        }
+
 
     }
 

@@ -515,6 +515,26 @@
                 <StatusBarItem Grid.Column="10">
                     <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" />
                 </StatusBarItem>
+                <Separator Grid.Column="11" />
+                <StatusBarItem Grid.Column="12">
+                    <DockPanel  Name="performDock">
+                        <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">
+                    <Run Text="ToolDiskUse" />
+                    <Run Text=":" />
+                    <Run Text="{Binding DiskUse}" />
+                        </TextBlock>
+                        <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">
+                    <Run Text="ToolRAM" />
+                    <Run Text=":" />
+                    <Run Text="{Binding MemoryAvailable}" />
+                        </TextBlock>
+                        <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,10,0" >
+                    <Run Text="ToolCPU" />
+                    <Run Text=":" />
+                    <Run Text="{Binding ProcessorTotal}" />
+                        </TextBlock>
+                    </DockPanel>
+                </StatusBarItem>
             </StatusBar>
             <ComboBox Name="msgList" Grid.Column="4" Grid.Row="2" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="300" Height="30">
                 <ComboBox.ItemTemplate>

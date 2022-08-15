@@ -15,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid MinHeight="300">
+    <Grid >
         <StackPanel x:Name="HeaderStackPanel" >
             <UniformGrid Columns="8" Width="400">
                 <Button Content="导出" Click="Button_Click_1"/>
