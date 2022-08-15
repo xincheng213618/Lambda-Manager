@@ -22,6 +22,7 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>True</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controls\**" />
