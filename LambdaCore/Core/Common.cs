@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Lambda;
+using LambdaCore.Core;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.Utils;
@@ -19,13 +20,14 @@ namespace LambdaManager.Core
 {
     public  class Common
     {
-        public static View[] Views { get; } = new View[100];
+        /// <summary>
+        /// 主窗口事件
+        /// </summary>
+        public static View[] Views = new View[100];
 
         public static List<int> ClosingViewIndex { get; } = new List<int>();
 
         public static List<View> RegisterImageViews = new List<View>();
-
-        public static readonly FPSCounter fps = new FPSCounter();
 
         private static readonly int RESERVED_EVENT_RESULT = 2147400000;
 
@@ -609,17 +611,22 @@ namespace LambdaManager.Core
                 if (image != null)
                 {
                     image.Source = writeableBitmap;
-                    if (index2 == 0)
-                    {
-                        Views[index].State = ViewState.RUNING;
-                    }
-                    else
-                    {
-                        //Views[index2].State = ViewState.RUNING;
-                    }
                 }
             });
-            return 2;
+            if (index2 == 0)
+            {
+                Views[index].State = ViewState.RUNING;
+            }
+            else
+            {
+                if (-index2 - 1 > RegisterImageViews.Count)
+                {
+                    RegisterImageViews[-index2 - 1].State = ViewState.RUNING;
+                }
+            }
+
+
+            return (int)ViewState.RUNING;
         }
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
@@ -632,17 +639,11 @@ namespace LambdaManager.Core
                 {
                     Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
                     writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
-                    fps.Inc();
+                    Views[index].Inc();
                 }
             });
-            if (index2 == 0)
-            {
-                return (int)(Views[index]?.State ?? ((ViewState)(-1)));
-            }
-            else
-            {
-                return 2;
-            }
+            return (int)(index2 == 0 ? (Views[index]?.State?? 0) : RegisterImageViews[-RegisterImageViews.Count - 1]?.State??0);
+
         }
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]

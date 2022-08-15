@@ -17,7 +17,9 @@ using Quartz.Impl;
 
 namespace LambdaManager
 {
-
+    /// <summary>
+    /// UI加载接口
+    /// </summary>
     public interface  ILambdaUI
     {
         /// <summary>
@@ -28,7 +30,7 @@ namespace LambdaManager
         /// <summary>
         /// 添加Commmand
         /// </summary>
-        void LoadMenuCommand(LambdaManager.DataType.Command command);
+        void LoadMenuCommand(string name, List<string> raises);
     }
 
     public class ConfigLibrary
@@ -252,9 +254,9 @@ namespace LambdaManager
             {
                 Application.Current.Dispatcher.Invoke(delegate
                 {
-                    foreach (LambdaManager.DataType.Command command in commands)
+                    foreach (Command command in commands)
                     {
-                        lambdaUI.LoadMenuCommand(command);
+                        lambdaUI.LoadMenuCommand(command.Name,command.Raise);
                     }
                 });
             }

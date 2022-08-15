@@ -58,7 +58,7 @@ namespace LambdaManager
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)
         {
-            fpsState.DataContext = Common.fps;
+            fpsState.DataContext = Common.Views[0];
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
             Log.LogWrite += AddMessage;
