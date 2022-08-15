@@ -778,7 +778,7 @@ namespace LambdaManager.Core
             }
             else
             {
-                FunctionJob2.Dealy(seconds * 1000, callback);
+                FunctionJob2.Dealy(seconds, callback);
                 return IntPtr.Zero;
             }
         }
