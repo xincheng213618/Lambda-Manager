@@ -11,8 +11,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Solution;component/themes/styles.xaml"/>
-                <ResourceDictionary Source="/Solution;component/listview.xaml"/>
-
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

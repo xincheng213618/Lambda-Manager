@@ -10,7 +10,6 @@
                 <ResourceDictionary Source="Themes/SliderStyle.xaml" />
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml" />
                 <ResourceDictionary Source="Resources/Res.xaml" />
-                <ResourceDictionary Source="/Solution;component/ListView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
   </Application.Resources>
