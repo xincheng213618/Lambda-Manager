@@ -30,7 +30,9 @@ namespace Global
 
         private WindowData()
         {
-            Global.Base.Config.ConfigReadEvent += ReadConfig;
+            Common.Config.ConfigReadEvent += ReadConfig;
+            Common.Config.ConfigSetEvent += SetValue;
+            Common.Config.ConfigWriteEvent += SaveConfig;
 
             Hardware_Initialized();
             AddEventHandler();
@@ -77,7 +79,7 @@ namespace Global
         public ImageViewState ImageViewState = new ImageViewState();
 
 
-        public void SaveConfig()
+        public void SaveConfig(string ConfigFullName)
         {
             Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
             Config.Dimensional.ZstackWiseSerial.ZStep = MulDimensional.Zstep;
@@ -88,21 +90,21 @@ namespace Global
 
             Config.LastOpenTime = DateTime.Now.ToString();
 
-            Config.ToJsonFile(FilePath);
+            Config.ToJsonFile(ConfigFullName);
         }
 
         /// <summary>
         /// 读取配置文件
         /// </summary>
         /// <returns></returns>
-        public int ReadConfig(string ConfigFileName)
+        public int ReadConfig(string ConfigFullName)
         {
-            if (!File.Exists(ConfigFileName))
+            if (!File.Exists(ConfigFullName))
             {
                 MessageBox.Show("找不到工程文件。");
                 return -1;
             }
-            string result = File.ReadAllText(ConfigFileName);
+            string result = File.ReadAllText(ConfigFullName);
             if (result==null)
             {
                 MessageBox.Show("未能加载项目文件。缺少根元素");
@@ -118,6 +120,7 @@ namespace Global
                 MessageBox.Show("未能加载项目文件。" + ex.Message);
                 return -3;
             }
+            FilePath = ConfigFullName;
             return 0;
         }
     }

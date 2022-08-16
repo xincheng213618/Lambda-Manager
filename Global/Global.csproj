@@ -64,7 +64,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
-    <ProjectReference Include="..\Global.Base\Global.Base.csproj" />
+    <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
   </ItemGroup>
 

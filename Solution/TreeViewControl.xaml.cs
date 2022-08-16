@@ -8,12 +8,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Global;
 using Lambda;
 using System.Text.Json;
 using Tool;
 using Solution.RecentFile;
-using Global.Base;
+using Global.Common;
 
 namespace Solution
 {
@@ -30,6 +29,8 @@ namespace Solution
             InitializeComponent();
             IniCommand();
         }
+
+
 
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -55,16 +56,14 @@ namespace Solution
         private TreeViewItem SelectedTreeViewItem;
 
         public string SolutionDir = null;
+        public string SolutionFullName;
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (windowData.FilePath != null)
+            if (string.IsNullOrEmpty(SolutionFullName))
             {
-                windowData.SaveConfig();
+                Config.ConfigWrite(SolutionFullName);
             }
-
-
-
         }
         private static string ToStrings(string value)
         {
@@ -159,6 +158,7 @@ namespace Solution
             {
                 if (Config.ConfigRead(FilePath) == 0)
                 {
+                    SolutionFullName = FilePath;
                     recentFileList.InsertFile(FilePath);
                     TreeViewInitialized(FilePath);
                 }
@@ -271,28 +271,29 @@ namespace Solution
             return baseObject;
         }
 
-        WindowData windowData = WindowData.GetInstance();
-
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (windowData.FilePath != null)
+            
+            if (!string.IsNullOrEmpty(SolutionFullName))
             {
-                windowData.SaveConfig();
-                recentFileList.InsertFile(windowData.FilePath);
+                Config.ConfigWrite(SolutionFullName);
+
+                recentFileList.InsertFile(SolutionFullName);
             }
             else
             {
                 if (Utils.SaveFileDialog(out string FileName))
                 {
-                    windowData.FilePath = FileName;
-                    recentFileList.InsertFile(windowData.FilePath);
-                    windowData.SaveConfig();
-                    TreeViewInitialized(windowData.FilePath);
+                    SolutionFullName = FileName;
+                    recentFileList.InsertFile(SolutionFullName);
+                    Config.ConfigWrite(SolutionFullName);
+
+                    TreeViewInitialized(SolutionFullName);
                 }
                 else
                 {
-                    windowData.FilePath = null;
+                    SolutionFullName = null;
                 }
             }
         }
@@ -300,7 +301,7 @@ namespace Solution
 
         private void Config_Set_Click(object sender, RoutedEventArgs e)
         {
-            windowData.SetValue();
+            Config.ConfigSet();
         }
 
 
@@ -324,9 +325,10 @@ namespace Solution
                 {
                     if (Config.ConfigRead(FullName) == 0)
                     {
-                        windowData.FilePath = FullName;
+                        SolutionFullName = FullName;
+
                         TreeViewInitialized(FullName);
-                        windowData.SetValue();
+                        Config.ConfigSet();
                     }
                     else
                     {
@@ -357,10 +359,14 @@ namespace Solution
 
 
 
+
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            windowData.SaveConfig();
-            windowData.FilePath = null;
+            if (string.IsNullOrEmpty(SolutionFullName))
+            {
+                Config.ConfigWrite(SolutionFullName);
+            }
+            SolutionFullName = null;
             SolutionTreeView.ItemsSource = null;
 
         }
