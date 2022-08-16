@@ -4,6 +4,7 @@ using Global.Mode.Config;
 using Global.UserControls;
 using Global.UserControls.DrawVisual;
 using Lambda;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -229,7 +230,7 @@ namespace Global
                         }
                         catch (Exception ex)
                         {
-
+                            LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
                         }
 
                         drawingVisualInk.ReleaseMouseCapture();
@@ -251,10 +252,10 @@ namespace Global
                 }
             catch (Exception ex)
             {
-
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
 
-           
+
 
             try
             {             

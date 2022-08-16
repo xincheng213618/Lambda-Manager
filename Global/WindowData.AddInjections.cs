@@ -320,7 +320,7 @@ namespace Global
             }
             catch (Exception ex)
             {
-
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
 
 
