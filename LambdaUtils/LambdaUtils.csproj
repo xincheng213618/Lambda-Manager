@@ -11,6 +11,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup />
 </Project>

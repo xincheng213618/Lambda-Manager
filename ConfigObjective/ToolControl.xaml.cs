@@ -12,6 +12,7 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Data;
+using Global.Common.Util;
 
 namespace ConfigObjective
 {
@@ -238,10 +239,12 @@ namespace ConfigObjective
                 viewbox.Child = stackPanel;
                 scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
-
-                WaitContorl.GetInstance().Show();
-                WaitContorl.GetInstance().textBox.Text = "位移台校准中";
-                LambdaControl.Dispatch("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
+                if (Reg.ReadValue("Software\\Grid", "InitializeStage"))
+                {
+                    WaitContorl.GetInstance().Show();
+                    WaitContorl.GetInstance().textBox.Text = "位移台校准中";
+                    LambdaControl.Dispatch("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
+                }
             }
         }
 
@@ -395,6 +398,16 @@ namespace ConfigObjective
         private void ToggleButton503_Checked(object sender, RoutedEventArgs e)
         {
             ZwisePanel.Visibility = Visibility.Visible;
+        }
+
+        private void ToggleButton5221_Checked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 1 } });
+        }
+
+        private void ToggleButton5221_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 } });
         }
     }
 

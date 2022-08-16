@@ -368,7 +368,9 @@
                 <ColumnDefinition Width="14*"/>
             </Grid.ColumnDefinitions>
             <ToggleButton x:Name="ToggleButton4"  Style="{StaticResource ButtonPageControl}" Content="载物台控制" FontSize="14" Foreground="White" IsChecked="True" Grid.ColumnSpan="2"/>
-            <DockPanel HorizontalAlignment="Left" Grid.Column="1" Margin="112,0,0,0">
+            <DockPanel HorizontalAlignment="Right"  Grid.Column="1" Margin="0,0,0,0">
+                <Button x:Name="FullImage"  Content="全图" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,0,3"  Click="FullImage_Click"/>
+                <!--<Button x:Name="FullImage"   Content="全图" Width="50"   Margin="0,0,0,3"  Click="FullImage_Click" VerticalAlignment="Bottom"/>-->
                 <Button x:Name="Button401"  Content="复位" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,3" Click="Stage_Reset_Click"/>
             </DockPanel>
         </Grid>
@@ -425,35 +427,35 @@
                         </Grid.ColumnDefinitions>
                         <ToggleButton x:Name="ToggleButtonXYF" Grid.Row="0" Grid.Column="0" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5" Checked="ToggleButtonXYF_Checked" Unchecked="ToggleButtonXYF_Unchecked"/>
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="X-Y控制" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <Button x:Name="ButtonFront" Style="{StaticResource ButtonStyle2}"   Grid.Row="0" Grid.Column="1"  Margin="5" PreviewMouseDown="ButtonFront_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
+                        <Button x:Name="ButtonFront"   Grid.Row="0" Grid.Column="1"  Margin="5" PreviewMouseDown="ButtonFront_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="180"/>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </Button>
-                        <Button x:Name="ButtonRear"  Style="{StaticResource ButtonStyle2}" Grid.Row="2"  Grid.Column="1" Content="V" Margin="5"  PreviewMouseDown="ButtonRear_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp"/>
-                        <Button x:Name="ButtonLeft" Style="{StaticResource ButtonStyle2}" Grid.Row="1" Grid.Column="0" Margin="5" PreviewMouseDown="ButtonLeft_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
+                        <Button x:Name="ButtonRear"   Grid.Row="2"  Grid.Column="1" Content="V" Margin="5"  PreviewMouseDown="ButtonRear_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp"/>
+                        <Button x:Name="ButtonLeft" Grid.Row="1" Grid.Column="0" Margin="5" PreviewMouseDown="ButtonLeft_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="90"/>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </Button>
-                        <Button x:Name="ButtonRight" Style="{StaticResource ButtonStyle2}" Grid.Row="1"  Grid.Column="2"  Margin="5" PreviewMouseDown="ButtonRight_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp" >
+                        <Button x:Name="ButtonRight"  Grid.Row="1"  Grid.Column="2"  Margin="5" PreviewMouseDown="ButtonRight_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp" >
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="270"/>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                         </Button>
-                        <Button x:Name="FullImage"  Grid.Row="2" Content="全图"  Grid.Column="2"  Margin="5"  Click="FullImage_Click"/>
+                       
                         <Button x:Name="ButtonRe"  Grid.Row="1" Grid.Column="1" Content="O" Margin="5" Click="ButtonRe_Click"/>
 
                         <ToggleButton x:Name="ToggleButtonZF" Grid.Row="0" Grid.Column="3" Style="{ StaticResource ToggleButtonStyle1}" Content="F" Margin="5" Checked="ToggleButtonZF_Checked" Unchecked="ToggleButtonZF_Unchecked" />
                         <TextBlock Grid.Row="3" Grid.Column="3" Text="Z控制" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                        <Button x:Name="ButtonUp" Style="{StaticResource ButtonStyle2}" Grid.Row="0" Grid.Column="4"  Margin="5" PreviewMouseDown="ButtonUp_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
+                        <Button x:Name="ButtonUp" Grid.Row="0" Grid.Column="4"  Margin="5" PreviewMouseDown="ButtonUp_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp">
                             <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="180"/>
@@ -461,7 +463,7 @@
                             </TextBlock>
                         </Button>
                         <Button x:Name="ButtonAutoFocus"  Grid.Row="1" Grid.Column="4" Content="A" Margin="5" Click="ButtonAutoFocus_Click"/>
-                        <Button x:Name="ButtonDown" Style="{StaticResource  ButtonStyle2}" Grid.Row="2" Grid.Column="4"  Content="V" Margin="5" PreviewMouseDown="ButtonDown_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp"/>
+                        <Button x:Name="ButtonDown"  Grid.Row="2" Grid.Column="4"  Content="V" Margin="5" PreviewMouseDown="ButtonDown_PreviewMouseDown" PreviewMouseUp="ButtonRight_PreviewMouseUp"/>
                         <!--<Slider x:Name ="Slider1111"  Grid.Row="0" Grid.RowSpan="3" Grid.Column="6"  Style="{StaticResource LM_Slider}" Minimum="1" Maximum="1000" IsSnapToTickEnabled="True" TickFrequency="1" Value="200" Orientation="Vertical" HorizontalAlignment="Center" />-->
                     </Grid>
                 </Border>
@@ -487,20 +489,20 @@
                 <UniformGrid Columns="7" Margin="0,10,0,5"  >
                     <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True" />
                     <ToggleButton x:Name="ToggleButton502" Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
-                    <ToggleButton x:Name="ToggleButton503"  Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked" Checked="ToggleButton503_Checked" />
+                    <ToggleButton x:Name="ToggleButton503"   Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked" Checked="ToggleButton503_Checked" />
                     <ToggleButton x:Name="ToggleButton504"   Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0" Checked="ToggleButton504_Checked" Unchecked="ToggleButton504_Unchecked" />
                     <ToggleButton x:Name="ToggleButton505" Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="5,0" IsChecked="False" Checked="ToggleButton505_Checked"/>
                     <ToggleButton x:Name="ToggleButton506"   Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-                    <ToggleButton x:Name="ToggleButton507" Style="{StaticResource ToggleButtonStyle1}" Content="M" IsChecked="False" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
+                    <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}" Content="M" IsChecked="True" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
 
                 </UniformGrid>
                 <UniformGrid  Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                    <CheckBox x:Name="checkbox51" IsChecked="True" Content="明场" FontSize="15" />
-                    <CheckBox x:Name="checkbox52" IsChecked="True" Content="暗场" FontSize="15" />
-                    <CheckBox x:Name="checkbox53" IsChecked="True" Content="莱茵" FontSize="15" />
-                    <CheckBox x:Name="checkbox54" IsChecked="True" Content="差分" FontSize="15" />
-                    <CheckBox x:Name="checkbox55" IsChecked="True" Content="相位" FontSize="15" />
-                    <CheckBox x:Name="checkbox56" IsChecked="True" Content="相差" FontSize="15" />
+                    <CheckBox x:Name="checkbox51" IsChecked="False" Content="明场" FontSize="15" />
+                    <CheckBox x:Name="checkbox52" IsChecked="False" Content="暗场" FontSize="15" />
+                    <CheckBox x:Name="checkbox53" IsChecked="False" Content="莱茵" FontSize="15" />
+                    <CheckBox x:Name="checkbox54" IsChecked="False" Content="差分" FontSize="15" />
+                    <CheckBox x:Name="checkbox55" IsChecked="False" Content="相位" FontSize="15" />
+                    <CheckBox x:Name="checkbox56" IsChecked="False" Content="相差" FontSize="15" />
                 </UniformGrid>
 
 
@@ -510,21 +512,21 @@
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="Z-起始位置" FontSize="11" Width="65" VerticalAlignment="Center" Foreground="White" />
                                 <TextBox x:Name="TextBoxZstart"  PreviewKeyDown="NumberValidationTextBox"  Text="{Binding Path=ZStart}" Background="#262626"  HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                <Button Style="{StaticResource ButtonStyle2}" DockPanel.Dock="Right" Padding="5,0"  Content="设置" Click="UpdateMulZstart_Click"/>
+                                <Button DockPanel.Dock="Right" Padding="5,0"  Content="设置" Click="UpdateMulZstart_Click"/>
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="Z-停止位置"  FontSize="11" Width="65" VerticalAlignment="Center"  Foreground="White"/>
                                 <TextBox  x:Name="TextBoxZend" PreviewKeyDown="NumberValidationTextBox" Text="{Binding Path=ZEnd}"  Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                <Button DockPanel.Dock="Right" Style="{StaticResource ButtonStyle2}"  Content="设置" Padding="5,0" Click="UpdateMulZend_Click"/>
+                                <Button DockPanel.Dock="Right"  Content="设置" Padding="5,0" Click="UpdateMulZend_Click"/>
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="z-移动步长" FontSize="11"  Width="65" VerticalAlignment="Center" Foreground="White" />
                                 <TextBox  x:Name="TextBoxZStep" PreviewKeyDown="NumberValidationTextBox"  Text="{Binding Path=Zstep}" Background="#262626" HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                <Button DockPanel.Dock="Right" Style="{StaticResource ButtonStyle2}" Padding="5,0" Content="自动" Click="UpdateMulZStep_Click"/>
+                                <Button DockPanel.Dock="Right"  Padding="5,0" Content="自动" Click="UpdateMulZStep_Click"/>
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="Z-参考原点" FontSize="11" Width="65"  VerticalAlignment="Center" Foreground="White" />
-                                <ToggleButton  x:Name="ToggleButton5221" Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}" Width="50" Margin="2"/>
+                                <ToggleButton  x:Name="ToggleButton5221" Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  Width="50" Margin="2" Checked="ToggleButton5221_Checked" Unchecked="ToggleButton5221_Unchecked"/>
                                 <TextBlock Text="{Binding ElementName=ToggleButton5221,Path=IsChecked}"  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace NLGSolution
+namespace XSolution
 {
     public class ProjectFolder : BaseObject
     {
@@ -16,7 +16,7 @@ namespace NLGSolution
 
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
-            Children = new ObservableCollection<BaseObject>();
+            VisualChildren = new ObservableCollection<BaseObject>();
 
             watcher = new FileSystemWatcher(FolderPath)
             {
@@ -40,14 +40,14 @@ namespace NLGSolution
                 isEditMode = value;
                 if (!isEditMode)
                 {
-                    string oldpath = FullPath;
+                    string oldpath = FullName;
                     string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + name;
-                    if (newpath != FullPath)
+                    if (newpath != FullName)
                     {
                         try
                         {
                             Directory.Move(oldpath, newpath);
-                            FullPath = newpath;
+                            FullName = newpath;
                             tempname = name;
                         }
                         catch (Exception ex)
@@ -72,8 +72,8 @@ namespace NLGSolution
             this.watcher.Dispose();
             try
             {
-                if (Directory.Exists(FullPath))
-                    Directory.Delete(FullPath, true);
+                if (Directory.Exists(FullName))
+                    Directory.Delete(FullName, true);
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace NLGSolution
                 throw new NotImplementedException();
             if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
             {
-                var baseObject = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                var baseObject = VisualChildren.ToList().Find(t => t.FullName == e.FullPath);
                 if (baseObject != null && baseObject is ProjectFile projectFile)
                 {
                     Task.Run(projectFile.CalculSize);
@@ -100,10 +100,10 @@ namespace NLGSolution
         {
             if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
             {
-                var baseObject = Children.ToList().Find(t => t.FullPath == e.OldFullPath);
+                var baseObject = VisualChildren.ToList().Find(t => t.FullName == e.OldFullPath);
                 if (baseObject != null)
                 {
-                    baseObject.FullPath = e.FullPath;
+                    baseObject.FullName = e.FullPath;
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace NLGSolution
         {
             if (!(File.Exists(e.FullPath) || Directory.Exists(e.FullPath)))
             {
-                var projectFile = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                var projectFile = VisualChildren.ToList().Find(t => t.FullName == e.FullPath);
                 if (projectFile != null)
                 {
                     Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -159,7 +159,7 @@ namespace NLGSolution
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;
-                Children.Remove(baseObject);
+                VisualChildren.Remove(baseObject);
                 baseObject.Delete();
             }
         }

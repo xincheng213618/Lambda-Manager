@@ -103,6 +103,7 @@ namespace Global.Mode.Config
                 this.DimensionChecked = toolTop.DimensionChecked;
                 this.FocusChecked = toolTop.FocusChecked;
                 this.RulerChecked = toolTop.RulerChecked;
+                this.ProfileChecked = toolTop.ProfileChecked;
                 this.EraserChecked = toolTop.EraserChecked;
                 this.TextChecked = toolTop.TextChecked;
                 this.ArrowChecked = toolTop.ArrowChecked;
@@ -121,7 +122,7 @@ namespace Global.Mode.Config
                 this.Scale = toolTop.Scale;
                 this.Dimension = toolTop.Dimension;
                 this.Focus = toolTop.Focus;
-              
+                this.Profile = toolTop.Profile;
                 this.Ruler = toolTop.Ruler;
                 this.Eraser= toolTop.Eraser;
                 this.Text = toolTop.Text;
@@ -215,7 +216,13 @@ namespace Global.Mode.Config
                 set { rulerChecked = value; NotifyPropertyChanged(); }
             }
 
-
+            private bool profileChecked = false;
+            [JsonPropertyName("profile-Checked")]
+            public bool ProfileChecked
+            {
+                get { return profileChecked; }
+                set { profileChecked = value; NotifyPropertyChanged(); }
+            }
 
 
 
@@ -403,6 +410,20 @@ namespace Global.Mode.Config
                 get { return ruler; }
                 set { ruler = value; NotifyPropertyChanged(); }
             }
+
+            private bool profile = false;
+            [JsonPropertyName("profile")]
+            public bool Profile
+            {
+                get { return profile; }
+                set { profile = value; NotifyPropertyChanged(); }
+            }
+
+
+
+
+
+
             private bool eraser = false;
             /// <summary>
             /// 

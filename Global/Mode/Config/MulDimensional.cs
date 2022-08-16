@@ -23,7 +23,7 @@ namespace Global.Mode.Config
         public List<MulDimensionalArea> mulDimensionalAreas { get; set; } = new List<MulDimensionalArea> { };
         public List<MulDimensionalPoint> mulDimensionalPoints { get; set; } = new List<MulDimensionalPoint> { };
 
-        public List<string> TIntervalUnitsList { get; set; } = new List<string> {"毫秒","秒","分钟","小时","天"};
+        public List<string> TIntervalUnitsList { get; set; } = new List<string> {"秒","分钟","小时","天"};
 
         private string tIntervalUnits = "秒";
         public string TIntervalUnits 

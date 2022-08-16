@@ -87,10 +87,8 @@ public class ConfigUILibrary: ILambdaUI
 		}
 	}
 
-	public void LoadMenuCommand(Command command)
+	public void LoadMenuCommand(string name, List<string> raises)
 	{
-		string name = command.Name;
-		List<string> raises = command.Raise;
 		if (name == null || raises == null)
 		{
 			return;

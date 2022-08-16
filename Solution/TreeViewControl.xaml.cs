@@ -1,5 +1,4 @@
-﻿using Mode;
-using NLGSolution;
+﻿using XSolution;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,16 +8,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Global;
 using Lambda;
 using System.Text.Json;
 using Tool;
-using System.Windows.Controls.Primitives;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Windows.Media.Imaging;
 using Solution.RecentFile;
-using System.Threading;
+using Global.Common;
 
 namespace Solution
 {
@@ -36,6 +30,8 @@ namespace Solution
             IniCommand();
         }
 
+
+
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -50,9 +46,6 @@ namespace Solution
                 viewbox.Child = stackPanel;
                 scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
-
-
-
             }
         }
 
@@ -63,16 +56,14 @@ namespace Solution
         private TreeViewItem SelectedTreeViewItem;
 
         public string SolutionDir = null;
+        public string SolutionFullName;
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (windowData.FilePath != null)
+            if (string.IsNullOrEmpty(SolutionFullName))
             {
-                windowData.SaveConfig();
+                Config.ConfigWrite(SolutionFullName);
             }
-
-
-
         }
         private static string ToStrings(string value)
         {
@@ -97,7 +88,7 @@ namespace Solution
                 if (item == null)
                     return;
 
-                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is NLGSolution.BaseObject viewModeBase)
+                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is XSolution.BaseObject viewModeBase)
                 {
                     viewModeBase.IsEditMode = false;
                 }
@@ -107,21 +98,21 @@ namespace Solution
                 {
                     if (item.DataContext is ProjectFile projectFile1)
                     {
-                        LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullPath));
+                        LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullName));
                     }
                     if (item.DataContext is ProjectFolder projectFolder1)
                     {
-                        LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullPath));
+                        LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullName));
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
                         //LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullPath);
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName);
 
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullPath));
+                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullName));
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { } );
                     }
                 }
@@ -141,7 +132,7 @@ namespace Solution
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is NLGSolution.BaseObject baseObject )
+            if (tb.Tag is XSolution.BaseObject baseObject )
             {
                 baseObject.IsEditMode = false;
             }
@@ -150,7 +141,7 @@ namespace Solution
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is NLGSolution.BaseObject baseObject)
+            if (tb.Tag is XSolution.BaseObject baseObject)
             {
                 baseObject.Name = tb.Text;
                 if (e.Key == Key.Escape || e.Key == Key.Enter)
@@ -161,17 +152,15 @@ namespace Solution
         }
 
 
-        WindowData windowData = Global.WindowData.GetInstance();
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (Tool.Utils.OpenFileDialog(out string FilePath))
             {
-                if (windowData.ReadConfig(FilePath) == 0)
+                if (Config.ConfigRead(FilePath) == 0)
                 {
+                    SolutionFullName = FilePath;
                     recentFileList.InsertFile(FilePath);
-                    windowData.FilePath = FilePath;
-                    TreeViewInitialized(FilePath, windowData.Config);
+                    TreeViewInitialized(FilePath);
                 }
 
             };
@@ -189,7 +178,7 @@ namespace Solution
             foreach (var item in root.GetFiles())
             {
                 ProjectFile projectFile = new ProjectFile(item.FullName);
-                string Extension = Path.GetExtension(projectFile.FullPath);
+                string Extension = Path.GetExtension(projectFile.FullName);
                 projectFolder.AddChild(projectFile);
                 if (Extension == "png" || Extension == "jpg" || Extension == "tiff")
                 {
@@ -201,12 +190,13 @@ namespace Solution
 
         SolutionExplorer solutionExplorer;
 
-        private void TreeViewInitialized(string FilePath, Config config)
+        private void TreeViewInitialized(string FilePath)
         {
             solutionExplorer = new SolutionExplorer(FilePath)
             {
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
             };
+            
 
             SolutionDir = System.IO.Path.GetDirectoryName(FilePath);
 
@@ -225,7 +215,7 @@ namespace Solution
                     foreach (var item in dic.GetFiles())
                     {
                         ProjectFile projectFile = new ProjectFile(item.FullName);
-                        string Extension = Path.GetExtension(projectFile.FullPath);
+                        string Extension = Path.GetExtension(projectFile.FullName);
 
                         projectMannager.AddChild(projectFile);
 
@@ -266,7 +256,6 @@ namespace Solution
         private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject,string FullName)
         {
             var root = new DirectoryInfo(FullName);
-            bool IsNotExit = true;
             foreach (var directoryInfo in root.GetDirectories())
             {
                 if (directoryInfo.Name == "derives")
@@ -274,54 +263,37 @@ namespace Solution
                     var directoryInfo1 = new DirectoryInfo(directoryInfo.FullName);
                     foreach (var item1 in directoryInfo1.GetDirectories())
                     {
-                        IsNotExit = false;
                         DerivativeSeriesFile derivativeSeriesFile = new DerivativeSeriesFile(item1.FullName);
                         baseObject.AddChild(ADDDerivativeSeriesFile(derivativeSeriesFile, item1.FullName));
                     }
                 }
             }
-            //if (IsNotExit)
-            //    Directory.CreateDirectory($"{FullName}\\derives");
             return baseObject;
         }
 
 
-
-
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (windowData.FilePath != null)
+            
+            if (!string.IsNullOrEmpty(SolutionFullName))
             {
-                windowData.SaveConfig();
+                Config.ConfigWrite(SolutionFullName);
+
+                recentFileList.InsertFile(SolutionFullName);
             }
             else
             {
-                System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-                dialog.Description = "项目位置";
-                System.Windows.Forms.DialogResult dialogResult = dialog.ShowDialog();
-
-                if (dialogResult == System.Windows.Forms.DialogResult.OK)
+                if (Utils.SaveFileDialog(out string FileName))
                 {
-                    string SolutionDir = dialog.SelectedPath + "\\新建文件夹";
+                    SolutionFullName = FileName;
+                    recentFileList.InsertFile(SolutionFullName);
+                    Config.ConfigWrite(SolutionFullName);
 
-                    if (!Directory.Exists(SolutionDir))
-                    {
-                        Directory.CreateDirectory(SolutionDir);
-                        string ImageDiectory = windowData.SolutionDir + "\\Image";
-                        string VideoDiectory = windowData.SolutionDir + "\\Video";
-                        if (!Directory.Exists(ImageDiectory))
-                            Directory.CreateDirectory(ImageDiectory);
-
-                        if (!Directory.Exists(VideoDiectory))
-                            Directory.CreateDirectory(VideoDiectory);
-                        windowData.FilePath = SolutionDir + "\\*.lmp";
-                        windowData.SaveConfig();
-                        TreeViewInitialized(windowData.FilePath, windowData.Config);
-                    }
+                    TreeViewInitialized(SolutionFullName);
                 }
                 else
                 {
-                    windowData.FilePath = null;
+                    SolutionFullName = null;
                 }
             }
         }
@@ -329,7 +301,7 @@ namespace Solution
 
         private void Config_Set_Click(object sender, RoutedEventArgs e)
         {
-            windowData.SetValue();
+            Config.ConfigSet();
         }
 
 
@@ -348,23 +320,26 @@ namespace Solution
         {
             if (recentFileList.RecentFiles.Count > 0)
             {
-                string FilePath = recentFileList.RecentFiles[0];
-                if (File.Exists(FilePath))
+                string FullName = recentFileList.RecentFiles[0];
+                if (File.Exists(FullName))
                 {
-                    if (windowData.ReadConfig(FilePath) == 0)
+                    if (Config.ConfigRead(FullName) == 0)
                     {
-                        windowData.FilePath = FilePath;
-                        TreeViewInitialized(FilePath, windowData.Config);
-                        windowData.SetValue();
+                        SolutionFullName = FullName;
+
+                        TreeViewInitialized(FullName);
+                        Config.ConfigSet();
                     }
                     else
                     {
-                        recentFileList.RemoveFile(FilePath);
+                        MessageBox.Show("上次打开的项目无效");
+                        recentFileList.RemoveFile(FullName);
                     }
                 }
                 else
                 {
-                    recentFileList.RemoveFile(FilePath);
+                    MessageBox.Show($"找不到{FullName}");
+                    recentFileList.RemoveFile(FullName);
                 }
             }
 
@@ -384,10 +359,14 @@ namespace Solution
 
 
 
+
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            windowData.SaveConfig();
-            windowData.FilePath = null;
+            if (string.IsNullOrEmpty(SolutionFullName))
+            {
+                Config.ConfigWrite(SolutionFullName);
+            }
+            SolutionFullName = null;
             SolutionTreeView.ItemsSource = null;
 
         }

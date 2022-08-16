@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
@@ -30,6 +31,26 @@ namespace Lambda
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        private string fps;
+        public string FPS
+        {
+            get { return fps; }
+            set { fps = value; NotifyPropertyChanged(); }
+        }
+        private int Counter = 0;
+        private DateTime Start = DateTime.Now;
+
+        public void Inc()
+        {
+            Counter++;
+            if (Counter % 30 == 0)
+            {
+                double fps = 30.0 / (DateTime.Now - Start).TotalSeconds;
+                FPS = fps.ToString("0.0");
+                Start = DateTime.Now;
+            }
+        }
+
 
         public Image Image { get; set; }
 

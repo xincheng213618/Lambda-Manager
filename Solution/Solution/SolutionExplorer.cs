@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
-namespace NLGSolution
+namespace XSolution
 {
     public class SolutionExplorer : BaseObject
     {
@@ -54,10 +54,10 @@ namespace NLGSolution
         {
             if (File.Exists(e.FullPath) || Directory.Exists(e.FullPath))
             {
-                var baseObject = Children.ToList().Find(t => t.FullPath == e.OldFullPath);
+                var baseObject = VisualChildren.ToList().Find(t => t.FullName == e.OldFullPath);
                 if (baseObject != null)
                 {
-                    baseObject.FullPath = e.FullPath;
+                    baseObject.FullName = e.FullPath;
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace NLGSolution
         {
             if (!(File.Exists(e.FullPath) || Directory.Exists(e.FullPath)))
             {
-                var projectFile = Children.ToList().Find(t => t.FullPath == e.FullPath);
+                var projectFile = VisualChildren.ToList().Find(t => t.FullName == e.FullPath);
                 if (projectFile != null)
                 {
                     Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -119,14 +119,14 @@ namespace NLGSolution
                 isEditMode = value;
                 if (!isEditMode)
                 {
-                    string oldpath = FullPath;
+                    string oldpath = FullName;
                     string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, Extension);
-                    if (newpath != FullPath)
+                    if (newpath != FullName)
                     {
                         try
                         {
                             File.Move(oldpath, newpath);
-                            FullPath = newpath;
+                            FullName = newpath;
                         }
                         catch (Exception ex)
                         {
@@ -142,7 +142,7 @@ namespace NLGSolution
 
         public string Extension
         {
-            get { return Path.GetExtension(FullPath); }
+            get { return Path.GetExtension(FullName); }
             protected set { }
         }
 
@@ -163,11 +163,6 @@ namespace NLGSolution
         public string SolutionPath { get; set; }
 
 
-        public ObservableCollection<ProjectManager> ProjectMannagers { get; set; } = new ObservableCollection<ProjectManager>();
-
-        public ObservableCollection<SeriesProjectManager> SeriesProjectManagers { get; set; } = new ObservableCollection<SeriesProjectManager>();
-
-
         public override void AddChild(BaseObject baseObject)
         {
             base.AddChild(baseObject);
@@ -180,7 +175,7 @@ namespace NLGSolution
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;
-                Children.Remove(baseObject);
+                VisualChildren.Remove(baseObject);
                 baseObject.Delete();
             }
         }

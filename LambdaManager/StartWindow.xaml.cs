@@ -2,13 +2,11 @@
 using System;
 
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 using System.Xml.Linq;
 
 namespace LambdaManager
@@ -30,13 +28,37 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
-            ConfigLibrary = new ConfigLibrary();
-            ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
-            Thread thread = new Thread(Load);
-            thread.Start();
-            _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
+            if (DateTime.Now > Convert.ToDateTime(GetExpireDate() ?? "2025/1/1"))
+            {
+                MessageBox.Show("过期了");
+                this.Close();
+            }
+            else
+            {
+                labelVersion.Content = string.Format("V8.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
+                ConfigLibrary = new ConfigLibrary();
+                ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
+                Thread thread = new Thread(Load);
+                thread.Start();
+                _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
+            }
+
 
         }
+
+        public static string GetExpireDate()
+        {
+            string ACEFileName = $"{Directory.GetCurrentDirectory()}/ACE.dll";
+            if (!File.Exists(ACEFileName))
+                return null;
+            var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/ACE.dll");
+            if (assembly == null)
+                return null;
+            var type = assembly.GetType("ACE.AES");
+            string? s = type.InvokeMember("GetExpireDate", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+            return s;
+        }
+
         public XElement loadxml()
         {
             XElement root = null; ;
@@ -69,16 +91,18 @@ namespace LambdaManager
             if (num == true)
             {
                 ConfigLibrary.InitializeLibrary();
+                ConfigLibrary.LoadUIComponents();
             }
             else
             {
                 MessageBox.Show("主控初始化失败");
+                Environment.Exit(0);
             }
             Application.Current.Dispatcher.Invoke(delegate
             {
                 if (IsRunning)
                 {
-                    Closedd();
+                    _ = Dispatcher.BeginInvoke(new Action(async () => await StartMainWindow()));
                 }
                 else
                 {
@@ -99,7 +123,7 @@ namespace LambdaManager
             await Task.Delay(100);
             if (IsRunning)
             {
-                Closedd();
+               await  StartMainWindow();
             }
             else
             {
@@ -107,10 +131,11 @@ namespace LambdaManager
             }
         }
 
-        public async Task Closedd()
+        public async Task StartMainWindow()
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
+            mainWindow.Show();
             this.Close();
         }
 

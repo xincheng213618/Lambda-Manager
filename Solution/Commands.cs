@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace NLGSolution
+namespace XSolution
 {
     public static class Commands
     {

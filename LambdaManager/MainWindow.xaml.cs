@@ -9,13 +9,32 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Lambda;
+using LambdaCore;
 using LambdaManager.Core;
 using LambdaManager.Features;
+using LambdaManager.Mode;
+using LambdaManager.Properties;
 using LambdaManager.Utils;
 using ThemeManager.Controls;
 
 namespace LambdaManager
 {
+    public enum Side
+    {
+        TOP,
+        LEFT,
+        MIDDLE,
+        RIGHT,
+        BOTTOM,
+        MENU,
+        CONFIG,
+        ACQUIRE,
+        PROCESS,
+        ANALYSIS,
+        REPORT,
+        PROJECT
+    }
+
     partial class MainWindow : BaseWindow
     {
         private bool multiMode;
@@ -37,26 +56,36 @@ namespace LambdaManager
         }
 
 
-
+        StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)
         {
-            fpsState.DataContext = Common.fps;
+            ViewManager.GetInstance().ViewChanged += ViewChanged;
+            allfpsState.DataContext = ViewManager.GetInstance();
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
             Log.LogWrite += AddMessage;
-
+            performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
         }
 
+        public void ViewChanged(object sender, ViewChangedEvent e)
+        {
+            if (e.View.Index ==0)
+                fpsState.DataContext = e.View;
+        }
+
+        private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
         public ObservableCollection<Message> Messagess = new ObservableCollection<Message>();
 
         public void AddMessage(Message message)
         {
-            Messagess.Add(message);
-            msgList.SelectedIndex = Messagess.Count - 1;
-
+            if (message.Severity >= logLevel)
+            {
+                Messagess.Add(message);
+                msgList.SelectedIndex = Messagess.Count - 1;
+            }
         }
 
         public MenuItem? AddMenuItem(string path)
@@ -131,7 +160,7 @@ namespace LambdaManager
                 Side.PROJECT => projectView,
                 Side.REPORT => reportView,
                 Side.ANALYSIS => analysisView,
-                Side.POCESS => proessView,
+                Side.PROCESS => proessView,
                 _ => throw new Exception("top view not supported"),
             };
         }
@@ -318,19 +347,5 @@ namespace LambdaManager
     }
 
 
-    public enum Side
-    {
-        TOP,
-        LEFT,
-        MIDDLE,
-        RIGHT,
-        BOTTOM,
-        MENU,
-        CONFIG,
-        ACQUIRE,
-        POCESS,
-        ANALYSIS,
-        REPORT,
-        PROJECT
-    }
+
 }

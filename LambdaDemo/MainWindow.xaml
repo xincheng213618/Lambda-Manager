@@ -5,20 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LambdaDemo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Initialized="Window_Initialized">
+        Title="MainWindow" Height="450" Width="800" Initialized="Window_Initialized" Closed="Window_Closed">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="*"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer>
+            <StackPanel>
+                <Menu  Name="menu" Background="Transparent" Margin="0,5,0,5" >
+                </Menu>
+                <StackPanel x:Name="stackpanel1"/>
 
-        </Grid.RowDefinitions>
-        <StackPanel>
-            <Menu  Name="menu" Background="Transparent" Margin="0,5,0,5" >
-            </Menu>
-            <StackPanel x:Name="stackpanel1"/>
+            </StackPanel>
+        </ScrollViewer>
 
-        </StackPanel>
-        <Grid Name="mainView"  Grid.Row="1">
+        <Grid Name="mainView"  Grid.Column="1">
 
         </Grid>
 

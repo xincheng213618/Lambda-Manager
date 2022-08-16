@@ -11,8 +11,6 @@
   <PropertyGroup>
     <LangVersion>Preview</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-
-    <RootNamespace />
     <UseWindowsForms>True</UseWindowsForms>
     <Nullable>disable</Nullable>
     <Title>LambdaManager</Title>
@@ -22,19 +20,9 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <ApplicationIcon>logo.ico</ApplicationIcon>
-    <StartupObject>LambdaManager.App</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Optimize>False</Optimize>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controls\**" />
@@ -52,6 +40,7 @@
     <None Remove="resources\icons\application-logo.png" />
     <None Remove="resources\icons\bottom-backward.png" />
     <None Remove="resources\icons\bottom-forward.png" />
+    <None Remove="resources\icons\bottom-place.png" />
     <None Remove="resources\icons\bottom-slider.png" />
     <None Remove="resources\icons\bottom-start.png" />
     <None Remove="resources\icons\bottom-stop.png" />
@@ -108,6 +97,7 @@
 	<ItemGroup>
 		<Resource Include="Image\ZIRCON.png" />
 		<Resource Include="resources\icons\bottom-forward.png" />
+		<Resource Include="resources\icons\bottom-place.png" />
     <Resource Include="resources\icons\bottom-slider.png" />
     <Resource Include="resources\icons\bottom-start.png" />
     <Resource Include="resources\icons\bottom-stop.png" />
@@ -142,11 +132,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AboutMsg\AboutMsg.csproj" />
-    <ProjectReference Include="..\ACE\ACE.csproj" />
-    <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
-    <ProjectReference Include="..\LambdaUtils\LambdaUtils.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\Register\Register.csproj" />
     <ProjectReference Include="..\Solution\Solution.csproj" />
@@ -179,13 +166,36 @@
     <Resource Include="resources\images\startpicture1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Update="StartWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="application.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

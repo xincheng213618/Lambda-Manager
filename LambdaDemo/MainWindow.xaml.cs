@@ -1,24 +1,13 @@
 ﻿using LambdaManager;
-using LambdaManager.DataType;
+using LambdaManager.Core;
 using LambdaManager.Utils;
-using Mode;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LambdaDemo
 {
@@ -32,7 +21,6 @@ namespace LambdaDemo
             InitializeComponent();
         }
 
-        bool first = false;
         public void LoadControl(string name, string lib, string mount)
         {
             Assembly assembly = Assembly.LoadFile(Directory.GetCurrentDirectory() + "/" + lib);
@@ -52,10 +40,7 @@ namespace LambdaDemo
                 }
                 else
                 {
-                    if (first)
-                        return;
                     stackpanel1.Children.Add(control);
-                    first = true;
                 }
 
             }
@@ -94,10 +79,7 @@ namespace LambdaDemo
             return last;
         }
 
-        public void LoadMenuCommand(Command command)
-        {
 
-        }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
@@ -105,9 +87,21 @@ namespace LambdaDemo
             ConfigLibrary.lambdaUI = this;
             ConfigLibrary.Load();
             ConfigLibrary.InitializeLibrary();
+            ConfigLibrary.LoadUIComponents();
 
             mainView.Children.Clear();
             mainView.Children.Add(ViewGrid.mainView);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Common.CommonExit();
+            Environment.Exit(-1);
+        }
+
+        public void LoadMenuCommand(string name, List<string> raises)
+        {
+
         }
     }
 

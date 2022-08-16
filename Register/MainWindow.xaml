@@ -35,11 +35,8 @@
                 <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"  TextChanged="H5a6_TextChanged"/>
             </DockPanel>
             <DockPanel Margin="5">
-                <Button Content="注册" Click="Button_Click"/>
+                <Button x:Name="Button1" Content="注册" Click="Button_Click"/>
             </DockPanel>
-            <!--<DockPanel Margin="5">
-                <Button Content="解密" Click="Button1_Click"/>
-            </DockPanel>-->
         </StackPanel>  
 
     </Grid>

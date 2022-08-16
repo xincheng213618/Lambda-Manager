@@ -35,12 +35,13 @@ namespace ACE
                         Cryptograph = Memory.ToArray();
                     }
                 }
+                return Cryptograph;
             }
             catch
             {
-                Cryptograph = null;
+                return Array.Empty<byte>();
             }
-            return Cryptograph;
+
         }
 
         /// <summary>
@@ -78,13 +79,12 @@ namespace ACE
                         }
                     }
                 }
+                return original;
             }
-            catch(Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message);
-                original = null;
+                return Array.Empty<byte>();
             }
-            return original;
         }
     }
 }

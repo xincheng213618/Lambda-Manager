@@ -83,7 +83,7 @@ namespace Global.Common.Util
                 string value = regKey?.GetValue(name) as string;
                 if (string.IsNullOrEmpty(value))
                 {
-                    WriteValue(path, name, true);
+                    WriteValue(path, name, false);
                     return true;
                 }
                 else

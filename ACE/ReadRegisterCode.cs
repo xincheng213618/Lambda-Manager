@@ -27,7 +27,7 @@ namespace ACE
             Filepath = filepath;
         }
 
-        public string GetRegisterCode()
+        public string? GetRegisterCode()
         {
             string result = File.ReadAllText(Filepath);
             if (result == null)
@@ -43,13 +43,13 @@ namespace ACE
             var RegisterInfos = JsonSerializer.Deserialize<RegisterInfo>(RegisterInfostring);
             if (RegisterInfos ==null)
                 return null;
-            return RegisterInfos.GetSha512();
+            return RegisterInfos.MD5();
         }
 
         /// <summary>
         /// 此接口不提供读取操作
         /// </summary>
-        public void SetRegisterCode(string Code)
+        public void SetRegisterCode(RegisterInfo registerInfo)
         {
             throw new NotImplementedException();
         }

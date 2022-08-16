@@ -1,4 +1,4 @@
-﻿using NLGSolution;
+﻿using XSolution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,34 +27,6 @@ namespace Solution
 
         private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is BaseObject baseObject1)
-            {
-                if (e.Command == ApplicationCommands.SelectAll)
-                {
-                    e.CanExecute = false;
-                }
-                else if (e.Command == ApplicationCommands.Copy)
-                {
-                    e.CanExecute = baseObject1.CanCopy;
-                }
-                else if (e.Command == ApplicationCommands.Cut)
-                {
-                    e.CanExecute = false;
-                }
-                else if (e.Command == ApplicationCommands.Paste)
-                {
-                    e.CanExecute = false;
-                }
-                else if (e.Command == ApplicationCommands.Delete)
-                {
-                    e.CanExecute = baseObject1.CanDelete;
-                }
-                else if (e.Command == Commands.ReName)
-                {
-                    e.CanExecute = baseObject1.CanReName;
-                }
-            }
-
             if (e.Parameter is BaseObject baseObject)
             {
                 if (e.Command == ApplicationCommands.SelectAll)
@@ -80,6 +52,32 @@ namespace Solution
                 else if (e.Command == Commands.ReName)
                 {
                     e.CanExecute = baseObject.CanReName;
+                }
+            }else if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is BaseObject baseObject1)
+            {
+                if (e.Command == ApplicationCommands.SelectAll)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Copy)
+                {
+                    e.CanExecute = baseObject1.CanCopy;
+                }
+                else if (e.Command == ApplicationCommands.Cut)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Paste)
+                {
+                    e.CanExecute = false;
+                }
+                else if (e.Command == ApplicationCommands.Delete)
+                {
+                    e.CanExecute = baseObject1.CanDelete;
+                }
+                else if (e.Command == Commands.ReName)
+                {
+                    e.CanExecute = baseObject1.CanReName;
                 }
             }
 

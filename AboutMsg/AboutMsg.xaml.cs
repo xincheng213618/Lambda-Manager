@@ -54,8 +54,7 @@ namespace AboutMsg
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("msinfo32.exe");
-
-            
+           
         }
 
         private void Button2_Click(object sender, RoutedEventArgs e)

@@ -43,6 +43,16 @@ namespace Grid
 
         private async Task InitializedOver()
         {
+            try
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = @"LambdaManager.exe";
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接";
             await Task.Delay(500);
             TexoBoxMsg.Text += Environment.NewLine + "初始化配置信息";  
@@ -54,16 +64,7 @@ namespace Grid
             TexoBoxMsg.Text += Environment.NewLine + "初始化位移台";
             await Task.Delay(300);
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
-            try
-            {
-                Process process = new Process();
-                process.StartInfo.FileName = @"LambdaManager.exe";
-                process.Start();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
 
             App.Current.MainWindow.Close();
             await Task.Delay(500);

@@ -2,7 +2,9 @@
   "profiles": {
     "LambdaManager": {
       "commandName": "Project",
-      "nativeDebugging": true
+      "nativeDebugging": true,
+      "hotReloadEnabled": true,
+      "sqlDebugging": false
     }
   }
 }

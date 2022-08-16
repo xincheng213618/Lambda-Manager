@@ -25,15 +25,7 @@ partial class App : Application
         Exit += new ExitEventHandler(Application_Exit);
     }
 
-    public static string GetExpireDate()
-    {
-        var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/ACE.dll");
-        if (assembly == null)
-            return String.Empty;
-        var type = assembly.GetType("ACE.AES");
-        string? s = type.InvokeMember("GetExpireDate", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
-        return s;
-    }
+
     private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         //Log.WriteException(e.ExceptionObject as Exception, "UnhandledException");
@@ -62,10 +54,6 @@ partial class App : Application
         MainWindow mainWindow = new MainWindow();
 
         StartWindow startWindow = new StartWindow(mainWindow);
-        startWindow.Closed += delegate
-        {
-            mainWindow.Show();
-        };
         startWindow.Show();
 
     }
@@ -75,7 +63,7 @@ partial class App : Application
     /// </summary>
 	private  void Application_Exit(object sender, ExitEventArgs e)
 	{
-		Common.AppClose();
+		Common.CommonExit();
 		Environment.Exit(-1);
 	}
 

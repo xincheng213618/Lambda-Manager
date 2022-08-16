@@ -17,7 +17,7 @@ namespace ACE.Global
             Filepath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager\\" + "default.json";
         }
 
-        public RegisterInfo GetRegisterInfo()
+        public RegisterInfo? GetRegisterInfo()
         {
             string result = File.ReadAllText(Filepath);
             if (result == null)

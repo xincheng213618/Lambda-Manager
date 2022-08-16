@@ -22,7 +22,7 @@ namespace LambdaManager.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace LambdaManager.Properties {
         ///   返回此类使用的缓存的 ResourceManager 实例。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LambdaManager.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace LambdaManager.Properties {
         ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Action 的本地化字符串。
         /// </summary>
-        public static string Action {
+        internal static string Action {
             get {
                 return ResourceManager.GetString("Action", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ActionTimesInputCountNotMatch 的本地化字符串。
         /// </summary>
-        public static string ActionTimesInputCountNotMatch {
+        internal static string ActionTimesInputCountNotMatch {
             get {
                 return ResourceManager.GetString("ActionTimesInputCountNotMatch", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ActionTimesInputTypeNotMatch 的本地化字符串。
         /// </summary>
-        public static string ActionTimesInputTypeNotMatch {
+        internal static string ActionTimesInputTypeNotMatch {
             get {
                 return ResourceManager.GetString("ActionTimesInputTypeNotMatch", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ArgType 的本地化字符串。
         /// </summary>
-        public static string ArgType {
+        internal static string ArgType {
             get {
                 return ResourceManager.GetString("ArgType", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Arguments 的本地化字符串。
         /// </summary>
-        public static string Arguments {
+        internal static string Arguments {
             get {
                 return ResourceManager.GetString("Arguments", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 AsPointer 的本地化字符串。
         /// </summary>
-        public static string AsPointer {
+        internal static string AsPointer {
             get {
                 return ResourceManager.GetString("AsPointer", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Async 的本地化字符串。
         /// </summary>
-        public static string Async {
+        internal static string Async {
             get {
                 return ResourceManager.GetString("Async", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 AsyncWithEventDataNotSupport 的本地化字符串。
         /// </summary>
-        public static string AsyncWithEventDataNotSupport {
+        internal static string AsyncWithEventDataNotSupport {
             get {
                 return ResourceManager.GetString("AsyncWithEventDataNotSupport", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 AsyncWithOutputReferredNotSupport 的本地化字符串。
         /// </summary>
-        public static string AsyncWithOutputReferredNotSupport {
+        internal static string AsyncWithOutputReferredNotSupport {
             get {
                 return ResourceManager.GetString("AsyncWithOutputReferredNotSupport", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Class 的本地化字符串。
         /// </summary>
-        public static string Class {
+        internal static string Class {
             get {
                 return ResourceManager.GetString("Class", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ClassNameWanted 的本地化字符串。
         /// </summary>
-        public static string ClassNameWanted {
+        internal static string ClassNameWanted {
             get {
                 return ResourceManager.GetString("ClassNameWanted", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ： 的本地化字符串。
         /// </summary>
-        public static string Comma {
+        internal static string Comma {
             get {
                 return ResourceManager.GetString("Comma", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Component 的本地化字符串。
         /// </summary>
-        public static string Component {
+        internal static string Component {
             get {
                 return ResourceManager.GetString("Component", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ConfigLoaded 的本地化字符串。
         /// </summary>
-        public static string ConfigLoaded {
+        internal static string ConfigLoaded {
             get {
                 return ResourceManager.GetString("ConfigLoaded", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ConfigLoading 的本地化字符串。
         /// </summary>
-        public static string ConfigLoading {
+        internal static string ConfigLoading {
             get {
                 return ResourceManager.GetString("ConfigLoading", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 CreateFailed 的本地化字符串。
         /// </summary>
-        public static string CreateFailed {
+        internal static string CreateFailed {
             get {
                 return ResourceManager.GetString("CreateFailed", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap debug16 {
+        internal static System.Drawing.Bitmap debug16 {
             get {
                 object obj = ResourceManager.GetObject("debug16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -217,7 +217,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 DuplicateLib 的本地化字符串。
         /// </summary>
-        public static string DuplicateLib {
+        internal static string DuplicateLib {
             get {
                 return ResourceManager.GetString("DuplicateLib", resourceCulture);
             }
@@ -226,7 +226,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Empty 的本地化字符串。
         /// </summary>
-        public static string Empty {
+        internal static string Empty {
             get {
                 return ResourceManager.GetString("Empty", resourceCulture);
             }
@@ -235,7 +235,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 EntryPoint 的本地化字符串。
         /// </summary>
-        public static string EntryPoint {
+        internal static string EntryPoint {
             get {
                 return ResourceManager.GetString("EntryPoint", resourceCulture);
             }
@@ -244,7 +244,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Error 的本地化字符串。
         /// </summary>
-        public static string Error {
+        internal static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
             }
@@ -253,7 +253,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap error16 {
+        internal static System.Drawing.Bitmap error16 {
             get {
                 object obj = ResourceManager.GetObject("error16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +263,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 EventArgTypeNotMatch 的本地化字符串。
         /// </summary>
-        public static string EventArgTypeNotMatch {
+        internal static string EventArgTypeNotMatch {
             get {
                 return ResourceManager.GetString("EventArgTypeNotMatch", resourceCulture);
             }
@@ -272,7 +272,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 EventDataNotSupport 的本地化字符串。
         /// </summary>
-        public static string EventDataNotSupport {
+        internal static string EventDataNotSupport {
             get {
                 return ResourceManager.GetString("EventDataNotSupport", resourceCulture);
             }
@@ -281,7 +281,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 EventTypeNotSpecified 的本地化字符串。
         /// </summary>
-        public static string EventTypeNotSpecified {
+        internal static string EventTypeNotSpecified {
             get {
                 return ResourceManager.GetString("EventTypeNotSpecified", resourceCulture);
             }
@@ -290,7 +290,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Execute 的本地化字符串。
         /// </summary>
-        public static string Execute {
+        internal static string Execute {
             get {
                 return ResourceManager.GetString("Execute", resourceCulture);
             }
@@ -299,7 +299,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Expired 的本地化字符串。
         /// </summary>
-        public static string Expired {
+        internal static string Expired {
             get {
                 return ResourceManager.GetString("Expired", resourceCulture);
             }
@@ -308,7 +308,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Export 的本地化字符串。
         /// </summary>
-        public static string Export {
+        internal static string Export {
             get {
                 return ResourceManager.GetString("Export", resourceCulture);
             }
@@ -317,7 +317,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap fatal16 {
+        internal static System.Drawing.Bitmap fatal16 {
             get {
                 object obj = ResourceManager.GetObject("fatal16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -327,7 +327,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 File 的本地化字符串。
         /// </summary>
-        public static string File {
+        internal static string File {
             get {
                 return ResourceManager.GetString("File", resourceCulture);
             }
@@ -336,7 +336,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 1 的本地化字符串。
         /// </summary>
-        public static string FpsRunning {
+        internal static string FpsRunning {
             get {
                 return ResourceManager.GetString("FpsRunning", resourceCulture);
             }
@@ -345,7 +345,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Import 的本地化字符串。
         /// </summary>
-        public static string Import {
+        internal static string Import {
             get {
                 return ResourceManager.GetString("Import", resourceCulture);
             }
@@ -354,7 +354,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap info16 {
+        internal static System.Drawing.Bitmap info16 {
             get {
                 object obj = ResourceManager.GetObject("info16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -364,7 +364,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Init 的本地化字符串。
         /// </summary>
-        public static string Init {
+        internal static string Init {
             get {
                 return ResourceManager.GetString("Init", resourceCulture);
             }
@@ -373,7 +373,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 InputType 的本地化字符串。
         /// </summary>
-        public static string InputType {
+        internal static string InputType {
             get {
                 return ResourceManager.GetString("InputType", resourceCulture);
             }
@@ -382,7 +382,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Lib 的本地化字符串。
         /// </summary>
-        public static string Lib {
+        internal static string Lib {
             get {
                 return ResourceManager.GetString("Lib", resourceCulture);
             }
@@ -391,7 +391,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Menu 的本地化字符串。
         /// </summary>
-        public static string Menu {
+        internal static string Menu {
             get {
                 return ResourceManager.GetString("Menu", resourceCulture);
             }
@@ -400,7 +400,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Name 的本地化字符串。
         /// </summary>
-        public static string Name {
+        internal static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
             }
@@ -409,7 +409,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 NotExist 的本地化字符串。
         /// </summary>
-        public static string NotExist {
+        internal static string NotExist {
             get {
                 return ResourceManager.GetString("NotExist", resourceCulture);
             }
@@ -418,7 +418,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 NotExportProc 的本地化字符串。
         /// </summary>
-        public static string NotExportProc {
+        internal static string NotExportProc {
             get {
                 return ResourceManager.GetString("NotExportProc", resourceCulture);
             }
@@ -427,7 +427,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 NotFound 的本地化字符串。
         /// </summary>
-        public static string NotFound {
+        internal static string NotFound {
             get {
                 return ResourceManager.GetString("NotFound", resourceCulture);
             }
@@ -436,7 +436,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Notice 的本地化字符串。
         /// </summary>
-        public static string Notice {
+        internal static string Notice {
             get {
                 return ResourceManager.GetString("Notice", resourceCulture);
             }
@@ -445,7 +445,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 NotMatched 的本地化字符串。
         /// </summary>
-        public static string NotMatched {
+        internal static string NotMatched {
             get {
                 return ResourceManager.GetString("NotMatched", resourceCulture);
             }
@@ -454,7 +454,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 NotSupported 的本地化字符串。
         /// </summary>
-        public static string NotSupported {
+        internal static string NotSupported {
             get {
                 return ResourceManager.GetString("NotSupported", resourceCulture);
             }
@@ -463,7 +463,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 of 的本地化字符串。
         /// </summary>
-        public static string of {
+        internal static string of {
             get {
                 return ResourceManager.GetString("of", resourceCulture);
             }
@@ -472,7 +472,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 OpenFiles 的本地化字符串。
         /// </summary>
-        public static string OpenFiles {
+        internal static string OpenFiles {
             get {
                 return ResourceManager.GetString("OpenFiles", resourceCulture);
             }
@@ -481,7 +481,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 or 的本地化字符串。
         /// </summary>
-        public static string or {
+        internal static string or {
             get {
                 return ResourceManager.GetString("or", resourceCulture);
             }
@@ -490,7 +490,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 OriginInputsNotMatch 的本地化字符串。
         /// </summary>
-        public static string OriginInputsNotMatch {
+        internal static string OriginInputsNotMatch {
             get {
                 return ResourceManager.GetString("OriginInputsNotMatch", resourceCulture);
             }
@@ -499,7 +499,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 OutputType 的本地化字符串。
         /// </summary>
-        public static string OutputType {
+        internal static string OutputType {
             get {
                 return ResourceManager.GetString("OutputType", resourceCulture);
             }
@@ -508,7 +508,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 PleaseCheck 的本地化字符串。
         /// </summary>
-        public static string PleaseCheck {
+        internal static string PleaseCheck {
             get {
                 return ResourceManager.GetString("PleaseCheck", resourceCulture);
             }
@@ -517,7 +517,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Procedure 的本地化字符串。
         /// </summary>
-        public static string Procedure {
+        internal static string Procedure {
             get {
                 return ResourceManager.GetString("Procedure", resourceCulture);
             }
@@ -526,7 +526,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 RaiseKeys 的本地化字符串。
         /// </summary>
-        public static string RaiseKeys {
+        internal static string RaiseKeys {
             get {
                 return ResourceManager.GetString("RaiseKeys", resourceCulture);
             }
@@ -535,7 +535,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Reference 的本地化字符串。
         /// </summary>
-        public static string Reference {
+        internal static string Reference {
             get {
                 return ResourceManager.GetString("Reference", resourceCulture);
             }
@@ -544,7 +544,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ReferredAction 的本地化字符串。
         /// </summary>
-        public static string ReferredAction {
+        internal static string ReferredAction {
             get {
                 return ResourceManager.GetString("ReferredAction", resourceCulture);
             }
@@ -553,7 +553,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ReferredArgsNotSpecified 的本地化字符串。
         /// </summary>
-        public static string ReferredArgsNotSpecified {
+        internal static string ReferredArgsNotSpecified {
             get {
                 return ResourceManager.GetString("ReferredArgsNotSpecified", resourceCulture);
             }
@@ -562,7 +562,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Referring 的本地化字符串。
         /// </summary>
-        public static string Referring {
+        internal static string Referring {
             get {
                 return ResourceManager.GetString("Referring", resourceCulture);
             }
@@ -571,7 +571,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ScheduleEnd 的本地化字符串。
         /// </summary>
-        public static string ScheduleEnd {
+        internal static string ScheduleEnd {
             get {
                 return ResourceManager.GetString("ScheduleEnd", resourceCulture);
             }
@@ -580,7 +580,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ScheduleStart 的本地化字符串。
         /// </summary>
-        public static string ScheduleStart {
+        internal static string ScheduleStart {
             get {
                 return ResourceManager.GetString("ScheduleStart", resourceCulture);
             }
@@ -589,7 +589,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 ScheduleTrigger 的本地化字符串。
         /// </summary>
-        public static string ScheduleTrigger {
+        internal static string ScheduleTrigger {
             get {
                 return ResourceManager.GetString("ScheduleTrigger", resourceCulture);
             }
@@ -598,7 +598,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Signature 的本地化字符串。
         /// </summary>
-        public static string Signature {
+        internal static string Signature {
             get {
                 return ResourceManager.GetString("Signature", resourceCulture);
             }
@@ -607,7 +607,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 StartFatalError 的本地化字符串。
         /// </summary>
-        public static string StartFatalError {
+        internal static string StartFatalError {
             get {
                 return ResourceManager.GetString("StartFatalError", resourceCulture);
             }
@@ -616,7 +616,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap startpicture1 {
+        internal static System.Drawing.Bitmap startpicture1 {
             get {
                 object obj = ResourceManager.GetObject("startpicture1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -626,7 +626,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 StartUp 的本地化字符串。
         /// </summary>
-        public static string StartUp {
+        internal static string StartUp {
             get {
                 return ResourceManager.GetString("StartUp", resourceCulture);
             }
@@ -635,7 +635,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 STLMapNotSupport 的本地化字符串。
         /// </summary>
-        public static string STLMapNotSupport {
+        internal static string STLMapNotSupport {
             get {
                 return ResourceManager.GetString("STLMapNotSupport", resourceCulture);
             }
@@ -644,7 +644,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 SystemNotSupport1 的本地化字符串。
         /// </summary>
-        public static string SystemNotSupport1 {
+        internal static string SystemNotSupport1 {
             get {
                 return ResourceManager.GetString("SystemNotSupport1", resourceCulture);
             }
@@ -653,7 +653,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 SystemNotSupport2 的本地化字符串。
         /// </summary>
-        public static string SystemNotSupport2 {
+        internal static string SystemNotSupport2 {
             get {
                 return ResourceManager.GetString("SystemNotSupport2", resourceCulture);
             }
@@ -662,7 +662,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找类似 Undefined 的本地化字符串。
         /// </summary>
-        public static string Undefined {
+        internal static string Undefined {
             get {
                 return ResourceManager.GetString("Undefined", resourceCulture);
             }
@@ -671,7 +671,7 @@ namespace LambdaManager.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap warning16 {
+        internal static System.Drawing.Bitmap warning16 {
             get {
                 object obj = ResourceManager.GetObject("warning16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

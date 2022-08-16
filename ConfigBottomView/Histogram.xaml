@@ -6,8 +6,7 @@
              xmlns:range="clr-namespace:RangeSlider;assembly=RangeSlider"
              xmlns:updown ="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
              xmlns:local="clr-namespace:ConfigBottomView"
-             mc:Ignorable="d" 
-             d:DesignHeight="220"  Initialized="UserControl_Initialized" Loaded="UserControl_Loaded"  >
+             mc:Ignorable="d"  Initialized="UserControl_Initialized" Loaded="UserControl_Loaded"   >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,58 +17,58 @@
 
     </UserControl.Resources>
     <!-- <Border  Background="#444444" BorderThickness="0" BorderBrush="Black" Grid.ColumnSpan="2" CornerRadius="5"> -->
-    
-        <Grid Background="#444444"  Margin="10"     MaxWidth="600" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <Grid.Resources>
-                <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
-                    <GradientBrush.GradientStops>
-                        <GradientStopCollection>
-                            <GradientStop Color="#ccc" Offset="0.0"/>
-                            <GradientStop Color="#555" Offset="1.0"/>
-                        </GradientStopCollection>
-                    </GradientBrush.GradientStops>
-                </LinearGradientBrush>
 
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Border BorderThickness="5" BorderBrush="#444444" Margin="-2" CornerRadius="0,0,0,0"></Border>
-            <Grid Grid.Row="0" Background="#444444">
-                <Grid.ColumnDefinitions>
+    <Grid Background="#444444"     MaxWidth="600" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+        <Grid.Resources>
+            <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
+                <GradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#ccc" Offset="0.0"/>
+                        <GradientStop Color="#555" Offset="1.0"/>
+                    </GradientStopCollection>
+                </GradientBrush.GradientStops>
+            </LinearGradientBrush>
+
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="5" BorderBrush="#444444" Margin="-2" CornerRadius="0,0,0,0"></Border>
+        <Grid Grid.Row="0" Background="#444444">
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="170"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-              <Grid Grid.Column="0">
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
                 <Grid >
-                    <Label Content="0"  Foreground="white" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Margin="0,0,5,10"></Label>
+                    <Label Content="0"  Foreground="white" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Margin="0,0,5,0"></Label>
                     <Label Content="{Binding HalfMax}" Foreground="white" HorizontalAlignment="Right" VerticalAlignment="Center"  ></Label>
-                    <Label Content="{Binding Max}"   Foreground="white" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,30" ></Label>
+                    <Label Content="{Binding Max}"   Foreground="white" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,0,30" ></Label>
                 </Grid>
 
             </Grid>
 
-                <Grid Grid.Column="1" ShowGridLines="True" Margin="0,0,0,0" >
+            <Grid Grid.Column="1" ShowGridLines="True" Margin="0,0,0,0" >
                 <Border Name="ImageBorder" Padding="20,0,0,10" BorderBrush="#333333" BorderThickness="0" Background="#444444">
-                    <Border BorderBrush="Black" BorderThickness="2" Margin="0">
+                    <Border BorderBrush="White" BorderThickness="1" Margin="0">
                         <Image Margin="0"   Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill" SizeChanged="HistogramImage_SizeChanged"></Image>
                     </Border>
 
                 </Border>
-                <InkCanvas Name="inkCanvas"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"    Background="Transparent" EditingMode="None"  >
+                <InkCanvas Name="inkCanvas"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"    Background="Transparent" EditingMode="None" SizeChanged="inkCanvas_SizeChanged"  >
                 </InkCanvas>
                 <Grid  ToggleButton.Checked="RGBGrid_Checked" x:Name="RGBGrid" ToggleButton.Unchecked="RGBGrid_UnChecked"  >
-                        <ToggleButton Width="35" Height="22" Content="B" x:Name="B" Style="{StaticResource ToggleButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" ></ToggleButton>
-                        <ToggleButton Width="35" Height="22" Content="G" x:Name="G" Style="{StaticResource ToggleButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,50,0" ></ToggleButton>
-                        <ToggleButton Width="35" Height="22" Content="R" x:Name="R" Style="{StaticResource ToggleButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,90,0" ></ToggleButton>
-                    </Grid>
-                    
-                
+                    <ToggleButton Width="35" Height="22" Content="B" x:Name="B" Style="{StaticResource ToggleButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" ></ToggleButton>
+                    <ToggleButton Width="35" Height="22" Content="G" x:Name="G" Style="{StaticResource ToggleButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,50,0" ></ToggleButton>
+                    <ToggleButton Width="35" Height="22" Content="R" x:Name="R" Style="{StaticResource ToggleButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,90,0" ></ToggleButton>
                 </Grid>
 
-                <Grid Grid.Column="2">
+
+            </Grid>
+
+            <Grid Grid.Column="2">
                 <WrapPanel>
                     <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label  Content="最小值:" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" ></Label>
@@ -90,7 +89,7 @@
                         <Label  Content="方差： " Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
                         <TextBlock Text="{Binding Variance}" VerticalAlignment="Center" Width="50" Foreground="White"  ></TextBlock>
                     </StackPanel>
-                   
+
                     <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label  Content="离群率：" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
                         <TextBlock  Text="{Binding Outlier}" VerticalAlignment="Center" Width="50" Foreground="White"></TextBlock>
@@ -101,26 +100,26 @@
                         <!--  <TextBox   Text="{Binding Gamma}" Name="GammaTextbox"  Background="#595959"  VerticalAlignment="Center"  Width="50" Foreground="White" TextChanged="GammaTextbox_TextChanged"  ></TextBox> -->
                     </StackPanel>
                 </WrapPanel>
-    
-                </Grid>
-                
-                
-                
+
             </Grid>
-                <Border Grid.Row="1">
-                    <Grid  Height="15" Margin="0,0,130,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Width="25" Margin="0,-8,8,0"  VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White"  Grid.Column="0" Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" FlowDirection="RightToLeft" ></TextBlock>
-                        <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin}" Margin="-5,-8,-5,0" Height="13" HigherValue="{Binding RangeMax}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"   ></range:RangeSlider>
-                <TextBlock Width="30"  Margin="0,-8,0,0" VerticalAlignment="Center" Foreground="White" Grid.Column="2" Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" ></TextBlock>
-                    </Grid>
-                </Border>
+
+
+
+        </Grid>
+        <Border Grid.Row="1" Margin="0,0,0,5">
+            <Grid  Height="0" Margin="0,0,130,0" VerticalAlignment="Bottom" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Width="25" Margin="0,-10,8,0"  VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White"  Grid.Column="0" Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" FlowDirection="RightToLeft" ></TextBlock>
+                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin}" Margin="-7,-10,-7,0" Height="20" HigherValue="{Binding RangeMax}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"   ></range:RangeSlider>
+                <TextBlock Width="30"  Margin="0,-10,0,0" VerticalAlignment="Center" Foreground="White" Grid.Column="2" Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" ></TextBlock>
             </Grid>
-     
+        </Border>
+    </Grid>
+
 
     <!--  </Border>-->
 

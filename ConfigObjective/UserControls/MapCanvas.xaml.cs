@@ -288,14 +288,16 @@ namespace ConfigObjective.UserControls
                     int a = (int)Math.Floor((double)c / 8);
                     int b = (int)Math.Floor((double)d / 6);
                     Point point = new Point(x, y);
-                    if (x >= 300 || y >= 300) return;
+                    if (x >= 300 || y >= 300) continue;
                     DrawingVisual visual = mapCanvas.GetVisual(point);
                     if (visual != null) mapCanvas.DeleteVisual(visual);
-                    if (b >= 50 || a >= 37) return;
+                    if (b >= 50 || a >= 37) continue;
                     mapArrray[b, a] = 0;
                     Point removePoint = new Point(a * 8, b * 6);
                     selectedPoints.Remove(removePoint);
+                    
                 }
+               
             }
         }
 

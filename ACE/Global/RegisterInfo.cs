@@ -94,11 +94,10 @@ namespace ACE.Global
         public override string ToString()
         {
             return $"{UserName},{RegistrationDate},{RegisteredAddress},{ExpirationDate},{Email},{PhoneNumber}";
-            //return $"{UserName},{RegisteredAddress},{ExpirationDate}";
         }
 
 
-        public string GetSha512()
+        public string MD5()
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Solution"
-             xmlns:Solution="clr-namespace:NLGSolution" 
+             xmlns:Solution="clr-namespace:XSolution" 
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="450"  Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -15,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid MinHeight="300">
+    <Grid >
         <StackPanel x:Name="HeaderStackPanel" >
             <UniformGrid Columns="8" Width="400">
                 <Button Content="导出" Click="Button_Click_1"/>
@@ -47,7 +47,7 @@
                         </Style.Triggers>
                     </Style>
 
-                    <HierarchicalDataTemplate   DataType="{x:Type Solution:SolutionExplorer}"   ItemsSource="{Binding Children}" >
+                    <HierarchicalDataTemplate   DataType="{x:Type Solution:SolutionExplorer}"   ItemsSource="{Binding VisualChildren}" >
                         <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
                             <TextBlock Text="'"/>
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -73,7 +73,7 @@
                     </HierarchicalDataTemplate>
 
 
-                    <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectManager}" ItemsSource="{Binding Children}" >
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectManager}" ItemsSource="{Binding VisualChildren}" >
                         <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
                             <Image Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -96,7 +96,7 @@
                         </StackPanel>
                     </HierarchicalDataTemplate>
 
-                    <HierarchicalDataTemplate DataType="{x:Type Solution:SeriesProjectManager}" ItemsSource="{Binding Children}" >
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:SeriesProjectManager}" ItemsSource="{Binding VisualChildren}" >
                         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -130,7 +130,7 @@
                         </StackPanel>
                     </HierarchicalDataTemplate>
 
-                    <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding Children}" >
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
                         <StackPanel  Style="{StaticResource style_treeViewItem_panel}" >
                             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/filer.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -149,7 +149,7 @@
                         </StackPanel>
                     </HierarchicalDataTemplate>
 
-                    <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFile}" ItemsSource="{Binding Children}" >
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:ProjectFile}" ItemsSource="{Binding VisualChildren}" >
                         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -189,7 +189,8 @@
                             </StackPanel.ContextMenu>
                         </StackPanel>
                     </HierarchicalDataTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type Solution:DerivativeSeriesFile}"  ItemsSource="{Binding Children}" >
+                 
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:DerivativeSeriesFile}"  ItemsSource="{Binding VisualChildren}" >
                         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
@@ -225,7 +226,7 @@
                             </StackPanel.ContextMenu>
                         </StackPanel>
                     </HierarchicalDataTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type Solution:DerivativeFile}"  ItemsSource="{Binding Children}" >
+                    <HierarchicalDataTemplate DataType="{x:Type Solution:DerivativeFile}"  ItemsSource="{Binding VisualChildren}" >
                         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
                             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>

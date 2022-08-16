@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Lambda;
+using LambdaCore;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.Utils;
@@ -19,13 +20,14 @@ namespace LambdaManager.Core
 {
     public  class Common
     {
-        public static View[] Views { get; } = new View[100];
+        /// <summary>
+        /// 主窗口事件
+        /// </summary>
+        public static View[] Views = new View[100];
 
         public static List<int> ClosingViewIndex { get; } = new List<int>();
 
         public static List<View> RegisterImageViews = new List<View>();
-
-        public static readonly FPSCounter fps = new FPSCounter();
 
         private static readonly int RESERVED_EVENT_RESULT = 2147400000;
 
@@ -609,18 +611,24 @@ namespace LambdaManager.Core
                 if (image != null)
                 {
                     image.Source = writeableBitmap;
-                    if (index2 == 0)
-                    {
-                        Views[index].State = ViewState.RUNING;
-                    }
-                    else
-                    {
-                        //Views[index2].State = ViewState.RUNING;
-                    }
                 }
             });
-            return 2;
+            if (index2 == 0)
+            {
+                Views[index].State = ViewState.RUNING;
+                ViewManager.Add(Views[index]);
+            }
+            else
+            {
+                if (-index2 - 1 > RegisterImageViews.Count)
+                {
+                    RegisterImageViews[-index2 - 1].State = ViewState.RUNING;
+
+                }
+            }
+            return (int)ViewState.RUNING;
         }
+        public static ViewManager ViewManager = ViewManager.GetInstance();
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
         [SuppressGCTransition]
@@ -632,17 +640,11 @@ namespace LambdaManager.Core
                 {
                     Int32Rect sourceRect = new Int32Rect(0, 0, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
                     writeableBitmap.WritePixels(sourceRect, buffer, (int)len, stride);
-                    fps.Inc();
+                    //Views[index].Inc();
+                    ViewManager.Inc();
                 }
             });
-            if (index2 == 0)
-            {
-                return (int)(Views[index]?.State ?? ((ViewState)(-1)));
-            }
-            else
-            {
-                return 2;
-            }
+            return (int)(index2 == 0 ? (Views[index]?.State?? 0) : RegisterImageViews[-RegisterImageViews.Count - 1]?.State??0);
         }
 
         [UnmanagedCallersOnly(CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
@@ -719,33 +721,7 @@ namespace LambdaManager.Core
         [DllImport("lib\\common.dll", EntryPoint = "ApplicationExit")]
         public static extern void Exit();
 
-        public static void AppClose()
-        {
-            foreach (Lib lib in FunctionExecutor.Solution.Libs)
-            {
-                NativeLibrary.Free(lib.Addr);
-            }
-            StreamWriter writer = FunctionExecutor.Solution.Writer;
-            if (writer != null)
-            {
-                try
-                {
-                    writer.Flush();
-                    writer.Close();
-                }
-                catch
-                {
 
-                }
-
-            }
-            IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
-            if (scheduler != null)
-            {
-                scheduler.Shutdown();
-            }
-            Exit();
-        }
 
 
 
@@ -802,7 +778,7 @@ namespace LambdaManager.Core
             }
             else
             {
-                FunctionJob2.Dealy(seconds * 1000, callback);
+                FunctionJob2.Dealy(seconds, callback);
                 return IntPtr.Zero;
             }
         }
@@ -834,6 +810,21 @@ namespace LambdaManager.Core
 
         [DllImport("lib\\common.dll")]
         public static extern void InvokeLambdaCallback(int callback);
+
+        public static void CommonExit()
+        {
+            foreach (Lib lib in FunctionExecutor.Solution.Libs)
+            {
+                NativeLibrary.Free(lib.Addr);
+            }
+            IScheduler scheduler = FunctionExecutor.Solution.Scheduler;
+            if (scheduler != null)
+            {
+                scheduler.Shutdown();
+            }
+            Exit();
+        }
+
 
     }
 

@@ -10,6 +10,6 @@ namespace ACE
     public interface IRegisterInfo
     {
         void SetRegisterInfo(RegisterInfo  registerInfo);
-        RegisterInfo GetRegisterInfo();
+        RegisterInfo? GetRegisterInfo();
     }
 }

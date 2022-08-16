@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using ACE.Global;
+using Microsoft.Win32;
 
 namespace ACE
 {
@@ -20,19 +21,17 @@ namespace ACE
             RegistryKey = key;
         }
 
-        public string GetRegisterCode()
+        public string? GetRegisterCode()
         {
             RegistryKey k = Registry.CurrentUser.OpenSubKey(RegistryKey);
             if (k == null)
             {
                 k = Registry.CurrentUser.CreateSubKey(RegistryKey);
             }
-            object value = k.GetValue(Key);
-
-            return value != null ? (string)value : string.Empty;
+            return (string?)k.GetValue(Key);
         }
 
-        public void SetRegisterCode(string Code)
+        public void SetRegisterCode(RegisterInfo registerInfo)
         {
             RegistryKey k = Registry.CurrentUser.OpenSubKey(RegistryKey);
             if (k == null)
@@ -40,8 +39,10 @@ namespace ACE
                 k = Registry.CurrentUser.CreateSubKey(RegistryKey);
             }
             k = Registry.CurrentUser.OpenSubKey(RegistryKey, true);
+            if (k != null)
+                k.SetValue(Key, registerInfo.MD5());
 
-            k.SetValue(Key, Code);
+
         }
     }
 }

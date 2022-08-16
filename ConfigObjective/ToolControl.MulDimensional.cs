@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lambda;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,17 +64,25 @@ namespace ConfigObjective
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
             windowData.MulDimensional.ZEnd = windowData.WindowMsg.StageZ;
+
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 1 }, { "value", 0 } });
         }
 
         private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
         {
             windowData.MulDimensional.ZStart = windowData.WindowMsg.StageZ;
+
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 0 }, { "value", 0 } });
+
+
         }
 
         private void UpdateMulZStep_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("算法计算");
             windowData.MulDimensional.Zstep = 400;
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 2 }, { "value", 0 } });
+
 
         }
 

@@ -12,17 +12,13 @@
   </PropertyGroup>
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <IncludeSymbols>False</IncludeSymbols>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <IsPublishable>True</IsPublishable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Microsoft.CodeAnalysis\**" />
-    <Compile Remove="System.Runtime.CompilerServices\**" />
-    <EmbeddedResource Remove="Microsoft.CodeAnalysis\**" />
-    <EmbeddedResource Remove="System.Runtime.CompilerServices\**" />
-    <None Remove="Microsoft.CodeAnalysis\**" />
-    <None Remove="System.Runtime.CompilerServices\**" />
-    <Page Remove="Microsoft.CodeAnalysis\**" />
-    <Page Remove="System.Runtime.CompilerServices\**" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LambdaUtils\LambdaUtils.csproj" />
   </ItemGroup>

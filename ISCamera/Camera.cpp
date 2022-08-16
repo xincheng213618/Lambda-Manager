@@ -452,7 +452,7 @@ int VideoTest() {
 	return 0;
 }
 int StageSettingReset() {
-	Sleep(10000);
+	Sleep(3000);
 	Event::Trigger("STAGE_INI_CLOSE");
 	return 0;
 }
@@ -510,8 +510,10 @@ int CameraSettingExposure(int mode,double exposure)
 	img1 = cv::imread("cat.jpg");
 
 	double a = 1.001;
-	Event::Trigger("BilateralDenoise", &img1, &a);
+	Event::Trigger("Phase_Seg", &img1, &a,&a,&a);
 
+	Event::Trigger("BilateralDenoise", &img1, &a);
+	
 
 	//LambdaView* pView = LambdaView::GetIdleOrNew();
 	//pView->Show(img1);

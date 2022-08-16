@@ -38,3 +38,4 @@ extern "C" RS232_API int OpenSerial(char* fullPath);
 extern "C" RS232_API int OpenSerial2(wchar_t* fullPath);
 
 extern "C" RS232_API  int BilateralDenoise(cv::Mat & imgstr, double* Cdenoise);
+extern "C" RS232_API int Phase_Seg(cv::Mat & cell_img, void* array_int, void* array_float, void* array_add);

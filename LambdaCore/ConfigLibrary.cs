@@ -17,7 +17,9 @@ using Quartz.Impl;
 
 namespace LambdaManager
 {
-
+    /// <summary>
+    /// UI加载接口
+    /// </summary>
     public interface  ILambdaUI
     {
         /// <summary>
@@ -28,7 +30,7 @@ namespace LambdaManager
         /// <summary>
         /// 添加Commmand
         /// </summary>
-        void LoadMenuCommand(LambdaManager.DataType.Command command);
+        void LoadMenuCommand(string name, List<string> raises);
     }
 
     public class ConfigLibrary
@@ -50,22 +52,25 @@ namespace LambdaManager
             }
             return false;
         }
+        private List<LambdaManager.DataType.Command> commands = new List<Command>();
+        private List<Component> all;
+
+        private ConfigValidate validate;
 
         public bool Load(XElement root)
         {
             if (root == null)
-            {
                 return false;
-            }
 
-            List<LambdaManager.DataType.Command> commands = (from c in root.Descendants("commands").Descendants("command")
+
+            commands = (from c in root.Descendants("commands").Descendants("command")
                                       select new LambdaManager.DataType.Command
                                       {
                                           Name = c.Attribute((XName?)"name")?.Value,
                                           Icon = c.Attribute((XName?)"icon")?.Value,
                                           Raise = Split(c.Attribute((XName?)"raise")?.Value, '|')
                                       }).ToList();
-            List<Component> all = (from c in root.Descendants("component")
+            all = (from c in root.Descendants("component")
                                    select new Component
                                    {
                                        Name = c.Attribute((XName?)"name")?.Value,
@@ -113,8 +118,11 @@ namespace LambdaManager
                                                                     }).ToList()
                                                      }).ToList()
                                    }).ToList();
-            ConfigValidate validate = ValidateConfiguration(all);
-            LoadComponents(all, commands, validate);
+            validate = ValidateConfiguration(all);
+            LoadComponents(all, validate);
+
+
+
             LoadProcedures(all, validate);
             DeferProcessing(validate);
             ResolveAsync(all, validate);
@@ -196,7 +204,7 @@ namespace LambdaManager
             return validate;
         }
 
-        private void LoadComponents(List<Component> components, List<LambdaManager.DataType.Command> commands, ConfigValidate validate)
+        private void LoadComponents(List<Component> components, ConfigValidate validate)
         {
             validate.CheckLocalActions();
             foreach (Component component in components)
@@ -205,18 +213,40 @@ namespace LambdaManager
                 if (lib != null && !validate.Libs.Contains(lib))
                 {
                     string mount = component.Mount;
-                    if (component.Mount != null&& lambdaUI!=null)
+                    if (component.Mount != null)
                     {
-                        Application.Current.Dispatcher.Invoke(delegate
-                        {
-                            lambdaUI.LoadControl(component.Name, lib, mount);
-                        });
+
                     }
                     else
                     {
                         LoadLibrary(component, validate);
+                        validate.Libs.Add(lib);
                     }
-                    validate.Libs.Add(lib);
+                }
+            }
+        }
+
+        public void LoadUIComponents()
+        {
+            foreach (Component component in all)
+            {
+                string lib = component.Lib;
+                if (lib != null && !validate.Libs.Contains(lib))
+                {
+                    string mount = component.Mount;
+                    if (component.Mount != null)
+                    {
+                        if (lambdaUI != null)
+                            Application.Current.Dispatcher.Invoke(delegate
+                            {
+                                lambdaUI.LoadControl(component.Name, lib, mount);
+                            });
+                        validate.Libs.Add(lib);
+                    }
+                    else
+                    {
+
+                    }
                 }
             }
 
@@ -224,15 +254,15 @@ namespace LambdaManager
             {
                 Application.Current.Dispatcher.Invoke(delegate
                 {
-                    foreach (LambdaManager.DataType.Command command in commands)
+                    foreach (Command command in commands)
                     {
-                        lambdaUI.LoadMenuCommand(command);
+                        lambdaUI.LoadMenuCommand(command.Name,command.Raise);
                     }
                 });
-
             }
-
         }
+
+
 
         private void LoadLibrary(Component component, ConfigValidate validate)
         {

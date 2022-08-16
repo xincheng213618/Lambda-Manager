@@ -1,15 +1,76 @@
 ﻿<UserControl x:Class="Global.UserControls.DrawVisual.InkVisual"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               xmlns:draw="clr-namespace:Global"
              xmlns:local="clr-namespace:Global.UserControls.DrawVisual"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Name="R" SizeChanged="inkCanvas_SizeChanged"  >
+    <UserControl.Resources>
+
+        <Style x:Key="TextBoxSty"  TargetType="{x:Type TextBox}" >
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0.6" />
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Padding" Value="0,0,0,0" />
+            <Setter Property="UIElement.AllowDrop" Value="true" />
+            <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Name="border" SnapsToDevicePixels="True">
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" VerticalScrollBarVisibility="Hidden" Name="PART_ContentHost" Focusable="False" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="UIElement.IsEnabled">
+                                <Setter Property="UIElement.Opacity" TargetName="border">
+                                    <Setter.Value>
+                                        <s:Double>0.56</s:Double>
+                                    </Setter.Value>
+                                </Setter>
+                                <Trigger.Value>
+                                    <s:Boolean>False</s:Boolean>
+                                </Trigger.Value>
+                            </Trigger>
+                            <Trigger Property="UIElement.IsMouseOver">
+                                <Setter Property="Border.BorderBrush" TargetName="border">
+                                    <Setter.Value>
+                                        <SolidColorBrush>red</SolidColorBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Trigger.Value>
+                                    <s:Boolean>True</s:Boolean>
+                                </Trigger.Value>
+                            </Trigger>
+                            <Trigger Property="UIElement.IsKeyboardFocused">
+                                <Setter Property="Border.BorderBrush" TargetName="border">
+                                    <Setter.Value>
+                                        <SolidColorBrush>red</SolidColorBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Trigger.Value>
+                                    <s:Boolean>True</s:Boolean>
+                                </Trigger.Value>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </UserControl.Resources>
+    
+    
+    
     <Grid>
         <InkCanvas
-            EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas" MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" SizeChanged="inkCanvas_SizeChanged" ></InkCanvas>
+            EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave"   ></InkCanvas>
+       
     </Grid>
    
 </UserControl>

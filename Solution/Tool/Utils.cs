@@ -13,20 +13,20 @@ namespace Tool
                 Multiselect = false,//该值确定是否可以选择多个文件
                 Title = "请选择文件",
                 RestoreDirectory = true,
-                Filter = "显微镜工程(*.lmp)|*.lmp",
+                Filter = "显微镜工程(*.gprj)|*.gprj",
             };
             bool? result = dialog.ShowDialog();
             FileName = dialog.FileName;
             return result == true;
         }
 
-        public static bool SelectFileDialog(out string FileName)
+        public static bool SaveFileDialog(out string FileName)
         {
             SaveFileDialog dialog = new()
             {
                 Title = "请选择文件",
                 RestoreDirectory = true,
-                Filter = "显微镜工程(*.lmp)|*.lmp",
+                Filter = "显微镜工程(*.gprj)|*.gprj",
             };
             bool? result = dialog.ShowDialog();
             FileName = dialog.FileName;
@@ -71,28 +71,5 @@ namespace Tool
             }
             return false;
         }
-
-        /// <summary>
-        /// 取得存储资源
-        /// </summary>
-        /// <returns></returns>
-        public static string LoadResource(string res)
-        {
-            string result = string.Empty;
-
-            try
-            {
-                using (StreamReader reader = new StreamReader(res))
-                {
-                    result = reader.ReadToEnd();
-                }
-            }
-            catch 
-            {
-
-            }
-            return result;
-        }
-
     }
 }

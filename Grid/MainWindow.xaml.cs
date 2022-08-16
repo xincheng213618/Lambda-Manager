@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -30,16 +29,24 @@ namespace Grid
         }
 
 
+        readonly string StatusBarRegPath = "Software\\Grid";
+
         private void Window_Initialized(object sender, EventArgs e)
         {
+            TextBox1.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\config\\default.gcfg";
+            TextBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\default.gprj";
 
+            CheckBox1.IsChecked = Reg.ReadValue(StatusBarRegPath, "InitializeStage");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             StartWindow startWindow = new StartWindow();
             startWindow.Show();
-            this.Close();
+            startWindow.Closed += delegate
+            {
+                this.Close();
+            };
         }
 
 
@@ -72,6 +79,13 @@ namespace Grid
             {
                 TextBox2.Text = dialog.FileName;
             }
+        }
+
+        private void CheckBox1_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            if (checkBox!=null)
+                Reg.WriteValue(StatusBarRegPath, "InitializeStage", checkBox.IsChecked??false);
         }
     }
 }
