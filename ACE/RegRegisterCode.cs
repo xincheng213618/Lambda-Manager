@@ -39,8 +39,10 @@ namespace ACE
                 k = Registry.CurrentUser.CreateSubKey(RegistryKey);
             }
             k = Registry.CurrentUser.OpenSubKey(RegistryKey, true);
+            if (k != null)
+                k.SetValue(Key, registerInfo.MD5());
 
-            k.SetValue(Key, registerInfo.MD5());
+
         }
     }
 }

@@ -20,9 +20,9 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <ApplicationIcon>logo.ico</ApplicationIcon>
-    <SignAssembly>False</SignAssembly>
+    <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>True</DelaySign>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controls\**" />
