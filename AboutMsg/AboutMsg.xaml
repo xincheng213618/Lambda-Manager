@@ -14,16 +14,17 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Width="400" HorizontalAlignment="Left">
+            <StackPanel Width="400" HorizontalAlignment="Left" >
                 <DockPanel Margin="0,0,0,5" >
                     <TextBlock Text="用户名：" />
                     <TextBlock x:Name="H5a1" Text="{Binding UserName}"/>
                 </DockPanel>
                 <StackPanel Margin="0,0,0,5">
                     <TextBlock Text="已安装的模块："  Width="100" HorizontalAlignment="Left"/>
-                    <ListView x:Name="ListView1" Height="150" SelectionChanged="ListView1_SelectionChanged">
+                    <ListView x:Name="ListView1" Height="150" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListView1_SelectionChanged">
                         <ListView.ItemContainerStyle >
                             <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter Property="Background" Value="#3D3D3D"/>
@@ -41,15 +42,19 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.View>
-                            <GridView>
-                                <GridViewColumn>
+                            <GridView >
+                                <GridViewColumn  Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock>
-                                <Run Text="{Binding Path=Name}"/>
-                                <Run Text="+"/>
-                                <Run Text="{Binding Path=Version}"/>
-                                            </TextBlock>
+                                            <Grid  Margin="-6,0,3,0" Background="#333333">
+                                                <Grid Margin="6,0">
+                                                    <TextBlock>
+                                                        <Run Text="{Binding Path=Name}"/>
+                                                        <Run Text="+"/>
+                                                        <Run Text="{Binding Path=Version}"/>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Grid>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

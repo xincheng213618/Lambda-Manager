@@ -219,8 +219,7 @@ namespace XSolution
             set { name = value;  NotifyPropertyChanged();}
         }
 
-        protected string fullName;
-
+        protected string fullName; 
         /// <summary>
         /// 文件地址
         /// </summary>
@@ -233,8 +232,6 @@ namespace XSolution
                 NotifyPropertyChanged();
             }
         }
-
-
 
         /// <summary>
         /// 得到指定数据类型的祖先节点。

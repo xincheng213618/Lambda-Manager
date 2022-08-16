@@ -25,7 +25,7 @@ namespace LambdaManager.Mode
         public void Run()
         {
             CPU = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            CPUNLG = new PerformanceCounter("Process", "% Processor Time", Process.GetCurrentProcess().ProcessName);
+            ProcessThis = new PerformanceCounter("Process", "% Processor Time", Process.GetCurrentProcess().ProcessName);
             RAM = new PerformanceCounter("Memory", "Available MBytes");
             DiskUse = new PerformanceCounter("PhysicalDisk", "% Idle Time", "_Total");
             IsOpen = true;
@@ -34,7 +34,7 @@ namespace LambdaManager.Mode
         public bool IsOpen = false;
 
         public PerformanceCounter CPU;
-        public PerformanceCounter CPUNLG;
+        public PerformanceCounter ProcessThis;
 
         public double RAMAL = 16000000 / 1024 / 1024;
         public PerformanceCounter RAM;
@@ -74,7 +74,7 @@ namespace LambdaManager.Mode
         {
             if (PerformanceCounterHelper.IsOpen)
             {
-                ProcessorTotal = PerformanceCounterHelper.CPUNLG.NextValue().ToString("f1") + "%" + "/" + PerformanceCounterHelper.CPU.NextValue().ToString("f1") + "%";
+                ProcessorTotal = PerformanceCounterHelper.ProcessThis.NextValue().ToString("f1") + "%" + "/" + PerformanceCounterHelper.CPU.NextValue().ToString("f1") + "%";
                 MemoryAvailable = (PerformanceCounterHelper.RAMAL - PerformanceCounterHelper.RAM.NextValue() / 1024).ToString("f1") + "/" + PerformanceCounterHelper.RAMAL.ToString("f1") + "GB";
                 DiskUse = (100 - PerformanceCounterHelper.DiskUse.NextValue()).ToString("f1") + "%";
             }

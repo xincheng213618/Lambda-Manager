@@ -55,6 +55,7 @@ namespace LambdaManager
             string? s = type.InvokeMember("GetExpireDate", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
             return s;
         }
+
         public XElement loadxml()
         {
             XElement root = null; ;
@@ -92,6 +93,7 @@ namespace LambdaManager
             else
             {
                 MessageBox.Show("主控初始化失败");
+                Environment.Exit(0);
             }
             Application.Current.Dispatcher.Invoke(delegate
             {
