@@ -48,6 +48,9 @@ namespace LambdaManager
 
         public static string GetExpireDate()
         {
+            string ACEFileName = $"{Directory.GetCurrentDirectory()}/ACE.dll";
+            if (!File.Exists(ACEFileName))
+                return null;
             var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/ACE.dll");
             if (assembly == null)
                 return null;
