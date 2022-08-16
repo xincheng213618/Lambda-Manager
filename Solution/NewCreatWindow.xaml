@@ -23,7 +23,7 @@
                     <TextBox Text=""/>
                     <Button Width="100" HorizontalAlignment="Right" Content="..." Click="Button_Click"/>
                 </DockPanel>
-                <ListView Style="{StaticResource ListViewStyle1}" x:Name="ListView1"  ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView  x:Name="ListView1"  ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemContainerStyle >
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

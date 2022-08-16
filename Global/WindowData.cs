@@ -30,6 +30,8 @@ namespace Global
 
         private WindowData()
         {
+            Global.Base.Config.ConfigReadEvent += ReadConfig;
+
             Hardware_Initialized();
             AddEventHandler();
             AddInjection();

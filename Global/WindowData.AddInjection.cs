@@ -46,9 +46,6 @@ namespace Global
 
         private void AddInjection()
         {
-            Window mainwin = Application.Current.MainWindow;
-
-            //MainView
             try
             {
                 Grid grid = (Grid)mainwin.FindName("grid0");
@@ -78,9 +75,24 @@ namespace Global
                 histogram.Visibility = Visibility.Collapsed;
                 histogram.DataContext = histogramModel;
                 histogram.VerticalAlignment = VerticalAlignment.Stretch;
-                grid1.Children.Add(histogram);
-                Grid.SetRow(histogram, 2);
-                grid1.Children.Remove(stackPanel);
+                //grid1.Children.Add(histogram);
+                //Grid.SetRow(histogram, 2);
+                //grid1.Children.Remove(stackPanel);
+                // add profile
+                //MessageBox.Show("11111");
+                Profile profile = new Profile();
+                profile.Height = Double.NaN;
+                profile.Visibility = Visibility.Collapsed;
+                profile.Margin= new Thickness(30, 0, 0, 0);
+                stackPanel.Orientation = Orientation.Horizontal;
+                stackPanel.Children.Add(histogram);
+                stackPanel.Children.Add(profile);
+
+
+                //grid1.Children.Add(profile);
+                //Grid.SetRow(profile, 2);
+
+                // gridSplitter
                 GridSplitter gridSplitter = (GridSplitter)grid1.Children[1];
                 gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
                 gridSplitter.VerticalAlignment = VerticalAlignment.Center;
@@ -91,6 +103,7 @@ namespace Global
                 if (leftToolBar == null) return;
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
                 ToggleButton histogramTogg = (ToggleButton)leftToolBarChild.Children[3];
+
                 histogramTogg.Checked += delegate
                 {
                    
@@ -100,54 +113,36 @@ namespace Global
                 histogramTogg.Unchecked += delegate
                 {
                     histogram.Visibility = Visibility.Collapsed;
-                    grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
+                    if (profile.Visibility == Visibility.Collapsed)
+                    {
+                        grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
+                    }
+                   
 
                 };
                 
 
 
+
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
-                    // MessageBox.Show("1111");
-                    if (e.PropertyName == "EraserChecked")
+                     
+                    if (e.PropertyName == "ProfileChecked")
                     {
-                    //    if (ImageViewState.toolTop.EraserChecked == true)
-                    //    {
-                    //        StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
-                    //        drawingVisualInk.InkCanvas.Cursor = new Cursor(sri.Stream);
-                    //    }
-                    //    else
-                    //    {
-                    //        drawingVisualInk.InkCanvas.Cursor = Cursors.Arrow;
-                    //    }
-                    //}
-                    //else if ((bool)ImageViewState.toolTop.DimensionChecked || (bool)ImageViewState.toolTop.ArrowChecked || (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
-                    //{
-                    //    drawingVisualInk.InkCanvas.Cursor = Cursors.Cross;
-                    //}
-                    //else if ((bool)ImageViewState.toolTop.MoveChecked)
-                    //{
-                    //    drawingVisualInk.InkCanvas.Cursor = Cursors.Hand;
+                        if (ImageViewState.toolTop.ProfileChecked)
+                        {
 
-                    //}
-                    //else
-                    //{
-                    //    drawingVisualInk.InkCanvas.Cursor = Cursors.Arrow;
-                    //};
-                    //if (e.PropertyName == "DimensionChecked")
-                    //{
-                    //    if ((bool)ImageViewState.toolTop.DimensionChecked)
-                    //    {
-                            
-                    //           DrawingVisual dimDefaultVisual = new DrawingVisual();
-                    //        drawingVisualInk.InkCanvas.AddVisual(dimDefaultVisual);
-                    //      //  drawMethod.DrawDimension(image.ActualWidth, image.ActualHeight, ratio, new Point(0, 0), new Point(0, 0), true, dimDefaultVisual);
-                    //    }
-                    //    else
-                    //    {
-                            
-
-                    //    }
+                            grid1.RowDefinitions[2].Height = new GridLength(180, GridUnitType.Pixel);
+                            profile.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {         
+                            profile.Visibility = Visibility.Collapsed;
+                            if (histogram.Visibility == Visibility.Collapsed)
+                            {
+                                grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
+                            }
+                        }
 
                     };
                     if (e.PropertyName == "SelectChecked")
@@ -155,7 +150,7 @@ namespace Global
 
                         if (ImageViewState.toolTop.SelectChecked == true)
                         {
-                            drawingVisualInk.Visibility = Visibility.Visible;
+                            drawingVisualInk.Visibility = Visibility.Collapsed;
 
                             if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
                             {
@@ -196,6 +191,7 @@ namespace Global
                             drawMethod.pixelVisual = new DrawingVisual();
                             drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
                         }
+                       
                         WriteableBitmap writeableBitmap = image.Source as WriteableBitmap;
                         Point topLeftCorner = e.GetPosition(image);
                         try
@@ -255,7 +251,7 @@ namespace Global
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
 
-
+           
 
             try
             {             
@@ -799,6 +795,9 @@ namespace Global
                 ToggleButton ToggleButtonRuler = ((ToggleButton)topToolbar.Children[11]);
                 ToggleButtonRuler.SetBinding(ToggleButton.IsCheckedProperty, binding11);
 
+                ToggleButton ToggleButtonProfile = ((ToggleButton)topToolbar.Children[12]);
+                ToggleButtonProfile.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ProfileChecked"));
+
                 ToggleButtonDimen.Checked += delegate
                 {
 
@@ -954,7 +953,7 @@ namespace Global
                 ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[21]);
                 ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, new Binding("PolygonChecked"));
 
-                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler,ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
 
                 foreach (var item in Tools)
                 {

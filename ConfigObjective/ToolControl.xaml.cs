@@ -399,6 +399,16 @@ namespace ConfigObjective
         {
             ZwisePanel.Visibility = Visibility.Visible;
         }
+
+        private void ToggleButton5221_Checked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 1 } });
+        }
+
+        private void ToggleButton5221_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 } });
+        }
     }
 
 

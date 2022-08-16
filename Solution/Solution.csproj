@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Global.Base\Global.Base.csproj" />
     <ProjectReference Include="..\Global\Global.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>

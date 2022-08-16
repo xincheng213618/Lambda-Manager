@@ -41,11 +41,14 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
+            LambdaControl.AddLambdaEventHandler("MUL_ZSTEP", Mul_ZStep, false);
+            LambdaControl.AddLambdaEventHandler("MUL_TIME_INTERVAL", Mul_TInterval, false);
 
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
+
 
             //预览关闭
             LambdaControl.AddLambdaEventHandler("PREVIEW_CLOSE", seriesProjectManager, false);
@@ -160,6 +163,27 @@ namespace Global
             ALIVE = false;
             return true;
         }
+        private bool Mul_ZStep(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            MulDimensional.Zstep = int.Parse(GetStringValue(eventData, "mulZstep"));
+            return true;
+
+        }
+        private bool Mul_TInterval(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            int time = int.Parse(GetStringValue(eventData, "mul_tinterval"));
+            MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information); 
+            return true;
+
+        }
+
+
         private bool START_ALIVE(object sender, EventArgs e)
         {
             ALIVE = true;
@@ -207,7 +231,7 @@ namespace Global
             histogramModel.Outlier = GetStringValue(eventData, "Outlier");
             histogramModel.RangeMin = int.Parse(GetStringValue(eventData, "RangeMin"));
             histogramModel.RangeMax = int.Parse(GetStringValue(eventData, "RangeMax"));
-
+            
             return true;
         }
 

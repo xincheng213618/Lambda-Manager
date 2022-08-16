@@ -27,7 +27,8 @@ namespace Global.Mode
         public string CollectionLayers
         {
             get { return collectionLayers; }
-            set { if (value != null && value != collectionTimes) collectionLayers = value; NotifyPropertyChanged(); }
+            set { if (value != null && value != collectionTimes) 
+                    collectionLayers = value; NotifyPropertyChanged(); }
         }
 
         private string collectionPoints = "0";

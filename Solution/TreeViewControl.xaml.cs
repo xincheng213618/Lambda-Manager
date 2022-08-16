@@ -1,5 +1,4 @@
-﻿using Mode;
-using XSolution;
+﻿using XSolution;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,12 +12,8 @@ using Global;
 using Lambda;
 using System.Text.Json;
 using Tool;
-using System.Windows.Controls.Primitives;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Windows.Media.Imaging;
 using Solution.RecentFile;
-using System.Threading;
+using Global.Base;
 
 namespace Solution
 {
@@ -158,17 +153,14 @@ namespace Solution
         }
 
 
-        WindowData windowData = Global.WindowData.GetInstance();
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (Tool.Utils.OpenFileDialog(out string FilePath))
             {
-                if (windowData.ReadConfig(FilePath) == 0)
+                if (Config.ConfigRead(FilePath) == 0)
                 {
                     recentFileList.InsertFile(FilePath);
-                    windowData.FilePath = FilePath;
-                    TreeViewInitialized(FilePath, windowData.Config);
+                    TreeViewInitialized(FilePath);
                 }
 
             };
@@ -198,7 +190,7 @@ namespace Solution
 
         SolutionExplorer solutionExplorer;
 
-        private void TreeViewInitialized(string FilePath, Config config)
+        private void TreeViewInitialized(string FilePath)
         {
             solutionExplorer = new SolutionExplorer(FilePath)
             {
@@ -279,7 +271,7 @@ namespace Solution
             return baseObject;
         }
 
-
+        WindowData windowData = WindowData.GetInstance();
 
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -287,14 +279,16 @@ namespace Solution
             if (windowData.FilePath != null)
             {
                 windowData.SaveConfig();
+                recentFileList.InsertFile(windowData.FilePath);
             }
             else
             {
                 if (Utils.SaveFileDialog(out string FileName))
                 {
                     windowData.FilePath = FileName;
+                    recentFileList.InsertFile(windowData.FilePath);
                     windowData.SaveConfig();
-                    TreeViewInitialized(windowData.FilePath, windowData.Config);
+                    TreeViewInitialized(windowData.FilePath);
                 }
                 else
                 {
@@ -325,23 +319,25 @@ namespace Solution
         {
             if (recentFileList.RecentFiles.Count > 0)
             {
-                string FilePath = recentFileList.RecentFiles[0];
-                if (File.Exists(FilePath))
+                string FullName = recentFileList.RecentFiles[0];
+                if (File.Exists(FullName))
                 {
-                    if (windowData.ReadConfig(FilePath) == 0)
+                    if (Config.ConfigRead(FullName) == 0)
                     {
-                        windowData.FilePath = FilePath;
-                        TreeViewInitialized(FilePath, windowData.Config);
+                        windowData.FilePath = FullName;
+                        TreeViewInitialized(FullName);
                         windowData.SetValue();
                     }
                     else
                     {
-                        recentFileList.RemoveFile(FilePath);
+                        MessageBox.Show("上次打开的项目无效");
+                        recentFileList.RemoveFile(FullName);
                     }
                 }
                 else
                 {
-                    recentFileList.RemoveFile(FilePath);
+                    MessageBox.Show($"找不到{FullName}");
+                    recentFileList.RemoveFile(FullName);
                 }
             }
 

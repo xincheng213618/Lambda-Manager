@@ -21,7 +21,7 @@
 
     <Color x:Key="HighlightColor">#BDBDBD</Color>
     <Color x:Key="HotColor">#525252</Color>
-    
+
     <!--#endregion-->
 
     <!--#region Brushes-->
@@ -107,7 +107,7 @@
     <SolidColorBrush x:Key="GridViewColumnHeaderBorderBackground" Color="{StaticResource DisabledBackgroundColor}" />
     <SolidColorBrush x:Key="GridViewColumnHeaderHoverBackground" Color="#AAAAAA" />
     <SolidColorBrush x:Key="GridViewColumnHeaderPressBackground" Color="{StaticResource HighlightColor}" />
-    
+
     <SolidColorBrush x:Key="DataGridBackgroundBrush" Color="{StaticResource DarkBackgroundColor}"/>
     <SolidColorBrush x:Key="DataGridHeaderBackgroundBrush" Color="{StaticResource DarkBackgroundColor}"/>
     <SolidColorBrush x:Key="DataGridHeaderMouseOverBrush" Color="#AAAAAA"/>
@@ -1864,7 +1864,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type ListView}">
         <Style.Resources>
             <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}"/>
@@ -1922,7 +1922,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="GridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -2229,7 +2229,7 @@
     </Style>
     <Style TargetType="{x:Type TreeViewItem}">
         <Setter Property="Background" Value="Transparent"/>
-		<Setter Property="MinHeight" Value="21"/>
+        <Setter Property="MinHeight" Value="21"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Padding" Value="2,4,2,3"/>
@@ -2276,7 +2276,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="HasHeader" Value="false"/>
                                 <Condition Property="Width" Value="Auto"/>
-                            </MultiTrigger.Conditions>                           
+                            </MultiTrigger.Conditions>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -2483,7 +2483,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type StatusBarItem}">
         <Setter Property="Margin" Value="4 0 4 0"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -2540,7 +2540,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
         <Grid SnapsToDevicePixels="true">
             <Rectangle x:Name="Bg" 
@@ -3161,7 +3161,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- DataGrid -->
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="RowHeight" Value="22" />
@@ -3243,7 +3243,7 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <!-- ColumnHeaderGripperStyle -->
     <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="8"/>
@@ -3257,7 +3257,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- DataGridColumnHeader -->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -3294,7 +3294,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- DataGridRow -->
     <Style TargetType="{x:Type DataGridRow}">
         <Setter Property="Background" Value="{DynamicResource DataGridRowBackgroundBrush}"/>
@@ -3356,7 +3356,7 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-           <!-- <Trigger Property="IsNewItem" Value="True">
+            <!-- <Trigger Property="IsNewItem" Value="True">
                 <Setter Property="Margin" Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
             </Trigger>-->
             <Trigger Property="IsSelected" Value="True">
@@ -3365,7 +3365,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <!-- DataGridCell -->
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent"/>
@@ -3407,7 +3407,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <!-- RowHeaderGripperStyle -->
     <Style x:Key="RowHeaderGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Height" Value="8"/>
@@ -3422,7 +3422,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- DataGridRowHeader -->
     <Style TargetType="{x:Type DataGridRowHeader}">
         <Setter Property="Background" Value="{DynamicResource DataGridBackgroundBrush}"/>
@@ -3455,13 +3455,13 @@
 
     <!--#endregion-->
 
-<!-- Toolbar styles from https://docs.microsoft.com/en-us/dotnet/framework/wpf/controls/how-to-style-controls-on-a-toolbar -->
+    <!-- Toolbar styles from https://docs.microsoft.com/en-us/dotnet/framework/wpf/controls/how-to-style-controls-on-a-toolbar -->
 
-	<Style x:Key="{x:Static ToolBar.SeparatorStyleKey}" TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}"/>
-	<Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}"/>
-	<Style x:Key="{x:Static ToolBar.CheckBoxStyleKey}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}"/>
-	<Style x:Key="{x:Static ToolBar.MenuStyleKey}" TargetType="{x:Type Menu}" BasedOn="{StaticResource {x:Type Menu}}"/>
-	<Style x:Key="{x:Static ToolBar.RadioButtonStyleKey}" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}"/>
-	<Style x:Key="{x:Static ToolBar.TextBoxStyleKey}" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}"/>
-	<Style x:Key="{x:Static ToolBar.ComboBoxStyleKey}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}"/>
+    <Style x:Key="{x:Static ToolBar.SeparatorStyleKey}" TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}"/>
+    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}"/>
+    <Style x:Key="{x:Static ToolBar.CheckBoxStyleKey}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}"/>
+    <Style x:Key="{x:Static ToolBar.MenuStyleKey}" TargetType="{x:Type Menu}" BasedOn="{StaticResource {x:Type Menu}}"/>
+    <Style x:Key="{x:Static ToolBar.RadioButtonStyleKey}" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}"/>
+    <Style x:Key="{x:Static ToolBar.TextBoxStyleKey}" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}"/>
+    <Style x:Key="{x:Static ToolBar.ComboBoxStyleKey}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}"/>
 </ResourceDictionary>

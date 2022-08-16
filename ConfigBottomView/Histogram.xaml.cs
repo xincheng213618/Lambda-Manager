@@ -67,12 +67,21 @@ namespace ConfigBottomView
                 LambdaControl.Trigger("HISTOGRAM_AUTOMODE", this, new Dictionary<string, object> { { "autoMode", true } });
                 auto = true;
                 RangeSlider.SlidThumbVis = Visibility.Hidden;
+                if (inkCanvas.Strokes.Contains(lStroke))
+                    inkCanvas.Strokes.Remove(lStroke);
+                if (inkCanvas.Strokes.Contains(hStroke))
+                    inkCanvas.Strokes.Remove(hStroke);
+
+
             }
             else
             {
                 LambdaControl.Trigger("HISTOGRAM_AUTOMODE", this, new Dictionary<string, object> { { "autoMode", false } });
                 auto = false;
                 RangeSlider.SlidThumbVis = Visibility.Visible;
+               
+                drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.LowerValue);
+                drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.HigherValue);
             }
 
 

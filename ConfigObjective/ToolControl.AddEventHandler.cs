@@ -127,14 +127,12 @@ namespace ConfigObjective
 
 			testMean.Dimensional.Focusmode.Optimized = optimized;
 
-			timeWiseSerial.Times = mulDimensional.TNumberEnable ? 0 : mulDimensional.TNumber;
-			timeWiseSerial.Duration = mulDimensional.TIntervalEnable ? 0 : mulDimensional.TInterval;
+			timeWiseSerial.Times = mulDimensional.TNumberEnable ? -1 : mulDimensional.TNumber;
+			timeWiseSerial.Duration = mulDimensional.TIntervalEnable ? -1 : mulDimensional.TInterval;
 
 			switch (mulDimensional.TIntervalUnits)
 			{
-				case "毫秒":
-					timeWiseSerial.Mode = "ms";
-					break;
+				
 				case "秒":
 					timeWiseSerial.Mode = "s";
 					break;
@@ -184,7 +182,17 @@ namespace ConfigObjective
 			windowData.Config.Dimensional = testMean.Dimensional;
 			windowData.Config.Spot = testMean.Spot;
 			windowData.Config.Stage = testMean.Stage;
-			LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
+		    //MessageBox.Show(testMean.ToJson());
+
+			if (testMean.Dimensional.Mode.Count == 0)
+            {
+				MessageBox.Show("请选择成像模态", "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+				LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
+			}
+			
 			return true;
         }
 	}

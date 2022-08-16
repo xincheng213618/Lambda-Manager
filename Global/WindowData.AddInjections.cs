@@ -33,7 +33,7 @@ namespace Global
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
-                InkVisual inkVisual = new InkVisual(ImageViewState.toolTop, inkMethod);
+                InkVisual inkVisual = new InkVisual(image,ImageViewState.toolTop, inkMethod);
                 inkVisuals[0] = inkVisual; // First InkCanvas
                 Binding bindingW = new Binding();
                 bindingW.Source = image;
@@ -50,7 +50,23 @@ namespace Global
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
                     // MessageBox.Show("1111");
-                    if (e.PropertyName == "EraserChecked")
+                    if (e.PropertyName == "CurveChecked")
+                    {
+
+                        inkMethod.bezierPointList.Clear();
+
+                        //if (ImageViewState.toolTop.CurveChecked== true)
+                        //{
+                           
+
+
+                        //}
+                        //else
+                        //{
+                          
+                        //}
+                    }
+                    else if (e.PropertyName == "EraserChecked")
                     {
                         if (ImageViewState.toolTop.EraserChecked == true)
                         {
@@ -67,6 +83,28 @@ namespace Global
                             inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
                         }
                     }
+                    else if (e.PropertyName == "RulerChecked")
+                    {
+
+                        if (ImageViewState.toolTop.RulerChecked == true)
+                        {
+                            
+                            inkVisual.inkCanvas.UseCustomCursor = true;
+                            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
+                            inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
+
+                        }
+                        else
+                        {
+                            inkVisual.inkCanvas.Cursor = Cursors.Arrow;
+                           
+                        }
+                    }
+
+
+
+
+
                     else if ((bool)ImageViewState.toolTop.DimensionChecked || (bool)ImageViewState.toolTop.ArrowChecked || (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
                     {
                         inkVisual.inkCanvas.Cursor = Cursors.Cross;
@@ -90,7 +128,7 @@ namespace Global
                                 double w = inkVisual.ActualWidth;
                                 double h = inkVisual.ActualHeight;
                                 Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio / 1689.12, h * 19 / 20);
+                                Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
                                 inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
                                 try
                                 {
@@ -111,7 +149,7 @@ namespace Global
                                 double w = inkVisual.ActualWidth;
                                 double h = inkVisual.ActualHeight;
                                 Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio / 1689.12, h * 19 / 20);
+                                Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
                                 inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
                                
                                 inkVisual.lastTempStroke = inkMethod.Dimstroke;
@@ -136,12 +174,12 @@ namespace Global
                        
                             if ((bool)ImageViewState.toolTop.SelectChecked)
                             {
-                                inkVisual.Visibility = Visibility.Collapsed;
+                                inkVisual.Visibility = Visibility.Visible;
                                
                             }
                             else
                             {
-                                inkVisual.Visibility = Visibility.Visible;
+                             inkVisual.Visibility = Visibility.Visible;
 
                             }
 
@@ -164,6 +202,7 @@ namespace Global
                 ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
                 ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
                 Button ScaleButton = (Button)topToolbar.Children[6];
+
                 ToggleButtonZoomOut.Click += delegate
                 {
                     if (inkVisual.ZoomInOut < 5)
@@ -191,7 +230,7 @@ namespace Global
                         matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
                         inkVisual.inkCanvas.Strokes.Transform(matrix, false);
                         inkVisual.ZoomInOut++;
-                        inkVisual.ratio = inkVisual.ratio * 1.2;
+                        inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio * 1.2;
 
                         if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
                                {
@@ -200,7 +239,7 @@ namespace Global
                                 double w = inkVisual.ActualWidth;
                                     double h = inkVisual.ActualHeight;
                                     Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                    Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio / 1689.12, h * 19 / 20);
+                                    Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
                                     inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
                                     try
                                     {
@@ -247,7 +286,7 @@ namespace Global
                         matrix.ScaleAt(1 / 1.2, 1 / 1.2, curPoint.X, curPoint.Y);
                         inkVisual.inkCanvas.Strokes.Transform(matrix, false);
                         inkVisual.ZoomInOut--;
-                        inkVisual.ratio = inkVisual.ratio /1.2;
+                        inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio / 1.2;
 
                         if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
                         {
@@ -256,7 +295,7 @@ namespace Global
                             double w = inkVisual.ActualWidth;
                             double h = inkVisual.ActualHeight;
                             Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                            Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio / 1689.12, h * 19 / 20);
+                            Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
                             inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
                             try
                             {
@@ -289,7 +328,7 @@ namespace Global
                         inkVisual.tempStroke = null;
                         inkVisual.saveTempStroke = true;
                         inkVisual.ZoomInOut = 0;
-                        inkVisual.ratio = 1;
+                        inkVisual.ratio1.Ratio = 1;
                         if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
                         {
                             inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
@@ -297,7 +336,7 @@ namespace Global
                             double w = inkVisual.ActualWidth;
                             double h = inkVisual.ActualHeight;
                             Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                            Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio / 1689.12, h * 19 / 20);
+                            Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
                             inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
                             try
                             {
