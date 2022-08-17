@@ -867,7 +867,7 @@
 		</procedure>
 	</component>
 
-	<component name="Event Test" lib="lib\InteropTest.dll" init="dispatch,proc5">
+	<component name="Event Test" lib="lib\InteropTest.dll" init="init,dispatch,proc5">
 		<procedure name="init">
 			<action name="Test120" raise="TEST_EVENT_A|TEST_EVENT_B" async="true"/>
 			<action name="Test124" raise="TEST_EVENT_1"/>

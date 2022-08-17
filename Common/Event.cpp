@@ -87,7 +87,13 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 				((Callback3)(it11->second))((char*)eventObject);
 			}
 			else if (it12->second == JSON_OBJECT || it12->second == STL_MAP) {
-				((Callback2)(it11->second))((json*)eventObject);
+				if (!json::accept((char*)eventObject)) {
+					auto j = json::parse((char*)eventObject);
+					((Callback2)(it11->second))(&j);
+				}
+				else {
+					((Callback2)(it11->second))((json*)eventObject);
+				}
 			}
 			else if (it12->second == POINTER || it12->second == POINTER2 || it12->second == POINTER4) {
 				((Callback5)(it11->second))(eventObject);
