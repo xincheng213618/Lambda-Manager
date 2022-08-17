@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LambdaManager"
         mc:Ignorable="d"
-        Title="StartWindow"  Height="200" Width="600" BorderThickness="0" AllowsTransparency="True" Background="Transparent" Topmost="True" WindowStyle="None" Initialized="Window_Initialized">
+        Title="StartWindow"  Height="200" Width="600" BorderThickness="0" AllowsTransparency="True" Background="Transparent"  WindowStyle="None" Initialized="Window_Initialized">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>

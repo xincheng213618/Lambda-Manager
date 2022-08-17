@@ -76,7 +76,7 @@
                         </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Background" Value="#6EA646"/>
-                            <Setter Property="BorderBrush" Value="#767171"/>
+                            <Setter Property="BorderBrush" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="DisableBorder" Property="Background" Value="#595959"/>
