@@ -32,10 +32,12 @@ void Logger::Log1(Severity severity, LPCSTR pstrFormat, ...)
 	MultiByteToWideChar(CP_ACP, 0, szBuffer, nBuf, m_Buffer, nBuf);
 	m_Buffer[nBuf] = L'\0';
 	va_end(args);
-	char buffer[500];
-	wcstombs(buffer, m_Buffer, 500);
+	char* resultStr = new char[wcslen(m_Buffer) + 1];
+	wsprintfA(resultStr, "%S", m_Buffer);
+	//char buffer[500];
+	//wcstombs(buffer, m_Buffer, 500);
 	_lock.unlock();
-	logCallBack1((int)severity, buffer);
+	logCallBack1((int)severity, resultStr);
 
 }
 

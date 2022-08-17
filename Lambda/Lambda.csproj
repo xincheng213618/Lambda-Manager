@@ -21,5 +21,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LambdaUtils\LambdaUtils.csproj" />
+    <ProjectReference Include="..\RS232\RS232.vcxproj" />
   </ItemGroup>
 </Project>

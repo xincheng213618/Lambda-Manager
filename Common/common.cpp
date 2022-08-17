@@ -204,6 +204,7 @@ void SetMessageHandler2(LogCallBack2 fn)
 
 LIB_API const char* Schedule(const char* cron, int times, Callback callback)
 {
+	callback();
 	return callbackSchedule(cron,times, callback);
 }
 LIB_API const char* Delay(int seconds, int times,Callback callback)
@@ -218,6 +219,7 @@ LIB_API const char* Schedule2(const char* cron, int times, std::function<int()> 
 {
 	i++;
 	Schedule2_map.insert(std::make_pair(i, callback));
+	callback();
 	return callbackSchedule2(cron, times, i);
 }
 
