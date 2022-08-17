@@ -1,4 +1,6 @@
-﻿using LambdaManager.Config;
+﻿using Lambda;
+using LambdaManager.Config;
+using LambdaManager.Core;
 using System;
 
 using System.IO;
@@ -28,6 +30,7 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
+            Log.LogWrite += AddMessage;
             if (DateTime.Now > Convert.ToDateTime(GetExpireDate() ?? "2025/1/1"))
             {
                 MessageBox.Show("过期了");
@@ -59,30 +62,44 @@ namespace LambdaManager
             return s;
         }
 
+        public void AddMessage(Message message)
+        {
+            TexoBoxMsg.Text += Environment.NewLine + message.Text;
+        }
+
         public XElement loadxml()
         {
-            XElement root = null; ;
-            string path = "application.xml";
-            if (File.Exists(path))
+            try
             {
-                root = XDocument.Load(path).Root;
+                XElement root = null; ;
+                string path = "application.xml";
+                if (File.Exists(path))
+                {
+                    root = XDocument.Load(path).Root;
+                }
+                else if (File.Exists(dllAce))
+                {
+                    var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
+                    if (assembly == null)
+                        return null;
+                    var type = assembly.GetType("ACE.AES");
+                    if (type == null)
+                        return null;
+                    string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+                    if (s == null)
+                        return null;
+                    if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
+                        s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
+                    root = XDocument.Parse(s).Root;
+                }
+                return root;
             }
-            else if (File.Exists(dllAce))
+            catch (Exception ex)
             {
-                var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
-                if (assembly == null)
-                    return null;
-                var type = assembly.GetType("ACE.AES");
-                if (type == null)
-                    return null;
-                string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
-                if (s == null)
-                    return null;
-                if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
-                    s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
-                root = XDocument.Parse(s).Root;
+                Log.LogWrite(new Message() { Severity =Severity.INFO,Text = ex.Message});
+                return null;
             }
-            return root;
+
         }
 
         public void Load()
@@ -90,13 +107,13 @@ namespace LambdaManager
             bool num = ConfigLibrary.Load(loadxml());
             if (num == true)
             {
+                Log.LogWrite -= AddMessage;
                 ConfigLibrary.InitializeLibrary();
                 ConfigLibrary.LoadUIComponents();
             }
             else
             {
                 MessageBox.Show("主控初始化失败");
-                Environment.Exit(0);
             }
             Application.Current.Dispatcher.Invoke(delegate
             {
