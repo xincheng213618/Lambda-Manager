@@ -166,7 +166,7 @@ namespace Solution
                     TreeViewInitialized(FullName);
                 }
             };
-            openSolutionWindow.Show();
+            openSolutionWindow.ShowDialog();
         }
 
 

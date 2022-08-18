@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Solution"
         xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="500" Width="800" MinWidth="500" MinHeight="400" Background="#242424" Initialized="BaseWindow_Initialized">
+        Height="500" Width="800" MinWidth="500" MinHeight="400" Background="#242424" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,63 +15,79 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <TextBlock Text="新建工程" FontSize="15"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
+        <TextBlock Text="打开" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <Grid Margin="10,20" >
-            <StackPanel>
-                <DockPanel>
-                    <TextBlock Text="选择文件位置"/>
-                    <TextBox Text=""/>
-                    <Button Width="100" HorizontalAlignment="Right" Content="..." Click="Button_Click"/>
-                </DockPanel>
-                
-                <ListView  x:Name="ListView1"  ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListView1_SelectionChanged">
-                    <ListView.ItemContainerStyle >
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                            <Style.Triggers>  
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" Value="#333333"/>
-                                </Trigger>
-                                <Trigger Property="IsFocused" Value="true">
-                                    <Setter Property="Background" Value="#333333"/>
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="true">
-                                    <Setter Property="Background" Value="#333333"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Grid Height="40" Margin="-6,0,3,0" Background="#333333">
-                                            <Grid  Margin="6,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="30"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
-                                                <Grid Grid.Column="1" Margin="2">
-                                                    <TextBlock Text="{Binding Path = Name}" FontWeight="Bold" VerticalAlignment="Top"/>
-                                                    <TextBlock Text="{Binding Path = FullName}" VerticalAlignment="Bottom"/>
-                                                    <TextBlock Text="{Binding Path = CreationTime}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"  MinWidth="300" />
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="最近使用的内容"  FontSize="15"/>
+                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <ListView  x:Name="ListView1"  HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
+                        <ListView.ItemContainerStyle >
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="#333333"/>
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="true">
+                                        <Setter Property="Background" Value="#333333"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" Value="#333333"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid Height="40" Margin="-6,0,3,0" Background="#333333">
+                                                <Grid  Margin="6,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
+                                                    <Grid Grid.Column="1" Margin="2">
+                                                        <TextBlock Text="{Binding Path = Name}" FontWeight="Bold" VerticalAlignment="Top"/>
+                                                        <TextBlock Text="{Binding Path = FullName}" VerticalAlignment="Bottom"/>
+                                                        <TextBlock Text="{Binding Path = CreationTime}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                                    </Grid>
                                                 </Grid>
+
                                             </Grid>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                </ScrollViewer>
 
+            </Grid>
+
+            <StackPanel Grid.Column="1"   Margin="20" >
+                <Button  Height="50" Background="#3F3F40" Click="Button_Click">
+                    <Button.Content>
+                        <Border CornerRadius="0">
+                            <TextBlock Text="打开本地项目" FontSize="15" />
+                        </Border>
+                    </Button.Content>
+                </Button>
             </StackPanel>
-            
-            
+
+
 
         </Grid>
 
