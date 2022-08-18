@@ -41,7 +41,6 @@ namespace Solution
                     SoulutionInfos.Add(new SoulutionInfo() { Name = fileInfo.Name, FullName = fileInfo.FullName, CreationTime = fileInfo.CreationTime.ToString("yyyy/MM/dd H:mm") });
                 }
             }
-            ListView1.ItemsSource = SoulutionInfos;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

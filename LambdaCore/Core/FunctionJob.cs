@@ -110,46 +110,36 @@ namespace LambdaManager.Core
             return schedules;
         }
 
-        private sealed class Schedule
-        {
-            public object callback;
-            public void Invoke()
-            {
-                Common.InvokeCallback((IntPtr)callback);
-            }
-        }
-        private sealed class Schedule1
-        {
-            public int times;
-            public IntPtr callback;
 
-            public Task Invoke()
+        public Task Execute(IJobExecutionContext context)
+        {
+            if (context.JobDetail.JobDataMap.TryGetValue("callback", out var callback))
             {
-                Schedule schedule = new Schedule() { callback = callback };
-                Task.Delay(times);
-                return Task.Run(delegate
+                if (context.Trigger.JobDataMap.TryGetValue("times", out var times))
                 {
-                    schedule.Invoke();
-                });
+                    int n = (int)times;
+                    if (n == 0)
+                    {
+                        context.Scheduler.UnscheduleJob(context.Trigger.Key);
+                        return Task.CompletedTask;
+                    }
+                    else
+                    {
+                        n--;
+                        context.Trigger.JobDataMap.Put("times", n);
+                        return Task.Run(() => { Common.InvokeCallback((IntPtr)callback); });
+                    }
+                }
             }
-        }
-
-        public  Task Execute(IJobExecutionContext context)
-        {
-            Schedule schedule = new Schedule();
-            context.JobDetail.JobDataMap.TryGetValue("callback", out schedule.callback);
-            if (schedule.callback!=null)
-                return Task.Run(schedule.Invoke);
-            else
-                return null;
+            return Task.CompletedTask;
         }
 
         public static Task Dealy(int times, IntPtr callback)
         {
-            Schedule1 schedule1 = new Schedule1() { times = times, callback = callback };
-            return Task.Run(delegate
+            return Task.Run(async delegate
             {
-                schedule1.Invoke();
+                await Task.Delay(times);
+                Common.InvokeCallback((IntPtr)callback);
             });
         }
     }
@@ -171,43 +161,36 @@ namespace LambdaManager.Core
             return schedules;
         }
 
-        private sealed class Schedule
-        {
-            public object callback;
-            public void Invoke()
-            {
-                Common.InvokeLambdaCallback((int)callback);
-            }
-        }
-        private sealed class Schedule1
-        {
-            public int times;
-            public int callback;
-
-            public Task Invoke()
-            {
-                Schedule schedule = new Schedule() { callback = callback };
-                Task.Delay(times);
-                return Task.Run(delegate
-                {
-                    schedule.Invoke();
-                });
-            }
-        }
 
         public Task Execute(IJobExecutionContext context)
         {
-            Schedule schedule = new Schedule();
-            context.JobDetail.JobDataMap.TryGetValue("id", out schedule.callback);
-            return Task.Run(schedule.Invoke);
+            if (context.JobDetail.JobDataMap.TryGetValue("id", out var callback))
+            {
+                if (context.Trigger.JobDataMap.TryGetValue("times", out var times))
+                {
+                    int n = (int)times;
+                    if (n == 0)
+                    {
+                        context.Scheduler.UnscheduleJob(context.Trigger.Key);
+                        return Task.CompletedTask;
+                    }
+                    else
+                    {
+                        n--;
+                        context.Trigger.JobDataMap.Put("times",n);
+                        return Task.Run(() => { Common.InvokeLambdaCallback((int)callback); });
+                    }
+                }
+            }
+            return Task.CompletedTask;
         }
 
         public static Task Dealy(int times, int callback)
         {
-            Schedule1 schedule = new Schedule1() { times = times, callback = callback };
-            return Task.Run(delegate
+            return Task.Run( async delegate
             {
-                schedule.Invoke();
+                await Task.Delay(times);
+                Common.InvokeLambdaCallback((int)callback);
             });
         }
     }

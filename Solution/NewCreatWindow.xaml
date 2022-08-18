@@ -24,51 +24,6 @@
                     <Button Width="100" HorizontalAlignment="Right" Content="..." Click="Button_Click"/>
                 </DockPanel>
                 
-                <ListView  x:Name="ListView1"  ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ListView.ItemContainerStyle >
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                            <Style.Triggers>  
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" Value="#333333"/>
-                                </Trigger>
-                                <Trigger Property="IsFocused" Value="true">
-                                    <Setter Property="Background" Value="#333333"/>
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="true">
-                                    <Setter Property="Background" Value="#333333"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Grid Height="40" Margin="-6,0,3,0" Background="#333333">
-                                            <Grid  Margin="6,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="30"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
-                                                <Grid Grid.Column="1" Margin="2">
-                                                    <TextBlock Text="{Binding Path = Name}" FontWeight="Bold" VerticalAlignment="Top"/>
-                                                    <TextBlock Text="{Binding Path = FullName}" VerticalAlignment="Bottom"/>
-                                                    <TextBlock Text="{Binding Path = CreationTime}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                                                </Grid>
-                                            </Grid>
-
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-
             </StackPanel>
             
             

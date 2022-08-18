@@ -242,11 +242,17 @@ LIB_API void InvokeCallback(void* callback)
 {
 	((Callback)callback)();
 }
-LIB_API void InvokeLambdaCallback(int callBack)
+LIB_API void InvokeLambdaCallback(int id)
 {
-	auto it11 = Schedule2_map.find(callBack);
+	bool IsDelay = id < 0;
+	if (IsDelay)
+		id = -id;
+	auto it11 = Schedule2_map.find(id);
 	if (it11 != Schedule2_map.end()) {
 		it11->second();
+		if (IsDelay)
+			Schedule2_map.erase(it11);
+
 	}
 }
 

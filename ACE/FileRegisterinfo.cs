@@ -19,6 +19,8 @@ namespace ACE.Global
 
         public RegisterInfo? GetRegisterInfo()
         {
+            if (!File.Exists(Filepath))
+                return null;
             string result = File.ReadAllText(Filepath);
             if (result == null)
             {

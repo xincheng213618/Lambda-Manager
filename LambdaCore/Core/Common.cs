@@ -16,6 +16,7 @@ using LambdaManager.DataType;
 using LambdaManager.Utils;
 using LambdaUtils;
 using Quartz;
+using Quartz.Impl.Triggers;
 
 namespace LambdaManager.Core
 {
@@ -741,11 +742,14 @@ namespace LambdaManager.Core
 
         private unsafe static IntPtr AddSchedule(IJobDetail job, sbyte* cron, int times, string kinds, object callback)
         {
+            
 
             job.JobDataMap.Add(kinds, callback);
 
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();
             ITrigger trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(new string(cron)).Build();
+            trigger.JobDataMap.Add("times", times);
+            ((CronTriggerImpl)trigger).MisfireInstruction = 1;
             Scheduler!.ScheduleJob(job, trigger);
 
             return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
@@ -787,7 +791,11 @@ namespace LambdaManager.Core
         {
             job.JobDataMap.Add(kinds, callback);
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();
-            ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInSeconds(seconds).WithRepeatCount(times)).Build();
+            ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => {
+                if (times>0) x.WithIntervalInSeconds(seconds).WithRepeatCount(times); 
+                else x.WithIntervalInSeconds(seconds).RepeatForever(); }
+            ).Build();
+            trigger.JobDataMap.Add("times", times);
             Scheduler!.ScheduleJob(job, trigger);
             return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
         }
@@ -799,16 +807,17 @@ namespace LambdaManager.Core
             if (Scheduler != null)
             {
                 TriggerKey triggerKey = new TriggerKey(new string(scheduleName));
-                Scheduler.UnscheduleJob(triggerKey);
+                
+                var name = Scheduler.UnscheduleJob(triggerKey);
                 Marshal.FreeHGlobal((nint)scheduleName);
             }
         }
 
         [DllImport("lib\\common.dll")]
-        public static extern void InvokeCallback(IntPtr callback);
+        internal static extern void InvokeCallback(IntPtr callback);
 
         [DllImport("lib\\common.dll")]
-        public static extern void InvokeLambdaCallback(int callback);
+        internal static extern void InvokeLambdaCallback(int callback);
 
         public static void CommonExit()
         {
