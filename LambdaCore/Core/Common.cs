@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -758,7 +759,6 @@ namespace LambdaManager.Core
             if (times != 1)
             {
                 return AddSchedule1(JobBuilder.Create<FunctionJob1>().Build(), seconds, times, "callback", callback);
-
             }
             else
             {
@@ -789,7 +789,6 @@ namespace LambdaManager.Core
             TriggerBuilder triggerBuilder = TriggerBuilder.Create();
             ITrigger trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInSeconds(seconds).WithRepeatCount(times)).Build();
             Scheduler!.ScheduleJob(job, trigger);
-
             return Marshal.StringToHGlobalAnsi(trigger.Key.Name);
         }
 

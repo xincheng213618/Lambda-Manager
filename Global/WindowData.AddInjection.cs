@@ -85,9 +85,29 @@ namespace Global
                 profile.Visibility = Visibility.Collapsed;
                 profile.Margin= new Thickness(30, 0, 0, 0);
                 stackPanel.Orientation = Orientation.Horizontal;
+                profile.DataContext = profileModel;
+                profile.doubleUpDown1.ValueChanged += delegate
+                 {
+                     if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                         inkVisuals[0].DrawProfile();
+                 };
+                profile.doubleUpDown2.ValueChanged += delegate
+                {
+                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                        inkVisuals[0].DrawProfile();
+                };
+                profile.Marker1Check.Click += delegate
+                {
+                    if (inkVisuals[0].inkCanvas.Strokes.Contains( inkVisuals[0].profileStroke))
+                    inkVisuals[0].DrawProfile();
+                };
+                profile.Marker2Check.Click += delegate
+                {
+                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                        inkVisuals[0].DrawProfile();
+                };
                 stackPanel.Children.Add(histogram);
                 stackPanel.Children.Add(profile);
-
 
                 //grid1.Children.Add(profile);
                 //Grid.SetRow(profile, 2);
@@ -468,6 +488,20 @@ namespace Global
             {
 
             }
+            try
+            {
+               
+                
+            }
+            catch 
+            
+            {
+            
+            }
+
+            
+
+
 
             //ColorBar ADD
             try

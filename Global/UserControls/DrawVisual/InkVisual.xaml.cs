@@ -1,4 +1,5 @@
-﻿using Global.Mode.Config;
+﻿using Global.Mode;
+using Global.Mode.Config;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Global.UserControls.DrawVisual
     {
         public double Ratio = 1;
         public double actualwidth=1;
+       
     }
 
     /// <summary>
@@ -45,7 +47,8 @@ namespace Global.UserControls.DrawVisual
         private Image image;
        
         public RatioClass ratio1 =new RatioClass();
-       // public double ratio = 1;
+        public ProfileModel profileModel;
+        // public double ratio = 1;
         DrawInkMethod inkMethod;
         bool isMouseDown = false;
         Point iniP = new Point(0, 0);
@@ -57,13 +60,34 @@ namespace Global.UserControls.DrawVisual
         public StrokeCollection RegisterStroke = new StrokeCollection();
         public bool saveTempStroke = true;
         private int textFlag = 0;
+        Stroke lastTempStroke1 = null;
+        Stroke lastTempStroke2 = null;
+        public  Stroke profileStroke;
 
         private Point movePoint= new Point(0, 0);
-      
-      
-
 
        
+
+        public void DrawProfile()
+        {
+              Point ProfileIniP;
+              Point ProfileEndP;
+            if (inkCanvas.Strokes.Contains(profileStroke) && profileStroke!=null)
+            {
+                ProfileIniP= new Point( profileStroke.StylusPoints[0].X, profileStroke.StylusPoints[0].Y );
+                ProfileEndP = new Point(profileStroke.StylusPoints[1].X, profileStroke.StylusPoints[1].Y);
+            }
+
+            profileStroke = DrawInkMethod.InkCanvasMethod.CreateProfile(ProfileIniP, ProfileEndP, profileModel);
+            try
+            {
+                inkCanvas.Strokes.Remove(lastTempStroke);
+            }
+            catch { }
+            lastTempStroke = profileStroke;
+            inkCanvas.Strokes.Add(profileStroke);
+        }
+
 
 
         private void inkCanvas_MouseMove(object sender, MouseEventArgs e)
@@ -74,6 +98,7 @@ namespace Global.UserControls.DrawVisual
             StylusPointCollection point;
             Stroke stroke;
             Stroke stroke0;
+            
             StrokeCollection strokes = new StrokeCollection();
             if (isMouseDown && ToolTop.ArrowChecked)    //Arrow
             {
@@ -159,19 +184,50 @@ namespace Global.UserControls.DrawVisual
             else if(isMouseDown && ToolTop.ProfileChecked)
             {
 
-                double dist = GetDistance(endP, iniP);
-                if (dist < 5)
-                    return;
-                stroke = inkMethod.GenerateRulerStroke(iniP, endP);
+                //double dist = GetDistance(endP, iniP);
+                //if (dist < 5)
+                //    return;
+                //stroke = inkMethod.GenerateProfileStroke(iniP, endP);
+                //try
+                //{
+                //    inkCanvas.Strokes.Remove(lastTempStroke);
+                //}
+                //catch { }
+                //lastTempStroke = stroke;
+                //inkCanvas.Strokes.Add(stroke);
+
+                //stroke0 = DrawInkMethod.InkCanvasMethod.CreateMarkerText(iniP, endP);
+                //try
+                //{
+                //    inkCanvas.Strokes.Remove(lastTempStroke0);
+                //}
+                //catch { }
+                //lastTempStroke0 = stroke0;
+                //inkCanvas.Strokes.Add(stroke0);
+
+                //Stroke stroke1 = inkMethod.GenerateMarker1Stroke(iniP);
+                //Stroke stroke2 = inkMethod.GenerateMarker1Stroke(endP);
+
+                //try
+                //{
+                //    inkCanvas.Strokes.Remove(lastTempStroke1);
+                //    inkCanvas.Strokes.Remove(lastTempStroke2);
+                //}
+                //catch { }
+                //lastTempStroke1 = stroke1;
+                //lastTempStroke2 = stroke2;
+                //inkCanvas.Strokes.Add(stroke1);
+                //inkCanvas.Strokes.Add(stroke2);
+
+                profileStroke = DrawInkMethod.InkCanvasMethod.CreateProfile(iniP,endP, profileModel);
+                
                 try
                 {
                     inkCanvas.Strokes.Remove(lastTempStroke);
                 }
                 catch { }
-                lastTempStroke = stroke;
-                inkCanvas.Strokes.Add(stroke);
-               
-
+                lastTempStroke = profileStroke;
+                inkCanvas.Strokes.Add(profileStroke);
 
             }
 
@@ -530,7 +586,7 @@ namespace Global.UserControls.DrawVisual
             {
 
             }
-            else if (ToolTop.SelectChecked)
+            else if (ToolTop.SelectChecked ||ToolTop.ProfileChecked)
             {
 
             }

@@ -34,6 +34,8 @@ namespace Global
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
                 InkVisual inkVisual = new InkVisual(image,ImageViewState.toolTop, inkMethod);
+                inkVisual.profileModel = profileModel;
+
                 inkVisuals[0] = inkVisual; // First InkCanvas
                 Binding bindingW = new Binding();
                 bindingW.Source = image;

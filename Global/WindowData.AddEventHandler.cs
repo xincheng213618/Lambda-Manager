@@ -42,9 +42,12 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("IMAGE_VIEW_CREATED", IMAGE_VIEW_CREATED, false);
 
             LambdaControl.AddLambdaEventHandler("MUL_ZSTEP", Mul_ZStep, false);
+            LambdaControl.AddLambdaEventHandler("MUL_ZSTART", Mul_ZStart, false);
+            LambdaControl.AddLambdaEventHandler("MUL_ZEND", Mul_ZEnd, false);
             LambdaControl.AddLambdaEventHandler("MUL_TIME_INTERVAL", Mul_TInterval, false);
 
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
+            
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
@@ -94,6 +97,10 @@ namespace Global
             });
             return true;
         }
+
+
+       
+
         private bool seriesProjectManager(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
@@ -172,6 +179,24 @@ namespace Global
             return true;
 
         }
+        private bool Mul_ZStart(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            MulDimensional.ZStart = int.Parse(GetStringValue(eventData, "mulZStart"));
+            return true;
+
+        }
+        private bool Mul_ZEnd(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            MulDimensional.ZEnd = int.Parse(GetStringValue(eventData, "mulZEnd"));
+            return true;
+
+        }
         private bool Mul_TInterval(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
@@ -194,11 +219,15 @@ namespace Global
         {
             ACQUIRE = true;
             return true;
+
         }
+       
         private bool START_ACQUIRE(object sender, EventArgs e)
         {
             ACQUIRE = false;
             return true;
+          
+
         }
 
 
@@ -214,6 +243,7 @@ namespace Global
         }
 
         public HistogramModel histogramModel = new HistogramModel();
+        public ProfileModel profileModel = new ProfileModel();
 
         private bool UpdateHistogramModel(object sender, EventArgs e)
         {

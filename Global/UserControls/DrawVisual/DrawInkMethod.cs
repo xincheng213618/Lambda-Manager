@@ -1,4 +1,5 @@
-﻿using Global.UserControls.DrawVisual;
+﻿using Global.Mode;
+using Global.UserControls.DrawVisual;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -27,6 +28,16 @@ namespace Global
             Color = dimenViewModel.SelectedAccentColor,
             Width = Math.Sqrt(2),
             Height = Math.Sqrt(2),
+            StylusTip = StylusTip.Ellipse,
+            FitToCurve = false,
+            IsHighlighter = true,
+            IgnorePressure = true,
+        };
+        public DrawingAttributes drawingAttribute1 = new DrawingAttributes()
+        { //Color = Colors.Red,
+            Color = dimenViewModel.SelectedAccentColor,
+            Width = 4,
+            Height = 4,
             StylusTip = StylusTip.Ellipse,
             FitToCurve = false,
             IsHighlighter = true,
@@ -425,7 +436,77 @@ namespace Global
             };
             return stroke;
         }
-       
+
+        public Stroke GenerateProfileStroke(System.Windows.Point st, System.Windows.Point ed)
+        {
+            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            StylusPointCollection point;
+            Stroke stroke;
+
+          
+            double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
+ 
+            double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
+           
+
+            pointList = new List<System.Windows.Point>
+            {
+                new System.Windows.Point(st.X, st.Y),
+                //new System.Windows.Point (st.X-5*Math.Cos(theta1+Math.PI / 2),st.Y-5*Math.Sin(theta1+Math.PI / 2)),
+                //new System.Windows.Point (st.X-5*Math.Cos(theta1-Math.PI / 2),st.Y-5*Math.Sin(theta1-Math.PI / 2)),
+                //new System.Windows.Point(st.X, st.Y),
+                new System.Windows.Point(ed.X , ed.Y),
+                //new System.Windows.Point (ed.X-5*Math.Cos(theta+Math.PI / 2),ed.Y-5*Math.Sin(theta+Math.PI / 2)),
+                //new System.Windows.Point (ed.X-5*Math.Cos(theta-Math.PI / 2),ed.Y-5*Math.Sin(theta-Math.PI / 2)),
+
+            };
+
+            //List<System.Windows.Point> pointList1 = GenerateEllipseGeometry(new Point(st.X-5, st.Y - 5) ,new Point(st.X + 5, st.Y + 5));
+            //List<System.Windows.Point> pointList2 = GenerateEllipseGeometry(new Point(ed.X - 5, ed.Y - 5), new Point(ed.X + 5, ed.Y + 5));
+            //pointList.AddRange(pointList1);
+            //pointList.AddRange(pointList2);
+            point = new StylusPointCollection(pointList);
+            stroke = new Stroke(point)
+            {
+                DrawingAttributes = drawingAttributes.Clone()
+            };
+            return stroke;
+        }
+        public Stroke GenerateMarker1Stroke(System.Windows.Point st)
+        {
+            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            StylusPointCollection point;
+            Stroke stroke;
+
+
+            pointList = new List<System.Windows.Point>
+            {
+                new System.Windows.Point(st.X, st.Y),
+               
+            };
+
+            point = new StylusPointCollection(pointList);
+            stroke = new Stroke(point)
+            {
+                DrawingAttributes = drawingAttribute1.Clone()
+            };
+            return stroke;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -552,10 +633,50 @@ namespace Global
                 return pen;
             }
 
+            public static System.Windows.Media.Pen SetPenSolid2(int thickness = 4)
+            {
+                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                {
+                    Brush = StrokeBrushDefault,
+                    Thickness = thickness,
+                    DashCap = PenLineCap.Round,
+
+                    LineJoin = PenLineJoin.Round,
+                    MiterLimit = 0.0
+                };
+                return pen;
+            }
+            public static System.Windows.Media.Pen SetPenSolid3(int thickness = 4)
+            {
+                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                {
+                    Brush = Brushes.Blue,
+                    Thickness = thickness,
+                    DashCap = PenLineCap.Round,
+
+                    LineJoin = PenLineJoin.Round,
+                    MiterLimit = 0.0
+                };
+                return pen;
+            }
+            public static System.Windows.Media.Pen SetPenSolid4(int thickness = 4)
+            {
+                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                {
+                    Brush = Brushes.Green,
+                    Thickness = thickness,
+                    DashCap = PenLineCap.Round,
+
+                    LineJoin = PenLineJoin.Round,
+                    MiterLimit = 0.0
+                };
+                return pen;
+            }
 
 
 
-            public static CustomText CreateText( System.Windows.Point point1, System.Windows.Point point2,RatioClass ratio)
+
+            public static CustomText CreateText( System.Windows.Point point1, System.Windows.Point point2, RatioClass ratio)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -602,6 +723,42 @@ namespace Global
                 };
                 return stroke;
             }
+            public static CustomMarkerText CreateMarkerText(System.Windows.Point point1, System.Windows.Point point2)
+            {
+                StylusPointCollection points = new StylusPointCollection()
+                  {
+                new StylusPoint(point1.X, point1.Y),
+                new StylusPoint(point2.X, point2.Y),
+
+                    };
+                CustomMarkerText stroke = new CustomMarkerText(new StylusPointCollection(points))
+                {
+                    DrawingAttributes = SetInkAttributes(),
+                };
+                return stroke;
+            }
+
+            public static CustomProfile CreateProfile(System.Windows.Point point1, System.Windows.Point point2, ProfileModel ratio)
+            {
+                StylusPointCollection points = new StylusPointCollection()
+                  {
+                new StylusPoint(point1.X, point1.Y),
+                new StylusPoint(point2.X, point2.Y),
+
+                    };
+                CustomProfile stroke = new CustomProfile(new StylusPointCollection(points),ratio)
+                {
+                    DrawingAttributes = SetInkAttributes(),
+                };
+                return stroke;
+            }
+
+
+
+
+
+
+
 
             public static CustomTextInput CreateTextInput(System.Windows.Point point1, double height, double width)
             {
@@ -665,7 +822,82 @@ namespace Global
 
             }
         }
-      
+
+
+        public class CustomMarkerText : Stroke
+        {
+            public CustomMarkerText(StylusPointCollection points) : base(points)
+            {
+                StylusPoints = points.Clone();
+            }
+
+            protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+            {
+
+                double x1 = StylusPoints[0].X;
+                double y1 = StylusPoints[0].Y;
+                double x2 = StylusPoints[1].X;
+                double y2 = StylusPoints[1].Y;
+                System.Windows.Point labPoint = new System.Windows.Point(x1-10 , y1-5);
+                System.Windows.Point labPoint1 = new System.Windows.Point(x2+5, y2-5);
+
+                drawingContext.DrawText(new FormattedText("1", CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint);
+                drawingContext.DrawText(new FormattedText("2", CultureInfo.CurrentCulture,
+              FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint1);
+            }
+        }
+
+        public class CustomProfile : Stroke
+        {
+            public CustomProfile(StylusPointCollection points, ProfileModel ratio) : base(points)
+            {
+                StylusPoints = points.Clone();
+                this.ratio = ratio; 
+            }
+            ProfileModel ratio;
+            protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+            {
+
+                double x1 = StylusPoints[0].X;
+                double y1 = StylusPoints[0].Y;
+                double x2 = StylusPoints[1].X;
+                double y2 = StylusPoints[1].Y;
+                Vector vector = new Point(x2,y2) - new Point(x1, y1);
+                Point p3= new Point(x1, y1) + ratio.Ratio1 * vector;
+                Point p4 = new Point(x1, y1) + ratio.Ratio2 * vector;
+
+                System.Windows.Point labPoint = new System.Windows.Point(x1 - 12, y1 - 8);
+                System.Windows.Point labPoint1 = new System.Windows.Point(x2 + 7, y2 - 8);
+
+                drawingContext.DrawText(new FormattedText("1", CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint);
+                drawingContext.DrawText(new FormattedText("2", CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint1);
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(), new System.Windows.Point(x1, y1), new System.Windows.Point(x2 , y2));
+                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new System.Windows.Point(x1, y1), 1.5, 1.5);
+                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new System.Windows.Point(x2, y2), 1.5, 1.5);
+                if (ratio.Marker1Show)
+                {
+                    drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid3(), p3, 1.5, 1.5);
+                }
+                if (ratio.Marker2Show)
+                {
+                    drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid4(), p4, 1.5, 1.5);
+                }
+               
+
+
+
+            }
+        }
+
+
+
+
+
+
+
 
 
 

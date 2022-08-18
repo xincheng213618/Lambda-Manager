@@ -53,6 +53,7 @@ namespace Global
         public Stage Stage = new() {};
 
         public ViewMode ViewMode = new();
+        
 
         public Config Config = new();
 

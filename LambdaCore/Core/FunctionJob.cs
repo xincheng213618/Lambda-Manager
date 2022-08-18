@@ -199,7 +199,7 @@ namespace LambdaManager.Core
         {
             Schedule schedule = new Schedule();
             context.JobDetail.JobDataMap.TryGetValue("id", out schedule.callback);
-            return Task.Factory.StartNew(schedule.Invoke);
+            return Task.Run(schedule.Invoke);
         }
 
         public static Task Dealy(int times, int callback)

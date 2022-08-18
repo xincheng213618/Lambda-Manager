@@ -12,7 +12,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/generic.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
 
     </UserControl.Resources>
