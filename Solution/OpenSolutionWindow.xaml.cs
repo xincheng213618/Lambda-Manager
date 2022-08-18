@@ -21,12 +21,13 @@ namespace Solution
     /// <summary>
     /// NewCreatWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class NewCreatWindow : BaseWindow
+    public partial class OpenSolutionWindow : BaseWindow
     {
-        public NewCreatWindow()
+        public OpenSolutionWindow()
         {
             InitializeComponent();
         }
+        public string FullName = string.Empty;
 
         RecentFileList recentFileList = new RecentFileList();
         public ObservableCollection<SoulutionInfo> SoulutionInfos = new ObservableCollection<SoulutionInfo>();
@@ -46,7 +47,11 @@ namespace Solution
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Tool.Utils.OpenFileDialog(out string FullName))
+            {
+                this.FullName = FullName;
+                this.Close();
+            };
         }
 
         private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
@@ -54,6 +59,26 @@ namespace Solution
             e.Handled = true;
 
         }
+
+        private void ListView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListView listView)
+            {
+                if (listView.SelectedIndex > -1)
+                {
+                    FullName = SoulutionInfos[listView.SelectedIndex].FullName;
+                    this.Close();
+                }
+
+
+            }
+        }
     }
 
+    public class SoulutionInfo
+    {
+        public string Name { get; set; }
+        public string FullName { get; set; }
+        public string CreationTime { get; set; }
+    }
 }

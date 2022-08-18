@@ -87,7 +87,7 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 				((Callback3)(it11->second))((char*)eventObject);
 			}
 			else if (it12->second == JSON_OBJECT || it12->second == STL_MAP) {
-				if (!json::accept((char*)eventObject)) {
+				if (eventObject !=NULL&&json::accept((char*)eventObject)) {
 					auto j = json::parse((char*)eventObject);
 					((Callback2)(it11->second))(&j);
 				}

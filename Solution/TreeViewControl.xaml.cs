@@ -154,16 +154,19 @@ namespace Solution
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Tool.Utils.OpenFileDialog(out string FilePath))
-            {
-                if (Config.ConfigRead(FilePath) == 0)
-                {
-                    SolutionFullName = FilePath;
-                    recentFileList.InsertFile(FilePath);
-                    TreeViewInitialized(FilePath);
-                }
 
+            OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
+            openSolutionWindow.Closed += (s, e) =>
+            {
+                string FullName = openSolutionWindow.FullName;
+                if (!string.IsNullOrEmpty(FullName)&&Config.ConfigRead(FullName) == 0)
+                {
+                    SolutionFullName = FullName;
+                    recentFileList.InsertFile(FullName);
+                    TreeViewInitialized(FullName);
+                }
             };
+            openSolutionWindow.Show();
         }
 
 

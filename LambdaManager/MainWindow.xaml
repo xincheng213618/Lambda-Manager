@@ -78,7 +78,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView"  Width="400"/>
+                <ColumnDefinition Name="leftView"  Width="auto"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -89,7 +89,7 @@
                 <TabControl  x:Name="leftTab">
                     <TabItem Header="工程" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform" Width="400">
+                            <Viewbox VerticalAlignment="Top" Stretch="Uniform" >
                                 <StackPanel Name="projectView" Margin="10,10,10,20"  >
                                 </StackPanel>
                             </Viewbox>
@@ -148,7 +148,6 @@
                 <Border Style="{StaticResource RadiusBorder}">
                     <StackPanel Name="materialView" Margin="2,2,4,2">
                         <TextBlock>Workspace 1</TextBlock>
-                        <TextBlock>Workspace 2</TextBlock>
                     </StackPanel>
                 </Border>
             </ScrollViewer>
@@ -273,11 +272,6 @@
                                         <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 52-->
                                     </ToggleButton>
-                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" BorderThickness="1" Height="20">
-                                        <Separator.BorderBrush>
-                                            <SolidColorBrush Color="{DynamicResource HighlightColor}" />
-                                        </Separator.BorderBrush>
-                                    </Separator>
                                 </WrapPanel>
                             </Border>
                             <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
@@ -457,9 +451,6 @@
                     <ItemsPanelTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -467,7 +458,12 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </ItemsPanelTemplate>
@@ -475,7 +471,6 @@
                 <StatusBarItem>
                     <TextBlock Name="imageUnit">单位:μm</TextBlock>
                 </StatusBarItem>
-                <Separator Grid.Column="1" />
                 <StatusBarItem Grid.Column="2">
                     <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
                 </StatusBarItem>
@@ -485,21 +480,18 @@
                 <StatusBarItem Grid.Column="4">
                     <TextBlock Name="imageZ" Text="{Binding Path=ImageZ}"/>
                 </StatusBarItem>
-                <Separator Grid.Column="5" />
                 <StatusBarItem Grid.Column="6">
                     <TextBlock Name="imageSize" Text="{Binding Path=ImageSize}"/>
                 </StatusBarItem>
-                <Separator Grid.Column="7" />
                 <StatusBarItem Grid.Column="8">
                     <TextBlock Name="imageFocus" Text="{Binding Path=ImageFocus}" />
                 </StatusBarItem>
-                <Separator Grid.Column="9" />
                 <StatusBarItem Grid.Column="10">
                     <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" />
                 </StatusBarItem>
                 <Separator Grid.Column="11" />
-                <StatusBarItem Grid.Column="12"  Background="Transparent">
-                    <DockPanel  Name="performDock" Background="Transparent">
+                <StatusBarItem Grid.Column="12" >
+                    <DockPanel  Name="performDock">
                         <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">
                     <Run Text="ToolDiskUse" />
                     <Run Text=":" />
