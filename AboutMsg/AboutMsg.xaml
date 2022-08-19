@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
-        Height="400" Width="500"  Background="#3A3A3A" Foreground="White" ResizeMode="NoResize"   Initialized="Window_Initialized" >
+        Height="400" Width="500"  Background="#3A3A3A" Foreground="White" ResizeMode="NoResize" Initialized="Window_Initialized" >
 
     <Grid >
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="关于多模态显微镜"  Margin="10,-20,0,0"/>
