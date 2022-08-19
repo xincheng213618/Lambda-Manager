@@ -110,6 +110,7 @@ namespace LambdaManager
                 Application.Current.Dispatcher.Invoke(delegate
                 {
                     mainWindow = new MainWindow();
+                    Application.Current.MainWindow = mainWindow;
                 });
                 ConfigLibrary.InitializeLibrary();
 
