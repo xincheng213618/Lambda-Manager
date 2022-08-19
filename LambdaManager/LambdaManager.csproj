@@ -128,8 +128,12 @@
     <Resource Include="resources\icons\top-eraser.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AboutMsg\AboutMsg.csproj" />
+    <ProjectReference Include="..\ACE\ACE.csproj" />
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
+    <ProjectReference Include="..\Register\Register.csproj" />
+    <ProjectReference Include="..\Solution\Solution.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
   <ItemGroup>
