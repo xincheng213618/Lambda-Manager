@@ -51,9 +51,7 @@ partial class App : Application
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
-        MainWindow mainWindow = new MainWindow();
-
-        StartWindow startWindow = new StartWindow(mainWindow);
+        StartWindow startWindow = new StartWindow();
         startWindow.Show();
 
     }

@@ -18,11 +18,11 @@ namespace LambdaManager
     /// </summary>
     public partial class StartWindow : Window
     {
+        //2022.8.20 主窗口显示需要后置，前置在沈茜的电脑上会出现DLL 第二次无法加载的情况，原因未知
         public bool IsRunning { get; set; } = false;
-        MainWindow mainWindow;
-        public StartWindow( MainWindow mainWindow)
+        public MainWindow mainWindow;
+        public StartWindow()
         {
-            this.mainWindow = mainWindow;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
@@ -40,7 +40,6 @@ namespace LambdaManager
             {
                 labelVersion.Content = string.Format("V8.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
                 ConfigLibrary = new ConfigLibrary();
-                ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
                 Thread thread = new Thread(Load);
                 thread.Start();
                 _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
@@ -109,7 +108,7 @@ namespace LambdaManager
             {
                 Log.LogWrite -= AddMessage;
                 ConfigLibrary.InitializeLibrary();
-                ConfigLibrary.LoadUIComponents();
+
             }
             else
             {
@@ -119,6 +118,7 @@ namespace LambdaManager
             {
                 if (IsRunning)
                 {
+
                     _ = Dispatcher.BeginInvoke(new Action(async () => await StartMainWindow()));
                 }
                 else
@@ -152,6 +152,9 @@ namespace LambdaManager
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
+            mainWindow = new MainWindow();
+            ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
+            ConfigLibrary.LoadUIComponents();
             mainWindow.Show();
             this.Close();
         }

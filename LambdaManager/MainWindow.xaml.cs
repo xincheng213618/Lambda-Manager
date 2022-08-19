@@ -131,6 +131,7 @@ namespace LambdaManager
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            Common.CommonExit();
             for (int i = 0; i < Views.Length; i++)
             {
                 View view = Views[i];
