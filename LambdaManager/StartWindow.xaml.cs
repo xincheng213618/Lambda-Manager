@@ -107,6 +107,10 @@ namespace LambdaManager
             if (num == true)
             {
                 Log.LogWrite -= AddMessage;
+                Application.Current.Dispatcher.Invoke(delegate
+                {
+                    mainWindow = new MainWindow();
+                });
                 ConfigLibrary.InitializeLibrary();
 
             }
@@ -152,7 +156,6 @@ namespace LambdaManager
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
-            mainWindow = new MainWindow();
             ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
             ConfigLibrary.LoadUIComponents();
             mainWindow.Show();
