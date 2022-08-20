@@ -120,7 +120,12 @@ namespace LambdaManager.Core
                     int n = (int)times;
                     if (n == 0)
                     {
+                        if (context.JobDetail.JobDataMap.TryGetValue("end", out var callbackend))
+                        {
+                            Common.InvokeCallback((IntPtr)callbackend);
+                        }
                         context.Scheduler.UnscheduleJob(context.Trigger.Key);
+
                         return Task.CompletedTask;
                     }
                     else
@@ -132,14 +137,16 @@ namespace LambdaManager.Core
                 }
             }
             return Task.CompletedTask;
+
         }
 
-        public static Task Dealy(int times, IntPtr callback)
+        public static Task Dealy(int times, IntPtr callback, IntPtr callbackend)
         {
             return Task.Run(async delegate
             {
                 await Task.Delay(times);
                 Common.InvokeCallback((IntPtr)callback);
+                Common.InvokeCallback((IntPtr)callbackend);
             });
         }
     }
@@ -171,6 +178,7 @@ namespace LambdaManager.Core
                     int n = (int)times;
                     if (n == 0)
                     {
+                        Common.InvokeScheduleEnd((int)callback);
                         context.Scheduler.UnscheduleJob(context.Trigger.Key);
                         return Task.CompletedTask;
                     }
@@ -178,11 +186,12 @@ namespace LambdaManager.Core
                     {
                         n--;
                         context.Trigger.JobDataMap.Put("times",n);
-                        return Task.Run(() => { Common.InvokeLambdaCallback((int)callback); });
+                        return Task.Run(() => { Common.InvokeScheduleCallback((int)callback); });
                     }
                 }
             }
             return Task.CompletedTask;
+
         }
 
         public static Task Dealy(int times, int callback)
@@ -190,7 +199,8 @@ namespace LambdaManager.Core
             return Task.Run( async delegate
             {
                 await Task.Delay(times);
-                Common.InvokeLambdaCallback((int)callback);
+                Common.InvokeScheduleCallback((int)callback);
+                Common.InvokeScheduleEnd((int)callback);
             });
         }
     }
