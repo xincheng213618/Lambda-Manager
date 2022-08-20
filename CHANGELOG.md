@@ -1,3 +1,8 @@
+## [1.0.5] - 2022-08-20
+
+- schedule API support end event callback as last parameter
+- support update frame by rect
+
 ## [1.0.4] - 2022-08-19
 
 - Fix  Job 一次执行 和Times 设置错误的问题✔
