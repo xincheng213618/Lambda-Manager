@@ -12,11 +12,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Solution;component/themes/styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <TextBlock Text="打开" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
+        <TextBlock Text="打开" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <Grid Margin="10,20" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"  MinWidth="300" />

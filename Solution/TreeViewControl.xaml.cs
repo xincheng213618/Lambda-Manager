@@ -113,7 +113,7 @@ namespace Solution
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
                         LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullName));
-                        LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { } );
+                        LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
                     }
                 }
 
@@ -132,7 +132,7 @@ namespace Solution
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is XSolution.BaseObject baseObject )
+            if (tb.Tag is XSolution.BaseObject baseObject)
             {
                 baseObject.IsEditMode = false;
             }
@@ -159,7 +159,7 @@ namespace Solution
             openSolutionWindow.Closed += (s, e) =>
             {
                 string FullName = openSolutionWindow.FullName;
-                if (!string.IsNullOrEmpty(FullName)&&Config.ConfigRead(FullName) == 0)
+                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
                 {
                     SolutionFullName = FullName;
                     recentFileList.InsertFile(FullName);
@@ -193,13 +193,13 @@ namespace Solution
 
         SolutionExplorer solutionExplorer;
 
-        private void TreeViewInitialized(string FilePath)
+        private void TreeViewInitialized(string FilePath, bool init = true)
         {
             solutionExplorer = new SolutionExplorer(FilePath)
             {
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
             };
-            
+
 
             SolutionDir = System.IO.Path.GetDirectoryName(FilePath);
 
@@ -209,7 +209,7 @@ namespace Solution
             {
                 if (dic.Name == "Video" || dic.Name == "Image")
                 {
-                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false,CanReName = false ,Visibility =Visibility.Hidden};
+                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false, CanReName = false, Visibility = Visibility.Hidden };
                     foreach (var item in dic.GetDirectories())
                     {
                         ProjectFolder projectFolder = new ProjectFolder(item.FullName);
@@ -222,7 +222,7 @@ namespace Solution
 
                         projectMannager.AddChild(projectFile);
 
-                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp"|| Extension == ".txt")
+                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
                         {
                             solutionExplorer.AddChild(projectFile);
                         };
@@ -251,12 +251,29 @@ namespace Solution
                 }
 
             }
-            SolutionExplorers.Clear();
+            if (init)
+                SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
             SolutionTreeView.ItemsSource = SolutionExplorers;
         }
 
-        private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject,string FullName)
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
+            openSolutionWindow.Closed += (s, e) =>
+            {
+                string FullName = openSolutionWindow.FullName;
+                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                {
+                    SolutionFullName = FullName;
+                    recentFileList.InsertFile(FullName);
+                    TreeViewInitialized(FullName, false);
+                }
+            };
+            openSolutionWindow.ShowDialog();
+
+        }
+        private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject, string FullName)
         {
             var root = new DirectoryInfo(FullName);
             foreach (var directoryInfo in root.GetDirectories())
@@ -277,7 +294,7 @@ namespace Solution
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            
+
             if (!string.IsNullOrEmpty(SolutionFullName))
             {
                 Config.ConfigWrite(SolutionFullName);
@@ -357,7 +374,25 @@ namespace Solution
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             NewCreatWindow newCreatWindow = new NewCreatWindow();
+            newCreatWindow.Closed += delegate
+            {
+                if (newCreatWindow.IsCreate)
+                {
+                    string SolutionDirectoryPath = newCreatWindow.newCreatViewMode.DirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name;
+                    SolutionFullName = SolutionDirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name + ".gprj";
+
+
+                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Video");
+                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Image");
+
+                    recentFileList.InsertFile(SolutionFullName);
+                    Config.ConfigWrite(SolutionFullName);
+                    TreeViewInitialized(SolutionFullName);
+                }
+            };
             newCreatWindow.ShowDialog();
+
+
         }
 
 
@@ -374,5 +409,7 @@ namespace Solution
 
         }
     }
+
+
 
 }
