@@ -46,12 +46,15 @@
                 <Button MouseDoubleClick="Button_MouseDoubleClick" Margin="5,5,5,5">
                     <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
                 </Button>
-                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent"  VerticalAlignment="Center" >
+                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" >
                     <MenuItem Header="文件(_F)"/>
+
                     <MenuItem Header="帮助(_H)"/>
                 </Menu>
-
             </StackPanel>
+            
+            
+            
 
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Checked="RadioButton_Checked" />
