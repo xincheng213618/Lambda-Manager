@@ -575,8 +575,8 @@
 		</procedure>
 	</component>
 
-	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册"/>
-	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于"/>
+	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册(_R)"/>
+	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于(_A)"/>
 
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>

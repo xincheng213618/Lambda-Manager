@@ -88,6 +88,7 @@ namespace LambdaManager
             }
         }
 
+
         public MenuItem? AddMenuItem(string path)
         {
             ItemCollection items = menu.Items;
@@ -100,9 +101,9 @@ namespace LambdaManager
             foreach (string name in array)
             {
                 bool found = false;
-                foreach (MenuItem item in (IEnumerable)items)
+                foreach (MenuItem item in items)
                 {
-                    if (item.Header.ToString() == name)
+                    if (item.Header.ToString().Contains(name))
                     {
                         found = true;
                         items = item.Items;
@@ -169,7 +170,6 @@ namespace LambdaManager
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //stageAcquisition.Width = SliderAll1.Value;
         }
 
 

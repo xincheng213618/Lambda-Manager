@@ -25,46 +25,37 @@
                     <SolidColorBrush Color="{StaticResource HighlightColor}" />
                 </Setter.Value>
             </Setter>
+            <Setter Property="Margin" Value="2,0"/>
             <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Border.CornerRadius" Value="7,7,7,7" />
-        </Style>
-
-
-        <Style x:Key="WorkButton" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="60" />
-            <Setter Property="Height" Value="40" />
+            <Setter Property="Border.CornerRadius" Value="5" />
         </Style>
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="11*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-33,0,0" >
+        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*"  MinWidth="400"/>
                 <ColumnDefinition Width="145" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" MouseDoubleClick="Button_MouseDoubleClick">
-                    <Image Source="/Resources/Icons/application-logo.png" Height="32" Stretch="Uniform" Margin="5,5,0,0" Panel.ZIndex="-1" />
+                <Button MouseDoubleClick="Button_MouseDoubleClick" Margin="5,5,5,5">
+                    <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
                 </Button>
+                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent"  VerticalAlignment="Center" >
+                    <MenuItem Header="文件(_F)"/>
+                    <MenuItem Header="帮助(_H)"/>
+                </Menu>
+
             </StackPanel>
-            <DockPanel Grid.Column="1" HorizontalAlignment="Left"    WindowChrome.IsHitTestVisibleInChrome="True">
-                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent"  VerticalAlignment="Center" />
 
-            </DockPanel>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
-                <RadioButton x:Name="RadioButton2" Style="{DynamicResource PhaseButton}" Content="采集"  Checked="RadioButton_Checked_1" />
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Checked="RadioButton_Checked" />
+                <RadioButton x:Name="RadioButton2" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked_1" />
                 <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked_2" />
                 <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked_3" />
                 <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
@@ -72,7 +63,7 @@
 
         </Grid>
 
-        <Grid Name="stageAcquisition" Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Name="stageAcquisition" Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
@@ -85,7 +76,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
+            <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}" CornerRadius="5,5,0,0">
                 <TabControl  x:Name="leftTab">
                     <TabItem Header="工程" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -132,9 +123,9 @@
 
 
             <DockPanel Grid.Row="1" Margin="5">
-                <ToggleButton Width="95" Height="25" DockPanel.Dock="Left" Margin="10,0,0,0" Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
+                <ToggleButton Width="95" Height="25" DockPanel.Dock="Left"  Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <ToggleButton Width="95" Margin="0,0,10,0" Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
+                    <ToggleButton Width="95"  Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
                     <Button Width="70" Height="25" DockPanel.Dock="Right" Click="Button_Click_2">拍照</Button>
                 </StackPanel>
                 <TextBlock />
@@ -166,7 +157,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Border Name="imagingView" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="6" Margin="0,0,10,0">
+                <Border Name="imagingView" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="3">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -184,7 +175,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
@@ -217,10 +208,12 @@
                                         <TextBox Name="ratio" VerticalAlignment="Center">25%
                                         </TextBox>
                                     </Border>
-                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
-                                        <Control.BorderBrush>
-                                            <SolidColorBrush Color="{DynamicResource HighlightColor}" />
-                                        </Control.BorderBrush>
+                                    <Separator Background="#BDBDBD"   Width="1"  Margin="2">
+                                        <Separator.Template>
+                                            <ControlTemplate TargetType="Separator">
+                                                <Border Background="{TemplateBinding  Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                            </ControlTemplate>
+                                        </Separator.Template>
                                     </Separator>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-dimension.png" Stretch="Fill" />
@@ -233,44 +226,37 @@
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-profile.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 44-->
                                     </ToggleButton>
-                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
-                                        <Control.BorderBrush>
-                                            <SolidColorBrush Color="{DynamicResource HighlightColor}" />
-                                        </Control.BorderBrush>
+                                    <Separator Background="#BDBDBD"   Width="1"  Margin="2">
+                                        <Separator.Template>
+                                            <ControlTemplate TargetType="Separator">
+                                                <Border Background="{TemplateBinding  Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                            </ControlTemplate>
+                                        </Separator.Template>
                                     </Separator>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}"  IsEnabled="True" IsChecked="True" >
                                         <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 45-->
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 46-->
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 47-->
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 48-->
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-curve.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 49-->
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-circle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 50-->
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-rectangle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 51-->
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 52-->
                                     </ToggleButton>
                                 </WrapPanel>
                             </Border>
@@ -328,7 +314,7 @@
                                     <!--Unknown connection ID: 48-->
                                 </WrapPanel>
                             </Border>
-                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
@@ -358,7 +344,7 @@
                                     <Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
                                 </DockPanel>
                             </Border>
-                            <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
@@ -437,10 +423,8 @@
                                     <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal">
                                     </StackPanel>
                                 </Grid>
-                                <!--Unknown connection ID: 81-->
                             </Grid>
                         </Grid>
-                        <!--Unknown connection ID: 27-->
                     </Grid>
 
                 </Border>
@@ -469,7 +453,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <StatusBarItem>
-                    <TextBlock Name="imageUnit">单位:μm</TextBlock>
+                    <TextBlock Name="imageUnit"/> 
                 </StatusBarItem>
                 <StatusBarItem Grid.Column="2">
                     <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
@@ -519,8 +503,7 @@
             </ComboBox>
         </Grid>
 
-        <Grid Name="stageConfig" Row="1" Grid.ColumnSpan="2">
-            <!--Unknown connection ID: 13-->
+        <Grid Name="stageConfig" Row="1">
         </Grid>
     </Grid>
 </Base:BaseWindow>

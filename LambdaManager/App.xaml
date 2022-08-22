@@ -9,7 +9,6 @@
                 <ResourceDictionary Source="Themes/Styles.xaml" />
                 <ResourceDictionary Source="Themes/SliderStyle.xaml" />
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml" />
-                <ResourceDictionary Source="Resources/Res.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
   </Application.Resources>

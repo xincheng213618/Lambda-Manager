@@ -1,7 +1,12 @@
+## [1.0.6] - 2022-08-22
+
+- 更新主窗口的界面样式
+
 ## [1.0.5] - 2022-08-20
 
-- schedule API support end event callback as last parameter
-- support update frame by rect
+- 更新主控版本到0.8.2 ✔
+- schedule API support end event callback as last parameter ✔
+- support update frame by rect ✔
 
 ## [1.0.4] - 2022-08-19
 

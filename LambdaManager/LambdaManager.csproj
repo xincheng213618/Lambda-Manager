@@ -26,13 +26,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controls\**" />
-    <Compile Remove="resources\images\startimage\**" />
     <EmbeddedResource Remove="Controls\**" />
-    <EmbeddedResource Remove="resources\images\startimage\**" />
     <None Remove="Controls\**" />
-    <None Remove="resources\images\startimage\**" />
     <Page Remove="Controls\**" />
-    <Page Remove="resources\images\startimage\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Image\ZIRCON.png" />
@@ -89,7 +85,6 @@
     <None Remove="resources\icons\top-text.png" />
     <None Remove="resources\icons\top-zoom-in.png" />
     <None Remove="resources\icons\top-zoom-out.png" />
-    <None Remove="resources\images\startpicture1.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
@@ -161,7 +156,6 @@
     <Resource Include="resources\icons\top-text.png" />
     <Resource Include="resources\icons\top-zoom-in.png" />
     <Resource Include="resources\icons\top-zoom-out.png" />
-    <Resource Include="resources\images\startpicture1.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
