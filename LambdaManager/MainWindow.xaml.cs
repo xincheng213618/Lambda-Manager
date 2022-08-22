@@ -55,14 +55,16 @@ namespace LambdaManager
             ChangeMiddleViewVisibility(false);
         }
 
-
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)
         {
             ViewManager.GetInstance().ViewChanged += ViewChanged;
             allfpsState.DataContext = ViewManager.GetInstance();
-            mainView.Children.Clear();
-            mainView.Children.Add(ViewGrid.mainView);
+            if (Common.ViewGrid is ViewGrid viewGrid)
+            {
+                mainView.Children.Clear();
+                mainView.Children.Add(viewGrid.mainView);
+            }
             Log.LogWrite += AddMessage;
             performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;

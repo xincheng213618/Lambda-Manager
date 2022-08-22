@@ -42,6 +42,8 @@ namespace LambdaManager.Core
 
         internal static IScheduler? Scheduler;
 
+        public static IViewGrid ViewGrid = new ViewGrid();
+
 
         public enum HandlerType
         {
