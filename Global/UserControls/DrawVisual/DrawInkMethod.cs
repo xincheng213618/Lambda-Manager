@@ -577,6 +577,7 @@ namespace Global
             public static System.Windows.Media.Color ColorEidting = System.Windows.Media.Color.FromArgb(0xFF, 0x07, 0xAA, 0xE5);
             public static System.Windows.Media.Brush StrokeBrushDefault = new SolidColorBrush(ColorDefault);
             public static System.Windows.Media.Brush StrokeBrushEdit = new SolidColorBrush(ColorEidting);
+           // public static System.Windows.Media.Brush UndelLineBrush = new SolidColorBrush(dimenViewModel.SelectedAccentColor);
 
             /// <summary>
             /// 设置笔迹属性
@@ -672,7 +673,19 @@ namespace Global
                 };
                 return pen;
             }
+            public static System.Windows.Media.Pen SetPenSolid5(Brush brush)
+            {
+                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                {
+                    Brush = brush,
+                    Thickness = 1.5,
+                    DashCap = PenLineCap.Round,
 
+                    LineJoin = PenLineJoin.Round,
+                    MiterLimit = 0.0
+                };
+                return pen;
+            }
 
 
 
@@ -760,7 +773,7 @@ namespace Global
 
 
 
-            public static CustomTextInput CreateTextInput(System.Windows.Point point1, double height, double width)
+            public static CustomTextInput CreateTextInput(System.Windows.Point point1, double height, double width,FormattedText text,Brush brush)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -768,8 +781,9 @@ namespace Global
                    new StylusPoint(point1.X+width, point1.Y),
                    new StylusPoint(point1.X, point1.Y+height),
                    new StylusPoint(point1.X+width, point1.Y+height),
+                   
                     };
-                CustomTextInput stroke = new CustomTextInput(new StylusPointCollection(points))
+                CustomTextInput stroke = new CustomTextInput(new StylusPointCollection(points), text,brush)
                 {
                     DrawingAttributes = SetInkAttributes(),
                 };
@@ -905,15 +919,19 @@ namespace Global
 
 
 
-        public static FormattedText customTextInput;
+        
 
         public class CustomTextInput : Stroke
         {
-            public CustomTextInput(StylusPointCollection points) : base(points)
+            public CustomTextInput(StylusPointCollection points,FormattedText text,Brush brush) : base(points)
             {
                 StylusPoints = points.Clone();
-            }
 
+                this.customTextInput = text;
+                this.brush = brush;
+            }
+            FormattedText customTextInput;
+            Brush brush;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -926,8 +944,13 @@ namespace Global
                 double x4 = StylusPoints[3].X;
                 double y4 = StylusPoints[3].Y;
 
-               System.Windows.Point labPoint = new System.Windows.Point(x1 , y1 );
+               System.Windows.Point labPoint = new System.Windows.Point(x1-1 , y1-1 );
                 drawingContext.DrawText(customTextInput, labPoint);
+                if (dimenViewModel.UnderLine)
+                {
+                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid5(brush), new System.Windows.Point(x3, y3), new System.Windows.Point(x4,y4));
+                }
+
 
             }
         }

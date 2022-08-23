@@ -513,13 +513,31 @@ namespace Global.UserControls.DrawVisual
                 if (textFlag == 2) textFlag = 0;
                 if (textFlag == 0)
                 {
+
                     TextBox textBox = new TextBox()
-                    {
-                        Width = 60,
+                    { 
+                        FontFamily = DrawInkMethod.dimenViewModel.FontFam,
+                        FontSize = DrawInkMethod.dimenViewModel.FontSize,
+                        Width = 100,
                         Style = (Style)(this.FindResource("TextBoxSty")),
-                        TextWrapping = TextWrapping.Wrap
+                       // TextWrapping = TextWrapping.Wrap,
+                        Foreground = new SolidColorBrush(DrawInkMethod.dimenViewModel.SelectedAccentColor)
 
                     };
+                    if (DrawInkMethod.dimenViewModel.Italic)
+                    {
+                        textBox.FontStyle = FontStyles.Italic;
+                    }
+                    if (DrawInkMethod.dimenViewModel.Bold)
+                    {
+                        textBox.FontWeight = FontWeights.Bold;
+                    }
+                    if (DrawInkMethod.dimenViewModel.UnderLine)
+                    {
+                        textBox.TextDecorations = TextDecorations.Underline;
+                    }
+
+
                     inkCanvas.Children.Add(textBox);
                     InkCanvas.SetLeft(textBox, iniP.X-3);
                     InkCanvas.SetTop(textBox, iniP.Y-1);
@@ -531,16 +549,21 @@ namespace Global.UserControls.DrawVisual
                         if (textBox.Text == "")
                             inkCanvas.Children.Remove(textBox);
                         string label = (string)textBox.Text;
+                        System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
+                        FontWeight fontWeight = new FontWeight();
+                        FontStretch fontStretch = new FontStretch();
+                        if (DrawInkMethod.dimenViewModel.Italic) fontStyle = FontStyles.Italic;
+                        if (DrawInkMethod.dimenViewModel.Bold) fontWeight = FontWeights.Bold;
+                        Brush brush = new SolidColorBrush(DrawInkMethod.dimenViewModel.SelectedAccentColor);
                         FormattedText text = new FormattedText(label, CultureInfo.CurrentCulture,
-                                                  FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, Brushes.White, 1.25);
-                         DrawInkMethod.customTextInput = text;
+                        FlowDirection.LeftToRight, new Typeface(DrawInkMethod.dimenViewModel.FontFam, fontStyle, fontWeight, fontStretch), DrawInkMethod.dimenViewModel.FontSize, brush, 1.25);
+
+                       
                         double height = text.Height;
                         double width = text.Width;
 
-                        Stroke stroke = DrawInkMethod.InkCanvasMethod.CreateTextInput(iniP, height, width);
-                        // Stroke stroke1 = drawMethod.GenerateSquareStroke(iniP, new Point(iniP.X + 30, iniP.Y + 30));
-                        inkCanvas.Strokes.Add(stroke);
-                        // inkCanvas.Strokes.Add(stroke1);
+                        Stroke stroke = DrawInkMethod.InkCanvasMethod.CreateTextInput(iniP, height, width, text, brush); 
+                        inkCanvas.Strokes.Add(stroke);              
                         inkCanvas.Children.Remove(textBox);
                        
                     };
@@ -661,9 +684,9 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            
-           
-            if (saveTempStroke&& inkCanvas.Strokes.Count>0 )
+
+
+            if (saveTempStroke && inkCanvas.Strokes.Count > 0)
             {
                 if (inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
                 {
@@ -673,13 +696,13 @@ namespace Global.UserControls.DrawVisual
                 }
 
                 tempStroke = inkCanvas.Strokes.Clone();
-                if (inkMethod.Dimstroke!= null && inkMethod.Textstroke!= null)
-                    
+                if (inkMethod.Dimstroke != null && inkMethod.Textstroke != null)
+
                 {
                     inkCanvas.Strokes.Add(inkMethod.Dimstroke);
                     inkCanvas.Strokes.Add(inkMethod.Textstroke);
                 }
-               
+
                 saveTempStroke = false;
             }
             Point curPoint = e.GetPosition(e.Device.Target);
@@ -745,11 +768,11 @@ namespace Global.UserControls.DrawVisual
                 Point iniP = new Point(w * 19 / 20, h * 19 / 20);
                 Point endP = new Point(w * 19 / 20 - w * 100 * ratio1.Ratio / 1689.12, h * 19 / 20);
                 inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                try
-                {
-                    inkCanvas.Strokes.Remove(lastTempStroke);
-                }
-                catch { }
+                //try
+                //{
+                //    inkCanvas.Strokes.Remove(lastTempStroke);
+                //}
+                //catch { }
                 //inkVisual.lastTempStroke = inkMethod.Dimstroke;
                 inkCanvas.Strokes.Add(inkMethod.Dimstroke);
                 //inkVisual.lastTempStroke = null;
@@ -805,7 +828,7 @@ namespace Global.UserControls.DrawVisual
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                   // MessageBox.Show(ex.Message);
                 }
                    
                

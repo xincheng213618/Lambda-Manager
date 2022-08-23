@@ -203,7 +203,17 @@ namespace Global
             if (eventData == null)
                 return false;
             int time = int.Parse(GetStringValue(eventData, "mul_tinterval"));
-            MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information); 
+            // MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
+            string message = "循环间隔预计" + time.ToString() + "秒";
+            var r = Global.UserControls.MessageBox.ShowDialog(message);
+            if (r.IsYes)
+            {
+                //选择了Yes
+            }
+            else
+            {
+                //选择了No
+            }
             return true;
 
         }

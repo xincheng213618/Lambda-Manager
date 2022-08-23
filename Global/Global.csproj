@@ -30,6 +30,7 @@
     <None Remove="UserControls\Image\COOL.jpg" />
     <None Remove="UserControls\Image\DEEPGREEN.jpg" />
     <None Remove="UserControls\Image\GRAY.jpg" />
+    <None Remove="UserControls\Image\Grid.ico" />
     <None Remove="UserControls\Image\hold.cur" />
     <None Remove="UserControls\Image\HOT.jpg" />
     <None Remove="UserControls\Image\HSV.jpg" />
@@ -49,9 +50,11 @@
     <None Remove="UserControls\Image\TWILIGHT.jpg" />
     <None Remove="UserControls\Image\VIRIDIS.jpg" />
     <None Remove="UserControls\Image\WINTER.jpg" />
+    <None Remove="UserControls\Image\ZIRCON.png" />
   </ItemGroup>
 	
   <ItemGroup>
+    <Resource Include="UserControls\Image\Grid.ico" />
     <Resource Include="UserControls\Image\hold.cur" />
     <Resource Include="UserControls\Image\PLASMA.jpg" />
     <Resource Include="UserControls\Image\Eraser.cur" />
@@ -103,6 +106,7 @@
     <Resource Include="UserControls\Image\TWILIGHT.jpg" />
     <Resource Include="UserControls\Image\VIRIDIS.jpg" />
     <Resource Include="UserControls\Image\WINTER.jpg" />
+    <Resource Include="UserControls\Image\ZIRCON.png" />
   </ItemGroup>
 
 </Project>

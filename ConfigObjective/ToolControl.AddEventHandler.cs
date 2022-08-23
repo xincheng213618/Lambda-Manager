@@ -1,4 +1,4 @@
-﻿using Global;
+﻿using Global.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -186,8 +186,35 @@ namespace ConfigObjective
 
 			if (testMean.Dimensional.Mode.Count == 0)
             {
-				MessageBox.Show("请选择成像模式", "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
-				LambdaControl.Trigger("COLLECTION_COMPLETED", this, new Dictionary<string, object>() { });
+                //            Global.UserControls.MessageBox.Show("请选择成像模式", (s, e) =>
+                //            {
+                //                if (e.Result.IsYes)
+                //                {
+                //                    //选择了Yes
+                //                }
+                //                else
+                //                {
+                //                    //选择了No
+                //                }
+
+                //            });
+                var r = Global.UserControls.MessageBox.ShowDialog("请选择成像模式  !");
+                if (r.IsYes)
+                {
+                    //选择了Yes
+                }
+                else
+                {
+                    //选择了No
+                }
+
+                // System.Windows.MessageBox.Show("请选择成像模式", "请选择成像模式",MessageBoxButton.OK);
+
+
+
+
+
+                LambdaControl.Trigger("COLLECTION_COMPLETED", this, new Dictionary<string, object>() { });
 			}
             else
             {

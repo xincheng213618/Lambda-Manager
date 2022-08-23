@@ -72,6 +72,8 @@
     <LinearGradientBrush x:Key="GRAY" StartPoint="0,0" EndPoint="1,0">
         <LinearGradientBrush.GradientStops>
             <GradientStop Offset="1" Color="#BBBBBB"></GradientStop>
+            <GradientStop Offset="0.8" Color="#888888"></GradientStop>
+            <GradientStop Offset="0.4" Color="#222222"></GradientStop>
             <GradientStop Offset="0" Color="#000000"></GradientStop>
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
@@ -86,8 +88,8 @@
                     <Grid>
                         <Border 
         x:Name="Border"  
-        CornerRadius="5" 
-        BorderThickness="2.5"
+        CornerRadius="2" 
+        BorderThickness="1.5"
         BorderBrush="#FF8E8A8A"  Background="#FF4C4A4A">
                             <ContentPresenter  x:Name="cont" 
           Margin="{TemplateBinding Button.Padding}"

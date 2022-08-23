@@ -564,7 +564,6 @@ int CameraSettingExposure(int mode,double exposure)
 
 	
 	Event::Trigger("UpdateMulSummary", &j1);
-
 	json j3;
 	j3["window"] =0;
 	j3["flag"] = 0;
