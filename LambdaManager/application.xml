@@ -89,7 +89,7 @@
 		</procedure>
 		<procedure name="SleepTest" event="SleepTest" >
 			<action name="SleepTest"/>
-		</procedure>
+		</procedure>	
 		<procedure name="StageSettingReset" event="STAGE_SETTING_RESET">
 			<action name="StageSettingReset"/>
 		</procedure>

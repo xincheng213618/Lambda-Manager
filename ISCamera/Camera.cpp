@@ -512,6 +512,8 @@ int CameraSettingExposure(int mode,double exposure)
 	double a = 1.001;
 	Event::Trigger("Phase_Seg", &img1, &a,&a,&a);
 
+
+
 	Event::Trigger("BilateralDenoise", &img1, &a);
 	
 
@@ -534,13 +536,9 @@ int CameraSettingExposure(int mode,double exposure)
 		Event::Trigger("TestDataEvent", img2.data, img2.channels() * img2.cols * img2.rows / sizeof(uchar));
 		});
 	t.detach();
-	//
-
 
 
 	//HistCalc(img2,0);
-
-
 	json j1;
 
 	//采集次数
