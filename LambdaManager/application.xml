@@ -89,7 +89,7 @@
 		</procedure>
 		<procedure name="SleepTest" event="SleepTest" >
 			<action name="SleepTest"/>
-		</procedure>
+		</procedure>	
 		<procedure name="StageSettingReset" event="STAGE_SETTING_RESET">
 			<action name="StageSettingReset"/>
 		</procedure>
@@ -575,8 +575,8 @@
 		</procedure>
 	</component>
 
-	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册"/>
-	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于"/>
+	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册(_R)"/>
+	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于(_A)"/>
 
 
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
@@ -867,7 +867,7 @@
 		</procedure>
 	</component>
 
-	<component name="Event Test" lib="lib\InteropTest.dll" init="dispatch,proc5">
+	<component name="Event Test" lib="lib\InteropTest.dll" init="init,dispatch,proc5">
 		<procedure name="init">
 			<action name="Test120" raise="TEST_EVENT_A|TEST_EVENT_B" async="true"/>
 			<action name="Test124" raise="TEST_EVENT_1"/>
@@ -934,7 +934,7 @@
 		</procedure>
 	</component>
 
-	<component name="Schedule API Test" lib="lib\InteropTest.dll" >
+	<component name="Schedule API Test" lib="lib\InteropTest.dll" init ="schedule,delay" >
 		<procedure name="schedule">
 			<action name="Test300"/>
 			<action name="Test301"/>

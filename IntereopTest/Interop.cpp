@@ -652,11 +652,16 @@ int BrightFieldBrightness(void* brightness)
 	return 0;
 }
 
+void ScheduleEnd() {
+	Logger::Log1(Severity::INFO, "Test300 end");
+}
+
 int Test300() {
 	Logger::Log1(Severity::INFO, "Test300 start");
-	Schedule(timer, -1, []() ->void {
+	Schedule(timer, 3, []() ->void {
 		Logger::Log1(Severity::INFO, "Test300 reached");
-		});
+		}, ScheduleEnd);
+
 	return 0;
 }
 
@@ -664,8 +669,11 @@ int Test301() {
 	Logger::Log1(Severity::INFO, "Test301 start");
 	for (int i = 0; i < 2; i++) {
 		Schedule2(timer, 3, [=]() ->int {
-			Logger::Log1(Severity::INFO, "Test301 reached: %d", i);
+			Logger::Log1(Severity::INFO, "Test301[%d] reached", i);
 			return 0;
+			}, [=]()->int {
+				Logger::Log1(Severity::INFO, "Test301[%d] end", i);
+				return 0;
 			});
 	}
 	return 0;
@@ -676,19 +684,26 @@ int Test302() {
 	Logger::Log1(Severity::INFO, "Test302 start[%p]", text);
 	for (int i = 0; i < 2; i++) {
 		Schedule2(timer, 1, [=, &text]() ->int {
-			Logger::Log1(Severity::INFO, "Test302 reached: %s[%p]", text[i].c_str(), text);
+			Logger::Log1(Severity::INFO, "Test302[%d] reached: %s[%p]", i, text[i].c_str(), text);
 			return 0;
+			}, [=]()->int {
+				Logger::Log1(Severity::INFO, "Test302[%d] end", i);
+				return 0;
 			});
 	}
 	Sleep(5 * 3000); //ensure 'text' is still exist when lambda accesing it by reference
 	return 0;
 }
 
+void DelayEnd() {
+	Logger::Log1(Severity::INFO, "Test303 end");
+}
+
 int Test303() {
 	Logger::Log1(Severity::INFO, "Test303 start");
-	const char* name = Delay(3, -1, []() ->void {
+	const char* name = Delay(3, 3, []() ->void {
 		Logger::Log1(Severity::INFO, "Test303 reached");
-		});
+		}, DelayEnd);
 	Sleep(5 * 3000);
 	StopSchedule(name);
 	return 0;
@@ -698,9 +713,12 @@ int Test304() {
 	Logger::Log1(Severity::INFO, "Test304 start");
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 2; j++) {
-			Delay2(3, 1, [=]() ->int {
-				Logger::Log1(Severity::INFO, "Test304 reached: %d, %d", i, j);
+			Delay2(3, 2, [=]() ->int {
+				Logger::Log1(Severity::INFO, "Test304[%d][%d] reached", i, j);
 				return 0;
+				}, [=]()->int {
+					Logger::Log1(Severity::INFO, "Test304[%d][%d] end", i, j);
+					return 0;
 				});
 		}
 	}
@@ -713,8 +731,11 @@ int Test305() {
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 2; j++) {
 			Delay2(3, 1, [=, &text]() ->int {
-				Logger::Log1(Severity::INFO, "Test305 reached: %s[%p]", text[i * 2 + j].c_str(), text);
+				Logger::Log1(Severity::INFO, "Test305[%d][%d] reached: %s[%p]", i, j, text[i * 2 + j].c_str(), text);
 				return 0;
+				}, [=]()->int {
+					Logger::Log1(Severity::INFO, "Test305[%d][%d] end", i, j);
+					return 0;
 				});
 		}
 	}

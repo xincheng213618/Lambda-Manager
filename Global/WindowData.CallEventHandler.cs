@@ -34,7 +34,7 @@ namespace Global
 
         public DrawingVisualInk[] drawingCanvasInk = new DrawingVisualInk[100];
         public InkVisual[] inkVisuals = new InkVisual[100];
-        public static double ratio =1;
+        //public static double ratio =1;
 
 
         public  void AddImageConfident(Image image1, int viewindex)

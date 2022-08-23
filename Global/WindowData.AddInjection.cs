@@ -80,14 +80,34 @@ namespace Global
                 //grid1.Children.Remove(stackPanel);
                 // add profile
                 //MessageBox.Show("11111");
-                Profile profile = new Profile();
+                Profile profile = new Profile();   //profile
                 profile.Height = Double.NaN;
                 profile.Visibility = Visibility.Collapsed;
                 profile.Margin= new Thickness(30, 0, 0, 0);
                 stackPanel.Orientation = Orientation.Horizontal;
+                profile.DataContext = profileModel;
+                profile.doubleUpDown1.ValueChanged += delegate
+                 {
+                     if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                         inkVisuals[0].DrawProfile();
+                 };
+                profile.doubleUpDown2.ValueChanged += delegate
+                {
+                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                        inkVisuals[0].DrawProfile();
+                };
+                profile.Marker1Check.Click += delegate
+                {
+                    if (inkVisuals[0].inkCanvas.Strokes.Contains( inkVisuals[0].profileStroke))
+                    inkVisuals[0].DrawProfile();
+                };
+                profile.Marker2Check.Click += delegate
+                {
+                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                        inkVisuals[0].DrawProfile();
+                };
                 stackPanel.Children.Add(histogram);
                 stackPanel.Children.Add(profile);
-
 
                 //grid1.Children.Add(profile);
                 //Grid.SetRow(profile, 2);
@@ -453,7 +473,7 @@ namespace Global
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+               System.Windows.MessageBox.Show(ex.Message);
 
             }
             // histogramtogg
@@ -468,6 +488,20 @@ namespace Global
             {
 
             }
+            try
+            {
+               
+                
+            }
+            catch 
+            
+            {
+            
+            }
+
+            
+
+
 
             //ColorBar ADD
             try
@@ -592,7 +626,7 @@ namespace Global
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
 
 
@@ -702,7 +736,7 @@ namespace Global
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
 
             }
             try
@@ -741,7 +775,7 @@ namespace Global
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
 
 
@@ -811,6 +845,18 @@ namespace Global
                     propertySetItem.Visibility = Visibility.Collapsed;
                     tabControl.SelectedIndex = 1;
                 };
+
+               
+
+
+
+
+
+
+
+
+
+
 
                 GridLength leftViewtemp = new GridLength(0);
                 double tempLeft = 0, tempTop = 0, tempWidth = 0, tempHeight = 0;
@@ -923,7 +969,7 @@ namespace Global
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    System.Windows.MessageBox.Show(ex.Message);
                 }
                
 
@@ -932,7 +978,18 @@ namespace Global
 
                 ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[15]);
                 ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, new Binding("TextChecked"));
+                ToggleButtonText.Checked += delegate
+                {
+                    propertySetItem.Visibility = Visibility.Visible;
+                    propertySetItem.DataContext = drawMethod.dimenViewModel;
+                    tabControl.SelectedIndex = 5;
+                };
+                ToggleButtonText.Unchecked += delegate
+                {// propertySetItem.Content = null;
+                    propertySetItem.Visibility = Visibility.Collapsed;
+                    tabControl.SelectedIndex = 1;
 
+                };
                 ToggleButton ToggleButtonArrow = ((ToggleButton)topToolbar.Children[16]);
                 ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ArrowChecked"));
 
@@ -977,7 +1034,7 @@ namespace Global
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 

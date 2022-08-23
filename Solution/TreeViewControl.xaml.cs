@@ -60,7 +60,7 @@ namespace Solution
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(SolutionFullName))
+            if (!string.IsNullOrEmpty(SolutionFullName))
             {
                 Config.ConfigWrite(SolutionFullName);
             }
@@ -94,6 +94,25 @@ namespace Solution
                 }
                 SelectedTreeViewItem = item;
 
+                if (SolutionExplorers.Count != 1&&item.DataContext is SolutionExplorer solutionExplorer)
+                {
+                    ///判断当前工程配置不是现在的，不重复读取
+                    if (SolutionFullName != solutionExplorer.FullName)
+                    {
+                        if (Config.ConfigRead(solutionExplorer.FullName) == 0)
+                        {
+                            SolutionFullName = solutionExplorer.FullName;
+                            recentFileList.InsertFile(SolutionFullName);
+                        }
+                        else
+                        {
+                            MessageBox.Show("配置更新异常");
+                        }
+                    }
+
+
+                }
+
                 if (e.ClickCount == 2)
                 {
                     if (item.DataContext is ProjectFile projectFile1)
@@ -113,8 +132,10 @@ namespace Solution
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
                         LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullName));
-                        LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { } );
+                        LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
                     }
+
+
                 }
 
             }
@@ -132,7 +153,7 @@ namespace Solution
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Tag is XSolution.BaseObject baseObject )
+            if (tb.Tag is XSolution.BaseObject baseObject)
             {
                 baseObject.IsEditMode = false;
             }
@@ -151,19 +172,58 @@ namespace Solution
             }
         }
 
-
+        /// <summary>
+        /// 新建
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Tool.Utils.OpenFileDialog(out string FilePath))
-            {
-                if (Config.ConfigRead(FilePath) == 0)
-                {
-                    SolutionFullName = FilePath;
-                    recentFileList.InsertFile(FilePath);
-                    TreeViewInitialized(FilePath);
-                }
 
+            OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
+            openSolutionWindow.Closed += (s, e) =>
+            {
+                string FullName = openSolutionWindow.FullName;
+                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                {
+                    SolutionFullName = FullName;
+                    recentFileList.InsertFile(FullName);
+                    TreeViewInitialized(FullName);
+                }
             };
+            openSolutionWindow.ShowDialog();
+        }
+        /// <summary>
+        /// 新建1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
+            openSolutionWindow.Closed += (s, e) =>
+            {
+                string FullName = openSolutionWindow.FullName;
+
+                for (int i = 0; i < SolutionExplorers.Count; i++)
+                {
+                    if (SolutionExplorers[i].FullName == FullName)
+                    {
+
+                        return;
+                    }
+
+                } 
+
+                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                {
+                    SolutionFullName = FullName;
+                    recentFileList.InsertFile(FullName);
+                    TreeViewInitialized(FullName, false);
+                }
+            };
+            openSolutionWindow.ShowDialog();
+
         }
 
 
@@ -190,13 +250,13 @@ namespace Solution
 
         SolutionExplorer solutionExplorer;
 
-        private void TreeViewInitialized(string FilePath)
+        private void TreeViewInitialized(string FilePath, bool init = true)
         {
             solutionExplorer = new SolutionExplorer(FilePath)
             {
                 SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
             };
-            
+
 
             SolutionDir = System.IO.Path.GetDirectoryName(FilePath);
 
@@ -206,7 +266,7 @@ namespace Solution
             {
                 if (dic.Name == "Video" || dic.Name == "Image")
                 {
-                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false,CanReName = false ,Visibility =Visibility.Hidden};
+                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false, CanReName = false, Visibility = Visibility.Hidden };
                     foreach (var item in dic.GetDirectories())
                     {
                         ProjectFolder projectFolder = new ProjectFolder(item.FullName);
@@ -219,7 +279,7 @@ namespace Solution
 
                         projectMannager.AddChild(projectFile);
 
-                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp"|| Extension == ".txt")
+                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
                         {
                             solutionExplorer.AddChild(projectFile);
                         };
@@ -248,12 +308,14 @@ namespace Solution
                 }
 
             }
-            SolutionExplorers.Clear();
+            if (init)
+                SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
             SolutionTreeView.ItemsSource = SolutionExplorers;
         }
 
-        private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject,string FullName)
+
+        private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject, string FullName)
         {
             var root = new DirectoryInfo(FullName);
             foreach (var directoryInfo in root.GetDirectories())
@@ -274,7 +336,7 @@ namespace Solution
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            
+
             if (!string.IsNullOrEmpty(SolutionFullName))
             {
                 Config.ConfigWrite(SolutionFullName);
@@ -354,7 +416,25 @@ namespace Solution
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             NewCreatWindow newCreatWindow = new NewCreatWindow();
+            newCreatWindow.Closed += delegate
+            {
+                if (newCreatWindow.IsCreate)
+                {
+                    string SolutionDirectoryPath = newCreatWindow.newCreatViewMode.DirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name;
+                    SolutionFullName = SolutionDirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name + ".gprj";
+
+
+                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Video");
+                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Image");
+
+                    recentFileList.InsertFile(SolutionFullName);
+                    Config.ConfigWrite(SolutionFullName);
+                    TreeViewInitialized(SolutionFullName);
+                }
+            };
             newCreatWindow.ShowDialog();
+
+
         }
 
 
@@ -367,9 +447,12 @@ namespace Solution
                 Config.ConfigWrite(SolutionFullName);
             }
             SolutionFullName = null;
+            SolutionExplorers.Clear();
             SolutionTreeView.ItemsSource = null;
 
         }
     }
+
+
 
 }

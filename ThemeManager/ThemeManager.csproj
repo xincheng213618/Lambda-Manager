@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
 </Project>

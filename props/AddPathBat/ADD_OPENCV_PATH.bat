@@ -1,1 +1,1 @@
-setx OPENCV_PATH %cd%
+setx OPENCV_PATH "%cd%"

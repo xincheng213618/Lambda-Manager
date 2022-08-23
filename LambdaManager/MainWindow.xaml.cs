@@ -55,14 +55,16 @@ namespace LambdaManager
             ChangeMiddleViewVisibility(false);
         }
 
-
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)
         {
             ViewManager.GetInstance().ViewChanged += ViewChanged;
             allfpsState.DataContext = ViewManager.GetInstance();
-            mainView.Children.Clear();
-            mainView.Children.Add(ViewGrid.mainView);
+            if (Common.ViewGrid is ViewGrid viewGrid)
+            {
+                mainView.Children.Clear();
+                mainView.Children.Add(viewGrid.mainView);
+            }
             Log.LogWrite += AddMessage;
             performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
@@ -88,6 +90,7 @@ namespace LambdaManager
             }
         }
 
+
         public MenuItem? AddMenuItem(string path)
         {
             ItemCollection items = menu.Items;
@@ -100,9 +103,9 @@ namespace LambdaManager
             foreach (string name in array)
             {
                 bool found = false;
-                foreach (MenuItem item in (IEnumerable)items)
+                foreach (MenuItem item in items)
                 {
-                    if (item.Header.ToString() == name)
+                    if (item.Header.ToString().Contains(name))
                     {
                         found = true;
                         items = item.Items;
@@ -131,6 +134,7 @@ namespace LambdaManager
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            Common.CommonExit();
             for (int i = 0; i < Views.Length; i++)
             {
                 View view = Views[i];
@@ -168,7 +172,6 @@ namespace LambdaManager
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //stageAcquisition.Width = SliderAll1.Value;
         }
 
 

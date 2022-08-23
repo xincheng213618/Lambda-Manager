@@ -27,7 +27,7 @@ namespace Solution.RecentFile
         public RecentFileList()
         {
             Persister = new RegistryPersister();
-            MaxNumberOfFiles = 9;
+            MaxNumberOfFiles = 15;
             MaxPathLength = 50;
             MenuItemFormatOneToNine = "_{0}:  {2}";
             MenuItemFormatTenPlus = "{0}:  {2}";

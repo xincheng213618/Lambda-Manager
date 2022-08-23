@@ -1,0 +1,211 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+    <AssemblyName>LambdaManager</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>True</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
+	<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+	<PreserveCompilationContext>false</PreserveCompilationContext>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>Preview</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <UseWindowsForms>True</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <Title>LambdaManager</Title>
+    <Authors>$(AssemblyName)  </Authors>
+    <Company>$(Authors) </Company>
+    <Product>$(AssemblyName) </Product>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\Chen\Desktop\Lambda Manager\lambda.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Controls\**" />
+    <Compile Remove="resources\images\startimage\**" />
+    <EmbeddedResource Remove="Controls\**" />
+    <EmbeddedResource Remove="resources\images\startimage\**" />
+    <None Remove="Controls\**" />
+    <None Remove="resources\images\startimage\**" />
+    <Page Remove="Controls\**" />
+    <Page Remove="resources\images\startimage\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Image\ZIRCON.png" />
+    <None Remove="resources\icons\application-icon.png" />
+    <None Remove="resources\icons\application-logo.png" />
+    <None Remove="resources\icons\bottom-backward.png" />
+    <None Remove="resources\icons\bottom-forward.png" />
+    <None Remove="resources\icons\bottom-place.png" />
+    <None Remove="resources\icons\bottom-slider.png" />
+    <None Remove="resources\icons\bottom-start.png" />
+    <None Remove="resources\icons\bottom-stop.png" />
+    <None Remove="resources\icons\company-logo.png" />
+    <None Remove="resources\icons\left-colorbar.png" />
+    <None Remove="resources\icons\left-divcolor.png" />
+    <None Remove="resources\icons\left-glitter.jpg" />
+    <None Remove="resources\icons\left-histogram.png" />
+    <None Remove="resources\icons\left-monocolor.png" />
+    <None Remove="resources\icons\left-range.png" />
+    <None Remove="resources\icons\right-3d.png" />
+    <None Remove="resources\icons\right-bf.png" />
+    <None Remove="resources\icons\right-cube.png" />
+    <None Remove="resources\icons\right-df.png" />
+    <None Remove="resources\icons\right-dp.png" />
+    <None Remove="resources\icons\right-dual.png" />
+    <None Remove="resources\icons\right-fl.png" />
+    <None Remove="resources\icons\right-phi.png" />
+    <None Remove="resources\icons\right-quater.png" />
+    <None Remove="resources\icons\right-repo.png" />
+    <None Remove="resources\icons\right-ri.png" />
+    <None Remove="resources\icons\right-slider.png" />
+    <None Remove="resources\icons\severity\debug16.png" />
+    <None Remove="resources\icons\severity\error16.png" />
+    <None Remove="resources\icons\severity\fatal16.png" />
+    <None Remove="resources\icons\severity\info16.png" />
+    <None Remove="resources\icons\severity\warning16.png" />
+    <None Remove="resources\icons\splitter.png" />
+    <None Remove="resources\icons\top-arrow.png" />
+    <None Remove="resources\icons\top-circle.png" />
+    <None Remove="resources\icons\top-curve.png" />
+    <None Remove="resources\icons\top-dimension.png" />
+    <None Remove="resources\icons\top-eraser.png" />
+    <None Remove="resources\icons\top-focus.png" />
+    <None Remove="resources\icons\top-inline.png" />
+    <None Remove="resources\icons\top-line.png" />
+    <None Remove="resources\icons\top-move.png" />
+    <None Remove="resources\icons\top-outline.png" />
+    <None Remove="resources\icons\top-polygon.png" />
+    <None Remove="resources\icons\top-profile.png" />
+    <None Remove="resources\icons\top-rectangle.png" />
+    <None Remove="resources\icons\top-ruler.png" />
+    <None Remove="resources\icons\top-scale.png" />
+    <None Remove="resources\icons\top-search.png" />
+    <None Remove="resources\icons\top-select.png" />
+    <None Remove="resources\icons\top-text.png" />
+    <None Remove="resources\icons\top-zoom-in.png" />
+    <None Remove="resources\icons\top-zoom-out.png" />
+    <None Remove="resources\images\startpicture1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logo.ico" />
+  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Image\ZIRCON.png" />
+		<Resource Include="resources\icons\bottom-forward.png" />
+		<Resource Include="resources\icons\bottom-place.png" />
+    <Resource Include="resources\icons\bottom-slider.png" />
+    <Resource Include="resources\icons\bottom-start.png" />
+    <Resource Include="resources\icons\bottom-stop.png" />
+    <Resource Include="resources\icons\company-logo.png" />
+    <Resource Include="resources\icons\left-colorbar.png" />
+    <Resource Include="resources\icons\left-divcolor.png" />
+    <Resource Include="resources\icons\left-glitter.jpg" />
+    <Resource Include="resources\icons\left-histogram.png" />
+    <Resource Include="resources\icons\left-monocolor.png" />
+    <Resource Include="resources\icons\left-range.png" />
+    <Resource Include="resources\icons\right-3d.png" />
+    <Resource Include="resources\icons\right-bf.png" />
+    <Resource Include="resources\icons\right-cube.png" />
+    <Resource Include="resources\icons\right-df.png" />
+    <Resource Include="resources\icons\right-dp.png" />
+    <Resource Include="resources\icons\right-dual.png" />
+    <Resource Include="resources\icons\right-fl.png" />
+    <Resource Include="resources\icons\right-phi.png" />
+    <Resource Include="resources\icons\right-quater.png" />
+    <Resource Include="resources\icons\right-repo.png" />
+    <Resource Include="resources\icons\right-ri.png" />
+    <Resource Include="resources\icons\right-slider.png" />
+    <Resource Include="resources\icons\splitter.png" />
+    <Resource Include="resources\icons\top-arrow.png" />
+    <Resource Include="resources\icons\top-circle.png" />
+    <Resource Include="resources\icons\top-curve.png" />
+    <Resource Include="resources\icons\top-dimension.png" />
+    <Resource Include="resources\icons\top-eraser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Quartz" Version="3.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AboutMsg\AboutMsg.csproj" />
+    <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
+    <ProjectReference Include="..\Lambda\Lambda.csproj" />
+    <ProjectReference Include="..\Register\Register.csproj" />
+    <ProjectReference Include="..\Solution\Solution.csproj" />
+    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\icons\application-icon.png" />
+    <Resource Include="resources\icons\application-logo.png" />
+    <Resource Include="resources\icons\bottom-backward.png" />
+    <Resource Include="resources\icons\severity\debug16.png" />
+    <Resource Include="resources\icons\severity\error16.png" />
+    <Resource Include="resources\icons\severity\fatal16.png" />
+    <Resource Include="resources\icons\severity\info16.png" />
+    <Resource Include="resources\icons\severity\warning16.png" />
+    <Resource Include="resources\icons\top-focus.png" />
+    <Resource Include="resources\icons\top-inline.png" />
+    <Resource Include="resources\icons\top-line.png" />
+    <Resource Include="resources\icons\top-move.png" />
+    <Resource Include="resources\icons\top-outline.png" />
+    <Resource Include="resources\icons\top-polygon.png" />
+    <Resource Include="resources\icons\top-profile.png" />
+    <Resource Include="resources\icons\top-rectangle.png" />
+    <Resource Include="resources\icons\top-ruler.png" />
+    <Resource Include="resources\icons\top-scale.png" />
+    <Resource Include="resources\icons\top-search.png" />
+    <Resource Include="resources\icons\top-select.png" />
+    <Resource Include="resources\icons\top-text.png" />
+    <Resource Include="resources\icons\top-zoom-in.png" />
+    <Resource Include="resources\icons\top-zoom-out.png" />
+    <Resource Include="resources\images\startpicture1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="StartWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="application.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="StartWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\Styles.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

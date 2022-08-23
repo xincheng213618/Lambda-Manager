@@ -39,6 +39,8 @@ typedef int(__cdecl* LogCallBack2)(int, wchar_t*);
 typedef int(__cdecl* GetArraySize1)(void*);
 typedef int(__cdecl* InitialFrame)(int, int, void*, int, int, int);
 typedef int(__cdecl* UpdateFrame)(int, int, void*, int, int);
+typedef int(__cdecl* UpdateFrameRect)(int, int, void*, int, int, int, int, int, int);
+
 typedef void(__cdecl* CloseImageView)(int);
 typedef void(__cdecl* Services)(const char*);
 
@@ -98,6 +100,8 @@ enum ArgumentType
 	POINTER2,
 	POINTER4
 };
+
+
 
 extern "C" LIB_API void RegisterRoutineEvent(char * type, int rotineId, ArgumentType handlerType, int once);
 extern "C" LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerType, int once);
@@ -163,15 +167,18 @@ public:
 
 
 extern "C" LIB_API void InvokeCallback(void* callBack);
-extern "C" LIB_API void InvokeLambdaCallback(int callBack);
+extern "C" LIB_API void InvokeScheduleCallback(int callBack);
+extern "C" LIB_API void InvokeScheduleEnd(int callBackEnd);
 
 
 
-extern "C" LIB_API const char* Schedule(const char* cron, int times, Callback callback); //times<0 means forever
-extern "C" LIB_API const char* Schedule2(const char* cron, int times, std::function<int()> callback); //times<0 means forever
-extern "C" LIB_API const char* Delay(int seconds, int times,Callback callback);
-extern "C" LIB_API const char* Delay2(int seconds, int times, std::function<int()> callback);
+extern "C" LIB_API const char* Schedule(const char* cron, int times, Callback callback, Callback end); //times<0 means forever
+extern "C" LIB_API const char* Schedule2(const char* cron, int times, std::function<int()> callback, std::function<int()> end); //times<0 means forever
+extern "C" LIB_API const char* Delay(int seconds, int times,Callback callback, Callback end);
+extern "C" LIB_API const char* Delay2(int seconds, int times, std::function<int()> callback, std::function<int()> end);
 extern "C" LIB_API void StopSchedule(const char* scheduleName);
+
+
 
 
 
@@ -190,6 +197,8 @@ private:
 public:
 	~LambdaView();
 	void Show(cv::Mat mat);
+	void Show(cv::Mat mat, size_t left, size_t right, size_t width, size_t height);
+
 	void Close();
 	ViewState GetState();
 	void SetState(ViewState state);

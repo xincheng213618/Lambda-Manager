@@ -1,4 +1,6 @@
-﻿using LambdaManager.Config;
+﻿using Lambda;
+using LambdaManager.Config;
+using LambdaManager.Core;
 using System;
 
 using System.IO;
@@ -16,11 +18,11 @@ namespace LambdaManager
     /// </summary>
     public partial class StartWindow : Window
     {
+        //2022.8.20 主窗口显示需要后置，前置在沈茜的电脑上会出现DLL 第二次无法加载的情况，原因未知
         public bool IsRunning { get; set; } = false;
-        MainWindow mainWindow;
-        public StartWindow( MainWindow mainWindow)
+        public MainWindow mainWindow;
+        public StartWindow()
         {
-            this.mainWindow = mainWindow;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
@@ -28,6 +30,7 @@ namespace LambdaManager
         ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
+            Log.LogWrite += AddMessage;
             if (DateTime.Now > Convert.ToDateTime(GetExpireDate() ?? "2025/1/1"))
             {
                 MessageBox.Show("过期了");
@@ -37,7 +40,6 @@ namespace LambdaManager
             {
                 labelVersion.Content = string.Format("V8.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
                 ConfigLibrary = new ConfigLibrary();
-                ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
                 Thread thread = new Thread(Load);
                 thread.Start();
                 _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
@@ -59,30 +61,44 @@ namespace LambdaManager
             return s;
         }
 
+        public void AddMessage(Message message)
+        {
+            TexoBoxMsg.Text += Environment.NewLine + message.Text;
+        }
+
         public XElement loadxml()
         {
-            XElement root = null; ;
-            string path = "application.xml";
-            if (File.Exists(path))
+            try
             {
-                root = XDocument.Load(path).Root;
+                XElement root = null; ;
+                string path = "application.xml";
+                if (File.Exists(path))
+                {
+                    root = XDocument.Load(path).Root;
+                }
+                else if (File.Exists(dllAce))
+                {
+                    var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
+                    if (assembly == null)
+                        return null;
+                    var type = assembly.GetType("ACE.AES");
+                    if (type == null)
+                        return null;
+                    string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
+                    if (s == null)
+                        return null;
+                    if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
+                        s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
+                    root = XDocument.Parse(s).Root;
+                }
+                return root;
             }
-            else if (File.Exists(dllAce))
+            catch (Exception ex)
             {
-                var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/{dllAce}");
-                if (assembly == null)
-                    return null;
-                var type = assembly.GetType("ACE.AES");
-                if (type == null)
-                    return null;
-                string? s = type.InvokeMember("GetSysConfig", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
-                if (s == null)
-                    return null;
-                if (Regex.IsMatch(s, "\\s*<\\?\\s*xml"))
-                    s = s.Substring(s.IndexOf(Environment.NewLine) + 2);
-                root = XDocument.Parse(s).Root;
+                Log.LogWrite(new Message() { Severity =Severity.INFO,Text = ex.Message});
+                return null;
             }
-            return root;
+
         }
 
         public void Load()
@@ -90,18 +106,24 @@ namespace LambdaManager
             bool num = ConfigLibrary.Load(loadxml());
             if (num == true)
             {
+                Log.LogWrite -= AddMessage;
+                Application.Current.Dispatcher.Invoke(delegate
+                {
+                    mainWindow = new MainWindow();
+                    Application.Current.MainWindow = mainWindow;
+                });
                 ConfigLibrary.InitializeLibrary();
-                ConfigLibrary.LoadUIComponents();
+
             }
             else
             {
                 MessageBox.Show("主控初始化失败");
-                Environment.Exit(0);
             }
             Application.Current.Dispatcher.Invoke(delegate
             {
                 if (IsRunning)
                 {
+
                     _ = Dispatcher.BeginInvoke(new Action(async () => await StartMainWindow()));
                 }
                 else
@@ -135,6 +157,8 @@ namespace LambdaManager
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
+            ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
+            ConfigLibrary.LoadUIComponents();
             mainWindow.Show();
             this.Close();
         }

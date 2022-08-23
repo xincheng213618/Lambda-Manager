@@ -62,7 +62,6 @@ namespace LambdaManager
             if (root == null)
                 return false;
 
-
             commands = (from c in root.Descendants("commands").Descendants("command")
                                       select new LambdaManager.DataType.Command
                                       {

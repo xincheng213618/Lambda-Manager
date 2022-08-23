@@ -63,16 +63,16 @@ namespace ConfigObjective
         }
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
-            windowData.MulDimensional.ZEnd = windowData.WindowMsg.StageZ;
+           // windowData.MulDimensional.ZEnd = windowData.WindowMsg.StageZ;
 
-            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 1 }, { "value", 0 } });
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 1 }, { "value", windowData.MulDimensional.ZEnd }, { "zstart", 0 }, { "zend", 0 } });
         }
 
         private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
         {
-            windowData.MulDimensional.ZStart = windowData.WindowMsg.StageZ;
+           // windowData.MulDimensional.ZStart = windowData.WindowMsg.StageZ;
 
-            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 0 }, { "value", 0 } });
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 0 }, { "value", windowData.MulDimensional.ZStart } ,{ "zstart", 0 }, { "zend", 0 } });
 
 
         }
@@ -80,8 +80,8 @@ namespace ConfigObjective
         private void UpdateMulZStep_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("算法计算");
-            windowData.MulDimensional.Zstep = 400;
-            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 2 }, { "value", 0 } });
+           // windowData.MulDimensional.Zstep = 400;
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 2 }, { "value", 0 }, { "zstart", 0 }, { "zend", 0 } });
 
 
         }

@@ -118,6 +118,9 @@ namespace ConfigBottomView
                 drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.LowerValue);
 
             }
+            InkCanvas.SetLeft(lowerThumbText, RangeSlider.LowerValue/255* (HistogramImage.ActualWidth-12.5) + 8);
+
+
 
 
         }
@@ -130,8 +133,9 @@ namespace ConfigBottomView
                 int max = (int)RangeSlider.HigherValue;
                 LambdaControl.Trigger("BRIGHTNESS_RANGE", this, new Dictionary<string, object>() { { "Min", min }, { "Max", max } });
                 drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.HigherValue);
-
+                
             }
+            InkCanvas.SetLeft(highThumbText, RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth +(1- RangeSlider.HigherValue / 255)*12.5 + 8);
 
 
         }
@@ -312,6 +316,8 @@ namespace ConfigBottomView
             drawXAxis(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 20);
             drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 0);
             drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 255);
+            InkCanvas.SetLeft(lowerThumbText, RangeSlider.LowerValue / 255 * HistogramImage.ActualWidth + 8);
+            InkCanvas.SetLeft(highThumbText, RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth + 8);
         }
 
         private void HistogramImage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -325,10 +331,11 @@ namespace ConfigBottomView
 
         private void inkCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //inkCanvas.Strokes.Clear();
-            //drawYAxis(HistogramImage.ActualHeight, 10);
-            //drawXAxis(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 20);
-            //drawLimitLineL(inkCanvas.ActualHeight, RangeSlider.LowerValue);
+            InkCanvas.SetLeft(lowerThumbText, RangeSlider.LowerValue / 255 * HistogramImage.ActualWidth + 8);
+            InkCanvas.SetLeft(highThumbText, RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth + 8);
+          
         }
+
+        
     }
 }

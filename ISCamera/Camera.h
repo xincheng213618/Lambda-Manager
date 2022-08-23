@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include "common.h"
+#include <opencv2/opencv.hpp>
+
 
 #ifdef ISCAMERA_EXPORTS
 #define CAMERA_API __declspec(dllexport)

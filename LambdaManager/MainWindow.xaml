@@ -7,7 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager"                 
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
-        Background="#333333" Width="1920"  Height="1080" MinWidth="1024" MinHeight="768" Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Background="#333333" Width="1280"  Height="720" MinWidth="1024" MinHeight="576" Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <Window.Resources>
         <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="5, 0, 0, 0" />
@@ -25,58 +25,40 @@
                     <SolidColorBrush Color="{StaticResource HighlightColor}" />
                 </Setter.Value>
             </Setter>
+            <Setter Property="Margin" Value="2,0"/>
             <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Border.CornerRadius" Value="7,7,7,7" />
-        </Style>
-        <Style x:Key="ToolButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{x:Null}" />
-            <Setter Property="Width" Value="28" />
-            <Setter Property="Height" Value="24" />
-            <Setter Property="BorderBrush" Value="{x:Null}" />
-            <Setter Property="Padding" Value="0,0,0,0" />
-        </Style>
-        <Style x:Key="ToolButton2" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Background" Value="{x:Null}" />
-            <Setter Property="Width" Value="28" />
-            <Setter Property="Height" Value="24" />
-            <Setter Property="BorderBrush" Value="{x:Null}" />
-            <Setter Property="Padding" Value="0,0,0,0" />
-        </Style>
-        <Style x:Key="WorkButton" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="60" />
-            <Setter Property="Height" Value="40" />
+            <Setter Property="Border.CornerRadius" Value="5" />
         </Style>
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="11*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-33,0,0" >
+        <Grid Row="0"  WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,-30,0,0" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*"  MinWidth="400"/>
                 <ColumnDefinition Width="145" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" MouseDoubleClick="Button_MouseDoubleClick">
-                    <Image Source="/Resources/Icons/application-logo.png" Height="32" Stretch="Uniform" Margin="5,5,0,0" Panel.ZIndex="-1" />
+                <Button MouseDoubleClick="Button_MouseDoubleClick" Margin="5,5,5,5">
+                    <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
                 </Button>
+                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" >
+                    <MenuItem Header="文件(_F)"/>
+
+                    <MenuItem Header="帮助(_H)"/>
+                </Menu>
             </StackPanel>
-            <DockPanel Grid.Column="1" HorizontalAlignment="Left"    WindowChrome.IsHitTestVisibleInChrome="True">
-                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent"  VerticalAlignment="Center" />
+            
+            
+            
 
-            </DockPanel>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Margin="50,0,5,0" Checked="RadioButton_Checked" />
-                <RadioButton x:Name="RadioButton2" Style="{DynamicResource PhaseButton}" Content="采集"  Checked="RadioButton_Checked_1" />
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Checked="RadioButton_Checked" />
+                <RadioButton x:Name="RadioButton2" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked_1" />
                 <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked_2" />
                 <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked_3" />
                 <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
@@ -84,24 +66,24 @@
 
         </Grid>
 
-        <Grid Name="stageAcquisition" Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Name="stageAcquisition" Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView"  Width="400"/>
+                <ColumnDefinition Name="leftView"  Width="auto"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}"  Margin="5,0" CornerRadius="5,5,0,0">
+            <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}" CornerRadius="5,5,0,0">
                 <TabControl  x:Name="leftTab">
                     <TabItem Header="工程" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform" Width="400">
+                            <Viewbox VerticalAlignment="Top" Stretch="Uniform" >
                                 <StackPanel Name="projectView" Margin="10,10,10,20"  >
                                 </StackPanel>
                             </Viewbox>
@@ -144,9 +126,9 @@
 
 
             <DockPanel Grid.Row="1" Margin="5">
-                <ToggleButton Width="95" Height="25" DockPanel.Dock="Left" Margin="10,0,0,0" Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
+                <ToggleButton Width="95" Height="25" DockPanel.Dock="Left"  Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <ToggleButton Width="95" Margin="0,0,10,0" Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
+                    <ToggleButton Width="95"  Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
                     <Button Width="70" Height="25" DockPanel.Dock="Right" Click="Button_Click_2">拍照</Button>
                 </StackPanel>
                 <TextBlock />
@@ -160,7 +142,6 @@
                 <Border Style="{StaticResource RadiusBorder}">
                     <StackPanel Name="materialView" Margin="2,2,4,2">
                         <TextBlock>Workspace 1</TextBlock>
-                        <TextBlock>Workspace 2</TextBlock>
                     </StackPanel>
                 </Border>
             </ScrollViewer>
@@ -179,7 +160,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Border Name="imagingView" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="6" Margin="0,0,10,0">
+                <Border Name="imagingView" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="3">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -197,104 +178,88 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
                                 <WrapPanel Name="topToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <ToggleButton Style="{StaticResource ToolButton2}" Margin="3,0,0,0">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}" Margin="3,0,0,0">
                                         <Image Source="/Resources/Icons/top-select.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 33-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-inline.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 34-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-move.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 35-->
                                     </ToggleButton>
-                                    <Button Style="{StaticResource ToolButton}">
+                                    <Button Style="{DynamicResource ButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 36-->
                                     </Button>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 37-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 38-->
                                     </ToggleButton>
-                                    <Button Style="{StaticResource ToolButton}">
+                                    <Button Style="{DynamicResource ButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 39-->
                                     </Button>
                                     <Border Height="22" Padding="1" CornerRadius="4">
                                         <Border.Background>
                                             <SolidColorBrush Color="{DynamicResource HighlightColor}" />
                                         </Border.Background>
                                         <TextBox Name="ratio" VerticalAlignment="Center">25%
-                                            <!--Unknown connection ID: 40-->
                                         </TextBox>
                                     </Border>
-                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
-                                        <Control.BorderBrush>
-                                            <SolidColorBrush Color="{DynamicResource HighlightColor}" />
-                                        </Control.BorderBrush>
+                                    <Separator Background="#BDBDBD"   Width="1"  Margin="2">
+                                        <Separator.Template>
+                                            <ControlTemplate TargetType="Separator">
+                                                <Border Background="{TemplateBinding  Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                            </ControlTemplate>
+                                        </Separator.Template>
                                     </Separator>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-dimension.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 41-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-focus.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 42-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-ruler.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 43-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-profile.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 44-->
                                     </ToggleButton>
-                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="4" BorderThickness="1" Height="20">
-                                        <Control.BorderBrush>
-                                            <SolidColorBrush Color="{DynamicResource HighlightColor}" />
-                                        </Control.BorderBrush>
+                                    <Separator Background="#BDBDBD"   Width="1"  Margin="2">
+                                        <Separator.Template>
+                                            <ControlTemplate TargetType="Separator">
+                                                <Border Background="{TemplateBinding  Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                                            </ControlTemplate>
+                                        </Separator.Template>
                                     </Separator>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}"  IsEnabled="True" IsChecked="True" >
                                         <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 45-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 46-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 47-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 48-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-curve.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 49-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-circle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 50-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-rectangle.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 51-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 52-->
                                     </ToggleButton>
                                 </WrapPanel>
                             </Border>
@@ -303,21 +268,17 @@
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
                                 <WrapPanel Name="bottomToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Style="{StaticResource ToolButton}">
-                                        <Image Source="/Resources/Icons/bottom-start.png" Stretch="Fill" Margin="3,0,0,0" />
-                                        <!--Unknown connection ID: 49-->
+                                    <Button  Style="{DynamicResource ButtonStyle2}" >
+                                        <Image Source="/Resources/Icons/bottom-start.png" Stretch="Fill" />
                                     </Button>
-                                    <Button Style="{StaticResource ToolButton}" Margin="-2,0,0,0">
+                                    <Button Style="{DynamicResource ButtonStyle2}" >
                                         <Image Source="/Resources/Icons/bottom-stop.png" Stretch="Fill" />
-                                        <!--Unknown connection ID: 50-->
                                     </Button>
-                                    <Button Style="{StaticResource ToolButton}">
-                                        <Image Source="/Resources/Icons/bottom-forward.png" Stretch="Fill" Margin="-2,0,0,0" />
-                                        <!--Unknown connection ID: 51-->
+                                    <Button Style="{DynamicResource ButtonStyle2}">
+                                        <Image Source="/Resources/Icons/bottom-forward.png" Stretch="Fill"  />
                                     </Button>
-                                    <Button Style="{StaticResource ToolButton}">
-                                        <Image Source="/Resources/Icons/bottom-backward.png" Stretch="Fill" Margin="-2,0,0,0" />
-                                        <!--Unknown connection ID: 52-->
+                                    <Button Style="{DynamicResource ButtonStyle2}">
+                                        <Image Source="/Resources/Icons/bottom-backward.png" Stretch="Fill"  />
                                     </Button>
                                     <TextBlock VerticalAlignment="Center">
                                         <Run Text="FPS:"/>
@@ -349,36 +310,36 @@
                                             </StackPanel>
                                         </Border>
                                     </StackPanel>
-                                    <Button Style="{StaticResource ToolButton}">
+                                    <Button Style="{DynamicResource ButtonStyle1}">
                                         <Image Source="/Resources/Icons/bottom-place.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 64-->
                                     </Button>
                                     <!--Unknown connection ID: 48-->
                                 </WrapPanel>
                             </Border>
-                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
                                 <DockPanel Name="leftToolbar">
                                     <WrapPanel Orientation="Vertical" DockPanel.Dock="Top">
-                                        <ToggleButton Style="{StaticResource ToolButton2}">
+                                        <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                             <Image Source="/Resources/Icons/left-colorbar.png" Stretch="Fill" />
                                             <!--Unknown connection ID: 66-->
                                         </ToggleButton>
-                                        <ToggleButton Style="{StaticResource ToolButton2}">
+                                        <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                             <Image Source="/Resources/Icons/left-monocolor.png" Stretch="Fill" />
                                             <!--Unknown connection ID: 67-->
                                         </ToggleButton>
-                                        <ToggleButton Style="{StaticResource ToolButton2}">
+                                        <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                             <Image Source="/Resources/Icons/left-divcolor.png" Stretch="Fill" />
                                             <!--Unknown connection ID: 68-->
                                         </ToggleButton>
-                                        <ToggleButton Style="{StaticResource ToolButton2}">
+                                        <ToggleButton Style="{DynamicResource ToggleButtonStyle1}" IsEnabled="False">
                                             <Image Source="/Resources/Icons/left-histogram.png" Stretch="Fill" />
                                             <!--Unknown connection ID: 69-->
                                         </ToggleButton>
-                                        <ToggleButton Style="{StaticResource ToolButton2}">
+                                        <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                             <Image Source="/Resources/Icons/left-range.png" Stretch="Fill" />
                                             <!--Unknown connection ID: 70-->
                                         </ToggleButton>
@@ -386,52 +347,52 @@
                                     <Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
                                 </DockPanel>
                             </Border>
-                            <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="2,2,2,2" BorderThickness="1">
+                            <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
                                 <WrapPanel Name="rightToolbar" Orientation="Vertical" VerticalAlignment="Center">
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-quater.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 72-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-dual.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 73-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-BF.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 74-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-DF.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 75-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-RI.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 76-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-DP.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 77-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-Phi.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 78-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-FL.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 79-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-3D.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 80-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-cube.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 81-->
                                     </ToggleButton>
-                                    <ToggleButton Style="{StaticResource ToolButton2}">
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/right-repo.png" Stretch="Fill" />
                                         <!--Unknown connection ID: 82-->
                                     </ToggleButton>
@@ -465,10 +426,8 @@
                                     <StackPanel Name="bottomView" Grid.Row="2" Orientation="Horizontal">
                                     </StackPanel>
                                 </Grid>
-                                <!--Unknown connection ID: 81-->
                             </Grid>
                         </Grid>
-                        <!--Unknown connection ID: 27-->
                     </Grid>
 
                 </Border>
@@ -479,9 +438,6 @@
                     <ItemsPanelTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -489,15 +445,19 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <StatusBarItem>
-                    <TextBlock Name="imageUnit">单位:μm</TextBlock>
+                    <TextBlock Name="imageUnit"/> 
                 </StatusBarItem>
-                <Separator Grid.Column="1" />
                 <StatusBarItem Grid.Column="2">
                     <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
                 </StatusBarItem>
@@ -507,21 +467,18 @@
                 <StatusBarItem Grid.Column="4">
                     <TextBlock Name="imageZ" Text="{Binding Path=ImageZ}"/>
                 </StatusBarItem>
-                <Separator Grid.Column="5" />
                 <StatusBarItem Grid.Column="6">
                     <TextBlock Name="imageSize" Text="{Binding Path=ImageSize}"/>
                 </StatusBarItem>
-                <Separator Grid.Column="7" />
                 <StatusBarItem Grid.Column="8">
                     <TextBlock Name="imageFocus" Text="{Binding Path=ImageFocus}" />
                 </StatusBarItem>
-                <Separator Grid.Column="9" />
                 <StatusBarItem Grid.Column="10">
                     <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" />
                 </StatusBarItem>
                 <Separator Grid.Column="11" />
-                <StatusBarItem Grid.Column="12"  Background="Transparent">
-                    <DockPanel  Name="performDock" Background="Transparent">
+                <StatusBarItem Grid.Column="12" >
+                    <DockPanel  Name="performDock">
                         <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">
                     <Run Text="ToolDiskUse" />
                     <Run Text=":" />
@@ -549,8 +506,7 @@
             </ComboBox>
         </Grid>
 
-        <Grid Name="stageConfig" Row="1" Grid.ColumnSpan="2">
-            <!--Unknown connection ID: 13-->
+        <Grid Name="stageConfig" Row="1">
         </Grid>
     </Grid>
 </Base:BaseWindow>

@@ -1,20 +1,10 @@
 ﻿using Solution.RecentFile;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ThemeManager.Controls;
+using Tool;
 
 namespace Solution
 {
@@ -28,25 +18,40 @@ namespace Solution
             InitializeComponent();
         }
 
-        RecentFileList recentFileList = new RecentFileList();
-        public ObservableCollection<SoulutionInfo> SoulutionInfos = new ObservableCollection<SoulutionInfo>();
+        public bool IsCreate =false;
 
+        RecentFileList recentFileList;
+
+        public NewCreatViewMode newCreatViewMode;
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            foreach (var item in recentFileList.RecentFiles)
-            {
-                FileInfo fileInfo = new FileInfo(item);
-                if (fileInfo.Exists)
-                {
-                    SoulutionInfos.Add(new SoulutionInfo() { Name = fileInfo.Name, FullName = fileInfo.FullName, CreationTime = fileInfo.CreationTime.ToString("yyyy/MM/dd H:mm") });
-                }
-            }
-            ListView1.ItemsSource = SoulutionInfos;
+            recentFileList = new RecentFileList();
+            string regiserkey = "Software\\" + System.Windows.Forms.Application.CompanyName + "\\" + System.Windows.Forms.Application.ProductName + "\\" + "RecentNewCreatCache";
+            recentFileList.Persister = new RegistryPersister(regiserkey);
+
+            if (recentFileList.RecentFiles.Count==0)
+                recentFileList.InsertFile(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+
+            newCreatViewMode = new NewCreatViewMode();
+            newCreatViewMode.Name = "新建工程";
+            newCreatViewMode.DirectoryPath = recentFileList.RecentFiles[0];
+
+            this.DataContext = newCreatViewMode;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.Description = "项目位置";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (string.IsNullOrEmpty(dialog.SelectedPath))
+                {
+                    System.Windows.MessageBox.Show(this, "文件夹路径不能为空", "提示");
+                    return;
+                }
+                newCreatViewMode.DirectoryPath = dialog.SelectedPath;
+            }
         }
 
         private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
@@ -54,12 +59,38 @@ namespace Solution
             e.Handled = true;
 
         }
+
+        private void Button_Close_Click(object sender, RoutedEventArgs e)
+        {
+            string SolutionDirectoryPath = newCreatViewMode.DirectoryPath + "\\" + newCreatViewMode.Name;
+
+            if (Directory.Exists(SolutionDirectoryPath))
+            {
+                var result = MessageBox.Show("文件夹不为空，是否清空文件夹", "Grid", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        Directory.Delete(SolutionDirectoryPath, true);
+                    }catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Grid");
+                    }
+                }
+            }
+            Directory.CreateDirectory(SolutionDirectoryPath);
+
+            IsCreate = true;
+            this.Close();
+        }
     }
 
-    public class SoulutionInfo
+    public class NewCreatViewMode
     {
         public string Name { get; set; }
-        public string FullName { get; set; }
-        public string CreationTime { get; set; }
+
+        public string DirectoryPath { get; set; }
+
     }
+
 }

@@ -101,6 +101,7 @@ private:
 public:
 	~LambdaView();
 	void Show(cv::Mat mat);
+	void Show(cv::Mat mat, size_t left, size_t right, size_t width, size_t height);
 	void Close();
 	ViewState GetState();
 	void SetState(ViewState state);
@@ -119,10 +120,10 @@ public:
 	static void Stop(const char* serviceName);
 };
 
-extern "C" COMMON_API const char* Schedule(const char* cron, int times, Callback callback); // times < 0 means forever, return schedule name
-extern "C" COMMON_API const char* Schedule2(const char* cron, int times, std::function<int()> callback);  // times < 0 means forever, return schedule name
-extern "C" COMMON_API const char* Delay(int seconds, int times, Callback callback); // times < 0 means forever, return schedule name if not delay once
-extern "C" COMMON_API const char* Delay2(int seconds, int times, std::function<int()> callback); // times < 0 means forever, return schedule name if not delay once
+extern "C" COMMON_API const char* Schedule(const char* cron, int times, Callback callback, Callback end); // times < 0 means forever, return schedule name
+extern "C" COMMON_API const char* Schedule2(const char* cron, int times, std::function<int()> callback, std::function<int()> end);  // times < 0 means forever, return schedule name
+extern "C" COMMON_API const char* Delay(int seconds, int times, Callback callback, Callback end); // times < 0 means forever, return schedule name if not delay once
+extern "C" COMMON_API const char* Delay2(int seconds, int times, std::function<int()> callback, std::function<int()> end); // times < 0 means forever, return schedule name if not delay once
 extern "C" COMMON_API void StopSchedule(const char* scheduleName);
 
 extern "C" COMMON_API int GetArraySize(void* pArray);
