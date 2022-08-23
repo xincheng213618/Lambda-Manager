@@ -49,8 +49,8 @@
                         </Style.Triggers>
                     </Style>
 
-                    <HierarchicalDataTemplate   DataType="{x:Type Solution:SolutionExplorer}"   ItemsSource="{Binding VisualChildren}" >
-                        <StackPanel Style="{StaticResource style_treeViewItem_panel}" >
+                    <HierarchicalDataTemplate   DataType="{x:Type Solution:SolutionExplorer}"   ItemsSource="{Binding VisualChildren}"  > 
+                        <StackPanel Style="{StaticResource style_treeViewItem_panel}"  >
                             <TextBlock Text="'"/>
                             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
                             <TextBlock Text="'"/>

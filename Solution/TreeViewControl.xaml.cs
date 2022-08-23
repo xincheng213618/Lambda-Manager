@@ -60,7 +60,7 @@ namespace Solution
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(SolutionFullName))
+            if (!string.IsNullOrEmpty(SolutionFullName))
             {
                 Config.ConfigWrite(SolutionFullName);
             }
@@ -94,6 +94,25 @@ namespace Solution
                 }
                 SelectedTreeViewItem = item;
 
+                if (SolutionExplorers.Count != 1&&item.DataContext is SolutionExplorer solutionExplorer)
+                {
+                    ///判断当前工程配置不是现在的，不重复读取
+                    if (SolutionFullName != solutionExplorer.FullName)
+                    {
+                        if (Config.ConfigRead(solutionExplorer.FullName) == 0)
+                        {
+                            SolutionFullName = solutionExplorer.FullName;
+                            recentFileList.InsertFile(SolutionFullName);
+                        }
+                        else
+                        {
+                            MessageBox.Show("配置更新异常");
+                        }
+                    }
+
+
+                }
+
                 if (e.ClickCount == 2)
                 {
                     if (item.DataContext is ProjectFile projectFile1)
@@ -115,6 +134,8 @@ namespace Solution
                         LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullName));
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
                     }
+
+
                 }
 
             }
@@ -151,7 +172,11 @@ namespace Solution
             }
         }
 
-
+        /// <summary>
+        /// 新建
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -167,6 +192,38 @@ namespace Solution
                 }
             };
             openSolutionWindow.ShowDialog();
+        }
+        /// <summary>
+        /// 新建1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
+            openSolutionWindow.Closed += (s, e) =>
+            {
+                string FullName = openSolutionWindow.FullName;
+
+                for (int i = 0; i < SolutionExplorers.Count; i++)
+                {
+                    if (SolutionExplorers[i].FullName == FullName)
+                    {
+
+                        return;
+                    }
+
+                } 
+
+                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                {
+                    SolutionFullName = FullName;
+                    recentFileList.InsertFile(FullName);
+                    TreeViewInitialized(FullName, false);
+                }
+            };
+            openSolutionWindow.ShowDialog();
+
         }
 
 
@@ -257,22 +314,7 @@ namespace Solution
             SolutionTreeView.ItemsSource = SolutionExplorers;
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
-        {
-            OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
-            openSolutionWindow.Closed += (s, e) =>
-            {
-                string FullName = openSolutionWindow.FullName;
-                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
-                {
-                    SolutionFullName = FullName;
-                    recentFileList.InsertFile(FullName);
-                    TreeViewInitialized(FullName, false);
-                }
-            };
-            openSolutionWindow.ShowDialog();
 
-        }
         private BaseObject ADDDerivativeSeriesFile(BaseObject baseObject, string FullName)
         {
             var root = new DirectoryInfo(FullName);
@@ -405,6 +447,7 @@ namespace Solution
                 Config.ConfigWrite(SolutionFullName);
             }
             SolutionFullName = null;
+            SolutionExplorers.Clear();
             SolutionTreeView.ItemsSource = null;
 
         }

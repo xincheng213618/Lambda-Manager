@@ -225,11 +225,9 @@ int PlayFilms(json* eventData) {
 LambdaView* pView1;
 
 bool ssss = false;
+int i = 1;
 
 int PlayFilm(std::string fileName) {
-
-
-
 	cv::Mat frame;
 	cv::VideoCapture cap = cv::VideoCapture(fileName);
 
@@ -238,7 +236,13 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	LambdaView* pView = LambdaView::GetIdleOrNew();
+
+	pView->SetState(UNINITIALIZED);
+	pView->SetState(OCCUPIED);
+
+
 	LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
+
 
 	std::wstring&& s = StringUtils::string2wstring(fileName);
 	int count = 0;
@@ -270,8 +274,19 @@ int PlayFilm(std::string fileName) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
-		resize(frame, frame, cv::Size(1200, 900), 0, 0);
-		pView->Show(frame);
+
+		for (size_t i = 0; i < 10; i++)
+		{
+			line(frame, Point(300* i, 0), Point(300 * i, 1920), Scalar(0, 255, 255), 3);
+		}
+		i++;
+		if (i == 80)
+			i = 1;
+		cv::Mat frame1(frame,cv::Rect(0, 100, 1920+i*16, 1080+i*9));
+		cv::Mat Mat2 = frame1.clone();
+		pView->SetState(OCCUPIED);
+		//resize(frame, frame, cv::Size(1200, 900), 0, 0);
+		pView->Show(Mat2);
 		//Histograme(frame, pView1);
 	    //HistCalc(frame, pView->GetIndex());
 		Sleep(0);
@@ -448,7 +463,7 @@ int SleepTest() {
 }
 
 int VideoTest() {
-	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
 	return 0;
 }
 int StageSettingReset() {
