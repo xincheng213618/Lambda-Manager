@@ -14,13 +14,6 @@
     <None Remove="Resources\startpicture1.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
