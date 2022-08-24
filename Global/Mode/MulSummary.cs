@@ -27,7 +27,7 @@ namespace Global.Mode
         public string CollectionLayers
         {
             get { return collectionLayers; }
-            set { if (value != null && value != collectionTimes) 
+            set { if (value != null && value != collectionLayers) 
                     collectionLayers = value; NotifyPropertyChanged(); }
         }
 
@@ -38,7 +38,7 @@ namespace Global.Mode
         public string CollectionPoints
         {
             get { return collectionPoints; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != collectionPoints)
                     collectionPoints = value; NotifyPropertyChanged(); }
         }
 
@@ -49,7 +49,7 @@ namespace Global.Mode
         public string ViewModeCounts
         {
             get { return viewModeCounts; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != viewModeCounts)
                     viewModeCounts = value; NotifyPropertyChanged(); }
         }
 
@@ -60,7 +60,7 @@ namespace Global.Mode
         public string FluorescenceChannels
         {
             get { return fluorescenceChannels; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != fluorescenceChannels)
                     fluorescenceChannels = value; NotifyPropertyChanged(); }
         }
 
@@ -71,7 +71,7 @@ namespace Global.Mode
         public string ImageSize
         {
             get { return imageSize; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != imageSize)
                     imageSize = value; NotifyPropertyChanged(); }
         }
 
@@ -82,7 +82,7 @@ namespace Global.Mode
         public string ImageNums
         {
             get { return imageNums; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != imageNums)
                     imageNums = value; NotifyPropertyChanged(); }
         }
 
@@ -93,7 +93,7 @@ namespace Global.Mode
         public string Storage
         {
             get { return storage; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != storage)
                     storage = value; NotifyPropertyChanged(); }
         }
 
@@ -104,7 +104,7 @@ namespace Global.Mode
         public string AllCollectionTime
         {
             get { return allCollectionTime; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != allCollectionTime)
                     allCollectionTime = value; NotifyPropertyChanged(); }
         }
 
@@ -115,7 +115,7 @@ namespace Global.Mode
         public string CameraWorkingTime
         {
             get { return cameraWorkingTime; }
-            set { if (value != null && value != collectionTimes)
+            set { if (value != null && value != cameraWorkingTime)
                     cameraWorkingTime = value; NotifyPropertyChanged(); }
         }
         

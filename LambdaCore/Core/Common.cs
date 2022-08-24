@@ -301,7 +301,7 @@ namespace LambdaManager.Core
                 List<Event> raise = function.Raise;
                 if (raise != null)
                 {
-                    FunctionExecutor.RaiseEvents(raise, null, function.EntryPoint);
+                    FunctionExecutor.RaiseEvents(raise,  null, function.EntryPoint);
                 }
             }
         }

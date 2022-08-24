@@ -28,6 +28,9 @@
                 <Button Content="导出" Click="Button_Click_1"/>
                 <Button Content="导入"/>
             </UniformGrid>
+            <StackPanel>
+                <CheckBox Content="支持多个工程" IsChecked="True"/>
+            </StackPanel>
             <TreeView x:Name="SolutionTreeView">
                 <TreeView.Resources>
                     <DataTemplate x:Key="displayTemplate">
