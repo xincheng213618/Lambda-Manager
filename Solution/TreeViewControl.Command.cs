@@ -24,7 +24,6 @@ namespace Solution
         }
 
         #region 通用命令执行函数
-
         private void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             if (e.Parameter is BaseObject baseObject)
@@ -53,7 +52,8 @@ namespace Solution
                 {
                     e.CanExecute = baseObject.CanReName;
                 }
-            }else if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is BaseObject baseObject1)
+            }
+            else if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is BaseObject baseObject1)
             {
                 if (e.Command == ApplicationCommands.SelectAll)
                 {

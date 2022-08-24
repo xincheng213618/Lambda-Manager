@@ -7,7 +7,7 @@ namespace Solution
     /// <summary>
     /// ExportAsWindow1.xaml 的交互逻辑
     /// </summary>
-    public partial class ExportAsWindow : Window
+    public partial class ExportAsWindow : BaseWindow
     {
         public BaseObject BaseObject;
         public ExportAsWindow(BaseObject BaseObject)

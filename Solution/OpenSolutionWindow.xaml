@@ -64,8 +64,7 @@
                                 <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
                                     <GridViewColumn.CellTemplate  >
                                         <DataTemplate  >
-                                            <Grid Height="40" Margin="-6,0,3,0" Style="{StaticResource Gird11}" >
-
+                                            <Grid Height="45" Margin="-6,0,3,0" Style="{StaticResource Gird11}" >
                                                 <Grid  Margin="6,0">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="30"/>
@@ -73,9 +72,9 @@
                                                     </Grid.ColumnDefinitions>
                                                     <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
                                                     <Grid Grid.Column="1" Margin="2">
-                                                        <TextBlock Text="{Binding Path = Name}" FontWeight="Bold" VerticalAlignment="Top"/>
-                                                        <TextBlock Text="{Binding Path = FullName}" VerticalAlignment="Bottom"/>
-                                                        <TextBlock Text="{Binding Path = CreationTime}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                                        <TextBlock Text="{Binding Path = Name}" TextTrimming = "CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Top"/>
+                                                        <TextBlock Text="{Binding Path = FullName}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Bottom"/>
+                                                        <TextBlock Text="{Binding Path = CreationTime}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Top" HorizontalAlignment="Right"/>
                                                     </Grid>
                                                 </Grid>
 
