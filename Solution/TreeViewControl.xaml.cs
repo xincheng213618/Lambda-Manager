@@ -109,8 +109,6 @@ namespace Solution
                             MessageBox.Show("配置更新异常");
                         }
                     }
-
-
                 }
 
                 if (e.ClickCount == 2)

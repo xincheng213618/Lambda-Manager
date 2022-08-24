@@ -32,7 +32,6 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
-            LambdaControl.AddLambdaEventHandler("UPDATE_MULMSG", UpdateMulSummary, false);
             LambdaControl.AddLambdaEventHandler("ZOOM_IN_CLICKED", ZOOM_IN_CLICKED, false);
             LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
             LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
@@ -92,6 +91,8 @@ namespace Global
                     }
 
                 }
+                
+                ACQUIRE = false;
 
 
             });
@@ -480,13 +481,9 @@ namespace Global
 
         private static string? GetStringValue(Dictionary<string, object>? data, string key)
         {
-            if (data == null)
+            if (data.ContainsKey(key))
             {
-                return null;
-            }
-            if (data!.TryGetValue(key, out var value) && value is string str)
-            {
-                return str;
+                return (string)data[key];
             }
             return null;
         }

@@ -711,7 +711,7 @@
                             </TextBlock>
                             <TextBlock FontSize="11"   Foreground="#7F7F7F">
                                 <Run Text="图像总数："/>                              
-                                <Run Text="{Binding Path=ImageSize}"/>
+                                <Run Text="{Binding Path=ImageNums}"/>
                             </TextBlock>
                             <TextBlock  FontSize="11"  Foreground="#7F7F7F">
                                 <Run Text="所需存储空间："/>                              

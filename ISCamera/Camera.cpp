@@ -476,8 +476,8 @@ int SleepTest() {
 }
 
 int VideoTest() {
-	PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
-	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
+	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 
 	return 0;
 }
@@ -572,7 +572,7 @@ int CameraSettingExposure(int mode,double exposure)
 	json j1;
 
 	//采集次数
-	j1["CollectionTimes"] = "2";
+	j1["CollectionTimes"] = "66";
 	//采集层数
 	j1["CollectionLayers"] = "5";
 	//采集点个数
@@ -584,7 +584,7 @@ int CameraSettingExposure(int mode,double exposure)
 	//图像尺寸
 	j1["ImageSize"] = "1280×960 (5.2MB)";
 	//图像总数
-	j1["ImageNums"] = "1260";
+	j1["ImageNums"] = "66";
 	//存储空间
 	j1["Storage"] = "1.546G";
 	//全部采集耗时
@@ -593,7 +593,7 @@ int CameraSettingExposure(int mode,double exposure)
 	j1["CameraWorkingTime"] = "0h 0m 0.002s";
 
 	
-	Event::Trigger("UpdateMulSummary", &j1);
+	Event::Trigger("UPDATE_MUL_SUMMARY", &j1);
 	json j3;
 	j3["window"] =0;
 	j3["flag"] = 0;
