@@ -351,7 +351,9 @@ namespace Solution
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
 
-                    TreeViewInitialized(SolutionFullName);
+                    if (Config.ConfigRead(SolutionFullName)==0){
+                        TreeViewInitialized(SolutionFullName);
+                    }
                 }
                 else
                 {

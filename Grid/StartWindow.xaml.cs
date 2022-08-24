@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace Grid
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+            labelVersion.Content = string.Format("V8.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
             Dispatcher.BeginInvoke(new Action(async () => await DetectionhardwareAsync()));
         }
         private async Task DetectionhardwareAsync()
