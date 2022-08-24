@@ -160,7 +160,8 @@
                             <Run Text=" ZIRCON Grid&#x000A;" FontSize="16" FontWeight="Bold" Foreground="White" />
                             <Run Text="Microscope Application Suite&#x000A;"  FontSize="11.5" Foreground="White"/>
                             <Run Text="Version 1.0"  FontSize="11.5" Foreground="White"/>
-                            <Run Text="{Binding Source={x:Static sys:DateTime.Now},Mode=OneWay, StringFormat='yyyy-MM-dd '}"  FontSize="11.5" Foreground="White"/>
+                            <Run Text="2022.8.24"  FontSize="11.5" Foreground="White"/>
+                            <!--<Run Text="{Binding Source={x:Static sys:DateTime.Now},Mode=OneWay, StringFormat='yyyy-MM-dd '}"  FontSize="11.5" Foreground="White"/>-->
                         </TextBlock>
                         
 
