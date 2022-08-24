@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace Global.Common.Extensions
 {
-    public static class SerializationHelper
+    public static class SerializationExtensions
     {
         public static T DeserializeXml<T>(this string toDeserialize)
         {

@@ -84,7 +84,7 @@ namespace Global.Common.Util
                 if (string.IsNullOrEmpty(value))
                 {
                     WriteValue(path, name, false);
-                    return true;
+                    return false;
                 }
                 else
                 {
