@@ -90,7 +90,7 @@ namespace Global
             Config.ImageViewState.SetValue(ImageViewState);
 
             Config.LastOpenTime = DateTime.Now.ToString();
-
+            Config.Dimensional.Saveprefix = ConfigFullName;
             Config.ToJsonFile(ConfigFullName);
         }
 
