@@ -276,30 +276,30 @@ int PlayFilm(std::string fileName) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
 		}
-		pView->Show(frame);
+		//pView->Show(frame);
 
-		//for (size_t i = 0; i < 20; i++)
-		//{
-		//	line(frame, Point(150* i, 0), Point(150 * i, 1920), Scalar(0, 255, 255), 3);
-		//	line(frame, Point(0, 90*i), Point(3840, 90 * i), Scalar(0, 255, 255), 3);
-		//}
-		//i++;
-		//x22--;
-		//y22--;
-		//i = i == 170 ? 1 : i;
-		//x22 = x22 < 0 ? 100 : x22;
-		//y22 = y22 < 0 ? 100 : y22;
+		for (size_t i = 0; i < 20; i++)
+		{
+			line(frame, Point(150* i, 0), Point(150 * i, 1920), Scalar(0, 255, 255), 3);
+			line(frame, Point(0, 90*i), Point(3840, 90 * i), Scalar(0, 255, 255), 3);
+		}
+		i++;
+		x22--;
+		y22--;
+		i = i == 170 ? 1 : i;
+		x22 = x22 < 0 ? 100 : x22;
+		y22 = y22 < 0 ? 100 : y22;
 
-		//x22 = (x22 * 10 + 320 + i * 20) > 3840 ? 0 : x22;
-		//y22 = (y22 * 10 + 180 + i * 10) > 1920 ? 0 : y22;
+		x22 = (x22 * 10 + 320 + i * 20) > 3840 ? 0 : x22;
+		y22 = (y22 * 10 + 180 + i * 10) > 1920 ? 0 : y22;
 
 
-		//cv::Mat frame1(frame,cv::Rect(0+ x22 *10, 0+ y22 *10, 320+i* 20, 160+i*10));
+		cv::Mat frame1(frame,cv::Rect(0+ x22 *10, 0+ y22 *10, 320+i* 20, 160+i*10));
 
-		//cv::Mat Mat2 = frame1.clone();
-		//pView->SetState(OCCUPIED);
+		cv::Mat Mat2 = frame1.clone();
+		pView->SetState(OCCUPIED);
 		//resize(frame, frame, cv::Size(1200, 900), 0, 0);
-		//pView->Show(Mat2);
+		pView->Show(Mat2);
 		//Histograme(frame, pView1);
 	    //HistCalc(frame, pView->GetIndex());
 		Sleep(0);
@@ -476,8 +476,8 @@ int SleepTest() {
 }
 
 int VideoTest() {
-	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
-	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+	PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
+	//PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 
 	return 0;
 }
