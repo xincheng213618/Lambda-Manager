@@ -1,20 +1,14 @@
 ﻿using Global.Controls;
 using Global.Mode;
 using Lambda;
-using Microsoft.VisualBasic.Logging;
 using Mode;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using Global.Common.Extensions;
 
 namespace Global
 {
@@ -159,8 +153,8 @@ namespace Global
             if (eventData == null)
                 return false;
 
-            mapModel.StageX = double.Parse(GetStringValue(eventData, "x"));
-            mapModel.StageY = double.Parse(GetStringValue(eventData, "y"));
+            mapModel.StageX = double.Parse(eventData.GetString("x"));
+            mapModel.StageY = double.Parse(eventData.GetString("y"));
             return true;
         }
 
@@ -176,7 +170,7 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-            MulDimensional.Zstep = int.Parse(GetStringValue(eventData, "mulZstep"));
+            MulDimensional.Zstep = int.Parse(eventData.GetString("mulZstep"));
             return true;
 
         }
@@ -185,7 +179,7 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-            MulDimensional.ZStart = int.Parse(GetStringValue(eventData, "mulZStart"));
+            MulDimensional.ZStart = int.Parse(eventData.GetString("mulZStart"));
             return true;
 
         }
@@ -194,7 +188,7 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-            MulDimensional.ZEnd = int.Parse(GetStringValue(eventData, "mulZEnd"));
+            MulDimensional.ZEnd = int.Parse(eventData.GetString("mulZEnd"));
             return true;
 
         }
@@ -203,7 +197,7 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-            int time = int.Parse(GetStringValue(eventData, "mul_tinterval"));
+            int time = int.Parse(eventData.GetString("mul_tinterval"));
             // MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
             string message = "循环间隔预计" + time.ToString() + "秒";
             var r = Global.UserControls.MessageBox.ShowDialog(message);
@@ -263,15 +257,15 @@ namespace Global
                 return false;
 
 
-            histogramModel.Max = GetStringValue(eventData, "Max");
-            histogramModel.HalfMax = int.Parse(GetStringValue(eventData, "Max")) / 2;
-            histogramModel.Min = GetStringValue(eventData, "Min");
-            histogramModel.Mean = GetStringValue(eventData, "Mean");
-            histogramModel.Variance = GetStringValue(eventData, "Variance");
-            //histogramModel.Gamma= GetStringValue(eventData, "Gamma");
-            histogramModel.Outlier = GetStringValue(eventData, "Outlier");
-            histogramModel.RangeMin = int.Parse(GetStringValue(eventData, "RangeMin"));
-            histogramModel.RangeMax = int.Parse(GetStringValue(eventData, "RangeMax"));
+            histogramModel.Max = eventData.GetString("Max");
+            histogramModel.HalfMax = int.Parse(eventData.GetString("Max")) / 2;
+            histogramModel.Min = eventData.GetString("Min");
+            histogramModel.Mean = eventData.GetString("Mean");
+            histogramModel.Variance = eventData.GetString("Variance");
+            //histogramModel.Gamma= eventData.GetString("Gamma");
+            histogramModel.Outlier = eventData.GetString("Outlier");
+            histogramModel.RangeMin = int.Parse(eventData.GetString("RangeMin"));
+            histogramModel.RangeMax = int.Parse(eventData.GetString("RangeMax"));
             
             return true;
         }
@@ -294,17 +288,17 @@ namespace Global
 
             Application.Current.Dispatcher.Invoke(delegate
             {
-                mulSummary.CollectionTimes = GetStringValue(eventData, "CollectionTimes");
-                mulSummary.CollectionLayers = GetStringValue(eventData, "CollectionLayers");
-                mulSummary.CollectionPoints = GetStringValue(eventData, "CollectionPoints");
-                mulSummary.FluorescenceChannels = GetStringValue(eventData, "FluorescenceChannels");
-                mulSummary.ViewModeCounts = GetStringValue(eventData, "ViewModeCounts");
+                mulSummary.CollectionTimes = eventData.GetString("CollectionTimes"); 
+                mulSummary.CollectionLayers = eventData.GetString("CollectionLayers");
+                mulSummary.CollectionPoints = eventData.GetString("CollectionPoints");
+                mulSummary.FluorescenceChannels = eventData.GetString("FluorescenceChannels");
+                mulSummary.ViewModeCounts = eventData.GetString("ViewModeCounts");
 
-                mulSummary.ImageSize = GetStringValue(eventData, "ImageSize");
-                mulSummary.ImageNums = GetStringValue(eventData, "ImageNums");
-                mulSummary.Storage = GetStringValue(eventData, "Storage");
-                mulSummary.AllCollectionTime = GetStringValue(eventData, "AllCollectionTime");
-                mulSummary.CameraWorkingTime = GetStringValue(eventData, "CameraWorkingTime");
+                mulSummary.ImageSize = eventData.GetString("ImageSize");
+                mulSummary.ImageNums = eventData.GetString("ImageNums");
+                mulSummary.Storage = eventData.GetString("Storage");
+                mulSummary.AllCollectionTime = eventData.GetString("AllCollectionTime");
+                mulSummary.CameraWorkingTime = eventData.GetString("CameraWorkingTime");
             });
 
             return true;
@@ -320,26 +314,26 @@ namespace Global
 
             if (eventData == null)
                 return false;
-            updateStatus.ImageX = GetStringValue(eventData, "x");
+            updateStatus.ImageX = eventData.GetString("x");
             WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
 
-            updateStatus.ImageY = GetStringValue(eventData, "y");
+            updateStatus.ImageY = eventData.GetString("y");
             WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
 
-            updateStatus.ImageZ = GetStringValue(eventData, "z");
+            updateStatus.ImageZ = eventData.GetString("z");
             WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
 
-            updateStatus.ImageSize = GetStringValue(eventData, "size");
-            updateStatus.imageFocus = GetStringValue(eventData, "focus");
-            updateStatus.CreateTime = GetStringValue(eventData, "createTime");
-            string frameIndex = GetStringValue(eventData, "frameIndex");
+            updateStatus.ImageSize = eventData.GetString("size");
+            updateStatus.imageFocus = eventData.GetString("focus");
+            updateStatus.CreateTime = eventData.GetString("createTime");
+            string frameIndex = eventData.GetString("frameIndex");
             if (frameIndex != null)
             {
                 updateStatus.FrameIndex = int.Parse(frameIndex);
 
             }
 
-            string totalFrame = GetStringValue(eventData, "totalFrame");
+            string totalFrame = eventData.GetString("totalFrame");
             if (totalFrame != null)
             {
                 try
@@ -352,23 +346,23 @@ namespace Global
                 }
             }
 
-            updateStatus.TimeElapsed = GetStringValue(eventData, "timeElapsed");
-            updateStatus.TotalTime = GetStringValue(eventData, "totalTime");
-            string sliceIndex = GetStringValue(eventData, "sliceIndex");
+            updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
+            updateStatus.TotalTime = eventData.GetString("totalTime");
+            string sliceIndex = eventData.GetString("sliceIndex");
             if (sliceIndex != null)
             {
                 updateStatus.SliceIndex = int.Parse(sliceIndex);
             }
-            string totalSlice = GetStringValue(eventData, "totalSlice");
+            string totalSlice = eventData.GetString("totalSlice");
             if (totalSlice != null)
             {
                 updateStatus.TotalSlice = int.Parse(totalSlice);
             }
-            updateStatus.ZTop = GetStringValue(eventData, "zTop");
-            updateStatus.ZCurrent = GetStringValue(eventData, "zCurrent");
-            updateStatus.ZBottom = GetStringValue(eventData, "zBottom");
-            updateStatus.Ratio = GetStringValue(eventData, "ratio");
-            updateStatus.FpsState = GetStringValue(eventData, "fps");
+            updateStatus.ZTop = eventData.GetString("zTop");
+            updateStatus.ZCurrent = eventData.GetString("zCurrent");
+            updateStatus.ZBottom = eventData.GetString("zBottom");
+            updateStatus.Ratio = eventData.GetString("ratio");
+            updateStatus.FpsState = eventData.GetString("fps");
 
             return true;
         }
@@ -380,7 +374,7 @@ namespace Global
             if (eventData == null)
                 return false;
 
-            updateStatus.Window = GetStringValue(eventData, "windowstatus");
+            updateStatus.Window = eventData.GetString("windowstatus");
 
             try
             {

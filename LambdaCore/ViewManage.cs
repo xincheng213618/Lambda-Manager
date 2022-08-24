@@ -26,7 +26,7 @@ namespace LambdaCore
 
         public static ViewManager GetInstance()
         {
-            lock (locker) { if (instance == null) { instance = new ViewManager(); } }
+            lock (locker) { instance ??= new ViewManager(); }
             return instance;
         }
 

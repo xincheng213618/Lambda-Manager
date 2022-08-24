@@ -18,7 +18,7 @@ namespace Global
 
         public static WaitContorl GetInstance()
         {
-            lock (locker) { if (instance == null) { instance = new WaitContorl(); } }
+            lock (locker) { instance ??= new WaitContorl(); }
             return instance;
         }
 

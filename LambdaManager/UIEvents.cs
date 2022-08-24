@@ -4,7 +4,7 @@ using System.Windows;
 using Lambda;
 using LambdaManager.Core;
 using LambdaManager.Mode;
-
+using Global.Common.Extensions;
 namespace LambdaManager.Features;
 
 public class UIEvents
@@ -15,7 +15,7 @@ public class UIEvents
 
     public static UIEvents GetInstance()
     {
-        lock (locker) { if (instance == null) { instance = new UIEvents(); } }
+        lock (locker) { instance ??= new UIEvents(); }
         return instance;
     }
     private UIEvents()
@@ -23,45 +23,6 @@ public class UIEvents
         Common.AddEventHandler("UPDATE_STATUS", OnUpdateStatus, once: false);
     }
 
-
-    private static string? GetStringValue(Dictionary<string, object>? data, string key)
-    {
-        if (data == null)
-        {
-            return null;
-        }
-        if (data!.TryGetValue(key, out var value) && value is string str)
-        {
-            return str;
-        }
-        return null;
-    }
-
-    private static int? GetIntValue(Dictionary<string, object>? data, string key)
-    {
-        if (data == null)
-        {
-            return null;
-        }
-        if (data!.TryGetValue(key, out var value) && value is string str)
-        {
-            return int.Parse(str);
-        }
-        return null;
-    }
-
-    private static bool? GetBoolValue(Dictionary<string, object>? data, string key)
-    {
-        if (data == null)
-        {
-            return null;
-        }
-        if (data!.TryGetValue(key, out var value) && value is string b)
-        {
-            return bool.Parse(b);
-        }
-        return null;
-    }
     public UpdateStatus updateStatus = new UpdateStatus();
 
     private  bool OnUpdateStatus(object sender, EventArgs e)
@@ -69,20 +30,20 @@ public class UIEvents
         Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
         if (eventData == null)
             return false;
-        updateStatus.ImageX = GetStringValue(eventData, "x");
-        updateStatus.ImageY = GetStringValue(eventData, "y");
-        updateStatus.ImageZ = GetStringValue(eventData, "z");
-        updateStatus.ImageSize = GetStringValue(eventData, "size");
-        updateStatus.imageFocus = GetStringValue(eventData, "focus");
-        updateStatus.CreateTime = GetStringValue(eventData, "createTime");
-        string frameIndex = GetStringValue(eventData, "frameIndex");
+        updateStatus.ImageX = eventData.GetString("x");
+        updateStatus.ImageY = eventData.GetString("y");
+        updateStatus.ImageZ = eventData.GetString("z");
+        updateStatus.ImageSize = eventData.GetString("size");
+        updateStatus.imageFocus = eventData.GetString("focus");
+        updateStatus.CreateTime = eventData.GetString("createTime");
+        string frameIndex = eventData.GetString("frameIndex");
         if (frameIndex != null)
         {
             updateStatus.FrameIndex = int.Parse(frameIndex);
 
         }
 
-        string totalFrame = GetStringValue(eventData, "totalFrame");
+        string totalFrame = eventData.GetString("totalFrame");
         if (totalFrame != null)
         {
             try
@@ -95,22 +56,22 @@ public class UIEvents
             }
         }
 
-        updateStatus.TimeElapsed = GetStringValue(eventData, "timeElapsed");
-        updateStatus.TotalTime = GetStringValue(eventData, "totalTime");
-        string sliceIndex = GetStringValue(eventData, "sliceIndex");
+        updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
+        updateStatus.TotalTime = eventData.GetString("totalTime");
+        string sliceIndex = eventData.GetString("sliceIndex");
         if (sliceIndex != null)
         {
             updateStatus.SliceIndex = int.Parse(sliceIndex);
         }
-        string totalSlice = GetStringValue(eventData, "totalSlice");
+        string totalSlice = eventData.GetString("totalSlice");
         if (totalSlice != null)
         {
             updateStatus.TotalSlice = int.Parse(totalSlice);
         }
-        updateStatus.ZTop = GetStringValue(eventData, "zTop");
-        updateStatus.ZCurrent = GetStringValue(eventData, "zCurrent");
-        updateStatus.ZBottom = GetStringValue(eventData, "zBottom");
-        updateStatus.Ratio = GetStringValue(eventData, "ratio");
+        updateStatus.ZTop = eventData.GetString("zTop");
+        updateStatus.ZCurrent = eventData.GetString("zCurrent");
+        updateStatus.ZBottom = eventData.GetString("zBottom");
+        updateStatus.Ratio = eventData.GetString("ratio");
         return true;
     }
 
@@ -119,12 +80,12 @@ public class UIEvents
     {
         Dictionary<string, object> dict = LambdaArgs.GetEventData(e);
         MainWindow main = (MainWindow)Application.Current.MainWindow;
-        string side = GetStringValue(dict, "side");
+        string side = dict.GetString("side");
         if (side == null)
         {
             return false;
         }
-        bool? visible = GetBoolValue(dict, "visible");
+        bool? visible = dict.GetValue("visible")!=null && (bool)dict.GetValue("visible");
         if (!visible.HasValue)
         {
             return false;
