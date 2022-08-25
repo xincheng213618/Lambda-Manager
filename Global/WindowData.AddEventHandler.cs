@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Global.Common.Extensions;
+using System.Windows.Media.Imaging;
 
 namespace Global
 {
@@ -85,9 +86,8 @@ namespace Global
                     }
 
                 }
-                
-                ACQUIRE = false;
 
+                ACQUIRE = false;
 
             });
             return true;
@@ -197,17 +197,21 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-            int time = int.Parse(eventData.GetString("mul_tinterval"));
-            // MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
-            string message = "循环间隔预计" + time.ToString() + "秒";
-            var r = Global.UserControls.MessageBox.ShowDialog(message);
+            int time = int.Parse(eventData.GetString("value"));
+            string mode = eventData.GetString("mode");
+
+            //MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
+            string message = "循环间隔预计" + time.ToString() + mode;
+
+
+            var r = Global.UserControls.MessageBox1.ShowDialog(message);
             if (r.IsYes)
-            {
-                //选择了Yes
+            { 
+                LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
             }
             else
             {
-                //选择了No
+                LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 0 } });
             }
             return true;
 
@@ -471,16 +475,6 @@ namespace Global
             }
         }
 
-
-
-        private static string? GetStringValue(Dictionary<string, object>? data, string key)
-        {
-            if (data.ContainsKey(key))
-            {
-                return (string)data[key];
-            }
-            return null;
-        }
 
 
 

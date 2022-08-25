@@ -94,14 +94,20 @@ namespace ConfigBottomView
             MoveOri = e.GetPosition(inkCanvas);
             isMouseDown = true;
             leftGrid.CaptureMouse();
-           
+            //double leftBefore = InkCanvas.GetLeft(leftEllipse);
+            //double topBefore = InkCanvas.GetTop(leftEllipse);
+            leftEllipse.Visibility = Visibility.Visible;
+            //Canvas.SetLeft(leftEllipse, MoveOri.X-4);
+            Canvas.SetTop(leftEllipse, MoveOri.Y-4);
+
+
         }
 
         private void lowerValue_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
            
             isMouseDown = false;
-
+            leftEllipse.Visibility = Visibility.Collapsed;
             leftGrid.ReleaseMouseCapture();
         }
 
@@ -113,17 +119,30 @@ namespace ConfigBottomView
                 
                 double Offset = point.X - MoveOri.X;
                 i = i + Offset;
-                if (i>14 && i< inkCanvas.ActualWidth-5)
+                if (i>14 && i< inkCanvas.ActualWidth-15)
                 {
                     InkCanvas.SetLeft(leftGrid, i);
                     NumUpdown1.Value = (i - 15) / (inkCanvas.ActualWidth - 20);
+                }
+                else
+                {
+                    //leftGrid.ReleaseMouseCapture();
                 }
                
                 MoveOri = point;
 
 
             }
-           
+            if (leftEllipse.Visibility == Visibility.Visible)
+            {
+                if (point.X< inkCanvas.ActualWidth - 15&& point.X>15)
+                {
+                    //Canvas.SetLeft(leftEllipse, point.X-4);
+                   Canvas.SetTop(leftEllipse, point.Y-4);
+                }
+                
+            }
+            
         }
 
         private void lowerValue_MouseLeave(object sender, MouseEventArgs e)
@@ -131,7 +150,7 @@ namespace ConfigBottomView
             isMouseDown=false;
         }
 
-        private double j = -6;
+        private double j = 5;
         public bool isMouseDown1 = false;
         private Point moveOri1;
         private void rightGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -139,12 +158,16 @@ namespace ConfigBottomView
             moveOri1 = e.GetPosition(inkCanvas);
             isMouseDown1 = true;
             rightGrid.CaptureMouse();
+            rightEllipse.Visibility=Visibility.Visible;
+            //Canvas.SetLeft(rightEllipse, moveOri1.X-4);
+            Canvas.SetTop(rightEllipse, moveOri1.Y-4);
 
         }
 
         private void rightGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             isMouseDown1 = false;
+            rightEllipse.Visibility = Visibility.Collapsed;
             rightGrid.ReleaseMouseCapture(); 
 
         }
@@ -157,15 +180,24 @@ namespace ConfigBottomView
 
                 double Offset =  moveOri1.X- point.X;
                 j = j + Offset;
-                if (j > -7 && j < inkCanvas.ActualWidth -24)
+                if (j > 4 && j < inkCanvas.ActualWidth -26)
                 {
                     InkCanvas.SetRight(rightGrid, j);
-                    NumUpdown2.Value =1- (j +6) / (inkCanvas.ActualWidth - 20);
+                    NumUpdown2.Value =1- (j -5) / (inkCanvas.ActualWidth - 30);
                 }
 
                 moveOri1 = point;
 
 
+            }
+            if (rightEllipse.Visibility == Visibility.Visible)
+            {
+                if (moveOri1.X< inkCanvas.ActualWidth-13 && moveOri1.X>15)
+                {
+                    //InkCanvas.SetLeft(rightEllipse, moveOri1.X-4);
+                    Canvas.SetTop(rightEllipse, moveOri1.Y-4);
+                }
+                
             }
 
         }

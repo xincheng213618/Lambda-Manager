@@ -23,7 +23,7 @@
         
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
         </Grid.RowDefinitions>
         <Border BorderThickness="5" BorderBrush="#444444" Margin="-2" CornerRadius="0,0,0,0"></Border>
         <Grid Grid.Row="0" Background="#444444">
@@ -42,22 +42,36 @@
             </Grid>
 
             <Grid Grid.Column="1" ShowGridLines="True" Margin="0,0,0,0" >
-                <Border Name="ImageBorder" Padding="20,0,0,10" BorderBrush="#333333" BorderThickness="0" Background="#444444">
+                <Border Name="ImageBorder" Padding="20,0,10,15" BorderBrush="#333333" BorderThickness="0" Background="#444444">
                     <Border BorderBrush="White" BorderThickness="1" Margin="0">
                         <Image Margin="0"   Name="ProfileImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill" ></Image>
                     </Border>
 
                 </Border>
                 <InkCanvas Name="inkCanvas"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"    Background="Transparent" EditingMode="None"  MouseWheel="inkCanvas_MouseWheel"  >
-                    <Grid InkCanvas.Left="15"  Visibility="{Binding ElementName=Marker1,Path=IsChecked,Converter={StaticResource boolToVisible}}" InkCanvas.Top="2" Width="12" Background="Transparent"  Height="{Binding ElementName=ProfileImage, Path=ActualHeight}"  Name="leftGrid" MouseLeftButtonDown="lowerValue_MouseLeftButtonDown" MouseLeftButtonUp="lowerValue_MouseLeftButtonUp" MouseMove="lowerValue_MouseMove" MouseLeave="lowerValue_MouseLeave" >
-                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-15,0,-10,0" Text="30" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Left" ></TextBlock>
+                    <Canvas Cursor="Hand" InkCanvas.Left="15"  Visibility="{Binding ElementName=Marker1,Path=IsChecked,Converter={StaticResource boolToVisible}}" InkCanvas.Top="2" Width="12" Background="Transparent"  Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"  Name="leftGrid" MouseLeftButtonDown="lowerValue_MouseLeftButtonDown" MouseLeftButtonUp="lowerValue_MouseLeftButtonUp" MouseMove="lowerValue_MouseMove" >
+                        <TextBlock  Width="25"  TextAlignment="Center" Canvas.Bottom="0" Background="Transparent" Height="15" Margin="-12,0,-12,0" Text="30" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" ></TextBlock>
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=ProfileImage, Path=ActualHeight}" Stroke="Blue" StrokeThickness="1"></Line>
-                    </Grid>
-                    <Grid InkCanvas.Right="-6"  Visibility="{Binding ElementName=Marker2,Path=IsChecked,Converter={StaticResource boolToVisible}}" InkCanvas.Top="1" Width="12" Background="Transparent"  Height="{Binding ElementName=ProfileImage, Path=ActualHeight}"  Name="rightGrid" MouseLeftButtonDown="rightGrid_MouseLeftButtonDown" MouseLeftButtonUp="rightGrid_MouseLeftButtonUp" MouseMove="rightGrid_MouseMove"   >
-                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-15,0,-15,0" Text="170" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Left" ></TextBlock>
+                        <Grid x:Name="leftEllipse" Visibility="Collapsed" InkCanvas.Top="0" Canvas.Left="2" >
+                            <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
+                            <Ellipse  Width="6" Height="6"  Fill="#444444"  ></Ellipse>
+                        </Grid>
+                    </Canvas>
+                    <Canvas Cursor="Hand" InkCanvas.Right="5"  Visibility="{Binding ElementName=Marker2,Path=IsChecked,Converter={StaticResource boolToVisible}}" InkCanvas.Top="1" Width="12" Background="Transparent"  Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"  Name="rightGrid" MouseLeftButtonDown="rightGrid_MouseLeftButtonDown" MouseLeftButtonUp="rightGrid_MouseLeftButtonUp" MouseMove="rightGrid_MouseMove"   >
+                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-15,0,-15,0" Text="170" Canvas.Bottom="0" Foreground="White" HorizontalAlignment="Center" ></TextBlock>
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=ProfileImage, Path=ActualHeight}" Stroke="green" StrokeThickness="1"></Line>
-                    </Grid>
+                        <Grid x:Name="rightEllipse" Visibility="Collapsed" Canvas.Top="0" Canvas.Left="2" >
+                            <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
+                            <Ellipse  Width="6" Height="6"  Fill="#444444"  ></Ellipse>
+                        </Grid>
+                    </Canvas>
+
+                    <TextBlock Foreground="white" Text="0" InkCanvas.Left="17" InkCanvas.Bottom="0"></TextBlock>
+                    <TextBlock Foreground="white" Text="200" InkCanvas.Right="0" InkCanvas.Bottom="0"></TextBlock>
+                    
                 </InkCanvas>
+                
+                
                 <Grid    >
                    
                 </Grid>
@@ -70,7 +84,7 @@
                     <Label Content="标记" Foreground="White" ></Label>
                     <WrapPanel Margin="5,0,0,0">
                         <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
-                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker1Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker1" Content="Mark1-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker1_Checked" Unchecked="Marker1_Unchecked" ></CheckBox>
+                            <CheckBox  Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker1Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker1" Content="Mark1-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker1_Checked" Unchecked="Marker1_Unchecked" ></CheckBox>
                             <TextBlock Width="50"  Text="0.2062" HorizontalAlignment="Right" Foreground="White" Margin="27,0,0,0" ></TextBlock>
                         </StackPanel>
                         <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">

@@ -11,9 +11,17 @@
 
   <ItemGroup>
     <None Remove="Resources\Histogram.jpg" />
+    <None Remove="Resources\hold.cur" />
     <None Remove="Resources\startpicture1.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
@@ -31,6 +39,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\Histogram.jpg" />
+    <Resource Include="Resources\hold.cur" />
     <Resource Include="Resources\startpicture1.png" />
   </ItemGroup>
 

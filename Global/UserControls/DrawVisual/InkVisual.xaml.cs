@@ -682,7 +682,7 @@ namespace Global.UserControls.DrawVisual
             return Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) + (point1.Y - point2.Y) * (point1.Y - point2.Y));
         }
 
-        private void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        private async void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
 
 
@@ -728,7 +728,10 @@ namespace Global.UserControls.DrawVisual
 
                             };
                 LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-               
+                StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
+                inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
+                  await Task.Delay(500);
+                inkCanvas.Cursor = Cursors.Arrow;
 
             }
             else if(e.Delta < 0 && ZoomInOut>0)
@@ -749,7 +752,11 @@ namespace Global.UserControls.DrawVisual
                             {"flag",(int)-1024 }
                             };
                 LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-                
+                StreamResourceInfo ZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
+                inkCanvas.Cursor = new Cursor(ZoomIn.Stream);
+                await Task.Delay(500);
+                inkCanvas.Cursor = Cursors.Arrow;
+
             }
             
 

@@ -12,7 +12,7 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\lambda.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup />
 </Project>

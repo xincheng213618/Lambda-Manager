@@ -6,7 +6,7 @@
              xmlns:range="clr-namespace:RangeSlider;assembly=RangeSlider"
              xmlns:updown ="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
              xmlns:local="clr-namespace:ConfigBottomView"
-             mc:Ignorable="d"  Initialized="UserControl_Initialized" Loaded="UserControl_Loaded"   >
+             mc:Ignorable="d"  Initialized="UserControl_Initialized"     >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -31,7 +31,7 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
         </Grid.RowDefinitions>
         <Border BorderThickness="5" BorderBrush="#444444" Margin="-2" CornerRadius="0,0,0,0"></Border>
         <Grid Grid.Row="0" Background="#444444">
@@ -56,9 +56,27 @@
                     </Border>
 
                 </Border>
-                <InkCanvas Name="inkCanvas"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"    Background="Transparent" EditingMode="None" SizeChanged="inkCanvas_SizeChanged" Opacity="1"  >
-                    <TextBlock Name="lowerThumbText" Width="25" TextAlignment="Center" Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" Foreground="White"  InkCanvas.Left="0" InkCanvas.Bottom="0"  Opacity="1" ></TextBlock>
-                    <TextBlock Name="highThumbText" Width="25" TextAlignment="Center" InkCanvas.Left="0" Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" Foreground="White" InkCanvas.Bottom="0"  Opacity="1"></TextBlock>
+                <InkCanvas Name="inkCanvas"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"    Background="Transparent" EditingMode="None"  Opacity="1"   >
+                    <TextBlock Visibility="Collapsed" Name="lowerThumbText" Width="25" TextAlignment="Center" Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" Foreground="White"  InkCanvas.Left="0" InkCanvas.Bottom="0"  Opacity="1" ></TextBlock>
+                    <TextBlock Name="highThumbText" Visibility="Collapsed" Width="25" TextAlignment="Center" InkCanvas.Left="0" Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" Foreground="White" InkCanvas.Bottom="0"  Opacity="1"></TextBlock>
+                    <Canvas Width="12" Name="leftCanvas" Cursor="Hand" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvas_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvas_MouseLeftButtonUp" MouseMove="leftCanvas_MouseMove"  >
+                        <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
+                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-12,0,-12,0"  Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
+                        <Grid x:Name="leftEllipse" Visibility="Collapsed" Canvas.Left="2"  >
+                            <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
+                            <Ellipse  Width="6" Height="6"  Fill="#444444"  ></Ellipse>
+                        </Grid>
+                    </Canvas>
+                    <Canvas Width="12" Name="rightCanvas"  Cursor="Hand"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="rightCanvas_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvas_MouseLeftButtonUp" MouseMove="rightCanvas_MouseMove"  >
+                        <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
+                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-12,0,-12,0"  Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
+                        <Grid x:Name="rightEllipse" Visibility="Collapsed" Canvas.Left="2"  >
+                            <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
+                            <Ellipse  Width="6" Height="6"  Fill="#444444" Cursor="Hand"  ></Ellipse>
+                        </Grid>
+                    </Canvas>
+                    <TextBlock InkCanvas.Left="17.5" InkCanvas.Bottom="0" Text="0" Foreground="White" ></TextBlock>
+                    <TextBlock InkCanvas.Right="0" InkCanvas.Bottom="0" Text="255" Foreground="White" ></TextBlock>
                 </InkCanvas>
                 <Grid  ToggleButton.Checked="RGBGrid_Checked" x:Name="RGBGrid" ToggleButton.Unchecked="RGBGrid_UnChecked"  >
                     <ToggleButton Width="35" Height="18" Content="B" x:Name="B" Style="{StaticResource ToggleButton}" Padding="0,-2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,12,0" ></ToggleButton>
@@ -107,7 +125,7 @@
 
 
         </Grid>
-        <Border Grid.Row="1" Margin="0,0,0,5" >
+        <Border Grid.Row="1" Margin="0,0,0,5"  Visibility="Collapsed" >
             <Grid  Height="0" Margin="0,0,130,0" VerticalAlignment="Bottom" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"></ColumnDefinition>
@@ -115,7 +133,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Width="25" Margin="0,-10,8,0"  VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White"  Grid.Column="0" Text="0" FlowDirection="RightToLeft" ></TextBlock>
-                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin}" Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMax}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"    ></range:RangeSlider>
+                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin,Mode=TwoWay}"  Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMax,Mode=TwoWay}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"    ></range:RangeSlider>
                 <TextBlock Width="30"  Margin="0,-10,0,0" VerticalAlignment="Center" Foreground="White" Grid.Column="2" Text="255" ></TextBlock>
             
             </Grid>

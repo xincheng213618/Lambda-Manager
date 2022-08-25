@@ -51,6 +51,8 @@
     <None Remove="UserControls\Image\VIRIDIS.jpg" />
     <None Remove="UserControls\Image\WINTER.jpg" />
     <None Remove="UserControls\Image\ZIRCON.png" />
+    <None Remove="UserControls\Image\zoomIn.cur" />
+    <None Remove="UserControls\Image\zoomOut.cur" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -69,6 +71,7 @@
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
+    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -107,6 +110,8 @@
     <Resource Include="UserControls\Image\VIRIDIS.jpg" />
     <Resource Include="UserControls\Image\WINTER.jpg" />
     <Resource Include="UserControls\Image\ZIRCON.png" />
+    <Resource Include="UserControls\Image\zoomIn.cur" />
+    <Resource Include="UserControls\Image\zoomOut.cur" />
   </ItemGroup>
 
 </Project>

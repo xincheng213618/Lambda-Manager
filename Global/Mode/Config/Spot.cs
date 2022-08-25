@@ -88,7 +88,9 @@ namespace Global.Mode.Config
         [JsonPropertyName("z-end")]
         public int ZEnd { get; set; } 
         [JsonPropertyName("z-step")]
-        public int ZStep { get; set; } 
+        public int ZStep { get; set; }
+        [JsonPropertyName("z-absolute")]
+        public bool ZAbsolute { get; set; }
 
     }
 
@@ -116,6 +118,10 @@ namespace Global.Mode.Config
         public int Local { get; set; } = 0;
         [JsonPropertyName("precision")]
         public int Precision { get; set; } = 0;
+        [JsonPropertyName("isGlobal")]
+        public bool IsGlobal { get; set; } = false;
+        [JsonPropertyName("isLocal")]
+        public bool IsLocal { get; set; } = false;
     }
     
 

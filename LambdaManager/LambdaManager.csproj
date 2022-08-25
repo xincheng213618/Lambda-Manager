@@ -21,7 +21,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\lambda.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
   </PropertyGroup>
   <ItemGroup>

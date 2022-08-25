@@ -7,7 +7,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using Global.Common;
 using Global.UserControls.DrawVisual;
-
+using OxyPlot;
+using OxyPlot.Annotations;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace Global.Mode
 {

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Ink;
-
+using System.Windows.Resources;
 
 namespace ConfigBottomView
 {
@@ -80,8 +80,7 @@ namespace ConfigBottomView
                 auto = false;
                 RangeSlider.SlidThumbVis = Visibility.Visible;
                
-                drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.LowerValue);
-                drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.HigherValue);
+               
             }
 
 
@@ -115,13 +114,11 @@ namespace ConfigBottomView
                 int min = (int)RangeSlider.LowerValue;
                 int max = (int)RangeSlider.HigherValue;
                 LambdaControl.Trigger("BRIGHTNESS_RANGE", this, new Dictionary<string, object>() { { "Min", min }, { "Max", max } });
-                drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.LowerValue);
-
+             
             }
-            InkCanvas.SetLeft(lowerThumbText, RangeSlider.LowerValue/255* (HistogramImage.ActualWidth-12.5) + 8);
 
-
-
+            double length = RangeSlider.LowerValue / 255 * HistogramImage.ActualWidth + 15;
+            InkCanvas.SetLeft(leftCanvas, length);
 
         }
 
@@ -132,18 +129,17 @@ namespace ConfigBottomView
                 int min = (int)RangeSlider.LowerValue;
                 int max = (int)RangeSlider.HigherValue;
                 LambdaControl.Trigger("BRIGHTNESS_RANGE", this, new Dictionary<string, object>() { { "Min", min }, { "Max", max } });
-                drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.HigherValue);
+
                 
             }
-            InkCanvas.SetLeft(highThumbText, RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth +(1- RangeSlider.HigherValue / 255)*12.5 + 8);
+           
+            double length = RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth + 15;
+            InkCanvas.SetLeft(rightCanvas, length);
 
 
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
         }
+
 
         private void DoubleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -280,44 +276,11 @@ namespace ConfigBottomView
         }
 
 
-        private void drawLimitLineL(double width, double height,double lowValue)
-        {
-            if (height <= 0)
-                return;
-            if (inkCanvas.Strokes.Contains(lStroke))
-                inkCanvas.Strokes.Remove(lStroke);
-            Point pointS = new Point(lowValue/255* (width-10)+(255- lowValue)/255*2 + 19, 0);
-            Point pointE=new Point(lowValue / 255 * (width-10) + (255 - lowValue)/255 * 2 + 19, height);
-            lStroke = GenerateLineStroke(pointS, pointE);
-            inkCanvas.Strokes.Add(lStroke);
-        }
-
-
-        private void drawLimitLineH(double width, double height, double highValue)
-        {
-            if (height <= 0)
-                return;
-            if (inkCanvas.Strokes.Contains(hStroke))
-                inkCanvas.Strokes.Remove(hStroke);
-            Point pointS = new Point(highValue / 255 * width+ 20-(highValue-128)/128*6+7, 0);
-            Point pointE = new Point(highValue / 255 *width + 20 -(highValue-128)/128*6+7, height);
-            hStroke = GenerateLineStroke(pointS, pointE);
-            inkCanvas.Strokes.Add(hStroke);
-        }
-
-
-
-
-
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             drawYAxis(HistogramImage.ActualHeight, 10);
             drawXAxis(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 20);
-            drawLimitLineL(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 0);
-            drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 255);
-            InkCanvas.SetLeft(lowerThumbText, RangeSlider.LowerValue / 255 * HistogramImage.ActualWidth + 8);
-            InkCanvas.SetLeft(highThumbText, RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth + 8);
+            
         }
 
         private void HistogramImage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -325,17 +288,112 @@ namespace ConfigBottomView
             inkCanvas.Strokes.Clear();   
             drawYAxis(HistogramImage.ActualHeight, 10);
             drawXAxis(HistogramImage.ActualWidth, HistogramImage.ActualHeight, 20);
-            drawLimitLineL(HistogramImage.ActualWidth,HistogramImage.ActualHeight, RangeSlider.LowerValue);
-            drawLimitLineH(HistogramImage.ActualWidth, HistogramImage.ActualHeight, RangeSlider.HigherValue);
+            double length = RangeSlider.LowerValue / 255 * HistogramImage.ActualWidth + 15;
+            InkCanvas.SetLeft(leftCanvas, length);
+            double length1 = RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth + 15;
+            InkCanvas.SetLeft(rightCanvas, length1);
         }
 
-        private void inkCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+       
+
+
+
+
+        private Point moveOri;
+        private bool isMOuseDown = false;
+        private void leftCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            InkCanvas.SetLeft(lowerThumbText, RangeSlider.LowerValue / 255 * HistogramImage.ActualWidth + 8);
-            InkCanvas.SetLeft(highThumbText, RangeSlider.HigherValue / 255 * HistogramImage.ActualWidth + 8);
-          
+            moveOri = e.GetPosition(inkCanvas);
+            isMOuseDown = true;
+            InkCanvas.SetLeft(leftCanvas, moveOri.X);
+            leftCanvas.CaptureMouse();
+            leftEllipse.Visibility = Visibility.Visible;
+            Point point = e.GetPosition(leftCanvas);
+          //  Canvas.SetLeft(leftEllipse, point.X-4);
+            Canvas.SetTop(leftEllipse,point.Y-4);
+
+            //StreamResourceInfo hold = Application.GetResourceStream(new Uri("/ConfigBottomView;component/Resources/hold.cur", UriKind.Relative));
+            //leftCanvas.Cursor = new Cursor(hold.Stream);
         }
 
-        
+        private void leftCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isMOuseDown = false;
+            leftEllipse.Visibility = Visibility.Collapsed;
+            leftCanvas.ReleaseMouseCapture();
+           
+        }
+
+        private void leftCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point point = e.GetPosition(inkCanvas);
+           
+            if (isMOuseDown)
+            {   if (point.X>20&& point.X< inkCanvas.ActualWidth - 10)
+                {
+
+
+                    //InkCanvas.SetLeft(leftCanvas, point.X-6);
+                    Point point1 = e.GetPosition(leftCanvas);
+                  //  Canvas.SetLeft(leftEllipse, point1.X-4);
+                    Canvas.SetTop(leftEllipse, point1.Y-4);
+                    Point point2 = e.GetPosition(HistogramImage);
+                    if (point2.X>=0&& point2.X<= HistogramImage.ActualWidth)
+                    RangeSlider.LowerValue = point2.X / HistogramImage.ActualWidth * 255;
+
+
+
+                }
+
+              
+            }
+        }
+
+        private Point moveOri1;
+        private bool isMOuseDown1 = false;
+
+        private void rightCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            moveOri1 = e.GetPosition(inkCanvas);
+            isMOuseDown1 = true;
+            InkCanvas.SetLeft(rightCanvas, moveOri1.X);
+            rightCanvas.CaptureMouse();
+            rightEllipse.Visibility = Visibility.Visible;
+            Point point = e.GetPosition(rightCanvas);
+           // Canvas.SetLeft(rightEllipse, point.X-4);
+            Canvas.SetTop(rightEllipse, point.Y-4);
+
+        }
+
+        private void rightCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isMOuseDown1 = false;
+            rightEllipse.Visibility = Visibility.Collapsed;
+            rightCanvas.ReleaseMouseCapture();
+
+        }
+
+        private void rightCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point point = e.GetPosition(inkCanvas);
+           
+           if (isMOuseDown1)
+            {
+                if (point.X > 20 && point.X < inkCanvas.ActualWidth - 10)
+                {
+                    //InkCanvas.SetLeft(leftCanvas, point.X-6);
+                    Point point1 = e.GetPosition(rightCanvas);
+                  //  Canvas.SetLeft(rightEllipse, point1.X-4);
+                    Canvas.SetTop(rightEllipse, point1.Y-4);
+                    Point point2 = e.GetPosition(HistogramImage);
+                    if (point2.X >= 0 && point2.X <= HistogramImage.ActualWidth)
+                    RangeSlider.HigherValue = point2.X / HistogramImage.ActualWidth * 255;
+
+                }
+
+            }
+        }
+
+       
     }
 }

@@ -29,17 +29,12 @@ namespace ConfigObjective
             var mulDimensional = windowData.MulDimensional;
 			mulDimensional.mulDimensionalAreas.Clear();
 			mulDimensional.mulDimensionalPoints.Clear();
-
-		
-
 			var spot = new Global.Mode.Config.Spot();
             foreach (var item in Map.selectedPoints)
             {
                 List<int> selectedpoint = new List<int>() { (int)item.X, (int)item.Y };
                 spot.Includes.Add(selectedpoint);
             }
-
-
 
             TestMean testMean = new TestMean();
 			testMean.Spot = spot;
@@ -63,21 +58,26 @@ namespace ConfigObjective
 
 			Global.Mode.Config.TimeWiseSerial timeWiseSerial = new Global.Mode.Config.TimeWiseSerial();
 			Global.Mode.Config.Optimized optimized = new Optimized();
-			// focus-mode 
+			optimized.Optimize = mulDimensional.OptimizedSel;
+			// focus-mode
 			if (mulDimensional.OptimizedSel)
-            {
+			{
+				optimized.IsGlobal = mulDimensional.Optimized.IsGlobal;
+				optimized.IsLocal = mulDimensional.Optimized.IsLocal;
 				optimized.Global = mulDimensional.Optimized.Global;
 				optimized.Local = mulDimensional.Optimized.Local;
 				optimized.Precision = mulDimensional.Optimized.Precision;
 			}
-            else if (!mulDimensional.OptimizedSel)
-            {
-				optimized.Optimize = mulDimensional.OptimizedSel;
+			else if (!mulDimensional.OptimizedSel)
+			{
+				
+				optimized.IsGlobal = mulDimensional.UserDefined.IsGlobal;
+				optimized.IsLocal = mulDimensional.UserDefined.IsLocal;
 				optimized.Global = mulDimensional.UserDefined.Global;
 				optimized.Local = mulDimensional.UserDefined.Local;
 				optimized.Precision = mulDimensional.UserDefined.Precision;
 			}
-			Global.Mode.Config.Twise twise = new Twise();
+			 Global.Mode.Config.Twise twise = new Twise();
 			// t-wise
 			if (mulDimensional.TFirst)
             {
@@ -160,6 +160,7 @@ namespace ConfigObjective
 			zstackWiseSerial.ZStep = mulDimensional.Zstep;
 			zstackWiseSerial.ZBegin = mulDimensional.ZStart;
 			zstackWiseSerial.ZEnd = mulDimensional.ZEnd;
+			zstackWiseSerial.ZAbsolute = mulDimensional.ZAbsolute;
 			testMean.Dimensional.ZstackWiseSerial = zstackWiseSerial;
 
 			var Dimensions = new StringBuilder();
@@ -182,37 +183,27 @@ namespace ConfigObjective
 			windowData.Config.Dimensional = testMean.Dimensional;
 			windowData.Config.Spot = testMean.Spot;
 			windowData.Config.Stage = testMean.Stage;
-		    //MessageBox.Show(testMean.ToJson());
+
+           // System.Windows.MessageBox.Show(testMean.ToJson());
 
 			if (testMean.Dimensional.Mode.Count == 0)
             {
-                //            Global.UserControls.MessageBox.Show("请选择成像模式", (s, e) =>
-                //            {
-                //                if (e.Result.IsYes)
-                //                {
-                //                    //选择了Yes
-                //                }
-                //                else
-                //                {
-                //                    //选择了No
-                //                }
-
-                //            });
-                var r = Global.UserControls.MessageBox.ShowDialog("请选择成像模式  !");
-                if (r.IsYes)
-                {
-                    //选择了Yes
-                }
-                else
-                {
-                    //选择了No
-                }
+                
+                var r = Global.UserControls.MessageBox1.ShowDialog("请选择成像模式!");
+				if (r != null)
+				{
+					
+					if (r.IsYes)
+					{
+						//选择了Yes
+					}
+					else
+					{
+						//选择了No
+					}
+				}
 
                 // System.Windows.MessageBox.Show("请选择成像模式", "请选择成像模式",MessageBoxButton.OK);
-
-
-
-
 
                 LambdaControl.Trigger("COLLECTION_COMPLETED", this, new Dictionary<string, object>() { });
 			}
@@ -239,7 +230,9 @@ namespace ConfigObjective
 					
 				}
 				LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
-			}
+
+
+		}
 			
 			return true;
         }

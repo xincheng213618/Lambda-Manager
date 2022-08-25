@@ -17,7 +17,7 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <IsPublishable>True</IsPublishable>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\lambda.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LambdaUtils\LambdaUtils.csproj" />

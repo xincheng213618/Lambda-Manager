@@ -25,7 +25,7 @@ namespace Global.Mode.Config
 
         public List<string> TIntervalUnitsList { get; set; } = new List<string> {"秒","分钟","小时","天"};
 
-        private string tIntervalUnits = "秒";
+        private string tIntervalUnits = "小时";
         public string TIntervalUnits 
         {
             get { return tIntervalUnits; }
@@ -194,14 +194,6 @@ namespace Global.Mode.Config
 
 
 
-
-       
-
-      
-
-
-
-
         // t-wise 
 
         private bool twiseEnable = true;
@@ -345,6 +337,25 @@ namespace Global.Mode.Config
 
     public class Optimize : ViewModelBase
     {
+
+        private bool isGlobal = false;
+        public bool IsGlobal 
+        { get { return isGlobal; } 
+            set { isGlobal = value; 
+                NotifyPropertyChanged(); 
+            } 
+        }
+        private bool isLocal = false;
+        public bool IsLocal
+        {
+            get { return isLocal; }
+            set
+            {
+                isLocal = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private int global = 1;
 
         public int Global
@@ -385,6 +396,29 @@ namespace Global.Mode.Config
     }
     public class UserDefine : ViewModelBase
     {
+        private bool isGlobal = false;
+        public bool IsGlobal
+        {
+            get { return isGlobal; }
+            set
+            {
+                isGlobal = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private bool isLocal = false;
+        public bool IsLocal
+        {
+            get { return isLocal; }
+            set
+            {
+                isLocal = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
         private int global = 3;
 
         public int Global

@@ -75,6 +75,7 @@ namespace Global
                 histogram.Visibility = Visibility.Collapsed;
                 histogram.DataContext = histogramModel;
                 histogram.VerticalAlignment = VerticalAlignment.Stretch;
+                stackPanel.Children.Add(histogram);
                 //grid1.Children.Add(histogram);
                 //Grid.SetRow(histogram, 2);
                 //grid1.Children.Remove(stackPanel);
@@ -106,7 +107,7 @@ namespace Global
                     if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
-                stackPanel.Children.Add(histogram);
+             
                 stackPanel.Children.Add(profile);
 
                 //grid1.Children.Add(profile);
@@ -192,6 +193,8 @@ namespace Global
                     { if (ImageViewState.toolTop.CurveChecked == true)
                         {
                             drawingVisualInk.InkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                         
+                            
                         }
                         else 
                         {
