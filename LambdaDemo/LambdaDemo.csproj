@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Solution\Solution.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="del &quot;$(TargetDir)$(AssemblyName).deps.json&quot;" />
+  </Target>
+
 </Project>

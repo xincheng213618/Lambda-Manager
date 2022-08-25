@@ -22,7 +22,7 @@ public class ConfigUILibrary: ILambdaUI
 
     public void LoadControl(string name, string lib, string mount)
 	{
-		Assembly assembly = Assembly.LoadFile(Directory.GetCurrentDirectory() + "/" + lib);
+		Assembly assembly = Assembly.Load(File.ReadAllBytes(Directory.GetCurrentDirectory() + "/" + lib));
         if ((assembly.CreateInstance(name) is Control control))
 		{
 			MessageBox.Show("1");

@@ -23,7 +23,7 @@ namespace LambdaDemo
 
         public void LoadControl(string name, string lib, string mount)
         {
-            Assembly assembly = Assembly.LoadFile(Directory.GetCurrentDirectory() + "/" + lib);
+            Assembly assembly = Assembly.Load(File.ReadAllBytes(Directory.GetCurrentDirectory() + "/" + lib));
             string fullName = lib.Replace(".dll", "") + "." + name;
 
             if ((assembly.CreateInstance(fullName) is Control control ))
