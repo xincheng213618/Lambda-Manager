@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
@@ -81,20 +82,23 @@ namespace LambdaManager
             Application.Current.Dispatcher.Invoke(delegate
             {
                 UIPluginLoad(e.FullPath);
-
             });
         }
 
 
         public async void UIPluginLoad(string FullPath)
         {
+            //这里加延迟是因为，在文件拷贝操作完成之后会出现比如防病毒之类的对dll 进行扫描
+            await Task.Delay(1000);
             string Md5 = ConfigUILibrary.GetMD5(FullPath);
-            foreach (var item in ConfigUILibrary.UIPlugins)
+            foreach (var uIPlugin in ConfigUILibrary.UIPlugins)
             {
-                if (Md5 != item.MD5)
+                if (Md5 != uIPlugin.MD5)
                 {
-                    projectView.Children.Clear();
-                    item.control = null;
+                    uIPlugin.MD5 = Md5;
+
+
+                    ConfigUILibrary.LoadConfigPanel(uIPlugin);
                 }
             }
         }
@@ -248,7 +252,6 @@ namespace LambdaManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            projectView.Children.Clear();
             if (sender is ToggleButton btn)
             {
                 LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ALIVE" : "START_ALIVE", sender, e);

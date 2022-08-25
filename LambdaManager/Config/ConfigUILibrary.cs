@@ -74,13 +74,22 @@ public class ConfigUILibrary: ILambdaUI
 
     public void LoadConfigPanel(UIPlugin uIPlugin)
     {
-        StackPanel stackPanel = (StackPanel)Main.GetConfigPanel(uIPlugin.side);
-
-		uIPlugin.MD5 = GetMD5(uIPlugin.filePath);
+        StackPanel stackPanel;
+        if (uIPlugin.control != null)
+        {
+            stackPanel = (StackPanel)uIPlugin.control.Parent;
+            stackPanel.Children.Remove(uIPlugin.control);
+        }
+        else
+        {
+            stackPanel = (StackPanel)Main.GetConfigPanel(uIPlugin.side);
+            uIPlugin.MD5 = GetMD5(uIPlugin.filePath);
+        }
         byte[] dllbytes = File.ReadAllBytes(uIPlugin.filePath);
         Assembly assembly = Assembly.Load(dllbytes);
         if ((assembly.CreateInstance(uIPlugin.typeName) is Control control))
         {
+            uIPlugin.control = control;
             stackPanel.Children.Add(control);
         }
     }
