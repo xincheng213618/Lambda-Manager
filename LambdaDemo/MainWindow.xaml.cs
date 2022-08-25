@@ -1,13 +1,17 @@
 ﻿using LambdaManager;
 using LambdaManager.Core;
 using LambdaManager.Utils;
+using Quartz;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using XSolution;
 
 namespace LambdaDemo
 {
@@ -16,15 +20,43 @@ namespace LambdaDemo
     /// </summary>
     public partial class MainWindow : Window, ILambdaUI
     {
+        FileSystemWatcher watcher;
         public MainWindow()
         {
             InitializeComponent();
+
+            watcher = new FileSystemWatcher(Directory.GetCurrentDirectory())
+            {
+                IncludeSubdirectories = false,
+            };
+            watcher.Changed += Watcher_Changed;
+            watcher.EnableRaisingEvents = true;
         }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            foreach (var item in DLLloads)
+            {
+                if (e.FullPath.Contains(item.filePath))
+                {
+                    Application.Current.Dispatcher.Invoke(delegate
+                    {
+                        LoadDLL(item);
+                    });
+                }
+            }
+        }
+
+
+        List<DLLload> DLLloads = new List<DLLload>();
+
 
         public void LoadControl(string name, string lib, string mount)
         {
-            Assembly assembly = Assembly.Load(File.ReadAllBytes(Directory.GetCurrentDirectory() + "/" + lib));
+            Assembly assembly = Assembly.Load(File.ReadAllBytes(Directory.GetCurrentDirectory() + "\\" + lib));
             string fullName = lib.Replace(".dll", "") + "." + name;
+
+            DLLloads.Add(new DLLload() { filePath = Directory.GetCurrentDirectory() + "\\" + lib, typeName = fullName });
 
             if ((assembly.CreateInstance(fullName) is Control control ))
             {
@@ -45,6 +77,45 @@ namespace LambdaDemo
 
             }
         }
+        public void LoadDLL(DLLload dll)
+        {
+            stackpanel1.Children.Clear();
+            byte[] bytes = File.ReadAllBytes(dll.filePath);
+
+            Assembly assembly = Assembly.Load(bytes);
+            if ((assembly.CreateInstance(dll.typeName) is Control control))
+            {
+                if (control is Window window)
+                {
+
+                }
+                else
+                {
+                    stackpanel1.Children.Add(control);
+                }
+
+            }
+        }
+
+
+
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            stackpanel1.Children.Clear();
+
+
+            foreach (var item in DLLloads)
+            {
+                LoadDLL(item);
+            }
+
+
+
+        }
+
+
         public MenuItem? AddMenuItem(string path)
         {
             ItemCollection items = menu.Items;
@@ -106,6 +177,14 @@ namespace LambdaDemo
         {
 
         }
+    }
+
+
+    public class DLLload
+    {
+        public string filePath;
+
+        public string typeName;
     }
 
 

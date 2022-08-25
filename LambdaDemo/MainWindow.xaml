@@ -7,22 +7,35 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Initialized="Window_Initialized" Closed="Window_Closed">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid  Grid.Row="0">
             <StackPanel>
-                <Menu  Name="menu" Background="Transparent" Margin="0,5,0,5" >
-                </Menu>
-                <StackPanel x:Name="stackpanel1"/>
-
+                <Button Content="热加载" Click="Button_Click"/>
             </StackPanel>
-        </ScrollViewer>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer>
+                <StackPanel>
+                    <Menu  Name="menu" Background="Transparent" Margin="0,5,0,5" >
+                    </Menu>
+                    <StackPanel x:Name="stackpanel1"/>
+                </StackPanel>
+            </ScrollViewer>
 
-        <Grid Name="mainView"  Grid.Column="1">
+            <Grid Name="mainView"  Grid.Column="1">
+
+            </Grid>
 
         </Grid>
-
     </Grid>
+
 </Window>
