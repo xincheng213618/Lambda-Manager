@@ -56,7 +56,7 @@ namespace ToolHash
                 {
                     XElement dll = new XElement("dll", null);
                     dll.SetAttributeValue("path", item.FullName.Replace(BasePath + "\\", "")); ;
-                    dll.SetAttributeValue("md5", Hash.GetHash(item.FullName));
+                    dll.SetAttributeValue("md5", Hash.GetMD5(item.FullName));
                     md5.Add(dll);
                 }
             }
@@ -79,7 +79,7 @@ namespace ToolHash
                 {
                     XElement dll = new XElement("dll", null);
                     dll.SetAttributeValue("path", file.FullName.Replace(BasePath+"\\", ""));
-                    dll.SetAttributeValue("md5", Hash.GetHash(file.FullName));
+                    dll.SetAttributeValue("md5", Hash.GetMD5(file.FullName));
                     xElement.Add(dll);
                 }
             }
@@ -113,7 +113,7 @@ namespace ToolHash
 
     public static class Hash
     {
-        public static string GetHash(string path)
+        public static string GetMD5(string path)
         {
             var hash = MD5.Create();
             var stream = new FileStream(path, FileMode.Open);

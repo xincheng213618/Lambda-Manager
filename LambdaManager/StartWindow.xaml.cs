@@ -27,9 +27,11 @@ namespace LambdaManager
             InitializeComponent();
         }
         private readonly string dllAce = "ACE.dll";
-        ConfigLibrary ConfigLibrary;
         private void Window_Initialized(object sender, EventArgs e)
         {
+            mainWindow = new MainWindow();
+            Application.Current.MainWindow = mainWindow;
+
             Log.LogWrite += AddMessage;
             if (DateTime.Now > Convert.ToDateTime(GetExpireDate() ?? "2025/1/1"))
             {
@@ -39,7 +41,6 @@ namespace LambdaManager
             else
             {
                 labelVersion.Content = string.Format("V8.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
-                ConfigLibrary = new ConfigLibrary();
                 Thread thread = new Thread(Load);
                 thread.Start();
                 _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
@@ -103,16 +104,12 @@ namespace LambdaManager
 
         public void Load()
         {
-            bool num = ConfigLibrary.Load(loadxml());
+            bool num = mainWindow.ConfigLibrary.Load(loadxml());
             if (num == true)
             {
                 Log.LogWrite -= AddMessage;
-                Application.Current.Dispatcher.Invoke(delegate
-                {
-                    mainWindow = new MainWindow();
-                    Application.Current.MainWindow = mainWindow;
-                });
-                ConfigLibrary.InitializeLibrary();
+
+                mainWindow.ConfigLibrary.InitializeLibrary();
 
             }
             else
@@ -157,8 +154,7 @@ namespace LambdaManager
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
-            ConfigLibrary.lambdaUI = new ConfigUILibrary(mainWindow);
-            ConfigLibrary.LoadUIComponents();
+            mainWindow.ConfigLibrary.LoadUIComponents();
             mainWindow.Show();
             this.Close();
         }

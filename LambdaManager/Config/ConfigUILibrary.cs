@@ -2,83 +2,103 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
 using LambdaManager.Core;
 using LambdaManager.DataType;
+using Quartz;
 
 namespace LambdaManager.Config;
 
+public class UIPlugin
+{
+	public string filePath { get; set; }
+    public string typeName { get; set; }
+
+	public string MD5 { get; set; }
+
+	public Control control { get; set; }
+    public Side side { get; set; }
+
+}
+
+
+
 public class ConfigUILibrary: ILambdaUI
 {
-	private readonly Dictionary<Control, int> leftOrder = new Dictionary<Control, int>();
+
+	public List<UIPlugin> UIPlugins = new List<UIPlugin>() { };
+
 
     public MainWindow Main { get; set; }
 
 	public ConfigUILibrary(MainWindow Main)
 	{
 		this.Main = Main;
+
     }
+
 
     public void LoadControl(string name, string lib, string mount)
 	{
-		Assembly assembly = Assembly.Load(File.ReadAllBytes(Directory.GetCurrentDirectory() + "/" + lib));
-        if ((assembly.CreateInstance(name) is Control control))
-		{
-			MessageBox.Show("1");
-		}
-            if (name != null)
-		{
-			string fullName = lib.Replace(".dll", "") + "." + name;     
-			Side side = GetConfigSide(mount);
-			if (side == Side.MENU)
-			{
-				string menuPath = GetMenuPath(mount);
-				LoadMenuDialog(assembly, fullName, menuPath);
-			}
-			else
-			{
-				int order = GetConfigPanelOrder(mount);
-				LoadConfigPanel(assembly, fullName, order, side);
-			}
-		}
-	}
+        string typeName = lib.Replace(".dll", "") + "." + name;
+        UIPlugin uIPlugin = new UIPlugin() { filePath = Directory.GetCurrentDirectory() + "\\" + lib, typeName = typeName };
 
-	private void LoadConfigPanel(Assembly assembly, string name, int order, Side side)
-    {
-        if (!(assembly.CreateInstance(name) is Control control))
+        byte[] dllbytes = File.ReadAllBytes(uIPlugin.filePath);
+        Assembly assembly = Assembly.Load(dllbytes);
+
+        Side side = GetConfigSide(mount);
+        if (side == Side.MENU)
         {
-            return;
+            string menuPath = GetMenuPath(mount);
+            LoadMenuDialog(assembly, typeName, menuPath);
         }
+        else
+        {
+            uIPlugin.side = side;
+            UIPlugins.Add(uIPlugin);
+            LoadConfigPanel(uIPlugin);
+        }
+    }
 
-		UIElementCollection list = Main.GetConfigPanel(side).Children;
-        bool found = false;
-		if (!found)
-		{
-			list.Add(control);
-		}
-		leftOrder[control] = order;
-	}
+    public static string GetMD5(string path)
+    {
+        var hash = MD5.Create();
+        var stream = new FileStream(path, FileMode.Open);
+        byte[] hashByte = hash.ComputeHash(stream);
+        stream.Close();
+        return BitConverter.ToString(hashByte).Replace("-", "");
+    }
 
-	private void LoadMenuDialog(Assembly assembly, string name, string path)
+
+    public void LoadConfigPanel(UIPlugin uIPlugin)
+    {
+        StackPanel stackPanel = (StackPanel)Main.GetConfigPanel(uIPlugin.side);
+
+		uIPlugin.MD5 = GetMD5(uIPlugin.filePath);
+        byte[] dllbytes = File.ReadAllBytes(uIPlugin.filePath);
+        Assembly assembly = Assembly.Load(dllbytes);
+        if ((assembly.CreateInstance(uIPlugin.typeName) is Control control))
+        {
+            stackPanel.Children.Add(control);
+        }
+    }
+
+	private void LoadMenuDialog(Assembly assembly, string typeName, string path)
 	{
 		Assembly assembly2 = assembly;
-		string name2 = name;
 		MenuItem menu = Main.AddMenuItem(path);
 		if (menu != null)
 		{
 			menu.Click += delegate
 			{
-				if (!(assembly2.CreateInstance(name2) is Window window))
+				if ((assembly2.CreateInstance(typeName) is Window window))
 				{
-
-				}
-				else
-				{
-					window.Owner = Main;
-					window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-					window.ShowDialog();
-				}
+                    window.Owner = Main;
+                    window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    window.ShowDialog();
+                }
 			};
 		}
 		else
@@ -115,10 +135,6 @@ public class ConfigUILibrary: ILambdaUI
 		return (Side)Enum.Parse(typeof(Side), tokens[0].Trim(), ignoreCase: true);
     }
 
-	private static int GetConfigPanelOrder(string mount)
-	{
-		return int.Parse(mount.Split(':')[1].Trim());
-	}
 
 	private static string GetMenuPath(string mount)
 	{

@@ -3,18 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Lambda;
 using LambdaCore;
+using LambdaManager.Config;
 using LambdaManager.Core;
 using LambdaManager.Features;
 using LambdaManager.Mode;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
+using Mode;
 using ThemeManager.Controls;
 
 namespace LambdaManager
@@ -48,12 +53,52 @@ namespace LambdaManager
         public bool IsMiddleViewHidden { get; set; }
         public double LeftViewWidth { get; set; }
         public double MiddleViewWidth { get; set; }
+        public ConfigUILibrary ConfigUILibrary;
+        public ConfigLibrary ConfigLibrary;
+
+        public FileSystemWatcher watcher;
 
         public MainWindow()
         {
+            ConfigUILibrary = new ConfigUILibrary(this);
+            ConfigLibrary = new ConfigLibrary();
+            ConfigLibrary.lambdaUI = ConfigUILibrary;
             InitializeComponent();
             ChangeMiddleViewVisibility(false);
+
+            watcher = new FileSystemWatcher(Directory.GetCurrentDirectory())
+            {
+                IncludeSubdirectories = false,
+            };
+            watcher.Changed += Watcher_Changed;
+            watcher.EnableRaisingEvents = true;
         }
+
+
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                UIPluginLoad(e.FullPath);
+
+            });
+        }
+
+
+        public async void UIPluginLoad(string FullPath)
+        {
+            string Md5 = ConfigUILibrary.GetMD5(FullPath);
+            foreach (var item in ConfigUILibrary.UIPlugins)
+            {
+                if (Md5 != item.MD5)
+                {
+                    projectView.Children.Clear();
+                    item.control = null;
+                }
+            }
+        }
+
 
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)
@@ -203,6 +248,7 @@ namespace LambdaManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            projectView.Children.Clear();
             if (sender is ToggleButton btn)
             {
                 LambdaControl.Trigger(btn.IsChecked.GetValueOrDefault() ? "STOP_ALIVE" : "START_ALIVE", sender, e);

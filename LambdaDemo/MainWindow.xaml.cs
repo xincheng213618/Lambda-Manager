@@ -53,10 +53,11 @@ namespace LambdaDemo
 
         public void LoadControl(string name, string lib, string mount)
         {
-            Assembly assembly = Assembly.Load(File.ReadAllBytes(Directory.GetCurrentDirectory() + "\\" + lib));
             string fullName = lib.Replace(".dll", "") + "." + name;
-
-            DLLloads.Add(new DLLload() { filePath = Directory.GetCurrentDirectory() + "\\" + lib, typeName = fullName });
+            DLLload dLLload = new DLLload() { filePath = Directory.GetCurrentDirectory() + "\\" + lib, typeName = fullName };
+            DLLloads.Add(dLLload);
+            byte[] dllbytes = File.ReadAllBytes(dLLload.filePath);
+            Assembly assembly = Assembly.Load(dllbytes);
 
             if ((assembly.CreateInstance(fullName) is Control control ))
             {
@@ -80,9 +81,8 @@ namespace LambdaDemo
         public void LoadDLL(DLLload dll)
         {
             stackpanel1.Children.Clear();
-            byte[] bytes = File.ReadAllBytes(dll.filePath);
-
-            Assembly assembly = Assembly.Load(bytes);
+            byte[] dllbytes = File.ReadAllBytes(dll.filePath);
+            Assembly assembly = Assembly.Load(dllbytes);
             if ((assembly.CreateInstance(dll.typeName) is Control control))
             {
                 if (control is Window window)
