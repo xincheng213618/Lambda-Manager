@@ -89,8 +89,11 @@ namespace LambdaDemo
             ConfigLibrary.InitializeLibrary();
             ConfigLibrary.LoadUIComponents();
 
-            mainView.Children.Clear();
-            mainView.Children.Add(ViewGrid.mainView);
+            if (Common.ViewGrid is ViewGrid viewGrid)
+            {
+                mainView.Children.Clear();
+                mainView.Children.Add(viewGrid.mainView);
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
+    <ProjectReference Include="..\Solution\Solution.csproj" />
   </ItemGroup>
 
 </Project>
