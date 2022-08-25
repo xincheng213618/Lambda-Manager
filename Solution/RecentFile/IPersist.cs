@@ -11,5 +11,7 @@ namespace Solution.RecentFile
         List<string> RecentFiles(int max);
         void InsertFile(string filepath, int max);
         void RemoveFile(string filepath, int max);
+        void Clear();
+
     }
 }

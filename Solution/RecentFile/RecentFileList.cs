@@ -37,6 +37,9 @@ namespace Solution.RecentFile
         public void RemoveFile(string filepath) { Persister.RemoveFile(filepath, MaxNumberOfFiles); }
         public void InsertFile(string filepath) { Persister.InsertFile(filepath, MaxNumberOfFiles); }
 
+        public void Clear() { Persister.Clear(); }
+
+        
 
 
     }

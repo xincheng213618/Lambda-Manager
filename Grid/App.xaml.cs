@@ -16,26 +16,7 @@ namespace Grid
     {
         private App()
         {
-            Startup += (s, e) => App_Startup(s, e);
         }
 
-
-        private Mutex mutex;
-        /// <summary>
-        /// 软件是否多次打开判定
-        /// </summary>
-        private void App_Startup(object sender, StartupEventArgs e)
-        {
-            mutex = new Mutex(true, "ElectronicNeedleTherapySystem", out bool ret);
-            if (!ret)
-            {
-                //MessageBox.Show("程序重复打开");
-                Shutdown();
-            }
-            else
-            {
-                //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
-            }
-        }
     }
 }

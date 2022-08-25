@@ -120,6 +120,10 @@ namespace Solution.RecentFile
                 k.DeleteValue(sNext);
             }
         }
+        public void Clear()
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(RegistryKey);
+        }
 
     }
 }

@@ -207,6 +207,10 @@ namespace Solution.RecentFile
             }
             return list;
         }
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
 
         void Save(List<string> list, int max)
         {

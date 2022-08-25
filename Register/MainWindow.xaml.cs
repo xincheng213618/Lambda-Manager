@@ -104,10 +104,10 @@ namespace Register
                 { "registerCode",registerInfo.MD5()},
             };
             var content = new FormUrlEncodedContent(keyValues);
-            //var response = await client.PostAsync("http://b.xincheng213618.com:18888/register", content);
+            var response = await client.PostAsync("http://b.xincheng213618.com:18888/register", content);
 
-            //var responseString = await response.Content.ReadAsStringAsync();
-            //MessageBox.Show(responseString);
+            var responseString = await response.Content.ReadAsStringAsync();
+            MessageBox.Show(responseString);
 
             if (!String.IsNullOrEmpty(Encoding.UTF8.GetString(AESHelper.Decrypt())))
                 MessageBox.Show("注册成功");

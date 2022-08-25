@@ -23,7 +23,7 @@ namespace ConfigObjective
         public ToolControl()
         {
             windowData = WindowData.GetInstance();
-            Update.UpdateEventHandler += UpdateGlobal;
+            Update.UpdateEvent += UpdateGlobal;
             InitializeComponent();
         }
 
