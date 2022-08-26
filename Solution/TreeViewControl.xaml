@@ -16,22 +16,20 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid >
-        <StackPanel x:Name="HeaderStackPanel" >
-            <UniformGrid Columns="9" >
+        <StackPanel x:Name="HeaderStackPanel" Width="450" >
+            <UniformGrid Columns="8" >
                 <Button Content="新建" Click="Button_Click_2"/>
                 <Button Content="打开" Click="Button_Click"/>
-                <Button Content="打开3" Click="Button1_Click"/>
                 <Button Content="关闭" Click="Close_Click"/>
                 <Button Content="保存" Click="Save_Click"/>
                 <Button Content="应用" Click="Config_Set_Click"/>
                 <Button Content="查找"/>
                 <Button Content="导出" Click="Button_Click_1"/>
                 <Button Content="导入"/>
-
             </UniformGrid>
             <StackPanel>
-                <UniformGrid  Columns="2">
-                    <CheckBox Content="支持多个工程" IsChecked="True"/>
+                <UniformGrid Columns="2">
+                    <CheckBox Content="支持多个工程" IsChecked="{Binding IsSupportMultiProject}"/>
                     <Button Content="清空历史记录" Click="Button_Click_3"/>
                 </UniformGrid>
             </StackPanel>

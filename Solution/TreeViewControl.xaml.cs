@@ -16,11 +16,27 @@ using Global.Common;
 
 namespace Solution
 {
+
+    public class TreeViewSetting : ViewModelBase
+    {
+
+        public bool isSupportMultiProject = false;
+        public bool IsSupportMultiProject
+        {
+            get { return isSupportMultiProject; }
+            set { isSupportMultiProject = value;NotifyPropertyChanged(); } 
+        }
+
+
+    }
+
+
     /// <summary>
     /// TreeViewControl.xaml 的交互逻辑
     /// </summary>
     public partial class TreeViewControl : UserControl
     {
+        TreeViewSetting treeViewSetting = new TreeViewSetting();
         public TreeViewControl()
         {
             Window window = Application.Current.MainWindow;
@@ -28,9 +44,8 @@ namespace Solution
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
+            this.DataContext = treeViewSetting;
         }
-
-
 
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -54,6 +69,8 @@ namespace Solution
 
         private BaseObject LastReNameObject;
         private TreeViewItem SelectedTreeViewItem;
+        private TreeViewItem LastSelectedTreeViewItem;
+
 
         public string SolutionDir = null;
         public string SolutionFullName;
@@ -93,7 +110,7 @@ namespace Solution
                     viewModeBase.IsEditMode = false;
                 }
                 SelectedTreeViewItem = item;
-
+                LastSelectedTreeViewItem = item;
                 if (SolutionExplorers.Count != 1&&item.DataContext is SolutionExplorer solutionExplorer)
                 {
                     ///判断当前工程配置不是现在的，不重复读取
@@ -177,52 +194,44 @@ namespace Solution
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            
             OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
             openSolutionWindow.Closed += (s, e) =>
             {
-                string FullName = openSolutionWindow.FullName;
-                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                if (treeViewSetting.isSupportMultiProject)
                 {
-                    SolutionFullName = FullName;
-                    recentFileList.InsertFile(FullName);
-                    TreeViewInitialized(FullName);
-                }
-            };
-            openSolutionWindow.ShowDialog();
-        }
-        /// <summary>
-        /// 新建1
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button1_Click(object sender, RoutedEventArgs e)
-        {
-            OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
-            openSolutionWindow.Closed += (s, e) =>
-            {
-                string FullName = openSolutionWindow.FullName;
+                    string FullName = openSolutionWindow.FullName;
 
-                for (int i = 0; i < SolutionExplorers.Count; i++)
-                {
-                    if (SolutionExplorers[i].FullName == FullName)
+                    for (int i = 0; i < SolutionExplorers.Count; i++)
                     {
-
-                        return;
+                        if (SolutionExplorers[i].FullName == FullName)
+                        {
+                            return;
+                        }
                     }
 
-                } 
-
-                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
-                {
-                    SolutionFullName = FullName;
-                    recentFileList.InsertFile(FullName);
-                    TreeViewInitialized(FullName, false);
+                    if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                    {
+                        SolutionFullName = FullName;
+                        recentFileList.InsertFile(FullName);
+                        TreeViewInitialized(FullName, false);
+                    }
                 }
+                else
+                {
+                    string FullName = openSolutionWindow.FullName;
+                    if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                    {
+                        SolutionFullName = FullName;
+                        recentFileList.InsertFile(FullName);
+                        TreeViewInitialized(FullName);
+                    }
+                }
+
             };
             openSolutionWindow.ShowDialog();
-
         }
+         
 
 
         public BaseObject GetFile(BaseObject projectFolder, string FullPath)
@@ -423,13 +432,14 @@ namespace Solution
                     string SolutionDirectoryPath = newCreatWindow.newCreatViewMode.DirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name;
                     SolutionFullName = SolutionDirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name + ".gprj";
 
-
                     Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Video");
                     Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Image");
 
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
-                    TreeViewInitialized(SolutionFullName);
+                    TreeViewInitialized(SolutionFullName,!treeViewSetting.isSupportMultiProject);
+
+
                 }
             };
             newCreatWindow.ShowDialog();
@@ -442,14 +452,21 @@ namespace Solution
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(SolutionFullName))
-            {
-                Config.ConfigWrite(SolutionFullName);
-            }
-            SolutionFullName = null;
-            SolutionExplorers.Clear();
-            SolutionTreeView.ItemsSource = null;
 
+            if (treeViewSetting.isSupportMultiProject&&LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
+            {
+                SolutionExplorers.Remove(solutionExplorer);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(SolutionFullName))
+                {
+                    Config.ConfigWrite(SolutionFullName);
+                }
+                SolutionFullName = null;
+                SolutionExplorers.Clear();
+                SolutionTreeView.ItemsSource = null;
+            }
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
