@@ -55,7 +55,7 @@
                 </DockPanel>
                 <TextBlock Text="选择文件位置(_L)" />
                 <DockPanel Margin="0,5">
-                    <TextBox   Style="{DynamicResource TextBoxStyle1}" Text="{Binding DirectoryPath}"  Width="400" HorizontalAlignment="Left"  Margin="0,0,5,0" />
+                    <TextBox Style="{DynamicResource TextBoxStyle1}" Text="{Binding DirectoryPath}"  Width="400" HorizontalAlignment="Left"  Margin="0,0,5,0" />
                     <Button Width="50" HorizontalAlignment="Left"   Content="..." Click="Button_Click"/>
                 </DockPanel>
             </StackPanel>

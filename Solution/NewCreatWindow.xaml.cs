@@ -1,4 +1,5 @@
-﻿using Solution.RecentFile;
+﻿using Global.Common;
+using Solution.RecentFile;
 using System;
 using System.IO;
 using System.Windows;
@@ -85,12 +86,21 @@ namespace Solution
         }
     }
 
-    public class NewCreatViewMode
+    public class NewCreatViewMode:ViewModelBase
     {
-        public string Name { get; set; }
+        private string name = string.Empty;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; NotifyPropertyChanged();  } 
+        }
+        private string directoryPath = string.Empty;
 
-        public string DirectoryPath { get; set; }
-
+        public string DirectoryPath
+        {
+            get { return directoryPath; }
+            set { directoryPath = value; NotifyPropertyChanged(); } 
+        }
     }
 
 }
