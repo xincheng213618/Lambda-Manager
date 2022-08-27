@@ -29,43 +29,12 @@
                 <TextBlock Text="最近使用的内容"  FontSize="15"/>
                 <ScrollViewer Grid.Row="1"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <ListView  x:Name="ListView1"  HorizontalAlignment="Left"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
-                        <ListView.ItemContainerStyle >
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Background" Value="#333333"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="BorderBrush" Value="#444444"/>
-                                    </Trigger>
-                                    <Trigger Property="IsFocused" Value="true">
-                                        <Setter Property="BorderBrush" Value="#444444"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="true">
-                                        <Setter Property="BorderBrush" Value="#444444"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.Resources>
-                            <Style x:Key="Gird11" TargetType="{x:Type Grid}">
-                                <Setter Property="Background"  Value="#333333"/>
-                                <Setter Property="Margin"  Value="-1"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Background" Value="#1E1E1E"/>
-                                    </Trigger>
-                                    <Trigger Property="IsFocused" Value="true">
-                                        <Setter Property="Background" Value="#1E1E1E"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListView.Resources>
                         <ListView.View>
                             <GridView  >
                                 <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
                                     <GridViewColumn.CellTemplate  >
                                         <DataTemplate  >
-                                            <Grid Height="45" Margin="-6,0,3,0" Style="{StaticResource Gird11}" >
+                                            <Grid Height="45" Margin="-6,0,3,0" >
                                                 <Grid  Margin="6,0">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="30"/>
