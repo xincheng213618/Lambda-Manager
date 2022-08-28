@@ -20,13 +20,9 @@
             <Setter Property="VerticalContentAlignment" Value="Top" />
         </Style>
         <Style x:Key="RadiusBorder" TargetType="{x:Type Border}">
-            <Setter Property="BorderBrush">
-                <Setter.Value>
-                    <SolidColorBrush Color="{StaticResource HighlightColor}" />
-                </Setter.Value>
-            </Setter>
             <Setter Property="Margin" Value="2,0"/>
             <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="#BDBDBD"/>
             <Setter Property="Border.CornerRadius" Value="5" />
         </Style>
     </Window.Resources>

@@ -53,7 +53,7 @@
         </Setter>
     </Style>
 
-
+    <!--无二级菜单时-->
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Grid SnapsToDevicePixels="true">
             <Rectangle Name="Bg" Fill="Transparent" Stroke="{TemplateBinding MenuItem.BorderBrush}" StrokeThickness="1"/>
@@ -97,11 +97,13 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-
-    <!--<ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
+    
+    
+    <!--有二级菜单时-->
+    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
         <Grid SnapsToDevicePixels="true">
             <Rectangle Name="Bg" Fill="Transparent" Stroke="{TemplateBinding MenuItem.BorderBrush}" StrokeThickness="1"/>
-            <Rectangle x:Name="InnerBorder" Margin="1" Stroke="Transparent" StrokeThickness="1"/>
+            <Rectangle x:Name="InnerBorder" Margin="10" Stroke="Transparent" StrokeThickness="1"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="27" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup"/>
@@ -173,10 +175,10 @@
                 <Setter TargetName="OpaqueRect" Property="Canvas.Left" Value="{Binding ElementName=SubMenuScrollViewer, Path=HorizontalOffset}" />
             </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>-->
+    </ControlTemplate>
 
 
-    <!-- TopLevelHeader --><!--
+     <!--TopLevelHeader--> 
     <ControlTemplate  x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border Name="Border">
             <Grid>
@@ -224,9 +226,9 @@
                 <Setter Property="Foreground" Value="#888888"/>
             </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>-->
+    </ControlTemplate>
 
-    <!-- TopLevelItem --><!--
+     <!--TopLevelItem--> 
     <ControlTemplate  x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border x:Name="Border"  >
             <Grid Name="Grid" >
@@ -244,7 +246,7 @@
                 <Setter Property="Foreground" Value="#888888"/>
             </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>-->
+    </ControlTemplate>
 
 
 

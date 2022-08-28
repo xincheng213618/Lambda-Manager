@@ -6,12 +6,12 @@
   <Application.Resources>
         <ResourceDictionary >
             <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>-->
                 <ResourceDictionary Source="Themes/Styles.xaml" />
                 <ResourceDictionary Source="Themes/SliderStyle.xaml" />
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml" />
-                <ResourceDictionary Source="/themes/Dark/Theme.xaml" />
-                <ResourceDictionary Source="/themes/Base/Menu.xaml" />
-
+                <ResourceDictionary Source="/ThemeManager;component/themes/Dark/Theme.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/themes/Base/Menu.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

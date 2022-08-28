@@ -45,8 +45,8 @@
     <!--MenuItem-->
     <SolidColorBrush x:Key="MenuBrushKey"   Color="{DynamicResource GlobalBackgroundColor}"/>
     <SolidColorBrush x:Key="MenuHighBrushKey"   Color="#2E2E2E"/>
-    <SolidColorBrush x:Key="SubMenuBrushKey"   Color="#1B1B1C"/>
-    <SolidColorBrush x:Key="SubMenuBorderBrushKey"   Color="#272729"/>
+    <SolidColorBrush x:Key="SubMenuBrushKey"   Color="#2E2E2E"/>
+    <SolidColorBrush x:Key="SubMenuBorderBrushKey"   Color="#424242"/>
 
     <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />
 
@@ -60,7 +60,7 @@
     <SolidColorBrush x:Key="toplevelmenuheaderhoverborder" Color="Transparent" />
     <SolidColorBrush x:Key="toplevelmenuheaderhover" Color="#FF3E3E40" />
     <SolidColorBrush x:Key="menuitemglyphpanelborderbrush" Color="#3E3E40" />
-    <SolidColorBrush x:Key="MenuItemHighlightedInnerBorder" Color="#333334" />
+    <SolidColorBrush x:Key="MenuItemHighlightedInnerBorder" Color="#3D3D3D" />
     <SolidColorBrush x:Key="MenuItemDisabledForeground" Color="#505050" />
     <SolidColorBrush x:Key="MenuItemDisabledGlyphPanelBackground" Color="#FF656565" />
 
@@ -73,11 +73,11 @@
     <SolidColorBrush x:Key="EnvironmentCommandBarSelectedIcon" Color="#FF2D2D30" />
     <SolidColorBrush x:Key="EnvironmentCommandBarCheckBoxMouseOver" Color="#FFF1F1F1" />
     <SolidColorBrush x:Key="EnvironmentCommandBarHoverOverSelectedIcon" Color="#FF3E3E40" />
-    <SolidColorBrush x:Key="EnvironmentCommandBarMenuItemMouseOver" Color="#FF333334" />
+    <SolidColorBrush x:Key="EnvironmentCommandBarMenuItemMouseOver" Color="#3D3D3D" />
 
-    <SolidColorBrush x:Key="ContextMenuBackground" Color="#FF000000" />
-    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ContextMenuRectangleFill" Color="#FF000000" />
+    <SolidColorBrush x:Key="ContextMenuBackground" Color="#FF2E2E2E" />
+    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#FF424242" />
+    <SolidColorBrush x:Key="ContextMenuRectangleFill" Color="#2E2E2E" />
 
 
 

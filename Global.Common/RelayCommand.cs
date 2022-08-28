@@ -23,7 +23,7 @@ namespace Global.Common
         {
             if (canExecute != null)
             {
-                CanExecuteChanged?.Invoke(this, new EventArgs());
+                //CanExecuteChanged?.Invoke(this, new EventArgs());
                 return canExecute(parameter);
             }
             return true;
@@ -34,7 +34,7 @@ namespace Global.Common
         public void Execute(object parameter)
         {
             execute(parameter);
-            CanExecuteChanged?.Invoke(this, new EventArgs());
+            //CanExecuteChanged?.Invoke(this, new EventArgs());
         }
     }
 }
