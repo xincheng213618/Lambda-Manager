@@ -22,6 +22,36 @@
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="true">
+                                <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background" TargetName="Bd" Value="#222222"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="true"/>
+                                        <Condition Property="IsSelected" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background" TargetName="Bd" Value="#555555"/>
+                                </MultiTrigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="{StaticResource DisabledMenuForeground}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
 
             </Style>
 
@@ -44,11 +74,11 @@
                     <ListView  x:Name="ListView1"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
                         <ListView.View>
                             <GridView   >
-                                <GridViewColumn  >
+                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
                                     <GridViewColumn.CellTemplate  >
                                         <DataTemplate >
-                                            <Border  Height="45" Margin="0,2,-6,2" BorderThickness="0" Background="Red" Width="{Binding ElementName=ListView1,Path=ActualWidth}">
-                                                <Grid >
+                                            <Border  Height="45" Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
+                                                <Grid Margin="0,2,30,2" >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="30"/>
                                                         <ColumnDefinition Width="*"/>

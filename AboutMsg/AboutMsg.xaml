@@ -31,15 +31,19 @@
                     <ListView x:Name="ListView1" Height="150" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListView1_SelectionChanged">
                         <ListView.View>
                             <GridView >
-                                <GridViewColumn  Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border  Height="45" Margin="0,0,30,0" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}">
-                                                <TextBlock TextTrimming = "CharacterEllipsis">
+                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
+                                    <GridViewColumn.CellTemplate  >
+                                        <DataTemplate >
+                                            <Border  Height="45" Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
+                                                <Grid Margin="0,2,30,2" >
+ 
+                                                    <TextBlock TextTrimming = "CharacterEllipsis">
                                                         <Run Text="{Binding Path=Name}"/>
                                                         <Run Text="+"/>
                                                         <Run Text="{Binding Path=Version}"/>
-                                                </TextBlock>
+                                                    </TextBlock>
+  
+                                                </Grid>
                                             </Border>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
