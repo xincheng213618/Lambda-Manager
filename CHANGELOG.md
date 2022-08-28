@@ -1,3 +1,8 @@
+## [1.0.11] - 2022-08-28
+
+- 修复Slider 样式 和ListView 样式
+- 将Soulution 中的样式移入ThemeManager
+
 ## [1.0.10] - 2022-08-26
 
 - 添加LamDemo热重载✔
