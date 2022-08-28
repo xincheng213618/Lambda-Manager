@@ -13,7 +13,7 @@ namespace ThemeManager.Rangeslider.Converters
 
         #region IValueConverter Members
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             SolidColorBrush brush = value as SolidColorBrush;
             if (brush != null)
@@ -22,7 +22,7 @@ namespace ThemeManager.Rangeslider.Converters
             return default(Color?);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value != null)
             {

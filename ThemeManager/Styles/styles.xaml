@@ -135,6 +135,8 @@
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+
     </Style>
     <Style TargetType="{x:Type Control}">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>

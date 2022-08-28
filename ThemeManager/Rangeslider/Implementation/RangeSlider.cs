@@ -32,7 +32,7 @@ namespace ThemeManager.Rangeslider
 
         #endregion Members
 
-        private static Style GetDefautlStyle()
+        private static Style? GetDefautlStyle()
         {
             ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Rangeslider/Themes/Generic.xaml", UriKind.Relative)) as ResourceDictionary;
             Application.Current.Resources.MergedDictionaries.Add(dictionary);
@@ -723,67 +723,42 @@ namespace ThemeManager.Rangeslider
         {
             base.OnApplyTemplate();
 
-            if (_lowerRange != null)
+            if (Template.FindName(PART_LowerRange, this) is RepeatButton  _lowerRange)
             {
-                _lowerRange.Click -= new RoutedEventHandler(this.LowerRange_Click);
-            }
-            _lowerRange = this.Template.FindName(PART_LowerRange, this) as RepeatButton;
-            if (_lowerRange != null)
-            {
+                this._lowerRange = _lowerRange;
                 _lowerRange.Click += new RoutedEventHandler(this.LowerRange_Click);
             }
 
-            if (_higherRange != null)
+            if (Template.FindName(PART_HigherRange, this) is RepeatButton _higherRange)
             {
-                _higherRange.Click -= new RoutedEventHandler(this.HigherRange_Click);
-            }
-            _higherRange = this.Template.FindName(PART_HigherRange, this) as RepeatButton;
-            if (_higherRange != null)
-            {
+                this._higherRange = _higherRange;
                 _higherRange.Click += new RoutedEventHandler(this.HigherRange_Click);
             }
-
-            if (_lowerSlider != null)
+            if (Template.FindName(PART_LowerSlider, this) is Slider _lowerSlider)
             {
-                _lowerSlider.Loaded -= this.Slider_Loaded;
-                _lowerSlider.ValueChanged -= LowerSlider_ValueChanged;
-                if (_lowerTrack != null)
-                {
-                    _lowerTrack.Thumb.DragCompleted -= this.LowerSlider_DragCompleted;
-                }
-            }
-            _lowerSlider = this.Template.FindName(PART_LowerSlider, this) as Slider;
-            if (_lowerSlider != null)
-            {
+                this._lowerSlider = _lowerSlider;
                 _lowerSlider.Loaded += this.Slider_Loaded;
                 _lowerSlider.ValueChanged += LowerSlider_ValueChanged;
                 _lowerSlider.ApplyTemplate();
-                _lowerTrack = _lowerSlider.Template.FindName(PART_Track, _lowerSlider) as Track;
-                if (_lowerTrack != null)
+                if (_lowerSlider.Template.FindName(PART_Track, _lowerSlider) is Track _lowerTrack)
                 {
+                    this._lowerTrack = _lowerTrack;
                     _lowerTrack.Thumb.DragCompleted += this.LowerSlider_DragCompleted;
                 }
+
             }
 
-            if (_higherSlider != null)
+            if (Template.FindName(PART_HigherSlider, this) is Slider _higherSlider)
             {
-                _higherSlider.Loaded -= this.Slider_Loaded;
-                _higherSlider.ValueChanged -= HigherSlider_ValueChanged;
-                if (_higherTrack != null)
-                {
-                    _higherTrack.Thumb.DragCompleted -= this.HigherSlider_DragCompleted;
-                }
-            }
-            _higherSlider = this.Template.FindName(PART_HigherSlider, this) as Slider;
-            if (_higherSlider != null)
-            {
+                this._higherSlider = _higherSlider;
                 _higherSlider.Loaded += this.Slider_Loaded;
                 _higherSlider.ValueChanged += HigherSlider_ValueChanged;
                 _higherSlider.ApplyTemplate();
-                _higherTrack = _higherSlider.Template.FindName(PART_Track, _higherSlider) as Track;
-                if (_higherTrack != null)
+
+                if (_higherSlider.Template.FindName(PART_Track, _higherSlider) is Track _higherTrack)
                 {
-                    _higherTrack.Thumb.DragCompleted += this.HigherSlider_DragCompleted;
+                    this._higherTrack = _higherTrack;
+                    _higherTrack.Thumb.DragCompleted += this.LowerSlider_DragCompleted;
                 }
             }
         }

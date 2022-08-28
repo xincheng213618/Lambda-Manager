@@ -10,8 +10,21 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Solution;component/themes/styles.xaml"/>
+                <!--<ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Padding" Value="4,1"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+
+            </Style>
+
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -27,15 +40,15 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="最近使用的内容"  FontSize="15"/>
-                <ScrollViewer Grid.Row="1"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <ListView  x:Name="ListView1"  HorizontalAlignment="Left"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
+                <ScrollViewer  Grid.Row="1"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <ListView  x:Name="ListView1"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
                         <ListView.View>
-                            <GridView  >
-                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
+                            <GridView   >
+                                <GridViewColumn  >
                                     <GridViewColumn.CellTemplate  >
-                                        <DataTemplate  >
-                                            <Grid Height="45" Margin="-6,0,3,0" >
-                                                <Grid  Margin="6,0">
+                                        <DataTemplate >
+                                            <Border  Height="45" Margin="0,2,-6,2" BorderThickness="0" Background="Red" Width="{Binding ElementName=ListView1,Path=ActualWidth}">
+                                                <Grid >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="30"/>
                                                         <ColumnDefinition Width="*"/>
@@ -48,7 +61,7 @@
                                                     </Grid>
                                                 </Grid>
 
-                                            </Grid>
+                                            </Border>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -61,12 +74,22 @@
             </Grid>
 
             <StackPanel Grid.Column="1"   Margin="20" >
-                <Button  Height="50" Background="#3F3F40" Click="Button_Click">
-                    <Button.Content>
-                        <Border CornerRadius="0">
-                            <TextBlock Text="打开本地项目" FontSize="15" />
-                        </Border>
-                    </Button.Content>
+                <Button  Height="50" Content="打开本地项目"  FontSize="15"  Background="#3F3F40" Click="Button_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" 	BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"	CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"  RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 	VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="Bd" Property="Background" Value="#1d4628"/>
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="#6ae860"/>
+                                    <Setter TargetName="Bd" Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Foreground" Value="{StaticResource MouseOverButtonForeground}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
                 </Button>
             </StackPanel>
 

@@ -596,56 +596,8 @@
                                     <Label Content="准确度" HorizontalAlignment="Right" Margin="0,0,8,0" Background="#595959" ></Label>
                                     </DockPanel>
                                
-
                             </StackPanel>
-                            <!--
-                            <TabControl    >
-                                <TabItem Header="系统优化"  IsSelected="{Binding OptimizedSel}"  >
-                                    <StackPanel Orientation="Vertical" DataContext="{Binding Optimized}">
-                                        <GroupBox Header="聚焦范围" BorderThickness="0.5" BorderBrush="#777777">
-                                            <UniformGrid Columns="2" Rows="2" >
-                                                <RadioButton  Content="粗聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <RadioButton  Content="精聚焦"   Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <Slider Style="{StaticResource updown}" Name="globalUpdown" Minimum="0" Maximum="100" Value="{Binding Global}"  Margin="10,0,10,0" Height="25" ></Slider>
-                                                <Slider Style="{StaticResource updown}"  Name="localUpdown"  Minimum="0" Maximum="100"  Value="{Binding  Local}" Margin="10,0,10,0" Height="25" ></Slider>
-                                            </UniformGrid>
-                                        </GroupBox>
-                                        <GroupBox Header="聚焦精度" BorderThickness="0.2" >
-                                            <DockPanel>
-                                                <Label Content="速度" Background="#595959" Foreground="white"></Label>
-                                                <Slider Width="230" Style="{StaticResource LM_Slider6}" HorizontalAlignment="Left" Value="{Binding Precision}"  VerticalAlignment="Center" Orientation="Horizontal" Margin="18,0,0,0" ></Slider>
-                                                <Label Content="准确度" HorizontalAlignment="Right" Margin="0,0,10,0"  Background="#595959" Foreground="white"></Label>
-                                            </DockPanel>
-                                        </GroupBox>
-                                      
-                                       
-                                    </StackPanel>
-                                </TabItem>
-                                <TabItem Header="自定义"  IsSelected="{Binding UserDefinedSel}">
-                                    <StackPanel DataContext="{Binding UserDefined}" >
-                                        <GroupBox Header="聚焦范围" BorderThickness="0.2">
-                                            <UniformGrid Columns="2" Rows="2" >
-                                                <RadioButton  Content="粗聚焦"     Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <RadioButton  Content="精聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <Slider Style="{StaticResource updown}" Value="{Binding Global}" Margin="10,0,10,0" Height="25" ></Slider>
-                                                <Slider Style="{StaticResource updown}" Value="{Binding  Local}"  Margin="10,0,10,0" Height="25" ></Slider>
-                                            </UniformGrid>
-                                        </GroupBox>
-                                        <GroupBox Header="聚焦精度" BorderThickness="0.2" >
-                                            <DockPanel>
-                                                <Label Content="速度" Background="#595959"></Label>
-                                                <Slider Width="230" Style="{StaticResource LM_Slider6}" HorizontalAlignment="Left"  Value="{Binding Precision}"  Minimum="0" Maximum="10" VerticalAlignment="Center" Orientation="Horizontal" Margin="18,0,0,0"></Slider>
-                                                <Label Content="准确度" HorizontalAlignment="Right" Margin="0,0,10,0" Background="#595959" ></Label>
-                                            </DockPanel>
-                                        </GroupBox>
-                                      
-                                    </StackPanel>
-
-
-                                </TabItem>
-                            </TabControl>-->
-
-
+           
 
                         </Border>
                         <Border x:Name="Border522"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" BorderBrush="#333333" >
@@ -705,7 +657,7 @@
                             </TextBlock>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock  FontSize="11"  Foreground="White">
+                            <TextBlock   FontSize="11"  Foreground="White">
                                 <Run Text="图像尺寸："/>                              
                                 <Run Text="{Binding Path=ImageSize}"/>
                             </TextBlock>

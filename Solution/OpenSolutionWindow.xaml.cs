@@ -34,6 +34,7 @@ namespace Solution
 
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
+            
             foreach (var item in recentFileList.RecentFiles)
             {
                 FileInfo fileInfo = new FileInfo(item);

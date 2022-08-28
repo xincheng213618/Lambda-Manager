@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Solution;component/themes/styles.xaml"/>
+                <ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>
                 <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
