@@ -1707,11 +1707,10 @@
                     <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
                         <BulletDecorator.Bullet>
                             <Border x:Name="CheckBoxBorder"
-                                        Height="{TemplateBinding Height}"
-										Width="{TemplateBinding Height}"
+                                        Height="12"
+										Width="12"
 										BorderBrush="{TemplateBinding BorderBrush}" 
-										BorderThickness="1" Margin="{TemplateBinding Padding}"
-
+										BorderThickness="1"
 										Background="{TemplateBinding Background}">
                                 <Path x:Name="CheckMark"  
                                             Data="{StaticResource CheckBoxCheckmark}" 

@@ -34,7 +34,6 @@ namespace Register
             InitializeComponent();
         }
 
-        int mode = 1;
         RegisterInfo registerInfo;
 
         AESHelper AESHelper;
