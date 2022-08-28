@@ -31,14 +31,28 @@ namespace Solution
             recentFileList.Persister = new RegistryPersister(regiserkey);
 
             if (recentFileList.RecentFiles.Count==0)
-                recentFileList.InsertFile(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+                recentFileList.InsertFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +"\\Grid");
 
             newCreatViewMode = new NewCreatViewMode();
-            newCreatViewMode.Name = "新建工程";
             newCreatViewMode.DirectoryPath = recentFileList.RecentFiles[0];
-
+            newCreatViewMode.Name = NewCreateFileName("新建工程");
             this.DataContext = newCreatViewMode;
         }
+
+        public string NewCreateFileName(string FileName)
+        {
+            if (!Directory.Exists($"{newCreatViewMode.DirectoryPath}\\{FileName}"))
+                return FileName;
+            for (int i = 1; i < 999; i++)
+            {
+                if (!Directory.Exists($"{newCreatViewMode.DirectoryPath}\\{FileName}{i}"))
+                    return $"{FileName}{i}";
+            }
+            return FileName ;
+        }
+
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -52,6 +66,7 @@ namespace Solution
                     return;
                 }
                 newCreatViewMode.DirectoryPath = dialog.SelectedPath;
+                recentFileList.InsertFile(newCreatViewMode.DirectoryPath);
             }
         }
 

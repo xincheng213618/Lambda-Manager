@@ -576,21 +576,21 @@ int CameraSettingExposure(int mode,double exposure)
 	//采集层数
 	j1["CollectionLayers"] = "5";
 	//采集点个数
-	j1["CollectionPoints"] = "100";
+	j1["CollectionPoints"] = "100ddddddddddd";
 	//成像模式数
 	j1["ViewModeCounts"] = "4";
 	//荧光通道数
 	j1["FluorescenceChannels"] = "2";
 	//图像尺寸
-	j1["ImageSize"] = "1280×960 (5.2MB)";
+	j1["ImageSize"] = "1280×960ddddddddddd (5.2MB)";
 	//图像总数
 	j1["ImageNums"] = "66";
 	//存储空间
 	j1["Storage"] = "1.546G";
 	//全部采集耗时
-	j1["AllCollectionTime"] = "23h 0m 0.002s";
+	j1["AllCollectionTime"] = "23h  ddddddddd 0m 0.002s";
 	//相机工作时长
-	j1["CameraWorkingTime"] = "0h 0m 0.002s";
+	j1["CameraWorkingTime"] = "0h 0m dddddddd0.002s";
 
 	
 	Event::Trigger("UPDATE_MUL_SUMMARY", &j1);

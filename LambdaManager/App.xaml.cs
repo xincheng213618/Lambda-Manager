@@ -20,7 +20,7 @@ partial class App : Application
     private App()
     {
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-        Startup += (s, e) => App_Startup(s, e);
+        //Startup += (s, e) => App_Startup(s, e);
         Startup += (s, e) => Application_Startup(s, e);
         Exit += new ExitEventHandler(Application_Exit);
     }

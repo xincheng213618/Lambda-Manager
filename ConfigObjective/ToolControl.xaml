@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="/ConfigObjective;component/themes/Base.xaml"/>
                 <ResourceDictionary Source="/ConfigObjective;component/themes/buttonstyle.xaml"/>
                 <ResourceDictionary Source="/ConfigObjective;component/themes/Slider.xaml"/>
+                <ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Inverse:BoolToVisibilityConverter x:Key="InversetoBoolean"></Inverse:BoolToVisibilityConverter>
         </ResourceDictionary>
