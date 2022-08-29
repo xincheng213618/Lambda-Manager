@@ -101,11 +101,10 @@ namespace LambdaManager
             }
 
         }
-
+        /// 初始化用线程打开，这样能缩短展示页面的时间，初始化C++事件需要先初始化主窗口，ui控件最后初始化，加载c++ dll 需要在主窗口初始化之前(沈茜)。
         public void Load()
         {
             bool num = ConfigLibrary.Load(loadxml());
-
             Application.Current.Dispatcher.Invoke(delegate
             {
                 mainWindow = new MainWindow();
@@ -124,6 +123,7 @@ namespace LambdaManager
             {
                 MessageBox.Show("主控初始化失败");
             }
+
             Application.Current.Dispatcher.Invoke(delegate
             {
                 if (IsRunning)

@@ -55,17 +55,10 @@ namespace LambdaManager
         public double LeftViewWidth { get; set; }
         public double MiddleViewWidth { get; set; }
 
-
-
-
-
-
         public MainWindow()
         {
             InitializeComponent();
             ChangeMiddleViewVisibility(false);
-
-
         }
 
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
