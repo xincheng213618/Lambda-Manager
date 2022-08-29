@@ -57,24 +57,16 @@ namespace LambdaManager
 
 
 
-        public ConfigUILibrary ConfigUILibrary;
-        public ConfigLibrary ConfigLibrary;
+
 
 
         public MainWindow()
         {
-            ConfigUILibrary = new ConfigUILibrary(this);
-            ConfigLibrary = new ConfigLibrary();
-            ConfigLibrary.lambdaUI = ConfigUILibrary;
             InitializeComponent();
             ChangeMiddleViewVisibility(false);
 
 
         }
-
-
-
-
 
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
         private void Window_Initialized(object sender, EventArgs e)

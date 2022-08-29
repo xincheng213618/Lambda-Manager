@@ -20,6 +20,10 @@ namespace LambdaManager
     {
         //2022.8.20 主窗口显示需要后置，前置在沈茜的电脑上会出现DLL 第二次无法加载的情况，原因未知
         public bool IsRunning { get; set; } = false;
+
+        public ConfigUILibrary ConfigUILibrary;
+        public ConfigLibrary ConfigLibrary;
+
         public MainWindow mainWindow;
         public StartWindow()
         {
@@ -29,9 +33,7 @@ namespace LambdaManager
         private readonly string dllAce = "ACE.dll";
         private void Window_Initialized(object sender, EventArgs e)
         {
-            mainWindow = new MainWindow();
-            Application.Current.MainWindow = mainWindow;
-
+            ConfigLibrary = new ConfigLibrary();
             Log.LogWrite += AddMessage;
             if (DateTime.Now > Convert.ToDateTime(GetExpireDate() ?? "2025/1/1"))
             {
@@ -102,13 +104,21 @@ namespace LambdaManager
 
         public void Load()
         {
-            bool num = mainWindow.ConfigLibrary.Load(loadxml());
+            bool num = ConfigLibrary.Load(loadxml());
+
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                mainWindow = new MainWindow();
+                Application.Current.MainWindow = mainWindow;
+                ConfigUILibrary = new ConfigUILibrary(mainWindow);
+                ConfigLibrary.lambdaUI = ConfigUILibrary;
+            });
+
             if (num == true)
             {
                 Log.LogWrite -= AddMessage;
 
-                mainWindow.ConfigLibrary.InitializeLibrary();
-
+                ConfigLibrary.InitializeLibrary();
             }
             else
             {
@@ -118,7 +128,6 @@ namespace LambdaManager
             {
                 if (IsRunning)
                 {
-
                     _ = Dispatcher.BeginInvoke(new Action(async () => await StartMainWindow()));
                 }
                 else
@@ -152,7 +161,7 @@ namespace LambdaManager
         {
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(100);
-            mainWindow.ConfigLibrary.LoadUIComponents();
+            ConfigLibrary.LoadUIComponents();
             mainWindow.Show();
             this.Close();
         }
