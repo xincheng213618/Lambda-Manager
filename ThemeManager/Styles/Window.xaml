@@ -135,14 +135,13 @@
                             <Setter TargetName="RootBorderActive" Property="BorderBrush" Value="White" />
                             <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="0"/>
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="ResizeMode" Value="CanResizeWithGrip" />
-                                <Condition Property="WindowState" Value="Normal" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="MaximizeButton" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="RestoreButton" Property="Visibility" Value="Hidden"/>
-                        </MultiTrigger>
+
+                        <Trigger Property="WindowStyle" Value="ToolWindow">
+                            <Setter TargetName="MinimizeButton" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

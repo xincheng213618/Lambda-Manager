@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Solution"
              xmlns:Solution="clr-namespace:XSolution" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="400"  Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
+             d:DesignHeight="100" d:DesignWidth="400"   Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -114,7 +114,6 @@
                             </TextBlock>
                             <StackPanel.ContextMenu>
                                 <ContextMenu >
-                                    <Separator/>
                                     <!--<MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />-->
                                     <MenuItem Header="删除(_D)" Command="{x:Static ApplicationCommands.Delete}" CommandParameter="{Binding .}"/>
                                     <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
@@ -132,7 +131,6 @@
                                     <MenuItem Header="应用参数(_Y)"  CommandParameter="{Binding .}"/>
                                     <MenuItem Header="文件属性(_R)"  CommandParameter="{Binding .}" />
                                     <MenuItem Header="导入图片设置(_Y)"  CommandParameter="{Binding .}"/>
-                                    <Separator/>
                                 </ContextMenu>
                             </StackPanel.ContextMenu>
                         </StackPanel>

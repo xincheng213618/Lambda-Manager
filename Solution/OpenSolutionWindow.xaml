@@ -10,7 +10,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>-->
+                <ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
                 <Setter Property="SnapsToDevicePixels" Value="True"/>

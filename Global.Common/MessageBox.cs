@@ -9,22 +9,26 @@ namespace Global.Common
     //     Displays a message box.
     public sealed class MessageBox1
     {
-        public static MessageBoxResult Show(string messageBoxText)
+        private static MessageBoxResult Show1(string messageBoxText, string caption ="提示", MessageBoxButton button =MessageBoxButton.OK)
         {
-            Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText);
+            Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText, caption, button);
             messageBox1.ShowDialog();
             return messageBox1.MessageBoxResult;
-            //return MessageBox.Show(messageBoxText);
+        }
+
+        public static MessageBoxResult Show(string messageBoxText)
+        {
+            return Show1(messageBoxText);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption)
         {
-            return MessageBox.Show(messageBoxText, caption);
+            return Show1(messageBoxText, caption);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button)
         {
-            return MessageBox.Show(messageBoxText, caption, button);
+            return Show1(messageBoxText, caption, button);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon)
