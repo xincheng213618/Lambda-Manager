@@ -60,7 +60,6 @@ namespace LambdaManager
         public ConfigUILibrary ConfigUILibrary;
         public ConfigLibrary ConfigLibrary;
 
-        public FileSystemWatcher watcher;
 
         public MainWindow()
         {
@@ -70,41 +69,11 @@ namespace LambdaManager
             InitializeComponent();
             ChangeMiddleViewVisibility(false);
 
-            watcher = new FileSystemWatcher(Directory.GetCurrentDirectory())
-            {
-                IncludeSubdirectories = false,
-            };
-            watcher.Changed += Watcher_Changed;
-            watcher.EnableRaisingEvents = true;
+
         }
 
 
 
-        private void Watcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                UIPluginLoad(e.FullPath);
-            });
-        }
-
-
-        public async void UIPluginLoad(string FullPath)
-        {
-            //这里加延迟是因为，在文件拷贝操作完成之后会出现比如防病毒之类的对dll 进行扫描
-            await Task.Delay(1000);
-            string Md5 = ConfigUILibrary.GetMD5(FullPath);
-            foreach (var uIPlugin in ConfigUILibrary.UIPlugins)
-            {
-                if (Md5 != uIPlugin.MD5)
-                {
-                    uIPlugin.MD5 = Md5;
-
-
-                    ConfigUILibrary.LoadConfigPanel(uIPlugin);
-                }
-            }
-        }
 
 
         StatusBarGlobal statusBarGlobal = new StatusBarGlobal();

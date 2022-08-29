@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using LambdaManager.Core;
@@ -23,20 +24,51 @@ public class UIPlugin
 
 }
 
-
-
 public class ConfigUILibrary: ILambdaUI
 {
 
 	public List<UIPlugin> UIPlugins = new List<UIPlugin>() { };
 
-
     public MainWindow Main { get; set; }
 
-	public ConfigUILibrary(MainWindow Main)
+    public FileSystemWatcher watcher;
+
+    public ConfigUILibrary(MainWindow Main)
 	{
 		this.Main = Main;
 
+        watcher = new FileSystemWatcher(Directory.GetCurrentDirectory())
+        {
+            IncludeSubdirectories = false,
+        };
+        watcher.Changed += Watcher_Changed;
+        watcher.EnableRaisingEvents = true;
+
+    }
+
+
+    private void Watcher_Changed(object sender, FileSystemEventArgs e)
+    {
+        Application.Current.Dispatcher.Invoke(delegate
+        {
+            UIPluginLoad(e.FullPath);
+        });
+    }
+
+
+    public async void UIPluginLoad(string FullPath)
+    {
+        //这里加延迟是因为，在文件拷贝操作完成之后会出现比如防病毒之类的对dll 进行扫描
+        await Task.Delay(1000);
+        string Md5 = GetMD5(FullPath);
+        foreach (var uIPlugin in UIPlugins)
+        {
+            if (Md5 != uIPlugin.MD5)
+            {
+                uIPlugin.MD5 = Md5;
+                LoadConfigPanel(uIPlugin);
+            }
+        }
     }
 
 
