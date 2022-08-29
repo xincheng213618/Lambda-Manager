@@ -45,8 +45,6 @@ namespace LambdaManager
                 thread.Start();
                 _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
             }
-
-
         }
 
         public static string GetExpireDate()

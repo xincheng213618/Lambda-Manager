@@ -20,7 +20,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Resources;
 using System.Windows.Shapes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Grid
 {
@@ -82,12 +81,30 @@ namespace Grid
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            StartWindow startWindow = new StartWindow();
-            startWindow.Show();
-            startWindow.Closed += delegate
+
+            if (File.Exists("LambdaCore.dll"))
             {
+                try
+                {
+                    Process process = new Process();
+                    process.StartInfo.FileName = @"LambdaManager.exe";
+                    process.Start();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 this.Close();
-            };
+            }
+            else
+            {
+                StartWindow startWindow = new StartWindow();
+                startWindow.Show();
+                startWindow.Closed += delegate
+                {
+                    this.Close();
+                };
+            }
         }
 
 

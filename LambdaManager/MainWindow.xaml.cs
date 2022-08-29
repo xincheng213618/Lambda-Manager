@@ -54,6 +54,9 @@ namespace LambdaManager
         public bool IsMiddleViewHidden { get; set; }
         public double LeftViewWidth { get; set; }
         public double MiddleViewWidth { get; set; }
+
+
+
         public ConfigUILibrary ConfigUILibrary;
         public ConfigLibrary ConfigLibrary;
 
