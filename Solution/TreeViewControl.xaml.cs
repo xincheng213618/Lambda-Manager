@@ -74,7 +74,16 @@ namespace Solution
 
 
         public string SolutionDir = null;
-        public string SolutionFullName;
+
+        private string solutionFullName;
+
+        public string SolutionFullName 
+        {
+            get { return solutionFullName; }
+            set { solutionFullName = value; LambdaControl.Trigger("UpdateSolutionPath", this, ToStrings(solutionFullName));}
+
+        }
+
 
         private void Window_Closed(object sender, EventArgs e)
         {
