@@ -20,7 +20,7 @@
     <Grid >
         <StackPanel x:Name="HeaderStackPanel" Width="400" >
             <UniformGrid Columns="8" >
-                <Button Content="新建2" Click="Button_Click_2"/>
+                <Button Content="新建" Click="Button_Click_2"/>
                 <Button Content="打开" Click="Button_Click"/>
                 <Button Content="关闭" Click="Close_Click"/>
                 <Button Content="保存" Click="Save_Click"/>

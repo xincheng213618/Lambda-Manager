@@ -204,8 +204,7 @@ namespace Global
             string message = "循环间隔预计" + time.ToString() + mode;
 
 
-            var r = Global.UserControls.MessageBox1.ShowDialog(message);
-            if (r.IsYes)
+            if (Global.Common.MessageBox1.Show(message)==MessageBoxResult.Yes)
             { 
                 LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
             }

@@ -10,4 +10,8 @@
 		<AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -189,19 +189,7 @@ namespace ConfigObjective
 			if (testMean.Dimensional.Mode.Count == 0)
             {
                 
-                var r = Global.UserControls.MessageBox1.ShowDialog("请选择成像模式!");
-				if (r != null)
-				{
-					
-					if (r.IsYes)
-					{
-						//选择了Yes
-					}
-					else
-					{
-						//选择了No
-					}
-				}
+                var r = Global.Common.MessageBox1.Show("请选择成像模式!");
 
                 // System.Windows.MessageBox.Show("请选择成像模式", "请选择成像模式",MessageBoxButton.OK);
 
