@@ -1,32 +1,30 @@
-﻿using System.IO;
+﻿using ACE.Global;
+using System.IO;
 
 namespace ACE
 {
     public class AESHelper
     {
-        public IRegisterCode registerCode;
+        public FileRegisterinfo fileRegisterinfo;
 
-        public AESHelper()
+        public AESHelper(FileRegisterinfo fileRegisterinfo)
         {
-            registerCode = new ReadRegisterCode();
+            this.fileRegisterinfo = fileRegisterinfo;
         }
         public string EncryptFileName = "application.xml";
         public string DecryptFileName = "application.sys";
         public string Vector = "Grid";
 
 
-        public AESHelper(string filepath)
-        {
-            registerCode = new ReadRegisterCode();
-            EncryptFileName = filepath;
-        }
 
 
         public bool Encrypt()
         {
             if (File.Exists(EncryptFileName))
             {
-                string RegisterCode = registerCode.GetRegisterCode();
+                var Registerinfo = fileRegisterinfo.GetRegisterInfo();
+                if (Registerinfo==null) { return false; }
+                string RegisterCode = Registerinfo.GetMD5();
                 byte[] bytes = AES_EnorDecrypt.AESEncrypt(File.ReadAllBytes(EncryptFileName), RegisterCode ?? string.Empty, Vector);
                 if (File.Exists(DecryptFileName))
                     File.Delete(DecryptFileName);
@@ -40,7 +38,9 @@ namespace ACE
         }
         public bool Encrypt(byte[] EncryptData)
         {
-            string RegisterCode = registerCode.GetRegisterCode();
+            var Registerinfo = fileRegisterinfo.GetRegisterInfo();
+            if (Registerinfo == null) { return false; }
+            string RegisterCode = Registerinfo.GetMD5();
             byte[] bytes = AES_EnorDecrypt.AESEncrypt(EncryptData, RegisterCode ?? string.Empty, "Grid");
 
             if (File.Exists(DecryptFileName))
@@ -52,10 +52,11 @@ namespace ACE
             return true;    
         }
 
-        public byte[] Decrypt()
+        public byte[]? Decrypt()
         {
-            string RegisterCode = registerCode.GetRegisterCode();
-            return AES_EnorDecrypt.AESDecrypt(File.ReadAllBytes(DecryptFileName), RegisterCode ?? string.Empty, "Grid");
+            var Registerinfo = fileRegisterinfo.GetRegisterInfo();
+            if (Registerinfo == null) { return null; }
+            string RegisterCode = Registerinfo.GetMD5(); return AES_EnorDecrypt.AESDecrypt(File.ReadAllBytes(DecryptFileName), RegisterCode ?? string.Empty, "Grid");
         }
 
 

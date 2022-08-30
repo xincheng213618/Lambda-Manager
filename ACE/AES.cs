@@ -14,9 +14,31 @@ namespace ACE
 
     public static class AES
     {
-        public static AESHelper AESHelper = new AESHelper();
+        public static bool IsInit = false;
+
+        public static void Init()
+        {
+            if (File.Exists("default.json"))
+            {
+                fileRegisterinfo = new FileRegisterinfo(new FileRegisterCode("default.json"));
+            }
+            else if (File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{System.Windows.Forms.Application.ProductName}\\default.json"))
+            {
+                fileRegisterinfo = new FileRegisterinfo(new FileRegisterCode());
+            }
+            else
+            {
+                fileRegisterinfo = new FileRegisterinfo();
+            }
+            IsInit = true;
+        }
+
+
+        public static FileRegisterinfo  fileRegisterinfo= new FileRegisterinfo();
+        public static AESHelper AESHelper = new AESHelper(fileRegisterinfo);
         public static string? GetSysConfig()
         {
+            if (!IsInit) Init();
             byte[] trest1 = AESHelper.Decrypt();
             if (trest1 == null)
             {
@@ -31,16 +53,13 @@ namespace ACE
 
         public static string? GetExpireDate()
         {
-            if (File.Exists("application.xml"))
-            {
-                return null;
-            }
-            else
+            if (!IsInit) Init();
+
+            if (!File.Exists("application.xml"))
             {
                 try
                 {
-                    IRegisterInfo registerInfo = new FileRegisterinfo();
-                    var RegisterInfos = registerInfo.GetRegisterInfo();
+                    var RegisterInfos = fileRegisterinfo.GetRegisterInfo();
                     if (RegisterInfos != null)
                     {
                         DateTime dt = Convert.ToDateTime(RegisterInfos.ExpirationDate);
@@ -56,8 +75,10 @@ namespace ACE
                     return "1970/1/1";
                 }
             }
+            return null;
 
-       }
+
+        }
 
     }
 }

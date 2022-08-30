@@ -10,7 +10,7 @@ namespace ACE
         /// <summary>
         /// 设置注册码
         /// </summary>
-        void SetRegisterCode(RegisterInfo registerInfo);
+        public void SetRegisterCode(string registerCode);
 
         /// <summary>
         /// 获取注册码

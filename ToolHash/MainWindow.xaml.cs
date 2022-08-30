@@ -18,17 +18,16 @@ namespace ToolHash
     {
         RegisterInfo registerInfo;
         AESHelper AESHelper;
-        IRegisterInfo iRegisterInfo;
-
+        FileRegisterinfo FileRegisterinfo;
         public MainWindow()
         {
             InitializeComponent();
 
 
-            iRegisterInfo = new FileRegisterinfo();
-            registerInfo = iRegisterInfo.GetRegisterInfo()??new RegisterInfo();
+            FileRegisterinfo = new FileRegisterinfo();
+            registerInfo = FileRegisterinfo.GetRegisterInfo()??new RegisterInfo();
             this.DataContext = registerInfo;
-            AESHelper = new AESHelper();
+            AESHelper = new AESHelper(FileRegisterinfo);
         }
 
         string BasePath;
@@ -123,14 +122,27 @@ namespace ToolHash
                 BasePath = dialog.SelectedPath;
                 if(AddHash(BasePath))
                 {
-                    AESHelper AESHelper = new AESHelper(BasePath + "\\application.xml");
-                    string RegisterCode = registerInfo.MD5();
+                    AESHelper.EncryptFileName = BasePath + "\\application.xml";
 
-                    iRegisterInfo.SetRegisterInfo(registerInfo);
+                    FileRegisterinfo.SetRegisterInfo(registerInfo);
                     AESHelper.Encrypt();
                     MessageBox.Show("加密成功");
-                    File.Delete(BasePath + "\\application.xml");
+                    File.Delete(AESHelper.EncryptFileName);
                     File.Move("application.sys", BasePath + "\\application.sys",true);
+
+                    if (Checkbox1.IsChecked == true)
+                    {
+                        FolderBrowserDialog dialog1 = new FolderBrowserDialog();
+                        dialog1.Description = "请选择保存路径";
+                        if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            File.WriteAllText(dialog1.SelectedPath + "\\default.json", registerInfo.ToBase64());
+
+
+                        }
+
+
+                    }
 
                 };
             }

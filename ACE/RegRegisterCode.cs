@@ -12,9 +12,9 @@ namespace ACE
 
         public RegRegisterCode()
         {
-            RegistryKey = "Software\\" + System.Windows.Forms.Application.CompanyName + "\\" + System.Windows.Forms.Application.ProductName + "\\" + "ACE";
+            RegistryKey = "Software\\LambdaManager";
         }
-        private string Key = "sha512";
+        private string Key = "RegisterInfo";
 
         public RegRegisterCode(string key)
         {
@@ -31,7 +31,7 @@ namespace ACE
             return (string?)k.GetValue(Key);
         }
 
-        public void SetRegisterCode(RegisterInfo registerInfo)
+        public void SetRegisterCode(string registerCode)
         {
             RegistryKey k = Registry.CurrentUser.OpenSubKey(RegistryKey);
             if (k == null)
@@ -40,9 +40,7 @@ namespace ACE
             }
             k = Registry.CurrentUser.OpenSubKey(RegistryKey, true);
             if (k != null)
-                k.SetValue(Key, registerInfo.MD5());
-
-
+                k.SetValue(Key, registerCode);
         }
     }
 }

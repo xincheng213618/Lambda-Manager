@@ -13,7 +13,7 @@ namespace ACE
 
         public FileRegisterCode()
         {
-            Filepath = $"{Environment.GetFolderPath(Environment.SpecialFolder.Personal)}\\Gird\\rarreg.key";
+            Filepath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LambdaManager\\default.json";
         }
 
         public FileRegisterCode(string filepath)
@@ -26,9 +26,9 @@ namespace ACE
             return File.ReadAllText(Filepath);
         }
 
-        public void SetRegisterCode(RegisterInfo registerInfo)
+        public void SetRegisterCode(string registerCode)
         {
-            File.WriteAllText(Filepath, registerInfo.MD5());
+            File.WriteAllText(Filepath, registerCode);
         }
     }
 }

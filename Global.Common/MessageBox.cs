@@ -12,7 +12,7 @@ namespace Global.Common
         //icon 的部分建议移除，目前采用了已经淘汰的system.drawing.Common,如果放在其他地方，需要重置图像
 
 
-        private static MessageBoxResult Initialize(string messageBoxText, string caption ="提示", MessageBoxButton button =MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None)
+        private static MessageBoxResult Initialize(string messageBoxText, string caption ="提示", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None)
         {
             Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText, caption, button, icon, defaultResult);
             messageBox1.ShowDialog();

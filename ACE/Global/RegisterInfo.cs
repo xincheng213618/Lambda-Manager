@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ACE.Global
@@ -96,16 +97,18 @@ namespace ACE.Global
             return $"{UserName},{RegistrationDate},{RegisteredAddress},{ExpirationDate},{Email},{PhoneNumber}";
         }
 
-
-        public string MD5()
+        public string ToBase64()
         {
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.ToString());
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(this, new JsonSerializerOptions())));
+        }
 
-                return Convert.ToHexString(hashBytes); // .NET 5 +
-            }
+        public string GetMD5()
+        {
+            using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.ToString());
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            return Convert.ToHexString(hashBytes); // .NET 5 +
         }
    
     }

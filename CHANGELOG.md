@@ -1,6 +1,7 @@
 ## [1.0.14] - 2022-08-31
 
-- MessageBox 添加 MessageBoxImage
+- MessageBox 添加 MessageBoxImage✔
+- 重构ACE 注册的部分，和ToolHash✔
 
 
 

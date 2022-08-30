@@ -8,51 +8,42 @@ using System.Threading.Tasks;
 
 namespace ACE.Global
 {
-    public class FileRegisterinfo : IRegisterInfo
+    public class FileRegisterinfo 
     {
-        private string Filepath;
+
+        IRegisterCode registerCode;
 
         public FileRegisterinfo()
         {
-            Filepath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\LambdaManager\\" + "default.json";
+            registerCode = new RegRegisterCode();
+        }
+        public FileRegisterinfo(IRegisterCode registerCode)
+        {
+            this.registerCode = registerCode;
+        }
+
+        public void SetIRegisterCode(IRegisterCode registerCode)
+        {
+            this.registerCode = registerCode;
         }
 
         public RegisterInfo? GetRegisterInfo()
         {
-            if (!File.Exists(Filepath))
-                return new RegisterInfo();
-            string result = File.ReadAllText(Filepath);
-            if (result == null)
-            {
-                return new RegisterInfo();
-            }
-            var config = JsonSerializer.Deserialize<Config>(result);
-            if (config == null)
-            {
-                return new RegisterInfo();
-            }
-            else
+            string result = registerCode.GetRegisterCode();
+            if (!string.IsNullOrEmpty(result))
             {
                 try
                 {
-                    string RegisterInfostring = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(config.RegisterInfo));
-                    var RegisterInfos = JsonSerializer.Deserialize<RegisterInfo>(RegisterInfostring);
-                    return RegisterInfos;
+                    return JsonSerializer.Deserialize<RegisterInfo>(Encoding.UTF8.GetString(Convert.FromBase64String(result))); 
                 }
-                catch
-                {
-                    return new RegisterInfo();
-                }
-
+                catch { }
             }
-       
+            return null;
         }
 
         public void SetRegisterInfo(RegisterInfo registerInfo)
         {
-            Config config = new Config() { RegisterInfo = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(JsonSerializer.Serialize(registerInfo, new JsonSerializerOptions()))) };
-            string jsonString = JsonSerializer.Serialize(config);
-            File.WriteAllText(Filepath, jsonString);
+            registerCode.SetRegisterCode(registerInfo.ToBase64());
         }
     }
 }

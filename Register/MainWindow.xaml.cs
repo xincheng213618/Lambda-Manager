@@ -35,9 +35,8 @@ namespace Register
         }
 
         RegisterInfo registerInfo;
-
         AESHelper AESHelper;
-        IRegisterInfo iRegisterInfo;
+        FileRegisterinfo FileRegisterinfo;
 
         private void Window_Initialized(object sender, System.EventArgs e)
         {
@@ -46,10 +45,10 @@ namespace Register
                 Button1.Content = "重新注册";
             }
 
-            iRegisterInfo = new FileRegisterinfo();
-            registerInfo = iRegisterInfo.GetRegisterInfo();
+            FileRegisterinfo = new FileRegisterinfo();
+            registerInfo = FileRegisterinfo.GetRegisterInfo();
             this.DataContext = registerInfo;
-            AESHelper = new AESHelper();
+            AESHelper = new AESHelper(FileRegisterinfo);
         }
 
 
@@ -79,16 +78,15 @@ namespace Register
                 return;
             }
 
-            string RegisterCode = registerInfo.MD5();
             if (File.Exists("application.xml"))
             {
-                iRegisterInfo.SetRegisterInfo(registerInfo);
+                FileRegisterinfo.SetRegisterInfo(registerInfo);
                 AESHelper.Encrypt();
             }
             else
             {
                 byte[] Caches = AESHelper.Decrypt();
-                iRegisterInfo.SetRegisterInfo(registerInfo);
+                FileRegisterinfo.SetRegisterInfo(registerInfo);
                 AESHelper.Encrypt(Caches);
             }
 
@@ -100,7 +98,7 @@ namespace Register
                 { "expirationDate",registerInfo.ExpirationDate },
                 { "email",registerInfo.Email },
                 { "phoneNumber",registerInfo.PhoneNumber},
-                { "registerCode",registerInfo.MD5()},
+                { "registerCode",registerInfo.GetMD5()},
             };
             var content = new FormUrlEncodedContent(keyValues);
             var response = await client.PostAsync("http://b.xincheng213618.com:18888/register", content);
