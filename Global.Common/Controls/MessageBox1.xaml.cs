@@ -1,6 +1,13 @@
-﻿using System.Windows;
+﻿using Microsoft.VisualBasic;
+using System.Drawing;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ThemeManager.Controls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Global.Common.Controls
 {
@@ -12,8 +19,8 @@ namespace Global.Common.Controls
     public partial class MessageBox1 : BaseWindow
     {
 
-        public MessageBoxResult MessageBoxResult = MessageBoxResult.No;
-        private void Initialize(string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK)
+        public MessageBoxResult MessageBoxResult;
+        private void Initialize(string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK , MessageBoxImage icon = MessageBoxImage.None ,MessageBoxResult defaultResult = MessageBoxResult.None)
         {
             InitializeComponent();
             this.messageBoxText.Text = messageBoxText;
@@ -39,8 +46,37 @@ namespace Global.Common.Controls
                 default:
                     break;
             }
+            switch (icon)
+            {
+                case MessageBoxImage.None:
+                    Imageicon.Visibility = Visibility.Collapsed;
+                    break;
+                case MessageBoxImage.Error:
+                    Imageicon.Source = ToImageSource(SystemIcons.Error);
+                    break;
+                case MessageBoxImage.Question:
+                    Imageicon.Source = ToImageSource(SystemIcons.Question);
+                    break;
+                case MessageBoxImage.Warning:
+                    Imageicon.Source = ToImageSource(SystemIcons.Warning);
+                    break;
+                case MessageBoxImage.Information:
+                    Imageicon.Source = ToImageSource(SystemIcons.Information);
+                    break;
+                default:
+                    break;
+            }
+            MessageBoxResult = defaultResult;
         }
+        public static ImageSource ToImageSource(Icon icon)
+        {
+            ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
+                icon.Handle,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
 
+            return imageSource;
+        }
 
         public MessageBox1(string messageBoxText)
         {
@@ -55,6 +91,17 @@ namespace Global.Common.Controls
         {
             Initialize(messageBoxText, caption, button);
         }
+
+        public MessageBox1(string messageBoxText, string caption, MessageBoxButton button,MessageBoxImage icon)
+        {
+            Initialize(messageBoxText, caption, button, icon);
+        }
+        public MessageBox1(string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon,MessageBoxResult defaultResult)
+        {
+            Initialize(messageBoxText, caption, button, icon, defaultResult);
+        }
+        
+
 
 
         private void Yes_Button_Click(object sender, RoutedEventArgs e)

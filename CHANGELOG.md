@@ -1,8 +1,15 @@
+## [1.0.14] - 2022-08-31
+
+- MessageBox 添加 MessageBoxImage
+
+
+
 ## [1.0.13] - 2022-08-30
 
 - 添加MessageBox 对于 MessageBoxButton 的支持 ✔
 - 插件测试✔
 - 学习添加一个VS插件✔
+- 修改ToolHash✔
 
 ## [1.0.12] - 2022-08-29
 
@@ -102,7 +109,7 @@
 
 ## [0.8.1] - 2022-08-10
 
-- 添加LambdaDemo
+- 添加LambdaDemo✔
 
 ## [0.8.0] - 2022-08-05
 

@@ -14,7 +14,11 @@
         <Grid Grid.Row="0" WindowChrome.IsHitTestVisibleInChrome="True">
             <TextBlock x:Name="caption" Text="提示" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Margin="10,-20,0,0" FontSize="15"  Foreground="White" HorizontalAlignment="Left"></TextBlock>
         </Grid>
-        <TextBlock Name="messageBoxText" Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" ></TextBlock>
+        <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="20">
+            <Image x:Name="Imageicon" Visibility="Visible" Height="30" Width="30" Margin="0,0,15,0"/>
+            <TextBlock Name="messageBoxText" Foreground="White" VerticalAlignment="Center" TextWrapping="Wrap"  ></TextBlock>
+        </DockPanel>
+
         <Grid Grid.Row="2"  HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -22,10 +26,10 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonOK" Visibility="Collapsed" Grid.Column="0" Content="确认"  Padding="15,2"  Margin="20,10"  VerticalAlignment="Center"  Click="ButtonOK_Click" ></Button>
-            <Button x:Name="ButtonYes"  Visibility="Collapsed"  Grid.Column="1" Content="是(_Y)"  Padding="15,2"  Margin="20,10" VerticalAlignment="Center"  Click="ButtonYes_Click" ></Button>
-            <Button x:Name="ButtonNo"  Visibility="Collapsed"  Grid.Column="2" Content="否(_N)"  Padding="15,2"  Margin="20,10" VerticalAlignment="Center"  Click="ButtonNo_Click" ></Button>
-            <Button x:Name="ButtonCancel"  Visibility="Collapsed"  Grid.Column="3" Content="取消"  Padding="15,2"  Margin="20,10" VerticalAlignment="Center" Click="ButtonCancel_Click"></Button>
+            <Button x:Name="ButtonOK" Visibility="Collapsed" Grid.Column="0" Content="确认" FontSize="13" Padding="20,3"  Margin="20,10"  VerticalAlignment="Center"  Click="ButtonOK_Click" ></Button>
+            <Button x:Name="ButtonYes"  Visibility="Collapsed"  Grid.Column="1" Content="是(_Y)"  Padding="20,3"   Margin="20,10" VerticalAlignment="Center"  Click="ButtonYes_Click" ></Button>
+            <Button x:Name="ButtonNo"  Visibility="Collapsed"  Grid.Column="2" Content="否(_N)"  Padding="20,3"   Margin="20,10" VerticalAlignment="Center"  Click="ButtonNo_Click" ></Button>
+            <Button x:Name="ButtonCancel"  Visibility="Collapsed"  Grid.Column="3" Content="取消"  Padding="20,3"  Margin="20,10" VerticalAlignment="Center" Click="ButtonCancel_Click"></Button>
 
         </Grid>
     </Grid>
