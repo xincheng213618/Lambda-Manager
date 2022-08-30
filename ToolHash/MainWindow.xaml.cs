@@ -3,6 +3,7 @@ using ACE.Global;
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -15,20 +16,22 @@ namespace ToolHash
     /// </summary>
     public partial class MainWindow : Window
     {
+        RegisterInfo registerInfo;
+        AESHelper AESHelper;
+        IRegisterInfo iRegisterInfo;
+
         public MainWindow()
         {
-            registerInfo = fileRegisterinfo.GetRegisterInfo(); 
-            this.DataContext = registerInfo;
             InitializeComponent();
+
+
+            iRegisterInfo = new FileRegisterinfo();
+            registerInfo = iRegisterInfo.GetRegisterInfo()??new RegisterInfo();
+            this.DataContext = registerInfo;
+            AESHelper = new AESHelper();
         }
-        FileRegisterinfo fileRegisterinfo = new FileRegisterinfo();
-        RegisterInfo registerInfo;
+
         string BasePath;
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private bool AddHash(string BasePath)
         {
             string applicationxml = BasePath + "\\application.xml";
@@ -89,8 +92,30 @@ namespace ToolHash
             }
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!Regex.IsMatch(registerInfo.RegistrationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
+            {
+                MessageBox.Show("请输入正确的注册日期");
+                return;
+            }
+            if (!Regex.IsMatch(registerInfo.ExpirationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
+            {
+                MessageBox.Show("请输入正确的过期日期");
+                return;
+            }
+            if (!Regex.IsMatch(registerInfo.Email, @"^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$"))
+            {
+                MessageBox.Show("请输入正确的邮箱地址");
+                return;
+            }
+            if (!Regex.IsMatch(registerInfo.PhoneNumber, @"^1(3[0-9]|5[0-9]|7[6-8]|8[0-9])[0-9]{8}$"))
+            {
+                MessageBox.Show("请输入正确的手机号");
+                return;
+            }
+
+
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "请选择application路径";
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -98,13 +123,29 @@ namespace ToolHash
                 BasePath = dialog.SelectedPath;
                 if(AddHash(BasePath))
                 {
-                    fileRegisterinfo.SetRegisterInfo(registerInfo);
                     AESHelper AESHelper = new AESHelper(BasePath + "\\application.xml");
+                    string RegisterCode = registerInfo.MD5();
+
+                    iRegisterInfo.SetRegisterInfo(registerInfo);
                     AESHelper.Encrypt();
                     MessageBox.Show("加密成功");
                     File.Delete(BasePath + "\\application.xml");
+                    File.Move("application.sys", BasePath + "\\application.sys",true);
+
                 };
             }
+
+        }
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            registerInfo.UserName = "test";
+            registerInfo.Email = "123456@gmail.com";
+            registerInfo.RegistrationDate = "2020-08-30";
+            registerInfo.ExpirationDate = "2026-08-30";
+            registerInfo.PhoneNumber = "18846080683";
+            registerInfo.RegisteredAddress = "南京市";
+
 
         }
     }

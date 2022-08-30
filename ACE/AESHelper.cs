@@ -10,8 +10,8 @@ namespace ACE
         {
             registerCode = new ReadRegisterCode();
         }
-        public string DecryptFileName = "application.sys";
         public string EncryptFileName = "application.xml";
+        public string DecryptFileName = "application.sys";
         public string Vector = "Grid";
 
 

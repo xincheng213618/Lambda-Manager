@@ -62,6 +62,8 @@ namespace Solution
                 viewbox.Child = stackPanel;
                 scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
+                //追加在显示的时候显示出发
+                LambdaControl.Trigger("UpdateSolutionPath", this, ToStrings(SolutionDir));
             }
         }
 
@@ -72,16 +74,20 @@ namespace Solution
         private TreeViewItem SelectedTreeViewItem;
         private TreeViewItem LastSelectedTreeViewItem;
 
+        private string solutionDir;
 
-        public string SolutionDir = null;
+        public string SolutionDir
+        {
+            get { return solutionDir; }
+            set { solutionDir = value; LambdaControl.Trigger("UpdateSolutionPath", this, ToStrings(SolutionDir)); }
+        }
 
         private string solutionFullName;
 
         public string SolutionFullName 
         {
             get { return solutionFullName; }
-            set { solutionFullName = value; LambdaControl.Trigger("UpdateSolutionPath", this, ToStrings(solutionFullName));}
-
+            set { solutionFullName = value;}
         }
 
 

@@ -20,16 +20,16 @@ namespace ACE.Global
         public RegisterInfo? GetRegisterInfo()
         {
             if (!File.Exists(Filepath))
-                return null;
+                return new RegisterInfo();
             string result = File.ReadAllText(Filepath);
             if (result == null)
             {
-                return null;
+                return new RegisterInfo();
             }
             var config = JsonSerializer.Deserialize<Config>(result);
             if (config == null)
             {
-                return null;
+                return new RegisterInfo();
             }
             else
             {
@@ -41,7 +41,7 @@ namespace ACE.Global
                 }
                 catch
                 {
-                    return null;
+                    return new RegisterInfo();
                 }
 
             }

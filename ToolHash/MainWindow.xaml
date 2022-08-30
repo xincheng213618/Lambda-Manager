@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="LambdaManager注册机" Height="300" Width="400" >
     <Grid>
-        <StackPanel Margin="5,10">
+        <StackPanel Margin="20,10">
             <DockPanel Margin="5">
                 <TextBlock Text="用户名"  Width="100"/>
                 <TextBox x:Name="H5a1" Text="{Binding UserName}"/>
@@ -30,10 +30,11 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <TextBlock Text="联系电话" Width="100"/>
-                <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"/>
+                <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}" />
             </DockPanel>
-            <DockPanel Margin="5" >
-                <Button Content="加密" Click="Button1_Click"/>
+            <DockPanel Margin="5">
+                <Button x:Name="Button2" Content="测试信息" Click="Button1_Click"/>
+                <Button x:Name="Button1" Content="注册" Click="Button_Click"/>
             </DockPanel>
         </StackPanel>
 
