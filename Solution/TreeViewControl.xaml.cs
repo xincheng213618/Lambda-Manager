@@ -93,6 +93,10 @@ namespace Solution
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            if (treeViewSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
+            {
+                MessageBox1.Show(Application.Current.MainWindow,"多工程情况下参数自动保存");
+            }
             if (!string.IsNullOrEmpty(SolutionFullName))
             {
                 Config.ConfigWrite(SolutionFullName);

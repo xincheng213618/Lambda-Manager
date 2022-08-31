@@ -527,9 +527,6 @@ namespace Global
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
 
                 Slider Slider1 = (Slider)bottomToolbar.Children[6];
-                MessageBox.Show("11111");
-
-
 
                 Binding myBindingFrameIndex = new Binding("FrameIndex");
                 myBindingFrameIndex.Source = updateStatus;
