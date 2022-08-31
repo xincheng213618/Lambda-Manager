@@ -1039,6 +1039,28 @@ namespace Global
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
+
+            RadioButton radioButton3 = (RadioButton)mainwin.FindName("RadioButton3");
+            radioButton3.Checked += delegate
+            {
+                Border border = (Border)mainwin.FindName("imagingView");
+                Grid grid = (Grid)border.Child;
+                Grid Grid1 = (Grid)grid.Children[0];
+
+                Grid1.Children[0].Visibility = Visibility.Collapsed;
+                Grid1.Children[1].Visibility = Visibility.Collapsed;
+                Grid1.Children[2].Visibility = Visibility.Collapsed;
+            };
+            radioButton3.Unchecked += delegate
+            {
+                Border border = (Border)mainwin.FindName("imagingView");
+                Grid grid = (Grid)border.Child;
+                Grid Grid1 = (Grid)grid.Children[0];
+
+                Grid1.Children[0].Visibility = Visibility.Visible;
+                Grid1.Children[1].Visibility = Visibility.Visible;
+                Grid1.Children[2].Visibility = Visibility.Visible;
+            };
         }
 
 
