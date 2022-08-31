@@ -37,13 +37,11 @@ namespace Global.Common
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon)
         {
             return Initialize(messageBoxText, caption, button, icon);
-            //return MessageBox.Show(messageBoxText, caption, button, icon);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon, MessageBoxResult defaultResult)
         {
             return Initialize(messageBoxText, caption, button, icon, defaultResult);
-            //return MessageBox.Show(messageBoxText, caption, button, icon, defaultResult);
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon, MessageBoxResult defaultResult, MessageBoxOptions options)
@@ -51,29 +49,38 @@ namespace Global.Common
             return MessageBox.Show(messageBoxText, caption, button, icon, defaultResult);
         }
 
+        private static MessageBoxResult Initialize(Window owner, string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None)
+        {
+            Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText, caption, button, icon, defaultResult);
+            messageBox1.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            messageBox1.Owner = owner;
+            messageBox1.ShowDialog();
+            return messageBox1.MessageBoxResult;
+        }
+
         public static MessageBoxResult Show(Window owner, string messageBoxText)
         {
-            return MessageBox.Show(owner, messageBoxText);
+            return Initialize(owner,messageBoxText);
         }
 
         public static MessageBoxResult Show(Window owner, string messageBoxText, string caption)
         {
-            return MessageBox.Show(owner, messageBoxText, caption);
+            return Initialize(owner, messageBoxText, caption);
         }
 
         public static MessageBoxResult Show(Window owner, string messageBoxText, string caption, MessageBoxButton button)
         {
-            return MessageBox.Show(owner, messageBoxText, caption, button);
+            return Initialize(owner, messageBoxText, caption, button);
         }
 
         public static MessageBoxResult Show(Window owner, string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon)
         {
-            return MessageBox.Show(owner, messageBoxText, caption, button, icon);
+            return Initialize(owner, messageBoxText, caption, button, icon);
         }
 
         public static MessageBoxResult Show(Window owner, string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon, MessageBoxResult defaultResult)
         {
-            return MessageBox.Show(owner, messageBoxText, caption, button, icon, defaultResult);
+            return Initialize(owner, messageBoxText, caption, button, icon, defaultResult);
         }
 
         public static MessageBoxResult Show(Window owner, string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon, MessageBoxResult defaultResult, MessageBoxOptions options)
