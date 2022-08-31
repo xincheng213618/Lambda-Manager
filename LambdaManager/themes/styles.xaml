@@ -136,7 +136,6 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Opacity" Value="0.8"/>
-
     </Style>
     <Style TargetType="{x:Type Control}">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
