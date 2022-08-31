@@ -139,15 +139,25 @@ namespace Global.Mode.Config
 
 
 
-        public bool TBooleanEnable { get; set; }    
+        public bool TBooleanEnable { get; set; }  
+        
 
-        public bool TIntervalEnable { get; set; } = false;
+        private bool tIntervalEnable = false;
+        public bool TIntervalEnable
+        {
+            get { return tIntervalEnable; }
+            set
+            {
+                tIntervalEnable = value;
+                NotifyPropertyChanged();
+            }
+        }
 
 
-        private int tInterval = 16;
+        private string tInterval = "16";
 
         [JsonPropertyName("T-Interva")]
-        public int TInterval
+        public string TInterval
         {
             get { return tInterval; }
             set {

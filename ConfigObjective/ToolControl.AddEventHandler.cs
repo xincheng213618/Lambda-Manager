@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using Global.Common.Extensions;
 using ConfigObjective.UserControls;
+using System.Linq;
 
 namespace ConfigObjective
 {
@@ -30,11 +31,16 @@ namespace ConfigObjective
 			mulDimensional.mulDimensionalAreas.Clear();
 			mulDimensional.mulDimensionalPoints.Clear();
 			var spot = new Global.Mode.Config.Spot();
-            foreach (var item in Map.selectedPoints)
+			List<Point> selectedPoints = new List<Point>();
+			if (Map.selectedPoints.Count != 0)
             {
-                List<int> selectedpoint = new List<int>() { (int)item.X, (int)item.Y };
-                spot.Includes.Add(selectedpoint);
-            }
+			    selectedPoints = Map.selectedPoints.OrderBy(p => p.Y).ToList();
+				foreach (var item in selectedPoints)
+				{
+					List<int> selectedpoint = new List<int>() { (int)item.X, (int)item.Y };
+					spot.Includes.Add(selectedpoint);
+				}
+			}
 
             TestMean testMean = new TestMean();
 			testMean.Spot = spot;
@@ -128,7 +134,7 @@ namespace ConfigObjective
 			testMean.Dimensional.Focusmode.Optimized = optimized;
 
 			timeWiseSerial.Times = mulDimensional.TNumberEnable ? -1 : mulDimensional.TNumber;
-			timeWiseSerial.Duration = mulDimensional.TIntervalEnable ? -1 : mulDimensional.TInterval;
+			timeWiseSerial.Duration = mulDimensional.TIntervalEnable ? "-1" : mulDimensional.TInterval;
 
 			switch (mulDimensional.TIntervalUnits)
 			{
@@ -184,14 +190,27 @@ namespace ConfigObjective
 			windowData.Config.Spot = testMean.Spot;
 			windowData.Config.Stage = testMean.Stage;
 
-           // System.Windows.MessageBox.Show(testMean.ToJson());
+            //System.Windows.MessageBox.Show(testMean.ToJson());
 
 			if (testMean.Dimensional.Mode.Count == 0)
             {
+				// custom messageBox
                 
-                var r = Global.Common.MessageBox1.Show("请选择成像模式!");
+               // var r = Global.UserControls.MessageBox1.ShowDialog("请选择成像模式!");
+				//if (r != null)
+				//{
+					
+				//	if (r.IsYes)
+				//	{
+				//		//选择了Yes
+				//	}
+				//	else
+				//	{
+				//		//选择了No
+				//	}
+				//}
 
-                // System.Windows.MessageBox.Show("请选择成像模式", "请选择成像模式",MessageBoxButton.OK);
+                System.Windows.MessageBox.Show("请选择成像模式  ！","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
 
                 LambdaControl.Trigger("COLLECTION_COMPLETED", this, new Dictionary<string, object>() { });
 			}

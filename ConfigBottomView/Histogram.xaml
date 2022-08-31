@@ -114,7 +114,7 @@
                         <TextBlock  Text="{Binding Outlier}" VerticalAlignment="Center" Width="50" Foreground="White"></TextBlock>
                     </StackPanel>
                     <StackPanel   Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Label  Content="伽马值：" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
+                        <Label  Content="伽玛值：" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
                         <updown:DoubleUpDown Grid.Row="5" Name="NumUpdown" Value="{Binding Gamma ,StringFormat='F2'}" DisplayLength="4" IsReadOnly="False" Foreground="White" Height="25" MinValue="0" MaxValue="5" StepSize="0.01" HorizontalAlignment="Left" Margin="-10,3,0,0" ValueChanged="DoubleUpDown_ValueChanged" VerticalAlignment="Bottom" ></updown:DoubleUpDown>
                         <!--  <TextBox   Text="{Binding Gamma}" Name="GammaTextbox"  Background="#595959"  VerticalAlignment="Center"  Width="50" Foreground="White" TextChanged="GammaTextbox_TextChanged"  ></TextBox> -->
                     </StackPanel>

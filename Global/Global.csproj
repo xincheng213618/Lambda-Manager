@@ -42,6 +42,7 @@
     <None Remove="UserControls\Image\PINK.jpg" />
     <None Remove="UserControls\Image\PLASMA.jpg" />
     <None Remove="UserControls\Image\RAINBOW.jpg" />
+    <None Remove="UserControls\Image\Ruler.cur" />
     <None Remove="UserControls\Image\SHIFTED.jpg" />
     <None Remove="UserControls\Image\SPRING.jpg" />
     <None Remove="UserControls\Image\startpicture1.png" />
@@ -60,7 +61,7 @@
     <Resource Include="UserControls\Image\hold.cur" />
     <Resource Include="UserControls\Image\PLASMA.jpg" />
     <Resource Include="UserControls\Image\Eraser.cur" />
-    <DesignDataWithDesignTimeCreatableTypes Include="UserControls\Image\startpicture1.png" />
+    <Resource Include="UserControls\Image\startpicture1.png" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -102,6 +103,7 @@
     <Resource Include="UserControls\Image\PARULA.jpg" />
     <Resource Include="UserControls\Image\PINK.jpg" />
     <Resource Include="UserControls\Image\RAINBOW.jpg" />
+    <Resource Include="UserControls\Image\Ruler.cur" />
     <Resource Include="UserControls\Image\SHIFTED.jpg" />
     <Resource Include="UserControls\Image\SPRING.jpg" />
     <Resource Include="UserControls\Image\SUMMER.jpg" />
