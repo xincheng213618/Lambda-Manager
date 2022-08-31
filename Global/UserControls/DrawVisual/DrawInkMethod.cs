@@ -26,8 +26,8 @@ namespace Global
         public DrawingAttributes drawingAttributes = new DrawingAttributes()
         { //Color = Colors.Red,
             Color = dimenViewModel.SelectedAccentColor,
-            Width = Math.Sqrt(2),
-            Height = Math.Sqrt(2),
+            Width =2,
+            Height =2,
             StylusTip = StylusTip.Ellipse,
             FitToCurve = false,
             IsHighlighter = true,
@@ -44,16 +44,7 @@ namespace Global
             IgnorePressure = true,
         };
 
-        public DrawingAttributes BezierdrawingAttributes = new DrawingAttributes()
-        {
-            Color = Colors.Red,
-            Width = Math.Sqrt(2),
-            Height = Math.Sqrt(2),
-            StylusTip = StylusTip.Ellipse,
-            FitToCurve = true,
-            IsHighlighter = false,
-            IgnorePressure = true,
-        };
+       
         public static DimenViewModel dimenViewModel = new DimenViewModel();
         public Stroke Dimstroke;
         public Stroke Textstroke;
@@ -76,6 +67,7 @@ namespace Global
             };
             return stroke;
         }
+       
 
         public Stroke GenerateDimensionStroke0(System.Windows.Point st, System.Windows.Point ed)
         {
@@ -590,23 +582,42 @@ namespace Global
                     Width = thickness,
                     Height = thickness,
                     Color = ColorDefault,
-                    StylusTip = StylusTip.Rectangle,
+                    StylusTip = StylusTip.Ellipse,
                     IsHighlighter = false,
                     IgnorePressure = true,
                 };
                 return attributes;
             }
 
+            public static DrawingAttributes SetInkAttributes1(Color color)
+            {
+                DrawingAttributes attributes = new DrawingAttributes
+                {
+                    FitToCurve = true,
+                    Width = 1,
+                    Height = 1,
+                    Color = color,
+                    StylusTip = StylusTip.Ellipse,
+                    IsHighlighter = false,
+                    IgnorePressure = true,
+                };
+                return attributes;
+            }
+
+
+
+
+
             /// <summary>
             /// 实线 Pen
             /// </summary>
             /// <returns></returns>
-            public static System.Windows.Media.Pen SetPenSolid(int thickness = 2)
+            public static System.Windows.Media.Pen SetPenSolid(Color color)
             {
                 System.Windows.Media.Pen pen = new System.Windows.Media.Pen
                 {
-                    Brush = StrokeBrushDefault,
-                    Thickness = thickness,
+                    Brush = new SolidColorBrush(color),
+                    Thickness = 2,
                     DashCap = PenLineCap.Round,
                     
                     LineJoin = PenLineJoin.Round,
@@ -689,7 +700,7 @@ namespace Global
 
 
 
-            public static CustomText CreateText( System.Windows.Point point1, System.Windows.Point point2, RatioClass ratio)
+            public static CustomText CreateText( System.Windows.Point point1, System.Windows.Point point2, RatioClass ratio,Color color)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -697,7 +708,7 @@ namespace Global
                 new StylusPoint(point2.X, point2.Y),
                
                     };
-                CustomText stroke = new CustomText(new StylusPointCollection(points),ratio)
+                CustomText stroke = new CustomText(new StylusPointCollection(points),ratio, color)
                 {
                     DrawingAttributes = SetInkAttributes(),
                 };
@@ -751,7 +762,7 @@ namespace Global
                 return stroke;
             }
 
-            public static CustomProfile CreateProfile(System.Windows.Point point1, System.Windows.Point point2, ProfileModel ratio)
+            public static CustomProfile CreateProfile(System.Windows.Point point1, System.Windows.Point point2, ProfileModel ratio,Color color)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -759,18 +770,12 @@ namespace Global
                 new StylusPoint(point2.X, point2.Y),
 
                     };
-                CustomProfile stroke = new CustomProfile(new StylusPointCollection(points),ratio)
+                CustomProfile stroke = new CustomProfile(new StylusPointCollection(points),ratio, color)
                 {
                     DrawingAttributes = SetInkAttributes(),
                 };
                 return stroke;
             }
-
-
-
-
-
-
 
 
             public static CustomTextInput CreateTextInput(System.Windows.Point point1, double height, double width,FormattedText text,Brush brush)
@@ -805,8 +810,41 @@ namespace Global
                 return stroke;
             }
 
+            public static Bezierpath CreateBesizer(List<Point> bezierList,Color color)
+            {
+                StylusPointCollection points = new StylusPointCollection()
+                {
+                
+                    new StylusPoint(bezierList[0].X, bezierList[0].Y), new StylusPoint(bezierList[1].X, bezierList[1].Y), new StylusPoint(bezierList[2].X, bezierList[2].Y), new StylusPoint(bezierList[3].X, bezierList[3].Y)
+                                  
+                };
+               
+                Bezierpath stroke = new Bezierpath(new StylusPointCollection(points), color)
+                {
+                    DrawingAttributes = SetInkAttributes1(color),
+                };
+                return stroke;
+
+            }
 
 
+            public static QuadraticBezierpath CreateQuadraticBesizer(List<Point> bezierList, Color color)
+            {
+                StylusPointCollection points = new StylusPointCollection()
+                {
+
+                    new StylusPoint(bezierList[0].X, bezierList[0].Y), new StylusPoint(bezierList[1].X, bezierList[1].Y), new StylusPoint(bezierList[2].X, bezierList[2].Y),
+
+                };
+
+                QuadraticBezierpath stroke = new QuadraticBezierpath(new StylusPointCollection(points),color)
+                {
+                    DrawingAttributes = SetInkAttributes1(color),
+                   
+                };
+                return stroke;
+
+            }
 
 
         }
@@ -862,14 +900,97 @@ namespace Global
             }
         }
 
-        public class CustomProfile : Stroke
+
+        public class Bezierpath : Stroke
         {
-            public CustomProfile(StylusPointCollection points, ProfileModel ratio) : base(points)
+            public Bezierpath(StylusPointCollection points,Color color) : base(points)
             {
                 StylusPoints = points.Clone();
-                this.ratio = ratio; 
+                Color1 = color;
+            }
+            Color Color1;
+            protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+            {
+
+                //double x1 = StylusPoints[0].X;
+                //double y1 = StylusPoints[0].Y;
+                //double x2 = StylusPoints[1].X;
+                //double y2 = StylusPoints[1].Y;
+
+                PathGeometry geometry = new PathGeometry();
+                PathFigure figure = new PathFigure
+                {
+                    StartPoint = (Point)StylusPoints[0],
+                   
+                };
+
+               
+                BezierSegment bezierSegment = new BezierSegment((Point)StylusPoints[1], (Point)StylusPoints[2], (Point)StylusPoints[3], true);
+                figure.Segments.Add(bezierSegment);
+                geometry.Figures.Add(figure);          
+                drawingContext.DrawGeometry(null, InkCanvasMethod.SetPenSolid(Color1), geometry);
+
+
+            }
+        }
+
+
+        public class QuadraticBezierpath : Stroke
+        {
+            public QuadraticBezierpath(StylusPointCollection points,Color color) : base(points)
+            {
+                StylusPoints = points.Clone();
+                color1 = color;
+              }
+            Color color1;
+            protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+            {
+
+               
+
+                PathGeometry geometry = new PathGeometry();
+                PathFigure figure = new PathFigure
+                {
+                    StartPoint = (Point)StylusPoints[0],
+
+                };
+
+               QuadraticBezierSegment quadraticBezier = new QuadraticBezierSegment((Point)StylusPoints[1], (Point)StylusPoints[2], true);
+               figure.Segments.Add(quadraticBezier);
+             
+                geometry.Figures.Add(figure);
+                drawingContext.DrawGeometry(null, InkCanvasMethod.SetPenSolid(color1), geometry);
+
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public class CustomProfile : Stroke
+        {
+            public CustomProfile(StylusPointCollection points, ProfileModel ratio,Color color) : base(points)
+            {
+                StylusPoints = points.Clone();
+                this.ratio = ratio;
+                color1 = color;
             }
             ProfileModel ratio;
+            Color color1;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -888,7 +1009,7 @@ namespace Global
                 FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint);
                 drawingContext.DrawText(new FormattedText("2", CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint1);
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(), new System.Windows.Point(x1, y1), new System.Windows.Point(x2 , y2));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(color1), new System.Windows.Point(x1, y1), new System.Windows.Point(x2 , y2));
                 drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new System.Windows.Point(x1, y1), 1.5, 1.5);
                 drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new System.Windows.Point(x2, y2), 1.5, 1.5);
                 if (ratio.Marker1Show)
@@ -908,18 +1029,6 @@ namespace Global
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-        
 
         public class CustomTextInput : Stroke
         {
@@ -997,12 +1106,14 @@ namespace Global
 
         public class CustomText : Stroke
         {
-            public CustomText(StylusPointCollection points, RatioClass ratio) : base(points)
+            public CustomText(StylusPointCollection points, RatioClass ratio,Color color) : base(points)
             {
                 StylusPoints = points.Clone();
                 this.ratio = ratio;
+                color1 = color;
             }
             RatioClass ratio;
+            Color color1;
 
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
@@ -1011,8 +1122,8 @@ namespace Global
                 double y1 = StylusPoints[0].Y;
                 double x2 = StylusPoints[1].X;
                 double y2 = StylusPoints[1].Y;
-              
-
+                double theta = Math.Atan2(y1 - y2, x1 - x2);
+               // MessageBox.Show(theta.ToString());
                 double dist = GetDistance(new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2))/ ratio.Ratio;
                 dist = (double)dist / ratio.actualwidth * 1689.12;
                 //dist= (double)dist / inkCanvas.ActualWidth * 1689.12 ;
@@ -1031,36 +1142,140 @@ namespace Global
                 int textWidth = (int)formattedText.Width;
                 if (dimenViewModel.Label)
                 {
-                    switch (dimenViewModel.LabelPos)
+                    if ((-Math.PI / 4 < theta && theta < Math.PI / 4) || (-Math.PI < theta && theta < -3 * Math.PI / 4) || (3 * Math.PI / 4 < theta && theta < Math.PI))
                     {
+                        if ((-Math.PI < theta && theta < -3 * Math.PI / 4) || (3 * Math.PI / 4 < theta && theta < Math.PI))
+                        {
+                            switch (dimenViewModel.LabelPos)
+                            {
 
-                        case " 上左":
+                                case " 上左":
 
-                            labelPosition = new System.Windows.Point(x1 + 5, y1 - textHeight - 10);
+                                    labelPosition = new System.Windows.Point(x1 + 5, y1 - textHeight - 10);
+                                    break;
+                                case " 上中":
+                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
+                                    break;
+                                case " 上右":
+                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 - textHeight - 10);
+                                    break;
+
+                                case " 下左":
+                                    labelPosition = new System.Windows.Point(x1 + 10, y1 + 10);
+                                    break;
+                                case " 下中":
+                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 + 10);
+                                    break;
+                                case " 下右":
+                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 + 10);
+                                    break;
+
+                            }
+                            // MessageBox.Show(formattedText.Width.ToString() + formattedText.Height.ToString());
+                            drawingContext.DrawText(formattedText, labelPosition);
+                        }
+                        else
+                        {
+                            switch (dimenViewModel.LabelPos)
+                            {
+                            case " 上左":
+
+                                    labelPosition = new System.Windows.Point(x2 + 5, y2 - textHeight - 10);
                             break;
-                        case " 上中":
-                            labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
+                                case " 上中":
+                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
                             break;
-                        case " 上右":
-                            labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 - textHeight - 10);
+                                case " 上右":
+                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 - textHeight - 10);
                             break;
 
-                        case " 下左":
-                            labelPosition = new System.Windows.Point(x1 + 10, y1 + 10);
+                                case " 下左":
+                                    labelPosition = new System.Windows.Point(x2 + 10, y2 + 10);
                             break;
-                        case " 下中":
-                            labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 + 10);
+                                case " 下中":
+                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 + 10);
                             break;
-                        case " 下右":
-                            labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 + 10);
+                                case " 下右":
+                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 + 10);
                             break;
 
+                              }
+                        // MessageBox.Show(formattedText.Width.ToString() + formattedText.Height.ToString());
+                        drawingContext.DrawText(formattedText, labelPosition);
                     }
-                    // MessageBox.Show(formattedText.Width.ToString() + formattedText.Height.ToString());
-                    drawingContext.DrawText(formattedText, labelPosition);
+                            
+                    }
+                    else
+                    {
+                        if (-3*Math.PI / 4 < theta && theta <- Math.PI / 4)
+                        {
+                            switch (dimenViewModel.LabelPos)
+                            {
+
+                                case " 上左":
+
+                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 - textHeight);
+                                    break;
+                                case " 上中":
+                                    labelPosition = new System.Windows.Point(x1 - textWidth / 2, y1 - textHeight);
+                                    break;
+                                case " 上右":
+                                    labelPosition = new System.Windows.Point(x1 + 5, y1 - textHeight);
+                                    break;
+
+                                case " 下左":
+                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 + 5);
+                                    break;
+                                case " 下中":
+                                    labelPosition = new System.Windows.Point(x2 - textWidth / 2, y2 + 5);
+                                    break;
+                                case " 下右":
+                                    labelPosition = new System.Windows.Point(x2 + 5, y2 + 5);
+                                    break;
+
+                            }
+                            // MessageBox.Show(formattedText.Width.ToString() + formattedText.Height.ToString());
+                            drawingContext.DrawText(formattedText, labelPosition);
+                        }
+                        else
+                        {
+                            switch (dimenViewModel.LabelPos)
+                            {
+
+                                case " 上左":
+
+                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 - textHeight);
+                                    break;
+                                case " 上中":
+                                    labelPosition = new System.Windows.Point(x2 - textWidth / 2, y2 - textHeight);
+                                    break;
+                                case " 上右":
+                                    labelPosition = new System.Windows.Point(x2 + 5, y2 - textHeight);
+                                    break;
+
+                                case " 下左":
+                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 + 5);
+                                    break;
+                                case " 下中":
+                                    labelPosition = new System.Windows.Point(x1 - textWidth / 2, y1 + 5);
+                                    break;
+                                case " 下右":
+                                    labelPosition = new System.Windows.Point(x1 + 5, y1 + 5);
+                                    break;
+
+                            }
+                            // MessageBox.Show(formattedText.Width.ToString() + formattedText.Height.ToString());
+                            drawingContext.DrawText(formattedText, labelPosition);
+                        }
+                       
+                    }
+
+
+
+
                     if (dimenViewModel.UnderLine)
                     {
-                        drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(), new System.Windows.Point(labelPosition.X, labelPosition.Y + textHeight + 2), new System.Windows.Point(labelPosition.X + textWidth, labelPosition.Y + textHeight + 2));
+                        drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(color1), new System.Windows.Point(labelPosition.X, labelPosition.Y + textHeight + 2), new System.Windows.Point(labelPosition.X + textWidth, labelPosition.Y + textHeight + 2));
                     }
 
 

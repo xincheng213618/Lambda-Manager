@@ -30,7 +30,7 @@ namespace ConfigObjective
 
             MulDimensional.TNumberEnable = timeWiseSerial.Times == 0;
             MulDimensional.TNumber = timeWiseSerial.Times;
-            MulDimensional.TIntervalEnable = timeWiseSerial.Duration == 0;
+            MulDimensional.TIntervalEnable = timeWiseSerial.Duration == "0";
             MulDimensional.TInterval = timeWiseSerial.Duration;
 
             var Dimensions = windowData.Config.Dimensional.Dimensions;

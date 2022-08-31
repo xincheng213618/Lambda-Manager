@@ -8,7 +8,7 @@
         Title="MessageBox"  AllowsTransparency="True" Background="Transparent"
         ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True"
         WindowStartupLocation="CenterScreen" Width="400" Height="230"
-         Closing="Window_Closing" Opacity="0.9" >
+        WindowStyle="None"  Closing="Window_Closing" Opacity="0.9" >
     <Window.Resources>
 
         <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />

@@ -101,7 +101,7 @@ namespace Global.Mode.Config
         [JsonPropertyName("times")]
         public int Times { get; set; } = 0;
         [JsonPropertyName("duration")]
-        public int Duration { get; set; } = 0;
+        public string Duration { get; set; } = "0";
         [JsonPropertyName("mode")]
         public String Mode { get; set; } = "s";
 

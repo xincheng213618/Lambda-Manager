@@ -1,14 +1,20 @@
-﻿using Global.Controls;
+﻿using Global.Common.Extensions;
+using Global.Controls;
 using Global.Mode;
 using Lambda;
+using Microsoft.VisualBasic.Logging;
 using Mode;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Global.Common.Extensions;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Global
@@ -201,20 +207,51 @@ namespace Global
             string mode = eventData.GetString("mode");
 
             //MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
-            string message = "循环间隔预计" + time.ToString() + mode;
+            string message = "循环间隔预计" + time.ToString() + mode+"大于设定循环间隔,是否启动无间隔循环采集";
 
-
-            if (Global.Common.MessageBox1.Show(message)==MessageBoxResult.Yes)
-            { 
+             int i=(int)System.Windows.MessageBox.Show(message, "信息提示",MessageBoxButton.OKCancel,MessageBoxImage.Question);
+             if (i == 1)
+            {
+                MulDimensional.TInterval = ">>";
+                MulDimensional.TIntervalEnable = true;
                 LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
             }
-            else
+             else
             {
                 LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 0 } });
             }
             return true;
 
+
+            //var r = Global.UserControls.MessageBox1.ShowDialog(message);
+            //if (r.IsYes)
+            //{
+
+            //    MulDimensional.TInterval = ">>";
+            //    MulDimensional.TIntervalEnable = true;
+            //    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
+
+
+
+            //}
+            //else
+            //{
+            //    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 0 } });
+            //}
+            //return true;
+
+
+
+            
+       
+
+
         }
+
+
+
+
+
 
 
         private bool START_ALIVE(object sender, EventArgs e)

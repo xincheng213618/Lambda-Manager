@@ -1,4 +1,16 @@
-﻿using Global.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Windows.Resources;
+using Global.Common;
+using Global.UserControls.DrawVisual;
+using OxyPlot;
+using OxyPlot.Annotations;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace Global.Mode
 {

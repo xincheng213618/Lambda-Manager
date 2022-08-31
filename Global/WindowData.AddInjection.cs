@@ -52,20 +52,7 @@ namespace Global
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
 
-                DrawingVisualInk drawingVisualInk = new DrawingVisualInk(ImageViewState.toolTop, drawMethod);
-                drawingCanvasInk[0] = drawingVisualInk; // First InkCanvas
-                Binding bindingW = new Binding();
-                bindingW.Source = image;
-                bindingW.Path = new PropertyPath("ActualWidth");
-                drawingVisualInk.SetBinding(DrawingVisualInk.WidthProperty, bindingW);
-
-                Binding bindingH = new Binding();
-                bindingH.Source = image;
-                bindingH.Path = new PropertyPath("ActualHeight");
-                drawingVisualInk.SetBinding(DrawingVisualInk.HeightProperty, bindingH);
-                drawingVisualInk.Visibility = Visibility.Collapsed; //add 
-                grid.Children.Add(drawingVisualInk);
-                Grid.SetRow(drawingVisualInk, 0);
+              
                 // Add Histogram
                 Histogram histogram = new Histogram();
                 StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
@@ -76,11 +63,7 @@ namespace Global
                 histogram.DataContext = histogramModel;
                 histogram.VerticalAlignment = VerticalAlignment.Stretch;
                 stackPanel.Children.Add(histogram);
-                //grid1.Children.Add(histogram);
-                //Grid.SetRow(histogram, 2);
-                //grid1.Children.Remove(stackPanel);
-                // add profile
-                //MessageBox.Show("11111");
+                
                 Profile profile = new Profile();   //profile
                 profile.Height = Double.NaN;
                 profile.Visibility = Visibility.Collapsed;
@@ -141,9 +124,6 @@ namespace Global
                    
 
                 };
-                
-
-
 
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
@@ -166,108 +146,22 @@ namespace Global
                         }
 
                     };
-                    if (e.PropertyName == "SelectChecked")
+                   
+                    if (ImageViewState.toolTop.RulerChecked == true|| ImageViewState.toolTop.ArrowChecked == true|| ImageViewState.toolTop.CircleChecked==true|| ImageViewState.toolTop.CurveChecked== true|| ImageViewState.toolTop.DimensionChecked==true|| ImageViewState.toolTop.LineChecked==true|| ImageViewState.toolTop.PolygonChecked==true|| ImageViewState.toolTop.RectangleChecked==true|| ImageViewState.toolTop.TextChecked==true)
                     {
-
-                        if (ImageViewState.toolTop.SelectChecked == true)
-                        {
-                            drawingVisualInk.Visibility = Visibility.Collapsed;
-
-                            if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                            {
-                                drawMethod.pixelVisual = new DrawingVisual();
-                                drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
-                            }
-                               
-
-                        }
-                        else
-                        {
-                            if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                                drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
-                           
-                            drawingVisualInk.Visibility = Visibility.Collapsed;
-                        }
+                        propertySetItem.Visibility = Visibility.Visible;
+                        propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                        tabControl.SelectedIndex = 5;
                     }
-                    if(e.PropertyName== "CurveChecked")
-                    { if (ImageViewState.toolTop.CurveChecked == true)
-                        {
-                            drawingVisualInk.InkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-                         
-                            
-                        }
-                        else 
-                        {
-                            drawingVisualInk.InkCanvas.EditingMode = InkCanvasEditingMode.None;
+                    else
+                    {
+                        propertySetItem.Visibility = Visibility.Collapsed;
+                        tabControl.SelectedIndex = 1;
 
-                        }
-                       
-                    }
+                    };
 
                 };
-                drawingVisualInk.InkCanvas.MouseMove += delegate (object sender, MouseEventArgs e)
-                {
-                    if (ImageViewState.toolTop.SelectChecked)
-                    {
-                        if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                        {
-                            drawMethod.pixelVisual = new DrawingVisual();
-                            drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
-                        }
-                       
-                        WriteableBitmap writeableBitmap = image.Source as WriteableBitmap;
-                        Point topLeftCorner = e.GetPosition(image);
-                        try
-                        {
-                            if (topLeftCorner.Y < image.ActualHeight - 130)
-                            {
-                                if (topLeftCorner.X < image.ActualWidth - 120)
-                                {
-                                    drawMethod.DrawPixelSquare(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
-                                }
-                                else
-                                {
-                                    drawMethod.DrawPixelSquareLeft(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
-                                }
-
-                            }
-                            else if (topLeftCorner.Y >= image.ActualHeight - 130)
-                            {
-                                if (topLeftCorner.X < image.ActualWidth - 120)
-                                {
-
-                                    drawMethod.DrawPixelSquareUp(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
-
-                                }
-                                else
-                                {
-                                    drawMethod.DrawPixelSquareLeftUp(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image.ActualWidth, image.ActualHeight);
-                                }
-
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-                            LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
-                        }
-
-                        drawingVisualInk.ReleaseMouseCapture();
-                       // drawingCanvasInk[0] = drawingVisualInk;
-                    }
-
-
-                };
-
-                drawingVisualInk.InkCanvas.MouseLeave += delegate (object sender, MouseEventArgs e)
-                {
-                    if (ImageViewState.toolTop.SelectChecked)
-                    {
-                        if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                            drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
-                       
-                    }
-                };
+              
                 }
             catch (Exception ex)
             {
@@ -351,13 +245,7 @@ namespace Global
                 };
                 popup.Closed +=delegate { popup.IsOpen = false; };
 ;
-                //popup.MouseLeave += delegate
-                // {
-                //     if (popup.IsOpen)
-                //     {
-                //         popup.IsOpen = false;
-                //     };
-                // };
+               
                 quaterPopup.dual.Checked += delegate
                 {
                     if (QuaterTogg.IsChecked == true)
@@ -443,11 +331,11 @@ namespace Global
                         {
                             histogramTogg.IsEnabled = true;
                         }
-                        if (drawingCanvasInk[0] != null)
+                        if (inkVisuals[0] != null)
                         {
-                            if (drawingCanvasInk[0].InkCanvas.ContextMenu != null)
+                            if (inkVisuals[0].inkCanvas.ContextMenu != null)
                             {
-                                drawingCanvasInk[0].InkCanvas.ContextMenu = null;
+                                inkVisuals[0].inkCanvas.ContextMenu = null;
                             }
                         }
                     }
@@ -465,11 +353,11 @@ namespace Global
                     {
                         histogramTogg.IsEnabled = true;
                     }
-                    if (drawingCanvasInk[0] != null)
+                    if (inkVisuals[0]!= null)
                     {
-                        if (drawingCanvasInk[0].InkCanvas.ContextMenu != null)
+                        if (inkVisuals[0].inkCanvas.ContextMenu != null)
                         {
-                            drawingCanvasInk[0].InkCanvas.ContextMenu = null;
+                            inkVisuals[0].inkCanvas.ContextMenu = null;
                         }
                     }
                 };                           
@@ -783,6 +671,19 @@ namespace Global
 
 
 
+
+
+            // add progressBar 
+            try
+            {
+
+            }
+            catch
+            {
+
+            }
+
+
             try
             {
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
@@ -799,6 +700,7 @@ namespace Global
                 Binding binding2 = new Binding("MoveChecked");
                 ToggleButton ToggleButtonMove = ((ToggleButton)topToolbar.Children[2]);
                 ToggleButtonMove.SetBinding(ToggleButton.IsCheckedProperty, binding2);
+                ToggleButtonMove.IsChecked = true;
                 ImageViewState.toolTop.MoveChecked = true;
 
                 //Binding binding3 = new Binding("SearchChecked");
@@ -835,30 +737,8 @@ namespace Global
                 ToggleButton ToggleButtonProfile = ((ToggleButton)topToolbar.Children[12]);
                 ToggleButtonProfile.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ProfileChecked"));
 
-                ToggleButtonDimen.Checked += delegate
-                {
-
-                    propertySetItem.Visibility = Visibility.Visible;
-                    propertySetItem.DataContext = drawMethod.dimenViewModel;
-                    tabControl.SelectedIndex = 5;
-                };
-                ToggleButtonDimen.Unchecked += delegate
-                {
-                    // propertySetItem.Content = null;
-                    propertySetItem.Visibility = Visibility.Collapsed;
-                    tabControl.SelectedIndex = 1;
-                };
-
                
-
-
-
-
-
-
-
-
-
+               
 
 
                 GridLength leftViewtemp = new GridLength(0);
@@ -981,18 +861,7 @@ namespace Global
 
                 ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[15]);
                 ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, new Binding("TextChecked"));
-                ToggleButtonText.Checked += delegate
-                {
-                    propertySetItem.Visibility = Visibility.Visible;
-                    propertySetItem.DataContext = drawMethod.dimenViewModel;
-                    tabControl.SelectedIndex = 5;
-                };
-                ToggleButtonText.Unchecked += delegate
-                {// propertySetItem.Content = null;
-                    propertySetItem.Visibility = Visibility.Collapsed;
-                    tabControl.SelectedIndex = 1;
-
-                };
+               
                 ToggleButton ToggleButtonArrow = ((ToggleButton)topToolbar.Children[16]);
                 ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ArrowChecked"));
 

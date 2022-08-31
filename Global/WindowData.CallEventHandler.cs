@@ -27,27 +27,27 @@ namespace Global
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;
 
-       // static GridLengthConverter gridLengthConverter = new GridLengthConverter();
-        public DrawMethod drawMethod = new DrawMethod();
+      
+     
         public DrawInkMethod inkMethod = new DrawInkMethod();
         Window mainwin = Application.Current.MainWindow;
 
-        public DrawingVisualInk[] drawingCanvasInk = new DrawingVisualInk[100];
+      
         public InkVisual[] inkVisuals = new InkVisual[100];
-        //public static double ratio =1;
+        
 
 
         public  void AddImageConfident(Image image1, int viewindex)
         {
            
-            //double ratio = 1;
+            
             DrawInkMethod inkMethod = new DrawInkMethod();
-            InkVisual inkVisual = new InkVisual(image1,ImageViewState.toolTop, inkMethod);
+            InkVisual inkVisual = new InkVisual(viewindex, image1,ImageViewState.toolTop, inkMethod);
             if (image1.Parent is Grid grid0)
             {
                 try
                 {
-                    //drawingCanvasInk[viewindex] = drawingVisualInk;
+                   
                     inkVisuals[viewindex] = inkVisual;
                     if (ViewContentMenuCache.ContainsKey(viewindex))
                         AddViewContentMenu(viewindex, ViewContentMenuCache[viewindex]);
@@ -57,12 +57,12 @@ namespace Global
                         Binding bindingW = new Binding();
                         bindingW.Source = image1;
                         bindingW.Path = new PropertyPath("ActualWidth");
-                        inkVisual.SetBinding(DrawingVisualInk.WidthProperty, bindingW);
+                        inkVisual.SetBinding(Image.WidthProperty, bindingW);
 
                         Binding bindingH = new Binding();
                         bindingH.Source = image1;
                         bindingH.Path = new PropertyPath("ActualHeight");
-                        inkVisual.SetBinding(DrawingVisualInk.HeightProperty, bindingH);
+                        inkVisual.SetBinding(Image.HeightProperty, bindingH);
                         grid1.Children.Add(inkVisual);
                         Grid.SetRow(inkVisual, 0);
 
@@ -337,115 +337,7 @@ namespace Global
                             };
                         }
 
-                        // delete later 
-                        if (image1.Parent is Grid grid4)
-                        {
-                            DrawMethod drawMethod = new DrawMethod();
-                            DrawingVisualInk drawingVisualInk = new DrawingVisualInk(ImageViewState.toolTop, drawMethod);
-                            drawingCanvasInk[viewindex] = drawingVisualInk;
-
-                            Binding bindingW = new Binding();
-                            bindingW.Source = image1;
-                            bindingW.Path = new PropertyPath("ActualWidth");
-                            drawingVisualInk.SetBinding(DrawingVisualInk.WidthProperty, bindingW);
-
-                            Binding bindingH = new Binding();
-                            bindingH.Source = image1;
-                            bindingH.Path = new PropertyPath("ActualHeight");
-                            drawingVisualInk.SetBinding(DrawingVisualInk.HeightProperty, bindingH);
-                            drawingVisualInk.Visibility = Visibility.Collapsed;
-                            grid4.Children.Add(drawingVisualInk);
-                            Grid.SetRow(drawingVisualInk, 0);
-
-                            ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
-                            {
-                                if (e.PropertyName == "SelectChecked")
-                                {
-
-                                    if (ImageViewState.toolTop.SelectChecked == true)
-                                    {
-                                        drawingVisualInk.Visibility = Visibility.Collapsed;
-                                        if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                                        {
-                                            drawMethod.pixelVisual = new DrawingVisual();
-                                            drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
-                                           
-                                        }                                          
-                                            ;
-                                       
-
-                                    }
-                                    else
-                                    {
-                                        drawingVisualInk.Visibility = Visibility.Collapsed;
-                                        if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                                            drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
-                                       
-                                    }
-                                }
-                            };
-
-                           drawingVisualInk.InkCanvas.MouseMove += delegate (object sender, MouseEventArgs e)
-                            {
-                                if (ImageViewState.toolTop.SelectChecked)
-                                {
-                                    if (!drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                                    {
-                                        drawMethod.pixelVisual = new DrawingVisual();
-                                        drawingVisualInk.InkCanvas.AddVisual(drawMethod.pixelVisual);
-                                    }
-                                        
-                                    WriteableBitmap writeableBitmap = image1.Source as WriteableBitmap;
-                                    Point topLeftCorner = e.GetPosition(image1);
-                                    try
-                                    {
-                                        if (topLeftCorner.Y < image1.ActualHeight - 130)
-                                        {
-                                            if (topLeftCorner.X < image1.ActualWidth - 120)
-                                            {
-                                                drawMethod.DrawPixelSquare(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image1.ActualWidth, image1.ActualHeight);
-                                            }
-                                            else
-                                            {
-                                                drawMethod.DrawPixelSquareLeft(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image1.ActualWidth, image1.ActualHeight);
-                                            }
-
-                                        }
-                                        else if (topLeftCorner.Y >= image1.ActualHeight - 130)
-                                        {
-                                            if (topLeftCorner.X < image1.ActualWidth - 120)
-                                            {
-
-                                                drawMethod.DrawPixelSquareUp(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image1.ActualWidth, image1.ActualHeight);
-
-                                            }
-                                            else
-                                            {
-                                                drawMethod.DrawPixelSquareLeftUp(writeableBitmap, drawMethod.pixelVisual, topLeftCorner, image1.ActualWidth, image1.ActualHeight);
-                                            }
-
-                                        }
-
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
-                                    }
-
-                                }
-
-
-                            };
-                            drawingVisualInk.InkCanvas.MouseLeave += delegate (object sender, MouseEventArgs e)
-                            {
-                                if (ImageViewState.toolTop.SelectChecked)
-                                {
-                                    if (drawingVisualInk.InkCanvas.visuals.Contains(drawMethod.pixelVisual))
-                                        drawingVisualInk.InkCanvas.DeleteVisual(drawMethod.pixelVisual);
-                                    
-                                }
-                            };                       
-                        }
+                       
 
 
                     }

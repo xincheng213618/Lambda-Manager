@@ -38,6 +38,7 @@ namespace ConfigObjective
             ObjectiveSetting_Initialize();
             ViewMode_Initialize();
             CameraSetting_Initialize();
+        
 
             Map.moveButton.DataContext = windowData.mapModel;
             Stage_Initialize();
@@ -223,6 +224,7 @@ namespace ConfigObjective
 
             #endregion
 
+
         }
 
         bool IsFirstLoad = true;
@@ -264,6 +266,7 @@ namespace ConfigObjective
             Stage_Update();
             MulDimensional_Update();
         }
+
 
 
 
@@ -371,7 +374,7 @@ namespace ConfigObjective
 
         private void ToggleButton222_Checked(object sender, RoutedEventArgs e)
         {
-            windowData.MulDimensional.TInterval = 0;
+            windowData.MulDimensional.TInterval = ">>";
         }
 
         private void ToggleButton221_Checked(object sender, RoutedEventArgs e)
@@ -409,6 +412,20 @@ namespace ConfigObjective
         {
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 } , { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
         }
+
+
+
+        private void MapAddEventHandler()
+        {
+            //System.Windows.MessageBox.Show("1111");
+            Window mainwin = Application.Current.MainWindow;
+            WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
+            int count = bottomToolbar.Children.Count;
+            Button bottomPlace = (Button)bottomToolbar.Children[count-1];
+            bottomPlace.Click += delegate { Map.DrawSeriesPoint(Map.SeriesPoints); };
+           
+        }
+
     }
 
 

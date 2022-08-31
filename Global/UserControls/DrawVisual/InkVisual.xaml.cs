@@ -3,6 +3,7 @@ using Global.Mode.Config;
 using Lambda;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,8 +16,8 @@ using System.Windows.Resources;
 
 namespace Global.UserControls.DrawVisual
 {
-    public class RatioClass
-    {
+    public class RatioClass { 
+    
         public double Ratio = 1;
         public double actualwidth=1;
        
@@ -27,16 +28,66 @@ namespace Global.UserControls.DrawVisual
     /// </summary>
     public partial class InkVisual : UserControl
     {
+
+        public InkVisual(int index1,Image image1, ImageViewState.ToolTop ToolTop, DrawInkMethod inkMethod)
         
-        public InkVisual(Image image,ImageViewState.ToolTop ToolTop, DrawInkMethod inkMethod)
-        {
+            {
             InitializeComponent();
             this.ToolTop = ToolTop;
             this.inkMethod = inkMethod;
-              // imagingView = ImagingView;
-            topToolbar =(WrapPanel)mainwin.FindName("topToolbar");
-            this.image = image;
-          
+            // imagingView = ImagingView;
+            topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
+            this.image = image1;
+            this.index=index1;
+            ToolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+            {
+
+                if (ToolTop.CurveChecked == false)
+                {
+                     i = 0;
+                     lastTempCurveStroke = null;
+                    CurvePointsList.Clear();
+                };
+                if (ToolTop.PolygonChecked == false)
+                {
+                    try
+                    {
+                        if (pointList1.Count > 1)
+                        {
+
+                            pointList1.Add(PointSt);
+                            point1 = new StylusPointCollection(pointList1);
+                            stroke1 = new Stroke(point1)
+                            {
+                                DrawingAttributes = inkMethod.drawingAttributes.Clone()
+                            };
+                            try
+                            {
+                                inkCanvas.Strokes.Remove(lastTempStroke);
+                            }
+                            catch { }
+                            lastTempStroke = null;
+                            inkCanvas.Strokes.Add(stroke1);
+
+                            pointList1.Clear();
+
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+                }
+
+
+            };
+
+
+
+
         }
 
         Window mainwin = Application.Current.MainWindow;
@@ -45,28 +96,34 @@ namespace Global.UserControls.DrawVisual
         private double height;
         public ImageViewState.ToolTop ToolTop;
         private Image image;
-       
-        public RatioClass ratio1 =new RatioClass();
+        public int index;
+
+        public RatioClass ratio1 = new RatioClass();
         public ProfileModel profileModel;
         // public double ratio = 1;
         DrawInkMethod inkMethod;
         bool isMouseDown = false;
         Point iniP = new Point(0, 0);
-        public  Stroke lastTempStroke = null;
-        public  Stroke lastTempStroke0 = null;
+        public Stroke lastTempStroke = null;
+        public Stroke lastTempStroke0 = null;
         public int ZoomInOut = 0;
-       
+
         public StrokeCollection tempStroke = new StrokeCollection();
         public StrokeCollection RegisterStroke = new StrokeCollection();
         public bool saveTempStroke = true;
         private int textFlag = 0;
         Stroke lastTempStroke1 = null;
         Stroke lastTempStroke2 = null;
-        public  Stroke profileStroke;
+        public Stroke profileStroke;
+        //curve
+        int i = 0;
+        Stroke lastTempCurveStroke = null;
+        List<Point> CurvePointsList = new List<Point>();
 
-        private Point movePoint= new Point(0, 0);
 
-       
+        private Point movePoint = new Point(0, 0);
+
+        
 
         public void DrawProfile()
         {
@@ -77,8 +134,8 @@ namespace Global.UserControls.DrawVisual
                 ProfileIniP= new Point( profileStroke.StylusPoints[0].X, profileStroke.StylusPoints[0].Y );
                 ProfileEndP = new Point(profileStroke.StylusPoints[1].X, profileStroke.StylusPoints[1].Y);
             }
-
-            profileStroke = DrawInkMethod.InkCanvasMethod.CreateProfile(ProfileIniP, ProfileEndP, profileModel);
+            Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+            profileStroke = DrawInkMethod.InkCanvasMethod.CreateProfile(ProfileIniP, ProfileEndP, profileModel,color);
             try
             {
                 inkCanvas.Strokes.Remove(lastTempStroke);
@@ -98,6 +155,8 @@ namespace Global.UserControls.DrawVisual
             StylusPointCollection point;
             Stroke stroke;
             Stroke stroke0;
+           
+          
             
             StrokeCollection strokes = new StrokeCollection();
             if (isMouseDown && ToolTop.ArrowChecked)    //Arrow
@@ -130,7 +189,66 @@ namespace Global.UserControls.DrawVisual
                 inkCanvas.Strokes.Add(stroke);
                
             }
-           else if (ToolTop.RulerChecked ) //ruler
+            else if (isMouseDown && ToolTop.CurveChecked)  //Curve
+            {
+                if (i == 0)
+                {
+                    double dist = GetDistance(endP, iniP);
+                    if (dist < 5)
+                        return;
+                    stroke = inkMethod.GenerateLineStroke(iniP, endP);
+                    try
+                    {
+                        inkCanvas.Strokes.Remove(lastTempCurveStroke);
+                    }
+                    catch { }
+                    lastTempCurveStroke = stroke;
+                    inkCanvas.Strokes.Add(stroke);
+
+
+                }
+                if (i == 1)
+                {
+                    Point m1 = e.GetPosition(inkCanvas);
+                    if (CurvePointsList.Count > 2)
+                    {
+                        CurvePointsList.RemoveAt(1);
+                    }
+                    CurvePointsList.Insert(1, m1);
+                    Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color);
+                    try
+                    {
+                        inkCanvas.Strokes.Remove(lastTempCurveStroke);
+                    }
+                    catch { }
+                    lastTempCurveStroke = stroke;
+                    inkCanvas.Strokes.Add(stroke);
+
+                }
+                if (i == 2)
+                {
+                    Point m2 = e.GetPosition(inkCanvas);
+                    if (CurvePointsList.Count >3)
+                    {
+                        CurvePointsList.RemoveAt(2);
+                    }
+                    CurvePointsList.Insert(2, m2);
+                    Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color);
+                    try
+                    {
+                        inkCanvas.Strokes.Remove(lastTempCurveStroke);
+                    }
+                    catch { }
+                    lastTempCurveStroke = stroke;
+                    inkCanvas.Strokes.Add(stroke);
+
+                }
+
+
+            }
+            else if (ToolTop.RulerChecked ) //ruler
             {
                 if (inkCanvas.Cursor == Cursors.Arrow)
                 {
@@ -184,42 +302,9 @@ namespace Global.UserControls.DrawVisual
             else if(isMouseDown && ToolTop.ProfileChecked)
             {
 
-                //double dist = GetDistance(endP, iniP);
-                //if (dist < 5)
-                //    return;
-                //stroke = inkMethod.GenerateProfileStroke(iniP, endP);
-                //try
-                //{
-                //    inkCanvas.Strokes.Remove(lastTempStroke);
-                //}
-                //catch { }
-                //lastTempStroke = stroke;
-                //inkCanvas.Strokes.Add(stroke);
 
-                //stroke0 = DrawInkMethod.InkCanvasMethod.CreateMarkerText(iniP, endP);
-                //try
-                //{
-                //    inkCanvas.Strokes.Remove(lastTempStroke0);
-                //}
-                //catch { }
-                //lastTempStroke0 = stroke0;
-                //inkCanvas.Strokes.Add(stroke0);
-
-                //Stroke stroke1 = inkMethod.GenerateMarker1Stroke(iniP);
-                //Stroke stroke2 = inkMethod.GenerateMarker1Stroke(endP);
-
-                //try
-                //{
-                //    inkCanvas.Strokes.Remove(lastTempStroke1);
-                //    inkCanvas.Strokes.Remove(lastTempStroke2);
-                //}
-                //catch { }
-                //lastTempStroke1 = stroke1;
-                //lastTempStroke2 = stroke2;
-                //inkCanvas.Strokes.Add(stroke1);
-                //inkCanvas.Strokes.Add(stroke2);
-
-                profileStroke = DrawInkMethod.InkCanvasMethod.CreateProfile(iniP,endP, profileModel);
+                Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                profileStroke = DrawInkMethod.InkCanvasMethod.CreateProfile(iniP,endP, profileModel, color);
                 
                 try
                 {
@@ -281,8 +366,8 @@ namespace Global.UserControls.DrawVisual
                     DrawInkMethod.dimenViewModel.Angle = theta / Math.PI * 180;
 
                 }
-               
-                stroke0 = DrawInkMethod.InkCanvasMethod.CreateText(iniP, endP,ratio1);
+                Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                stroke0 = DrawInkMethod.InkCanvasMethod.CreateText(iniP, endP,ratio1,color);
                 try
                 {
                     inkCanvas.Strokes.Remove(lastTempStroke0);
@@ -575,24 +660,71 @@ namespace Global.UserControls.DrawVisual
             }
             else if (ToolTop.CurveChecked)
             {
-                inkMethod.bezierPointList.Add(iniP);
-                point1 = new StylusPointCollection(inkMethod.bezierPointList);
-                if (inkMethod.bezierPointList.Count == 4)
-                {
-                    stroke1 = new Stroke(point1)
-                    {
-                        DrawingAttributes = inkMethod.BezierdrawingAttributes.Clone()
-                    };
+              
 
+                if (i == 0)
+                {
+                    CurvePointsList.Add(iniP);
+                }
+                else if (i == 1)
+                {
+                    CurvePointsList.Insert(1, iniP);
+                    Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color);
                     try
                     {
-                        inkCanvas.Strokes.Remove(lastTempStroke);
+                        inkCanvas.Strokes.Remove(lastTempCurveStroke);
                     }
                     catch { }
-                    lastTempStroke = stroke1;
-                    inkCanvas.Strokes.Add(stroke1);
-                    inkMethod.bezierPointList.Clear();
+                    lastTempCurveStroke = stroke;
+                    inkCanvas.Strokes.Add(stroke);
+
                 }
+                else if(i == 2)
+                {
+                    CurvePointsList.Insert(2, iniP);
+                    Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color);
+                    try
+                    {
+                        inkCanvas.Strokes.Remove(lastTempCurveStroke);
+                    }
+                    catch { }
+                    lastTempCurveStroke = stroke;
+                    inkCanvas.Strokes.Add(stroke);
+                }
+
+
+
+
+                //inkMethod.bezierPointList.Add(iniP);
+                //point1 = new StylusPointCollection(inkMethod.bezierPointList);
+                //if (inkMethod.bezierPointList.Count ==4)
+                //{
+                //    stroke1 = new Stroke(point1)
+                //    {
+                //        DrawingAttributes = inkMethod.BezierdrawingAttributes.Clone()
+                //    };
+
+                //    try
+                //    {
+                //        inkCanvas.Strokes.Remove(lastTempStroke);
+                //    }
+                //    catch { }
+                //    lastTempStroke = stroke1;
+                //    inkCanvas.Strokes.Add(stroke1);
+                //   inkMethod.bezierPointList.Clear();
+                //}
+
+                //List<Point>  points = new List<Point>() { new Point(10,10), new Point(130, 30) ,new Point(40,140),new Point(150,150)};
+
+                //Stroke BesizerStroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(points,0);
+                //inkCanvas.Strokes.Add(BesizerStroke);
+
+              
+
+
+
 
 
             }
@@ -605,13 +737,36 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(ToolTop.PolygonChecked)
+            if (ToolTop.PolygonChecked)
             {
 
             }
-            else if (ToolTop.SelectChecked ||ToolTop.ProfileChecked)
+            else if (ToolTop.SelectChecked || ToolTop.ProfileChecked)
             {
 
+            }
+            else if (ToolTop.CurveChecked)
+            {
+               
+               if (i == 0)
+                {
+                    i++;
+                    Point point = e.GetPosition(inkCanvas);
+                    CurvePointsList.Add(point);
+                }
+               else if (i == 1)
+                {
+                    i++;
+                    Point point = e.GetPosition(inkCanvas);
+                    CurvePointsList.Add(point);
+                }
+               else if (i == 2)
+                {
+                    lastTempCurveStroke = null;
+                    CurvePointsList.Clear();
+                    i = 0;
+                }
+            
             }
             else
             {
@@ -731,7 +886,16 @@ namespace Global.UserControls.DrawVisual
                 StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
                   await Task.Delay(500);
-                inkCanvas.Cursor = Cursors.Arrow;
+
+                if (ToolTop.MoveChecked)
+                {
+                    inkCanvas.Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    inkCanvas.Cursor = Cursors.Arrow;
+                }
+               
 
             }
             else if(e.Delta < 0 && ZoomInOut>0)
@@ -755,10 +919,19 @@ namespace Global.UserControls.DrawVisual
                 StreamResourceInfo ZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(ZoomIn.Stream);
                 await Task.Delay(500);
-                inkCanvas.Cursor = Cursors.Arrow;
+                if (ToolTop.MoveChecked)
+                {
+                    inkCanvas.Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    inkCanvas.Cursor = Cursors.Arrow;
+                }
+
+
 
             }
-            
+
 
 
 

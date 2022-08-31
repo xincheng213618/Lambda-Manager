@@ -68,9 +68,9 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Label Content="形态" Foreground="White"/>
-                    <ComboBox   BorderThickness="0.6" Width="300"  SelectedIndex="{Binding DimSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Right" Margin="50,0,35,0" SelectionChanged="ComboBox_SelectionChanged"  >
-                        <ComboBoxItem  Tag="A"   Foreground="White"  Height="23">
+                    <Label Content="形态" Foreground="White" FontSize="16"/>
+                    <ComboBox   FontSize="16"  BorderThickness="0.6" Width="300"  SelectedIndex="{Binding DimSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Right" Margin="50,0,35,0" SelectionChanged="ComboBox_SelectionChanged"  >
+                        <ComboBoxItem  Tag="A"   FontSize="16"  Foreground="White"  Height="23">
                             <Path Stroke="White" StrokeThickness="1">
                                 <Path.Data >
                                     <PathGeometry >
@@ -175,28 +175,28 @@
                 </Grid>
                 <Grid Grid.Row="1"  >
 
-                    <Label Content="长度" Foreground="White" ></Label>
-                    <TextBox Width="300"  Style="{StaticResource TextBoxSty}" Padding="0,0,10,0"  HorizontalContentAlignment="Right" Background="#515151"   Foreground="White" Height="25"   Text="{Binding Length,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="50,0,35,0" ></TextBox>
-                    <Label Content="μm" Foreground="White" Width="30" HorizontalAlignment="Right" Margin="0,0,0,0"  ></Label>
+                    <Label Content="长度"  FontSize="16" Foreground="White" ></Label>
+                    <TextBox Width="300"  FontSize="16" Style="{StaticResource TextBoxSty}" Padding="0,0,10,0"  HorizontalContentAlignment="Right" Background="#515151"   Foreground="White" Height="25"   Text="{Binding Length,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="50,0,35,0" ></TextBox>
+                    <Label Content="μm"  FontSize="16" Foreground="White" Width="35" HorizontalAlignment="Right"  Margin="3,0,0,0"  ></Label>
 
                 </Grid>
                 <Grid Grid.Row="2">
-                    <Label Content="角度" Foreground="White" VerticalAlignment="Top" Margin="0,0,0,0" ></Label>
-                    <TextBox    Style="{StaticResource TextBoxSty}"  Width="300" Padding="0,0,10,0"  Height="25"  Background="#515151" Foreground="White" VerticalContentAlignment="Center" Text="{Binding Angle,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" HorizontalAlignment="Right" Margin="50,2,35,2" HorizontalContentAlignment="Right" ></TextBox>
-                    <Ellipse Width="6" Height="6" StrokeThickness="1" Stroke="White" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,7,20,0" ></Ellipse>
+                    <Label Content="角度" FontSize="16" Foreground="White" VerticalAlignment="Top" Margin="0,0,0,0" ></Label>
+                    <TextBox   FontSize="16"  Style="{StaticResource TextBoxSty}"  Width="300" Padding="0,0,10,0"  Height="25"  Background="#515151" Foreground="White" VerticalContentAlignment="Center" Text="{Binding Angle,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" HorizontalAlignment="Right" Margin="50,2,35,2" HorizontalContentAlignment="Right" ></TextBox>
+                    <Ellipse Width="8"  Height="8" StrokeThickness="1" Stroke="White" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,7,20,0" ></Ellipse>
                 </Grid>
                 
                 <Grid Grid.Row="3"  HorizontalAlignment="Stretch" >
 
-                    <CheckBox Content="显示标签" IsChecked="{Binding Label}"  Foreground="White" Width="80" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"></CheckBox>
-                    <ComboBox HorizontalAlignment="Right" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding Label,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Margin="0,0,35,0" Width="100" ></ComboBox>
+                    <CheckBox FontSize="16" Content="显示标签" IsChecked="{Binding Label}"  Foreground="White" Width="90" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"></CheckBox>
+                    <ComboBox FontSize="16" HorizontalAlignment="Right" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding Label,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Margin="0,0,35,0" Width="100" ></ComboBox>
 
                 </Grid>
                 <Grid Grid.Row="4" >
                     <Expander   IsExpanded="True" Name="expander" >
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="颜色" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="颜色" Foreground="White" FontSize="16"  VerticalAlignment="Center"></TextBlock>
                             </StackPanel>
                         </Expander.Header>
                         <controls:ColorCanvas Margin="5" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
@@ -204,17 +204,17 @@
                     </Expander>
                     <Grid Height="30"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="50,0,0,0" >
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Height="23" Name="ColorTextBox"  Foreground="White"  VerticalAlignment="Center" Text="{Binding SelectedAccentColor }"  Width="75" Background="#515151" IsReadOnly="True"  HorizontalAlignment="Left" Margin="6,1,0,0"  ></TextBox>
+                            <TextBox Height="25" Name="ColorTextBox" FontSize="16" Foreground="White"  VerticalAlignment="Center" Text="{Binding SelectedAccentColor }"  Width="95" Background="#515151" IsReadOnly="True"  HorizontalAlignment="Left" Margin="10,0,0,2"  ></TextBox>
                             <!--<TextBox Foreground="White" BorderBrush="#515151" Padding="10,0,0,0"  behav:AllowableCharactersTextBoxBehavior.RegularExpressionProperty="^[0-9|a-f|A-F|#]+$" MaxLength="9" SelectionLength="9"  Height="23" VerticalContentAlignment="Center"  Text="{Binding SelectedAccentColor }"  Width="100" Background="#515151" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,1,0,0" ></TextBox> -->
                             <controls:ColorPicker  Height="40" Width="40" Visibility="{Binding ElementName=expander,Path=IsExpanded,Converter={StaticResource Visb}}"  IsEnabled="True"  Name="_colorPicker" SelectedColor="{Binding SelectedAccentColor}" Margin="5,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></controls:ColorPicker>
 
                         </StackPanel>
-                        <CheckBox Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0" Height="20" Content="自动设色" ></CheckBox>
+                        <CheckBox Foreground="White" HorizontalAlignment="Right" FontSize="16" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0" Height="20" Content="自动设色" ></CheckBox>
                     </Grid>
 
                 </Grid>
                 <Grid Grid.Row="5" >
-                    <GroupBox Header="字体" BorderBrush="White" BorderThickness="0.1" Foreground="White" Margin="5" >
+                    <GroupBox Header="字体" BorderBrush="White" FontSize="16" BorderThickness="0.1" Foreground="White" Margin="5" >
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"></RowDefinition>
@@ -223,7 +223,7 @@
                                 <RowDefinition MinHeight="30"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
@@ -232,17 +232,17 @@
                             </Grid>
 
                             <Grid Grid.Row="1" Grid.Column="0">
-                                <CheckBox Foreground="White" IsChecked="{Binding Bold,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Content="粗体" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Foreground="White" FontSize="16"  IsChecked="{Binding Bold,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Content="粗体" Margin="0,5,0,0"></CheckBox>
                             </Grid>
                             <Grid Grid.Row="2 " Grid.Column="0">
-                                <CheckBox Foreground="White" IsChecked="{Binding Italic}" Content="斜体" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Foreground="White" FontSize="16"  IsChecked="{Binding Italic}" Content="斜体" Margin="0,5,0,0"></CheckBox>
                             </Grid>
                             <Grid Grid.Row="3" Grid.Column="0">
-                                <CheckBox Foreground="White" IsChecked="{Binding UnderLine}"  Content="下划线" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Foreground="White" FontSize="16" IsChecked="{Binding UnderLine}"   Content="下划线" Margin="0,5,0,0"></CheckBox>
                             </Grid>
                             <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="1" >
-                                <GroupBox Header="预览" BorderThickness="0.5" BorderBrush="White"  Margin="5,0,0,0">
-                                    <TextBlock Text="样例  Aa 01" VerticalAlignment="Center" FontWeight="{Binding Bold ,Converter={StaticResource bold}}"  FontFamily="{Binding FontFam,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HorizontalAlignment="Center" FontSize="{Binding FontSize,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay }"  TextDecorations="{Binding UnderLine,Converter={StaticResource underLine}}"   FontStyle="{Binding Italic,Converter={StaticResource Italic}}">
+                                <GroupBox Header="预览" FontSize="16"  BorderThickness="0.5" BorderBrush="White"  Margin="5,0,0,0">
+                                    <TextBlock Text="样例  Aa 01"   VerticalAlignment="Center" FontWeight="{Binding Bold ,Converter={StaticResource bold}}"  FontFamily="{Binding FontFam,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HorizontalAlignment="Center" FontSize="{Binding FontSize,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay }"  TextDecorations="{Binding UnderLine,Converter={StaticResource underLine}}"   FontStyle="{Binding Italic,Converter={StaticResource Italic}}">
 
                                     </TextBlock>
                                 </GroupBox>
@@ -254,8 +254,8 @@
                 </Grid>
                 <Grid Grid.Row="6">
                     <StackPanel>
-                        <CheckBox Content="拍照时保存" Foreground="White" Margin="10,5,0,0" ></CheckBox>
-                        <CheckBox Content="采集时保存" Foreground="White" Margin="10,10,0,0"></CheckBox>
+                        <CheckBox Content="拍照时保存" FontSize="16"  Foreground="White" Margin="10,5,0,0" ></CheckBox>
+                        <CheckBox Content="采集时保存" FontSize="16"  Foreground="White" Margin="10,10,0,0"></CheckBox>
                     </StackPanel>
                 </Grid>
                
