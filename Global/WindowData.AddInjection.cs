@@ -47,13 +47,14 @@ namespace Global
 
         private void AddInjection()
         {
+
             try
             {
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
 
-              
+
                 // Add Histogram
                 Histogram histogram = new Histogram();
                 StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
@@ -73,25 +74,24 @@ namespace Global
                 profile.DataContext = profileModel;
                 profile.doubleUpDown1.ValueChanged += delegate
                  {
-                     if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                     if (inkVisuals[0] !=null &&inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                          inkVisuals[0].DrawProfile();
                  };
                 profile.doubleUpDown2.ValueChanged += delegate
                 {
-                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
                 profile.Marker1Check.Click += delegate
                 {
-                    if (inkVisuals[0].inkCanvas.Strokes.Contains( inkVisuals[0].profileStroke))
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains( inkVisuals[0].profileStroke))
                     inkVisuals[0].DrawProfile();
                 };
                 profile.Marker2Check.Click += delegate
                 {
-                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
-             
                 stackPanel.Children.Add(profile);
 
                 //grid1.Children.Add(profile);
@@ -527,6 +527,9 @@ namespace Global
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
 
                 Slider Slider1 = (Slider)bottomToolbar.Children[6];
+                MessageBox.Show("11111");
+
+
 
                 Binding myBindingFrameIndex = new Binding("FrameIndex");
                 myBindingFrameIndex.Source = updateStatus;
@@ -542,7 +545,6 @@ namespace Global
                 {
                     LambdaControl.Trigger("TSERIES_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider1.Value - 1 } });
                 };
-
 
                 TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
 
@@ -920,7 +922,7 @@ namespace Global
                 RadioButton radioButton3 = (RadioButton)stackPanel2.Children[2];
                 //RadioButton radioButton3 = (RadioButton)mainwin.FindName("RadioButton3");
                 StackPanel bottomView222 = (StackPanel)mainwin.FindName("bottomView");
-
+                bottomView222.Visibility = Visibility.Collapsed;
                 radioButton3.Checked += delegate
                 {
                     Border border = (Border)mainwin.FindName("imagingView");
