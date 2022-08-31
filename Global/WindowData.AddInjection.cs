@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Resources;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Global
 {
@@ -909,27 +910,46 @@ namespace Global
                 System.Windows.MessageBox.Show(ex.Message);
             }
 
-            RadioButton radioButton3 = (RadioButton)mainwin.FindName("RadioButton3");
-            radioButton3.Checked += delegate
-            {
-                Border border = (Border)mainwin.FindName("imagingView");
-                Grid grid = (Grid)border.Child;
-                Grid Grid1 = (Grid)grid.Children[0];
 
-                Grid1.Children[0].Visibility = Visibility.Collapsed;
-                Grid1.Children[1].Visibility = Visibility.Collapsed;
-                Grid1.Children[2].Visibility = Visibility.Collapsed;
-            };
-            radioButton3.Unchecked += delegate
+            try
             {
-                Border border = (Border)mainwin.FindName("imagingView");
-                Grid grid = (Grid)border.Child;
-                Grid Grid1 = (Grid)grid.Children[0];
+                Grid gridMain = mainwin.Content as Grid;
+                Grid grid2 = (Grid)gridMain.Children[0];
 
-                Grid1.Children[0].Visibility = Visibility.Visible;
-                Grid1.Children[1].Visibility = Visibility.Visible;
-                Grid1.Children[2].Visibility = Visibility.Visible;
-            };
+                StackPanel stackPanel2 = (StackPanel)grid2.Children[1];
+                RadioButton radioButton3 = (RadioButton)stackPanel2.Children[2];
+                //RadioButton radioButton3 = (RadioButton)mainwin.FindName("RadioButton3");
+                StackPanel bottomView222 = (StackPanel)mainwin.FindName("bottomView");
+
+                radioButton3.Checked += delegate
+                {
+                    Border border = (Border)mainwin.FindName("imagingView");
+                    Grid grid = (Grid)border.Child;
+                    Grid Grid1 = (Grid)grid.Children[0];
+
+                    Grid1.Children[0].Visibility = Visibility.Collapsed;
+                    Grid1.Children[1].Visibility = Visibility.Collapsed;
+                    Grid1.Children[2].Visibility = Visibility.Collapsed;
+                    bottomView222.Visibility = Visibility.Visible;
+                };
+                radioButton3.Unchecked += delegate
+                {
+                    Border border = (Border)mainwin.FindName("imagingView");
+                    Grid grid = (Grid)border.Child;
+                    Grid Grid1 = (Grid)grid.Children[0];
+
+                    Grid1.Children[0].Visibility = Visibility.Visible;
+                    Grid1.Children[1].Visibility = Visibility.Visible;
+                    Grid1.Children[2].Visibility = Visibility.Visible;
+                    bottomView222.Visibility = Visibility.Collapsed;
+                };
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
         }
 
 

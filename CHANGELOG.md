@@ -1,9 +1,9 @@
 ## [1.0.14] - 2022-08-31
 
-- MessageBox 添加 MessageBoxImage✔
+- MessageBox 添加 MessageBoxImage 和Owner✔
 - 重构ACE 注册的部分，和ToolHash✔
-
-
+- Merge 皇黄代码✔
+- 移除Style 中默认的Trim✔
 
 ## [1.0.13] - 2022-08-30
 
