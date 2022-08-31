@@ -26,7 +26,9 @@ namespace ConfigObjective.UserControls
         public MapCanvas()
         {
             InitializeComponent();
+            
         }
+      
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
@@ -85,7 +87,13 @@ namespace ConfigObjective.UserControls
         private Brush selectionSquareBrush = Brushes.Transparent;
         private Pen selectionSquarePen = new Pen(Brushes.Black, 1);
         public List<Point> selectedPoints = new List<Point>();
+        public bool IsReadMap = false;
+        public List<Point> SeriesPoints = new List<Point>()
+        {
+            new Point(56, 114),new Point(120, 132),new Point(144, 132),new Point(160, 168),new Point(216, 174),new Point(128, 204),new Point(104, 180),new Point(72, 156),new Point(56, 192),new Point(192, 198)
+        };
 
+        
 
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -358,6 +366,23 @@ namespace ConfigObjective.UserControls
         }
 
 
+        public  void DrawSeriesPoint(List<Point>  points)
+        {
+            foreach (Point point in points)
+            {
+
+                DrawingVisual visual = new DrawingVisual();
+
+                DrawSquare(visual, point, false, drawingBrush0);
+
+                visual.Opacity = 0.3;
+                mapCanvas.AddVisual(visual);
+
+            }
+            
+        }
+
+        
     }
 }
 
