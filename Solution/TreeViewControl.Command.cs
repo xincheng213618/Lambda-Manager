@@ -118,7 +118,6 @@ namespace Solution
                         }
                     }
                 }
-
             }
             else if (e.Command == Commands.ReName)
             {

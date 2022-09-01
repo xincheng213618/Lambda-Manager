@@ -1,3 +1,8 @@
+## [1.0.15] - 2022-09-02
+
+- 修改初次打开的时候会跳到采集设置上的问题✔
+- 调整Solution的控制逻辑，给删除添加一个提示✔
+
 ## [1.0.14] - 2022-08-31
 
 - MessageBox 添加 MessageBoxImage 和Owner✔
@@ -9,7 +14,7 @@
 
 - 添加MessageBox 对于 MessageBoxButton 的支持 ✔
 - 插件测试✔
-- 学习添加一个VS插件✔
+- 
 - 修改ToolHash✔
 
 ## [1.0.12] - 2022-08-29
