@@ -174,7 +174,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" >
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>

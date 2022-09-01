@@ -122,7 +122,6 @@ namespace XSolution
                     Parent.RemoveChild(this);
                 };
             }, (object value) => { return CanDelete; });
-
             VisualChildren = new ObservableCollection<BaseObject>() { };
             VisualChildrenHidden = new ObservableCollection<BaseObject>() { };
         }
