@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using Global.Common.Extensions;
+using Microsoft.VisualBasic;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -46,37 +47,32 @@ namespace Global.Common.Controls
                 default:
                     break;
             }
+
+            //MessageBoxImage 中存在重复项和重复样式，所以这几项就可以了
             switch (icon)
             {
                 case MessageBoxImage.None:
                     Imageicon.Visibility = Visibility.Collapsed;
                     break;
                 case MessageBoxImage.Error:
-                    Imageicon.Source = ToImageSource(SystemIcons.Error);
+                    Imageicon.Source = SystemIcons.Error.ToImageSource();
                     break;
                 case MessageBoxImage.Question:
-                    Imageicon.Source = ToImageSource(SystemIcons.Question);
+                    Imageicon.Source = SystemIcons.Question.ToImageSource();
                     break;
                 case MessageBoxImage.Warning:
-                    Imageicon.Source = ToImageSource(SystemIcons.Warning);
+                    Imageicon.Source = SystemIcons.Warning.ToImageSource();
                     break;
                 case MessageBoxImage.Information:
-                    Imageicon.Source = ToImageSource(SystemIcons.Information);
+                    Imageicon.Source = SystemIcons.Information.ToImageSource();
                     break;
                 default:
                     break;
             }
             MessageBoxResult = defaultResult;
         }
-        public static ImageSource ToImageSource(Icon icon)
-        {
-            ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
-                icon.Handle,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
 
-            return imageSource;
-        }
+
 
         public MessageBox1(string messageBoxText)
         {

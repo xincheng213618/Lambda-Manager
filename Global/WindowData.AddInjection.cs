@@ -830,6 +830,8 @@ namespace Global
                     stageAcquisition.Children[2].Visibility = Visibility.Visible;
                     stageAcquisition.Children[3].Visibility = Visibility.Visible;
                     stageAcquisition.Children[4].Visibility = Visibility.Visible;
+                    stageAcquisition.Children[5].Visibility = Visibility.Visible;
+
                     statusBar.Visibility = Visibility.Visible;
                     stageAcquisition.Visibility = Visibility.Visible;
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;

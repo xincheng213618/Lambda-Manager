@@ -451,15 +451,6 @@ namespace Solution
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox1.Show(Application.Current.MainWindow,"222222");
-            MessageBox1.Show("222222","nlg");
-            MessageBox1.Show(Application.Current.MainWindow,"222222", "nlg",MessageBoxButton.OKCancel);
-            MessageBox1.Show("222222", "nlg", MessageBoxButton.YesNoCancel);
-            MessageBox1.Show("222222", "nlg", MessageBoxButton.YesNo, MessageBoxImage.Hand);
-            MessageBox1.Show("222222", "nlg", MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
-            MessageBox1.Show("222222", "nlg", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);
-            MessageBox1.Show(Application.Current.MainWindow,"2223332", "nlg", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);
-
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
         }
 

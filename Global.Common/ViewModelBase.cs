@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-//预备拆分出来的代码
 namespace Global.Common
 {
     /// <summary>
@@ -17,6 +16,7 @@ namespace Global.Common
         /// <param name="propertyName"></param>
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
+            //使用CallerMemberName可以在传参的时候，少些几行代码，还是比较方便的，但是这个名称好像不是很规范，可以在之后统一一下
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
