@@ -147,7 +147,7 @@ namespace Global
                         }
 
                     };
-                   
+                    
                     if (ImageViewState.toolTop.RulerChecked == true|| ImageViewState.toolTop.ArrowChecked == true|| ImageViewState.toolTop.CircleChecked==true|| ImageViewState.toolTop.CurveChecked== true|| ImageViewState.toolTop.DimensionChecked==true|| ImageViewState.toolTop.LineChecked==true|| ImageViewState.toolTop.PolygonChecked==true|| ImageViewState.toolTop.RectangleChecked==true|| ImageViewState.toolTop.TextChecked==true)
                     {
                         propertySetItem.Visibility = Visibility.Visible;
@@ -157,7 +157,7 @@ namespace Global
                     else
                     {
                         propertySetItem.Visibility = Visibility.Collapsed;
-                        tabControl.SelectedIndex = 1;
+                        //tabControl.SelectedIndex = 1;
 
                     };
 
