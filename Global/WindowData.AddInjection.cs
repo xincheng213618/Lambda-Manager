@@ -403,11 +403,11 @@ namespace Global
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
                
 
-                ViewMode.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                OperatingMode.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
                     if (e.PropertyName == "SelectViewMode")
                     {
-                        if (ViewMode.SelectViewMode == 0 || ViewMode.SelectViewMode == 1 || ViewMode.SelectViewMode == 3 || ViewMode.SelectViewMode == 4)
+                        if (OperatingMode.SelectViewMode == 0 || OperatingMode.SelectViewMode == 1 || OperatingMode.SelectViewMode == 3 || OperatingMode.SelectViewMode == 4)
                             colorbarTogg.IsEnabled = true;
                         else
                             colorbarTogg.IsEnabled = false;

@@ -52,7 +52,7 @@ namespace Global
 
         public Stage Stage = new() {};
 
-        public ViewMode ViewMode = new();
+        public OperatingMode OperatingMode = new();
         
 
         public Config Config = new();
@@ -66,7 +66,7 @@ namespace Global
                 MulDimensional.Zstep = Config.Dimensional.ZstackWiseSerial.ZStep;
                 MulDimensional.ZEnd = Config.Dimensional.ZstackWiseSerial.ZEnd;
 
-                ViewMode.SetValue(Config.ViewMode);
+                OperatingMode.SetValue(Config.OperatingMode);
                 Stage.SetValue(Config.Stage);
                 ImageViewState.SetValue(Config.ImageViewState);
                 Update.UpdateGlobal();
@@ -85,7 +85,7 @@ namespace Global
             Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
             Config.Dimensional.ZstackWiseSerial.ZStep = MulDimensional.Zstep;
             Config.Dimensional.ZstackWiseSerial.ZEnd = MulDimensional.ZEnd;
-            Config.ViewMode.SetValue(ViewMode);
+            Config.OperatingMode.SetValue(OperatingMode);
             Config.Stage.SetValue(Stage);
             Config.ImageViewState.SetValue(ImageViewState);
 

@@ -36,7 +36,7 @@ namespace Mode
         public Spot Spot { get; set; } = new();
 
         [JsonPropertyName("config-imaging-mode")]
-        public ViewMode ViewMode { get; set; } = new ViewMode();
+        public OperatingMode OperatingMode { get; set; } = new OperatingMode();
 
         [JsonPropertyName("config-multi-dimensional")]
         public Dimensional Dimensional { get; set; } = new();

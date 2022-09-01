@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Global.Mode.Config
 {
-    public class ViewMode : ViewModelBase
+    public class OperatingMode : ViewModelBase
     {
         private int selectViewMode = 0;
         public int SelectViewMode
@@ -36,15 +37,15 @@ namespace Global.Mode.Config
         [JsonPropertyName("quantitative-phase")]
         public QuantitativePhase QuantitativePhase { get; set; } = new();
 
-        public void SetValue(ViewMode ViewMode)
+        public void SetValue(OperatingMode OperatingMode)
         {
-            this.SelectViewMode = ViewMode.SelectViewMode;
-            this.BrightField.SetValue(ViewMode.BrightField);
-            this.DarkField.SetValue(ViewMode.DarkField);
-            this.ReliefContrast.SetValue(ViewMode.ReliefContrast);
-            this.QuantitativePhase.SetValue(ViewMode.QuantitativePhase);
-            this.Reinberg.SetValue(ViewMode.Reinberg);
-            this.PhaseContrast.SetValue (ViewMode.PhaseContrast);
+            SelectViewMode = OperatingMode.SelectViewMode;
+            BrightField.SetValue(OperatingMode.BrightField);
+            DarkField.SetValue(OperatingMode.DarkField);
+            ReliefContrast.SetValue(OperatingMode.ReliefContrast);
+            QuantitativePhase.SetValue(OperatingMode.QuantitativePhase);
+            Reinberg.SetValue(OperatingMode.Reinberg);
+            PhaseContrast.SetValue (OperatingMode.PhaseContrast);
         }
 
     }
@@ -81,8 +82,8 @@ namespace Global.Mode.Config
         public void SetValue(BrightField brightField)
         {
             CameraSetting.SetValue(brightField.CameraSetting);
-            this.Aperture = brightField.aperture;
-            this.color = brightField.color;
+            Aperture = brightField.aperture;
+            color = brightField.color;
         }
     };
 
@@ -169,14 +170,22 @@ namespace Global.Mode.Config
         {
             CameraSetting.SetValue(darkField.CameraSetting);
 
-            this.InnerAperture = darkField.InnerAperture;
-            this.OutAperture = darkField.OutAperture;
-            this.Color = darkField.Color;   
-            this.Gamma = darkField.Gamma;   
-            this.Auto = darkField.Auto;
-            this.BgCollection = darkField.BgCollection;
+            InnerAperture = darkField.InnerAperture;
+            OutAperture = darkField.OutAperture;
+            Color = darkField.Color;   
+            Gamma = darkField.Gamma;   
+            Auto = darkField.Auto;
+            BgCollection = darkField.BgCollection;
         }
     };
+
+    public class RheinbergPattern
+    {
+        public SolidColorBrush Rheinberg0 { get; set; }
+        public SolidColorBrush Rheinberg1 { get; set; }
+        public SolidColorBrush Rheinberg2 { get; set; }
+    }
+
 
     public class Reinberg : ViewModelBase
     {
@@ -234,22 +243,35 @@ namespace Global.Mode.Config
             }
         }
 
-        public int BrightColor = 1;
-        public int DarkColor = 4080;
-        public int DarkColor1 = 4080;
+        public int rheinbergSelectMode = 0;
+
+        public int RheinbergSelectMode
+        {
+            get { return rheinbergSelectMode; }
+            set { rheinbergSelectMode = value; NotifyPropertyChanged(); }
+        }
+        public List<RheinbergPattern> RheinbergPatterns { get; set; }
+
+
+        public int BrightColor { get; set; } = 1;
+        public int DarkColor { get; set; } = 4080;
+        public int DarkColor1 { get; set; } = 4080;
 
 
         public void SetValue(Reinberg reinberg)
         {
             CameraSetting.SetValue(reinberg.CameraSetting);
+            Gamma = reinberg.Gamma;
+            InnerAperture = reinberg.InnerAperture;
+            OutAperture = reinberg.OutAperture;
+            Mode = reinberg.Mode;
+            BrightColor = reinberg.BrightColor;
+            DarkColor = reinberg.DarkColor;
+            DarkColor1 = reinberg.DarkColor1;
 
-            this.Gamma = reinberg.Gamma;
-            this.InnerAperture = reinberg.InnerAperture;
-            this.OutAperture = reinberg.OutAperture;
-            this.Mode = reinberg.Mode;
-            this.BrightColor = reinberg.BrightColor;
-            this.DarkColor = reinberg.DarkColor;
-            this.DarkColor1 = reinberg.DarkColor1;        }
+            RheinbergSelectMode = reinberg.RheinbergSelectMode;
+            RheinbergPatterns = reinberg.RheinbergPatterns;
+        }
 
     };
 
@@ -368,15 +390,15 @@ namespace Global.Mode.Config
         public void SetValue(ReliefContrast  reliefContrast)
         {
             CameraSetting.SetValue(reliefContrast.CameraSetting);
-            this.Rotationangle = reliefContrast.Rotationangle;
-            this.InnerAperture = reliefContrast.InnerAperture;
-            this.OutAperture = reliefContrast.OutAperture;
-            this.Gamma = reliefContrast.Gamma;
-            this.Gain = reliefContrast.Gain;
-            this.Contrast = reliefContrast.Contrast;
-            this.BFWeight = reliefContrast.BFWeight;
-            this.DPWeight = reliefContrast.DPWeight;
-            this.BgCollection = reliefContrast.BgCollection;
+            Rotationangle = reliefContrast.Rotationangle;
+            InnerAperture = reliefContrast.InnerAperture;
+            OutAperture = reliefContrast.OutAperture;
+            Gamma = reliefContrast.Gamma;
+            Gain = reliefContrast.Gain;
+            Contrast = reliefContrast.Contrast;
+            BFWeight = reliefContrast.BFWeight;
+            DPWeight = reliefContrast.DPWeight;
+            BgCollection = reliefContrast.BgCollection;
         }
     }
     //相位
@@ -472,13 +494,13 @@ namespace Global.Mode.Config
         {
             CameraSetting.SetValue(phaseContrast.CameraSetting);
 
-            this.Filter = phaseContrast.Filter;
-            this.Gamma = phaseContrast.Gamma;
-            this.Contrast = phaseContrast.Contrast;
-            this.Gain = phaseContrast.Gain;
-            this.BFWeight = phaseContrast.BFWeight;
-            this.PCWeight = phaseContrast.PCWeight;
-            this.BgCollection = phaseContrast.BgCollection;
+            Filter = phaseContrast.Filter;
+            Gamma = phaseContrast.Gamma;
+            Contrast = phaseContrast.Contrast;
+            Gain = phaseContrast.Gain;
+            BFWeight = phaseContrast.BFWeight;
+            PCWeight = phaseContrast.PCWeight;
+            BgCollection = phaseContrast.BgCollection;
         }
     }
 
@@ -559,12 +581,12 @@ namespace Global.Mode.Config
         {
             CameraSetting.SetValue(quantitativePhase.CameraSetting);
 
-            this.Regularization = quantitativePhase.Regularization;
-            this.Detail = quantitativePhase.Detail;
-            this.Gamma = quantitativePhase.Gamma;
-            this.Min = quantitativePhase.Min;
-            this.max = quantitativePhase.Max;
-            this.BgCollection = quantitativePhase.BgCollection;
+            Regularization = quantitativePhase.Regularization;
+            Detail = quantitativePhase.Detail;
+            Gamma = quantitativePhase.Gamma;
+            Min = quantitativePhase.Min;
+            max = quantitativePhase.Max;
+            BgCollection = quantitativePhase.BgCollection;
 
         }
     }

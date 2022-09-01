@@ -7,7 +7,7 @@
         xmlns:localConverter="clr-namespace:ConfigObjective.Converter"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Title="莱茵伯格图案编辑器" Icon="/ConfigObjective;component/image/Grid.ico" Background="#1F1F1F" MinHeight="200" BorderBrush="White"  ResizeMode="NoResize" Closed="Window_Closed" Initialized="Window_Initialized" Height="300" Width="400"  >
+         Background="#1F1F1F" MinHeight="200" BorderBrush="White"  ResizeMode="NoResize" Closed="Window_Closed" Initialized="Window_Initialized" Height="300" Width="400"  >
     
     <Window.Resources>
         <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
@@ -34,132 +34,112 @@
 
     </Window.Resources>
     <Grid Background="#3A3A3A">
+        <TextBlock Text="莱茵伯格图案编辑器" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-20,0,0"/>
+
         <DockPanel   >
-            <UniformGrid Columns="3" DockPanel.Dock="Bottom" Margin="5">
+            <UniformGrid Columns="3" DockPanel.Dock="Bottom" Margin="10,20">
                 <Button  Content="恢复缺省设置" Height="20" Width="100" Click="Default_Click" />
                 <Button  Content="确定" Height="20" Width="75" Click="Button_Click" />
                 <Button Content="取消" Height="20" Width="75" Click="Button1_Click"/>
             </UniformGrid>
 
-            <Border Background="#404040" CornerRadius="3" Margin="5">
-                <Border Background="Transparent" BorderBrush="Black" BorderThickness="1" Margin="-1" Opacity="0.9" CornerRadius="3">
-                    <Grid>
-                        <StackPanel Margin="15,10">
-                            <TextBlock Foreground="White"  Text="预设图案："/>
-                            <UniformGrid Columns="6" Margin="0,5,0,5">
-                                <RadioButton x:Name="RadioButton1" Style="{StaticResource ButtonPageControl11}" IsChecked="True"  Checked="RadioButton1_Checked">
-                                    <Canvas  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0">
-                                        <Ellipse Width="40" Height="40" Fill="{Binding ElementName=ColorPciker11,Path=SelectColor}"/>
-                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker10,Path=SelectColor}"/>
-                                    </Canvas>
-                                </RadioButton>
-                                <RadioButton x:Name="RadioButton2" Style="{StaticResource ButtonPageControl11}"  Checked="RadioButton2_Checked">
-                                    <Canvas   Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0" RenderTransformOrigin="0.5,0.5">
-                                        <Canvas.RenderTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform/>
-                                                <SkewTransform/>
-                                                <RotateTransform Angle="45"/>
-                                                <TranslateTransform/>
-                                            </TransformGroup>
-                                        </Canvas.RenderTransform>
-                                        <Path Canvas.Left="0" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 2,0z" Fill="{Binding ElementName=ColorPciker21,Path=SelectColor}" Stretch="Fill" Width="40" Height="20"/>
-                                        <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 1 -2,0z" Fill="{Binding ElementName=ColorPciker22,Path=SelectColor}" Stretch="Fill" Width="40" Height="20"/>
-                                        <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
-                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker20,Path=SelectColor}"/>
-                                    </Canvas>
-                                </RadioButton>
-                                <RadioButton x:Name="RadioButton3" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton3_Checked">
-                                    <Canvas  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0"  RenderTransformOrigin="0.5,0.5" >
-                                        <Canvas.RenderTransform>
-                                            <TransformGroup>
-                                                <RotateTransform Angle="45"/>
-                                            </TransformGroup>
-                                        </Canvas.RenderTransform>
 
-                                        <Path Canvas.Left="20" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 1,1 L0,1z" Fill="{Binding ElementName=ColorPciker32,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
-
-                                        <Path Canvas.Left="0" Canvas.Top="0" Data="M 1,0 A 1,1 1 0 0 0,1 L1,1z" Fill="{Binding ElementName=ColorPciker31,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
-
-                                        <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 0 1,1 L1,0z" Fill="{Binding ElementName=ColorPciker32,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
-                                        <Path Canvas.Left="20" Canvas.Top="20" Data="M 1,0 A 1,1 1 0 1 0,1 L0,0z" Fill="{Binding ElementName=ColorPciker31,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
-
-                                        <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
-                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker30,Path=SelectColor}"/>
-                                    </Canvas>
-
-                                </RadioButton>
-                                <RadioButton x:Name="RadioButton4" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton4_Checked">
-                                    <Image  Source="/ConfigObjective;component/image/Rheinberg.png"  Height="40"/>
-                                    <!--<Canvas Height="40" Width="40" HorizontalAlignment="Left" Margin="5.0" RenderTransformOrigin="0.5,0.5">
+            <Border  CornerRadius="3" Margin="5">
+                <Grid>
+                    <StackPanel Margin="20,20">
+                        <TextBlock Foreground="White"  Text="预设图案："/>
+                        <UniformGrid Columns="6" Margin="0,5,0,5">
+                            <RadioButton x:Name="RadioButton1" Style="{StaticResource ButtonPageControl11}" IsChecked="True"  Checked="RadioButton1_Checked">
+                                <Canvas  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0">
+                                    <Ellipse Width="40" Height="40" Fill="{Binding ElementName=ColorPciker11,Path=SelectColor}"/>
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker10,Path=SelectColor}"/>
+                                </Canvas>
+                            </RadioButton>
+                            <RadioButton x:Name="RadioButton2" Style="{StaticResource ButtonPageControl11}"  Checked="RadioButton2_Checked">
+                                <Canvas   Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0" RenderTransformOrigin="0.5,0.5">
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="45"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Canvas.Left="0" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 2,0z" Fill="{Binding ElementName=ColorPciker21,Path=SelectColor}" Stretch="Fill" Width="40" Height="20"/>
+                                    <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 1 -2,0z" Fill="{Binding ElementName=ColorPciker22,Path=SelectColor}" Stretch="Fill" Width="40" Height="20"/>
+                                    <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker20,Path=SelectColor}"/>
+                                </Canvas>
+                            </RadioButton>
+                            <RadioButton x:Name="RadioButton3" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton3_Checked">
+                                <Canvas  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0"  RenderTransformOrigin="0.5,0.5" >
                                     <Canvas.RenderTransform>
                                         <TransformGroup>
                                             <RotateTransform Angle="45"/>
                                         </TransformGroup>
                                     </Canvas.RenderTransform>
-                                    <Ellipse Width="40" Height="40">
-                                        <Ellipse.Fill>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
-                                                <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
-                                                <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
-                                                <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
-                                                <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
-                                                <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
-                                                <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
-                                            </LinearGradientBrush>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="Black"/>
-                                </Canvas>-->
 
-                                </RadioButton>
+                                    <Path Canvas.Left="20" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 1,1 L0,1z" Fill="{Binding ElementName=ColorPciker32,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
 
-                            </UniformGrid>
-                            <TextBlock Foreground="White"    Text="自定义图案：" Margin="0,5,0,0" />
-                            <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Margin="0,5,0,0">
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="内径："/>
-                                    <local:ColorPicker x:Name="ColorPciker10" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="外径："/>
-                                    <local:ColorPicker x:Name="ColorPciker11" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                            </StackPanel>
-                            <StackPanel Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="内径："/>
-                                    <local:ColorPicker x:Name="ColorPciker20" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="外径1："/>
-                                    <local:ColorPicker x:Name="ColorPciker21" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="外径2："/>
-                                    <local:ColorPicker x:Name="ColorPciker22" SelectColor="Lime" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                            </StackPanel>
+                                    <Path Canvas.Left="0" Canvas.Top="0" Data="M 1,0 A 1,1 1 0 0 0,1 L1,1z" Fill="{Binding ElementName=ColorPciker31,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
 
-                            <StackPanel Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="内径："/>
-                                    <local:ColorPicker x:Name="ColorPciker30" SelectColor="Black" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="外径1："/>
-                                    <local:ColorPicker x:Name="ColorPciker31" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock Foreground="White" Text="外径2："/>
-                                    <local:ColorPicker x:Name="ColorPciker32" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </DockPanel>
-                            </StackPanel>
+                                    <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 0 1,1 L1,0z" Fill="{Binding ElementName=ColorPciker32,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
+                                    <Path Canvas.Left="20" Canvas.Top="20" Data="M 1,0 A 1,1 1 0 1 0,1 L0,0z" Fill="{Binding ElementName=ColorPciker31,Path=SelectColor}" Stretch="Fill" Width="20" Height="20"/>
 
+                                    <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=ColorPciker30,Path=SelectColor}"/>
+                                </Canvas>
+
+                            </RadioButton>
+                            <RadioButton x:Name="RadioButton4" Style="{StaticResource ButtonPageControl11}" Checked="RadioButton4_Checked">
+                                <Image  Source="/ConfigObjective;component/image/Rheinberg.png"  Height="40"/>
+                            </RadioButton>
+
+                        </UniformGrid>
+                        <TextBlock Foreground="White"    Text="自定义图案：" Margin="0,5,0,0" />
+                        <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Margin="0,5,0,0">
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="内径："/>
+                                <local:ColorPicker x:Name="ColorPciker10" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径："/>
+                                <local:ColorPicker x:Name="ColorPciker11" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
                         </StackPanel>
-                    </Grid>
-                </Border>
+                        <StackPanel Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="内径："/>
+                                <local:ColorPicker x:Name="ColorPciker20" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径1："/>
+                                <local:ColorPicker x:Name="ColorPciker21" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径2："/>
+                                <local:ColorPicker x:Name="ColorPciker22" SelectColor="Lime" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="内径："/>
+                                <local:ColorPicker x:Name="ColorPciker30" SelectColor="Black" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径1："/>
+                                <local:ColorPicker x:Name="ColorPciker31" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Foreground="White" Text="外径2："/>
+                                <local:ColorPicker x:Name="ColorPciker32" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </DockPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Grid>
+
             </Border>
         </DockPanel>
 

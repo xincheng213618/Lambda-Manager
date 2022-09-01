@@ -1,4 +1,5 @@
 ﻿using Global;
+using Global.Mode.Config;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -9,48 +10,47 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 
 namespace ConfigObjective
 {
     public partial class ToolControl
     {
-        Global.Mode.Config.ViewMode ViewMode = WindowData.GetInstance().ViewMode;
+        Global.Mode.Config.OperatingMode OperatingMode = WindowData.GetInstance().OperatingMode;
 
         ColorHelper colorHelp1 = new(255, 255, 255, 255);
         ColorHelper colorHelp2 = new(255, 255, 255, 255);
 
-        public void ViewMode_Initialize()
+        public void OperatingMode_Initialize()
         {
-
+            OperatingMode ??= new Global.Mode.Config.OperatingMode();
         }
 
-        public void ViewMode_Update()
+        public void OperatingMode_Update()
         {
-            if (ViewMode == null)
-                ViewMode = new Global.Mode.Config.ViewMode();
 
-            switch (ViewMode.SelectViewMode)
+            switch (OperatingMode.SelectViewMode)
             {
                 case 0:
-                    Border31.DataContext = ViewMode.BrightField;
-                    colorHelp1 = new ColorHelper(255, ViewMode.BrightField.Color[0], ViewMode.BrightField.Color[1], ViewMode.BrightField.Color[2]);
+                    Border31.DataContext = OperatingMode.BrightField;
+                    colorHelp1 = new ColorHelper(255, OperatingMode.BrightField.Color[0], OperatingMode.BrightField.Color[1], OperatingMode.BrightField.Color[2]);
                     ColorButton311.Background = colorHelp1.SolidColorBrush;
                     Slider312.Value = (int)(colorHelp1.Brightness * 240);
                     Button31.IsChecked = true;
                     break;
                 case 1:
-                    Border32.DataContext = ViewMode.DarkField;
-                    colorHelp2 = new ColorHelper(255, ViewMode.DarkField.Color[0], ViewMode.DarkField.Color[1], ViewMode.DarkField.Color[2]);
+                    Border32.DataContext = OperatingMode.DarkField;
+                    colorHelp2 = new ColorHelper(255, OperatingMode.DarkField.Color[0], OperatingMode.DarkField.Color[1], OperatingMode.DarkField.Color[2]);
                     ColorButton321.Background = colorHelp2.SolidColorBrush;
                     Slider324.Value = (int)(colorHelp2.Brightness * 240);
 
                     Button32.IsChecked = true;
                     break;
                 case 2:
-                    Border33.DataContext = ViewMode.Reinberg;
-
-                    IntToColor(ViewMode.Reinberg.BrightColor, out int bright2);
-                    IntToColor(ViewMode.Reinberg.DarkColor, out int bright3);
+                    Border33.DataContext = OperatingMode.Reinberg;
+                    //Reinberg_RheinbergSelectMode_Changed();
+                    IntToColor(OperatingMode.Reinberg.BrightColor, out int bright2);
+                    IntToColor(OperatingMode.Reinberg.DarkColor, out int bright3);
 
                     Slider333.Value = bright2;
                     Slider334.Value = bright3;
@@ -60,15 +60,15 @@ namespace ConfigObjective
 
                     break;
                 case 3:
-                    Border34.DataContext = ViewMode.ReliefContrast;
+                    Border34.DataContext = OperatingMode.ReliefContrast;
                     Button34.IsChecked = true;
                     break;
                 case 4:
-                    Border35.DataContext = ViewMode.QuantitativePhase;
+                    Border35.DataContext = OperatingMode.QuantitativePhase;
                     Button35.IsChecked = true;
                     break;
                 case 5:
-                    Border36.DataContext = ViewMode.PhaseContrast;
+                    Border36.DataContext = OperatingMode.PhaseContrast;
                     Button36.IsChecked = true;
                     break;
             }
@@ -80,64 +80,64 @@ namespace ConfigObjective
         {
             LambdaControl.Trigger("IMAGE_MODE_RESET", this, new Dictionary<string, object>() { });
 
-            if (ViewMode.SelectViewMode == 0)
+            if (OperatingMode.SelectViewMode == 0)
             {
-                ViewMode.BrightField = new Global.Mode.Config.BrightField();
-                Border31.DataContext = ViewMode.BrightField;
-                colorHelp1 = new ColorHelper(255, ViewMode.BrightField.Color[0], ViewMode.BrightField.Color[1], ViewMode.BrightField.Color[2]);
+                OperatingMode.BrightField = new Global.Mode.Config.BrightField();
+                Border31.DataContext = OperatingMode.BrightField;
+                colorHelp1 = new ColorHelper(255, OperatingMode.BrightField.Color[0], OperatingMode.BrightField.Color[1], OperatingMode.BrightField.Color[2]);
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
                 Slider312.Value = (int)(colorHelp1.Brightness * 240);
 
-                Border2.DataContext = ViewMode.BrightField.CameraSetting;
+                Border2.DataContext = OperatingMode.BrightField.CameraSetting;
             }
-            if (ViewMode.SelectViewMode == 1)
+            if (OperatingMode.SelectViewMode == 1)
             {
-                ViewMode.DarkField = new Global.Mode.Config.DarkField();
+                OperatingMode.DarkField = new Global.Mode.Config.DarkField();
 
-                Border32.DataContext = ViewMode.DarkField;
+                Border32.DataContext = OperatingMode.DarkField;
 
-                colorHelp2 = new ColorHelper(255, ViewMode.DarkField.Color[0], ViewMode.DarkField.Color[1], ViewMode.DarkField.Color[2]);
+                colorHelp2 = new ColorHelper(255, OperatingMode.DarkField.Color[0], OperatingMode.DarkField.Color[1], OperatingMode.DarkField.Color[2]);
                 ColorButton321.Background = colorHelp2.SolidColorBrush;
                 Slider324.Value = (int)(colorHelp2.Brightness * 240);
 
-                Border2.DataContext = ViewMode.DarkField.CameraSetting;
+                Border2.DataContext = OperatingMode.DarkField.CameraSetting;
             }
 
-            if (ViewMode.SelectViewMode == 2)
+            if (OperatingMode.SelectViewMode == 2)
             {
-                ViewMode.Reinberg = new Global.Mode.Config.Reinberg();
-                Border33.DataContext = ViewMode.Reinberg;
+                OperatingMode.Reinberg = new Global.Mode.Config.Reinberg();
+                Border33.DataContext = OperatingMode.Reinberg;
 
-                IntToColor(ViewMode.Reinberg.BrightColor, out int bright2);
-                IntToColor(ViewMode.Reinberg.DarkColor, out int bright3);
+                IntToColor(OperatingMode.Reinberg.BrightColor, out int bright2);
+                IntToColor(OperatingMode.Reinberg.DarkColor, out int bright3);
 
                 Slider333.Value = bright2;
                 Slider334.Value = bright3;
 
-                Border2.DataContext = ViewMode.Reinberg.CameraSetting;
+                Border2.DataContext = OperatingMode.Reinberg.CameraSetting;
 
             }
 
-            if (ViewMode.SelectViewMode == 3)
+            if (OperatingMode.SelectViewMode == 3)
             {
-                ViewMode.ReliefContrast = new Global.Mode.Config.ReliefContrast();
-                Border34.DataContext = ViewMode.ReliefContrast;
-                Border2.DataContext = ViewMode.ReliefContrast.CameraSetting;
+                OperatingMode.ReliefContrast = new Global.Mode.Config.ReliefContrast();
+                Border34.DataContext = OperatingMode.ReliefContrast;
+                Border2.DataContext = OperatingMode.ReliefContrast.CameraSetting;
 
             }
 
-            if (ViewMode.SelectViewMode == 4)
+            if (OperatingMode.SelectViewMode == 4)
             {
-                ViewMode.QuantitativePhase = new Global.Mode.Config.QuantitativePhase();
-                Border35.DataContext = ViewMode.QuantitativePhase;
-                Border2.DataContext = ViewMode.QuantitativePhase.CameraSetting;
+                OperatingMode.QuantitativePhase = new Global.Mode.Config.QuantitativePhase();
+                Border35.DataContext = OperatingMode.QuantitativePhase;
+                Border2.DataContext = OperatingMode.QuantitativePhase.CameraSetting;
 
             }
-            if (ViewMode.SelectViewMode == 5)
+            if (OperatingMode.SelectViewMode == 5)
             {
-                ViewMode.PhaseContrast = new Global.Mode.Config.PhaseContrast();
-                Border36.DataContext = ViewMode.PhaseContrast;
-                Border2.DataContext = ViewMode.PhaseContrast.CameraSetting;
+                OperatingMode.PhaseContrast = new Global.Mode.Config.PhaseContrast();
+                Border36.DataContext = OperatingMode.PhaseContrast;
+                Border2.DataContext = OperatingMode.PhaseContrast.CameraSetting;
 
             }
         }
@@ -158,7 +158,7 @@ namespace ConfigObjective
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
                 Slider312.Value = (int)(colorHelp1.Brightness * 240);
 
-                ViewMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
+                OperatingMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
                 LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
             }
         }
@@ -177,7 +177,7 @@ namespace ConfigObjective
                 ColorButton321.Background = colorHelp2.SolidColorBrush;
                 Slider324.Value = (int)(colorHelp2.Brightness * 240);
 
-                ViewMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
+                OperatingMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
                 LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new int[] { colorHelp2.SolidColorBrush.Color.R, colorHelp2.SolidColorBrush.Color.G, colorHelp2.SolidColorBrush.Color.B });
             }
         }
@@ -188,7 +188,7 @@ namespace ConfigObjective
             {
                 colorHelp1.ChangeBrightness(e.NewValue / 240);
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
-                ViewMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
+                OperatingMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
                 
                 LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this,new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
             }
@@ -200,7 +200,7 @@ namespace ConfigObjective
             {
                 colorHelp2.ChangeBrightness(e.NewValue / 240);
                 ColorButton321.Background = colorHelp2.SolidColorBrush;
-                ViewMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
+                OperatingMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
                 LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new int[] { colorHelp2.SolidColorBrush.Color.R, colorHelp2.SolidColorBrush.Color.G, colorHelp2.SolidColorBrush.Color.B });
             }
         }
@@ -247,38 +247,38 @@ namespace ConfigObjective
             //LambdaControl.Trigger("NATIVE_RECEIVE_IMAGE_DISENABLE", this, new Dictionary<string, object>() { });
             if (s != null)
             {
-                ViewMode.SelectViewMode = int.Parse(s);
-                if (ViewMode.SelectViewMode == 0)
+                OperatingMode.SelectViewMode = int.Parse(s);
+                if (OperatingMode.SelectViewMode == 0)
                 {
-                    Border2.DataContext = ViewMode.BrightField.CameraSetting;
+                    Border2.DataContext = OperatingMode.BrightField.CameraSetting;
                 }
-                if (ViewMode.SelectViewMode == 1)
+                if (OperatingMode.SelectViewMode == 1)
                 {
-                    Border2.DataContext = ViewMode.DarkField.CameraSetting;
+                    Border2.DataContext = OperatingMode.DarkField.CameraSetting;
                 }
-                if (ViewMode.SelectViewMode == 2)
+                if (OperatingMode.SelectViewMode == 2)
                 {
-                    Border2.DataContext = ViewMode.Reinberg.CameraSetting;
+                    Border2.DataContext = OperatingMode.Reinberg.CameraSetting;
                 }
 
-                if (ViewMode.SelectViewMode == 3)
+                if (OperatingMode.SelectViewMode == 3)
                 {
-                    Border2.DataContext = ViewMode.ReliefContrast.CameraSetting;
+                    Border2.DataContext = OperatingMode.ReliefContrast.CameraSetting;
                 }
-                if (ViewMode.SelectViewMode == 4)
+                if (OperatingMode.SelectViewMode == 4)
                 {
-                    Border2.DataContext = ViewMode.QuantitativePhase.CameraSetting;
+                    Border2.DataContext = OperatingMode.QuantitativePhase.CameraSetting;
                 }
-                if (ViewMode.SelectViewMode == 5)
+                if (OperatingMode.SelectViewMode == 5)
                 {
-                    Border2.DataContext = ViewMode.PhaseContrast.CameraSetting;
+                    Border2.DataContext = OperatingMode.PhaseContrast.CameraSetting;
                 }
 
 
                 await Task.Delay(300);
                 CameraMode_Changed();
-                ViewMode_Update();
-                Dictionary<string, object> data = new() { { "mode", ViewMode.SelectViewMode } };
+                OperatingMode_Update();
+                Dictionary<string, object> data = new() { { "mode", OperatingMode.SelectViewMode } };
                 LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
             }
         }
@@ -340,7 +340,6 @@ namespace ConfigObjective
         {
             Slider slider = sender as Slider;
             Dictionary<string, object> data = new() { { "rotationAngle", ((int)(slider.Value / 15))%12 } };
-            //LambdaControl.Trigger("", this, new Dictionary<string, object>() { { "rotationAngle", ViewMode.ReliefContrast.Rotationangle } });
             SliderAbbreviation(slider, e, "RELIEF_Rotation_Angle", data);
         }
 
@@ -348,7 +347,6 @@ namespace ConfigObjective
         {
             Slider slider = sender as Slider;
             Dictionary<string, object> data = new() { { "gain", slider.Value  } };
-            //SliderAbbreviation1(Slider363, "PHASE_CONTRAST_GAIN", "gain");
             SliderAbbreviation(slider, e, "PHASE_CONTRAST_GAIN", data);
 
         }
@@ -371,9 +369,6 @@ namespace ConfigObjective
 
         private  void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
-            //await Task.Delay(3000);
-
             if ((int)Slider336.Value == 360)
             {
                 Slider336.Value = 0;
@@ -388,32 +383,18 @@ namespace ConfigObjective
 
 
 
-        private void ColorAbbreviation(string TriggerName, string TriggerParameter, string hexString, int bright = -1)
-        {
-            int result = HexToInt(hexString, bright);
-            LambdaControl.Trigger(TriggerName, this, new Dictionary<string, object>() { { TriggerParameter, result } });
-        }
-
-
-
-
-
-        List<RheinbergPattern> rheinbergPatterns;
-
         private void Button331_Click(object sender, RoutedEventArgs e)
         {
-            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new(rheinbergPatterns, RheinbergSelectMode);
+            RheinbergPatternEditorWindow rheinbergPatternEditorWindow = new(OperatingMode.Reinberg.RheinbergPatterns, OperatingMode.Reinberg.RheinbergSelectMode);
             rheinbergPatternEditorWindow.Closed += RheinbergAdd;
             rheinbergPatternEditorWindow.ShowDialog();
         }
-        public RheinbergPattern SelectColor;
-        public int RheinbergSelectMode = 0;
+
 
 
         private void RheinbergAdd(object sender, EventArgs e)
         {
             RheinbergPatternEditorWindow rheinbergPatternEditorWindow = sender as RheinbergPatternEditorWindow;
-            SelectColor = rheinbergPatternEditorWindow.SelectColor;
             RadioButton radioButton = rheinbergPatternEditorWindow.SelectRadionButton;
 
             if (radioButton.Parent is UniformGrid uniform)
@@ -423,43 +404,102 @@ namespace ConfigObjective
                 DockPanel331.Children.Add(radioButton);
             }
 
+            OperatingMode.Reinberg.RheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
 
 
-            Color330.Fill = SelectColor.Rheinberg0;
-            Color331.Fill = SelectColor.Rheinberg1;
-            Color332.Fill = SelectColor.Rheinberg2;
+            Color330.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg0;
+            Color331.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg1;
+            Color332.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg2;
+            OperatingMode.Reinberg.RheinbergSelectMode = rheinbergPatternEditorWindow.SelectedIndex;
 
-            RheinbergSelectMode = rheinbergPatternEditorWindow.SelectedIndex;
 
             int darkness1 = HexToInt(Color331.Fill.ToString(), (int)Slider334.Value);
             int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
             int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
 
-            DockPanel332.Visibility = Visibility.Visible;
-            DockPanel333.Visibility = Visibility.Visible;
-            DockPanel335.Visibility = Visibility.Collapsed;
-            Slider336.Visibility = Visibility.Collapsed;
-
-            if (RheinbergSelectMode == 0)
+            if (OperatingMode.Reinberg.RheinbergSelectMode == 0)
             {
                 darkness2 = -1;
             }
-            if (RheinbergSelectMode == 3)
+            if (OperatingMode.Reinberg.RheinbergSelectMode == 3)
+            {
+               darkness1 = -1;
+                darkness2 = -1;
+                bright = -1;
+            }
+            Reinberg_RheinbergSelectMode_Changed();
+            LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, new Dictionary<string, object>() { { "mode", OperatingMode.Reinberg.RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } });
+
+            rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
+        }
+
+        public void Reinberg_RheinbergSelectMode_Changed()
+        {
+            if (OperatingMode.Reinberg.RheinbergSelectMode == 3)
             {
                 DockPanel335.Visibility = Visibility.Visible;
                 Slider336.Visibility = Visibility.Visible;
-
-                darkness1 = -1;
-                darkness2 = -1;
-                bright = -1;
                 DockPanel332.Visibility = Visibility.Collapsed;
                 DockPanel333.Visibility = Visibility.Collapsed;
             }
+            else
+            {
+                DockPanel332.Visibility = Visibility.Visible;
+                DockPanel333.Visibility = Visibility.Visible;
+                DockPanel335.Visibility = Visibility.Collapsed;
+                Slider336.Visibility = Visibility.Collapsed;
+            }
+        }
 
-            LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, new Dictionary<string, object>() { { "mode", RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } });
 
-            rheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
-            rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
+
+
+        private void OperatingMode_Reinberg_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (Color331 == null || Color332 == null || Color330 == null || Slider334 == null || Slider333 == null)
+                return;
+            if (!WindowData.GetInstance().ACQUIRE)
+            {
+                int darkness1 = HexToInt(Color331.Fill.ToString(), (int)Slider334.Value);
+                int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
+                int bright = HexToInt(Color330.Fill.ToString(), (int)Slider333.Value);
+
+                OperatingMode.Reinberg.BrightColor = bright;
+                OperatingMode.Reinberg.DarkColor = darkness1;
+                OperatingMode.Reinberg.DarkColor1 = darkness2;
+
+
+                if (OperatingMode.Reinberg.RheinbergSelectMode == 0)
+                {
+                    darkness2 = -1;
+                }
+                if (OperatingMode.Reinberg.RheinbergSelectMode == 3)
+                {
+                    darkness1 = -1;
+                    darkness2 = -1;
+                    bright = -1;
+                }
+
+                Dictionary<string, object> data = new() { { "mode", OperatingMode.Reinberg.RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } };
+                LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, data);
+            }
+            else
+            {
+                if (sliderfirst)
+                {
+                    var result = MessageBox.Show("是否修改当前多维采集设置", "显微镜", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                    {
+                        sliderfirst = false;
+                        Slider334.Value = e.OldValue;
+                    }
+                }
+                else
+                {
+                    sliderfirst = true;
+                }
+            }
+
         }
 
 
