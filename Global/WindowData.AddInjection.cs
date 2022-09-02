@@ -929,7 +929,7 @@ namespace Global
                 dealToolBoerder.Child = DealtoolWrapPanel;
 
                 //这里覆盖Width并采用NaN是因为原来的样式指定了大小，这样能实现自动的效果
-                ToggleButton ToggleButton1 = new ToggleButton() { Style = Application.Current.MainWindow.FindResource("ToggleButtonStyle1") as Style ,Content="2222222" ,Width=double.NaN};
+                ToggleButton ToggleButton1 = new ToggleButton() { Content="2222222" ,Width=double.NaN};
                 ToggleButton1.Click += delegate { MessageBox1.Show(ToggleButton1.Content.ToString()); };
                 DealtoolWrapPanel.Children.Add(ToggleButton1);
 

@@ -25,6 +25,8 @@
             <Setter Property="BorderBrush" Value="#BDBDBD"/>
             <Setter Property="Border.CornerRadius" Value="5" />
         </Style>
+
+        <Style x:Key="ToolButton2" TargetType="{x:Type ToggleButton}"/>
     </Window.Resources>
 
     <Grid>
@@ -68,13 +70,12 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView"  Width="auto"/>
+                <ColumnDefinition Name="leftView"  Width="Auto"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
             <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}" CornerRadius="5,5,0,0">
                 <TabControl  x:Name="leftTab">
                     <TabItem Header="工程" IsSelected="True" >
