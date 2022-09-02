@@ -87,7 +87,13 @@
     <None Remove="resources\icons\top-zoom-out.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Remove="Themes\styles.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Themes\styles.xaml" />
   </ItemGroup>
 	<ItemGroup>
 		<Resource Include="Image\ZIRCON.png" />

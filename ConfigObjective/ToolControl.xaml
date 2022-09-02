@@ -262,7 +262,7 @@
 
                         <DockPanel >
                             <TextBlock  Width="80" Text="选择图案"  Padding="5,0" Foreground="White" VerticalAlignment="Center"/>
-                            <Button Click="Button331_Click" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Button Click="Button331_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <DockPanel x:Name="DockPanel331">
                                     <Canvas x:Name="Canvas331"  Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
                                         <Ellipse Width="40" Height="40" Fill="{Binding ElementName=Color331,Path=Fill}"/>

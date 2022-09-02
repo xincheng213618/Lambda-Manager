@@ -19,7 +19,7 @@
 
     <Color x:Key="ForegroundColor">#EFEFEF</Color>
 
-    <Color x:Key="HighlightColor">#3D3D3D</Color>
+    <Color x:Key="HighlightColor">#BDBDBD</Color>
     <Color x:Key="HotColor">#525252</Color>
 
     <!--#endregion-->
@@ -968,7 +968,6 @@
             </MultiTrigger>-->
         </Style.Triggers>
     </Style>
-    <!--#endregion-->
 
     <!--#region ComboBox-->
     <Style x:Key="ComboBoxFocusVisual">
