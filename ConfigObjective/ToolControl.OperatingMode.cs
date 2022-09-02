@@ -48,7 +48,7 @@ namespace ConfigObjective
                     break;
                 case 2:
                     Border33.DataContext = OperatingMode.Reinberg;
-                    //Reinberg_RheinbergSelectMode_Changed();
+                    Reinberg_RheinbergSelectMode_Changed();
                     IntToColor(OperatingMode.Reinberg.BrightColor, out int bright2);
                     IntToColor(OperatingMode.Reinberg.DarkColor, out int bright3);
 
@@ -395,23 +395,9 @@ namespace ConfigObjective
         private void RheinbergAdd(object sender, EventArgs e)
         {
             RheinbergPatternEditorWindow rheinbergPatternEditorWindow = sender as RheinbergPatternEditorWindow;
-            RadioButton radioButton = rheinbergPatternEditorWindow.SelectRadionButton;
-
-            if (radioButton.Parent is UniformGrid uniform)
-            {
-                uniform.Children.Remove(radioButton);
-                DockPanel331.Children.Clear();
-                DockPanel331.Children.Add(radioButton);
-            }
-
             OperatingMode.Reinberg.RheinbergPatterns = rheinbergPatternEditorWindow.rheinbergPatterns;
-
-
-            Color330.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg0;
-            Color331.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg1;
-            Color332.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg2;
             OperatingMode.Reinberg.RheinbergSelectMode = rheinbergPatternEditorWindow.SelectedIndex;
-
+            Reinberg_RheinbergSelectMode_Changed();
 
             int darkness1 = HexToInt(Color331.Fill.ToString(), (int)Slider334.Value);
             int darkness2 = HexToInt(Color332.Fill.ToString(), (int)Slider334.Value);
@@ -427,7 +413,6 @@ namespace ConfigObjective
                 darkness2 = -1;
                 bright = -1;
             }
-            Reinberg_RheinbergSelectMode_Changed();
             LambdaControl.Trigger("RHEIN_BERG_SETDATA", this, new Dictionary<string, object>() { { "mode", OperatingMode.Reinberg.RheinbergSelectMode }, { "bright", bright }, { "darkness1", darkness1 }, { "darkness2", darkness2 } });
 
             rheinbergPatternEditorWindow.Closed -= RheinbergAdd;
@@ -435,6 +420,20 @@ namespace ConfigObjective
 
         public void Reinberg_RheinbergSelectMode_Changed()
         {
+            if (OperatingMode.Reinberg.RheinbergPatterns != null&& OperatingMode.Reinberg.RheinbergPatterns.Count>=3)
+            {
+                Color330.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg0;
+                Color331.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg1;
+                Color332.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg2;
+            }
+
+            List<Canvas> canvass = new List<Canvas> { Canvas331,Canvas332, Canvas333,Canvas334 };
+
+            for (int i = 0; i < canvass.Count; i++)
+            {
+                canvass[i].Visibility = i == OperatingMode.Reinberg.RheinbergSelectMode ? Visibility.Visible : Visibility.Collapsed;
+            }
+
             if (OperatingMode.Reinberg.RheinbergSelectMode == 3)
             {
                 DockPanel335.Visibility = Visibility.Visible;

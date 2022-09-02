@@ -264,9 +264,43 @@
                             <TextBlock  Width="80" Text="选择图案"  Padding="5,0" Foreground="White" VerticalAlignment="Center"/>
                             <Button Click="Button331_Click" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <DockPanel x:Name="DockPanel331">
-                                    <Canvas  Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
-                                        <Ellipse Width="40" Height="40" Fill="Yellow"/>
-                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="blue"/>
+                                    <Canvas x:Name="Canvas331"  Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
+                                        <Ellipse Width="40" Height="40" Fill="{Binding ElementName=Color331,Path=Fill}"/>
+                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=Color330,Path=Fill}"/>
+                                    </Canvas>
+                                    <Canvas x:Name="Canvas332" Visibility="Collapsed"  Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0" RenderTransformOrigin="0.5,0.5">
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="45"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 2,0z" Fill="{Binding ElementName=Color331,Path=Fill}" Stretch="Fill" Width="40" Height="20"/>
+                                        <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 1 -2,0z" Fill="{Binding ElementName=Color332,Path=Fill}" Stretch="Fill" Width="40" Height="20"/>
+                                        <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
+                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=Color330,Path=Fill}"/>
+                                    </Canvas>
+                                    <Canvas  x:Name="Canvas333" Visibility="Collapsed"   Height="40" Width="40" HorizontalAlignment="Left" Margin="5,0"  RenderTransformOrigin="0.5,0.5" >
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="45"/>
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+
+                                        <Path Canvas.Left="20" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 1,1 L0,1z" Fill="{Binding ElementName=Color332,Path=Fill}" Stretch="Fill" Width="20" Height="20"/>
+
+                                        <Path Canvas.Left="0" Canvas.Top="0" Data="M 1,0 A 1,1 1 0 0 0,1 L1,1z" Fill="{Binding ElementName=Color331,Path=Fill}" Stretch="Fill" Width="20" Height="20"/>
+
+                                        <Path Canvas.Left="0" Canvas.Top="20" Data="M 0,0 A 1,1 1 0 0 1,1 L1,0z" Fill="{Binding ElementName=Color332,Path=Fill}" Stretch="Fill" Width="20" Height="20"/>
+                                        <Path Canvas.Left="20" Canvas.Top="20" Data="M 1,0 A 1,1 1 0 1 0,1 L0,0z" Fill="{Binding ElementName=Color331,Path=Fill}" Stretch="Fill" Width="20" Height="20"/>
+
+                                        <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
+                                        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=Color330,Path=Fill}"/>
+                                    </Canvas>
+                                    <Canvas x:Name="Canvas334" Visibility="Collapsed"  Height="40" Width="40">
+                                        <Image  Source="/ConfigObjective;component/image/Rheinberg.png"  Height="40" Width="40"/>
                                     </Canvas>
                                 </DockPanel>
                             </Button>

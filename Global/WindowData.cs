@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using static Global.Common.Util.JsonHelper;
 
 namespace Global
 {
@@ -114,7 +115,9 @@ namespace Global
  
             try
             {
-                Config = JsonSerializer.Deserialize<Config>(result);
+                JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+                jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
+                Config = JsonSerializer.Deserialize<Config>(result, jsonSerializerOptions);
             }
             catch (Exception ex)
             {

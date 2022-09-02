@@ -179,8 +179,15 @@ namespace Global.Mode.Config
         }
     };
 
-    public class RheinbergPattern
+    public class RheinbergPattern: ViewModelBase
     {
+        public void SetValue(RheinbergPattern rheinbergPattern)
+        {
+            Rheinberg0 = rheinbergPattern.Rheinberg0;
+            Rheinberg1 = rheinbergPattern.Rheinberg1;
+            Rheinberg2 = rheinbergPattern.Rheinberg2;
+
+        }
         public SolidColorBrush Rheinberg0 { get; set; }
         public SolidColorBrush Rheinberg1 { get; set; }
         public SolidColorBrush Rheinberg2 { get; set; }
@@ -250,7 +257,7 @@ namespace Global.Mode.Config
             get { return rheinbergSelectMode; }
             set { rheinbergSelectMode = value; NotifyPropertyChanged(); }
         }
-        public List<RheinbergPattern> RheinbergPatterns { get; set; }
+        public List<RheinbergPattern> RheinbergPatterns { get; set; } = new List<RheinbergPattern>();
 
 
         public int BrightColor { get; set; } = 1;
@@ -270,7 +277,18 @@ namespace Global.Mode.Config
             DarkColor1 = reinberg.DarkColor1;
 
             RheinbergSelectMode = reinberg.RheinbergSelectMode;
-            RheinbergPatterns = reinberg.RheinbergPatterns;
+            if (reinberg.RheinbergPatterns!=null)
+            {
+                RheinbergPatterns.Clear();
+                foreach (var item in reinberg.RheinbergPatterns)
+                {
+                    RheinbergPattern rheinbergPattern = new RheinbergPattern();
+                    rheinbergPattern.SetValue(item);
+                    RheinbergPatterns.Add(rheinbergPattern);
+                }
+            }
+
+
         }
 
     };

@@ -1,3 +1,10 @@
+## [1.1.0] - 2022-09-02
+
+- 对Solution中的命令部分的代码微调，并添加一个弹窗提示✔
+- TextTrimming 中M需要的空间比其他的大，所以单独的M会显示省略号✔
+- 修改ViewMode 为OperatingMode✔
+- 增加SolidColorBrushConverter 保存Json 信息，修复 莱茵状态的存储✔
+
 ## [1.0.14] - 2022-08-31
 
 - MessageBox 添加 MessageBoxImage 和Owner✔

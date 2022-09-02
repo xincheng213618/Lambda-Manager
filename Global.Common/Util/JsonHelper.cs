@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
-
+using System.Text.Json.Serialization;
+using System.Windows.Media;
 
 namespace Global.Common.Util
 {
@@ -11,6 +12,33 @@ namespace Global.Common.Util
     /// </summary>
     public static class JsonHelper
     {
+        public class SolidColorBrushConverter : JsonConverter<SolidColorBrush>
+        {
+            public override SolidColorBrush Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                var hexValue = reader.GetString();
+
+                if (string.IsNullOrWhiteSpace(hexValue))
+                {
+                    return Brushes.Beige;
+                }
+
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom(hexValue) ?? Brushes.Beige);
+            }
+
+            public override void Write(Utf8JsonWriter writer, SolidColorBrush? value, JsonSerializerOptions options)
+            {
+                if (value == null)
+                {
+                    writer.WriteStringValue(Brushes.Beige.Color.ToString());
+                    return;
+                }
+
+                writer.WriteStringValue(value.Color.ToString());
+            }
+        }
+
+
 
         /// <summary>
         /// 序列化成Json
@@ -19,7 +47,9 @@ namespace Global.Common.Util
         /// <returns></returns>
         public static string ToJson(Object obj)
         {
-            return JsonSerializer.Serialize(obj, new JsonSerializerOptions());
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+            jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
+            return JsonSerializer.Serialize(obj, jsonSerializerOptions);
         }
 
         /// <summary>
@@ -33,7 +63,10 @@ namespace Global.Common.Util
             int result;
             try
             {
-                string jsonString = JsonSerializer.Serialize(obj);
+                JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+                jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
+                string jsonString = JsonSerializer.Serialize(obj, jsonSerializerOptions);
+
                 File.WriteAllText(filePath, jsonString);
                 result = 0;
             }
