@@ -1,0 +1,16 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\.gprj]
+@="Grid.Launcher.gprj"
+
+[HKEY_CLASSES_ROOT\Grid.Launcher.gprj]
+
+[HKEY_CLASSES_ROOT\Grid.Launcher.gprj\DefaultIcon]
+@="C:\\Users\\Chen\\Desktop\\Lambda Manager\\LambdaManager\\bin\\x64\\Debug\\net6.0-windows\\Global.Reg.exe ,0"
+
+[HKEY_CLASSES_ROOT\Grid.Launcher.gprj\shell]
+
+[HKEY_CLASSES_ROOT\Grid.Launcher.gprj\shell\open]
+
+[HKEY_CLASSES_ROOT\Grid.Launcher.gprj\shell\open\command]
+@="C:\\Users\\Chen\\Desktop\\Lambda Manager\\LambdaManager\\bin\\x64\\Debug\\net6.0-windows\\Grid.exe %1"

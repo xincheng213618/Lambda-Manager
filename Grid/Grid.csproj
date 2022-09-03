@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="default.gprj" />
     <None Remove="Image\background.tif" />
     <None Remove="Image\background1.png" />
@@ -24,6 +28,12 @@
   <ItemGroup>
     <Resource Include="default.gprj" />
     <Content Include="Grid.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

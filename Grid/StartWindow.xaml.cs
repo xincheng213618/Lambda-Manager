@@ -49,6 +49,8 @@ namespace Grid
             {
                 Process process = new Process();
                 process.StartInfo.FileName = @"LambdaManager.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.WorkingDirectory = System.Windows.Forms.Application.StartupPath;
                 process.Start();
             }
             catch (Exception ex)
