@@ -18,6 +18,12 @@ namespace Lambda
 
     public class Message
     {
+        public Message() { }
+        public Message(Severity Severity, string? Text) 
+        { 
+            this.Severity = Severity;
+            this.Text = Text;
+        }
         public Severity Severity { get; set; }
 
         public string? Text { get; set; }
