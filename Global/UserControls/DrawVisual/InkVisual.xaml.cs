@@ -80,13 +80,36 @@ namespace Global.UserControls.DrawVisual
 
                     }
 
+                };
+                if (e.PropertyName == "DimensionChecked")
+                {
+                   
+
+                    if ((bool)ToolTop.DimensionChecked)
+                    {
+                        defaultDim.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        defaultDim.Visibility = Visibility.Collapsed;
+                    }
                 }
 
-
+                
             };
 
+            defaultDim.DataContext = DrawInkMethod.defdimenViewModel;  // default Dimension bingding ViewModel
+            DrawInkMethod.dimenViewModel.PropertyChanged += delegate(object? sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName== "DimPos" || e.PropertyName == "Length")
+                {
+                    double ratio = ratio1.Ratio;
+                    string position = DrawInkMethod.defdimenViewModel.DimPos;
+                    double length = DrawInkMethod.defdimenViewModel.Length;
+                    drawDefaultDim(position, length, Colors.AliceBlue, ratio);
+                }
 
-
+            };
 
         }
 
@@ -122,8 +145,9 @@ namespace Global.UserControls.DrawVisual
 
 
         private Point movePoint = new Point(0, 0);
+       
 
-        
+
 
         public void DrawProfile()
         {
@@ -159,37 +183,37 @@ namespace Global.UserControls.DrawVisual
           
             
             StrokeCollection strokes = new StrokeCollection();
-            if (isMouseDown && ToolTop.ArrowChecked)    //Arrow
-            {
-                double dist = GetDistance(endP, iniP);
-                if (dist < 5)
-                    return;
-                stroke = inkMethod.GenerateArrowLineStroke(iniP, endP);
-                try
-                {
-                    inkCanvas.Strokes.Remove(lastTempStroke);
-                }
-                catch { }
-                lastTempStroke = stroke;
-                inkCanvas.Strokes.Add(stroke);
+            //if (isMouseDown && ToolTop.ArrowChecked)    //Arrow
+            //{
+            //    double dist = GetDistance(endP, iniP);
+            //    if (dist < 5)
+            //        return;
+            //    stroke = inkMethod.GenerateArrowLineStroke(iniP, endP);
+            //    try
+            //    {
+            //        inkCanvas.Strokes.Remove(lastTempStroke);
+            //    }
+            //    catch { }
+            //    lastTempStroke = stroke;
+            //    inkCanvas.Strokes.Add(stroke);
               
-            }
-           else if (isMouseDown && ToolTop.LineChecked)  //line
-            {
-                double dist = GetDistance(endP, iniP);
-                if (dist < 5)
-                    return;
-                stroke = inkMethod.GenerateLineStroke(iniP, endP);
-                try
-                {
-                    inkCanvas.Strokes.Remove(lastTempStroke);
-                }
-                catch { }
-                lastTempStroke = stroke;
-                inkCanvas.Strokes.Add(stroke);
+            //}
+           //else if (isMouseDown && ToolTop.LineChecked)  //line
+           // {
+           //     double dist = GetDistance(endP, iniP);
+           //     if (dist < 5)
+           //         return;
+           //     stroke = inkMethod.GenerateLineStroke(iniP, endP);
+           //     try
+           //     {
+           //         inkCanvas.Strokes.Remove(lastTempStroke);
+           //     }
+           //     catch { }
+           //     lastTempStroke = stroke;
+           //     inkCanvas.Strokes.Add(stroke);
                
-            }
-            else if (isMouseDown && ToolTop.CurveChecked)  //Curve
+           // }
+            if (isMouseDown && ToolTop.CurveChecked)  //Curve
             {
                 if (i == 0)
                 {
@@ -316,31 +340,32 @@ namespace Global.UserControls.DrawVisual
 
             }
 
-            else  if (isMouseDown && ToolTop.DimensionChecked) //dimension
+            else  if (isMouseDown && ToolTop.LineChecked) //dimension
             {
 
                 switch (DrawInkMethod.dimenViewModel.DimSelectedIndex)
                 {
-
-                    case 0:
+                    case 0: stroke = inkMethod.GenerateLineStroke(iniP, endP);
+                        break;
+                    case 1: stroke = inkMethod.GenerateArrowLineStroke(iniP, endP);
+                        break;
+                    case 2:
 
                         stroke = inkMethod.GenerateDimensionStroke1(iniP, endP);
                         break;
-                    case 1:
+                    case 3:
                         stroke = inkMethod.GenerateDimensionStroke2(iniP, endP);
                         break;
-                    case 2:
+                    case 4:
                         stroke = inkMethod.GenerateDimensionStroke3(iniP, endP);
                         break;
 
-                    case 3:
+                    case 5:
                         stroke = inkMethod.GenerateDimensionStroke4(iniP, endP);
                         break;
-                    case 4:
-                        stroke = inkMethod.GenerateDimensionStroke5(iniP, endP);
-                        break;
+                   
                    default:
-                        stroke = inkMethod.GenerateDimensionStroke1(iniP, endP);
+                        stroke = inkMethod.GenerateLineStroke(iniP, endP);
                         break;
 
                 }
@@ -837,6 +862,62 @@ namespace Global.UserControls.DrawVisual
             return Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) + (point1.Y - point2.Y) * (point1.Y - point2.Y));
         }
 
+
+        public void drawDefaultDim(string direction,double length,Color color,double ratio)
+        {
+            pathGeometry.Clear();
+            double dimLength = length * ratio * R.ActualWidth / 1689.12;
+            PathFigure pathFigure1 = new PathFigure() { StartPoint = new Point(5, 6) };
+            LineSegment lineSegment0 = new LineSegment() { Point = new Point(5, 13) };
+            LineSegment lineSegment1 = new LineSegment() { Point = new Point(dimLength, 13) };
+            LineSegment lineSegment2 = new LineSegment() { Point = new Point(dimLength, 6) };
+            pathFigure1.Segments.Add(lineSegment0);
+            pathFigure1.Segments.Add(lineSegment1);
+            pathFigure1.Segments.Add(lineSegment2);
+            pathGeometry.Figures.Add(pathFigure1);
+            //if (direction == 0)
+            //{
+            //    Canvas.SetLeft(dimText, (length * ratio - dimText.ActualWidth) / 2);
+            //    InkCanvas.SetLeft(defaultDim, 20);
+            //}
+
+            switch (direction)
+            {
+
+                case "上左":
+
+                    Canvas.SetLeft(dimText, (dimLength - dimText.ActualWidth) / 2);
+                    InkCanvas.SetLeft(defaultDim, 30 * R.ActualWidth / 1180);
+                    InkCanvas.SetTop(defaultDim,20 * R.ActualWidth / 1180 );
+                    break;
+                case "上右":
+                    Canvas.SetLeft(dimText, (dimLength - dimText.ActualWidth) / 2);
+                   // InkCanvas.SetLeft(defaultDim, this.ActualWidth- length * ratio-30);
+                    InkCanvas.SetLeft(defaultDim, R.ActualWidth - dimLength - 30 * R.ActualWidth / 1180);
+                    InkCanvas.SetTop(defaultDim, 20 * R.ActualWidth / 1180);
+                    break;
+                case "下左":
+                    Canvas.SetLeft(dimText, (dimLength - dimText.ActualWidth) / 2);
+                    InkCanvas.SetLeft(defaultDim, 20 * R.ActualWidth / 1180);
+                    InkCanvas.SetTop(defaultDim, R.ActualHeight - dimText.ActualHeight - 20 * R.ActualWidth / 1180);
+                    break;
+
+                case "下右":
+                    Canvas.SetLeft(dimText, (dimLength - dimText.ActualWidth) / 2);
+                    InkCanvas.SetLeft(defaultDim, R.ActualWidth - dimLength - 30 * R.ActualWidth / 1180);
+                    InkCanvas.SetTop(defaultDim, R.ActualHeight - dimText.ActualHeight- 20 * R.ActualWidth / 1180);
+                    break;      
+
+            }
+
+        }
+
+
+
+
+
+
+
         private async void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
 
@@ -871,6 +952,10 @@ namespace Global.UserControls.DrawVisual
                 ratio1.Ratio = ratio1.Ratio * 1.2;
                 inkCanvas.Strokes.Transform(matrix, false);
                 RepaintDim();
+                double ratio = ratio1.Ratio;
+                string position = DrawInkMethod.defdimenViewModel.DimPos;
+                double length = DrawInkMethod.defdimenViewModel.Length;
+                drawDefaultDim(position, length, Colors.AliceBlue, ratio);
                 double x = curPoint.X/ActualWidth*1280;
                 double y = curPoint.Y / ActualHeight * 960;
 
@@ -906,6 +991,10 @@ namespace Global.UserControls.DrawVisual
                 ratio1.Ratio = ratio1.Ratio / 1.2;
                 inkCanvas.Strokes.Transform(matrix, false);
                 RepaintDim();
+                double ratio = ratio1.Ratio;
+                string position = DrawInkMethod.defdimenViewModel.DimPos;
+                double length = DrawInkMethod.defdimenViewModel.Length;
+                drawDefaultDim(position, length, Colors.AliceBlue, ratio);
                 double x = curPoint.X / ActualWidth * 1280;
                 double y = curPoint.Y / ActualHeight * 960;
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -937,6 +1026,7 @@ namespace Global.UserControls.DrawVisual
 
 
         }
+        // delete in the future
         private void RepaintDim()
         {
             if (inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
@@ -968,7 +1058,7 @@ namespace Global.UserControls.DrawVisual
         {
            
             Point beforePoint = new Point(width, height);
-            Point point = new Point(R.ActualWidth, ActualHeight);
+            Point point = new Point(R.ActualWidth, R.ActualHeight);
             double wRatio = R.ActualWidth / width;
             double hRatio = R.ActualHeight / height;
             Matrix matrix = new Matrix();
@@ -976,10 +1066,10 @@ namespace Global.UserControls.DrawVisual
             inkCanvas.Strokes.Transform(matrix, false);
             Matrix matrixMove1 = new Matrix();
            
-            matrixMove1.Translate((R.ActualWidth - width) / 2, (ActualHeight - height) / 2 );
+            matrixMove1.Translate((R.ActualWidth - width) / 2, (R.ActualHeight - height) / 2 );
             inkCanvas.Strokes.Transform(matrixMove1, false);
             width = R.ActualWidth;
-            height = ActualHeight;
+            height = R.ActualHeight;
          
 
         }
@@ -992,6 +1082,13 @@ namespace Global.UserControls.DrawVisual
             {
                 ratio1.actualwidth = ActualWidth;
                 MatrixTransform();
+                double ratio = ratio1.Ratio;
+                string position = DrawInkMethod.defdimenViewModel.DimPos;
+                double length = DrawInkMethod.defdimenViewModel.Length;
+                drawDefaultDim(position, length, Colors.AliceBlue, ratio);
+
+
+
             }
           
 
@@ -1015,6 +1112,11 @@ namespace Global.UserControls.DrawVisual
                
 
             }
+        }
+
+        private void inkCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show(index.ToString());
         }
     }
 }

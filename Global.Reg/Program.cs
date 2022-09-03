@@ -53,7 +53,6 @@ namespace Global.Reg
             //}
             //Process.Start("explorer.exe");//再启动进程
         }
-        }
 
         public static bool SetIcon(string Extension, string ExtensionName, string icon, string command)
         {

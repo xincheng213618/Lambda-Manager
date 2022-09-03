@@ -91,7 +91,6 @@ namespace ConfigObjective
             SliderAbbreviation1(Slider342, "RELIEF_CONTRAST_GAIN", "gain");
             //明场权重
             SliderAbbreviation1(Slider343, "RELIEF_CONTRAST_BF_WEIGHT", "weight");
-
             //测试附加
             //外径
             SliderAbbreviation(Slider344, "RELIEF_CONTRAST_OUTER", "outer");
@@ -295,11 +294,13 @@ namespace ConfigObjective
 
         private void ToggleButton5221_Checked(object sender, RoutedEventArgs e)
         {
+            ZAbsolute.Text = "Z-相对坐标";
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 1 }, { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
         }
 
         private void ToggleButton5221_Unchecked(object sender, RoutedEventArgs e)
         {
+            ZAbsolute.Text = "Z-绝对坐标";
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 } , { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
         }
 
@@ -315,7 +316,6 @@ namespace ConfigObjective
             bottomPlace.Click += delegate { Map.DrawSeriesPoint(Map.SeriesPoints); };
            
         }
-
 
     }
 

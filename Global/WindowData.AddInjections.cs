@@ -26,7 +26,7 @@ namespace Global
        
         private void AddInjection1()
         {
-            Window mainwin = Application.Current.MainWindow;
+            Window mainwin = System.Windows.Application.Current.MainWindow;
 
             //MainView
             try
@@ -124,53 +124,53 @@ namespace Global
                     };
                     if (e.PropertyName == "DimensionChecked")
                     {
-                        if ((bool)ImageViewState.toolTop.DimensionChecked )
-                        {
+                        //if ((bool)ImageViewState.toolTop.DimensionChecked )
+                        //{
 
-                            if (!inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                            {
-                                double w = inkVisual.ActualWidth;
-                                double h = inkVisual.ActualHeight;
-                                Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
-                                inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                                try
-                                {
-                                    inkVisual.inkCanvas.Strokes.Remove(inkVisual.lastTempStroke);
-                                }
-                                catch { }
-                                //inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                //inkVisual.lastTempStroke = null;
-                                inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
+                        //    if (!inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
+                        //    {
+                        //        double w = inkVisual.ActualWidth;
+                        //        double h = inkVisual.ActualHeight;
+                        //        Point iniP = new Point(w * 19 / 20, h * 19 / 20);
+                        //        Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
+                        //        inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
+                        //        try
+                        //        {
+                        //            inkVisual.inkCanvas.Strokes.Remove(inkVisual.lastTempStroke);
+                        //        }
+                        //        catch { }
+                        //        //inkVisual.lastTempStroke = inkMethod.Dimstroke;
+                        //        inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
+                        //        //inkVisual.lastTempStroke = null;
+                        //        inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
+                        //        inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
 
-                            }
-                            else
-                            {
-                                inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-                                double w = inkVisual.ActualWidth;
-                                double h = inkVisual.ActualHeight;
-                                Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
-                                inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
+                        //    }
+                        //    else
+                        //    {
+                        //        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
+                        //        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
+                        //        double w = inkVisual.ActualWidth;
+                        //        double h = inkVisual.ActualHeight;
+                        //        Point iniP = new Point(w * 19 / 20, h * 19 / 20);
+                        //        Point endP = new Point(w * 19 / 20 - w * 100* inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
+                        //        inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
                                
-                                inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                inkVisual.lastTempStroke = null;
-                                //inkVisual.lastTempStroke = null;
-                                inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-                            }
+                        //        inkVisual.lastTempStroke = inkMethod.Dimstroke;
+                        //        inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
+                        //        inkVisual.lastTempStroke = null;
+                        //        //inkVisual.lastTempStroke = null;
+                        //        inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
+                        //        inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
+                        //    }
 
 
                             
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
 
-                        }
+                        //}
 
                     };
                     if (e.PropertyName == "SelectChecked")
@@ -367,6 +367,7 @@ namespace Global
                
                 bottomPlace.Click += delegate
                 {
+                    
                     bool isMapWindowshow = false;
                     foreach (Window w in Application.Current.Windows)
                     {
@@ -381,10 +382,20 @@ namespace Global
                     {
                         MapWindow mapWindow = new MapWindow();
                         Point point= bottomPlace.PointToScreen(new Point(0, 0));
+                        //Point point = bottomPlace.TransformToAncestor(mainwin).Transform(new Point(0, 0));
                         mapWindow.Show();
                         mapWindow.Topmost = true;
-                        mapWindow.Left = point.X+ bottomPlace.ActualWidth- mapWindow.ActualWidth;
-                        mapWindow.Top = point.Y- mapWindow.ActualHeight;
+                        // monitor system Screen  ratio
+                        var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+                        var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+                        var dpiX = (int)dpiXProperty.GetValue(null, null);
+                        var dpiY = (int)dpiYProperty.GetValue(null, null);
+                        double dpixRatio = (double)dpiX / 96;
+                        double dpiyRatio = (double)dpiX / 96;
+                        double x = point.X/ dpixRatio + bottomPlace.ActualWidth - mapWindow.ActualWidth;
+                        double y = point.Y/ dpiyRatio - mapWindow.ActualHeight - 3;
+                        mapWindow.Left = x;
+                        mapWindow.Top = y;
                         mapWindow.DrawPointRec(mapWindow.SeriesPoints);
 
                         mainwin.Closing += delegate
@@ -392,9 +403,9 @@ namespace Global
                             mapWindow.Close();
                         };
 
-
+                       
                     }
-
+                   
 
                 };
 

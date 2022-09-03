@@ -39,14 +39,13 @@ namespace Global
 
         private void AddInjection()
         {
-
             try
             {
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
 
-
+              
                 // Add Histogram
                 Histogram histogram = new Histogram();
                 StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
@@ -139,17 +138,34 @@ namespace Global
                         }
 
                     };
-                    
+                   
                     if (ImageViewState.toolTop.RulerChecked == true|| ImageViewState.toolTop.ArrowChecked == true|| ImageViewState.toolTop.CircleChecked==true|| ImageViewState.toolTop.CurveChecked== true|| ImageViewState.toolTop.DimensionChecked==true|| ImageViewState.toolTop.LineChecked==true|| ImageViewState.toolTop.PolygonChecked==true|| ImageViewState.toolTop.RectangleChecked==true|| ImageViewState.toolTop.TextChecked==true)
                     {
                         propertySetItem.Visibility = Visibility.Visible;
                         propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
                         tabControl.SelectedIndex = 5;
+                        if (ImageViewState.toolTop.DimensionChecked == true)
+                        {
+                            propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
+                            DrawInkMethod.defdimenViewModel.DimPosShow = true;
+                        }
+                        else if(ImageViewState.toolTop.DimensionChecked == false)
+                        {
+                            DrawInkMethod.defdimenViewModel.DimPosShow = false;
+                        };
+                        if (ImageViewState.toolTop.LineChecked == true)
+                        {
+                            DrawInkMethod.defdimenViewModel.LabelPosShow = true;
+                        }
+                        else if (ImageViewState.toolTop.LineChecked == false)
+                        {
+                            DrawInkMethod.defdimenViewModel.LabelPosShow = false;
+                        }
                     }
                     else
                     {
                         propertySetItem.Visibility = Visibility.Collapsed;
-                        //tabControl.SelectedIndex = 1;
+                        tabControl.SelectedIndex = 1;
 
                     };
 
@@ -520,6 +536,16 @@ namespace Global
 
                 Slider Slider1 = (Slider)bottomToolbar.Children[6];
 
+                // System.Windows.MessageBox.Show("ssss");
+                //ThemeManager.Rangeslider.RangeSlider progressSlider = new ThemeManager.Rangeslider.RangeSlider();
+                //progressSlider.Width = 100;
+                //progressSlider.Orientation = Orientation.Horizontal;
+                //progressSlider.Maximum = 100;
+                //progressSlider.HigherValue = 70;
+                //progressSlider.LowerValue = 30;
+                //progressSlider.SlidThumbVis = Visibility.Hidden;
+                //bottomToolbar.Children.Add(progressSlider);
+
                 Binding myBindingFrameIndex = new Binding("FrameIndex");
                 myBindingFrameIndex.Source = updateStatus;
                 myBindingFrameIndex.Mode = BindingMode.TwoWay;
@@ -527,6 +553,8 @@ namespace Global
                 Binding myBindingTotalFrame = new Binding("TotalFrame");
                 myBindingTotalFrame.Source = updateStatus;
                 myBindingTotalFrame.Mode = BindingMode.TwoWay;
+
+                //Slider1.Visibility = Visibility.Collapsed;
                 Slider1.Minimum = 1;
                 Slider1.SetBinding(Slider.ValueProperty, myBindingFrameIndex);
                 Slider1.SetBinding(Slider.MaximumProperty, myBindingTotalFrame);
@@ -534,6 +562,7 @@ namespace Global
                 {
                     LambdaControl.Trigger("TSERIES_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider1.Value - 1 } });
                 };
+
 
                 TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
 
@@ -665,9 +694,19 @@ namespace Global
 
 
 
-            // add progressBar 
+            // change default frameIndex TotalFrame sliceIndex totalSlice
             try
             {
+                TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
+                frameIndex.Text = "1";
+                TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
+                totalFrame.Text = "1";
+
+                TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
+                sliceIndex.Text = "1";
+                TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
+                totalSlice.Text = "1";
+
 
             }
             catch
@@ -823,7 +862,6 @@ namespace Global
                     stageAcquisition.Children[3].Visibility = Visibility.Visible;
                     stageAcquisition.Children[4].Visibility = Visibility.Visible;
                     stageAcquisition.Children[5].Visibility = Visibility.Visible;
-
                     statusBar.Visibility = Visibility.Visible;
                     stageAcquisition.Visibility = Visibility.Visible;
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;
@@ -876,7 +914,7 @@ namespace Global
                 ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[21]);
                 ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, new Binding("PolygonChecked"));
 
-                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler,ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonFocus, ToggleButtonRuler,ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
 
                 foreach (var item in Tools)
                 {
@@ -944,24 +982,24 @@ namespace Global
 
                 radioButton3.Checked += delegate
                 {
-                    Grid1.Children[0].Visibility = Visibility.Collapsed;
-                    Grid1.Children[1].Visibility = Visibility.Collapsed;
-                    Grid1.Children[2].Visibility = Visibility.Collapsed;
+                Grid1.Children[0].Visibility = Visibility.Collapsed;
+                Grid1.Children[1].Visibility = Visibility.Collapsed;
+                Grid1.Children[2].Visibility = Visibility.Collapsed;
                     Grid1.Children[3].Visibility = Visibility.Collapsed;
                     dealToolBoerder.Visibility = Visibility.Visible;
                     bottomView222.Visibility = Visibility.Visible;
-                };
-                radioButton3.Unchecked += delegate
-                {
+            };
+            radioButton3.Unchecked += delegate
+            {
 
-                    Grid1.Children[0].Visibility = Visibility.Visible;
-                    Grid1.Children[1].Visibility = Visibility.Visible;
-                    Grid1.Children[2].Visibility = Visibility.Visible;
+                Grid1.Children[0].Visibility = Visibility.Visible;
+                Grid1.Children[1].Visibility = Visibility.Visible;
+                Grid1.Children[2].Visibility = Visibility.Visible;
                     Grid1.Children[3].Visibility = Visibility.Visible;
                     dealToolBoerder.Visibility = Visibility.Collapsed;
                     bottomView222.Visibility = Visibility.Collapsed;
-                };
-            }
+            };
+        }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
