@@ -304,6 +304,10 @@
                                     </Canvas>
                             </DockPanel>
                             </Button>
+                            <Button Width="20" Height="40" Canvas.Left="45" Click="Button331_Click"  Background="#595959" Visibility="Visible" BorderThickness="0"  >
+                                <Path Stroke="#6EA646"  StrokeThickness="1" Name="rheinbergPath"  Fill="#6EA646"  Data="M0,2.5C0,2.5 0,0.5 0,0.5 0,0.5 3.5,4 3.5,4 3.5,4 7,0.5 7,0.5 7,0.5 7,2.5 7,2.5 7,2.5 3.5,6 3.5,6 3.5,6 0,2.5 0,2.5z">
+                                </Path>
+                            </Button>
                             <Slider  x:Name="Slider336" Visibility="Collapsed" Style="{StaticResource LM_Slider}" VerticalAlignment="Center" Value="0" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
                         </DockPanel>
 
