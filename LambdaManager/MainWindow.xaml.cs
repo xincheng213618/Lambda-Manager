@@ -85,7 +85,7 @@ namespace LambdaManager
 
         private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
 
-        public ObservableCollection<Message> Messagess = new ObservableCollection<Message>();
+        public ObservableCollection<Message> Messagess { get; set; } = new ObservableCollection<Message>();
 
         public void AddMessage(Message message)
         {
