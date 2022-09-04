@@ -207,7 +207,7 @@
                         <DockPanel>
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Button  x:Name="ColorButton311"  Click="Button_Click" Background="Red"    Margin="5,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="25"/>
-                            <Slider x:Name="Slider312" Style="{StaticResource LM_Slider}" Value="240" Minimum="0" Maximum="240" IsSnapToTickEnabled="True"  TickFrequency="1" ValueChanged="Slider312_ValueChanged" />
+                            <Slider x:Name="Slider312" Style="{StaticResource LM_Slider}" Value="100" Minimum="0" Maximum="100" IsSnapToTickEnabled="True"  TickFrequency="1" ValueChanged="Slider312_ValueChanged" />
                         </DockPanel>
                     </StackPanel>
                 </Border>
@@ -229,7 +229,7 @@
                         <DockPanel>
                             <TextBlock Text="颜色" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Button x:Name="ColorButton321"  Click="Button1_Click" Background="Red"   Margin="5,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="25"/>
-                            <Slider x:Name="Slider324" Style="{StaticResource LM_Slider}" Value="240" Minimum="0" Maximum="240" IsSnapToTickEnabled="True"  TickFrequency="1" ValueChanged="Slider324_ValueChanged" />
+                            <Slider x:Name="Slider324" Style="{StaticResource LM_Slider}" Value="100" Minimum="0" Maximum="100" IsSnapToTickEnabled="True"  TickFrequency="1" ValueChanged="Slider324_ValueChanged" />
                         </DockPanel>
                         <UniformGrid  Columns="2">
 

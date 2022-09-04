@@ -5,7 +5,6 @@ namespace Global
     public delegate void UpdateEventHandler();
 
 
-
     public static class Update
     {
         public static event UpdateEventHandler UpdateEvent;

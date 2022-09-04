@@ -10,7 +10,7 @@ namespace Global.Common
     /// <summary>
     /// Config
     /// </summary>
-    public static class Config
+    public static class Config  
     {
         public static event ConfigReadEventHandler ConfigReadEvent;
         public static event ConfigSetEventHandler ConfigSetEvent;

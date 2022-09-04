@@ -156,7 +156,7 @@ namespace ConfigObjective
             {
                 colorHelp1 = new ColorHelper(colorDialog.Color);
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
-                Slider312.Value = (int)(colorHelp1.Brightness * 240);
+                Slider312.Value = (int)(colorHelp1.Brightness * 100);
 
                 OperatingMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
                 LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
@@ -175,7 +175,7 @@ namespace ConfigObjective
             {
                 colorHelp2 = new ColorHelper(colorDialog.Color);
                 ColorButton321.Background = colorHelp2.SolidColorBrush;
-                Slider324.Value = (int)(colorHelp2.Brightness * 240);
+                Slider324.Value = (int)(colorHelp2.Brightness * 100);
 
                 OperatingMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
                 LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new int[] { colorHelp2.SolidColorBrush.Color.R, colorHelp2.SolidColorBrush.Color.G, colorHelp2.SolidColorBrush.Color.B });
@@ -186,7 +186,7 @@ namespace ConfigObjective
         {
             if (ColorButton311.Background is SolidColorBrush solidColorBrush)
             {
-                colorHelp1.ChangeBrightness(e.NewValue / 240);
+                colorHelp1.ChangeBrightness(e.NewValue / 100);
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
                 OperatingMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
                 
@@ -198,7 +198,7 @@ namespace ConfigObjective
         {
             if (ColorButton321.Background is SolidColorBrush solidColorBrush)
             {
-                colorHelp2.ChangeBrightness(e.NewValue / 240);
+                colorHelp2.ChangeBrightness(e.NewValue / 100);
                 ColorButton321.Background = colorHelp2.SolidColorBrush;
                 OperatingMode.DarkField.Color = new List<int> { colorHelp2.R, colorHelp2.G, colorHelp2.B };
                 LambdaControl.Trigger("DARK_FIELD_BRIGHTNESS", this, new int[] { colorHelp2.SolidColorBrush.Color.R, colorHelp2.SolidColorBrush.Color.G, colorHelp2.SolidColorBrush.Color.B });

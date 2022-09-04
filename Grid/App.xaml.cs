@@ -17,7 +17,7 @@ namespace Grid
     public partial class App : Application
     {
 
-
+        
         [STAThread]
         [DebuggerNonUserCode]
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]

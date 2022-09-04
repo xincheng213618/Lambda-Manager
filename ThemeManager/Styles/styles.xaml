@@ -19,7 +19,7 @@
 
     <Color x:Key="ForegroundColor">#EFEFEF</Color>
 
-    <Color x:Key="HighlightColor">#BDBDBD</Color>
+    <Color x:Key="HighlightColor">#3D3D3D</Color>
     <Color x:Key="HotColor">#525252</Color>
 
     <!--#endregion-->
@@ -2400,8 +2400,8 @@
                             <Path x:Name="arrow"
 								Grid.ColumnSpan="2" 
 								HorizontalAlignment="Left" 
-								Fill="{StaticResource TreeViewBackground}" 
-								Stroke="{StaticResource TreeViewBackground}" 
+								Fill="{StaticResource Expander.MouseOver.Arrow.Stroke}" 
+								Stroke="{StaticResource Expander.MouseOver.Arrow.Stroke}" 
 								StrokeThickness="1" 
 								VerticalAlignment="Top" 
 								Data="{StaticResource ExpanderToggleButtonArrow}" 
@@ -2437,20 +2437,21 @@
                                 </Setter.Value>
                             </Setter>
                             <Setter Property="Fill" TargetName="arrow" Value="Transparent"/>
+                            
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsChecked" Value="true"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Fill" TargetName="arrow" Value="Transparent"/>
+                            <Setter Property="Fill" TargetName="arrow" Value="{StaticResource Expander.MouseOver.Arrow.Stroke}"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsChecked" Value="false"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Fill" TargetName="arrow" Value="{StaticResource TreeViewBackground}"/>
+                            <Setter Property="Fill" TargetName="arrow" Value="Transparent"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false"/>
                     </ControlTemplate.Triggers>
