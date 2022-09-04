@@ -1116,7 +1116,7 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show(index.ToString());
+            //MessageBox.Show(index.ToString());
         }
     }
 }

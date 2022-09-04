@@ -10,7 +10,7 @@
     <!--#endregion-->
 
     <!--#region Colors-->
-    <Color x:Key="WindowBackgroundColor">#444444</Color>
+    <!--<Color x:Key="WindowBackgroundColor">#444444</Color>
     <Color x:Key="DarkBackgroundColor">#333333</Color>
     <Color x:Key="LightBackgroundColor">#595959</Color>
     <Color x:Key="BackgroundColor">#3D3D3D</Color>
@@ -20,7 +20,7 @@
     <Color x:Key="ForegroundColor">#EFEFEF</Color>
 
     <Color x:Key="HighlightColor">#3D3D3D</Color>
-    <Color x:Key="HotColor">#525252</Color>
+    <Color x:Key="HotColor">#525252</Color>-->
 
     <!--#endregion-->
 

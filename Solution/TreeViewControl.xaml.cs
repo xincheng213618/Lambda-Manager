@@ -409,18 +409,6 @@ namespace Solution
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            ///没啥用的地方，直接替换主控的样式，后续的代码逻辑待定
-            if (!File.Exists("LambdaCore.dll"))
-            {
-                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/styles.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary);
-                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Dark/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary1);
-                ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Base/Menu.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary2);
-            }
-
-
             if (recentFileList.RecentFiles.Count > 0)
             {
                 string FullName = recentFileList.RecentFiles[0];
@@ -453,12 +441,12 @@ namespace Solution
         {
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
 
-            Process p = new Process();
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            p.StartInfo.FileName = "Global.Reg.exe";
-            p.StartInfo.UseShellExecute = true;
-            p.StartInfo.Verb = "runas";
-            p.Start();
+            //Process p = new Process();
+            //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            //p.StartInfo.FileName = "Global.Reg.exe";
+            //p.StartInfo.UseShellExecute = true;
+            //p.StartInfo.Verb = "runas";
+            //p.Start();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

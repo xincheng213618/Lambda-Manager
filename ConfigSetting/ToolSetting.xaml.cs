@@ -45,9 +45,42 @@ namespace ConfigSetting
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            ResourceDictionary dictionary0 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Dark.xaml", UriKind.Relative)) as ResourceDictionary;
+            Application.Current.Resources.MergedDictionaries.Add(dictionary0);
+            ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/styles.xaml", UriKind.Relative)) as ResourceDictionary;
+            Application.Current.Resources.MergedDictionaries.Add(dictionary);
+            ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Dark/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
+            Application.Current.Resources.MergedDictionaries.Add(dictionary1);
+            ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Base/Menu.xaml", UriKind.Relative)) as ResourceDictionary;
+            Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+        }
+        bool IS = false;
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            IS = !IS;
+            if (IS)
+            {
+                ResourceDictionary dictionary0 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/White.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary0);
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/styles.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/White/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary1);
+                ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Base/Menu.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+            }
+            else
+            {
+                ResourceDictionary dictionary0 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Dark.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary0);
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/styles.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Dark/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary1);
+                ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Base/Menu.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+            }
 
         }
-
-
     }
 }

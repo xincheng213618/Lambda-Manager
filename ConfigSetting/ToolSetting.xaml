@@ -17,6 +17,8 @@
                 <Button Content="软件升级"/>
                 <Button Content="配置"/>
                 <Button Content="自动校准"/>
+                <Button Content="主题" Click="Button_Click"/>
+
             </UniformGrid>
 
         </StackPanel>
