@@ -168,6 +168,7 @@ namespace LambdaManager
                 Side.BOTTOM => bottomView,
                 Side.ACQUIRE => acquireView,
                 Side.PROJECT => projectView,
+                Side.CONFIG => configView,
                 Side.REPORT => reportView,
                 Side.ANALYSIS => analysisView,
                 Side.PROCESS => proessView,
@@ -184,28 +185,43 @@ namespace LambdaManager
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            LambdaControl.Trigger("PHASE_CHECKED", sender, e);
+            if (sender is RadioButton radioButton)
+            {
+                LambdaControl.Trigger("PHASE_CHECKED", sender, e);
+
+                if (leftTab!=null&& leftTab.SelectedIndex != 0)
+                {
+                    switch (radioButton.Name)
+                    {
+                        case "RadioButton1":
+                            leftTab.SelectedIndex = 1;
+                            break;
+                        case "RadioButton2":
+                            leftTab.SelectedIndex = 2;
+                            break;
+                        case "RadioButton3":
+                            leftTab.SelectedIndex = 3;
+                            break;
+                        case "RadioButton4":
+                            leftTab.SelectedIndex = 4;
+                            break;
+                        case "RadioButton5":
+                            leftTab.SelectedIndex = 5;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+
+
+            }
+
+
+
+
         }
 
-        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-        }
-
-        private void RadioButton_Checked_2(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-        }
-
-        private void RadioButton_Checked_3(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-        }
-
-        private void RadioButton_Checked_4(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Trigger("PHASE_CHECKED", sender, e);
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

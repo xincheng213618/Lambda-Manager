@@ -141,37 +141,36 @@ namespace Global
                    
                     if (ImageViewState.toolTop.RulerChecked == true|| ImageViewState.toolTop.ArrowChecked == true|| ImageViewState.toolTop.CircleChecked==true|| ImageViewState.toolTop.CurveChecked== true|| ImageViewState.toolTop.DimensionChecked==true|| ImageViewState.toolTop.LineChecked==true|| ImageViewState.toolTop.PolygonChecked==true|| ImageViewState.toolTop.RectangleChecked==true|| ImageViewState.toolTop.TextChecked==true)
                     {
-                        propertySetItem.Visibility = Visibility.Visible;
-                        propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
-                        tabControl.SelectedIndex = 5;
-                        if (ImageViewState.toolTop.DimensionChecked == true)
-                        {
-                            propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
-                            DrawInkMethod.defdimenViewModel.DimPosShow = true;
-                        }
-                        else if(ImageViewState.toolTop.DimensionChecked == false)
-                        {
-                            DrawInkMethod.defdimenViewModel.DimPosShow = false;
-                        };
-                        if (ImageViewState.toolTop.LineChecked == true)
-                        {
-                            DrawInkMethod.defdimenViewModel.LabelPosShow = true;
-                        }
-                        else if (ImageViewState.toolTop.LineChecked == false)
-                        {
-                            DrawInkMethod.defdimenViewModel.LabelPosShow = false;
-                        }
-                    }
-                    else
-                    {
-                        propertySetItem.Visibility = Visibility.Collapsed;
-                        tabControl.SelectedIndex = 1;
-
+                        //    propertySetItem.Visibility = Visibility.Visible;
+                        //    propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                        //    tabControl.SelectedIndex = 5;
+                        //    if (ImageViewState.toolTop.DimensionChecked == true)
+                        //    {
+                        //        propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
+                        //        DrawInkMethod.defdimenViewModel.DimPosShow = true;
+                        //    }
+                        //    else if(ImageViewState.toolTop.DimensionChecked == false)
+                        //    {
+                        //        DrawInkMethod.defdimenViewModel.DimPosShow = false;
+                        //    };
+                        //    if (ImageViewState.toolTop.LineChecked == true)
+                        //    {
+                        //        DrawInkMethod.defdimenViewModel.LabelPosShow = true;
+                        //    }
+                        //    else if (ImageViewState.toolTop.LineChecked == false)
+                        //    {
+                        //        DrawInkMethod.defdimenViewModel.LabelPosShow = false;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    propertySetItem.Visibility = Visibility.Collapsed;
+                        //    tabControl.SelectedIndex = 1;
                     };
 
                 };
-              
-                }
+
+            }
             catch (Exception ex)
             {
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });

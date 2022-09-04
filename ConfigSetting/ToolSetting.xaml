@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="ConfigSetting.ToolSetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConfigSetting"
+        mc:Ignorable="d"
+        Initialized="UserControl_Initialized" Height="400" Width="400"  Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Left" Background="#404040">
+        <StackPanel>
+            <UniformGrid Columns="5">
+                <Button Content="硬件"/>
+                <Button Content="硬件更新"/>
+                <Button Content="软件升级"/>
+                <Button Content="配置"/>
+                <Button Content="自动校准"/>
+            </UniformGrid>
+
+        </StackPanel>
+        <Button Content="配置向导"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+    </Grid>
+</UserControl>

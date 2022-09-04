@@ -56,10 +56,10 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Checked="RadioButton_Checked" />
-                <RadioButton x:Name="RadioButton2" IsChecked="True" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked_1" />
-                <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked_2" />
-                <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked_3" />
-                <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
+                <RadioButton x:Name="RadioButton2" IsChecked="True" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked" />
+                <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked" />
+                <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked" />
+                <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked" />
             </StackPanel>
 
         </Grid>
@@ -86,8 +86,16 @@
                             </Viewbox>
                         </ScrollViewer>
                     </TabItem>
+                    <TabItem Header="配置" Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
+                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                <StackPanel Name="configView" Margin="0,5,0,5">
+                                </StackPanel>
+                            </Viewbox>
+                        </ScrollViewer>
+                    </TabItem>
                     <TabItem Header="采集配置" Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
                             <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                 <StackPanel Name="acquireView">
                                 </StackPanel>
@@ -95,7 +103,7 @@
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="图像处理" Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
                             <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                 <StackPanel Name="proessView" Margin="0,5,0,5">
                                 </StackPanel>
@@ -103,7 +111,7 @@
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="图像分析" Visibility="{Binding ElementName=RadioButton4,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton4,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
                             <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                 <StackPanel Name="analysisView" Margin="0,5,0,5">
                                 </StackPanel>
@@ -111,7 +119,7 @@
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="报告生成" Visibility="{Binding ElementName=RadioButton5,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton5,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
                             <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
                                 <StackPanel Name="reportView" Margin="0,5,0,5">
                                 </StackPanel>

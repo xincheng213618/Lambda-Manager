@@ -21,7 +21,7 @@ namespace Global
 
         public static WindowData GetInstance()
         {
-            lock (locker) { if (instance == null) { instance = new WindowData(); } }
+            lock (locker) { instance ??= new WindowData(); }
             return instance;
         }
 

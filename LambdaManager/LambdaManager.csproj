@@ -132,6 +132,7 @@
     <ProjectReference Include="..\AboutMsg\AboutMsg.csproj" />
     <ProjectReference Include="..\ACE\ACE.csproj" />
     <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\ConfigSetting\ConfigSetting.csproj" />
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Global.Reg\Global.Reg.csproj" />
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
