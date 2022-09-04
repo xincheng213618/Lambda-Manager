@@ -25,6 +25,8 @@
             <Setter Property="BorderBrush" Value="#BDBDBD"/>
             <Setter Property="Border.CornerRadius" Value="5" />
         </Style>
+
+        <Style x:Key="ToolButton2" TargetType="{x:Type ToggleButton}"/>
     </Window.Resources>
 
     <Grid>
@@ -54,7 +56,7 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" Checked="RadioButton_Checked" />
-                <RadioButton x:Name="RadioButton2" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked_1" />
+                <RadioButton x:Name="RadioButton2" IsChecked="True" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked_1" />
                 <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked_2" />
                 <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked_3" />
                 <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked_4" />
@@ -68,16 +70,15 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="leftView"  Width="auto"/>
+                <ColumnDefinition Name="leftView"  Width="Auto"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Name="middleView" Width="auto" />
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
             <Border x:Name="BorderAcquire" Style="{StaticResource RadiusBorder}" CornerRadius="5,5,0,0">
                 <TabControl  x:Name="leftTab">
-                    <TabItem Header="工程" >
+                    <TabItem Header="工程" IsSelected="True" >
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                             <Viewbox VerticalAlignment="Top" Stretch="Uniform" >
                                 <StackPanel Name="projectView" Margin="10,10,10,20"  >
@@ -174,7 +175,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" >
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>

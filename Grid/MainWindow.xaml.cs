@@ -34,6 +34,14 @@ namespace Grid
         }
 
 
+        public MainWindow(string SolutionName)
+        {
+            InitializeComponent();
+            TextBox2.Text = SolutionName;
+            recentFileList.InsertFile(SolutionName);
+        }
+
+
         RecentFileList recentFileList = new RecentFileList();
 
         readonly string StatusBarRegPath = "Software\\Grid";
@@ -82,12 +90,14 @@ namespace Grid
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            if (File.Exists("LambdaCore.dll"))
+            if (File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
             {
                 try
                 {
                     Process process = new Process();
                     process.StartInfo.FileName = @"LambdaManager.exe";
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.WorkingDirectory = System.Windows.Forms.Application.StartupPath;
                     process.Start();
                 }
                 catch (Exception ex)

@@ -93,6 +93,7 @@ namespace XSolution
         /// </summary>
         public RelayCommand VisibilityUnHidden { get; set; }
 
+        public RelayCommand DeleteCommand { get; set; }
 
 
         public BaseObject(string FullName)
@@ -100,10 +101,27 @@ namespace XSolution
             this.FullName = FullName;
 
             AddChildren = new RelayCommand(AddChild, (object value) => { return true; });
-            VisibilityHidden = new RelayCommand(VisibilityChanged, (object value) => { return true; });
-            VisibilityUnHidden = new RelayCommand(VisibilityUnChanged, (object value) => { return true; });
+            VisibilityHidden = new RelayCommand(delegate
+            {
+                this.Visibility = Visibility.Hidden;
 
+            }, (object value) => { return true; });
+            VisibilityUnHidden = new RelayCommand(delegate
+            {
+                foreach (var item in VisualChildrenHidden)
+                {
+                    VisualChildren.SortedAdd(item);
+                }
+                VisualChildrenHidden.Clear();
+            }, (object value) => { return true; });
 
+            DeleteCommand = new RelayCommand(delegate
+            {
+                if (MessageBox1.Show("即将删除文件", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    Parent.RemoveChild(this);
+                };
+            }, (object value) => { return CanDelete; });
             VisualChildren = new ObservableCollection<BaseObject>() { };
             VisualChildrenHidden = new ObservableCollection<BaseObject>() { };
         }
@@ -116,19 +134,6 @@ namespace XSolution
 
         }
 
-        public virtual void VisibilityChanged(object obj)
-        {
-            this.Visibility = Visibility.Hidden;
-        }
-
-        public virtual void VisibilityUnChanged(object obj)
-        {
-            foreach (var item in VisualChildrenHidden)
-            {
-                VisualChildren.SortedAdd(item);
-            }
-            VisualChildrenHidden.Clear(); 
-        }
 
         private BaseObject parent = null;
         public BaseObject Parent

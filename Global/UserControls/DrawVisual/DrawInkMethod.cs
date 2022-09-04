@@ -44,7 +44,7 @@ namespace Global
             IgnorePressure = true,
         };
 
-       
+        public static DimenViewModel defdimenViewModel = new DimenViewModel();
         public static DimenViewModel dimenViewModel = new DimenViewModel();
         public Stroke Dimstroke;
         public Stroke Textstroke;
@@ -484,22 +484,6 @@ namespace Global
             };
             return stroke;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         public Stroke GenerateSquareStroke(System.Windows.Point st, System.Windows.Point ed)

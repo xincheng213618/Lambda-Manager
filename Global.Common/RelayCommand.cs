@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace Global.Common
@@ -23,18 +24,21 @@ namespace Global.Common
         {
             if (canExecute != null)
             {
-                //CanExecuteChanged?.Invoke(this, new EventArgs());
                 return canExecute(parameter);
             }
             return true;
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public void Execute(object parameter)
         {
             execute(parameter);
-            //CanExecuteChanged?.Invoke(this, new EventArgs());
+
         }
     }
 }

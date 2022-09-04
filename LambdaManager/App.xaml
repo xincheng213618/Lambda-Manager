@@ -7,7 +7,7 @@
         <ResourceDictionary >
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>-->
-                <ResourceDictionary Source="Themes/Styles.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />
                 <ResourceDictionary Source="Themes/SliderStyle.xaml" />
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml" />
                 <ResourceDictionary Source="/ThemeManager;component/themes/Dark/Theme.xaml" />

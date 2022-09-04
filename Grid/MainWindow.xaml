@@ -171,7 +171,7 @@
                         <TextBox Margin="0,0,0,5" Text="Copyright © 2022, SCIRI, Co,. Ltd. All Rights Reserved. Copyright Notice SCIRI copyrights this specification A No part of this specification may be reproduced in any form or means, without the prior written consent of SCIRI. " BorderThickness="0" FontSize="8" Foreground="White"  TextWrapping="WrapWithOverflow"  Background="Transparent" />
                         <TextBox  Text="Disclaimer This specification is preliminary and is subject to change at any time without notice. SCILab assumes no responsibility for any errors contained herein.&#xD;&#xA;" BorderThickness="0" FontSize="8" Foreground="White"  Background="Transparent"/>
                         <Line Stroke="White" StrokeThickness="1"  X1="0"  Y1="0" X2="500" Y2="0" Margin="3,2,3,3"/>
-                        <TextBox Text="版权声明：本仪器软件为 NJUST SCIRI 「邓晖」的原创作品，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。" BorderThickness="0" FontSize="9" Foreground="White"  Background="Transparent"/>
+                        <TextBox Text="版权声明：© 2022, SCIRI, Co,. Ltd. 保留所有权利" BorderThickness="0" FontSize="9" Foreground="White"  Background="Transparent"/>
                     </StackPanel>
                     <StackPanel  VerticalAlignment="Center">
                         <DockPanel Margin="0,10">

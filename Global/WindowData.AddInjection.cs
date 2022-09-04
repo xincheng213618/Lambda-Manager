@@ -1,17 +1,13 @@
 ﻿using ConfigBottomView;
+using Global.Common;
 using Global.Controls;
 using Global.Mode.Config;
 using Global.UserControls;
 using Global.UserControls.DrawVisual;
 using Lambda;
-using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -19,10 +15,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Resources;
-using MessageBox = System.Windows.MessageBox;
-
 namespace Global
 {
 
@@ -73,25 +65,24 @@ namespace Global
                 profile.DataContext = profileModel;
                 profile.doubleUpDown1.ValueChanged += delegate
                  {
-                     if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                     if (inkVisuals[0] !=null &&inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                          inkVisuals[0].DrawProfile();
                  };
                 profile.doubleUpDown2.ValueChanged += delegate
                 {
-                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
                 profile.Marker1Check.Click += delegate
                 {
-                    if (inkVisuals[0].inkCanvas.Strokes.Contains( inkVisuals[0].profileStroke))
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains( inkVisuals[0].profileStroke))
                     inkVisuals[0].DrawProfile();
                 };
                 profile.Marker2Check.Click += delegate
                 {
-                    if (inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
-             
                 stackPanel.Children.Add(profile);
 
                 //grid1.Children.Add(profile);
@@ -153,6 +144,23 @@ namespace Global
                         propertySetItem.Visibility = Visibility.Visible;
                         propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
                         tabControl.SelectedIndex = 5;
+                        if (ImageViewState.toolTop.DimensionChecked == true)
+                        {
+                            propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
+                            DrawInkMethod.defdimenViewModel.DimPosShow = true;
+                        }
+                        else if(ImageViewState.toolTop.DimensionChecked == false)
+                        {
+                            DrawInkMethod.defdimenViewModel.DimPosShow = false;
+                        };
+                        if (ImageViewState.toolTop.LineChecked == true)
+                        {
+                            DrawInkMethod.defdimenViewModel.LabelPosShow = true;
+                        }
+                        else if (ImageViewState.toolTop.LineChecked == false)
+                        {
+                            DrawInkMethod.defdimenViewModel.LabelPosShow = false;
+                        }
                     }
                     else
                     {
@@ -411,11 +419,11 @@ namespace Global
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
                
 
-                ViewMode.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                OperatingMode.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
                     if (e.PropertyName == "SelectViewMode")
                     {
-                        if (ViewMode.SelectViewMode == 0 || ViewMode.SelectViewMode == 1 || ViewMode.SelectViewMode == 3 || ViewMode.SelectViewMode == 4)
+                        if (OperatingMode.SelectViewMode == 0 || OperatingMode.SelectViewMode == 1 || OperatingMode.SelectViewMode == 3 || OperatingMode.SelectViewMode == 4)
                             colorbarTogg.IsEnabled = true;
                         else
                             colorbarTogg.IsEnabled = false;
@@ -528,6 +536,16 @@ namespace Global
 
                 Slider Slider1 = (Slider)bottomToolbar.Children[6];
 
+                // System.Windows.MessageBox.Show("ssss");
+                //ThemeManager.Rangeslider.RangeSlider progressSlider = new ThemeManager.Rangeslider.RangeSlider();
+                //progressSlider.Width = 100;
+                //progressSlider.Orientation = Orientation.Horizontal;
+                //progressSlider.Maximum = 100;
+                //progressSlider.HigherValue = 70;
+                //progressSlider.LowerValue = 30;
+                //progressSlider.SlidThumbVis = Visibility.Hidden;
+                //bottomToolbar.Children.Add(progressSlider);
+
                 Binding myBindingFrameIndex = new Binding("FrameIndex");
                 myBindingFrameIndex.Source = updateStatus;
                 myBindingFrameIndex.Mode = BindingMode.TwoWay;
@@ -535,6 +553,8 @@ namespace Global
                 Binding myBindingTotalFrame = new Binding("TotalFrame");
                 myBindingTotalFrame.Source = updateStatus;
                 myBindingTotalFrame.Mode = BindingMode.TwoWay;
+
+                //Slider1.Visibility = Visibility.Collapsed;
                 Slider1.Minimum = 1;
                 Slider1.SetBinding(Slider.ValueProperty, myBindingFrameIndex);
                 Slider1.SetBinding(Slider.MaximumProperty, myBindingTotalFrame);
@@ -674,9 +694,19 @@ namespace Global
 
 
 
-            // add progressBar 
+            // change default frameIndex TotalFrame sliceIndex totalSlice
             try
             {
+                TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
+                frameIndex.Text = "1";
+                TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
+                totalFrame.Text = "1";
+
+                TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
+                sliceIndex.Text = "1";
+                TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
+                totalSlice.Text = "1";
+
 
             }
             catch
@@ -831,6 +861,7 @@ namespace Global
                     stageAcquisition.Children[2].Visibility = Visibility.Visible;
                     stageAcquisition.Children[3].Visibility = Visibility.Visible;
                     stageAcquisition.Children[4].Visibility = Visibility.Visible;
+                    stageAcquisition.Children[5].Visibility = Visibility.Visible;
                     statusBar.Visibility = Visibility.Visible;
                     stageAcquisition.Visibility = Visibility.Visible;
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;
@@ -883,7 +914,7 @@ namespace Global
                 ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[21]);
                 ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, new Binding("PolygonChecked"));
 
-                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonDimen, ToggleButtonFocus, ToggleButtonRuler,ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonFocus, ToggleButtonRuler,ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
 
                 foreach (var item in Tools)
                 {
@@ -919,31 +950,56 @@ namespace Global
                 StackPanel stackPanel2 = (StackPanel)grid2.Children[1];
                 RadioButton radioButton3 = (RadioButton)stackPanel2.Children[2];
                 //RadioButton radioButton3 = (RadioButton)mainwin.FindName("RadioButton3");
+
                 StackPanel bottomView222 = (StackPanel)mainwin.FindName("bottomView");
+                bottomView222.Visibility = Visibility.Collapsed;
+
+
+
+                Border border = (Border)mainwin.FindName("imagingView");
+                Grid grid = (Grid)border.Child;
+                Grid Grid1 = (Grid)grid.Children[0];
+
+
+                Border dealToolBoerder = new Border() { Style = Application.Current.MainWindow.FindResource("RadiusBorder") as Style };
+                Grid.SetColumn(dealToolBoerder, 1);
+                WrapPanel DealtoolWrapPanel = new WrapPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
+                dealToolBoerder.Child = DealtoolWrapPanel;
+
+                //这里覆盖Width并采用NaN是因为原来的样式指定了大小，这样能实现自动的效果
+                ToggleButton ToggleButton1 = new ToggleButton() { Content="2222222" ,Width=double.NaN};
+                ToggleButton1.Click += delegate { MessageBox1.Show(ToggleButton1.Content.ToString()); };
+                DealtoolWrapPanel.Children.Add(ToggleButton1);
+
+
+
+                Grid1.Children.Add(dealToolBoerder);
+                //初始化不显示
+                dealToolBoerder.Visibility = Visibility.Collapsed;
+
+
+
 
                 radioButton3.Checked += delegate
                 {
-                    Border border = (Border)mainwin.FindName("imagingView");
-                    Grid grid = (Grid)border.Child;
-                    Grid Grid1 = (Grid)grid.Children[0];
-
-                    Grid1.Children[0].Visibility = Visibility.Collapsed;
-                    Grid1.Children[1].Visibility = Visibility.Collapsed;
-                    Grid1.Children[2].Visibility = Visibility.Collapsed;
+                Grid1.Children[0].Visibility = Visibility.Collapsed;
+                Grid1.Children[1].Visibility = Visibility.Collapsed;
+                Grid1.Children[2].Visibility = Visibility.Collapsed;
+                    Grid1.Children[3].Visibility = Visibility.Collapsed;
+                    dealToolBoerder.Visibility = Visibility.Visible;
                     bottomView222.Visibility = Visibility.Visible;
-                };
-                radioButton3.Unchecked += delegate
-                {
-                    Border border = (Border)mainwin.FindName("imagingView");
-                    Grid grid = (Grid)border.Child;
-                    Grid Grid1 = (Grid)grid.Children[0];
+            };
+            radioButton3.Unchecked += delegate
+            {
 
-                    Grid1.Children[0].Visibility = Visibility.Visible;
-                    Grid1.Children[1].Visibility = Visibility.Visible;
-                    Grid1.Children[2].Visibility = Visibility.Visible;
+                Grid1.Children[0].Visibility = Visibility.Visible;
+                Grid1.Children[1].Visibility = Visibility.Visible;
+                Grid1.Children[2].Visibility = Visibility.Visible;
+                    Grid1.Children[3].Visibility = Visibility.Visible;
+                    dealToolBoerder.Visibility = Visibility.Collapsed;
                     bottomView222.Visibility = Visibility.Collapsed;
-                };
-            }
+            };
+        }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);

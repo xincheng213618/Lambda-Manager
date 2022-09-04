@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Global.Common;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -11,8 +12,10 @@ namespace XSolution
 {
     public class ProjectManager : ProjectFolder
     {
+
         public ProjectManager(string ProjectPath):base(ProjectPath)
         {
+
 
         }
 

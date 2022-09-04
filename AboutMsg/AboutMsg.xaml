@@ -34,7 +34,7 @@
                                 <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
                                     <GridViewColumn.CellTemplate  >
                                         <DataTemplate >
-                                            <Border  Height="45" Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
+                                            <Border  Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
                                                 <Grid Margin="0,2,30,2" >
  
                                                     <TextBlock TextTrimming = "CharacterEllipsis">

@@ -122,6 +122,8 @@ namespace Global.UserControls.SeriesMap
             
         }
 
+        private bool ismultiRect = false;
+
         private void listview_SelectionChanged(object sender, SelectionChangedEventArgs e)  // selected change 
         {
             if (sender is ListView listView)
@@ -173,8 +175,12 @@ namespace Global.UserControls.SeriesMap
                     }
                     String JSON = JsonSerializer.Serialize(spotInfor1, new JsonSerializerOptions());
                    // System.Windows.MessageBox.Show(JSON);
-                    LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
-
+                   if (!ismultiRect)
+                    {
+                      //  System.Windows.MessageBox.Show(JSON);
+                        LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
+                    }
+                    
 
                 }
 
@@ -220,23 +226,31 @@ namespace Global.UserControls.SeriesMap
         {
             ismouseDown = false;
             Point pointDest = e.GetPosition(mapCanvas);
+            ismultiRect = true;
             for (int i = 0; i < listview.Items.Count; i++)
             {
                 SeriersPoint seriersPoint = (SeriersPoint)listview.Items[i];
                 if (seriersPoint.PointXY.X >= pointOri.X && seriersPoint.PointXY.Y >= pointOri.Y && seriersPoint.PointXY.X + 8 <= pointDest.X && seriersPoint.PointXY.Y + 6 <= pointDest.Y)
                 {
-                    
+                  
                   listview.SelectedItems.Add(listview.Items[i]);
-                    
                 }
-
             }
 
-
+            SpotInfor spotInfor2 = new SpotInfor();
+            for (int i = 0; i < listview.SelectedItems.Count; i++)
+            {
+                SeriersPoint seriersPoint = (SeriersPoint)listview.SelectedItems[i];
+                spotInfor2.Index.Add(seriersPoint.Index);
+                List<int> selectedpoint = new List<int>() { (int)seriersPoint.PointXY.X, (int)seriersPoint.PointXY.Y };
+                spotInfor2.Coordinate.Add(selectedpoint);
+            }
+            String JSON = JsonSerializer.Serialize(spotInfor2, new JsonSerializerOptions());
+            //System.Windows.MessageBox.Show(JSON);
+            LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
             mapCanvas.ReleaseMouseCapture();
-
-
             MultiRec.Visibility = Visibility.Collapsed;
+            ismultiRect = false;
         }
     }
     public class SeriersPoint

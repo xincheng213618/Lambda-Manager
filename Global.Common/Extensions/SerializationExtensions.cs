@@ -4,6 +4,9 @@ using System.Xml.Serialization;
 
 namespace Global.Common.Extensions
 {
+    /// <summary>
+    /// 序列化的扩展
+    /// </summary>
     public static class SerializationExtensions
     {
         public static T DeserializeXml<T>(this string toDeserialize)

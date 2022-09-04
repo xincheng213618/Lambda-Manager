@@ -4,12 +4,12 @@
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-              xmlns:draw="clr-namespace:Global"
+             xmlns:draw="clr-namespace:Global"
              xmlns:local="clr-namespace:Global.UserControls.DrawVisual"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Name="R" SizeChanged="inkCanvas_SizeChanged"  >
     <UserControl.Resources>
-
+        <draw:ColorToSolidColorBrushConverter x:Key="colorBrush"></draw:ColorToSolidColorBrushConverter>
         <Style x:Key="TextBoxSty"  TargetType="{x:Type TextBox}" >
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
@@ -69,7 +69,28 @@
     
     <Grid>
         <InkCanvas
-            EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave"   ></InkCanvas>
+            EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave" MouseRightButtonDown="inkCanvas_MouseRightButtonDown"   >
+
+            <Canvas Width="auto" x:Name="defaultDim" Height="auto"  InkCanvas.Left="20" InkCanvas.Top="20" Visibility="Hidden">
+                    <TextBlock Name="dimText"  Foreground="white" Canvas.Left="15" Canvas.Top="0">
+                                     <Run Text="{Binding Length,StringFormat='F0'}"/>
+                                     <Run Text="μm"/>
+                    </TextBlock>
+                <Path Stroke="{Binding SelectedAccentColor,Converter={StaticResource colorBrush}}"  StrokeThickness="2" Canvas.Left="0" Canvas.Top="5">
+                        <Path.Data >
+                            <PathGeometry x:Name="pathGeometry" >
+                                <PathFigure x:Name="pathFigure" StartPoint="5,6">
+                                    <LineSegment Point="5,14"/>
+                                    <LineSegment Point="70,13"/>
+                                    <LineSegment Point="70,6"/>
+                                </PathFigure>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+
+                </Canvas>
+          
+        </InkCanvas>
        
     </Grid>
    

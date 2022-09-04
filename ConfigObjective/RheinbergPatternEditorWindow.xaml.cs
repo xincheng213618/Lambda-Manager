@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Global.Mode.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,6 @@ namespace ConfigObjective
         };
         public List<RheinbergPattern> rheinbergPatterns;
 
-        public RheinbergPattern SelectColor;
         public RadioButton SelectRadionButton;
         public int SelectedIndex = 0;
 
@@ -51,35 +51,36 @@ namespace ConfigObjective
             InitializeComponent();
 
             this.SelectedIndex = SelectedIndex;
+
+            SetSelectColor();
             if (SelectedIndex == 0)
             {
-                SelectColor = this.rheinbergPatterns[0];
                 RadioButton1.IsChecked = true;
-            }else if (SelectedIndex == 1)
+                SelectRadionButton = RadioButton1;
+            }
+            else if (SelectedIndex == 1)
             {
-                SelectColor = this.rheinbergPatterns[1];
                 RadioButton2.IsChecked = true;
+                SelectRadionButton = RadioButton2;
+
             }
             else if (SelectedIndex == 2)
             {
-                SelectColor = this.rheinbergPatterns[2];
                 RadioButton3.IsChecked = true;
+                SelectRadionButton = RadioButton3;
+
             }
             else if (SelectedIndex == 3)
             {
-                SelectColor = this.rheinbergPatterns[3];
                 RadioButton4.IsChecked = true;
+                SelectRadionButton = RadioButton4;
             }
-
-            Command_Initialized();
         }
 
         public RheinbergPatternEditorWindow()
         {
             this.rheinbergPatterns = DefaultrheinbergPatterns;
-            SelectColor = rheinbergPatterns[0];
             InitializeComponent();
-            Command_Initialized();
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -105,14 +106,13 @@ namespace ConfigObjective
             {
                 SelectedIndex = OldSelectedIndex;
                 rheinbergPatterns = OldrheinbergPatterns;
-                SelectColor = rheinbergPatterns[SelectedIndex];
             }
             else
             {
                 this.rheinbergPatterns = DefaultrheinbergPatterns;
                 SelectedIndex = 0;
-                SelectColor = rheinbergPatterns[SelectedIndex];
             }
+
             SetSelectColor();
 
             if (SelectedIndex == 0)
@@ -163,43 +163,26 @@ namespace ConfigObjective
 
         private void RadioButton1_Checked(object sender, RoutedEventArgs e)
         {
-            RadioButton radioButton = (RadioButton)sender;
-            SelectRadionButton = radioButton;
-            SelectColor = rheinbergPatterns[0];
             SelectedIndex = 0;
         }
 
         private void RadioButton2_Checked(object sender, RoutedEventArgs e)
         {
-            RadioButton radioButton = (RadioButton)sender;
-            SelectRadionButton = radioButton;
-            SelectColor = rheinbergPatterns[1];
             SelectedIndex = 1;  
         }
 
         private void RadioButton3_Checked(object sender, RoutedEventArgs e)
         {
-            RadioButton radioButton = (RadioButton)sender;
-            SelectRadionButton = radioButton;
-            SelectColor = rheinbergPatterns[2];
             SelectedIndex = 2;
         }
 
         private void RadioButton4_Checked(object sender, RoutedEventArgs e)
         {
-            RadioButton radioButton = (RadioButton)sender;
-            SelectRadionButton = radioButton;
-            SelectColor = rheinbergPatterns[3];
             SelectedIndex = 3;
         }
 
 
     }
 
-    public class RheinbergPattern
-    {
-        public SolidColorBrush Rheinberg0 { get; set; }
-        public SolidColorBrush Rheinberg1 { get; set; }
-        public SolidColorBrush Rheinberg2 { get; set; }
-    }
+
 }

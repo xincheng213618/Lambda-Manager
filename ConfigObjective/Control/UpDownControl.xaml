@@ -65,7 +65,7 @@
 
                 <RepeatButton Style="{DynamicResource RepeatButtonStyle1}" x:Name="btn_ClickDown" Click="btn_ClickDown_Click" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6" Height="13" Margin="-2" />
             </DockPanel>
-            <Border Background="#333333" Margin="2,1" DockPanel.Dock="Right" CornerRadius="3">
+            <Border Background="#333333" Margin="3,0,0,0" DockPanel.Dock="Right" CornerRadius="2">
                 <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5,0"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="{Binding SelectValue,Mode=OneWay}"  />
             </Border>
         </DockPanel>

@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using static Global.Common.Util.JsonHelper;
 
 namespace Global
 {
@@ -52,7 +53,7 @@ namespace Global
 
         public Stage Stage = new() {};
 
-        public ViewMode ViewMode = new();
+        public OperatingMode OperatingMode = new();
         
 
         public Config Config = new();
@@ -66,7 +67,7 @@ namespace Global
                 MulDimensional.Zstep = Config.Dimensional.ZstackWiseSerial.ZStep;
                 MulDimensional.ZEnd = Config.Dimensional.ZstackWiseSerial.ZEnd;
 
-                ViewMode.SetValue(Config.ViewMode);
+                OperatingMode.SetValue(Config.OperatingMode);
                 Stage.SetValue(Config.Stage);
                 ImageViewState.SetValue(Config.ImageViewState);
                 Update.UpdateGlobal();
@@ -85,7 +86,7 @@ namespace Global
             Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
             Config.Dimensional.ZstackWiseSerial.ZStep = MulDimensional.Zstep;
             Config.Dimensional.ZstackWiseSerial.ZEnd = MulDimensional.ZEnd;
-            Config.ViewMode.SetValue(ViewMode);
+            Config.OperatingMode.SetValue(OperatingMode);
             Config.Stage.SetValue(Stage);
             Config.ImageViewState.SetValue(ImageViewState);
 
@@ -114,7 +115,9 @@ namespace Global
  
             try
             {
-                Config = JsonSerializer.Deserialize<Config>(result);
+                JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+                jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
+                Config = JsonSerializer.Deserialize<Config>(result, jsonSerializerOptions);
             }
             catch (Exception ex)
             {

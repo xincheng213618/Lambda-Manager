@@ -1,6 +1,11 @@
 ﻿using XSolution;
 using System.Windows;
 using ThemeManager.Controls;
+using System.IO;
+using System.Text.Json;
+using System.Text;
+using Global.Common;
+using Global.Common.Extensions;
 
 namespace Solution
 {
@@ -10,18 +15,30 @@ namespace Solution
     public partial class ExportAsWindow : BaseWindow
     {
         public BaseObject BaseObject;
+
+        public ProjectExportAs ProjectExportAs;
         public ExportAsWindow(BaseObject BaseObject)
         {
-            this.BaseObject = BaseObject;   
+            this.BaseObject = BaseObject;
+            ProjectExportAs = new ProjectExportAs() { Kind = 0, FullPath = BaseObject.FullName, PhotoTime = false };
             InitializeComponent();
         }
 
+        private static string ToStrings(string value)
+        {
+            using MemoryStream memoryStream = new();
+            using (Utf8JsonWriter writer = new((Stream)memoryStream, default))
+            {
+                writer.WriteStringValue(value);
+            }
+            return Encoding.UTF8.GetString(memoryStream.ToArray())[1..^1];
+        }
+
+
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if (Tool.Utils.OpenFileDialog(out string FilePath))
-            {
-                Lambda.LambdaControl.Trigger("ProjectExportAs", this, BaseObject.FullName);
-            };
+            Lambda.LambdaControl.Trigger("ProjectExportAs", this, ProjectExportAs.ToJson());
+
             this.Close();
         }
 
@@ -29,5 +46,23 @@ namespace Solution
         {
             this.Close();
         }
+    }
+
+
+    public class ProjectExportAs:ViewModelBase
+    {
+        public int Kind { get; set; } = 0;
+
+        public string FullPath { get; set; } = string.Empty;
+
+        //拍照时间
+        public bool PhotoTime { get; set; }
+        //相对开始采集时间间隔
+
+
+
+
+
+
     }
 }

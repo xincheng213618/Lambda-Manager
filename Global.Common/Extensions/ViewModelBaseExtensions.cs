@@ -3,6 +3,9 @@ using System;
 
 namespace Global.Common.Extensions
 {
+    /// <summary>
+    /// 对ViewMode的扩展，可以不这么写
+    /// </summary>
     public static class ViewModeBaseExtensions
     {
         /// <summary>

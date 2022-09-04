@@ -8,7 +8,7 @@ namespace Global
 		#region fields
 
 		private Color _SelectedAccentColor;
-		private double _length = 20;
+		private double _length = 100;
 		private double _angle = 0;
 		private bool _label = false;
 
@@ -20,6 +20,9 @@ namespace Global
 		private FontFamily _fontFamily = new FontFamily("Arial");
 		private int _fontSize = 16;
 		private string _labelPos = " 上中";
+		private string _dimPos = "下右";
+		private bool _dimPosShow=false;
+		private bool _labPosShow = false;
 
 		#endregion fields
 		public DimenViewModel()
@@ -50,7 +53,7 @@ namespace Global
 
 		public List<int> FontSizeList { get; set; }
 		public List<string> LabelPosList { get; set; }
-
+		public List<string> DimPosList { get; set; } = new List<string>() { "上左", "上右", "下左",  "下右" };
 
 		public int FontSize
 		{
@@ -64,7 +67,33 @@ namespace Global
 				}
 			}
 		}
-		public string LabelPos
+		public bool DimPosShow
+        {
+			get { return _dimPosShow; }
+			set
+			{
+				if (_dimPosShow != value)
+				{
+					_dimPosShow = value;
+					RaisePropertyChanged(nameof(DimPosShow));
+				}
+			}
+		}
+
+		 public bool LabelPosShow
+		{
+			get { return _labPosShow; }
+			set
+			{
+				if (_labPosShow != value)
+				{
+					_labPosShow = value;
+					RaisePropertyChanged(nameof(LabelPosShow));
+				}
+			}
+		}
+
+        public string LabelPos
 		{
 			get { return _labelPos; }
 			set
@@ -76,6 +105,23 @@ namespace Global
 				}
 			}
 		}
+
+		public string DimPos
+		{
+			get { return _dimPos; }
+			set
+			{
+				if (_dimPos != value)
+				{
+					_dimPos = value;
+					RaisePropertyChanged(nameof(DimPos));
+				}
+			}
+		}
+
+
+
+
 
 
 		public FontFamily FontFam

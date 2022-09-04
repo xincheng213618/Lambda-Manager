@@ -39,12 +39,7 @@ namespace XSolution
             {
 
             }
-
-
-
-
         }
-
 
         /// <summary>
         /// 导出为
@@ -54,7 +49,13 @@ namespace XSolution
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
         {
             CanReName = false;
-            PoejectExportAs = new RelayCommand(OnPoejectExportAs, (object value) => { return true; });
+            PoejectExportAs = new RelayCommand(delegate
+            {
+                ExportAsWindow exportAsWindow = new ExportAsWindow(this);
+                exportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+
+
 
             watcher = new FileSystemWatcher(SeriesFolderPath)
             {
@@ -144,11 +145,6 @@ namespace XSolution
             }
         }
 
-        private void OnPoejectExportAs(object value)
-        {
-            ExportAsWindow exportAsWindow = new ExportAsWindow(this);
-            exportAsWindow.ShowDialog();
-        }
 
         public override void RemoveChild(BaseObject baseObject)
         {

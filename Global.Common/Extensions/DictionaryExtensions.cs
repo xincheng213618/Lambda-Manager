@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Global.Common.Extensions
 {
     /// <summary>
-    /// 对字典的扩展
+    /// 对字典的扩展(解决输出不规范的问题)
     /// </summary>
     public static class DictionaryExtensions
     {

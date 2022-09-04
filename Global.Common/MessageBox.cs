@@ -10,7 +10,7 @@ namespace Global.Common
     public sealed class MessageBox1
     {
         //icon 的部分建议移除，目前采用了已经淘汰的system.drawing.Common,如果放在其他地方，需要重置图像
-
+        //参考了一些代码，并不是显示上的最优解，这里可以做一些调整
 
         private static MessageBoxResult Initialize(string messageBoxText, string caption ="提示", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None)
         {

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Solution"
         xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="500" Width="800" MinWidth="500" MinHeight="400" Background="#333333" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
+        Height="500" Width="800" MinWidth="500" MinHeight="450" Background="#333333" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
