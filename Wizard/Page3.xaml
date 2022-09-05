@@ -7,36 +7,23 @@
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="700"
       Title="Page2" Initialized="Page_Initialized">
-
     <Border Margin="10,10"  CornerRadius="10">
         <Grid Margin="10">
-            <TextBlock Text="软件向导" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBlock Text="Step3" HorizontalAlignment="Center" FontSize="20"  Foreground="White" VerticalAlignment="Top" Margin="0,80,0,0"/>
-            <TextBlock Text="选择你的物镜型号" HorizontalAlignment="Center" FontSize="20"  Foreground="White" VerticalAlignment="Top" Margin="0,150,0,0"/>
-            <TextBlock Text="如果你不确定你的物镜型号，请查找您的用户配置手册，或查看您的仪器后侧的标签" HorizontalAlignment="Center" FontSize="12"  Foreground="White" VerticalAlignment="Top" Margin="0,180,0,0"/>
+            <TextBlock Text="软件向导"  FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock Text="Step3" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,80,0,0"/>
+            <TextBlock Text="选择你的物镜型号" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,150,0,0"/>
+            <TextBlock Text="如果你不确定你的物镜型号，请查找您的用户配置手册，或查看您的仪器后侧的标签" HorizontalAlignment="Center" FontSize="12"   VerticalAlignment="Top" Margin="0,180,0,0"/>
 
             <Image Source="/Images/图片2.png" Height="100"  VerticalAlignment="Top" Margin="0,240,0,0"/>
 
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >
 
-                <Button Margin="5,0" Content="上一步" Foreground="White" Click="Button1_Click" >
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border x:Name="border" Background="#222222" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="3" Padding="20,5"  SnapsToDevicePixels="true">
-                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button Margin="5,0" Content="下一步" Foreground="White" Click="Button_Click">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border x:Name="border" Background="#222222" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="3" Padding="20,5"  SnapsToDevicePixels="true">
-                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                <Button Margin="5,0" Padding="10,5"  Content="上一步"  Click="Button1_Click" />
+
+
+                <Button Margin="5,0" Padding="10,5"  Content="下一步"  Click="Button_Click"/>
+
+
             </DockPanel>
 
 

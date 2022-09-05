@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lambda;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,13 +21,15 @@ namespace Wizard
     /// </summary>
     public partial class Page6 : Page
     {
-        public Page6()
+        MainWindow Window;
+        public Page6(MainWindow window)
         {
             InitializeComponent();
+            Window = window;
         }
         private void Pages()
         {
-            Dispatcher.BeginInvoke(new Action(() => (Application.Current.MainWindow as MainWindow).frame.Navigate(Content)));
+            Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
         private void Page_Initialized(object sender, EventArgs e)
@@ -36,12 +39,13 @@ namespace Wizard
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as MainWindow).Close();
+            Window.Close();
+            LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "关闭配置向导" });
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            Content = new Page5();
+            Content = new Page5(Window);
             Pages();
         }
     }

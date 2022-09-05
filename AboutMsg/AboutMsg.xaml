@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
-        Height="400" Width="500"  Background="#3A3A3A" Foreground="White" ResizeMode="NoResize" Initialized="Window_Initialized" >
+        Height="400" Width="500"  Background="{DynamicResource WindowBackgroundBrush}" ResizeMode="NoResize" Initialized="Window_Initialized" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+
     </Window.Resources>
 
     <Grid >

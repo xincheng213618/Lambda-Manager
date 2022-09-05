@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,19 +41,35 @@ namespace ConfigSetting
                 viewbox.Child = stackPanel;
                 scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
+                foreach (var item in ResourceDictionaryDark)
+                {
+                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                    Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                }
             }
         }
 
+        List<string> ResourceDictionaryDark = new List<string>();
+        List<string> ResourceDictionaryWhite = new List<string>();
+
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            ResourceDictionary dictionary0 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Dark.xaml", UriKind.Relative)) as ResourceDictionary;
-            Application.Current.Resources.MergedDictionaries.Add(dictionary0);
-            ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/styles.xaml", UriKind.Relative)) as ResourceDictionary;
-            Application.Current.Resources.MergedDictionaries.Add(dictionary);
-            ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Dark/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
-            Application.Current.Resources.MergedDictionaries.Add(dictionary1);
-            ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Base/Menu.xaml", UriKind.Relative)) as ResourceDictionary;
-            Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+            ResourceDictionaryDark.Add("/ThemeManager;component/Styles/Dark.xaml");
+            ResourceDictionaryDark.Add("/ThemeManager;component/Styles/styles.xaml");
+            ResourceDictionaryDark.Add("/ThemeManager;component/Themes/Base/Slider.xaml");
+            ResourceDictionaryDark.Add("/ThemeManager;component/Themes/Base/ButtonStyle.xaml");
+            ResourceDictionaryDark.Add("/ThemeManager;component/themes/Dark/Theme.xaml");
+            ResourceDictionaryDark.Add("/ThemeManager;component/themes/Base/Menu.xaml");
+
+            ResourceDictionaryWhite.Add("/ThemeManager;component/Styles/White.xaml");
+            ResourceDictionaryWhite.Add("/ThemeManager;component/Styles/styles.xaml");
+            ResourceDictionaryWhite.Add("/ThemeManager;component/Themes/Base/Slider.xaml");
+            ResourceDictionaryWhite.Add("/ThemeManager;component/Themes/Base/ButtonStyle.xaml");
+            ResourceDictionaryWhite.Add("/ThemeManager;component/themes/White/Theme.xaml");
+            ResourceDictionaryWhite.Add("/ThemeManager;component/themes/Base/Menu.xaml");
+
+
+
         }
         bool IS = false;
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -60,27 +77,38 @@ namespace ConfigSetting
             IS = !IS;
             if (IS)
             {
-                ResourceDictionary dictionary0 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/White.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary0);
-                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/styles.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary);
-                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/White/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary1);
-                ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Base/Menu.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+                foreach (var item in ResourceDictionaryWhite)
+                {
+                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                    Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                }
             }
             else
             {
-                ResourceDictionary dictionary0 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Dark.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary0);
-                ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/styles.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary);
-                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Dark/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary1);
-                ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/themes/Base/Menu.xaml", UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+                foreach (var item in ResourceDictionaryDark)
+                {
+                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                    Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                }
             }
 
+        }
+
+        private void UserControl_Initialized_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Wizard.MainWindow mainWindow = new Wizard.MainWindow("1");
+            mainWindow.Show();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            CalibrationWindow calibrationWindow = new CalibrationWindow();
+            calibrationWindow.ShowDialog();
         }
     }
 }

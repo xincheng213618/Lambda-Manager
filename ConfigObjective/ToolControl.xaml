@@ -20,7 +20,7 @@
        
     </UserControl.Resources>
 
-    <StackPanel  HorizontalAlignment="Left" Background="#404040" Width="400" >
+    <StackPanel  HorizontalAlignment="Left" Width="400" >
         <Grid Margin="0,5,5,0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -552,14 +552,13 @@
             <StackPanel>
 
                 <UniformGrid Columns="7" Margin="0,10,0,5"  >
-                    <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True" />
+                    <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="False" />
                     <ToggleButton x:Name="ToggleButton502" Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
                     <ToggleButton x:Name="ToggleButton503" Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked" Checked="ToggleButton503_Checked" />
                     <ToggleButton x:Name="ToggleButton504"   Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0" Checked="ToggleButton504_Checked" Unchecked="ToggleButton504_Unchecked" />
                     <ToggleButton x:Name="ToggleButton505" Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="5,0" IsChecked="False" Checked="ToggleButton505_Checked"/>
                     <ToggleButton x:Name="ToggleButton506"   Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-                    <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}" IsEnabled="False" Content="M" IsChecked="True" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-
+                    <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}"  Content="M" IsChecked="True" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
                 </UniformGrid>
                 <UniformGrid  Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
                     <CheckBox x:Name="checkbox51" IsChecked="False" Content="明场" FontSize="15" />

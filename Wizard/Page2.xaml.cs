@@ -20,13 +20,15 @@ namespace Wizard
     /// </summary>
     public partial class Page2 : Page
     {
-        public Page2()
+        MainWindow Window;
+        public Page2(MainWindow window)
         {
             InitializeComponent();
+            Window = window;
         }
         private void Pages()
         {
-            Dispatcher.BeginInvoke(new Action(() => (Application.Current.MainWindow as MainWindow).frame.Navigate(Content)));
+            Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
         private void Page_Initialized(object sender, EventArgs e)
@@ -36,7 +38,7 @@ namespace Wizard
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Content = new Page3();
+            Content = new Page3(Window);
             Pages();
         }
 

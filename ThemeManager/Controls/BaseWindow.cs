@@ -8,10 +8,17 @@ namespace ThemeManager.Controls
     {
         private static Style? GetDefautlStyle()
         {
-            ResourceDictionary dictionary = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
-            Application.Current.Resources.MergedDictionaries.Add(dictionary);
+            if (Application.Current.TryFindResource(typeof(BaseWindow))!=null)
+            {
+                return Application.Current.FindResource(typeof(BaseWindow)) as Style;
+            }
+            else
+            {
+                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary1);
+                return Application.Current.FindResource(typeof(BaseWindow)) as Style ?? null;
+            }
 
-            return Application.Current.FindResource(typeof(BaseWindow)) as Style ?? null;
         }
 
         static BaseWindow()

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 

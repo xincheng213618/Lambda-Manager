@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lambda;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,21 +22,28 @@ namespace Wizard
     /// </summary>
     public partial class MainWindow : BaseWindow
     {
+        public List<string> ResourceDictionaryDark = new List<string>();
         public MainWindow()
+        {
+            InitializeComponent();
+            ResourceDictionaryDark.Add("/ThemeManager;component/Styles/Dark.xaml");
+            ResourceDictionaryDark.Add("/ThemeManager;component/Styles/styles.xaml");
+
+            foreach (var item in ResourceDictionaryDark)
+            {
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                Application.Current.Resources.MergedDictionaries.Add(dictionary);
+            }
+        }
+        public MainWindow(string Name)
         {
             InitializeComponent();
         }
 
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1())));
-
-            Uri url = new Uri("/Images/图片1.png", UriKind.Relative);
-
-            Image image = new Image() { Source = new BitmapImage(url) };
-            Window window = new Window();
-            window.Content = image;
-            window.Show();
+            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1(this))));
+            LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "启动配置向导" });
         }
     }
 }

@@ -6,14 +6,11 @@
              xmlns:local="clr-namespace:Solution"
              xmlns:Solution="clr-namespace:XSolution" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="400"   Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
+             d:DesignHeight="100" d:DesignWidth="400" Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ThemeManager;component/Styles/Dark.xaml"/>
-                <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />                <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
-                <ResourceDictionary Source="/ThemeManager;component/themes/Dark/Theme.xaml" />
-                <ResourceDictionary Source="/ThemeManager;component/themes/Base/Menu.xaml" />
+                <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

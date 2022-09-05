@@ -5,18 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Height="180" Width="300" WindowStyle="ToolWindow" Background="#3A3A3A">
+        WindowStartupLocation="CenterScreen" Height="180" Width="300" WindowStyle="ToolWindow" Background="{DynamicResource GlobalBackgroundBrush}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" WindowChrome.IsHitTestVisibleInChrome="True">
-            <TextBlock x:Name="caption" Text="提示" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Margin="10,-20,0,0" FontSize="15"  Foreground="White" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock x:Name="caption" Text="提示" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Margin="10,-20,0,0" FontSize="15" HorizontalAlignment="Left"></TextBlock>
         </Grid>
         <DockPanel HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="20">
             <Image x:Name="Imageicon" Visibility="Visible" Height="30" Width="30" Margin="0,0,15,0"/>
-            <TextBlock Name="messageBoxText" Foreground="White" VerticalAlignment="Center" TextWrapping="Wrap" ></TextBlock>
+            <TextBlock Name="messageBoxText"  VerticalAlignment="Center" TextWrapping="Wrap" ></TextBlock>
         </DockPanel>
 
         <Grid Grid.Row="2"  HorizontalAlignment="Center">

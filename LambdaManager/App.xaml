@@ -8,8 +8,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ThemeManager;component/Styles/Dark.xaml"/>
                 <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />
-                <ResourceDictionary Source="Themes/SliderStyle.xaml" />
-                <ResourceDictionary Source="Themes/ButtonStyle.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/Themes/Base/Slider.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/Themes/Base/ButtonStyle.xaml" />
                 <ResourceDictionary Source="/ThemeManager;component/themes/Dark/Theme.xaml" />
                 <ResourceDictionary Source="/ThemeManager;component/themes/Base/Menu.xaml" />
             </ResourceDictionary.MergedDictionaries>

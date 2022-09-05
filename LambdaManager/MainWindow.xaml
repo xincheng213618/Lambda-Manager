@@ -7,7 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager"                 
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
-        Background="#333333" Width="1280"  Height="720" MinWidth="1024" MinHeight="576" Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Background="{DynamicResource GlobalBackgroundBrush}" Width="1280"  Height="720" MinWidth="1024" MinHeight="576" Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <Window.Resources>
         <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="5, 0, 0, 0" />
@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="145" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Button MouseDoubleClick="Button_MouseDoubleClick" Margin="5,5,5,5">
+                <Button MouseDoubleClick="Button_MouseDoubleClick"  BorderThickness="0" Padding="0" Margin="5,5,5,5">
                     <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
                 </Button>
                 <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" >
@@ -293,9 +293,8 @@
                                     </TextBlock>
                                     <TextBox/>
 
-                                    <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center">
-                                        <!--Unknown connection ID: 54-->
-                                    </Slider>
+                                    <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{DynamicResource HorizontalSlider}" VerticalAlignment="Center"/>
+
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="16">
                                         <TextBlock>Frame</TextBlock>
                                         <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="30" Margin="4,0,0,0" Padding="2,0,2,0">
@@ -409,7 +408,7 @@
                                             <TextBlock Name="totalSlice" FontSize="6" VerticalAlignment="Center">0<!--Unknown connection ID: 77--></TextBlock>
                                         </StackPanel>
                                     </Border>
-                                    <Slider Width="20" Height="180" Maximum="100" Value="0" Style="{StaticResource HorizontalSlider}" VerticalAlignment="Center" Orientation="Vertical" />
+                                    <Slider Width="20" Height="180" Maximum="100" Value="0" Style="{DynamicResource HorizontalSlider}" VerticalAlignment="Center" Orientation="Vertical" />
                                     <Border Style="{StaticResource RadiusBorder}" BorderThickness="1" MinWidth="24" Margin="0,2,0,2" Padding="2,0,2,0">
                                         <StackPanel HorizontalAlignment="Right">
                                             <TextBlock Name="zTop" FontSize="6">0μm<!--Unknown connection ID: 78--></TextBlock>
@@ -482,17 +481,17 @@
                 <Separator Grid.Column="11" />
                 <StatusBarItem Grid.Column="12" >
                     <DockPanel  Name="performDock">
-                        <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">
+                        <TextBlock  VerticalAlignment="Center" Margin="5,0,5,0">
                     <Run Text="ToolDiskUse" />
                     <Run Text=":" />
                     <Run Text="{Binding DiskUse}" />
                         </TextBlock>
-                        <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">
+                        <TextBlock  VerticalAlignment="Center" Margin="5,0,5,0">
                     <Run Text="ToolRAM" />
                     <Run Text=":" />
                     <Run Text="{Binding MemoryAvailable}" />
                         </TextBlock>
-                        <TextBlock  VerticalAlignment="Center" Foreground="White" Margin="5,0,10,0" >
+                        <TextBlock  VerticalAlignment="Center" Margin="5,0,10,0" >
                     <Run Text="ToolCPU" />
                     <Run Text=":" />
                     <Run Text="{Binding ProcessorTotal}" />

@@ -10,31 +10,19 @@
 
     <Border Margin="10,10"  CornerRadius="10">
         <Grid Margin="10">
-            <TextBlock Text="软件向导" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBlock Text="Step5" HorizontalAlignment="Center" FontSize="20"  Foreground="White" VerticalAlignment="Top" Margin="0,80,0,0"/>
-            <TextBlock Text="自动校准您的系统" HorizontalAlignment="Center" FontSize="20"  Foreground="White" VerticalAlignment="Top" Margin="0,180,0,0"/>
-            <TextBlock Text="请按提示进行操作，主要为了校准LED半径，默认曝光等参数" HorizontalAlignment="Center" FontSize="12"  Foreground="White" VerticalAlignment="Top" Margin="0,240,0,0"/>
+            <TextBlock Text="软件向导"  FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock Text="Step5" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,80,0,0"/>
+            <TextBlock Text="自动校准您的系统" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,180,0,0"/>
+            <TextBlock Text="请按提示进行操作，主要为了校准LED半径，默认曝光等参数" HorizontalAlignment="Center" FontSize="12"   VerticalAlignment="Top" Margin="0,240,0,0"/>
 
 
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >
-                <Button Margin="5,0" Content="上一步" Foreground="White" Click="Button1_Click" >
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border x:Name="border" Background="#222222" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="3" Padding="20,5"  SnapsToDevicePixels="true">
-                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button Margin="5,0" Content="下一步" Foreground="White" Click="Button_Click">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border x:Name="border" Background="#222222" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="3" Padding="20,5"  SnapsToDevicePixels="true">
-                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                <Button Margin="5,0" Padding="10,5"  Content="上一步"  Click="Button1_Click" />
+
+
+                <Button Margin="5,0" Padding="10,5"   Content="下一步"  Click="Button_Click"/>
+
+
             </DockPanel>
 
         </Grid>

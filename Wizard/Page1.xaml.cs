@@ -20,25 +20,27 @@ namespace Wizard
     /// </summary>
     public partial class Page1 : Page
     {
-        public Page1()
+        MainWindow Window;
+        public Page1(MainWindow window)
         {
             InitializeComponent();
+            Window = window;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Content = new Page2();
+            Content = new Page2(Window);
             Pages();
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as MainWindow).Close();
+            Window.Close();
         }
 
         private void Pages()
         {
-            Dispatcher.BeginInvoke(new Action(() => (Application.Current.MainWindow as MainWindow).frame.Navigate(Content)));
+            Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
         private void Page_Initialized(object sender, EventArgs e)

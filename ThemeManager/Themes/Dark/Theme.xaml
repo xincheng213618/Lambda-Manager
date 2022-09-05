@@ -11,14 +11,11 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
-
-
+    
     <Color x:Key="GlobalBackgroundColor">#161616</Color>
     <Color x:Key="GlobalBroderBrushColor">#212121</Color>
-
     <Color x:Key="GlobalTextColor">White</Color>
     
-
     <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
     <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
 
@@ -35,8 +32,10 @@
 
 
     <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
+    <SolidColorBrush x:Key="CaptionButtonForeground">white</SolidColorBrush>
+    <SolidColorBrush x:Key="WindowIsNotActiveForeground">#d7d7d7</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
-    <SolidColorBrush x:Key="CaptionButtonhoiceBackgrouundBrush">white</SolidColorBrush>
+    <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
     
     

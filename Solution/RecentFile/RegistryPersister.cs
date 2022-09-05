@@ -122,6 +122,11 @@ namespace Solution.RecentFile
         }
         public void Clear()
         {
+            RegistryKey k = Registry.CurrentUser.OpenSubKey(RegistryKey);
+            if (k == null)
+            {
+                return;
+            }
             Registry.CurrentUser.DeleteSubKeyTree(RegistryKey);
         }
 

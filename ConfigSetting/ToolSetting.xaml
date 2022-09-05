@@ -6,23 +6,20 @@
         xmlns:local="clr-namespace:ConfigSetting"
         mc:Ignorable="d"
         Initialized="UserControl_Initialized" Height="400" Width="400"  Loaded="UserControl_Loaded">
-    <UserControl.Resources>
-        <ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>
-    </UserControl.Resources>
-    <Grid HorizontalAlignment="Left" Background="#404040">
+    <Grid HorizontalAlignment="Left">
         <StackPanel>
             <UniformGrid Columns="5">
                 <Button Content="硬件"/>
                 <Button Content="硬件更新"/>
                 <Button Content="软件升级"/>
                 <Button Content="配置"/>
-                <Button Content="自动校准"/>
+                <Button Content="自动校准" Click="Button_Click_2"/>
                 <Button Content="主题" Click="Button_Click"/>
 
             </UniformGrid>
 
         </StackPanel>
-        <Button Content="配置向导"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <Button Content="配置向导"  HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="Button_Click_1"/>
 
     </Grid>
 </UserControl>
