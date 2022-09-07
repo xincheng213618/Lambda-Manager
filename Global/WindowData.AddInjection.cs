@@ -46,7 +46,7 @@ namespace Global
                 statusBar.Items.Add(statusBarItem);
 
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
-                TextBlock textBlock = new TextBlock() { Text = "细胞总数:10" ,VerticalAlignment =VerticalAlignment.Center};
+                TextBlock textBlock = new TextBlock() { Text = "11110" ,VerticalAlignment =VerticalAlignment.Center};
                 bottomToolbar.Children.Add(textBlock);
 
 

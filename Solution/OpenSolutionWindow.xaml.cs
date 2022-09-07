@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ThemeManager.Controls;
+using static Global.Common.Util.JsonHelper;
 
 namespace Solution
 {
@@ -68,6 +70,14 @@ namespace Solution
                 if (listView.SelectedIndex > -1)
                 {
                     FullName = SoulutionInfos[listView.SelectedIndex].FullName;
+
+                    //JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+                    //string value = JsonSerializer.Serialize(SoulutionInfos, jsonSerializerOptions);
+
+                    //File.WriteAllText("1.text", value);
+                    //string value1 = File.ReadAllText("1.txt");
+                    //var a = JsonSerializer.Deserialize<ObservableCollection<SoulutionInfo>>(value1);
+
                     this.Close();
                 }
 

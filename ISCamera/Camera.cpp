@@ -474,10 +474,42 @@ int SleepTest() {
 	//ssss = true;
 	return  0;
 }
+#include <fstream> 
+#include <iostream>
+#include <string>
 
 int VideoTest() {
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
+	json j2;
+	for (size_t i = 0; i < 2; i++)
+	{
+		json cellinfo;
+		//cellinfo["Name"] = "222222";
+
+		//cellinfo["ID"] = std::to_string(i);
+		//cellinfo["Areas"] = "100";
+		//cellinfo["Perimere"] = "1000";
+		//cellinfo["Centroid"] = "1000000";
+
+
+		cellinfo["Name"] = "222222";
+
+		cellinfo["FullName"] = std::to_string(i);
+		cellinfo["CreationTime"] = "2222222";
+
+		j2[i] = cellinfo;
+	}
+	json j3;
+	j3["cellinfos"] = j2;
+	Event::Trigger("SET_CELL_INFOS",&j3);
+
+	std::ofstream OsWrite("1.txt", std::ofstream::app);
+	OsWrite << j2.dump().c_str();
+	OsWrite << std::endl;
+	OsWrite.close();
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+
+
 
 	return 0;
 }
@@ -516,6 +548,7 @@ int  test_double(double exposure)
 	Logger::Log2(Severity::INFO, L"测试: Test8(x=%.8lf)", exposure);
 	return 0;
 }
+
 
 
 int CameraSettingExposure(int mode,double exposure)
@@ -567,7 +600,6 @@ int CameraSettingExposure(int mode,double exposure)
 		});
 	t.detach();
 
-
 	//HistCalc(img2,0);
 	json j1;
 
@@ -592,7 +624,13 @@ int CameraSettingExposure(int mode,double exposure)
 	//相机工作时长
 	j1["CameraWorkingTime"] = "0h 0m dddddddd0.002s";
 
-	
+
+
+
+
+
+
+
 	Event::Trigger("UPDATE_MUL_SUMMARY", &j1);
 	json j3;
 	j3["window"] =0;

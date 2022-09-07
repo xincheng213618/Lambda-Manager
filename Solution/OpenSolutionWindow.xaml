@@ -86,7 +86,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
                                                     <Grid Grid.Column="1" Margin="2">
-                                                        <TextBlock Text="{Binding Path = Name}" TextTrimming = "CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Top"/>
+                                                        <TextBlock  Text="{Binding Path = Name}" TextTrimming = "CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Top"/>
                                                         <TextBlock Text="{Binding Path = FullName}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Bottom"/>
                                                         <TextBlock Text="{Binding Path = CreationTime}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Top" HorizontalAlignment="Right"/>
                                                     </Grid>

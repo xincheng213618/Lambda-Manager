@@ -61,6 +61,8 @@ public class ConfigUILibrary: ILambdaUI
         //这里加延迟是因为，在文件拷贝操作完成之后会出现比如防病毒之类的对dll 进行扫描
         await Task.Delay(1000);
         string Md5 = GetMD5(FullPath);
+        if (String.IsNullOrEmpty(Md5))
+            return;
         foreach (var uIPlugin in UIPlugins)
         {
             if (Md5 != uIPlugin.MD5)
@@ -96,11 +98,18 @@ public class ConfigUILibrary: ILambdaUI
 
     public static string GetMD5(string path)
     {
-        var hash = MD5.Create();
-        var stream = new FileStream(path, FileMode.Open);
-        byte[] hashByte = hash.ComputeHash(stream);
-        stream.Close();
-        return BitConverter.ToString(hashByte).Replace("-", "");
+        try
+        {
+            var hash = MD5.Create();
+            var stream = new FileStream(path, FileMode.Open);
+            byte[] hashByte = hash.ComputeHash(stream);
+            stream.Close();
+            return BitConverter.ToString(hashByte).Replace("-", "");
+        }catch(Exception ex)
+        {
+            return String.Empty;
+        }
+
     }
 
 
