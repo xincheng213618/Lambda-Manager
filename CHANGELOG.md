@@ -1,12 +1,7 @@
-## [1.1.2] - 2022-09-05&06
+## [1.1.2] - 2022-09-05
 
 - 支持多种样式
-
-- 不显示的内容，在切换样式的时候，内部报错✔
-
-  https://stackoverflow.com/questions/47391020/cannot-find-source-for-binding-with-reference-relativesource-findancestor
-
-- 
+- 性能计数器的Error
 
 ## [1.1.1] - 2022-09-04
 

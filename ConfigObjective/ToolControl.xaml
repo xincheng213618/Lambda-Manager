@@ -262,7 +262,7 @@
 
                         <DockPanel >
                             <TextBlock  Width="80" Text="选择图案"  Padding="5,0" Foreground="White" VerticalAlignment="Center"/>
-                            <Button  Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Button Click="Button331_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <DockPanel x:Name="DockPanel331">
                                     <Canvas x:Name="Canvas331"  Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
                                         <Ellipse Width="40" Height="40" Fill="{Binding ElementName=Color331,Path=Fill}"/>
@@ -302,13 +302,12 @@
                                     <Canvas x:Name="Canvas334" Visibility="Collapsed"  Height="40" Width="40">
                                         <Image  Source="/ConfigObjective;component/image/Rheinberg.png"  Height="40" Width="40"/>
                                     </Canvas>
-                                    <Button Width="20" Height="40" Canvas.Left="45" Click="Button331_Click"  Background="#595959" Visibility="Visible" BorderThickness="0"  >
-                                        <Path Stroke="#6EA646"  StrokeThickness="1" Name="rheinbergPath"  Fill="#6EA646"  Data="M0,2.5C0,2.5 0,0.5 0,0.5 0,0.5 3.5,4 3.5,4 3.5,4 7,0.5 7,0.5 7,0.5 7,2.5 7,2.5 7,2.5 3.5,6 3.5,6 3.5,6 0,2.5 0,2.5z">
-                                        </Path>
-                                    </Button>
-                                </DockPanel>
+                            </DockPanel>
                             </Button>
-
+                            <Button Width="20" Height="40" Canvas.Left="45" Click="Button331_Click"  Background="#595959" Visibility="Visible" BorderThickness="0"  >
+                                <Path Stroke="#6EA646"  StrokeThickness="1" Name="rheinbergPath"  Fill="#6EA646"  Data="M0,2.5C0,2.5 0,0.5 0,0.5 0,0.5 3.5,4 3.5,4 3.5,4 7,0.5 7,0.5 7,0.5 7,2.5 7,2.5 7,2.5 3.5,6 3.5,6 3.5,6 0,2.5 0,2.5z">
+                                </Path>
+                            </Button>
                             <Slider  x:Name="Slider336" Visibility="Collapsed" Style="{StaticResource LM_Slider}" VerticalAlignment="Center" Value="0" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
                         </DockPanel>
 

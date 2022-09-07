@@ -16,13 +16,13 @@ namespace Global
 
     public partial class WindowData
     {
-        private static WindowData instance;
-        private static readonly object locker = new();
+        private static WindowData _instance;
+        private static readonly object _locker = new();
 
         public static WindowData GetInstance()
         {
-            lock (locker) { instance ??= new WindowData(); }
-            return instance;
+            lock (_locker) { _instance ??= new WindowData(); }
+            return _instance;
         }
 
         public DeviceInformation deviceInformation = new DeviceInformation();

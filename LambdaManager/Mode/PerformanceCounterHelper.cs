@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 
 namespace LambdaManager.Mode
 {
@@ -11,7 +12,7 @@ namespace LambdaManager.Mode
         private static readonly object _lock = new object();
         public static PerformanceCounterHelper GetInstance()
         {
-            lock (_lock) { if (_instance == null) _instance = new PerformanceCounterHelper(); }
+            lock (_lock) { _instance ??= new PerformanceCounterHelper(); }
             return _instance;
         }
         private PerformanceCounterHelper()
@@ -24,11 +25,22 @@ namespace LambdaManager.Mode
         }
         public void Run()
         {
-            CPU = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            ProcessThis = new PerformanceCounter("Process", "% Processor Time", Process.GetCurrentProcess().ProcessName);
-            RAM = new PerformanceCounter("Memory", "Available MBytes");
-            DiskUse = new PerformanceCounter("PhysicalDisk", "% Idle Time", "_Total");
-            IsOpen = true;
+            try
+            {
+                ProcessThis = new PerformanceCounter("Process", "% Processor Time", Process.GetCurrentProcess().ProcessName);
+                RAM = new PerformanceCounter("Memory", "Available MBytes");
+                DiskUse = new PerformanceCounter("PhysicalDisk", "% Idle Time", "_Total");
+                CPU = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+
+                IsOpen = true;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                //https://stackoverflow.com/questions/17980178/cannot-load-counter-name-data-because-an-invalid-index-exception
+                IsOpen = false;
+            }
+
         }
 
         public bool IsOpen = false;

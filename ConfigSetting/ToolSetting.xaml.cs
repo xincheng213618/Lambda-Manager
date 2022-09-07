@@ -33,14 +33,14 @@ namespace ConfigSetting
             {
                 stackPanel1.Children.Remove(this);
 
-                StackPanel stackPanel = new StackPanel() { Name = "configView", Margin = new Thickness(2, 2, 2, 0) };
+                StackPanel stackPanel = new StackPanel() { Name = "acquireView", Margin = new Thickness(2, 2, 2, 0) };
                 stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                 stackPanel.Children.Add(this);
-
                 Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top };
                 viewbox.Child = stackPanel;
                 scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
+
                 foreach (var item in ResourceDictionaryDark)
                 {
                     ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;

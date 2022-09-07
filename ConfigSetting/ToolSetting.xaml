@@ -9,7 +9,7 @@
     <Grid HorizontalAlignment="Left">
         <StackPanel>
             <UniformGrid Columns="5">
-                <Button Content="硬件"/>
+                <Button Content="硬件配置"/>
                 <Button Content="硬件更新"/>
                 <Button Content="软件升级"/>
                 <Button Content="配置"/>

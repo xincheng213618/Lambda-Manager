@@ -436,7 +436,7 @@
             </Grid>
 
             <StatusBar Name="statusBar" Background="Transparent" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4">
-                <ItemsControl.ItemsPanel>
+                <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -456,7 +456,7 @@
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+                </StatusBar.ItemsPanel>
                 <StatusBarItem>
                     <TextBlock Name="imageUnit"/> 
                 </StatusBarItem>

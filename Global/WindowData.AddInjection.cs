@@ -41,6 +41,15 @@ namespace Global
         {
             try
             {
+                StatusBar statusBar = (StatusBar)mainwin.FindName("statusBar");
+                StatusBarItem statusBarItem = new StatusBarItem() { Content = "22222222" };
+                statusBar.Items.Add(statusBarItem);
+
+                WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
+                TextBlock textBlock = new TextBlock() { Text = "细胞总数:10" ,VerticalAlignment =VerticalAlignment.Center};
+                bottomToolbar.Children.Add(textBlock);
+
+
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
