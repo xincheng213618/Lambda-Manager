@@ -8,19 +8,24 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Global.Common;
+using Lambda;
 
 namespace Global
 {
+    /// <summary>
+    /// 等待的弹窗
+    /// </summary>
     public class WaitContorl:ViewModelBase 
     {
-        private static WaitContorl instance;
-        private static readonly object locker = new();
+        private static WaitContorl _instance;
+        private static readonly object _locker = new();
 
         public static WaitContorl GetInstance()
         {
-            lock (locker) { instance ??= new WaitContorl(); }
-            return instance;
+            lock (_locker) { _instance ??= new WaitContorl(); }
+            return _instance;
         }
+
 
         private bool _isWait = false;
         public  bool IsWait
@@ -29,8 +34,6 @@ namespace Global
             set { _isWait = value; }
         }
         public TextBox textBox = new TextBox() { Text = "计算中" };
-
-
         private Grid WaitWindow;
 
         public WaitContorl()
@@ -70,6 +73,8 @@ namespace Global
             }
         }
 
+
+
         public void Hidden()
         {
             if (WaitWindow != null)
@@ -81,15 +86,37 @@ namespace Global
 
         }
 
+        /// <summary>
+        /// 毫秒
+        /// </summary>
+        public double ShowTimeOut =0;
+        private System.Windows.Threading.DispatcherTimer _timer;
+
         public void Show()
         {
             if (WaitWindow != null)
             {
+                if (ShowTimeOut != 0)
+                {
+                    _timer = new System.Windows.Threading.DispatcherTimer(){ Interval = TimeSpan.FromMilliseconds(ShowTimeOut) };
+                    _timer.Tick += delegate
+                    {
+                        _timer.Stop();
+                        Application.Current.Dispatcher.Invoke(delegate
+                        {
+                            WaitWindow.Visibility = Visibility.Collapsed;
+                            Application.Current.MainWindow.Cursor = Cursors.Arrow;
+
+                            MessageBox1.Show("WaitContorl超时", "Grid", MessageBoxButton.OK, MessageBoxImage.Error);
+                            LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = "WaitContorl超时,程序异常" });
+                        });
+                    };
+                }
                 Application.Current.MainWindow.Cursor = Cursors.Wait;
                 WaitWindow.Visibility = Visibility.Visible;
             }
         }
-        
+
 
         public async void Timer(int time)
         {

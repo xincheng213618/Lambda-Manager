@@ -1,4 +1,5 @@
-﻿using Global.Common.Extensions;
+﻿using Global.Common.Converter.Json;
+using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
@@ -8,8 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
-using System.Windows.Controls;
-using static Global.Common.Util.JsonHelper;
 
 namespace Global
 {
@@ -34,7 +33,7 @@ namespace Global
             Common.Config.ConfigReadEvent += ReadConfig;
             Common.Config.ConfigSetEvent += SetValue;
             Common.Config.ConfigWriteEvent += SaveConfig;
-
+            Interference();
             Hardware_Initialized();
             AddEventHandler();
             AddInjection();

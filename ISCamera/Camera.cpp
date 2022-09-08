@@ -480,33 +480,39 @@ int SleepTest() {
 
 int VideoTest() {
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
-	json j2;
-	for (size_t i = 0; i < 2; i++)
-	{
-		json cellinfo;
-		//cellinfo["Name"] = "222222";
+	//json j2;
+	//for (size_t i = 0; i < 2; i++)
+	//{
+	//	json cellinfo;
+	//	//cellinfo["Name"] = "222222";
 
-		//cellinfo["ID"] = std::to_string(i);
-		//cellinfo["Areas"] = "100";
-		//cellinfo["Perimere"] = "1000";
-		//cellinfo["Centroid"] = "1000000";
+	//	//cellinfo["ID"] = std::to_string(i);
+	//	//cellinfo["Areas"] = "100";
+	//	//cellinfo["Perimere"] = "1000";
+	//	//cellinfo["Centroid"] = "1000000";
 
 
-		cellinfo["Name"] = "222222";
+	//	cellinfo["Name"] = "222222";
 
-		cellinfo["FullName"] = std::to_string(i);
-		cellinfo["CreationTime"] = "2222222";
+	//	cellinfo["FullName"] = std::to_string(i);
+	//	cellinfo["CreationTime"] = "2222222";
 
-		j2[i] = cellinfo;
-	}
-	json j3;
-	j3["cellinfos"] = j2;
-	Event::Trigger("SET_CELL_INFOS",&j3);
+	//	j2[i] = cellinfo;
+	//}
+	//json j3;
+	//j3["cellinfos"] = j2;
+	//Event::Trigger("SET_CELL_INFOS",&j3);
 
-	std::ofstream OsWrite("1.txt", std::ofstream::app);
-	OsWrite << j2.dump().c_str();
-	OsWrite << std::endl;
-	OsWrite.close();
+	//std::ofstream OsWrite("1.txt", std::ofstream::app);
+	//OsWrite << j2.dump().c_str();
+	//OsWrite << std::endl;
+	//OsWrite.close();
+
+	json j1;
+	j1["messageBoxText"] = "显示一个MessageBox";
+	j1["caption"] = "Grid1";
+	Event::Trigger("MessageBox", &j1);
+		
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 
 
