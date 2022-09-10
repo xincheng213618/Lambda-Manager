@@ -2,9 +2,13 @@
 
 - 支持多种样式 
 
+## [1.1.4] - 2022-09-09
+
+- Json 传参序列化Demo ✔
+
 ## [1.1.3] - 2022-09-08
 
-- 修改WaitControl,MessageBox, ✔
+- 修改WaitControl MessageBox  ✔
 - 修正Json✔
 
 ## [1.1.2] - 2022-09-05-07 

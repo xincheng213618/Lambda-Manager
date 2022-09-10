@@ -1,4 +1,6 @@
-﻿using Solution.RecentFile;
+﻿using Global.Common.Extensions;
+using Lambda;
+using Solution.RecentFile;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,10 +48,31 @@ namespace Solution
                 }
             }
             ListView1.ItemsSource = SoulutionInfos;
+
+            //LambdaControl.AddLambdaEventHandler("SET_CELL_INFOS", SET_CELL_INFOS, false);
         }
+        //private bool SET_CELL_INFOS(object sender, EventArgs e)
+        //{
+        //    Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+        //    if (eventData == null)
+        //        return false;
+
+        //    Application.Current.Dispatcher.Invoke(delegate
+        //    {
+        //        string json = eventData.GetString("cellinfos");
+        //        var CellInfos = JsonSerializer.Deserialize<ObservableCollection<SoulutionInfo>>(json);
+        //        ListView1.ItemsSource = CellInfos;
+        //    });
+        //    return true;
+        //}
+
+
+        
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
+
             if (Tool.Utils.OpenFileDialog(out string FullName))
             {
                 this.FullName = FullName;

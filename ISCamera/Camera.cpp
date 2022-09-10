@@ -492,7 +492,7 @@ int VideoTest() {
 	//	//cellinfo["Centroid"] = "1000000";
 
 
-	//	cellinfo["Name"] = "222222";
+	//	cellinfo["Name"] = "中文ss";
 
 	//	cellinfo["FullName"] = std::to_string(i);
 	//	cellinfo["CreationTime"] = "2222222";
@@ -500,7 +500,7 @@ int VideoTest() {
 	//	j2[i] = cellinfo;
 	//}
 	//json j3;
-	//j3["cellinfos"] = j2;
+	//j3["cellinfos"] = j2.dump().c_str();
 	//Event::Trigger("SET_CELL_INFOS",&j3);
 
 	//std::ofstream OsWrite("1.txt", std::ofstream::app);
@@ -508,14 +508,11 @@ int VideoTest() {
 	//OsWrite << std::endl;
 	//OsWrite.close();
 
-	json j1;
-	j1["messageBoxText"] = "显示一个MessageBox";
-	j1["caption"] = "Grid1";
-	Event::Trigger("MessageBox", &j1);
-		
+	//json j1;
+	//j1["messageBoxText"] = "显示一个MessageBox";
+	//j1["caption"] = "Grid1";
+	//Event::Trigger("MessageBox", &j1);
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
-
-
 
 	return 0;
 }
