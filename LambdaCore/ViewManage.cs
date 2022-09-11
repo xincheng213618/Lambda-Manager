@@ -51,13 +51,13 @@ namespace LambdaCore
 
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private string fps;
         public string AllFPS
         {
             get { return fps; }
-            set { fps = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllFPS")); }
+            set { fps = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllFPS))); }
         }
         private int Counter = 0;
         private DateTime Start = DateTime.Now;
