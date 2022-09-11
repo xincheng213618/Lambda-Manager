@@ -29,6 +29,21 @@ namespace Global.Reg
 
             if (SetIcon(".gprj", "Grid.Launcher.gprj", System.Windows.Forms.Application.ExecutablePath + " ,0", $"{System.Windows.Forms.Application.StartupPath}\\Grid.exe %1"))
             {
+                string Arguments = string.Empty;
+                if (Environment.OSVersion.Version.Major == 6)
+                {
+                    Arguments = "/c gpupdate /force /wait:0 &&ie4uinit.exe -ClearIconCache";
+                }
+                else if (Environment.OSVersion.Version.Major > 6)
+                {
+                    Arguments = "/c gpupdate /force /wait:0 &&ie4uinit.exe -show";
+                }
+                else
+                {
+                    MessageBox.Show("请重启或者重启Explorer,以刷新注册表");
+                    return;
+                }
+
                 ProcessStartInfo info = new ProcessStartInfo
                 {
                     WindowStyle = ProcessWindowStyle.Hidden,
@@ -36,15 +51,15 @@ namespace Global.Reg
                     FileName = "cmd.exe",
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
-                    Arguments =
-                    "/c gpupdate /force /wait:0 & &ie4uinit.exe -show"
+                    Arguments = Arguments
                 };
                 Process process = Process.Start(info);
                 process.WaitForExit();
-                if (process.ExitCode == 0)
+                if (process.ExitCode != 0)
                 {
-
+                    MessageBox.Show($"自动刷新图标失败，Process{process.ExitCode}");
                 }
+
             }
         }
 

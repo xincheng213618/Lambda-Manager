@@ -1,5 +1,9 @@
 ## [1.1.5] - 2022-09-12
 
+- 修改注册表启动软件的逻辑，不使用重启Explorer 这么老旧的方式✔
+
+  http://woshub.com/how-to-rebuild-corrupted-icon-cache-in-windows-10/
+
 - 添加测试Demo，并尝试代码覆盖
 
 ## [1.1.4] - 2022-09-09
