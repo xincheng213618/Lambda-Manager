@@ -1,18 +1,32 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Security.Principal;
 using System.Windows;
 
 namespace Global.Reg
 {
     internal class Program
     {
+        //http://woshub.com/how-to-rebuild-corrupted-icon-cache-in-windows-10/
+
         static void Main(string[] args)
         {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
+            {
+                MessageBox.Show("请以管理员身份运行");
+                return;
+            }
+
+            if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\Grid.exe"))
+            {
+                MessageBox.Show("找不到启动文件夹");
+                return;
+            }
+
             if (SetIcon(".gprj", "Grid.Launcher.gprj", System.Windows.Forms.Application.ExecutablePath + " ,0", $"{System.Windows.Forms.Application.StartupPath}\\Grid.exe %1"))
             {
                 ProcessStartInfo info = new ProcessStartInfo
@@ -23,35 +37,15 @@ namespace Global.Reg
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     Arguments =
-                    "/c gpupdate /force /wait:0"
+                    "/c gpupdate /force /wait:0 & &ie4uinit.exe -show"
                 };
                 Process process = Process.Start(info);
                 process.WaitForExit();
                 if (process.ExitCode == 0)
                 {
-                    MessageBox.Show("sucesss");
+
                 }
             }
-            else
-            {
-                MessageBox.Show("12312312");
-            }
-            //Process[] processes = Process.GetProcesses();//获取所有进程信息
-            //for (int i = 0; i < processes.Length; i++)
-            //{
-            //    if (processes[i].ProcessName.ToLower() == "explorer")
-            //    {
-            //        try
-            //        {
-            //            processes[i].Kill(); //停止进程
-            //            return;
-            //        }
-            //        catch
-            //        {
-            //        }
-            //    }
-            //}
-            //Process.Start("explorer.exe");//再启动进程
         }
 
         public static bool SetIcon(string Extension, string ExtensionName, string icon, string command)
