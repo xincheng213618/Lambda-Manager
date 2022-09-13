@@ -6,19 +6,96 @@
         xmlns:local="clr-namespace:ConfigSetting"
         mc:Ignorable="d"
         Initialized="UserControl_Initialized" d:Height="720" d:Width="1280"  Loaded="UserControl_Loaded">
-    <Grid >
-        <StackPanel>
-            <UniformGrid Columns="6">
-                <Button Content="硬件配置"/>
-                <Button Content="硬件更新"/>
-                <Button Content="软件升级"/>
-                <Button Content="配置"/>
-                <Button Content="自动校准" Click="Button_Click_2"/>
-                <Button Content="主题" Click="Button_Click"/>
-            </UniformGrid>
+    <UserControl.Resources>
 
-        </StackPanel>
-        <Button Content="配置向导"  HorizontalAlignment="Left" VerticalAlignment="Bottom"  Click="Button_Click_1"/>
+        <Style x:Key="SettingButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Background" Value="{DynamicResource ButtonBorder}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="10" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="{StaticResource MouseOverButtonBackground}"/>
+                                <Setter Property="Foreground" Value="{StaticResource MouseOverButtonForeground}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" Value="{StaticResource PressedButtonBackground}"/>
+                                <Setter Property="Foreground" Value="{StaticResource ButtonForeground}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{StaticResource DisabledButtonForeground}"/>
+                                <Setter Property="Background" Value="{StaticResource DisabledButtonBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+    <Grid >
+        <Border Background="#404040"  >
+            <Grid Margin="20">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="#BDBDBD" BorderThickness="3" CornerRadius="10">
+                    <UniformGrid Grid.Row="0" Rows="6" Height="450" VerticalAlignment="Top">
+                        <Button Content="硬件配置" Style="{DynamicResource SettingButton}" Margin="10"/>
+                        <Button Content="硬件更新" Style="{DynamicResource SettingButton}" Margin="10"/>
+                        <Button Content="软件升级" Style="{DynamicResource SettingButton}" Margin="10"/>
+                        <Button Content="配置"  Style="{DynamicResource SettingButton}" Margin="10"/>
+                        <Button Content="自动校准" Click="Button_Click_2"  Style="{DynamicResource SettingButton}" Margin="10"/>
+                        <Button Content="主题" Click="Button_Click"  Style="{DynamicResource SettingButton}" Margin="10"/>
+                    </UniformGrid>
+                </Border>
+                
+                <Border Grid.Column="1" Background="#333333" Margin="20,0" BorderBrush="#BDBDBD" BorderThickness="3" CornerRadius="10">
+                </Border>
+                <Border Grid.Column="1" Background="#333333" Margin="20,0" BorderBrush="#BDBDBD" BorderThickness="3" CornerRadius="10">
+                    <StackPanel Margin="20">
+                        <GroupBox  Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"  >
+                                <TextBlock Text="LED行列数"/>
+                                <TextBlock Text="LED间距"/>
+                                <TextBlock Text="LED高度"/>
+                                <TextBlock Text="LED颜色Bit数"/>
+                                <TextBlock Text="LED中心波长"/>
+                                <TextBlock Text="照明模式最高刷新速率"/>
+                                <TextBlock Text="照明最大数值孔径"/>
+                                <TextBlock Text="照明亮度"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="载物台配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"   >
+                                <TextBlock Text="LED行列数"/>
+                                <TextBlock Text="LED间距"/>
+                                <TextBlock Text="LED高度"/>
+                                <TextBlock Text="LED颜色Bit数"/>
+                                <TextBlock Text="LED中心波长"/>
+                                <TextBlock Text="照明模式最高刷新速率"/>
+                                <TextBlock Text="照明最大数值孔径"/>
+                                <TextBlock Text="照明亮度"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </Border>
+
 
     </Grid>
 </UserControl>

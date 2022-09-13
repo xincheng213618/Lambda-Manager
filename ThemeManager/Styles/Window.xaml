@@ -34,6 +34,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="CaptionButtonStyleClose" TargetType="Button">
         <Setter Property="Foreground" Value="{DynamicResource CaptionButtonForeground}"/>
         <Setter Property="Background" Value="Transparent"/>

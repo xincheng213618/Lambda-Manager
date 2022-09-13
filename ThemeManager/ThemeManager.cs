@@ -16,7 +16,6 @@ namespace ThemeManager
     {
         public static Theme CurrentUITheme { get; set; } = Theme.Dark;
 
-
         public static void ApplyTheme(this Application app, Theme theme)
         {
             if (theme != CurrentUITheme)
@@ -41,11 +40,6 @@ namespace ThemeManager
             }
 
         }
-
-
-
-
-
 
 
         public static List<string> ResourceDictionaryDark { get; set; } = new List<string>()

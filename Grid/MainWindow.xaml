@@ -151,7 +151,7 @@
                             <Image  Source="Image\Grid.png" Height="50" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <StackPanel >
                                 <Border Background="#669347" CornerRadius="3" Width="65" HorizontalAlignment="Left"  Margin="10,1" >
-                                    <TextBlock Text="1.0" FontSize="15" Foreground="White" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="3.0" FontSize="15" Foreground="White" HorizontalAlignment="Center"/>
                                 </Border>
                                 <TextBlock Text="Grid" FontWeight="Bold" FontSize="25" Foreground="White" Margin="15,0,0,0" />
                             </StackPanel>

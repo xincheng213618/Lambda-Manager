@@ -12,7 +12,6 @@
   <ItemGroup>
     <None Remove="Resources\Histogram.jpg" />
     <None Remove="Resources\hold.cur" />
-    <None Remove="Resources\startpicture1.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +31,6 @@
   <ItemGroup>
     <Resource Include="Resources\Histogram.jpg" />
     <Resource Include="Resources\hold.cur" />
-    <Resource Include="Resources\startpicture1.png" />
   </ItemGroup>
 
 </Project>

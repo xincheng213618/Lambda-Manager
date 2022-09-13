@@ -21,13 +21,8 @@
 
   <ItemGroup>
     <None Remove="Grid.ico" />
-    <None Remove="image\B3-5B5.png" />
     <None Remove="image\Rheinberg.png" />
     <None Remove="UserControls\Image\cell.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="image\Grid.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="image\B3-5B5.png" />
     <Resource Include="image\Rheinberg.png" />
     <Resource Include="UserControls\Image\cell.png" />
   </ItemGroup>

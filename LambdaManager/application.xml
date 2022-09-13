@@ -37,10 +37,9 @@
 	</component>
 
 	<component name="illu232" lib="lib\RS232.dll">
-		<procedure name="BilateralDenoise" event="BilateralDenoise" arg ="imgstr,Cdenoise">
+		<procedure name="BilateralDenoise" event="BilateralDenoise" arg ="imgstr">
 			<action name="BilateralDenoise">
 				<input name="imgstr" type="handle"/>
-				<input name="Cdenoise" type="handle"/>
 			</action>
 		</procedure>
 		
@@ -980,6 +979,12 @@
 				<output name="brightness" type="pointer" />
 			</action>	
 		</procedure>
+		
+		<procedure name="CellinfoTest" event="CellinfoTest" arg ="Cellinfos">
+			<action name="CellinfoTest">
+				<input name="Cellinfos" type="handle" />
+			</action>
+		</procedure>	
 	</component>
 	<component name="CUDA" lib="lib/CUDA.dll">
 		<procedure name="FFTCUDA_img" event="COLORBAR_CLICKED">

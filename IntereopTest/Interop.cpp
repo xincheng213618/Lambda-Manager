@@ -642,7 +642,15 @@ int Test212(void* a) {
 	Event::Trigger("TEST222", b, sizeof(b) / sizeof(b[0]));
 	return 0;
 }
- 
+
+
+ int CellinfoTest(std::vector<Cellinfo>* Cellinfos)
+ {
+	 Cellinfos->push_back({ 5,1,1,2222,4444,5555 });
+	 Cellinfos->push_back({ 6,2,1,2222,4444,5555 });
+	 Logger::Log2(Severity::INFO, L" SDT event array: size: %d", Cellinfos->size());
+	 return 0;
+ }
 
 int BrightFieldBrightness(void* brightness)
 {

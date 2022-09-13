@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Global.Controls
+namespace Global.Common.Controls
 {
     /// <summary>
     /// 利用Tag记录指针，自行还原

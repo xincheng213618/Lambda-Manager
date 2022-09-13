@@ -262,3 +262,15 @@ extern "C" INTEROP_API int Test302();
 extern "C" INTEROP_API int Test303();
 extern "C" INTEROP_API int Test304();
 extern "C" INTEROP_API int Test305();
+
+struct Cellinfo
+{
+	int ID;
+	double PointX;
+	double PointY;
+	double Areas;
+	double Perimeter;
+	double Roundness;
+};
+
+extern "C" INTEROP_API int CellinfoTest(std::vector<Cellinfo>*Cellinfos);

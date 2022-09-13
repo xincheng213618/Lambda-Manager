@@ -1,14 +1,7 @@
 ﻿using Global.Common.Extensions;
-using Microsoft.VisualBasic;
 using System.Drawing;
-using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using ThemeManager.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Global.Common.Controls
 {

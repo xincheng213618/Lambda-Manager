@@ -478,25 +478,47 @@ int SleepTest() {
 #include <iostream>
 #include <string>
 
+
+struct Cellinfo
+{
+	int ID;
+	double PointX;
+	double PointY;
+	double Areas;
+	double Perimeter;
+	double Roundness;
+};
+
+
+int test() {
+
+	std::vector<Cellinfo> Cellinfos;
+
+	Cellinfos.push_back({ 1,1,1,2222,4444,5555 });
+	Cellinfos.push_back({ 1,2,1,2222,4444,5555 });
+
+	Event::Trigger("CellinfoTest", &Cellinfos);
+}
+
 int VideoTest() {
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
+
+
+	//std::vector<Cellinfo> Cellinfos;
+
+	//Cellinfos.push_back({ 1,"ssss",2222,4444,5555 });
+	//Cellinfos.push_back({ 2,"ssss",2222,4444,5555 });
+
 	//json j2;
-	//for (size_t i = 0; i < 2; i++)
+	//for (size_t i = 0; i < Cellinfos.size(); i++)
 	//{
 	//	json cellinfo;
-	//	//cellinfo["Name"] = "222222";
+	//	cellinfo["Name"] = Cellinfos[i].Name;
 
-	//	//cellinfo["ID"] = std::to_string(i);
-	//	//cellinfo["Areas"] = "100";
-	//	//cellinfo["Perimere"] = "1000";
-	//	//cellinfo["Centroid"] = "1000000";
-
-
-	//	cellinfo["Name"] = "中文ss";
-
-	//	cellinfo["FullName"] = std::to_string(i);
-	//	cellinfo["CreationTime"] = "2222222";
-
+	//	cellinfo["ID"] = Cellinfos[i].ID;
+	//	cellinfo["Areas"] = Cellinfos[i].Areas;
+	//	cellinfo["Perimere"] = Cellinfos[i].Perimere;
+	//	cellinfo["Centroid"] = Cellinfos[i].Centroid;
 	//	j2[i] = cellinfo;
 	//}
 	//json j3;
@@ -578,9 +600,12 @@ int CameraSettingExposure(int mode,double exposure)
 	double a = 1.001;
 	Event::Trigger("Phase_Seg", &img1, &a,&a,&a);
 
+	std::vector<Cellinfo> Cellinfos;
 
+	Cellinfos.push_back({ 1,1,1,2222,4444,5555 });
+	Cellinfos.push_back({ 1,2,1,2222,4444,5555 });
 
-	Event::Trigger("BilateralDenoise", &img1, &a);
+	Event::Trigger("CellinfoTest", &Cellinfos);
 	
 
 	//LambdaView* pView = LambdaView::GetIdleOrNew();

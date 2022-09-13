@@ -1,21 +1,14 @@
-﻿using Global.Common.Extensions;
-using Global.Controls;
+﻿using Global.Common.Controls;
+using Global.Common.Extensions;
 using Global.Mode;
 using Lambda;
-using Microsoft.VisualBasic.Logging;
 using Mode;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Global
 {
@@ -33,8 +26,7 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
-            LambdaControl.AddLambdaEventHandler("ZOOM_IN_CLICKED", ZOOM_IN_CLICKED, false);
-            LambdaControl.AddLambdaEventHandler("ZOME_OUT_CLICKED", ZOME_OUT_CLICKED, false);
+
             LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_MUL_SUMMARY", UpdateMulSummary, false);
@@ -139,16 +131,6 @@ namespace Global
             return true;
         }
 
-        private bool ZOOM_IN_CLICKED(object sender, EventArgs e)
-        {
-            return true;
-        }
-
-        private bool ZOME_OUT_CLICKED(object sender, EventArgs e)
-        {
-
-            return true;
-        }
 
         /// <summary>
         /// 更新位移台坐标
