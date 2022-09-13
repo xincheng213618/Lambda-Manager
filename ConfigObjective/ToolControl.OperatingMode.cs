@@ -86,7 +86,7 @@ namespace ConfigObjective
                 Border31.DataContext = OperatingMode.BrightField;
                 colorHelp1 = new ColorHelper(255, OperatingMode.BrightField.Color[0], OperatingMode.BrightField.Color[1], OperatingMode.BrightField.Color[2]);
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
-                Slider312.Value = (int)(colorHelp1.Brightness * 240);
+                Slider312.Value = (int)(colorHelp1.Brightness * 100100);
 
                 Border2.DataContext = OperatingMode.BrightField.CameraSetting;
             }
@@ -98,7 +98,7 @@ namespace ConfigObjective
 
                 colorHelp2 = new ColorHelper(255, OperatingMode.DarkField.Color[0], OperatingMode.DarkField.Color[1], OperatingMode.DarkField.Color[2]);
                 ColorButton321.Background = colorHelp2.SolidColorBrush;
-                Slider324.Value = (int)(colorHelp2.Brightness * 240);
+                Slider324.Value = (int)(colorHelp2.Brightness * 100);
 
                 Border2.DataContext = OperatingMode.DarkField.CameraSetting;
             }
