@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ThemeManager;
 using ThemeManager.Controls;
 
 namespace Wizard
@@ -26,14 +27,7 @@ namespace Wizard
         public MainWindow()
         {
             InitializeComponent();
-            ResourceDictionaryDark.Add("/ThemeManager;component/Styles/Dark.xaml");
-            ResourceDictionaryDark.Add("/ThemeManager;component/Styles/styles.xaml");
-
-            foreach (var item in ResourceDictionaryDark)
-            {
-                ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                Application.Current.Resources.MergedDictionaries.Add(dictionary);
-            }
+            Application.Current.ApplyTheme(Theme.Dark);
         }
         public MainWindow(string Name)
         {

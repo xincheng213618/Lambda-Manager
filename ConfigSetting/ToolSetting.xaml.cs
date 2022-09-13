@@ -46,7 +46,20 @@ namespace ConfigSetting
 
                     if (Application.Current.MainWindow.Content is Grid mainGrid&& mainGrid.Children[0] is Grid grid2 && grid2.Children[1] is StackPanel stackPanelMode)
                     {
-                        
+
+                        foreach (var item in stackPanelMode.Children)
+                        {
+                            if (item is RadioButton radioButton1)
+                            {
+                                radioButton1.SetResourceReference(RadioButton.StyleProperty, "PhaseButton");
+                            }
+                        }
+
+                        if (Application.Current.MainWindow.FindName("menu") is Menu menu)
+                        {
+                            menu.Background = Brushes.Transparent;
+                        }
+
                         if (stackPanelMode.Children[0] is RadioButton radioButton)
                         {
                             stageConfig.Visibility = radioButton.IsChecked ==true ? Visibility.Visible : Visibility.Collapsed;

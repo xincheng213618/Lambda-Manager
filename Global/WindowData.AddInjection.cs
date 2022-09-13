@@ -39,6 +39,8 @@ namespace Global
 
         private void AddInjection()
         {
+
+
             try
             {
                 Grid grid = (Grid)mainwin.FindName("grid0");
