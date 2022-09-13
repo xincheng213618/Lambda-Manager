@@ -148,10 +148,10 @@
   <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
     
   <Style x:Key="PhaseButton" TargetType="{x:Type ToggleButton}">
-    <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-    <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
-    <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
-    <Setter Property="Foreground" Value="#D0CECE" />
+        <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Background" Value="{StaticResource ButtonBorder}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBackground}"/>
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -162,8 +162,8 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type ToggleButton}">
-          <Border Name="border" Background="#3B3838" BorderBrush="#767171" BorderThickness="2" SnapsToDevicePixels="true" CornerRadius="5">
-            <ContentPresenter Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+          <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" SnapsToDevicePixels="true" CornerRadius="5">
+            <ContentPresenter Name="contentPresenter" Focusable="False"  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="Button.IsDefaulted" Value="true">
@@ -188,9 +188,9 @@
   </Style>
   <Style x:Key="IndicateButton" TargetType="{x:Type ToggleButton}">
     <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-    <Setter Property="Background" Value="#3B3838" />
-    <Setter Property="BorderBrush" Value="#7F7F7F" />
-    <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Background" Value="{StaticResource ButtonBorder}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBackground}"/>
+        <Setter Property="BorderThickness" Value="2" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="Padding" Value="1" />
