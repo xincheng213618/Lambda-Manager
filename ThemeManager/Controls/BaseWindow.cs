@@ -16,6 +16,17 @@ namespace ThemeManager.Controls
             {
                 ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/Styles/Window.xaml", UriKind.Relative)) as ResourceDictionary;
                 Application.Current.Resources.MergedDictionaries.Add(dictionary1);
+                if (ThemeManagers.CurrentUITheme == Theme.Dark)
+                {
+                    ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/Themes/Dark/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
+                    Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+                }
+                else if (ThemeManagers.CurrentUITheme == Theme.White)
+                {
+                    ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/Themes/White/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
+                    Application.Current.Resources.MergedDictionaries.Add(dictionary2);
+                }
+
                 return Application.Current.FindResource(typeof(BaseWindow)) as Style ?? null;
             }
 
