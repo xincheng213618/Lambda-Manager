@@ -102,7 +102,7 @@
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="分辨率"  Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                    <ComboBox x:Name="ComboBox1"  Style="{StaticResource combobox1}" SelectionChanged="ComboBox1_SelectionChanged"/>
+                    <ComboBox x:Name="ComboBox1"  Style="{StaticResource ComboBox2}" SelectionChanged="ComboBox1_SelectionChanged"/>
 
                     <!--<Slider x:Name="Slider216" Style="{StaticResource Horizontal_Slider2}" Value="6" Minimum="0" Maximum="10" IsSnapToTickEnabled="True"  TickFrequency="1"/>-->
                 </DockPanel>
@@ -262,7 +262,7 @@
 
                         <DockPanel >
                             <TextBlock  Width="80" Text="选择图案"  Padding="5,0" Foreground="White" VerticalAlignment="Center"/>
-                            <Button Click="Button331_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Button  Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <DockPanel x:Name="DockPanel331">
                                     <Canvas x:Name="Canvas331"  Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Center" Margin="5,0" >
                                         <Ellipse Width="40" Height="40" Fill="{Binding ElementName=Color331,Path=Fill}"/>
@@ -288,7 +288,7 @@
                                                 <RotateTransform Angle="45"/>
                                             </TransformGroup>
                                         </Canvas.RenderTransform>
-                                   
+
                                         <Path Canvas.Left="20" Canvas.Top="0" Data="M 0,0 A 1,1 1 0 1 1,1 L0,1z" Fill="{Binding ElementName=Color332,Path=Fill}" Stretch="Fill" Width="20" Height="20"/>
 
                                         <Path Canvas.Left="0" Canvas.Top="0" Data="M 1,0 A 1,1 1 0 0 0,1 L1,1z" Fill="{Binding ElementName=Color331,Path=Fill}" Stretch="Fill" Width="20" Height="20"/>
@@ -298,17 +298,18 @@
 
                                         <!--<Ellipse Width="40" Height="40" Fill="Green"/>-->
                                         <Ellipse Canvas.Left="10" Canvas.Top="10" Width="20" Height="20" Fill="{Binding ElementName=Color330,Path=Fill}"/>
-                                </Canvas>
+                                    </Canvas>
                                     <Canvas x:Name="Canvas334" Visibility="Collapsed"  Height="40" Width="40">
                                         <Image  Source="/ConfigObjective;component/image/Rheinberg.png"  Height="40" Width="40"/>
                                     </Canvas>
-                            </DockPanel>
+                                </DockPanel>
                             </Button>
                             <Button Width="20" Height="40" Canvas.Left="45" Click="Button331_Click"  Background="#595959" Visibility="Visible" BorderThickness="0"  >
                                 <Path Stroke="#6EA646"  StrokeThickness="1" Name="rheinbergPath"  Fill="#6EA646"  Data="M0,2.5C0,2.5 0,0.5 0,0.5 0,0.5 3.5,4 3.5,4 3.5,4 7,0.5 7,0.5 7,0.5 7,2.5 7,2.5 7,2.5 3.5,6 3.5,6 3.5,6 0,2.5 0,2.5z">
                                 </Path>
                             </Button>
-                            <Slider  x:Name="Slider336" Visibility="Collapsed" Style="{StaticResource LM_Slider}" VerticalAlignment="Center" Value="0" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
+
+                        <Slider  x:Name="Slider336" Visibility="Collapsed" Style="{StaticResource LM_Slider}" VerticalAlignment="Center" Value="0" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
                         </DockPanel>
 
 
@@ -372,11 +373,11 @@
                             <TextBlock  Width="70" Text="细节增强" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider352" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Detail}" Minimum="0" Maximum="5" IsSnapToTickEnabled="True"  TickFrequency="0.1"  ValueChanged="Slider352_ValueChanged"/>
                         </DockPanel>
-                        <DockPanel>
+                        <DockPanel  Visibility="Collapsed">
                             <TextBlock Text="Min"  Width="70" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider353" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Min}" Padding="5,0" Minimum="-20" Maximum="0" IsSnapToTickEnabled="True"  TickFrequency="0.1" />
                         </DockPanel>
-                        <DockPanel>
+                        <DockPanel Visibility="Collapsed">
                             <TextBlock Text="Max"  Width="70" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                             <Slider x:Name="Slider354" Style="{StaticResource LM_Slider1}" Value="{Binding Path=Max}" Minimum="0" Maximum="50" IsSnapToTickEnabled="True"  TickFrequency="0.1"/>
                         </DockPanel>
@@ -452,7 +453,7 @@
 
 
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
-            <StackPanel >
+            <StackPanel Name="MulCollectionStack" >
                 <UniformGrid Columns="5" >
                     <RadioButton Name="Button42" Style="{StaticResource ToggleButtonStyle1}" IsChecked="True" Content="培养皿" Margin="5,0"   />
                     <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}" Content="玻片" Margin="5,0" />
@@ -549,24 +550,26 @@
         </StackPanel>
 
         <Border x:Name="Border5" CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
-            <StackPanel>
 
-                <UniformGrid Columns="7" Margin="0,10,0,5"  >
-                    <ToggleButton x:Name="ToggleButton501" Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="False" />
-                    <ToggleButton x:Name="ToggleButton502" Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="True"/>
-                    <ToggleButton x:Name="ToggleButton503" Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked" Checked="ToggleButton503_Checked" />
-                    <ToggleButton x:Name="ToggleButton504"   Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0" Checked="ToggleButton504_Checked" Unchecked="ToggleButton504_Unchecked" />
-                    <ToggleButton x:Name="ToggleButton505" Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="5,0" IsChecked="False" Checked="ToggleButton505_Checked"/>
-                    <ToggleButton x:Name="ToggleButton506"   Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
-                    <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}"  Content="M" IsChecked="True" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" />
+           
+            <StackPanel>
+                <StackPanel x:Name="multiCollectionStack">
+                    <UniformGrid Columns="7" Margin="0,10,0,5" DataContext="{Binding MulColMode}" >
+                    <ToggleButton x:Name="ToggleButton501"  Style="{StaticResource ToggleButtonStyle1}" Content="X" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding XWiseChecked}" />
+                    <ToggleButton x:Name="ToggleButton502"  Style="{StaticResource ToggleButtonStyle1}" Content="Y" IsEnabled="False" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding YWiseChecked}"/>
+                    <ToggleButton x:Name="ToggleButton503"  Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked" Checked="ToggleButton503_Checked" IsChecked="{Binding ZWiseChecked}" />
+                    <ToggleButton x:Name="ToggleButton504"  Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0" Checked="ToggleButton504_Checked" Unchecked="ToggleButton504_Unchecked" IsChecked="{Binding TWiseChecked}" />
+                    <ToggleButton x:Name="ToggleButton505"  Style="{StaticResource ToggleButtonStyle1}" Content="EDOF" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="5,0" IsChecked="{Binding EdofWiseChecked}" Checked="ToggleButton505_Checked"/>
+                    <ToggleButton x:Name="ToggleButton506"  Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding PWiseChecked}" />
+                    <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}" IsEnabled="False" Content="M"  DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding MWiseChecked}" />
                 </UniformGrid>
-                <UniformGrid  Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                    <CheckBox x:Name="checkbox51" IsChecked="False" Content="明场" FontSize="15" />
-                    <CheckBox x:Name="checkbox52" IsChecked="False" Content="暗场" FontSize="15" />
-                    <CheckBox x:Name="checkbox53" IsChecked="False" Content="莱茵" FontSize="15" />
-                    <CheckBox x:Name="checkbox54" IsChecked="False" Content="差分" FontSize="15" />
-                    <CheckBox x:Name="checkbox55" IsChecked="False" Content="相位" FontSize="15" />
-                    <CheckBox x:Name="checkbox56" IsChecked="False" Content="相差" FontSize="15" />
+                    <UniformGrid  Name="CollectionMode" Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"   DataContext="{Binding FocusImageMod}" >
+                    <CheckBox x:Name="checkbox51" IsChecked="{Binding Bright,Mode=TwoWay}"  Content="明场" FontSize="15" />
+                    <CheckBox x:Name="checkbox52" IsChecked="{Binding Dark,Mode=TwoWay}" Content="暗场" FontSize="15" />
+                    <CheckBox x:Name="checkbox53" IsChecked="{Binding Rheinberg,Mode=TwoWay}" Content="莱茵" FontSize="15" />
+                    <CheckBox x:Name="checkbox54" IsChecked="{Binding Relief,Mode=TwoWay}" Content="差分" FontSize="15" />
+                    <CheckBox x:Name="checkbox55" IsChecked="{Binding Phase,Mode=TwoWay}" Content="相位" FontSize="15" />
+                    <CheckBox x:Name="checkbox56" IsChecked="{Binding Quantitative,Mode=TwoWay}" Content="相差" FontSize="15" />
                 </UniformGrid>
 
 
@@ -590,8 +593,8 @@
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="Z-绝对坐标" x:Name="ZAbsolute" FontSize="11" Width="65"  VerticalAlignment="Center" Foreground="White" />
-                                <ToggleButton  x:Name="ToggleButton5221" Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  Width="50" Margin="2" Checked="ToggleButton5221_Checked" Unchecked="ToggleButton5221_Unchecked"/>
-                                <TextBlock Text="{Binding ElementName=ToggleButton5221,Path=IsChecked}"  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ToggleButton  x:Name="ToggleButton5221" Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  Width="50" Margin="5,0,0,0" Checked="ToggleButton5221_Checked" Unchecked="ToggleButton5221_Unchecked"/>
+                                <TextBlock Text="{Binding ElementName=ToggleButton5221,Path=IsChecked}"  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
                             </DockPanel>
                         </StackPanel>
                         <StackPanel  Visibility="{Binding ElementName=ToggleButton504,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter1}}"  Margin="10,0" HorizontalAlignment="Right" >
@@ -602,7 +605,7 @@
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="T-循环间隔" FontSize="11"  Width="60" VerticalAlignment="Center" Foreground="White" />
                                 <TextBox  Height="20" Text="{Binding Path=TInterval}" PreviewKeyDown="NumberValidationTextBox" Background="#262626" HorizontalContentAlignment="Center" IsEnabled="{Binding ElementName=ToggleButton222, Path=IsChecked,Converter={StaticResource InverseBooleanConverter}}"  Foreground="White" Width="55" Margin="5,0" HorizontalAlignment="Left"/>
-                                <ComboBox Width="50"  Background="#444444" Height="20" Style="{StaticResource combobox1}" ItemsSource="{Binding TIntervalUnitsList}" SelectedItem="{Binding TIntervalUnits ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay }">
+                                <ComboBox Width="50"  Background="#444444" Height="20" Style="{StaticResource  ComboBox2}" ItemsSource="{Binding TIntervalUnitsList}" SelectedItem="{Binding TIntervalUnits ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay }">
                                    <!-- <ComboBoxItem Content="毫秒" Tag="0.001"></ComboBoxItem>
                                     <ComboBoxItem Content="秒"  Tag="1" IsSelected="True"></ComboBoxItem>
                                     <ComboBoxItem  Content="分钟" Tag="60"></ComboBoxItem>
@@ -617,7 +620,7 @@
                             </DockPanel>
                             <DockPanel Margin="0,2">
                                 <TextBlock Text="无间隔循环" Width="60" VerticalAlignment="Center" Foreground="White" />
-                                <ToggleButton x:Name="ToggleButton222"  Style="{StaticResource CheckButton1}" IsChecked="{Binding Path =TIntervalEnable,Mode=TwoWay}"  Width="50" Margin="2" Checked="ToggleButton222_Checked"/>
+                                <ToggleButton x:Name="ToggleButton222"  Style="{StaticResource CheckButton1}" IsChecked="{Binding Path =TIntervalEnable,Mode=TwoWay}"  Width="50" Margin="2" Checked="ToggleButton222_Checked" Unchecked="ToggleButton222_Unchecked" />
                                 <TextBlock Text=""  FontSize="11" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>
@@ -658,56 +661,10 @@
                                     <Label Content="速度" Background="#595959" HorizontalAlignment="Left" Margin="10,0,0,0"></Label>
                                         <Slider Width="249" Style="{StaticResource LM_Slider0}" HorizontalAlignment="Center"  Value="{Binding Precision}"  Minimum="0" Maximum="10" VerticalAlignment="Center" Orientation="Horizontal"/>
                                     <Label Content="准确度" HorizontalAlignment="Right" Margin="0,0,8,0" Background="#595959" ></Label>
-                                    </DockPanel>
-                               
-
+                                </DockPanel>
+ 
                             </StackPanel>
-                            <!--
-                            <TabControl    >
-                                <TabItem Header="系统优化"  IsSelected="{Binding OptimizedSel}"  >
-                                    <StackPanel Orientation="Vertical" DataContext="{Binding Optimized}">
-                                        <GroupBox Header="聚焦范围" BorderThickness="0.5" BorderBrush="#777777">
-                                            <UniformGrid Columns="2" Rows="2" >
-                                                <RadioButton  Content="粗聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <RadioButton  Content="精聚焦"   Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <Slider Style="{StaticResource updown}" Name="globalUpdown" Minimum="0" Maximum="100" Value="{Binding Global}"  Margin="10,0,10,0" Height="25" ></Slider>
-                                                <Slider Style="{StaticResource updown}"  Name="localUpdown"  Minimum="0" Maximum="100"  Value="{Binding  Local}" Margin="10,0,10,0" Height="25" ></Slider>
-                                            </UniformGrid>
-                                        </GroupBox>
-                                        <GroupBox Header="聚焦精度" BorderThickness="0.2" >
-                                            <DockPanel>
-                                                <Label Content="速度" Background="#595959" Foreground="white"></Label>
-                                                <Slider Width="230" Style="{StaticResource LM_Slider6}" HorizontalAlignment="Left" Value="{Binding Precision}"  VerticalAlignment="Center" Orientation="Horizontal" Margin="18,0,0,0" ></Slider>
-                                                <Label Content="准确度" HorizontalAlignment="Right" Margin="0,0,10,0"  Background="#595959" Foreground="white"></Label>
-                                            </DockPanel>
-                                        </GroupBox>
-                                      
-                                       
-                                    </StackPanel>
-                                </TabItem>
-                                <TabItem Header="自定义"  IsSelected="{Binding UserDefinedSel}">
-                                    <StackPanel DataContext="{Binding UserDefined}" >
-                                        <GroupBox Header="聚焦范围" BorderThickness="0.2">
-                                            <UniformGrid Columns="2" Rows="2" >
-                                                <RadioButton  Content="粗聚焦"     Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <RadioButton  Content="精聚焦"  Style="{StaticResource RadioButton1}"></RadioButton>
-                                                <Slider Style="{StaticResource updown}" Value="{Binding Global}" Margin="10,0,10,0" Height="25" ></Slider>
-                                                <Slider Style="{StaticResource updown}" Value="{Binding  Local}"  Margin="10,0,10,0" Height="25" ></Slider>
-                                            </UniformGrid>
-                                        </GroupBox>
-                                        <GroupBox Header="聚焦精度" BorderThickness="0.2" >
-                                            <DockPanel>
-                                                <Label Content="速度" Background="#595959"></Label>
-                                                <Slider Width="230" Style="{StaticResource LM_Slider6}" HorizontalAlignment="Left"  Value="{Binding Precision}"  Minimum="0" Maximum="10" VerticalAlignment="Center" Orientation="Horizontal" Margin="18,0,0,0"></Slider>
-                                                <Label Content="准确度" HorizontalAlignment="Right" Margin="0,0,10,0" Background="#595959" ></Label>
-                                            </DockPanel>
-                                        </GroupBox>
-                                      
-                                    </StackPanel>
-
-
-                                </TabItem>
-                            </TabControl>-->
+                            
 
 
 
@@ -715,19 +672,23 @@
                         <Border x:Name="Border522"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" BorderBrush="#333333" >
                             <DockPanel>
                                 <Label Content="T" Foreground="White"></Label>
-                                <ComboBox  HorizontalAlignment="Right"  Style="{StaticResource combobox1}" Width="150" Margin="2,0,0,0" >
+                                <ComboBox  HorizontalAlignment="Right"  Style="{StaticResource ComboBox2}" Width="150" Margin="2,0,0,0" >
                                     <ComboBoxItem Content="不聚焦" IsSelected="{Binding TwiseEnable}"></ComboBoxItem>
                                     <ComboBoxItem Content="首循环聚焦一次" IsSelected="{Binding TFirst}"></ComboBoxItem>
                                     <ComboBoxItem Content="每次循环聚焦一次" IsSelected="{Binding TEvery}"></ComboBoxItem>
                                     <ComboBoxItem  Content="每N次循环聚焦一次" IsSelected="{Binding TN}" Name="tWiseN"></ComboBoxItem>
                                 </ComboBox>
-                                <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="{Binding ElementName=tWiseN,Path=IsSelected,Converter={StaticResource BooleanToVisibilityConverter1}}" Value="{Binding TWiseN}"  Height="25" Width="150" HorizontalAlignment="Right" Margin="0,0,18,0"  ></Slider>
+                             <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="{Binding ElementName=tWiseN,Path=IsSelected,Converter={StaticResource BooleanToVisibilityConverter1}}" Value="{Binding TWiseN}"  Height="25" Width="150" HorizontalAlignment="Right" Margin="5,0,18,0"  ></Slider> 
+                               
+                             <!--  <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="Visible" Value="{Binding TWiseN}"  Height="25" Width="70" HorizontalAlignment="Left" Margin="5,0,0,0"  ></Slider> -->
+                               
+
                             </DockPanel>
                         </Border>
                         <Border x:Name="Border523" Margin="0,10,0,5" BorderBrush="#333333"  Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" >
                             <DockPanel>
                                 <Label Content="P" Foreground="White"></Label>
-                                <ComboBox HorizontalAlignment="Right" Width="150" Style="{StaticResource combobox1}" Margin="2,0,0,0" >
+                                <ComboBox HorizontalAlignment="Right" Width="150" Style="{StaticResource ComboBox2}" Margin="2,0,0,0" >
                                     <ComboBoxItem Content="不聚焦" IsSelected="{Binding PwiseEnable}"></ComboBoxItem>
                                     <ComboBoxItem Content="首个采集点聚焦一次" IsSelected="{Binding PFirst}"></ComboBoxItem>
                                     <ComboBoxItem Content="每个采集点聚焦一次" IsSelected="{Binding PEvery}"></ComboBoxItem>
@@ -736,11 +697,21 @@
                                 <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Value="{Binding PWiseN}"  Width="150" Visibility="{Binding ElementName=pWiseN,Path=IsSelected,Converter={StaticResource BooleanToVisibilityConverter1}}"  Height="25"  HorizontalAlignment="Right" Margin="0,0,18,0"  ></Slider>
                             </DockPanel>
                         </Border>
-
+                            <Border Margin="5,5,0,0"  Name="ImageModeSelBorder" Visibility="{Binding ModeSelecteShow,Converter={StaticResource BooleanToVisibilityConverter1}}" DataContext="{Binding FocusImageMod}">
+                                <DockPanel >
+                                <Label Content="聚焦模态"  Foreground="white" HorizontalAlignment="Left" Margin="10,0,0,0" ></Label>
+                                <ComboBox  Name="focusModeCombo"  HorizontalAlignment="Left" Style="{StaticResource ComboBox2}" ItemsSource="{Binding ModeList}"  DisplayMemberPath="mode"  Width="60" Margin="36,0,0,0" VerticalContentAlignment="Center" Padding="5,2,5,2" SelectedIndex="{Binding ModeSelectedIndex}" SelectedItem="{Binding FocusImageModeSel,Mode=OneWayToSource}"
+                                    >
+                                </ComboBox>
+                            </DockPanel>
+                        </Border>
+                        
                     </StackPanel>
+            
 
-                 
-                </Border>
+                 </Border>
+                </StackPanel>
+
                 <ToggleButton x:Name="ToggleButton51"  Style="{StaticResource ButtonPageControl}" Content="采集摘要" FontSize="13" Foreground="White" IsChecked="True" />
                 <Border Visibility="{Binding ElementName=ToggleButton51 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
                     <UniformGrid Columns="2" x:Name="MulSummaryUniformGrid" >
@@ -796,6 +767,7 @@
 
 
             </StackPanel>
+           
         </Border>
 
         <ToggleButton x:Name="ToggleButton6"  Style="{StaticResource ButtonPageControl}" Content="其他设置" FontSize="14" Foreground="White" IsChecked="False" Margin="0,5,0,0"/>

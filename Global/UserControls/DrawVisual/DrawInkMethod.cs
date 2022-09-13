@@ -2,6 +2,7 @@
 using Global.UserControls.DrawVisual;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,8 @@ namespace Global
 
         public static DimenViewModel defdimenViewModel = new DimenViewModel();
         public static DimenViewModel dimenViewModel = new DimenViewModel();
+        public static StrokeCollection  DrawStrokes= new StrokeCollection();
+        public static ObservableCollection<Stroke> StrokesCollection = new ObservableCollection<Stroke>();
         public Stroke Dimstroke;
         public Stroke Textstroke;
         public double distance;
@@ -74,6 +77,7 @@ namespace Global
             List<System.Windows.Point> pointList = new List<System.Windows.Point>();
             StylusPointCollection point;
             Stroke stroke;
+          
 
             double w = 20, h = 7;
             double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
@@ -515,7 +519,7 @@ namespace Global
             };
             return stroke;
         }
-        public List<System.Windows.Point> GenerateEllipseGeometry(System.Windows.Point st, System.Windows.Point ed, bool isDrawTop = true, bool isDrawBottom = true)
+        public static List<System.Windows.Point> GenerateEllipseGeometry(System.Windows.Point st, System.Windows.Point ed, bool isDrawTop = true, bool isDrawBottom = true)
         {
             double a = 0.5 * (ed.X - st.X);
             double b = 0.5 * (ed.Y - st.Y);
@@ -577,7 +581,7 @@ namespace Global
             {
                 DrawingAttributes attributes = new DrawingAttributes
                 {
-                    FitToCurve = true,
+                    FitToCurve = false,
                     Width = 1,
                     Height = 1,
                     Color = color,
@@ -829,6 +833,104 @@ namespace Global
                 return stroke;
 
             }
+            public static EllipseStroke CreateEllipse(Point st, Point ed, Color color)
+            {
+                //double dist = Math.Sqrt(Math.Pow(ed.X - st.X, 2) + Math.Pow(ed.Y - st.Y, 2));
+                //double deltaX = ed.X - st.X;
+                //double deltaY = ed.Y - st.Y;
+
+                //double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
+                //double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
+                //ed = new System.Windows.Point(st.X + x, st.Y + y);
+                List<System.Windows.Point> pointList =DrawInkMethod.GenerateEllipseGeometry(st, ed);
+                StylusPointCollection point = new StylusPointCollection(pointList);
+
+                EllipseStroke stroke = new EllipseStroke(point, color)
+                {
+                    DrawingAttributes = SetInkAttributes1(color),
+                };
+                return stroke;
+            }
+            public static CircleStroke CreateCircle(Point st, Point ed, Color color)
+            {
+                double dist = Math.Sqrt(Math.Pow(ed.X - st.X, 2) + Math.Pow(ed.Y - st.Y, 2));
+                double deltaX = ed.X - st.X;
+                double deltaY = ed.Y - st.Y;
+
+                double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
+                double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
+                ed = new System.Windows.Point(st.X + x, st.Y + y);
+                List<System.Windows.Point> pointList = DrawInkMethod.GenerateEllipseGeometry(st, ed);
+                StylusPointCollection point = new StylusPointCollection(pointList);
+
+                CircleStroke stroke = new CircleStroke(point, color)
+                {
+                    DrawingAttributes = SetInkAttributes1(color),
+                };
+                return stroke;
+            }
+
+
+
+            public static RectangleStroke CreateRectangleStroke(System.Windows.Point st, System.Windows.Point ed, Color color)
+            {
+
+                List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+                StylusPointCollection point;
+                pointList = new List<System.Windows.Point>{
+                        new System.Windows.Point(st.X, st.Y),
+                        new System.Windows.Point(st.X, ed.Y),
+                        new System.Windows.Point(ed.X, ed.Y),
+                        new System.Windows.Point(ed.X, st.Y),
+                        new System.Windows.Point(st.X, st.Y)
+                    };
+               point = new StylusPointCollection(pointList);
+               RectangleStroke  stroke = new RectangleStroke(point,color)
+                {
+                    DrawingAttributes = SetInkAttributes1(color)
+              };
+
+                return stroke;
+            }
+
+       
+
+            public static SquareStroke CreateSquare(System.Windows.Point st, System.Windows.Point ed, Color color)
+            {
+
+                double dist = Math.Sqrt(Math.Pow(ed.X - st.X, 2) + Math.Pow(ed.Y - st.Y, 2));
+                double deltaX = ed.X - st.X;
+                double deltaY = ed.Y - st.Y;
+
+                double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
+                double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
+                ed = new System.Windows.Point(st.X + x, st.Y + y);
+
+                List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+                StylusPointCollection point;
+               
+                pointList = new List<System.Windows.Point>{
+                        new System.Windows.Point(st.X, st.Y),
+                        new System.Windows.Point(st.X, ed.Y),
+                        new System.Windows.Point(ed.X, ed.Y),
+                        new System.Windows.Point(ed.X, st.Y),
+                        new System.Windows.Point(st.X, st.Y)
+                    };
+                point = new StylusPointCollection(pointList);
+
+                SquareStroke stroke = new SquareStroke(point, color)
+                {
+                    DrawingAttributes = SetInkAttributes1(color)
+                 };
+                return stroke;
+
+
+
+            }
+
+
+
+
 
 
         }
@@ -884,6 +986,69 @@ namespace Global
             }
         }
 
+        public class EllipseStroke : Stroke
+        {
+            public EllipseStroke(StylusPointCollection points, Color color) : base(points)
+            {
+                StylusPoints = points.Clone();
+                Color1 = color;
+            }
+            Color Color1;
+            public int Index { get; set; }
+            public string Type { get; set; } = "椭圆";
+           
+
+        }
+
+        public class CircleStroke : Stroke
+        {
+            public CircleStroke(StylusPointCollection points, Color color) : base(points)
+            {
+                StylusPoints = points.Clone();
+                Color1 = color;
+            }
+            Color Color1;
+            public int Index { get; set; }
+            public string Type { get; set; } = "圆";
+
+
+        }
+
+        public class RectangleStroke : Stroke
+        {
+            public RectangleStroke(StylusPointCollection points, Color color) : base(points)
+            {
+                StylusPoints = points.Clone();
+                Color1 = color;
+            }
+            Color Color1;
+            public int Index { get; set; }
+            public string Type { get; set; } = "矩形";
+
+
+        }
+        public class SquareStroke : Stroke
+        {
+            public SquareStroke(StylusPointCollection points, Color color) : base(points)
+            {
+                StylusPoints = points.Clone();
+                Color1 = color;
+            }
+            Color Color1;
+            public int Index { get; set; }
+            public string Type { get; set; } = "正方形";
+
+
+        }
+
+
+
+
+
+
+
+
+
 
         public class Bezierpath : Stroke
         {
@@ -930,15 +1095,12 @@ namespace Global
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
-               
-
                 PathGeometry geometry = new PathGeometry();
                 PathFigure figure = new PathFigure
                 {
                     StartPoint = (Point)StylusPoints[0],
 
                 };
-
                QuadraticBezierSegment quadraticBezier = new QuadraticBezierSegment((Point)StylusPoints[1], (Point)StylusPoints[2], true);
                figure.Segments.Add(quadraticBezier);
              
@@ -948,19 +1110,6 @@ namespace Global
 
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1022,8 +1171,11 @@ namespace Global
 
                 this.customTextInput = text;
                 this.brush = brush;
+                Index = 1;
             }
             FormattedText customTextInput;
+            public int Index { get; set; }
+            public string Type { get; set; } = "文本";
             Brush brush;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
@@ -1057,7 +1209,7 @@ namespace Global
                 this.ratio = ratio;
               
             }
-            RatioClass ratio;
+           RatioClass ratio;
             
 
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -1311,8 +1463,7 @@ namespace Global
             {
                 StylusPoints = points.Clone();
                 this.image = image;
-                
-
+               
             }
             Image image;
             WriteableBitmap bitmapImage;

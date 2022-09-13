@@ -151,7 +151,7 @@ namespace Global.Mode.Config
             }
 
 
-            private bool moveChecked = false;
+            private bool moveChecked = true;
             [JsonPropertyName("move-checked")]
             public bool MoveChecked
             {

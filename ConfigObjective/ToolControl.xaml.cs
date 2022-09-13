@@ -307,17 +307,11 @@ namespace ConfigObjective
 
 
 
-        private void MapAddEventHandler()
+       
+        private void ToggleButton222_Unchecked(object sender, RoutedEventArgs e)
         {
-            //System.Windows.MessageBox.Show("1111");
-            Window mainwin = Application.Current.MainWindow;
-            WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
-            int count = bottomToolbar.Children.Count;
-            Button bottomPlace = (Button)bottomToolbar.Children[count-1];
-            bottomPlace.Click += delegate { Map.DrawSeriesPoint(Map.SeriesPoints); };
-           
+            windowData.MulDimensional.TInterval = "0";
         }
-
     }
 
 

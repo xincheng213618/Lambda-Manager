@@ -4,9 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Text.Json.Serialization;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Global.Mode.Config
 {
+    public class FocusImageMode
+    {
+        public int Index { get; set; }
+        public string mode { get; set; }
+    }
     [Serializable]
     public class MulDimensional: ViewModelBase
     {
@@ -18,12 +25,247 @@ namespace Global.Mode.Config
             Zstep=mulDimensional.Zstep;
             ZAbsolute=mulDimensional.ZAbsolute;
             TEnable = mulDimensional.TEnable;
+
         }
-        
+       
         public List<MulDimensionalArea> mulDimensionalAreas { get; set; } = new List<MulDimensionalArea> { };
         public List<MulDimensionalPoint> mulDimensionalPoints { get; set; } = new List<MulDimensionalPoint> { };
-
+       
         public List<string> TIntervalUnitsList { get; set; } = new List<string> {"秒","分钟","小时","天"};
+
+
+        private FocusImageModeS focusImageModeS = new FocusImageModeS();
+        public FocusImageModeS FocusImageMod 
+        {
+            get { return focusImageModeS; }
+            set
+            {
+                focusImageModeS = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+        public class FocusImageModeS:ViewModelBase
+        {
+            private bool bright = false;
+            private bool dark = false;
+            private bool rheinberg = false;
+            private bool relief = false;
+            private bool quantitative = false;
+            private bool phase = false;
+            private FocusImageMode brightMode = new FocusImageMode() { Index = 0, mode = "明场" };
+            private FocusImageMode darkMode = new FocusImageMode() { Index = 1, mode = "暗场" };
+            private FocusImageMode rheinbergMode = new FocusImageMode() { Index = 2, mode = "莱茵" };
+            private FocusImageMode reliefMode = new FocusImageMode() { Index = 3, mode = "差分" };
+            private FocusImageMode quantitativeMode = new FocusImageMode() { Index = 4, mode = "相差" };
+            private FocusImageMode phaseMode = new FocusImageMode() { Index = 5, mode = "相位" };
+
+            public ObservableCollection<FocusImageMode> ModeList { get; set; } = new ObservableCollection<FocusImageMode>() { };
+
+            private FocusImageMode focusImageModeSel;
+            private int modeSelectedIndex = 0;
+            private bool modeSelecteShow = false;
+           
+            public bool ModeSelecteShow
+            {
+                get { return modeSelecteShow; }
+                set
+                {
+                    modeSelecteShow = value;
+                    NotifyPropertyChanged();
+                }
+            }
+            public FocusImageMode FocusImageModeSel
+            {
+                get { return focusImageModeSel; }
+                set
+                {
+                    focusImageModeSel = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+
+
+            public int ModeSelectedIndex
+            {
+                get { return modeSelectedIndex; }
+                set
+                {
+                    modeSelectedIndex = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+            public bool Bright
+            {
+                get { return bright; }
+                set
+                {
+                    bright = value;
+                    NotifyPropertyChanged();
+                    if (value)
+                    {
+                        if (ModeList.Contains(brightMode) == false)
+                            ModeList.Add(brightMode);
+
+                    }
+                    else
+                    {
+                        if (ModeList.Contains(brightMode))
+                            ModeList.Remove(brightMode);
+                    }
+                    CollectionOrder(ModeList);
+                }
+
+            }
+
+
+
+
+            public bool Dark
+            {
+                get { return dark; }
+                set
+                {
+                    dark = value; NotifyPropertyChanged();
+
+                    if (value)
+                    {
+                        if (ModeList.Contains(darkMode) == false)
+                            ModeList.Add(darkMode);
+
+                    }
+                    else
+                    {
+                        if (ModeList.Contains(darkMode))
+                            ModeList.Remove(darkMode);
+
+                    }
+                    CollectionOrder(ModeList);
+
+                }
+            }
+            public bool Rheinberg
+            {
+                get { return rheinberg; }
+                set
+                {
+                    rheinberg = value; NotifyPropertyChanged();
+                    if (value)
+                    {
+                        if (ModeList.Contains(rheinbergMode) == false)
+                            ModeList.Add(rheinbergMode);
+
+                    }
+                    else
+                    {
+                        if (ModeList.Contains(rheinbergMode))
+                            ModeList.Remove(rheinbergMode);
+                    }
+                    CollectionOrder(ModeList);
+                }
+            }
+            public bool Relief
+            {
+                get { return relief; }
+                set
+                {
+                    relief = value; NotifyPropertyChanged();
+                    if (value)
+                    {
+                        if (ModeList.Contains(reliefMode) == false)
+                            ModeList.Add(reliefMode);
+
+                    }
+                    else
+                    {
+                        if (ModeList.Contains(reliefMode))
+                            ModeList.Remove(reliefMode);
+                    }
+                    CollectionOrder(ModeList);
+                }
+            }
+            public bool Quantitative
+            {
+                get { return quantitative; }
+                set
+                {
+                    quantitative = value; NotifyPropertyChanged();
+                    if (value)
+                    {
+                        if (ModeList.Contains(quantitativeMode) == false)
+                            ModeList.Add(quantitativeMode);
+
+                    }
+                    else
+                    {
+                        if (ModeList.Contains(quantitativeMode))
+                            ModeList.Remove(quantitativeMode);
+                    }
+                    CollectionOrder(ModeList);
+
+                }
+            }
+
+            public bool Phase
+            {
+                get { return phase; }
+                set
+                {
+                    phase = value; NotifyPropertyChanged();
+
+                    if (value)
+                    {
+                        if (ModeList.Contains(phaseMode) == false)
+                            ModeList.Add(phaseMode);
+                        CollectionOrder(ModeList);
+                    }
+                    else
+                    {
+                        if (ModeList.Contains(phaseMode))
+                            ModeList.Remove(phaseMode);
+                    }
+
+                }
+            }
+            public ObservableCollection<FocusImageMode> CollectionOrder(ObservableCollection<FocusImageMode> modelist)
+            {
+                if (modelist == null || modelist.Count == 0)
+                {
+                    ModeSelecteShow = false;
+                    return null;
+                }
+                else
+                {
+                    ObservableCollection<FocusImageMode> ModeList1 = new ObservableCollection<FocusImageMode>(ModeList.OrderBy(item => item.Index));
+                    modelist.Clear();
+                    foreach (var item in ModeList1)
+                    {
+                        modelist.Add(item);
+                    }
+                    ModeSelectedIndex = 0;
+                    ModeSelecteShow = true;
+                    return modelist;
+                }
+
+
+            }
+
+
+        }
+
+
+        private MulCollectionMode mulColMode = new MulCollectionMode();
+        public MulCollectionMode MulColMode
+        {
+            get { return mulColMode; }
+            set { mulColMode = value; NotifyPropertyChanged(); }
+        }
+
+
 
         private string tIntervalUnits = "小时";
         public string TIntervalUnits 
@@ -318,7 +560,7 @@ namespace Global.Mode.Config
 
 
         private Optimize optimized = new Optimize();
-     public Optimize Optimized
+         public Optimize Optimized
         {
             get { return optimized; }
             set 
@@ -339,21 +581,70 @@ namespace Global.Mode.Config
             }
         }
 
-
-
+       
+     
 
     }
+    public class MulDimensionalPoint
+    {
+        public MulDimensionalPoint(System.Windows.Point point)
+        {
+            X = (int)point.X;
+            Y = (int)point.Y;
+        }
+        public MulDimensionalPoint(System.Drawing.Point point)
+        {
+            X = point.X;
+            Y = point.Y;
+        }
+        [JsonPropertyName("X")]
+        public int X { get; set; }
+        [JsonPropertyName("Y")]
+        public int Y { get; set; }
+    }
 
+    public class MulDimensionalArea
+    {
+        public MulDimensionalArea(System.Windows.Rect rectangle)
+        {
+            X = (int)rectangle.Top;
+            Y = (int)rectangle.Left;
+            Width = (int)rectangle.Width;
+            Height = (int)rectangle.Height;
+        }
+        public MulDimensionalArea(System.Drawing.Rectangle rectangle)
+        {
+            X = rectangle.Top;
+            Y = rectangle.Left;
+            Width = rectangle.Width;
+            Height = rectangle.Height;
+        }
 
+        public MulDimensionalArea()
+        {
+
+        }
+        [JsonPropertyName("X")]
+        public int X { get; set; }
+        [JsonPropertyName("Y")]
+        public int Y { get; set; }
+        [JsonPropertyName("Width")]
+        public int Width { get; set; }
+        [JsonPropertyName("Height")]
+        public int Height { get; set; }
+    }
     public class Optimize : ViewModelBase
     {
 
         private bool isGlobal = false;
-        public bool IsGlobal 
-        { get { return isGlobal; } 
-            set { isGlobal = value; 
-                NotifyPropertyChanged(); 
-            } 
+        public bool IsGlobal
+        {
+            get { return isGlobal; }
+            set
+            {
+                isGlobal = value;
+                NotifyPropertyChanged();
+            }
         }
         private bool isLocal = false;
         public bool IsLocal
@@ -402,7 +693,7 @@ namespace Global.Mode.Config
         }
 
 
-      
+
     }
     public class UserDefine : ViewModelBase
     {
@@ -464,57 +755,60 @@ namespace Global.Mode.Config
             }
         }
 
+
     }
-
-
-
-
-    public class MulDimensionalPoint
+    public class MulCollectionMode : ViewModelBase
     {
-        public MulDimensionalPoint(System.Windows.Point point)
+
+        private bool xWiseChecked = true;
+        private bool yWiseChecked = true;
+        private bool zWiseChecked = false;
+        private bool tWiseChecked = false;
+        private bool edofWiseChecked = false;
+        private bool pWiseChecked = false;
+        private bool mWiseChecked = true;
+
+        public bool XWiseChecked
         {
-            X = (int)point.X;
-            Y = (int)point.Y;
+            get { return xWiseChecked; }
+            set { xWiseChecked = value; NotifyPropertyChanged(); }
         }
-        public MulDimensionalPoint(System.Drawing.Point point)
+        public bool YWiseChecked
         {
-            X = point.X;
-            Y = point.Y;
+            get { return yWiseChecked; }
+            set { yWiseChecked = value; NotifyPropertyChanged(); }
         }
-        [JsonPropertyName("X")]
-        public int X { get; set; }
-        [JsonPropertyName("Y")]
-        public int Y { get; set; }
+        public bool ZWiseChecked
+        {
+            get { return zWiseChecked; }
+            set { zWiseChecked = value; NotifyPropertyChanged(); }
+        }
+        public bool TWiseChecked
+        {
+            get { return tWiseChecked; }
+            set { tWiseChecked = value; NotifyPropertyChanged(); }
+        }
+        public bool EdofWiseChecked
+        {
+            get { return edofWiseChecked; }
+            set { edofWiseChecked = value; NotifyPropertyChanged(); }
+        }
+        public bool PWiseChecked
+        {
+            get { return pWiseChecked; }
+            set { pWiseChecked = value; NotifyPropertyChanged(); }
+        }
+        public bool MWiseChecked
+        {
+            get { return mWiseChecked; }
+            set { mWiseChecked = value; NotifyPropertyChanged(); }
+        }
+
+
+
     }
 
-    public class MulDimensionalArea
-    {
-        public MulDimensionalArea(System.Windows.Rect rectangle)
-        {
-            X = (int)rectangle.Top;
-            Y = (int)rectangle.Left;
-            Width = (int)rectangle.Width;
-            Height = (int)rectangle.Height;
-        }
-        public MulDimensionalArea(System.Drawing.Rectangle rectangle)
-        {
-            X = rectangle.Top;
-            Y = rectangle.Left;
-            Width = rectangle.Width;
-            Height = rectangle.Height;
-        }
 
-        public MulDimensionalArea()
-        {
 
-        }
-        [JsonPropertyName("X")]
-        public int X { get; set; }
-        [JsonPropertyName("Y")]
-        public int Y { get; set; }
-        [JsonPropertyName("Width")]
-        public int Width { get; set; }
-        [JsonPropertyName("Height")]
-        public int Height { get; set; }
-    }
+
 }

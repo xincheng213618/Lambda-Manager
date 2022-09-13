@@ -26,46 +26,32 @@ namespace Global
     {
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;
-
-      
-     
         public DrawInkMethod inkMethod = new DrawInkMethod();
         Window mainwin = Application.Current.MainWindow;
-
-      
         public InkVisual[] inkVisuals = new InkVisual[100];
-        
-
-
-        public  void AddImageConfident(Image image1, int viewindex)
+        public void AddImageConfident(Image image1, int viewindex)
         {
-           
-            
             DrawInkMethod inkMethod = new DrawInkMethod();
-            InkVisual inkVisual = new InkVisual(viewindex, image1,ImageViewState.toolTop, inkMethod);
+            InkVisual inkVisual = new InkVisual(viewindex, image1, ImageViewState.toolTop, inkMethod);
             if (image1.Parent is Grid grid0)
             {
                 try
                 {
-                   
                     inkVisuals[viewindex] = inkVisual;
                     if (ViewContentMenuCache.ContainsKey(viewindex))
                         AddViewContentMenu(viewindex, ViewContentMenuCache[viewindex]);
-
                     if (image1.Parent is Grid grid1)
                     {
                         Binding bindingW = new Binding();
                         bindingW.Source = image1;
                         bindingW.Path = new PropertyPath("ActualWidth");
                         inkVisual.SetBinding(Image.WidthProperty, bindingW);
-
                         Binding bindingH = new Binding();
                         bindingH.Source = image1;
                         bindingH.Path = new PropertyPath("ActualHeight");
                         inkVisual.SetBinding(Image.HeightProperty, bindingH);
                         grid1.Children.Add(inkVisual);
                         Grid.SetRow(inkVisual, 0);
-
                     }
                     if (image1.Parent is Grid grid2)
                     {
@@ -80,8 +66,6 @@ namespace Global
                                     inkVisual.inkCanvas.UseCustomCursor = true;
                                     StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
                                     inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
-
-
                                 }
                                 else
                                 {
@@ -89,14 +73,13 @@ namespace Global
                                     inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
                                 }
                             }
-                            else if ((bool)ImageViewState.toolTop.DimensionChecked || (bool)ImageViewState.toolTop.ArrowChecked || (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
+                            else if ((bool)ImageViewState.toolTop.ArrowChecked || (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
                             {
                                 inkVisual.inkCanvas.Cursor = Cursors.Cross;
                             }
                             else if ((bool)ImageViewState.toolTop.MoveChecked)
                             {
                                 inkVisual.inkCanvas.Cursor = Cursors.Hand;
-
                             }
                             else
                             {
@@ -104,80 +87,25 @@ namespace Global
                             };
                             if (e.PropertyName == "DimensionChecked")
                             {
-                                if ((bool)ImageViewState.toolTop.DimensionChecked)
-                                {
-
-                                    if (!inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                                    {
-                                        double w = inkVisual.ActualWidth;
-                                        double h = inkVisual.ActualHeight;
-                                        Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                        Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
-                                        inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                                        try
-                                        {
-                                            inkVisual.inkCanvas.Strokes.Remove(inkVisual.lastTempStroke);
-                                        }
-                                        catch { }
-                                        //inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                                        inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                        //inkVisual.lastTempStroke = null;
-                                        inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                        inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-
-                                    }
-                                    else
-                                    {
-                                        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-                                        double w = inkVisual.ActualWidth;
-                                        double h = inkVisual.ActualHeight;
-                                        Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                        Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
-                                        inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-
-                                        inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                                        inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                        inkVisual.lastTempStroke = null;
-                                        //inkVisual.lastTempStroke = null;
-                                        inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                        inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-                                    }
-
-
-
-                                }
-                                else
-                                {
-
-                                }
-
                             };
                             if (e.PropertyName == "SelectChecked")
                             {
-
                                 if ((bool)ImageViewState.toolTop.SelectChecked)
                                 {
                                     inkVisual.Visibility = Visibility.Visible;
-
                                 }
                                 else
                                 {
                                     inkVisual.Visibility = Visibility.Visible;
-
                                 }
-
 
                             }
                             if (e.PropertyName == "CurveChecked")
                             {
 
-
                             }
 
                         };
-
-
 
                         if (image1.Parent is Grid grid3)
                         {
@@ -193,21 +121,7 @@ namespace Global
                                 {
                                     if (inkVisual.saveTempStroke && inkVisual.inkCanvas.Strokes.Count > 0)
                                     {
-                                        if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                                        {
-                                            inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                            inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-
-                                        }
-
                                         inkVisual.tempStroke = inkVisual.inkCanvas.Strokes.Clone();
-                                        if (inkMethod.Dimstroke != null)
-                                        {
-                                            inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                            inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-                                        }
-                                       
-
                                         inkVisual.saveTempStroke = false;
                                     }
                                     Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
@@ -218,29 +132,6 @@ namespace Global
                                     inkVisual.ZoomInOut++;
                                     inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio * 1.2;
 
-                                    if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                                    {
-                                        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-                                        double w = inkVisual.ActualWidth;
-                                        double h = inkVisual.ActualHeight;
-                                        Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                        Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
-                                        inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                                        try
-                                        {
-                                            inkVisual.inkCanvas.Strokes.Remove(inkVisual.lastTempStroke);
-                                        }
-                                        catch { }
-                                    //inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                                    inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                    //inkVisual.lastTempStroke = null;
-                                    inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                      inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-
-                                    }
-
-
                                 };
 
                             };
@@ -250,20 +141,8 @@ namespace Global
                                 {
                                     if (inkVisual.saveTempStroke && inkVisual.inkCanvas.Strokes.Count > 0)
                                     {
-                                        if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                                        {
-                                            inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                            inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-
-                                        }
 
                                         inkVisual.tempStroke = inkVisual.inkCanvas.Strokes.Clone();
-                                        if (inkMethod.Dimstroke != null)
-                                        {
-                                            inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                            inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-                                        }
-
                                         inkVisual.saveTempStroke = false;
                                     }
                                     Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
@@ -274,92 +153,30 @@ namespace Global
                                     inkVisual.inkCanvas.Strokes.Transform(matrix, false);
                                     inkVisual.ZoomInOut--;
                                     inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio / 1.2;
-
-                                    if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                                    {
-                                        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                        inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-                                        double w = inkVisual.ActualWidth;
-                                        double h = inkVisual.ActualHeight;
-                                        Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                        Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
-                                        inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                                        try
-                                        {
-                                            inkVisual.inkCanvas.Strokes.Remove(inkVisual.lastTempStroke);
-                                        }
-                                        catch { }
-                                    //inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                                    inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                    //inkVisual.lastTempStroke = null;
-                                    inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                        inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-
-                                    }
-
                                 };
                             };
                             ScaleButton.Click += delegate
                             {
-                               if (inkVisual.saveTempStroke)
+                                if (inkVisual.saveTempStroke)
                                     return;
-                                if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                                {
-                                    inkVisual.tempStroke.Add(inkMethod.Dimstroke);
-                                }
-
                                 inkVisual.inkCanvas.Strokes.Clear();
                                 inkVisual.inkCanvas.Strokes.Add(inkVisual.tempStroke);
                                 inkVisual.saveTempStroke = true;
                                 inkVisual.ZoomInOut = 0;
                                 inkVisual.ratio1.Ratio = 1;
-                                if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                                {
-                                    inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                    inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-                                    double w = inkVisual.ActualWidth;
-                                    double h = inkVisual.ActualHeight;
-                                    Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                                    Point endP = new Point(w * 19 / 20 - w * 100 * inkVisual.ratio1.Ratio / 1689.12, h * 19 / 20);
-                                    inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                                    try
-                                    {
-                                        inkVisual.inkCanvas.Strokes.Remove(inkVisual.lastTempStroke);
-                                    }
-                                    catch { }
-                                //inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                //inkVisual.lastTempStroke = null;
-                                inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
 
-                                }
                             };
                         }
 
-                       
-
-
-                    }
+                   }
                 }
-
-
-
-
                 catch (Exception ex)
                 {
                     LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
                 }
-
-
-
-
-
-
 
             }
 
         }
     }
 }
-  

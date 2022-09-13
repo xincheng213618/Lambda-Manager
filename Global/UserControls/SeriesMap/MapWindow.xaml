@@ -20,13 +20,13 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="采集点位置信息"  FontSize="16"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-20,0,0"></TextBlock>
         <Grid Grid.Column="0" VerticalAlignment="Top" Margin="5,10,0,5" >
-            <Canvas x:Name="mapCanvas" Width="300" Height="300" MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown" MouseMove="mapCanvas_MouseMove" MouseLeftButtonUp="mapCanvas_MouseLeftButtonUp"    >
-                <Image  Width="{Binding ActualWidth, ElementName=mapCanvas}" Height="{Binding ActualHeight, ElementName=mapCanvas}" Stretch="Fill" Source="/Global;component/UserControls/Image/startpicture1.png" />
+            <Canvas Background="#7e7e7e" x:Name="mapCanvas" Width="300" Height="300" MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown"   >
+              <!--  <Image  Width="{Binding ActualWidth, ElementName=mapCanvas}" Height="{Binding ActualHeight, ElementName=mapCanvas}" Stretch="Fill" Source="/Global;component/UserControls/Image/startpicture1.png" />-->
                 <Path  Fill="#3A3A3A" StrokeThickness="0" Margin="-1"  Stroke="#595959" Canvas.Left="0"  Canvas.Top="0">
                     <Path.Data>
                         <GeometryGroup>
                             <RectangleGeometry Rect="0 0 302 302"/>
-                            <EllipseGeometry Center="150 150" RadiusX="150" RadiusY="150" />
+                            <EllipseGeometry Center="151 151" RadiusX="150" RadiusY="150" />
                         </GeometryGroup>
                     </Path.Data>
                 </Path>

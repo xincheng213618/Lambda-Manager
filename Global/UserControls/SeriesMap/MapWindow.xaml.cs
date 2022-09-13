@@ -31,10 +31,10 @@ namespace Global.UserControls.SeriesMap
         public MapWindow()
         {
             InitializeComponent();
-            MultiRec.Stroke = Brushes.Black;
-            MultiRec.StrokeThickness = 2;
-            MultiRec.StrokeDashArray = new DoubleCollection() { 3, 2 };
-            mapCanvas.Children.Add(MultiRec);
+            //MultiRec.Stroke = Brushes.Black;
+            //MultiRec.StrokeThickness = 2;
+            //MultiRec.StrokeDashArray = new DoubleCollection() { 3, 2 };
+            //mapCanvas.Children.Add(MultiRec);
             ReadJsonPCollection();
         }
 
@@ -42,7 +42,7 @@ namespace Global.UserControls.SeriesMap
 
 
 
-        Rectangle MultiRec = new Rectangle();
+        //Rectangle MultiRec = new Rectangle();
         public List<Point> SeriesPoints = new List<Point>()
         {
             //new Point(120,66),new Point(96, 66),new Point(128, 72),new Point(184, 78),new Point(160, 84),new Point(96,84), new Point(112,84),new Point(208, 96),new Point(208, 102),new Point(128, 108),new Point(248, 108),new Point(88,114),
@@ -53,7 +53,7 @@ namespace Global.UserControls.SeriesMap
 
         public void ReadJsonPCollection()
         {
-           // string path = @"C:\Users\15850\Desktop\ReceiveJson.json";
+            // string path = @"C:\Users\15850\Desktop\ReceiveJson.json";
             string path = @"C:\1\ReceiveJson.json";
 
             if (File.Exists(path))
@@ -74,25 +74,15 @@ namespace Global.UserControls.SeriesMap
 
         public void DrawPointRec(List<Point> points)    //Add rectangle to show acquire point 
         {
-            
+
             int i = 0;
             points = points.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
-           
+
             foreach (Point p in points)
             {
                 i++;
                 Rectangle rectangle = new Rectangle() { Width = 8, Height = 6, Fill = Brushes.Blue, Opacity = 0.6, Name = "SelectPoint" + i.ToString() };
-                Brush brushTemp ;
-                //rectangle.MouseEnter += delegate
-                //{
-                //    brushTemp = rectangle.Fill;
-                //    rectangle.Fill = Brushes.Red;
-                //    rectangle.MouseLeave += delegate
-                //    {
-
-                //        rectangle.Fill = brushTemp;
-                //    };
-                //};                
+                Brush brushTemp;
                 mapCanvas.Children.Add(rectangle);
                 mapCanvas.RegisterName(rectangle.Name, rectangle);
                 Canvas.SetLeft(rectangle, p.X);
@@ -114,12 +104,12 @@ namespace Global.UserControls.SeriesMap
             SeriesPointsList = SeriesPoints.OrderBy(P => P.Y).ThenBy(p => p.X).ToList();
             foreach (var item in SeriesPointsList)
             {
-                
+
                 SeriersPointsCollection.Add(new SeriersPoint() { Index = i++, PointXY = new Point(item.X, item.Y) });
-               
+
             }
             listview.ItemsSource = SeriersPointsCollection;
-            
+
         }
 
         private bool ismultiRect = false;
@@ -128,68 +118,42 @@ namespace Global.UserControls.SeriesMap
         {
             if (sender is ListView listView)
             {
-               
-                if (listview.SelectedItems.Count ==1)
+
+                if (listview.SelectedItems.Count == 1)
                 {
-                   for(int i = 0; i < listview.Items.Count; i++)
+                    for (int i = 0; i < listview.Items.Count; i++)
                     {
-                        Rectangle rec = (Rectangle)mapCanvas.FindName("SelectPoint" + (i+1).ToString());
+                        Rectangle rec = (Rectangle)mapCanvas.FindName("SelectPoint" + (i + 1).ToString());
                         rec.Fill = Brushes.Blue;
                     }
 
                     SeriersPoint seriersPoint = (SeriersPoint)listView.SelectedItem;
-                    Rectangle rectangle =(Rectangle) mapCanvas.FindName("SelectPoint" + seriersPoint.Index.ToString());
+                    Rectangle rectangle = (Rectangle)mapCanvas.FindName("SelectPoint" + seriersPoint.Index.ToString());
                     rectangle.Fill = Brushes.Orange;
                     SpotInfor spotInfor = new SpotInfor();
                     spotInfor.Index.Add((int)seriersPoint.Index);
                     List<int> selectedpoint = new List<int>() { (int)seriersPoint.PointXY.X, (int)seriersPoint.PointXY.Y };
                     spotInfor.Coordinate.Add(selectedpoint);
                     String JSON = JsonSerializer.Serialize(spotInfor, new JsonSerializerOptions());
-                    // System.Windows.MessageBox.Show(JSON);
+                    System.Windows.MessageBox.Show(JSON);
                     LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
 
 
                 }
-                else if (listview.SelectedItems.Count >1)
+                else if (listview.SelectedItems.Count > 1)
                 {
+                    listview.SelectedItems.Remove(listview.SelectedItems[0]);
 
-                    for (int i = 0; i < listview.Items.Count; i++)
-                    {
-                        Rectangle rec = (Rectangle)mapCanvas.FindName("SelectPoint" + (i+1).ToString());
-                        rec.Fill = Brushes.Blue;
-                    }
-
-
-                    ObservableCollection<SeriersPoint> sPointsCollect = new ObservableCollection<SeriersPoint>();
-                    SpotInfor spotInfor1 = new SpotInfor();
-                    for (int i = 0; i < listview.SelectedItems.Count; i++)
-                    {
-                       
-                        SeriersPoint seriersPoint = (SeriersPoint)listView.SelectedItems[i];
-                        Rectangle rectangle = (Rectangle)mapCanvas.FindName("SelectPoint" + seriersPoint.Index.ToString());
-                        rectangle.Fill = Brushes.Orange;
-                        sPointsCollect.Add(seriersPoint);
-                        spotInfor1.Index.Add(seriersPoint.Index);
-                        List<int> selectedpoint = new List<int>() { (int)seriersPoint.PointXY.X, (int)seriersPoint.PointXY.Y  };
-                        spotInfor1.Coordinate.Add(selectedpoint);
-                    }
-                    String JSON = JsonSerializer.Serialize(spotInfor1, new JsonSerializerOptions());
-                   // System.Windows.MessageBox.Show(JSON);
-                   if (!ismultiRect)
-                    {
-                      //  System.Windows.MessageBox.Show(JSON);
-                        LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
-                    }
-                    
-
+                 
                 }
+
 
 
             }
         }
 
-        private bool ismouseDown;
-        private Point pointOri;
+
+
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point point = e.GetPosition(mapCanvas);
@@ -202,80 +166,31 @@ namespace Global.UserControls.SeriesMap
             {
                 SeriersPoint seriersPoint = (SeriersPoint)listview.Items[i];
                 if (selectedPoint.Equals(seriersPoint.PointXY))
-                listview.SelectedItem = listview.Items[i];
+                    listview.SelectedItem = listview.Items[i];
             }
 
-            ismouseDown = true;
-            pointOri= e.GetPosition(mapCanvas);
-            mapCanvas.CaptureMouse();
+
 
         }
 
-        private void mapCanvas_MouseMove(object sender, MouseEventArgs e)
+  
+
+        public class SeriersPoint
         {
-            if (ismouseDown)
-            {
-                MultiRec.Visibility = Visibility.Visible;
-               var rect = new Rect(pointOri, e.GetPosition(mapCanvas));
-                Canvas.SetLeft(MultiRec, rect.Left); Canvas.SetTop(MultiRec, rect.Top);
-                MultiRec.Width = rect.Width; MultiRec.Height = rect.Height;
-            }
-        }
+            public int Index { get; set; }
+            public Point PointXY { get; set; }
 
-        private void mapCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        }
+        [Serializable]
+        public class SpotInfor
         {
-            ismouseDown = false;
-            Point pointDest = e.GetPosition(mapCanvas);
-            ismultiRect = true;
-            for (int i = 0; i < listview.Items.Count; i++)
-            {
-                SeriersPoint seriersPoint = (SeriersPoint)listview.Items[i];
-                if (seriersPoint.PointXY.X >= pointOri.X && seriersPoint.PointXY.Y >= pointOri.Y && seriersPoint.PointXY.X + 8 <= pointDest.X && seriersPoint.PointXY.Y + 6 <= pointDest.Y)
-                {
-                  
-                  listview.SelectedItems.Add(listview.Items[i]);
-                }
-            }
 
-            SpotInfor spotInfor2 = new SpotInfor();
-            for (int i = 0; i < listview.SelectedItems.Count; i++)
-            {
-                SeriersPoint seriersPoint = (SeriersPoint)listview.SelectedItems[i];
-                spotInfor2.Index.Add(seriersPoint.Index);
-                List<int> selectedpoint = new List<int>() { (int)seriersPoint.PointXY.X, (int)seriersPoint.PointXY.Y };
-                spotInfor2.Coordinate.Add(selectedpoint);
-            }
-            String JSON = JsonSerializer.Serialize(spotInfor2, new JsonSerializerOptions());
-            //System.Windows.MessageBox.Show(JSON);
-            LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
-            mapCanvas.ReleaseMouseCapture();
-            MultiRec.Visibility = Visibility.Collapsed;
-            ismultiRect = false;
+            [JsonPropertyName("Index")]
+            public List<int> Index { get; set; } = new List<int>();
+            [JsonPropertyName("Coordinate")]
+            public List<List<int>> Coordinate { get; set; } = new List<List<int>>();
+
         }
-    }
-    public class SeriersPoint
-    {
-        public int Index { get; set; }
-        public Point PointXY{ get; set; }
-        
-    }
-    [Serializable]
-    public class SpotInfor
-    {
-        //public class PointContent
-        //{
-        //    [JsonPropertyName("Index")]
-        //    public int Index { get; set; }
-
-
-        //    [JsonPropertyName("Coordinate")]
-        //    public <List<int> Coordinate { get; set; } = new List<List<int>>();
-        //}
-        [JsonPropertyName("Index")]
-        public List<int> Index { get; set; } =new List<int>();
-        [JsonPropertyName("Coordinate")]
-        public List<List<int>> Coordinate { get; set; } = new List<List<int>>();
-
     }
 }
 

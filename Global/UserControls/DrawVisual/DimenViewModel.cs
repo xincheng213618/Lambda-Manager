@@ -23,6 +23,7 @@ namespace Global
 		private string _dimPos = "下右";
 		private bool _dimPosShow=false;
 		private bool _labPosShow = false;
+		private bool _dimShapeCombo = false;
 
 		#endregion fields
 		public DimenViewModel()
@@ -54,6 +55,23 @@ namespace Global
 		public List<int> FontSizeList { get; set; }
 		public List<string> LabelPosList { get; set; }
 		public List<string> DimPosList { get; set; } = new List<string>() { "上左", "上右", "下左",  "下右" };
+
+		public bool DimShapeCombo
+        {
+			get { return _dimShapeCombo; }
+			set
+			{
+				if (_dimShapeCombo != value)
+				{
+					_dimShapeCombo = value;
+					RaisePropertyChanged(nameof(DimShapeCombo));
+				}
+			}
+		}
+
+
+
+
 
 		public int FontSize
 		{

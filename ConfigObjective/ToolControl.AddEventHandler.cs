@@ -34,7 +34,7 @@ namespace ConfigObjective
 			List<Point> selectedPoints = new List<Point>();
 			if (Map.selectedPoints.Count != 0)
             {
-			    selectedPoints = Map.selectedPoints.OrderBy(p => p.Y).ToList();
+			    selectedPoints = Map.selectedPoints.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
 				foreach (var item in selectedPoints)
 				{
 					List<int> selectedpoint = new List<int>() { (int)item.X, (int)item.Y };
@@ -194,21 +194,7 @@ namespace ConfigObjective
 
 			if (testMean.Dimensional.Mode.Count == 0)
             {
-				// custom messageBox
-                
-               // var r = Global.UserControls.MessageBox1.ShowDialog("请选择成像模式!");
-				//if (r != null)
-				//{
-					
-				//	if (r.IsYes)
-				//	{
-				//		//选择了Yes
-				//	}
-				//	else
-				//	{
-				//		//选择了No
-				//	}
-				//}
+				
 
                 System.Windows.MessageBox.Show("请选择成像模式  ！","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
 

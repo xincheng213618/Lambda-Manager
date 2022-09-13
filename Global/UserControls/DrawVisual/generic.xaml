@@ -138,7 +138,7 @@
                                                             <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
                                                             <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false"/>
                                                         </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" TargetName="templateRoot" Value="#FFF0F0F0"/>
+                                                        <Setter Property="Background" TargetName="templateRoot" Value="#666666"/>
                                                         <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FFD9D9D9"/>
                                                     </MultiDataTrigger>
                                                     <MultiDataTrigger>
@@ -169,6 +169,7 @@
                         <Trigger Property="HasItems" Value="False">
                             <Setter Property="Height" TargetName="DropDownBorder" Value="95"/>
                         </Trigger>
+                       
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsGrouping" Value="True"/>

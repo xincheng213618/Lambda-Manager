@@ -1,6 +1,7 @@
 ﻿using Lambda;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ConfigObjective;
 
 namespace ConfigObjective.UserControls
 {
@@ -26,9 +28,67 @@ namespace ConfigObjective.UserControls
         public MapCanvas()
         {
             InitializeComponent();
-            
+            //moveButton.AddHandler(Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(mapCanvas_MouseLeftButtonDown), true);
+            //moveButton.AddHandler(Button.MouseRightButtonDownEvent, new MouseButtonEventHandler(mapCanvas_MouseRightButtonDown), true);
+            //moveButton.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler(mapCanvas_MouseLeftButtonUp), true);
+            //moveButton.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler(mapCanvas_MouseRightButtonUp), true);
+            var descriptor
+             = DependencyPropertyDescriptor.FromProperty(
+              Canvas.LeftProperty, typeof(Label));
+
+            descriptor.AddValueChanged(moveButton, moveButtonLeft);
+            var descriptor1
+             = DependencyPropertyDescriptor.FromProperty(
+              Canvas.LeftProperty, typeof(Label));
+
+            descriptor1.AddValueChanged(moveButton, moveButtonTop);
         }
-      
+
+       
+
+       
+
+
+        private void moveButtonLeft(object sender, EventArgs e)
+        {
+            Double moveButtonX = Canvas.GetLeft(moveButton) + 4;
+            Double moveButtonY = Canvas.GetTop(moveButton) + 3;
+            Point moveButtonPoint = new Point(moveButtonX, moveButtonY);
+            int moveButtonX1 = (int)Math.Floor(moveButtonPoint.X / 8);
+            int moveButtonY1 = (int)Math.Floor(moveButtonPoint.Y / 6);
+
+            Point moveButtonPoint1 = new Point(moveButtonX1 * 8, moveButtonY1 * 6);
+            if (selectedPoints.Contains(moveButtonPoint1) == false)
+            {
+                moveButton.Tag = 2;
+            }
+            else
+            {
+                moveButton.Tag = 1;
+            }
+           
+        }
+        private void moveButtonTop(object sender, EventArgs e)
+        {
+            Double moveButtonX = Canvas.GetLeft(moveButton) + 4;
+            Double moveButtonY = Canvas.GetTop(moveButton) + 3;
+            Point moveButtonPoint = new Point(moveButtonX, moveButtonY);
+            int moveButtonX1 = (int)Math.Floor(moveButtonPoint.X / 8);
+            int moveButtonY1 = (int)Math.Floor(moveButtonPoint.Y / 6);
+
+            Point moveButtonPoint1 = new Point(moveButtonX1 * 8, moveButtonY1 * 6);
+            if (selectedPoints.Contains(moveButtonPoint1) == false)
+            {
+                moveButton.Tag = 2;
+            }
+            else
+            {
+                moveButton.Tag = 1;
+            }
+           
+        }
+
+       
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
@@ -88,20 +148,43 @@ namespace ConfigObjective.UserControls
         private Pen selectionSquarePen = new Pen(Brushes.Black, 1);
         public List<Point> selectedPoints = new List<Point>();
         public bool IsReadMap = false;
-        public List<Point> SeriesPoints = new List<Point>()
-        {
-            new Point(56, 114),new Point(120, 132),new Point(144, 132),new Point(160, 168),new Point(216, 174),new Point(128, 204),new Point(104, 180),new Point(72, 156),new Point(56, 192),new Point(192, 198)
-        };
 
-        
+        public class SelectedPointCollect:INotifyPropertyChanged
+        {
+            private bool selectedPointsSend = false;
+            public bool SelectedPointsSend
+            {
+                get { return selectedPointsSend; }
+                set
+                {
+                    selectedPointsSend = value;
+                    RaisePropertyChanged(nameof(SelectedPointsSend));
+                }
+            }
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected virtual void RaisePropertyChanged(string propertyName)
+            {
+                // Cache the handler to make this thread safe
+                var handler = PropertyChanged;
+
+                if (handler != null)
+                    handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public  SelectedPointCollect pointCollect = new SelectedPointCollect();
+
 
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            
+            
             Point pointClicked = e.GetPosition(mapCanvas);
             pointClickLeft = pointClicked;
 
             if (e.ClickCount == 2)
             {
+                
 
                 int x = (int)Math.Floor(pointClicked.X/8);
                 int y = (int)Math.Floor(pointClicked.Y/6);
@@ -148,6 +231,7 @@ namespace ConfigObjective.UserControls
             //  DrawRectangle(pointClicked);
 
         }
+        
 
         public void DrawRectangle(Point point, bool bol) // draw rectangle
         {
@@ -180,6 +264,18 @@ namespace ConfigObjective.UserControls
                 mapCanvas.AddVisual(visual);
                 mapArrray[y, x] = 1;
                 selectedPoints.Add(drawpoint);
+
+                Double moveButtonX = Canvas.GetLeft(moveButton)+4;
+                Double moveButtonY = Canvas.GetTop(moveButton)+3;
+                Point moveButtonPoint = new Point(moveButtonX, moveButtonY);
+                int moveButtonX1 = (int)Math.Floor(moveButtonPoint.X / 8);
+                int moveButtonY1 = (int)Math.Floor(moveButtonPoint.Y / 6);
+
+                Point moveButtonPoint1 = new Point(moveButtonX1 * 8, moveButtonY1 * 6);
+                if (selectedPoints.Contains(moveButtonPoint1))
+                {
+                    moveButton.Tag = 0;
+                }
             }
             else if (mapArrray[y, x] == 0)
             {
@@ -252,10 +348,14 @@ namespace ConfigObjective.UserControls
                 RectangleGeometry geometry = new RectangleGeometry(
                     new Rect(selectionSquareTopLeft, e.GetPosition(mapCanvas)));
                 DrawMultiRec(pointClickLeft, pointClicked);
+                
                 isMultiSelecting = false;
                 mapCanvas.DeleteVisual(selectionSquare);
                 mapCanvas.ReleaseMouseCapture();
 
+                // send selected point to multiCollection 
+                pointCollect.SelectedPointsSend = false;
+                pointCollect.SelectedPointsSend = true;
 
 
             }
@@ -303,10 +403,24 @@ namespace ConfigObjective.UserControls
                     mapArrray[b, a] = 0;
                     Point removePoint = new Point(a * 8, b * 6);
                     selectedPoints.Remove(removePoint);
-                    
+
                 }
                
             }
+            Double moveButtonX = Canvas.GetLeft(moveButton)+4;
+            Double moveButtonY = Canvas.GetTop(moveButton)+3;
+            Point moveButtonPoint = new Point(moveButtonX, moveButtonY);
+            int moveButtonX1 = (int)Math.Floor(moveButtonPoint.X / 8);
+            int moveButtonY1 = (int)Math.Floor(moveButtonPoint.Y / 6);
+
+            Point moveButtonPoint1 = new Point(moveButtonX1 * 8, moveButtonY1 * 6);
+            if (selectedPoints.Contains(moveButtonPoint1) == false)
+            {
+                moveButton.Tag = 2;
+            }
+            // send selected point to multiCollection 
+            pointCollect.SelectedPointsSend = false;
+            pointCollect.SelectedPointsSend = true;
         }
 
 
@@ -315,6 +429,7 @@ namespace ConfigObjective.UserControls
 
         private void mapCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (sender is Label lab) lab.Tag = 2;
             Point pointClicked = e.GetPosition(mapCanvas);
             pointClickRight = pointClicked;
 
@@ -346,6 +461,20 @@ namespace ConfigObjective.UserControls
                 selectedPoints.Remove(removePoint);
             }
 
+            Double moveButtonX = Canvas.GetLeft(moveButton)+4;
+            Double moveButtonY = Canvas.GetTop(moveButton)+3;
+            Point moveButtonPoint = new Point(moveButtonX, moveButtonY);
+            int moveButtonX1 = (int)Math.Floor(moveButtonPoint.X / 8);
+            int moveButtonY1 = (int)Math.Floor(moveButtonPoint.Y / 6);
+
+            Point moveButtonPoint1 = new Point(moveButtonX1 * 8, moveButtonY1 * 6);
+            if (selectedPoints.Contains(moveButtonPoint1) == false)
+            {
+                moveButton.Tag = 2;
+            }
+            // send selected point to multiCollection 
+            pointCollect.SelectedPointsSend = false;
+            pointCollect.SelectedPointsSend = true;
 
 
         }
@@ -382,7 +511,7 @@ namespace ConfigObjective.UserControls
             
         }
 
-        
+   
     }
 }
 

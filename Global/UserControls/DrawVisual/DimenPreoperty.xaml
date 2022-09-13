@@ -10,13 +10,13 @@
              Height="Auto"
              Width="Auto" BorderBrush="#515151" BorderThickness="0" Background="#515151">
     <UserControl.Resources>
-
+      
         <local:ValueClassToUmConverter x:Key="um"></local:ValueClassToUmConverter>
         <local:BoolToBoldConverter x:Key="bold"/>
         <local:BoolToUnderLineConverter x:Key="underLine"/>
         <local:BoolToItalicConverter x:Key="Italic"/>
         <local:BoolToVisibilityConverter x:Key="Visb" Reverse="True"></local:BoolToVisibilityConverter>
-        <local:BoolToVisibilityConverter x:Key="Vis" ></local:BoolToVisibilityConverter>
+        <local:BooleanToVisibilityConverter x:Key="Vis" ></local:BooleanToVisibilityConverter>
        
         <Style x:Key="TextBoxSty"  TargetType="{x:Type TextBox}" >
             <Setter Property="Background" Value="#515151" />
@@ -43,7 +43,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+       
 
     </UserControl.Resources>
 
@@ -56,7 +56,7 @@
             </ResourceDictionary>
         </Grid.Resources>
         <Border  Background="#515151"  >
-            <Grid VerticalAlignment="Top" Margin="0,20,0,0"  >
+            <Grid VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Left"  >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
@@ -69,8 +69,8 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Label Content="形态" Foreground="White" Margin="5,0,0,0" FontSize="12"/>
-                    <ComboBox   FontSize="12"  BorderThickness="0.6" Width="290"  SelectedIndex="{Binding DimSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Right" Margin="50,0,35,0" SelectionChanged="ComboBox_SelectionChanged"  >
-                        <ComboBoxItem Tag="F" Foreground="White">
+                    <ComboBox   FontSize="12" Name="ShapeCombo" BorderThickness="0.6" Width="290"  SelectedIndex="{Binding DimSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25" IsEnabled="{Binding DimShapeCombo}" HorizontalAlignment="Right" Margin="50,0,35,0" SelectionChanged="ComboBox_SelectionChanged"  >
+                        <ComboBoxItem Tag="F" Foreground="White" Height="23">
                             <Path Stroke="White" StrokeThickness="1">
                                 <Path.Data >
                                     <PathGeometry>
@@ -84,7 +84,7 @@
                                 </Path.Data>
                             </Path>
                         </ComboBoxItem>
-                        <ComboBoxItem Tag="E" Foreground="White">
+                        <ComboBoxItem Tag="E" Foreground="White" Height="23">
                             <Path Stroke="White" StrokeThickness="1">
                                 <Path.Data >
                                     <PathGeometry>
@@ -137,7 +137,7 @@
                             </Path>
 
                         </ComboBoxItem>
-                        <ComboBoxItem Tag="C" Foreground="White">
+                        <ComboBoxItem Tag="C" Foreground="White" Height="23">
                             <Path Stroke="White" StrokeThickness="1">
                                 <Path.Data >
                                     <PathGeometry>
@@ -162,7 +162,7 @@
                                 </Path.Data>
                             </Path>
                         </ComboBoxItem>
-                        <ComboBoxItem Tag="D" Foreground="White">
+                        <ComboBoxItem Tag="D" Foreground="White"  Height="23">
                             <Path Stroke="White" StrokeThickness="1">
                                 <Path.Data >
                                     <PathGeometry>
@@ -196,18 +196,18 @@
                 <Grid Grid.Row="2">
                     <Label Content="角度" FontSize="12" Foreground="White" VerticalAlignment="Top" Margin="5,0,0,0" ></Label>
                     <TextBox   FontSize="12"  Style="{StaticResource TextBoxSty}"  Width="290" Padding="0,0,10,0"  Height="25"  Background="#515151" Foreground="White" VerticalContentAlignment="Center" Text="{Binding Angle,UpdateSourceTrigger=PropertyChanged,StringFormat='F2'}" HorizontalAlignment="Right" Margin="50,2,35,2" HorizontalContentAlignment="Right" ></TextBox>
-                    <Ellipse Width="8"  Height="8" StrokeThickness="1" Stroke="White" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,7,20,0" ></Ellipse>
+                    <Ellipse Width="5"  Height="5" StrokeThickness="1" Stroke="White" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,25,0" ></Ellipse>
                 </Grid>
                 
                 <Grid Grid.Row="3"  HorizontalAlignment="Stretch" >
                     <Grid >
-                        <WrapPanel Visibility="{Binding DimPosShow,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  >
+                        <WrapPanel Name="dimWrap" Visibility="{Binding DimPosShow,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  >
                             <Label Content="标尺位置" Foreground="white" Margin="5,0,0,0" ></Label>
                             <ComboBox FontSize="12" HorizontalAlignment="Right" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding DimPosList}" SelectedItem="{Binding DimPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"   BorderThickness="0.6" Width="100" Margin="24,0,5,0" ></ComboBox>
                         </WrapPanel>
-                        <WrapPanel Margin="198,0,0,0"  Visibility="{Binding LabelPosShow,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
-                            <CheckBox FontSize="12" Content="显示标签" IsChecked="{Binding Label}"   Foreground="White" Width="70" Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"></CheckBox>
-                            <ComboBox FontSize="12" HorizontalAlignment="Left" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding Label,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Width="100" Margin="4,0,0,0" ></ComboBox>
+                        <WrapPanel Margin="198,0,0,0" Name="labelWrap" Visibility="{Binding LabelPosShow,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                            <CheckBox FontSize="12" Name="labelCheck" Content="显示标签" IsChecked="{Binding Label}"   Foreground="White" Width="70" Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"></CheckBox>
+                            <ComboBox FontSize="12" Name="labelCombo" HorizontalAlignment="Left" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding Label,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Width="100" Margin="4,0,0,0" SelectionChanged="ComboBox_SelectionChanged_1" ></ComboBox>
                         </WrapPanel>
                        
                        
@@ -221,7 +221,7 @@
                                 <TextBlock Text="颜色" Foreground="White" FontSize="12"  VerticalAlignment="Center"></TextBlock>
                             </StackPanel>
                         </Expander.Header>
-                        <controls:ColorCanvas Margin="5" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
+                        <controls:ColorCanvas Margin="10" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
                         <!-- <userControl:ColorPicker ></userControl:ColorPicker> -->
                     </Expander>
                     <Grid Height="30"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="50,0,0,0" >
@@ -282,7 +282,44 @@
                 </Grid>
                
                 <Grid Grid.Row="7" >
-                   <!-- <bottomView:PixelAnalysis Name="Histogram" Width="500"></bottomView:PixelAnalysis>-->
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Global;component/Themes/ListView1.xaml"/>
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <Border BorderThickness="1" BorderBrush="gray" Padding="5" CornerRadius="2" Margin="5" >
+                        <ListView BorderBrush="White" Background="#515151" Style="{StaticResource listviewStyle1}" x:Name="listview" Loaded="listview_Loaded" MaxHeight="300"  >
+
+                            <ListView.View >
+                                <GridView >
+                                    <GridViewColumn  Width="70"  DisplayMemberBinding="{Binding Index}"  >
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="序号" FontSize="15" Margin="5,0"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+                                    <GridViewColumn   Width="90" DisplayMemberBinding="{Binding Type}" >
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="形状" FontSize="15" Margin="5,0"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+                                    <GridViewColumn  Width="70"  DisplayMemberBinding="{Binding Index}" >
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="参数" FontSize="15" Margin="5,0"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+                                    <GridViewColumn   Width="120"  DisplayMemberBinding="{Binding Type}" >
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="其他" FontSize="15" Margin="5,0"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+
+                        </ListView>
+                    </Border>
+                  
                 </Grid>
                
             </Grid>

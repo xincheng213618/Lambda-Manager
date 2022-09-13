@@ -148,38 +148,49 @@ namespace Global
 
                     };
                    
-                    if (ImageViewState.toolTop.RulerChecked == true|| ImageViewState.toolTop.ArrowChecked == true|| ImageViewState.toolTop.CircleChecked==true|| ImageViewState.toolTop.CurveChecked== true|| ImageViewState.toolTop.DimensionChecked==true|| ImageViewState.toolTop.LineChecked==true|| ImageViewState.toolTop.PolygonChecked==true|| ImageViewState.toolTop.RectangleChecked==true|| ImageViewState.toolTop.TextChecked==true)
+                    if (ImageViewState.toolTop.RulerChecked|| ImageViewState.toolTop.ArrowChecked || ImageViewState.toolTop.CircleChecked|| ImageViewState.toolTop.CurveChecked|| ImageViewState.toolTop.LineChecked|| ImageViewState.toolTop.PolygonChecked|| ImageViewState.toolTop.RectangleChecked|| ImageViewState.toolTop.TextChecked||ImageViewState.toolTop.EraserChecked)
                     {
-                        //    propertySetItem.Visibility = Visibility.Visible;
-                        //    propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
-                        //    tabControl.SelectedIndex = 5;
-                        //    if (ImageViewState.toolTop.DimensionChecked == true)
-                        //    {
-                        //        propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
-                        //        DrawInkMethod.defdimenViewModel.DimPosShow = true;
-                        //    }
-                        //    else if(ImageViewState.toolTop.DimensionChecked == false)
-                        //    {
-                        //        DrawInkMethod.defdimenViewModel.DimPosShow = false;
-                        //    };
-                        //    if (ImageViewState.toolTop.LineChecked == true)
-                        //    {
-                        //        DrawInkMethod.defdimenViewModel.LabelPosShow = true;
-                        //    }
-                        //    else if (ImageViewState.toolTop.LineChecked == false)
-                        //    {
-                        //        DrawInkMethod.defdimenViewModel.LabelPosShow = false;
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    propertySetItem.Visibility = Visibility.Collapsed;
-                        //    tabControl.SelectedIndex = 1;
+                        propertySetItem.Visibility = Visibility.Visible;
+                        propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                        tabControl.SelectedIndex = 5;
+                        DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                        if (ImageViewState.toolTop.LineChecked)
+                        {
+                            DrawInkMethod.dimenViewModel.DimShapeCombo = true;
+                        }
+
+                    }
+                    else
+                    {
+                        propertySetItem.Visibility = Visibility.Collapsed;
+                        tabControl.SelectedIndex = 1;
+
                     };
+                    if (e.PropertyName == "DimensionChecked")
+                    {
+                        if (ImageViewState.toolTop.DimensionChecked == true)
+                        {
+                            propertySetItem.Visibility = Visibility.Visible;
+                            tabControl.SelectedIndex = 5;
+                            DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                            propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
+                            DrawInkMethod.defdimenViewModel.DimPosShow = true;
+                            DrawInkMethod.defdimenViewModel.DimSelectedIndex = 2;
+
+                        }
+                        else if (ImageViewState.toolTop.DimensionChecked == false)
+                        {
+                            //propertySetItem.Visibility = Visibility.Collapsed;
+                            //tabControl.SelectedIndex = 1;
+                            DrawInkMethod.defdimenViewModel.DimSelectedIndex = 0;
+                            DrawInkMethod.defdimenViewModel.DimPosShow = false;
+                        };
+                    }
+                    
 
                 };
-
-            }
+              
+                }
             catch (Exception ex)
             {
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
@@ -664,6 +675,7 @@ namespace Global
 
                 tabControl = (TabControl)mainwin.FindName("leftTab");
                 Border border = (Border)tabControl.Parent;
+                border.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
                 //tabControl.Parent 
                 if (tabControl == null) return;
                 propertySetItem = new TabItem();
@@ -678,7 +690,7 @@ namespace Global
                 stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                 DimenPreoperty dimenPreoperty = new DimenPreoperty();
                 stackPanel.Children.Add(dimenPreoperty);
-                dimenPreoperty.DataContext = DrawInkMethod.dimenViewModel;
+               // dimenPreoperty.DataContext = DrawInkMethod.dimenViewModel;
                 proViewBox.Child = stackPanel;
                 scrollViewer.Content = proViewBox;
                 propertySetItem.Content = scrollViewer;
@@ -705,15 +717,15 @@ namespace Global
             // change default frameIndex TotalFrame sliceIndex totalSlice
             try
             {
-                TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
-                frameIndex.Text = "1";
-                TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
-                totalFrame.Text = "1";
+                //TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
+                //frameIndex.Text = "1";
+                //TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
+                //totalFrame.Text = "1";
 
-                TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
-                sliceIndex.Text = "1";
-                TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
-                totalSlice.Text = "1";
+                //TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
+                //sliceIndex.Text = "1";
+                //TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
+                //totalSlice.Text = "1";
 
 
             }
@@ -739,8 +751,9 @@ namespace Global
                 Binding binding2 = new Binding("MoveChecked");
                 ToggleButton ToggleButtonMove = ((ToggleButton)topToolbar.Children[2]);
                 ToggleButtonMove.SetBinding(ToggleButton.IsCheckedProperty, binding2);
-                ToggleButtonMove.IsChecked = true;
-                ImageViewState.toolTop.MoveChecked = true;
+
+                //ToggleButtonMove.IsChecked = true;
+                //ImageViewState.toolTop.MoveChecked = true;
 
                 //Binding binding3 = new Binding("SearchChecked");
                 //ToggleButton ToggleButtonSearch = ((ToggleButton)topToolbar.Children[3]);
@@ -904,7 +917,7 @@ namespace Global
                
                 ToggleButton ToggleButtonArrow = ((ToggleButton)topToolbar.Children[16]);
                 ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ArrowChecked"));
-
+                ToggleButtonArrow.Visibility = Visibility.Collapsed; //     delete Arrow
                 ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[17]);
                 ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, new Binding("LineChecked"));
 
@@ -950,68 +963,68 @@ namespace Global
             }
 
 
-            try
-            {
-                Grid gridMain = mainwin.Content as Grid;
-                Grid grid2 = (Grid)gridMain.Children[0];
+        //    try
+        //    {
+        //        Grid gridMain = mainwin.Content as Grid;
+        //        Grid grid2 = (Grid)gridMain.Children[0];
 
-                StackPanel stackPanel2 = (StackPanel)grid2.Children[1];
-                RadioButton radioButton3 = (RadioButton)stackPanel2.Children[2];
-                //RadioButton radioButton3 = (RadioButton)mainwin.FindName("RadioButton3");
+        //        StackPanel stackPanel2 = (StackPanel)grid2.Children[1];
+        //        RadioButton radioButton3 = (RadioButton)stackPanel2.Children[2];
+        //        //RadioButton radioButton3 = (RadioButton)mainwin.FindName("RadioButton3");
 
-                StackPanel bottomView222 = (StackPanel)mainwin.FindName("bottomView");
-                bottomView222.Visibility = Visibility.Collapsed;
-
-
-
-                Border border = (Border)mainwin.FindName("imagingView");
-                Grid grid = (Grid)border.Child;
-                Grid Grid1 = (Grid)grid.Children[0];
-
-
-                Border dealToolBoerder = new Border() { Style = Application.Current.MainWindow.FindResource("RadiusBorder") as Style };
-                Grid.SetColumn(dealToolBoerder, 1);
-                WrapPanel DealtoolWrapPanel = new WrapPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
-                dealToolBoerder.Child = DealtoolWrapPanel;
-
-                //这里覆盖Width并采用NaN是因为原来的样式指定了大小，这样能实现自动的效果
-                ToggleButton ToggleButton1 = new ToggleButton() { Content="2222222" ,Width=double.NaN};
-                ToggleButton1.Click += delegate { MessageBox1.Show(ToggleButton1.Content.ToString()); };
-                DealtoolWrapPanel.Children.Add(ToggleButton1);
+        //        StackPanel bottomView222 = (StackPanel)mainwin.FindName("bottomView");
+        //        bottomView222.Visibility = Visibility.Collapsed;
 
 
 
-                Grid1.Children.Add(dealToolBoerder);
-                //初始化不显示
-                dealToolBoerder.Visibility = Visibility.Collapsed;
+        //        Border border = (Border)mainwin.FindName("imagingView");
+        //        Grid grid = (Grid)border.Child;
+        //        Grid Grid1 = (Grid)grid.Children[0];
+
+
+        //        Border dealToolBoerder = new Border() { Style = Application.Current.MainWindow.FindResource("RadiusBorder") as Style };
+        //        Grid.SetColumn(dealToolBoerder, 1);
+        //        WrapPanel DealtoolWrapPanel = new WrapPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
+        //        dealToolBoerder.Child = DealtoolWrapPanel;
+
+        //        //这里覆盖Width并采用NaN是因为原来的样式指定了大小，这样能实现自动的效果
+        //        ToggleButton ToggleButton1 = new ToggleButton() { Content="2222222" ,Width=double.NaN};
+        //        ToggleButton1.Click += delegate { MessageBox1.Show(ToggleButton1.Content.ToString()); };
+        //        DealtoolWrapPanel.Children.Add(ToggleButton1);
+
+
+
+        //        Grid1.Children.Add(dealToolBoerder);
+        //        //初始化不显示
+        //        dealToolBoerder.Visibility = Visibility.Collapsed;
 
 
 
 
-                radioButton3.Checked += delegate
-                {
-                Grid1.Children[0].Visibility = Visibility.Collapsed;
-                Grid1.Children[1].Visibility = Visibility.Collapsed;
-                Grid1.Children[2].Visibility = Visibility.Collapsed;
-                    Grid1.Children[3].Visibility = Visibility.Collapsed;
-                    dealToolBoerder.Visibility = Visibility.Visible;
-                    bottomView222.Visibility = Visibility.Visible;
-            };
-            radioButton3.Unchecked += delegate
-            {
+        //        radioButton3.Checked += delegate
+        //        {
+        //        Grid1.Children[0].Visibility = Visibility.Collapsed;
+        //        Grid1.Children[1].Visibility = Visibility.Collapsed;
+        //        Grid1.Children[2].Visibility = Visibility.Collapsed;
+        //            Grid1.Children[3].Visibility = Visibility.Collapsed;
+        //            dealToolBoerder.Visibility = Visibility.Visible;
+        //            bottomView222.Visibility = Visibility.Visible;
+        //    };
+        //    radioButton3.Unchecked += delegate
+        //    {
 
-                Grid1.Children[0].Visibility = Visibility.Visible;
-                Grid1.Children[1].Visibility = Visibility.Visible;
-                Grid1.Children[2].Visibility = Visibility.Visible;
-                    Grid1.Children[3].Visibility = Visibility.Visible;
-                    dealToolBoerder.Visibility = Visibility.Collapsed;
-                    bottomView222.Visibility = Visibility.Collapsed;
-            };
-        }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+        //        Grid1.Children[0].Visibility = Visibility.Visible;
+        //        Grid1.Children[1].Visibility = Visibility.Visible;
+        //        Grid1.Children[2].Visibility = Visibility.Visible;
+        //            Grid1.Children[3].Visibility = Visibility.Visible;
+        //            dealToolBoerder.Visibility = Visibility.Collapsed;
+        //            bottomView222.Visibility = Visibility.Collapsed;
+        //    };
+        //}
+        //    catch(Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
 
 
         }
