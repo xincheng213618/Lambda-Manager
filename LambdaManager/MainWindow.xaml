@@ -22,7 +22,7 @@
         <Style x:Key="RadiusBorder" TargetType="{x:Type Border}">
             <Setter Property="Margin" Value="2,0"/>
             <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="BorderBrush" Value="#BDBDBD"/>
+            <Setter Property="BorderBrush" Value="Red"/>
             <Setter Property="Border.CornerRadius" Value="5" />
         </Style>
 
@@ -82,6 +82,14 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                             <Viewbox VerticalAlignment="Top" Stretch="Uniform" >
                                 <StackPanel Name="projectView" Margin="10,10,10,20"  >
+                                </StackPanel>
+                            </Viewbox>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="配置" Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
+                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
+                                <StackPanel Name="configView" Margin="0,5,0,5">
                                 </StackPanel>
                             </Viewbox>
                         </ScrollViewer>
@@ -157,7 +165,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Border Name="imagingView" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="3">
+                <Border Name="imagingView" Style="{StaticResource RadiusBorder}"  Background="{DynamicResource WindowBackgroundBrush}" Padding="3">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />

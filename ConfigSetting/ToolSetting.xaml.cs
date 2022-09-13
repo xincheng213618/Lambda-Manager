@@ -31,21 +31,49 @@ namespace ConfigSetting
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
-                stackPanel1.Children.Remove(this);
-
-                StackPanel stackPanel = new StackPanel() { Name = "acquireView", Margin = new Thickness(2, 2, 2, 0) };
-                stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                stackPanel.Children.Add(this);
-                Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top };
-                viewbox.Child = stackPanel;
-                scrollViewer1.Content = viewbox;
                 IsFirstLoad = false;
 
-                foreach (var item in ResourceDictionaryDark)
+                stackPanel1.Children.Remove(this);
+                if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition)
                 {
-                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                    Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                    stageConfig.Children.Add(this);
+
+                    foreach (var item in ResourceDictionaryDark)
+                    {
+                        ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                        Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                    }
+
+                    stageConfig.SetResourceReference(Grid.BackgroundProperty, "WindowBackgroundBrush");
+
+                    if (Application.Current.MainWindow.Content is Grid mainGrid&& mainGrid.Children[0] is Grid grid2 && grid2.Children[1] is StackPanel stackPanelMode)
+                    {
+                        
+                        if (stackPanelMode.Children[0] is RadioButton radioButton)
+                        {
+                            stageConfig.Visibility = radioButton.IsChecked ==true ? Visibility.Visible : Visibility.Collapsed;
+                            stageAcquisition.Visibility = radioButton.IsChecked != true ? Visibility.Visible : Visibility.Collapsed;
+
+                            radioButton.Checked += delegate
+                            {
+                                stageConfig.Visibility = Visibility.Visible;
+                                stageAcquisition.Visibility = Visibility.Collapsed;
+                            };
+                            radioButton.Unchecked += delegate
+                            {
+                                stageConfig.Visibility = Visibility.Hidden;
+                                stageAcquisition.Visibility = Visibility.Visible;
+                            };
+
+                        }
+
+                    }
+
+
+
                 }
+
+
             }
         }
 

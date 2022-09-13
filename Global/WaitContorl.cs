@@ -49,7 +49,7 @@ namespace Global
 
                     MainGrid.Children.Add(WaitWindow);
                     WaitWindow.Visibility = Visibility.Collapsed;
-                    Grid grid1 = new Grid() { Background = Brushes.Gray, Opacity = 0.1 };
+                    Grid grid1 = new Grid() { Background = Brushes.Black, Opacity = 0.3 };
                     WaitWindow.Children.Add(grid1);
                     Border border1 = new Border() { Background = new SolidColorBrush(Color.FromRgb(55, 59, 65)), Height = 150, Width = 550, CornerRadius = new CornerRadius(10) };
                     Border border2 = new Border() { Background = new SolidColorBrush(Color.FromRgb(72, 77, 79)), Height = 100, Width = 500, CornerRadius = new CornerRadius(5) };
