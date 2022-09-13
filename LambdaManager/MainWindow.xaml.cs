@@ -168,7 +168,6 @@ namespace LambdaManager
                 Side.BOTTOM => bottomView,
                 Side.ACQUIRE => acquireView,
                 Side.PROJECT => projectView,
-                Side.CONFIG => configView,
                 Side.REPORT => reportView,
                 Side.ANALYSIS => analysisView,
                 Side.PROCESS => proessView,
