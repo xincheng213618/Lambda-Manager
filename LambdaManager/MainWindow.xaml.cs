@@ -192,20 +192,17 @@ namespace LambdaManager
                 {
                     switch (radioButton.Name)
                     {
-                        case "RadioButton1":
+                        case "RadioButton2":
                             leftTab.SelectedIndex = 1;
                             break;
-                        case "RadioButton2":
+                        case "RadioButton3":
                             leftTab.SelectedIndex = 2;
                             break;
-                        case "RadioButton3":
+                        case "RadioButton4":
                             leftTab.SelectedIndex = 3;
                             break;
-                        case "RadioButton4":
-                            leftTab.SelectedIndex = 4;
-                            break;
                         case "RadioButton5":
-                            leftTab.SelectedIndex = 5;
+                            leftTab.SelectedIndex = 4;
                             break;
                         default:
                             break;

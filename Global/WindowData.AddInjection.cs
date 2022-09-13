@@ -41,15 +41,6 @@ namespace Global
         {
             try
             {
-                StatusBar statusBar = (StatusBar)mainwin.FindName("statusBar");
-                StatusBarItem statusBarItem = new StatusBarItem() { Content = "22222222" };
-                statusBar.Items.Add(statusBarItem);
-
-                WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
-                TextBlock textBlock = new TextBlock() { Text = "11110" ,VerticalAlignment =VerticalAlignment.Center};
-                bottomToolbar.Children.Add(textBlock);
-
-
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
@@ -125,7 +116,7 @@ namespace Global
                    
 
                 };
-
+                int tempSelectedIndex = 0;
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
                      
@@ -152,6 +143,7 @@ namespace Global
                     {
                         propertySetItem.Visibility = Visibility.Visible;
                         propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                        tempSelectedIndex = tabControl.SelectedIndex;
                         tabControl.SelectedIndex = 5;
                         DrawInkMethod.dimenViewModel.DimShapeCombo = false;
                         if (ImageViewState.toolTop.LineChecked)
@@ -160,17 +152,15 @@ namespace Global
                         }
 
                     }
-                    else
-                    {
-                        propertySetItem.Visibility = Visibility.Collapsed;
-                        tabControl.SelectedIndex = 1;
 
-                    };
+
                     if (e.PropertyName == "DimensionChecked")
                     {
                         if (ImageViewState.toolTop.DimensionChecked == true)
                         {
                             propertySetItem.Visibility = Visibility.Visible;
+                            tempSelectedIndex = tabControl.SelectedIndex;
+
                             tabControl.SelectedIndex = 5;
                             DrawInkMethod.dimenViewModel.DimShapeCombo = false;
                             propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
@@ -184,6 +174,9 @@ namespace Global
                             //tabControl.SelectedIndex = 1;
                             DrawInkMethod.defdimenViewModel.DimSelectedIndex = 0;
                             DrawInkMethod.defdimenViewModel.DimPosShow = false;
+
+                            propertySetItem.Visibility = Visibility.Collapsed;
+                            tabControl.SelectedIndex = tempSelectedIndex;
                         };
                     }
                     
@@ -406,16 +399,6 @@ namespace Global
             catch
             {
 
-            }
-            try
-            {
-               
-                
-            }
-            catch 
-            
-            {
-            
             }
 
             
@@ -675,7 +658,6 @@ namespace Global
 
                 tabControl = (TabControl)mainwin.FindName("leftTab");
                 Border border = (Border)tabControl.Parent;
-                border.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
                 //tabControl.Parent 
                 if (tabControl == null) return;
                 propertySetItem = new TabItem();
