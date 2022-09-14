@@ -240,11 +240,7 @@ namespace ConfigBottomView
         {
             if (height <=0)
                 return;
-           // lstEditingMode.SelectedIndex = 0;
-            List<System.Windows.Point> pointList;
-            StylusPointCollection point;
             Stroke stroke;
-            StrokeCollection strokes = new StrokeCollection();
             YScale(height, k);
 
             for (int i = 0; i < k + 1; i++)
@@ -261,10 +257,7 @@ namespace ConfigBottomView
         {
             if (height <= 0)
                 return;
-            List<System.Windows.Point> pointList;
-            StylusPointCollection point;
             Stroke stroke;
-            StrokeCollection strokes = new StrokeCollection();
             XScale(width, height, m);
 
             for (int i = 0; i < m + 1; i++)

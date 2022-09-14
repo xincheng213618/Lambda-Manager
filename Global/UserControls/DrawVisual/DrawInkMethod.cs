@@ -25,7 +25,8 @@ namespace Global
         }
 
         public DrawingAttributes drawingAttributes = new DrawingAttributes()
-        { //Color = Colors.Red,
+        {
+            //Color = Colors.Red,
             Color = dimenViewModel.SelectedAccentColor,
             Width =2,
             Height =2,
@@ -35,7 +36,8 @@ namespace Global
             IgnorePressure = true,
         };
         public DrawingAttributes drawingAttribute1 = new DrawingAttributes()
-        { //Color = Colors.Red,
+        {
+            //Color = Colors.Red,
             Color = dimenViewModel.SelectedAccentColor,
             Width = 4,
             Height = 4,
@@ -53,18 +55,12 @@ namespace Global
         public Stroke Textstroke;
         public double distance;
         public static bool rulerOver = false;
-        public  List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
-        public Stroke GenerateLineStroke(System.Windows.Point st, System.Windows.Point ed)
+        public  List<Point> bezierPointList = new List<Point>();
+        public Stroke GenerateLineStroke(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
-            StylusPointCollection point;
-            Stroke stroke;
-            pointList = new List<System.Windows.Point>{
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X, ed.Y)
-            };
-            point = new StylusPointCollection(pointList);
-            stroke = new Stroke(point)
+            List<Point> pointList = new List<Point> { new Point(st.X, st.Y), new Point(ed.X, ed.Y) };
+            StylusPointCollection point = new StylusPointCollection(pointList);
+            Stroke stroke = new Stroke(point)
             {
                 DrawingAttributes = drawingAttributes.Clone()
             };
@@ -72,31 +68,22 @@ namespace Global
         }
        
 
-        public Stroke GenerateDimensionStroke0(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateDimensionStroke0(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
           
-
-            double w = 20, h = 7;
             double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
-            double sint = Math.Sin(theta);
-            double cost = Math.Cos(theta);
-
             double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
-            double sint1 = Math.Sin(theta1);
-            double cost1 = Math.Cos(theta1);
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
-                //new Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
-                //new Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
+                new Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
 
             };
             point = new StylusPointCollection(pointList);
@@ -110,30 +97,25 @@ namespace Global
 
 
 
-        public Stroke GenerateDimensionStroke1(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateDimensionStroke1(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
-            double w = 20, h = 7;
             double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
-            double sint = Math.Sin(theta);
-            double cost = Math.Cos(theta);
+
 
             double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
-            double sint1 = Math.Sin(theta1);
-            double cost1 = Math.Cos(theta1);
 
-            pointList = new List<System.Windows.Point>
+
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
-                //new Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
-                //new Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
+                new Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
 
             };
             point = new StylusPointCollection(pointList);
@@ -150,30 +132,24 @@ namespace Global
 
 
 
-        public Stroke GenerateDimensionStroke2(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateDimensionStroke2(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
-            double w = 20, h = 7;
             double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
-            double sint = Math.Sin(theta);
-            double cost = Math.Cos(theta);
-
             double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
-            double sint1 = Math.Sin(theta1);
-            double cost1 = Math.Cos(theta1);
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
+                new Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
+                new Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
+                new Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
 
             };
             point = new StylusPointCollection(pointList);
@@ -188,9 +164,9 @@ namespace Global
 
 
 
-        public Stroke GenerateDimensionStroke4(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateDimensionStroke4(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
@@ -203,17 +179,17 @@ namespace Global
             double sint1 = Math.Sin(theta1);
             double cost1 = Math.Cos(theta1);
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-               new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(st.X + (w * cost1 - h * sint1), st.Y + (w * sint1 + h * cost1)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(st.X + (w * cost1 + h * sint1), st.Y - (h * cost1 - w * sint1)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
+               new Point(st.X, st.Y),
+                new Point(st.X + (w * cost1 - h * sint1), st.Y + (w * sint1 + h * cost1)),
+                new Point(st.X, st.Y),
+                new Point(st.X + (w * cost1 + h * sint1), st.Y - (h * cost1 - w * sint1)),
+                new Point(st.X, st.Y),
+                new Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
+                new Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
 
 
 
@@ -226,9 +202,9 @@ namespace Global
             return stroke;
         }
 
-        public Stroke GenerateDimensionStroke3(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateDimensionStroke3(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
@@ -241,23 +217,23 @@ namespace Global
             double sint1 = Math.Sin(theta1);
             double cost1 = Math.Cos(theta1);
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(st.X + (w * cost1 - h * sint1), st.Y + (w * sint1 + h * cost1)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(st.X + (w * cost1 + h * sint1), st.Y - (h * cost1 - w * sint1)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
-                new System.Windows.Point(ed.X + (w * cost - h * sint), ed.Y + (w * sint + h * cost)),
-                new System.Windows.Point(ed.X,ed.Y),
-                new System.Windows.Point(ed.X + (w * cost + h * sint), ed.Y - (h * cost - w * sint)),
-                new System.Windows.Point(ed.X,ed.Y),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(st.X + (w * cost1 - h * sint1), st.Y + (w * sint1 + h * cost1)),
+                new Point(st.X, st.Y),
+                new Point(st.X + (w * cost1 + h * sint1), st.Y - (h * cost1 - w * sint1)),
+                new Point(st.X, st.Y),
+                new Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
+                new Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
+                new Point(ed.X + (w * cost - h * sint), ed.Y + (w * sint + h * cost)),
+                new Point(ed.X,ed.Y),
+                new Point(ed.X + (w * cost + h * sint), ed.Y - (h * cost - w * sint)),
+                new Point(ed.X,ed.Y),
+                new Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
+                new Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
 
             };
             point = new StylusPointCollection(pointList);
@@ -270,9 +246,9 @@ namespace Global
 
         }
 
-        public Stroke GenerateDimensionStroke5(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateDimensionStroke5(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
@@ -285,16 +261,16 @@ namespace Global
             double sint1 = Math.Sin(theta1);
             double cost1 = Math.Cos(theta1);
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
-                new System.Windows.Point(ed.X + (w * cost - h * sint), ed.Y + (w * sint + h * cost)),
-                new System.Windows.Point(ed.X,ed.Y),
-                new System.Windows.Point(ed.X + (w * cost + h * sint), ed.Y - (h * cost - w * sint)),
-                new System.Windows.Point(ed.X,ed.Y),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
+                new Point(ed.X + (w * cost - h * sint), ed.Y + (w * sint + h * cost)),
+                new Point(ed.X,ed.Y),
+                new Point(ed.X + (w * cost + h * sint), ed.Y - (h * cost - w * sint)),
+                new Point(ed.X,ed.Y),
+                new Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
+                new Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
 
             };
             point = new StylusPointCollection(pointList);
@@ -307,9 +283,9 @@ namespace Global
         }
 
 
-        public Stroke GenerateEllipseStroke(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateEllipseStroke(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = GenerateEllipseGeometry(st, ed);
+            List<Point> pointList = GenerateEllipseGeometry(st, ed);
             StylusPointCollection point = new StylusPointCollection(pointList);
             Stroke stroke;
             
@@ -323,7 +299,7 @@ namespace Global
         }
 
 
-        public Stroke GenerateCircleStroke(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateCircleStroke(Point st, Point ed)
         {
 
             double dist = Math.Sqrt(Math.Pow(ed.X - st.X, 2) + Math.Pow(ed.Y - st.Y, 2));
@@ -332,8 +308,8 @@ namespace Global
 
             double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
             double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
-            ed = new System.Windows.Point(st.X + x, st.Y + y);
-            List<System.Windows.Point> pointList = GenerateEllipseGeometry(st, ed);
+            ed = new Point(st.X + x, st.Y + y);
+            List<Point> pointList = GenerateEllipseGeometry(st, ed);
             StylusPointCollection point = new StylusPointCollection(pointList);
             Stroke stroke;
            
@@ -346,9 +322,9 @@ namespace Global
         }
 
 
-        public Stroke GenerateArrowLineStroke(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateArrowLineStroke(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
@@ -357,13 +333,13 @@ namespace Global
             double sint = Math.Sin(theta);
             double cost = Math.Cos(theta);
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
-                new System.Windows.Point(ed.X + (w * cost - h * sint), ed.Y + (w * sint + h * cost)),
-                new System.Windows.Point(ed.X,ed.Y),
-                new System.Windows.Point(ed.X + (w * cost + h * sint), ed.Y - (h * cost - w * sint))
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
+                new Point(ed.X + (w * cost - h * sint), ed.Y + (w * sint + h * cost)),
+                new Point(ed.X,ed.Y),
+                new Point(ed.X + (w * cost + h * sint), ed.Y - (h * cost - w * sint))
             };
             point = new StylusPointCollection(pointList);
             drawingAttributes.Color = dimenViewModel.SelectedAccentColor;
@@ -376,18 +352,18 @@ namespace Global
             return stroke;
         }
 
-        public Stroke GenerateRectangleStroke(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateRectangleStroke(Point st, Point ed)
         {
 
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
-            pointList = new List<System.Windows.Point>{
-                        new System.Windows.Point(st.X, st.Y),
-                        new System.Windows.Point(st.X, ed.Y),
-                        new System.Windows.Point(ed.X, ed.Y),
-                        new System.Windows.Point(ed.X, st.Y),
-                        new System.Windows.Point(st.X, st.Y)
+            pointList = new List<Point>{
+                        new Point(st.X, st.Y),
+                        new Point(st.X, ed.Y),
+                        new Point(ed.X, ed.Y),
+                        new Point(ed.X, st.Y),
+                        new Point(st.X, st.Y)
                     };
             point = new StylusPointCollection(pointList);
             drawingAttributes.Color = dimenViewModel.SelectedAccentColor;
@@ -399,30 +375,24 @@ namespace Global
             return stroke;
         }
 
-        public Stroke GenerateRulerStroke(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateRulerStroke(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
-            double w = 20, h = 7;
             double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
-            double sint = Math.Sin(theta);
-            double cost = Math.Cos(theta);
-
             double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
-            double sint1 = Math.Sin(theta1);
-            double cost1 = Math.Cos(theta1);
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
-                new System.Windows.Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
-                new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
-                new System.Windows.Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
+                new Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
+                new Point(st.X, st.Y),
+                new Point(ed.X , ed.Y),
+                new Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
+                new Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
 
             };
             point = new StylusPointCollection(pointList);
@@ -433,9 +403,9 @@ namespace Global
             return stroke;
         }
 
-        public Stroke GenerateProfileStroke(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateProfileStroke(Point st, Point ed)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
@@ -445,13 +415,13 @@ namespace Global
             double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
            
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
+                new Point(st.X, st.Y),
                 //new System.Windows.Point (st.X-5*Math.Cos(theta1+Math.PI / 2),st.Y-5*Math.Sin(theta1+Math.PI / 2)),
                 //new System.Windows.Point (st.X-5*Math.Cos(theta1-Math.PI / 2),st.Y-5*Math.Sin(theta1-Math.PI / 2)),
                 //new System.Windows.Point(st.X, st.Y),
-                new System.Windows.Point(ed.X , ed.Y),
+                new Point(ed.X , ed.Y),
                 //new System.Windows.Point (ed.X-5*Math.Cos(theta+Math.PI / 2),ed.Y-5*Math.Sin(theta+Math.PI / 2)),
                 //new System.Windows.Point (ed.X-5*Math.Cos(theta-Math.PI / 2),ed.Y-5*Math.Sin(theta-Math.PI / 2)),
 
@@ -468,16 +438,16 @@ namespace Global
             };
             return stroke;
         }
-        public Stroke GenerateMarker1Stroke(System.Windows.Point st)
+        public Stroke GenerateMarker1Stroke(Point st)
         {
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
 
 
-            pointList = new List<System.Windows.Point>
+            pointList = new List<Point>
             {
-                new System.Windows.Point(st.X, st.Y),
+                new Point(st.X, st.Y),
                
             };
 
@@ -490,7 +460,7 @@ namespace Global
         }
 
 
-        public Stroke GenerateSquareStroke(System.Windows.Point st, System.Windows.Point ed)
+        public Stroke GenerateSquareStroke(Point st, Point ed)
         {
 
             double dist = Math.Sqrt(Math.Pow(ed.X - st.X, 2) + Math.Pow(ed.Y - st.Y, 2));
@@ -499,17 +469,17 @@ namespace Global
 
             double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
             double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
-            ed = new System.Windows.Point(st.X + x, st.Y + y);
+            ed = new Point(st.X + x, st.Y + y);
 
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             StylusPointCollection point;
             Stroke stroke;
-            pointList = new List<System.Windows.Point>{
-                        new System.Windows.Point(st.X, st.Y),
-                        new System.Windows.Point(st.X, ed.Y),
-                        new System.Windows.Point(ed.X, ed.Y),
-                        new System.Windows.Point(ed.X, st.Y),
-                        new System.Windows.Point(st.X, st.Y)
+            pointList = new List<Point>{
+                        new Point(st.X, st.Y),
+                        new Point(st.X, ed.Y),
+                        new Point(ed.X, ed.Y),
+                        new Point(ed.X, st.Y),
+                        new Point(st.X, st.Y)
                     };
             point = new StylusPointCollection(pointList);
             drawingAttributes.Color = dimenViewModel.SelectedAccentColor;
@@ -519,16 +489,16 @@ namespace Global
             };
             return stroke;
         }
-        public static List<System.Windows.Point> GenerateEllipseGeometry(System.Windows.Point st, System.Windows.Point ed, bool isDrawTop = true, bool isDrawBottom = true)
+        public static List<Point> GenerateEllipseGeometry(Point st, Point ed, bool isDrawTop = true, bool isDrawBottom = true)
         {
             double a = 0.5 * (ed.X - st.X);
             double b = 0.5 * (ed.Y - st.Y);
-            List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+            List<Point> pointList = new List<Point>();
             if (isDrawTop && isDrawBottom)
             {
                 for (double r = 0; r <= 2 * Math.PI; r = r + 0.01)
                 {
-                    pointList.Add(new System.Windows.Point(0.5 * (st.X + ed.X) + a * Math.Cos(r), 0.5 * (st.Y + ed.Y) + b * Math.Sin(r)));
+                    pointList.Add(new Point(0.5 * (st.X + ed.X) + a * Math.Cos(r), 0.5 * (st.Y + ed.Y) + b * Math.Sin(r)));
                 }
             }
             else
@@ -537,14 +507,14 @@ namespace Global
                 {
                     for (double r = 0; r <= Math.PI; r = r + 0.01)
                     {
-                        pointList.Add(new System.Windows.Point(0.5 * (st.X + ed.X) + a * Math.Cos(r), 0.5 * (st.Y + ed.Y) + b * Math.Sin(r)));
+                        pointList.Add(new Point(0.5 * (st.X + ed.X) + a * Math.Cos(r), 0.5 * (st.Y + ed.Y) + b * Math.Sin(r)));
                     }
                 }
                 if (isDrawTop)
                 {
                     for (double r = Math.PI; r <= 2 * Math.PI; r = r + 0.01)
                     {
-                        pointList.Add(new System.Windows.Point(0.5 * (st.X + ed.X) + a * Math.Cos(r), 0.5 * (st.Y + ed.Y) + b * Math.Sin(r)));
+                        pointList.Add(new Point(0.5 * (st.X + ed.X) + a * Math.Cos(r), 0.5 * (st.Y + ed.Y) + b * Math.Sin(r)));
                     }
                 }
             }
@@ -553,10 +523,10 @@ namespace Global
 
         public static class InkCanvasMethod
         {
-            public static System.Windows.Media.Color ColorDefault = System.Windows.Media.Color.FromArgb(0xFF, 0xFF, 0x00, 0x00);
-            public static System.Windows.Media.Color ColorEidting = System.Windows.Media.Color.FromArgb(0xFF, 0x07, 0xAA, 0xE5);
-            public static System.Windows.Media.Brush StrokeBrushDefault = new SolidColorBrush(ColorDefault);
-            public static System.Windows.Media.Brush StrokeBrushEdit = new SolidColorBrush(ColorEidting);
+            public static Color ColorDefault = System.Windows.Media.Color.FromArgb(0xFF, 0xFF, 0x00, 0x00);
+            public static Color ColorEidting = System.Windows.Media.Color.FromArgb(0xFF, 0x07, 0xAA, 0xE5);
+            public static Brush StrokeBrushDefault = new SolidColorBrush(ColorDefault);
+            public static Brush StrokeBrushEdit = new SolidColorBrush(ColorEidting);
            // public static System.Windows.Media.Brush UndelLineBrush = new SolidColorBrush(dimenViewModel.SelectedAccentColor);
 
             /// <summary>
@@ -600,9 +570,9 @@ namespace Global
             /// 实线 Pen
             /// </summary>
             /// <returns></returns>
-            public static System.Windows.Media.Pen SetPenSolid(Color color)
+            public static Pen SetPenSolid(Color color)
             {
-                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                Pen pen = new Pen
                 {
                     Brush = new SolidColorBrush(color),
                     Thickness = 2,
@@ -619,9 +589,9 @@ namespace Global
             ///  Pen
             /// </summary>
             /// <returns></returns>
-            public static System.Windows.Media.Pen SetPenSolid1(int thickness = 1)
+            public static Pen SetPenSolid1(int thickness = 1)
             {
-                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                Pen pen = new Pen
                 {
                     Brush = Brushes.White,
                     Thickness = thickness,
@@ -633,9 +603,9 @@ namespace Global
                 return pen;
             }
 
-            public static System.Windows.Media.Pen SetPenSolid2(int thickness = 4)
+            public static Pen SetPenSolid2(int thickness = 4)
             {
-                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                Pen pen = new Pen
                 {
                     Brush = StrokeBrushDefault,
                     Thickness = thickness,
@@ -646,9 +616,9 @@ namespace Global
                 };
                 return pen;
             }
-            public static System.Windows.Media.Pen SetPenSolid3(int thickness = 4)
+            public static Pen SetPenSolid3(int thickness = 4)
             {
-                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                Pen pen = new Pen
                 {
                     Brush = Brushes.Blue,
                     Thickness = thickness,
@@ -659,9 +629,9 @@ namespace Global
                 };
                 return pen;
             }
-            public static System.Windows.Media.Pen SetPenSolid4(int thickness = 4)
+            public static Pen SetPenSolid4(int thickness = 4)
             {
-                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                Pen pen = new Pen
                 {
                     Brush = Brushes.Green,
                     Thickness = thickness,
@@ -672,9 +642,9 @@ namespace Global
                 };
                 return pen;
             }
-            public static System.Windows.Media.Pen SetPenSolid5(Brush brush)
+            public static Pen SetPenSolid5(Brush brush)
             {
-                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                Pen pen = new Pen
                 {
                     Brush = brush,
                     Thickness = 1.5,
@@ -688,7 +658,7 @@ namespace Global
 
 
 
-            public static CustomText CreateText( System.Windows.Point point1, System.Windows.Point point2, RatioClass ratio,Color color)
+            public static CustomText CreateText(Point point1, Point point2, RatioClass ratio,Color color)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -702,7 +672,7 @@ namespace Global
                 };
                 return stroke;
             }
-            public static CustomRulerText CreateRulerText(System.Windows.Point point1, System.Windows.Point point2, RatioClass ratio)
+            public static CustomRulerText CreateRulerText(Point point1, Point point2, RatioClass ratio)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -720,7 +690,7 @@ namespace Global
                 return stroke;
             }
 
-            public static CustomText1 CreateText1(System.Windows.Point point1, System.Windows.Point point2)
+            public static CustomText1 CreateText1(Point point1, Point point2)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -735,7 +705,7 @@ namespace Global
                 };
                 return stroke;
             }
-            public static CustomMarkerText CreateMarkerText(System.Windows.Point point1, System.Windows.Point point2)
+            public static CustomMarkerText CreateMarkerText(Point point1, Point point2)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -750,7 +720,7 @@ namespace Global
                 return stroke;
             }
 
-            public static CustomProfile CreateProfile(System.Windows.Point point1, System.Windows.Point point2, ProfileModel ratio,Color color)
+            public static CustomProfile CreateProfile(Point point1, Point point2, ProfileModel ratio,Color color)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -766,7 +736,7 @@ namespace Global
             }
 
 
-            public static CustomTextInput CreateTextInput(System.Windows.Point point1, double height, double width,FormattedText text,Brush brush)
+            public static CustomTextInput CreateTextInput(Point point1, double height, double width,FormattedText text,Brush brush)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -784,7 +754,7 @@ namespace Global
             }
 
             //pixel information
-            public static CustomPixel CreatePixel(System.Windows.Point point1, Image image)
+            public static CustomPixel CreatePixel(Point point1, Image image)
             {
                 StylusPointCollection points = new StylusPointCollection()
                 {
@@ -842,7 +812,7 @@ namespace Global
                 //double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
                 //double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
                 //ed = new System.Windows.Point(st.X + x, st.Y + y);
-                List<System.Windows.Point> pointList =DrawInkMethod.GenerateEllipseGeometry(st, ed);
+                List<Point> pointList =DrawInkMethod.GenerateEllipseGeometry(st, ed);
                 StylusPointCollection point = new StylusPointCollection(pointList);
 
                 EllipseStroke stroke = new EllipseStroke(point, color)
@@ -859,8 +829,8 @@ namespace Global
 
                 double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
                 double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
-                ed = new System.Windows.Point(st.X + x, st.Y + y);
-                List<System.Windows.Point> pointList = DrawInkMethod.GenerateEllipseGeometry(st, ed);
+                ed = new Point(st.X + x, st.Y + y);
+                List<Point> pointList = DrawInkMethod.GenerateEllipseGeometry(st, ed);
                 StylusPointCollection point = new StylusPointCollection(pointList);
 
                 CircleStroke stroke = new CircleStroke(point, color)
@@ -872,17 +842,17 @@ namespace Global
 
 
 
-            public static RectangleStroke CreateRectangleStroke(System.Windows.Point st, System.Windows.Point ed, Color color)
+            public static RectangleStroke CreateRectangleStroke(Point st, Point ed, Color color)
             {
 
-                List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+                List<Point> pointList = new List<Point>();
                 StylusPointCollection point;
-                pointList = new List<System.Windows.Point>{
-                        new System.Windows.Point(st.X, st.Y),
-                        new System.Windows.Point(st.X, ed.Y),
-                        new System.Windows.Point(ed.X, ed.Y),
-                        new System.Windows.Point(ed.X, st.Y),
-                        new System.Windows.Point(st.X, st.Y)
+                pointList = new List<Point>{
+                        new Point(st.X, st.Y),
+                        new Point(st.X, ed.Y),
+                        new Point(ed.X, ed.Y),
+                        new Point(ed.X, st.Y),
+                        new Point(st.X, st.Y)
                     };
                point = new StylusPointCollection(pointList);
                RectangleStroke  stroke = new RectangleStroke(point,color)
@@ -895,7 +865,7 @@ namespace Global
 
        
 
-            public static SquareStroke CreateSquare(System.Windows.Point st, System.Windows.Point ed, Color color)
+            public static SquareStroke CreateSquare(Point st, Point ed, Color color)
             {
 
                 double dist = Math.Sqrt(Math.Pow(ed.X - st.X, 2) + Math.Pow(ed.Y - st.Y, 2));
@@ -904,17 +874,17 @@ namespace Global
 
                 double x = deltaX / Math.Abs(deltaX) * dist / 1.4;
                 double y = deltaY / Math.Abs(deltaY) * dist / 1.4;
-                ed = new System.Windows.Point(st.X + x, st.Y + y);
+                ed = new Point(st.X + x, st.Y + y);
 
-                List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+                List<Point> pointList = new List<Point>();
                 StylusPointCollection point;
                
-                pointList = new List<System.Windows.Point>{
-                        new System.Windows.Point(st.X, st.Y),
-                        new System.Windows.Point(st.X, ed.Y),
-                        new System.Windows.Point(ed.X, ed.Y),
-                        new System.Windows.Point(ed.X, st.Y),
-                        new System.Windows.Point(st.X, st.Y)
+                pointList = new List<Point>{
+                        new Point(st.X, st.Y),
+                        new Point(st.X, ed.Y),
+                        new Point(ed.X, ed.Y),
+                        new Point(ed.X, st.Y),
+                        new Point(st.X, st.Y)
                     };
                 point = new StylusPointCollection(pointList);
 
@@ -953,7 +923,7 @@ namespace Global
                 double y1 = StylusPoints[0].Y;
                 double x2 = StylusPoints[1].X;
                 double y2 = StylusPoints[1].Y;
-                System.Windows.Point labPoint = new System.Windows.Point((x1+x2)/2-20, y1 - 20);
+                Point labPoint = new Point((x1+x2)/2-20, y1 - 20);
 
                 drawingContext.DrawText(new FormattedText("100 μm", CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12,System.Windows.Media.Brushes.White, 1.25), labPoint);
@@ -976,8 +946,8 @@ namespace Global
                 double y1 = StylusPoints[0].Y;
                 double x2 = StylusPoints[1].X;
                 double y2 = StylusPoints[1].Y;
-                System.Windows.Point labPoint = new System.Windows.Point(x1-10 , y1-5);
-                System.Windows.Point labPoint1 = new System.Windows.Point(x2+5, y2-5);
+                Point labPoint = new Point(x1-10 , y1-5);
+                Point labPoint1 = new Point(x2+5, y2-5);
 
                 drawingContext.DrawText(new FormattedText("1", CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint);
@@ -1135,16 +1105,16 @@ namespace Global
                 Point p3= new Point(x1, y1) + ratio.Ratio1 * vector;
                 Point p4 = new Point(x1, y1) + ratio.Ratio2 * vector;
 
-                System.Windows.Point labPoint = new System.Windows.Point(x1 - 12, y1 - 8);
-                System.Windows.Point labPoint1 = new System.Windows.Point(x2 + 7, y2 - 8);
+                Point labPoint = new Point(x1 - 12, y1 - 8);
+                Point labPoint1 = new Point(x2 + 7, y2 - 8);
 
                 drawingContext.DrawText(new FormattedText("1", CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint);
                 drawingContext.DrawText(new FormattedText("2", CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint1);
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(color1), new System.Windows.Point(x1, y1), new System.Windows.Point(x2 , y2));
-                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new System.Windows.Point(x1, y1), 1.5, 1.5);
-                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new System.Windows.Point(x2, y2), 1.5, 1.5);
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(color1), new Point(x1, y1), new Point(x2 , y2));
+                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new Point(x1, y1), 1.5, 1.5);
+                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid2(), new Point(x2, y2), 1.5, 1.5);
                 if (ratio.Marker1Show)
                 {
                     drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid3(), p3, 1.5, 1.5);
@@ -1189,11 +1159,11 @@ namespace Global
                 double x4 = StylusPoints[3].X;
                 double y4 = StylusPoints[3].Y;
 
-               System.Windows.Point labPoint = new System.Windows.Point(x1-1 , y1-1 );
+                Point labPoint = new Point(x1-1 , y1-1 );
                 drawingContext.DrawText(customTextInput, labPoint);
                 if (dimenViewModel.UnderLine)
                 {
-                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid5(brush), new System.Windows.Point(x3, y3), new System.Windows.Point(x4,y4));
+                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid5(brush), new Point(x3, y3), new Point(x4,y4));
                 }
 
 
@@ -1221,17 +1191,17 @@ namespace Global
                 double y2 = StylusPoints[1].Y;
               
 
-                double dist = GetDistance(new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2)) / ratio.Ratio;
+                double dist = GetDistance(new Point(x1, y1), new Point(x2, y2)) / ratio.Ratio;
                 dist= (double)dist /ratio.actualwidth  * 1689.12 ;
                 string label = Math.Round(dist, 2).ToString() + " μm";
 
-                System.Windows.Point labelPosition;
+                Point labelPosition;
                 FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
 
                                               FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25);
                 int textHeight = (int)formattedText.Height;
                 int textWidth = (int)formattedText.Width;
-                labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
+                labelPosition = new Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
                 drawingContext.DrawText(formattedText, labelPosition);
 
             }
@@ -1260,17 +1230,17 @@ namespace Global
                 double y2 = StylusPoints[1].Y;
                 double theta = Math.Atan2(y1 - y2, x1 - x2);
                // MessageBox.Show(theta.ToString());
-                double dist = GetDistance(new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2))/ ratio.Ratio;
+                double dist = GetDistance(new Point(x1, y1), new Point(x2, y2))/ ratio.Ratio;
                 dist = (double)dist / ratio.actualwidth * 1689.12;
                 //dist= (double)dist / inkCanvas.ActualWidth * 1689.12 ;
                 string label = Math.Round(dist, 2).ToString() + " μm";
 
-                System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
+                FontStyle fontStyle = new FontStyle();
                 FontWeight fontWeight = new FontWeight();
                 FontStretch fontStretch = new FontStretch();
                 if (dimenViewModel.Italic) fontStyle = FontStyles.Italic;
                 if (dimenViewModel.Bold) fontWeight = FontWeights.Bold;
-                System.Windows.Point labelPosition;
+                Point labelPosition;
                 FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
 
                                               FlowDirection.LeftToRight, new Typeface(dimenViewModel.FontFam, fontStyle, fontWeight, fontStretch), dimenViewModel.FontSize, System.Windows.Media.Brushes.White, 1.25);
@@ -1287,23 +1257,23 @@ namespace Global
 
                                 case " 上左":
 
-                                    labelPosition = new System.Windows.Point(x1 + 5, y1 - textHeight - 10);
+                                    labelPosition = new Point(x1 + 5, y1 - textHeight - 10);
                                     break;
                                 case " 上中":
-                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
+                                    labelPosition = new Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
                                     break;
                                 case " 上右":
-                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 - textHeight - 10);
+                                    labelPosition = new Point(x2 - textWidth - 5, y2 - textHeight - 10);
                                     break;
 
                                 case " 下左":
-                                    labelPosition = new System.Windows.Point(x1 + 10, y1 + 10);
+                                    labelPosition = new Point(x1 + 10, y1 + 10);
                                     break;
                                 case " 下中":
-                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 + 10);
+                                    labelPosition = new Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 + 10);
                                     break;
                                 case " 下右":
-                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 + 10);
+                                    labelPosition = new Point(x2 - textWidth - 5, y2 + 10);
                                     break;
 
                             }
@@ -1316,23 +1286,23 @@ namespace Global
                             {
                             case " 上左":
 
-                                    labelPosition = new System.Windows.Point(x2 + 5, y2 - textHeight - 10);
+                                    labelPosition = new Point(x2 + 5, y2 - textHeight - 10);
                             break;
                                 case " 上中":
-                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
+                                    labelPosition = new Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
                             break;
                                 case " 上右":
-                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 - textHeight - 10);
+                                    labelPosition = new Point(x1 - textWidth - 5, y1 - textHeight - 10);
                             break;
 
                                 case " 下左":
-                                    labelPosition = new System.Windows.Point(x2 + 10, y2 + 10);
+                                    labelPosition = new Point(x2 + 10, y2 + 10);
                             break;
                                 case " 下中":
-                                    labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 + 10);
+                                    labelPosition = new Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 + 10);
                             break;
                                 case " 下右":
-                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 + 10);
+                                    labelPosition = new Point(x1 - textWidth - 5, y1 + 10);
                             break;
 
                               }
@@ -1350,23 +1320,23 @@ namespace Global
 
                                 case " 上左":
 
-                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 - textHeight);
+                                    labelPosition = new Point(x1 - textWidth - 5, y1 - textHeight);
                                     break;
                                 case " 上中":
-                                    labelPosition = new System.Windows.Point(x1 - textWidth / 2, y1 - textHeight);
+                                    labelPosition = new Point(x1 - textWidth / 2, y1 - textHeight);
                                     break;
                                 case " 上右":
-                                    labelPosition = new System.Windows.Point(x1 + 5, y1 - textHeight);
+                                    labelPosition = new Point(x1 + 5, y1 - textHeight);
                                     break;
 
                                 case " 下左":
-                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 + 5);
+                                    labelPosition = new Point(x2 - textWidth - 5, y2 + 5);
                                     break;
                                 case " 下中":
-                                    labelPosition = new System.Windows.Point(x2 - textWidth / 2, y2 + 5);
+                                    labelPosition = new Point(x2 - textWidth / 2, y2 + 5);
                                     break;
                                 case " 下右":
-                                    labelPosition = new System.Windows.Point(x2 + 5, y2 + 5);
+                                    labelPosition = new Point(x2 + 5, y2 + 5);
                                     break;
 
                             }
@@ -1380,23 +1350,23 @@ namespace Global
 
                                 case " 上左":
 
-                                    labelPosition = new System.Windows.Point(x2 - textWidth - 5, y2 - textHeight);
+                                    labelPosition = new Point(x2 - textWidth - 5, y2 - textHeight);
                                     break;
                                 case " 上中":
-                                    labelPosition = new System.Windows.Point(x2 - textWidth / 2, y2 - textHeight);
+                                    labelPosition = new Point(x2 - textWidth / 2, y2 - textHeight);
                                     break;
                                 case " 上右":
-                                    labelPosition = new System.Windows.Point(x2 + 5, y2 - textHeight);
+                                    labelPosition = new Point(x2 + 5, y2 - textHeight);
                                     break;
 
                                 case " 下左":
-                                    labelPosition = new System.Windows.Point(x1 - textWidth - 5, y1 + 5);
+                                    labelPosition = new Point(x1 - textWidth - 5, y1 + 5);
                                     break;
                                 case " 下中":
-                                    labelPosition = new System.Windows.Point(x1 - textWidth / 2, y1 + 5);
+                                    labelPosition = new Point(x1 - textWidth / 2, y1 + 5);
                                     break;
                                 case " 下右":
-                                    labelPosition = new System.Windows.Point(x1 + 5, y1 + 5);
+                                    labelPosition = new Point(x1 + 5, y1 + 5);
                                     break;
 
                             }
@@ -1411,14 +1381,14 @@ namespace Global
 
                     if (dimenViewModel.UnderLine)
                     {
-                        drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(color1), new System.Windows.Point(labelPosition.X, labelPosition.Y + textHeight + 2), new System.Windows.Point(labelPosition.X + textWidth, labelPosition.Y + textHeight + 2));
+                        drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(color1), new Point(labelPosition.X, labelPosition.Y + textHeight + 2), new Point(labelPosition.X + textWidth, labelPosition.Y + textHeight + 2));
                     }
 
 
                 }
             }
         }
-        public static double GetDistance(System.Windows.Point point1, System.Windows.Point point2)
+        public static double GetDistance(Point point1, Point point2)
         {
             return Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) + (point1.Y - point2.Y) * (point1.Y - point2.Y));
         }
@@ -1429,7 +1399,7 @@ namespace Global
         private static int _blue;     
         public static FormattedText TextInput;
 
-        public static void LoadPixelData(System.Windows.Point point1,Image image)
+        public static void LoadPixelData(Point point1,Image image)
         {
            
             try
@@ -1447,8 +1417,7 @@ namespace Global
                 _green = (int)pixelByteArray[colorOrder + 1];
                 _blue = (int)pixelByteArray[colorOrder];
             }
-            catch (Exception ex)
-            {
+            catch { 
 
             };
 
@@ -1508,22 +1477,21 @@ namespace Global
                     if (x > 0 && y > 0 && (x + 60) < bitmapImage.PixelWidth && (y + 45) < bitmapImage.PixelHeight)
                     {
                         var croppedBitmap = new CroppedBitmap(bitmapImage, new Int32Rect(x, y, RecW, RecH));
-                        drawingContext.DrawImage(croppedBitmap, new Rect(new System.Windows.Point(x1, y1), new System.Windows.Size(120, 90)));
+                        drawingContext.DrawImage(croppedBitmap, new Rect(new Point(x1, y1), new Size(120, 90)));
                     }
 
                     drawingContext.DrawText(new FormattedText(label, CultureInfo.CurrentCulture,
-                    FlowDirection.LeftToRight, new Typeface("Arial"), 14, System.Windows.Media.Brushes.White, 1.25), new System.Windows.Point(x1, y1 + 93));
+                    FlowDirection.LeftToRight, new Typeface("Arial"), 14, System.Windows.Media.Brushes.White, 1.25), new Point(x1, y1 + 93));
                     drawingContext.DrawText(new FormattedText(label1, CultureInfo.CurrentCulture,
-                    FlowDirection.LeftToRight, new Typeface("Arial"), 14, System.Windows.Media.Brushes.White, 1.25), new System.Windows.Point(x1, y1 + 110));     
+                    FlowDirection.LeftToRight, new Typeface("Arial"), 14, System.Windows.Media.Brushes.White, 1.25), new Point(x1, y1 + 110));     
                                         
-                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid1(), new System.Windows.Point(x1, y1 + 45), new System.Windows.Point(x1 + 120, y1 + 45));
-                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid1(), new System.Windows.Point(x1 + 60, y1), new System.Windows.Point(x1 + 60, y1 + 90));
+                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid1(), new Point(x1, y1 + 45), new Point(x1 + 120, y1 + 45));
+                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid1(), new Point(x1 + 60, y1), new Point(x1 + 60, y1 + 90));
 
 
                 }
-                catch (Exception ex)
+                catch 
                 {
-                   // MessageBox.Show(ex.Message);
                 };
                
             }

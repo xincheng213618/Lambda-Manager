@@ -82,9 +82,9 @@ namespace Global
                         gridSplitter.Height = 3;
                     }
 
-                    if (Application.Current.MainWindow.FindName("leftToolbar") is DockPanel leftToolbar && leftToolbar.Children[0] is WrapPanel leftToolBarChild && leftToolBarChild.Children[3] is ToggleButton histogramTogg)
+                    if (Application.Current.MainWindow.FindName("leftToolbar") is DockPanel leftToolbar && leftToolbar.Children[0] is WrapPanel leftToolBarChild && leftToolBarChild.Children[3] is ToggleButton toggleButton)
                     {
-
+                        histogramTogg = toggleButton;
                         histogramTogg.Checked += delegate
                         {
 

@@ -98,18 +98,11 @@ public class ConfigUILibrary: ILambdaUI
 
     public static string GetMD5(string path)
     {
-        try
-        {
-            var hash = MD5.Create();
-            var stream = new FileStream(path, FileMode.Open);
-            byte[] hashByte = hash.ComputeHash(stream);
-            stream.Close();
-            return BitConverter.ToString(hashByte).Replace("-", "");
-        }catch(Exception ex)
-        {
-            return String.Empty;
-        }
-
+        var hash = MD5.Create();
+        var stream = new FileStream(path, FileMode.Open);
+        byte[] hashByte = hash.ComputeHash(stream);
+        stream.Close();
+        return BitConverter.ToString(hashByte).Replace("-", "");
     }
 
 

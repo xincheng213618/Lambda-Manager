@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Global.Common;
 
 namespace LambdaManager.Mode
 {
     public class UpdateStatus: ViewModelBase
     {
-
         private string imageX = string.Empty;
 
         public string ImageX

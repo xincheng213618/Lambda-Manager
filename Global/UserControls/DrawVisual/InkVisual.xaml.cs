@@ -76,7 +76,7 @@ namespace Global.UserControls.DrawVisual
 
 
                     }
-                    catch (Exception ex)
+                    catch 
                     {
 
                     }
@@ -215,10 +215,7 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-
             Point endP = e.GetPosition(inkCanvas);
-            List<System.Windows.Point> pointList;
-            StylusPointCollection point;
             Stroke stroke;
             Stroke stroke0;
            
@@ -575,7 +572,7 @@ namespace Global.UserControls.DrawVisual
             }
         }
 
-        List<System.Windows.Point> pointList1 = new List<Point>();
+        List<Point> pointList1 = new List<Point>();
         StylusPointCollection point1;
 
         Stroke stroke1;
@@ -586,14 +583,12 @@ namespace Global.UserControls.DrawVisual
             isMouseDown = true;
            // inkCanvas.CaptureMouse();
             Stroke stroke;
-            Stroke stroke0;
 
            if (ToolTop.MoveChecked == true)
             {
                 StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(hold.Stream);
 
-                // CanMove = true;
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
                             {
                             {"event",(int)1},
@@ -678,7 +673,7 @@ namespace Global.UserControls.DrawVisual
                         if (textBox.Text == "")
                             inkCanvas.Children.Remove(textBox);
                         string label = (string)textBox.Text;
-                        System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
+                        FontStyle fontStyle = new FontStyle();
                         FontWeight fontWeight = new FontWeight();
                         FontStretch fontStretch = new FontStretch();
                         if (DrawInkMethod.dimenViewModel.Italic) fontStyle = FontStyles.Italic;
@@ -835,7 +830,7 @@ namespace Global.UserControls.DrawVisual
                    
 
                 }
-                catch (Exception ex)
+                catch
                 {
 
                 }
@@ -1094,9 +1089,8 @@ namespace Global.UserControls.DrawVisual
                     inkCanvas.Strokes.Remove(lastTempStroke);
                    
                 }
-                catch(Exception ex)
+                catch
                 {
-                   // MessageBox.Show(ex.Message);
                 }
                    
                

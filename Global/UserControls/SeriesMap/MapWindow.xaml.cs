@@ -82,7 +82,6 @@ namespace Global.UserControls.SeriesMap
             {
                 i++;
                 Rectangle rectangle = new Rectangle() { Width = 8, Height = 6, Fill = Brushes.Blue, Opacity = 0.6, Name = "SelectPoint" + i.ToString() };
-                Brush brushTemp;
                 mapCanvas.Children.Add(rectangle);
                 mapCanvas.RegisterName(rectangle.Name, rectangle);
                 Canvas.SetLeft(rectangle, p.X);

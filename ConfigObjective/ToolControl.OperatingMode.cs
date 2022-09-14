@@ -239,7 +239,7 @@ namespace ConfigObjective
         
 
 
-        private async void ViewMode_Checked(object sender, RoutedEventArgs e)
+        private  void ViewMode_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton radioButton = sender as RadioButton;
             string s = radioButton.Tag.ToString();
