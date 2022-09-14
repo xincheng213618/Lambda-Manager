@@ -90,7 +90,6 @@ namespace ConfigSetting
 
 
 
-        bool IS = false;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (ThemeManagers.CurrentUITheme == Theme.Dark)
@@ -119,6 +118,12 @@ namespace ConfigSetting
         private void UserControl_Initialized(object sender, EventArgs e)
         {
 
+        }
+
+        private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem treeViewItem = sender as TreeViewItem;
+            ScrollViewer1.ScrollToVerticalOffset(int.Parse(treeViewItem.Tag.ToString()));
         }
     }
 }

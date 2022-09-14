@@ -11,18 +11,7 @@ namespace ConfigBottomView
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class VisibilityConverter : IValueConverter
-    {
-        #region IValueConverter Members
-        /// <summary>
-        /// Converts a value.
-        /// </summary>
-        /// <param name="value">The value produced by the binding source.</param>
-        /// <param name="targetType">The type of the binding target property.</param>
-        /// <param name="parameter">The converter parameter to use.</param>
-        /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>
-        /// A converted value. If the method returns null, the valid null value is used.
-        /// </returns>
+    {     
         public object Convert(
             object value,
             Type targetType,
@@ -39,16 +28,6 @@ namespace ConfigBottomView
             }
         }
 
-        /// <summary>
-        /// Converts a value back.
-        /// </summary>
-        /// <param name="value">The value that is produced by the binding target.</param>
-        /// <param name="targetType">The type to convert to.</param>
-        /// <param name="parameter">The converter parameter to use.</param>
-        /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>
-        /// A converted value. If the method returns null, the valid null value is used.
-        /// </returns>
         public object ConvertBack(
             object value,
             Type targetType,
@@ -57,7 +36,78 @@ namespace ConfigBottomView
         {
             return (Visibility)value == Visibility.Visible;
         }
-        #endregion IValueConverter Members
+       
+
+    }
+    public class ValueToHalfConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (double)value/2+8;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public sealed class BoolToVisibilityConverter : IValueConverter
+    {
+        /// <summary>
+        /// 设定正值
+        /// </summary>
+        public Visibility TrueValue { get; set; }
+
+        /// <summary>
+        /// 设定负值
+        /// </summary>
+        public Visibility FalseValue { get; set; }
+
+        /// <summary>
+        /// 是否颠倒
+        /// </summary>
+        public bool Reverse { get; set; }
+
+        public BoolToVisibilityConverter()
+        {
+            // set defaults
+            TrueValue = Visibility.Visible;
+            FalseValue = Visibility.Collapsed;
+            Reverse = false;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return Visibility.Collapsed;
+            if (Reverse)
+                return (bool)value ? FalseValue : TrueValue;
+            else
+                return (bool)value ? TrueValue : FalseValue;
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (Reverse)
+            {
+                if (Equals(value, TrueValue))
+                    return true;
+                if (Equals(value, FalseValue))
+                    return false;
+            }
+            else
+            {
+                if (Equals(value, TrueValue))
+                    return false;
+                if (Equals(value, FalseValue))
+                    return true;
+            }
+            return false;
+        }
+
+
     }
 
 }

@@ -31,10 +31,7 @@ namespace Global.UserControls.SeriesMap
         public MapWindow()
         {
             InitializeComponent();
-            //MultiRec.Stroke = Brushes.Black;
-            //MultiRec.StrokeThickness = 2;
-            //MultiRec.StrokeDashArray = new DoubleCollection() { 3, 2 };
-            //mapCanvas.Children.Add(MultiRec);
+           
             ReadJsonPCollection();
         }
 
@@ -82,6 +79,7 @@ namespace Global.UserControls.SeriesMap
             {
                 i++;
                 Rectangle rectangle = new Rectangle() { Width = 8, Height = 6, Fill = Brushes.Blue, Opacity = 0.6, Name = "SelectPoint" + i.ToString() };
+                Brush brushTemp;
                 mapCanvas.Children.Add(rectangle);
                 mapCanvas.RegisterName(rectangle.Name, rectangle);
                 Canvas.SetLeft(rectangle, p.X);
@@ -111,6 +109,7 @@ namespace Global.UserControls.SeriesMap
 
         }
 
+        private bool ismultiRect = false;
 
         private void listview_SelectionChanged(object sender, SelectionChangedEventArgs e)  // selected change 
         {
@@ -128,15 +127,17 @@ namespace Global.UserControls.SeriesMap
                     SeriersPoint seriersPoint = (SeriersPoint)listView.SelectedItem;
                     Rectangle rectangle = (Rectangle)mapCanvas.FindName("SelectPoint" + seriersPoint.Index.ToString());
                     rectangle.Fill = Brushes.Orange;
+
                     SpotInfor spotInfor = new SpotInfor();
                     spotInfor.Index.Add((int)seriersPoint.Index);
                     List<int> selectedpoint = new List<int>() { (int)seriersPoint.PointXY.X, (int)seriersPoint.PointXY.Y };
                     spotInfor.Coordinate.Add(selectedpoint);
                     String JSON = JsonSerializer.Serialize(spotInfor, new JsonSerializerOptions());
                     System.Windows.MessageBox.Show(JSON);
+
                     LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
-
-
+                    //LambdaControl.Trigger("MUL_POINT_POSITION", this, new Dictionary<string, object>() { { "Index", seriersPoint.Index }, { "Coordinate", seriersPoint.PointXY } });
+                    //MessageBox.Show(seriersPoint.Index.ToString(), seriersPoint.PointXY.ToString());
                 }
                 else if (listview.SelectedItems.Count > 1)
                 {

@@ -53,6 +53,26 @@ namespace Global.UserControls.DrawVisual
         private void listview_Loaded(object sender, RoutedEventArgs e)
         {
             listview.ItemsSource = DrawInkMethod.StrokesCollection;
+            DrawInkMethod.StrokesCollection.CollectionChanged += delegate
+            {
+                if (DrawInkMethod.StrokesCollection.Count>0)
+                {
+                    objectManageGrid.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    objectManageGrid.Visibility = Visibility.Collapsed;
+                }
+            };
+
+        }
+
+        private void _colorPicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (expander.IsExpanded == false)
+            {
+                expander.IsExpanded = true;
+            }
         }
     }
 }

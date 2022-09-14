@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		CHANGELOG.md = CHANGELOG.md
+		INFO.md = INFO.md
+		lambda.snk = lambda.snk
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -82,7 +84,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Global.Reg", "Global.Reg\Gl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigSetting", "ConfigSetting\ConfigSetting.csproj", "{1E987CBD-5035-4410-9C6D-E13CEA7970B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACETests", "ACETests\ACETests.csproj", "{DF21D2BE-B0A6-48FC-8235-A27B05C993AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACETests", "ACETests\ACETests.csproj", "{DF21D2BE-B0A6-48FC-8235-A27B05C993AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

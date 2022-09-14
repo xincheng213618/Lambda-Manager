@@ -39,7 +39,7 @@ namespace Global
 
         private void AddInjection()
         {
-            if (!(Application.Current.MainWindow.FindName("grid0") is Grid grid0)) return;
+            if (Application.Current.MainWindow.FindName("grid0") is not Grid) return;
 
             try
             {
@@ -474,6 +474,50 @@ namespace Global
             {
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
                 Slider Slider1 = (Slider)bottomToolbar.Children[6];
+
+
+                //ProgressBar1 progressBar = new ProgressBar1();
+                //bottomToolbar.Children.Remove(Slider1);
+                //bottomToolbar.Children.Insert(6, progressBar);
+
+                //progressBarModel.PropertyChanged += delegate
+                //{
+                //    progressBar.pro.Minimum = progressBarModel.MiniMum;
+                //    progressBar.pro.Maximum = progressBarModel.MaxMum;
+                //    progressBar.pro.LowerValue = progressBarModel.Current;
+                //    progressBar.pro.HigherValue = progressBarModel.LoadingMax;
+
+                //};
+
+                int before = 0;
+                Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
+                ThemeManager.Rangeslider.RangeSlider range = new ThemeManager.Rangeslider.RangeSlider();
+                range.Width = 200; range.Height = 30; range.LowerRangeBackground = brush;
+                range.RangeBackground = brush; range.SlidThumbVis = Visibility.Hidden;
+                range.LowerValueChanged += delegate
+                {
+                    int current = (int)Math.Floor(range.LowerValue);
+                    int value = Math.Abs(before - current);
+                    if (value > 0)
+                    {
+                        LambdaControl.Trigger("TRIGGER_PROGRESSBAR", this, new Dictionary<string, object> { { "Current", (int)Math.Floor(range.LowerValue) } });
+                    }
+                    before = (int)Math.Floor(range.LowerValue);
+                };
+
+                Binding b1 = new Binding("MiniMum");
+                BindingOperations.SetBinding(range, ThemeManager.Rangeslider.RangeSlider.MinimumProperty, b1);
+                Binding b2 = new Binding("MaxMum");
+                BindingOperations.SetBinding(range, ThemeManager.Rangeslider.RangeSlider.MaximumProperty, b2);
+                Binding b3 = new Binding("Current");
+                BindingOperations.SetBinding(range, ThemeManager.Rangeslider.RangeSlider.LowerValueProperty, b3);
+                Binding b4 = new Binding("LoadingMax");
+                BindingOperations.SetBinding(range, ThemeManager.Rangeslider.RangeSlider.HigherValueProperty, b4);
+
+                range.DataContext = progressBarModel;
+                bottomToolbar.Children.Remove(Slider1);
+                bottomToolbar.Children.Insert(6, range);
+
 
 
                 Binding myBindingFrameIndex = new Binding("FrameIndex");

@@ -4,16 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:range="clr-namespace:RangeSlider;assembly=RangeSlider"
+             xmlns:ss="clr-namespace:ThemeManager.Rangeslider;assembly=ThemeManager"
              xmlns:updown ="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
              xmlns:local="clr-namespace:ConfigBottomView"
              mc:Ignorable="d"  Initialized="UserControl_Initialized"     >
     <UserControl.Resources>
         <ResourceDictionary>
+           
+            <local:ValueToHalfConverter x:Key="half"></local:ValueToHalfConverter>
+            <local:VisibilityConverter x:Key="Vis" ></local:VisibilityConverter>
+            <local:BoolToVisibilityConverter x:Key="Visb" Reverse="True"></local:BoolToVisibilityConverter>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/generic.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
+        
     </UserControl.Resources>
     <!-- <Border  Background="#444444" BorderThickness="0" BorderBrush="Black" Grid.ColumnSpan="2" CornerRadius="5"> -->
 
@@ -52,14 +57,17 @@
             <Grid Grid.Column="1" ShowGridLines="True" Margin="0,0,0,0" >
                 <Border Name="ImageBorder" Padding="20,0,10,15" BorderBrush="#333333" BorderThickness="0" Background="#444444">
                     <Border BorderBrush="White" BorderThickness="1" Margin="0">
-                        <Image Margin="0"   Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill" SizeChanged="HistogramImage_SizeChanged"></Image>
+
+                        <Image Margin="0"   Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill"  SizeChanged="HistogramImage_SizeChanged"></Image>
                     </Border>
 
                 </Border>
+                   
                 <InkCanvas Name="inkCanvas"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"    Background="Transparent" EditingMode="None"  Opacity="1"   >
                     <TextBlock Visibility="Collapsed" Name="lowerThumbText" Width="25" TextAlignment="Center" Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" Foreground="White"  InkCanvas.Left="0" InkCanvas.Bottom="0"  Opacity="1" ></TextBlock>
                     <TextBlock Name="highThumbText" Visibility="Collapsed" Width="25" TextAlignment="Center" InkCanvas.Left="0" Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" Foreground="White" InkCanvas.Bottom="0"  Opacity="1"></TextBlock>
-                    <Canvas Width="12" Name="leftCanvas" Cursor="Hand" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvas_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvas_MouseLeftButtonUp" MouseMove="leftCanvas_MouseMove"  >
+                    <!--otherMode-->
+                    <Canvas Width="12" Name="leftCanvas" Cursor="Hand" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvas_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvas_MouseLeftButtonUp" MouseMove="leftCanvas_MouseMove" Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
                         <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-12,0,-12,0"  Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
                         <Grid x:Name="leftEllipse" Visibility="Collapsed" Canvas.Left="2"  >
@@ -67,7 +75,17 @@
                             <Ellipse  Width="6" Height="6"  Fill="#444444"  ></Ellipse>
                         </Grid>
                     </Canvas>
-                    <Canvas Width="12" Name="rightCanvas"  Cursor="Hand"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="rightCanvas_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvas_MouseLeftButtonUp" MouseMove="rightCanvas_MouseMove"  >
+                    <!--phase-->
+                    <Canvas Width="12" Name="leftCanvasP" Cursor="Hand" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="12" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvasP_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvasP_MouseLeftButtonUp" MouseMove="leftCanvasP_MouseMove" Visibility="{Binding Phase,Converter={StaticResource Vis}}" >
+                        <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
+                        <TextBlock  Width="30"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-15,0,-12,0"  Text="{Binding ElementName=RangeSliderP,Path=LowerValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
+                        <Grid x:Name="leftEllipseP" Visibility="Collapsed" Canvas.Left="2"  >
+                            <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
+                            <Ellipse  Width="6" Height="6"  Fill="#444444"  ></Ellipse>
+                        </Grid>
+                    </Canvas>
+                    <!--otherMode-->
+                    <Canvas Width="12" Name="rightCanvas"  Cursor="Hand"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="rightCanvas_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvas_MouseLeftButtonUp" MouseMove="rightCanvas_MouseMove"  Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
                         <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-12,0,-12,0"  Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
                         <Grid x:Name="rightEllipse" Visibility="Collapsed" Canvas.Left="2"  >
@@ -75,10 +93,23 @@
                             <Ellipse  Width="6" Height="6"  Fill="#444444" Cursor="Hand"  ></Ellipse>
                         </Grid>
                     </Canvas>
-                    <TextBlock InkCanvas.Left="17.5" InkCanvas.Bottom="0" Text="0" Foreground="White" ></TextBlock>
-                    <TextBlock InkCanvas.Right="0" InkCanvas.Bottom="0" Text="255" Foreground="White" ></TextBlock>
+                    <!--phase-->
+                    <Canvas Width="12" Name="rightCanvasP"  Cursor="Hand"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0"   Visibility="{Binding Phase,Converter={StaticResource Vis}}" MouseLeftButtonDown="rightCanvasP_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvasP_MouseLeftButtonUp" MouseMove="rightCanvasP_MouseMove">
+                        <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
+                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-14,0,-12,0"  Text="{Binding ElementName=RangeSliderP,Path=HigherValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
+                        <Grid x:Name="rightEllipseP" Visibility="Collapsed" Canvas.Left="2"  >
+                            <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
+                            <Ellipse  Width="6" Height="6"  Fill="#444444" Cursor="Hand"  ></Ellipse>
+                        </Grid>
+                    </Canvas>
+                    <TextBlock InkCanvas.Left="17.5" InkCanvas.Bottom="0" Text="{Binding XAxisMin}" Foreground="White" Visibility="{Binding Phase,Converter={StaticResource Visb}}"   ></TextBlock>
+                    <TextBlock InkCanvas.Right="0" InkCanvas.Bottom="0" Text="{Binding XAxisMax}" Foreground="White" Visibility="{Binding Phase,Converter={StaticResource Visb}}"  ></TextBlock>
+                    <TextBlock   Text="0" Width="7" Foreground="White" Visibility="{Binding Phase,Converter={StaticResource Vis}}" InkCanvas.Right="{Binding ElementName=HistogramImage,Path=ActualWidth,Converter={StaticResource half }}" InkCanvas.Bottom="0" ></TextBlock>
+                    <TextBlock InkCanvas.Left="12" InkCanvas.Bottom="0" Width="30" Name="phaseRangeMin" Text="{Binding XAxisMinP}" Visibility="{Binding Phase,Converter={StaticResource Vis}}" Foreground="White" ></TextBlock>
+                    <TextBlock InkCanvas.Right="-10" InkCanvas.Bottom="0" Padding="1,0,0,0" Width="30" Name="phaseRangeMax" Text="{Binding XAxisMaxP}" Visibility="{Binding Phase,Converter={StaticResource Vis}}" Foreground="White" ></TextBlock>
+
                 </InkCanvas>
-                <Grid  ToggleButton.Checked="RGBGrid_Checked" x:Name="RGBGrid" ToggleButton.Unchecked="RGBGrid_UnChecked"  >
+                <Grid  ToggleButton.Checked="RGBGrid_Checked" x:Name="RGBGrid" ToggleButton.Unchecked="RGBGrid_UnChecked"  Visibility="{Binding Phase,Converter={StaticResource Visb}}"  >
                     <ToggleButton Width="35" Height="18" Content="B" x:Name="B" Style="{StaticResource ToggleButton}" Padding="0,-2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,12,0" ></ToggleButton>
                     <ToggleButton Width="35" Height="18" Content="G" x:Name="G" Style="{StaticResource ToggleButton}" Padding="0,-2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,52,0" ></ToggleButton>
                     <ToggleButton Width="35" Height="18" Content="R" x:Name="R" Style="{StaticResource ToggleButton}" Padding="0,-2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,92,0" ></ToggleButton>
@@ -111,12 +142,17 @@
 
                     <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label  Content="离群率：" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
-                        <TextBlock  Text="{Binding Outlier}" VerticalAlignment="Center" Width="50" Foreground="White"></TextBlock>
+                        <TextBlock  Text="{Binding Outlier}" VerticalAlignment="Center" Width="50" Margin="-5,0,0,0" Foreground="White"></TextBlock>
                     </StackPanel>
-                    <StackPanel   Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
+                    <StackPanel   Margin="0" Name="GammaStack" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Phase,Converter={StaticResource Visb}}">
                         <Label  Content="伽玛值：" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
                         <updown:DoubleUpDown Grid.Row="5" Name="NumUpdown" Value="{Binding Gamma ,StringFormat='F2'}" DisplayLength="4" IsReadOnly="False" Foreground="White" Height="25" MinValue="0" MaxValue="5" StepSize="0.01" HorizontalAlignment="Left" Margin="-10,3,0,0" ValueChanged="DoubleUpDown_ValueChanged" VerticalAlignment="Bottom" ></updown:DoubleUpDown>
                         <!--  <TextBox   Text="{Binding Gamma}" Name="GammaTextbox"  Background="#595959"  VerticalAlignment="Center"  Width="50" Foreground="White" TextChanged="GammaTextbox_TextChanged"  ></TextBox> -->
+                    </StackPanel>
+                    <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Phase,Converter={StaticResource Vis}}">
+                        <Label Content="范围:" Foreground="White"  HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
+                        <ComboBox Width="80"  VerticalContentAlignment="Center" ItemsSource="{Binding RangList}" Height="20"  Style="{StaticResource ComboBox2}"  Margin="11,0,0,0"  Padding="5,2,5,2"  SelectedItem="{Binding RangeSelectedItem}" SelectionChanged="ComboBox_SelectionChanged"  >
+                        </ComboBox>
                     </StackPanel>
                 </WrapPanel>
 
@@ -133,9 +169,10 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Width="25" Margin="0,-10,8,0"  VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White"  Grid.Column="0" Text="0" FlowDirection="RightToLeft" ></TextBlock>
-                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin,Mode=TwoWay}"  Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMax,Mode=TwoWay}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"    ></range:RangeSlider>
+                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin,Mode=TwoWay}" Step="0.001"  Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMax,Mode=TwoWay}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"    ></range:RangeSlider>
                 <TextBlock Width="30"  Margin="0,-10,0,0" VerticalAlignment="Center" Foreground="White" Grid.Column="2" Text="255" ></TextBlock>
-            
+                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMinP,Mode=TwoWay}" Step="0.001" Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMaxP,Mode=TwoWay}"  Name="RangeSliderP"   Minimum="{Binding SliderMinP}" Maximum="{Binding SliderMaxP}"  Orientation="Horizontal"  VerticalAlignment="Center" LowerValueChanged="RangeSliderP_LowerValueChanged" HigherValueChanged="RangeSliderP_HigherValueChanged"    ></range:RangeSlider>
+               
             </Grid>
         </Border>
     </Grid>

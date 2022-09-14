@@ -18,7 +18,7 @@
         <StackPanel Name="colorMap" Width="30" Visibility="Visible" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Center" >
             <TextBlock  Background="Black" TextAlignment="Center" Text="{Binding ElementName=colorBar,Path=HigherValue,StringFormat={}{0:F0}}" Width="40" Foreground="White"  HorizontalAlignment="Center"></TextBlock>
             <TextBlock  Width="30" Text="255" TextAlignment="Center"  Foreground="White"  HorizontalAlignment="Center" Margin="0,0,0,10"></TextBlock>
-            <range:RangeSlider  Width="30" LowerValue="{Binding RangeMin}"  HigherValue="{Binding RangeMax}" Name="colorBar" Background="#444444"   Height="300" SlidBackground="{StaticResource GRAY}"  Orientation="Vertical" Minimum="0" Maximum="4059" Margin="0,-5,0,0" >
+            <range:RangeSlider  Width="30" LowerValue="{Binding RangeMin}"  HigherValue="{Binding RangeMax}" Name="colorBar" Background="#444444"   Height="300" SlidBackground="{StaticResource GRAY}"  Orientation="Vertical" Minimum="0" Maximum="255" Margin="0,-5,0,0" >
             </range:RangeSlider>
             
             

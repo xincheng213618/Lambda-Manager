@@ -51,6 +51,11 @@ namespace Global
 
             //采集关闭
             LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);
+            //加载进度
+            LambdaControl.AddLambdaEventHandler("UPDATE_PROGRESSBAR", UpdateProgressBarModel, false);
+
+
+
         }
 
         private bool StaheIniClose(object sender, EventArgs e)
@@ -271,6 +276,25 @@ namespace Global
 
         public HistogramModel histogramModel = new HistogramModel();
         public ProfileModel profileModel = new ProfileModel();
+        public ProgressBarModel progressBarModel = new ProgressBarModel();
+
+        private bool UpdateProgressBarModel(object sender, EventArgs e)
+        {
+           
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+          
+            if (eventData == null)
+                return false;
+           
+            
+            progressBarModel.MiniMum = double.Parse(eventData.GetString("Min"));
+            progressBarModel.MaxMum = double.Parse(eventData.GetString("Max"));
+            progressBarModel.Current = double.Parse(eventData.GetString("Current"));
+            progressBarModel.LoadingMax = double.Parse(eventData.GetString("LoadingMax"));
+           
+            return true;
+        }
+
 
         private bool UpdateHistogramModel(object sender, EventArgs e)
         {
@@ -288,7 +312,16 @@ namespace Global
             histogramModel.Outlier = eventData.GetString("Outlier");
             histogramModel.RangeMin = int.Parse(eventData.GetString("RangeMin"));
             histogramModel.RangeMax = int.Parse(eventData.GetString("RangeMax"));
-            
+
+            // phase histogram
+            int rangeMinP = int.Parse(eventData.GetString("RangeMinP"));
+            int rangeMaxP = int.Parse(eventData.GetString("RangeMaxP"));
+            //MessageBox.Show(rangeMinP.ToString()+"min");
+            //MessageBox.Show(rangeMaxP.ToString() + "max");
+            histogramModel.RangeMinP =(double)(rangeMinP-127);
+           // MessageBox.Show(histogramModel.RangeMinP.ToString());
+            histogramModel.RangeMaxP =(double)(rangeMaxP- 128);
+           // MessageBox.Show(histogramModel.RangeMaxP.ToString());
             return true;
         }
 
@@ -339,13 +372,18 @@ namespace Global
                 if (eventData == null)
                     return false;
                 updateStatus.ImageX = eventData.GetString("x");
-                WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
-
                 updateStatus.ImageY = eventData.GetString("y");
-                WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
-
                 updateStatus.ImageZ = eventData.GetString("z");
-                WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
+                //try
+                //{
+                //    WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
+                //    WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
+                //    WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
+                //}
+                //catch
+                //{
+
+                //}
 
                 updateStatus.ImageSize = eventData.GetString("size");
                 updateStatus.imageFocus = eventData.GetString("focus");
@@ -372,16 +410,16 @@ namespace Global
 
                 updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
                 updateStatus.TotalTime = eventData.GetString("totalTime");
-                string sliceIndex = eventData.GetString("sliceIndex");
-                if (sliceIndex != null)
-                {
-                    updateStatus.SliceIndex = int.Parse(sliceIndex);
-                }
-                string totalSlice = eventData.GetString("totalSlice");
-                if (totalSlice != null)
-                {
-                    updateStatus.TotalSlice = int.Parse(totalSlice);
-                }
+                //string sliceIndex = eventData.GetString("sliceIndex");
+                //if (sliceIndex != null)
+                //{
+                //    updateStatus.SliceIndex = int.Parse(sliceIndex);
+                //}
+                //string totalSlice = eventData.GetString("totalSlice");
+                //if (totalSlice != null)
+                //{
+                //    updateStatus.TotalSlice = int.Parse(totalSlice);
+                //}
                 updateStatus.ZTop = eventData.GetString("zTop");
                 updateStatus.ZCurrent = eventData.GetString("zCurrent");
                 updateStatus.ZBottom = eventData.GetString("zBottom");
@@ -392,7 +430,7 @@ namespace Global
             {
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
-
+          
 
             return true;
         }

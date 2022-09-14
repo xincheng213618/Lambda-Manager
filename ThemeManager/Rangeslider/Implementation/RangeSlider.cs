@@ -976,28 +976,28 @@ namespace ThemeManager.Rangeslider
 
         private void LowerRange_Click(object sender, RoutedEventArgs e)
         {
-            CoercedValues cv = this.GetCoercedValues();
-            //When Maximum is not greater than Minimum, the
-            //slider display is in an inconsistant state. Don't 
-            //consider any operation from the user
-            if (cv.Minimum < cv.Maximum)
-            {
-                double newValue = cv.LowerValue - this.Step;
-                this.LowerValue = Math.Min(cv.Maximum, Math.Max(cv.Minimum, newValue));
-            }
+            //CoercedValues cv = this.GetCoercedValues();
+            ////When Maximum is not greater than Minimum, the
+            ////slider display is in an inconsistant state. Don't 
+            ////consider any operation from the user
+            //if (cv.Minimum < cv.Maximum)
+            //{
+            //    double newValue = cv.LowerValue - this.Step;
+            //    this.LowerValue = Math.Min(cv.Maximum, Math.Max(cv.Minimum, newValue));
+            //}
         }
 
         private void HigherRange_Click(object sender, RoutedEventArgs e)
         {
-            CoercedValues cv = this.GetCoercedValues();
-            //When Maximum is not greater than Minimum, the
-            //slider display is in an inconsistant state. Don't 
-            //consider any operation from the user
-            if (cv.Minimum < cv.Maximum)
-            {
-                double newValue = cv.HigherValue + this.Step;
-                this.HigherValue = Math.Min(cv.Maximum, Math.Max(cv.Minimum, newValue));
-            }
+            //CoercedValues cv = this.GetCoercedValues();
+            ////When Maximum is not greater than Minimum, the
+            ////slider display is in an inconsistant state. Don't 
+            ////consider any operation from the user
+            //if (cv.Minimum < cv.Maximum)
+            //{
+            //    double newValue = cv.HigherValue + this.Step;
+            //    this.HigherValue = Math.Min(cv.Maximum, Math.Max(cv.Minimum, newValue));
+            //}
         }
 
         private void RangeSlider_SizeChanged(object sender, SizeChangedEventArgs e)

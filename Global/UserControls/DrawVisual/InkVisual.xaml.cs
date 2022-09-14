@@ -76,7 +76,7 @@ namespace Global.UserControls.DrawVisual
 
 
                     }
-                    catch 
+                    catch (Exception ex)
                     {
 
                     }
@@ -123,6 +123,8 @@ namespace Global.UserControls.DrawVisual
                 //}
                 foreach (var item in inkCanvas.Strokes)
                 {
+
+
                     if (item is CustomTextInput textInput)
                     {
                         textInput.Index = i++;
@@ -148,6 +150,21 @@ namespace Global.UserControls.DrawVisual
                     {
                         square.Index = i++;
                         DrawInkMethod.StrokesCollection.Add(square);
+                    }
+                    if (item is LineStroke line)
+                    {
+                        line.Index = i++;
+                        DrawInkMethod.StrokesCollection.Add(line);
+                    }
+                    if (item is ArrowStroke arrow)
+                    {
+                        arrow.Index = i++;
+                        DrawInkMethod.StrokesCollection.Add(arrow);
+                    }
+                    if (item is Dim1Stroke dim1)
+                    {
+                        dim1.Index = i++;
+                        DrawInkMethod.StrokesCollection.Add(dim1);
                     }
 
                 }
@@ -215,7 +232,10 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
+
             Point endP = e.GetPosition(inkCanvas);
+            List<System.Windows.Point> pointList;
+            StylusPointCollection point;
             Stroke stroke;
             Stroke stroke0;
            
@@ -355,18 +375,27 @@ namespace Global.UserControls.DrawVisual
               
                 switch (DrawInkMethod.dimenViewModel.DimSelectedIndex)
                 {
-                    case 0: stroke = inkMethod.GenerateLineStroke(iniP, endP);
+                    case 0:
+                        Color color0 = dimenViewModel.SelectedAccentColor;
+                        stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color0);
+                       // stroke = inkMethod.GenerateLineStroke(iniP, endP);
                       
                       
                         break;
-                    case 1: stroke = inkMethod.GenerateArrowLineStroke(iniP, endP);
+
+
+                    case 1:
+                        
+                        Color color1 = dimenViewModel.SelectedAccentColor;
+                        stroke = InkCanvasMethod.CreateArrowStroke(iniP, endP, color1);
                         break;
                     case 2:
-
-                        stroke = inkMethod.GenerateDimensionStroke1(iniP, endP);
+                        stroke = InkCanvasMethod.CreateDim1Stroke(iniP, endP, dimenViewModel.SelectedAccentColor,ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label);
+                        //stroke = inkMethod.GenerateDimensionStroke1(iniP, endP);
                         break;
                     case 3:
-                        stroke = inkMethod.GenerateDimensionStroke2(iniP, endP);
+                        stroke = InkCanvasMethod.CreateDim2Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label);
+                       // stroke = inkMethod.GenerateDimensionStroke2(iniP, endP);
                         break;
                     case 4:
                         stroke = inkMethod.GenerateDimensionStroke3(iniP, endP);
@@ -377,7 +406,8 @@ namespace Global.UserControls.DrawVisual
                         break;
                    
                    default:
-                        stroke = inkMethod.GenerateLineStroke(iniP, endP);
+                        Color color6 = dimenViewModel.SelectedAccentColor;
+                        stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color6);                       
                         break;
 
                 }
@@ -404,14 +434,14 @@ namespace Global.UserControls.DrawVisual
                 Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
                 if (DrawInkMethod.dimenViewModel.DimSelectedIndex == 0 || DrawInkMethod.dimenViewModel.DimSelectedIndex == 1)
                     return;
-                stroke0 = DrawInkMethod.InkCanvasMethod.CreateText(iniP, endP,ratio1,color);
-                try
-                {
-                    inkCanvas.Strokes.Remove(lastTempStroke0);
-                }
-                catch { }
-                lastTempStroke0 = stroke0;
-                inkCanvas.Strokes.Add(stroke0);
+                //stroke0 = DrawInkMethod.InkCanvasMethod.CreateText(iniP, endP,ratio1,color);
+                //try
+                //{
+                //    inkCanvas.Strokes.Remove(lastTempStroke0);
+                //}
+                //catch { }
+                //lastTempStroke0 = stroke0;
+                //inkCanvas.Strokes.Add(stroke0);
                
 
             }
@@ -572,7 +602,7 @@ namespace Global.UserControls.DrawVisual
             }
         }
 
-        List<Point> pointList1 = new List<Point>();
+        List<System.Windows.Point> pointList1 = new List<Point>();
         StylusPointCollection point1;
 
         Stroke stroke1;
@@ -583,12 +613,14 @@ namespace Global.UserControls.DrawVisual
             isMouseDown = true;
            // inkCanvas.CaptureMouse();
             Stroke stroke;
+            Stroke stroke0;
 
            if (ToolTop.MoveChecked == true)
             {
                 StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(hold.Stream);
 
+                // CanMove = true;
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
                             {
                             {"event",(int)1},
@@ -645,7 +677,7 @@ namespace Global.UserControls.DrawVisual
                         Width = 100,
                         Style = (Style)(this.FindResource("TextBoxSty")),
                        // TextWrapping = TextWrapping.Wrap,
-                        Foreground = new SolidColorBrush(DrawInkMethod.dimenViewModel.SelectedAccentColor)
+                        Foreground = new SolidColorBrush(DrawInkMethod.dimenViewModel.TextSelectedAccentColor)
 
                     };
                     if (DrawInkMethod.dimenViewModel.Italic)
@@ -673,12 +705,12 @@ namespace Global.UserControls.DrawVisual
                         if (textBox.Text == "")
                             inkCanvas.Children.Remove(textBox);
                         string label = (string)textBox.Text;
-                        FontStyle fontStyle = new FontStyle();
+                        System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
                         FontWeight fontWeight = new FontWeight();
                         FontStretch fontStretch = new FontStretch();
                         if (DrawInkMethod.dimenViewModel.Italic) fontStyle = FontStyles.Italic;
                         if (DrawInkMethod.dimenViewModel.Bold) fontWeight = FontWeights.Bold;
-                        Brush brush = new SolidColorBrush(DrawInkMethod.dimenViewModel.SelectedAccentColor);
+                        Brush brush = new SolidColorBrush(DrawInkMethod.dimenViewModel.TextSelectedAccentColor);
                         FormattedText text = new FormattedText(label, CultureInfo.CurrentCulture,
                         FlowDirection.LeftToRight, new Typeface(DrawInkMethod.dimenViewModel.FontFam, fontStyle, fontWeight, fontStretch), DrawInkMethod.dimenViewModel.FontSize, brush, 1.25);
 
@@ -830,7 +862,7 @@ namespace Global.UserControls.DrawVisual
                    
 
                 }
-                catch
+                catch (Exception ex)
                 {
 
                 }
@@ -1089,8 +1121,9 @@ namespace Global.UserControls.DrawVisual
                     inkCanvas.Strokes.Remove(lastTempStroke);
                    
                 }
-                catch
+                catch(Exception ex)
                 {
+                   // MessageBox.Show(ex.Message);
                 }
                    
                

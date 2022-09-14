@@ -8,6 +8,7 @@ namespace Global
 		#region fields
 
 		private Color _SelectedAccentColor;
+		private Color _TextSelectedAccentColor=Colors.White;
 		private double _length = 100;
 		private double _angle = 0;
 		private bool _label = false;
@@ -48,6 +49,18 @@ namespace Global
 				{
 					_SelectedAccentColor = value;
 					RaisePropertyChanged(() => SelectedAccentColor);
+				}
+			}
+		}
+		public Color TextSelectedAccentColor
+		{
+			get { return _TextSelectedAccentColor; }
+			set
+			{
+				if (_TextSelectedAccentColor != value)
+				{
+					_TextSelectedAccentColor = value;
+					RaisePropertyChanged(() => TextSelectedAccentColor);
 				}
 			}
 		}

@@ -29,6 +29,7 @@ namespace Global
         public DrawInkMethod inkMethod = new DrawInkMethod();
         Window mainwin = Application.Current.MainWindow;
         public InkVisual[] inkVisuals = new InkVisual[100];
+
         public void AddImageConfident(Image image1, int viewindex)
         {
             DrawInkMethod inkMethod = new DrawInkMethod();

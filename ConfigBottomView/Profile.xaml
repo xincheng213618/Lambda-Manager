@@ -84,33 +84,33 @@
                     <Label Content="标记" Foreground="White" ></Label>
                     <WrapPanel Margin="5,0,0,0">
                         <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
-                            <CheckBox  Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker1Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker1" Content="Mark1-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker1_Checked" Unchecked="Marker1_Unchecked" ></CheckBox>
+                            <CheckBox  Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker1Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker1" Content="标记1-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker1_Checked" Unchecked="Marker1_Unchecked" ></CheckBox>
                             <TextBlock Width="50"  Text="0.2062" HorizontalAlignment="Right" Foreground="White" Margin="27,0,0,0" ></TextBlock>
                         </StackPanel>
                         <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
-                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker2Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker2" Content="Mark2-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker2_Checked" Unchecked="Marker2_Unchecked" ></CheckBox>
+                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker2Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker2" Content="标记1-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker2_Checked" Unchecked="Marker2_Unchecked" ></CheckBox>
                             <TextBlock Width="50" Text="0.0609" HorizontalAlignment="Right"  Foreground="White"  Margin="27,0,0,0"></TextBlock>
 
                         </StackPanel>
                         <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Text="Marker2-1-Y" HorizontalAlignment="Left" Margin="4,0,0,0"  Foreground="White"></TextBlock>
+                            <TextBlock Text="标记2-1-Y" HorizontalAlignment="Left" Margin="4,0,0,0"  Foreground="White"></TextBlock>
                             <TextBlock Width="50" Text="0.2044" HorizontalAlignment="Right"  Foreground="White"  Margin="20,0,0,0"></TextBlock>
                         </StackPanel>
 
                         <StackPanel   Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left" >
-                            <TextBlock Foreground="White" Text="Marker2-1-X" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
+                            <TextBlock Foreground="White" Text="标记2-1-X" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
                             <TextBlock Width="50" Text="0.0013" HorizontalAlignment="Right" Foreground="White"  Margin="20,0,0,0" ></TextBlock>
                         </StackPanel>
                     </WrapPanel>
                     <Label Content="高度" Foreground="White"></Label>
                     <WrapPanel Orientation="Vertical" Margin="5,0,0,0">
                         <StackPanel   Orientation="Horizontal" HorizontalAlignment="Stretch" >
-                            <TextBlock Foreground="White" Text="n-obj" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
-                            <TextBox Width="50" Text="1.4500" HorizontalAlignment="Right"  Foreground="White" Margin="62,0,0,0" ></TextBox>
+                            <TextBlock Foreground="White" Text="物体折射率" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
+                            <TextBox Width="50" Text="1.4500" HorizontalAlignment="Right"  Foreground="White" Margin="30,0,0,0" ></TextBox>
                         </StackPanel>
                         <StackPanel   Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Foreground="White" Text="n-med" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
-                            <TextBox Width="50" Text="1.0000" HorizontalAlignment="Right" Foreground="White"   Margin="55,0,0,0" ></TextBox>
+                            <TextBlock Foreground="White" Text="介质折射率" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
+                            <TextBox Width="50" Text="1.0000" HorizontalAlignment="Right" Foreground="White"   Margin="30,0,0,0" ></TextBox>
                         </StackPanel>
                     </WrapPanel>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,10 +42,7 @@ namespace Global.Mode
 
 
 
-
-
-
-        private string mean= "140";
+        private string mean = "140";
         /// <summary>
         /// 平均值
         /// </summary>
@@ -103,7 +101,83 @@ namespace Global.Mode
             set { rangeMax = value; NotifyPropertyChanged(); }
         }
 
+        private bool phase = false;
+        public bool Phase
+        {
+            get { return phase; }
+            set { phase = value; NotifyPropertyChanged(); }
 
+        }
+        private int xAxisMin = 0;
+        public int XAxisMin
+        {
+            get { return xAxisMin; }
+            set { xAxisMin = value; NotifyPropertyChanged(); }
+        }
+        private int xAxisMax = 255;
+        public int XAxisMax
+        {
+            get { return xAxisMax; }
+            set { xAxisMax = value; NotifyPropertyChanged(); }
+        }
+
+
+        // phase 
+        private double xAxisMinP = -10;
+        public double XAxisMinP
+        {
+            get { return xAxisMinP; }
+            set { xAxisMinP = value; NotifyPropertyChanged(); }
+        }
+        private double xAxisMaxP = 10;
+        public double XAxisMaxP
+        {
+            get { return xAxisMaxP; }
+            set { xAxisMaxP = value; NotifyPropertyChanged(); }
+        }
+
+
+        private double sliderMinP = -10;
+        public double SliderMinP
+        {
+            get { return sliderMinP; }
+            set { sliderMinP = value; NotifyPropertyChanged(); }
+        }
+        private double sliderMaxP = 10;
+        public double SliderMaxP
+        {
+            get { return sliderMaxP; }
+            set { sliderMaxP = value; NotifyPropertyChanged(); }
+        }
+
+
+
+        public ObservableCollection<string> RangList{ get; set; } = new ObservableCollection<string>() {"-5,5","-10,10","-20,20" };
+
+        private string rangeSelectedItem = "-10,10";
+        public string RangeSelectedItem
+        {
+            get { return rangeSelectedItem; }   
+            set { rangeSelectedItem = value; NotifyPropertyChanged(); }
+        }
+        private double rangeMinP = -10;
+        /// <summary>
+        /// l离群率
+        /// </summary>
+        public double RangeMinP
+        {
+            get { return rangeMinP; }
+            set { rangeMinP = value; NotifyPropertyChanged(); }
+        }
+        private double rangeMaxP = 10;
+        /// <summary>
+        /// l离群率
+        /// </summary>
+        public double RangeMaxP
+        {
+            get { return rangeMaxP; }
+            set { rangeMaxP = value; NotifyPropertyChanged(); }
+        }
 
 
 

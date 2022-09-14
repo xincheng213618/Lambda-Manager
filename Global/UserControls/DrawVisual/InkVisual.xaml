@@ -72,7 +72,7 @@
             EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave" MouseRightButtonDown="inkCanvas_MouseRightButtonDown"   >
 
             <Canvas Width="auto" x:Name="defaultDim" Height="auto"  InkCanvas.Left="20" InkCanvas.Top="20" Visibility="Hidden">
-                    <TextBlock Name="dimText"  Foreground="white" Canvas.Left="15" Canvas.Top="0">
+                <TextBlock Name="dimText"   Foreground="{Binding TextSelectedAccentColor,Converter={StaticResource colorBrush}}" Canvas.Left="15" Canvas.Top="0">
                                      <Run Text="{Binding Length,StringFormat='F0'}"/>
                                      <Run Text="μm"/>
                     </TextBlock>

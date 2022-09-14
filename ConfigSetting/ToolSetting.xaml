@@ -45,25 +45,29 @@
     </UserControl.Resources>
     <Grid >
         <Border Background="#404040"  >
-            <Grid Margin="20">
+            <Grid x:Name="grid" Margin="20">
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border BorderBrush="#BDBDBD" BorderThickness="3" CornerRadius="10">
-                    <UniformGrid Grid.Row="0" Rows="6" Height="450" VerticalAlignment="Top">
-                        <Button Content="硬件配置" Style="{DynamicResource SettingButton}" Margin="10"/>
-                        <Button Content="硬件更新" Style="{DynamicResource SettingButton}" Margin="10"/>
-                        <Button Content="软件升级" Style="{DynamicResource SettingButton}" Margin="10"/>
-                        <Button Content="配置"  Style="{DynamicResource SettingButton}" Margin="10"/>
-                        <Button Content="自动校准" Click="Button_Click_2"  Style="{DynamicResource SettingButton}" Margin="10"/>
-                        <Button Content="主题" Click="Button_Click"  Style="{DynamicResource SettingButton}" Margin="10"/>
-                    </UniformGrid>
-                </Border>
-                
-                <Border Grid.Column="1" Background="#333333" Margin="20,0" BorderBrush="#BDBDBD" BorderThickness="3" CornerRadius="10">
-                </Border>
-                <Border Grid.Column="1" Background="#333333" Margin="20,0" BorderBrush="#BDBDBD" BorderThickness="3" CornerRadius="10">
+                <TreeView x:Name="SolutionTreeView" Height="{Binding Path=ActualHeight,ElementName=grid }">
+                    <TreeViewItem Header="硬件配置" Tag="0"  >
+                        <TreeViewItem Header="光源配置" Tag="0" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="载物台配置" Tag="170" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="物镜配置" Tag="340" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="相机配置" Tag="510" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="参数加载与复位" Tag="680" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="用户配置" Tag="850" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="存储器配置" Tag="1020" Selected="TreeViewItem_Selected" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="固件升级" Tag="1190" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="软件升级"  Tag="1360" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="系统配置"  Tag="1530" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="自动校准"  Tag="1700" Selected="TreeViewItem_Selected"/>
+                </TreeView>
+
+
+                <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="#333333" Margin="20,0" >
                     <StackPanel Margin="20">
                         <GroupBox  Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel Margin="10,5"  >
@@ -89,9 +93,93 @@
                                 <TextBlock Text="照明亮度"/>
                             </StackPanel>
                         </GroupBox>
+                        <GroupBox  Header="物镜配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"   >
+                                <TextBlock Text="LED行列数"/>
+                                <TextBlock Text="LED间距"/>
+                                <TextBlock Text="LED高度"/>
+                                <TextBlock Text="LED颜色Bit数"/>
+                                <TextBlock Text="LED中心波长"/>
+                                <TextBlock Text="照明模式最高刷新速率"/>
+                                <TextBlock Text="照明最大数值孔径"/>
+                                <TextBlock Text="照明亮度"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox  Header="相机配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"   >
+                                <TextBlock Text="LED行列数"/>
+                                <TextBlock Text="LED间距"/>
+                                <TextBlock Text="LED高度"/>
+                                <TextBlock Text="LED颜色Bit数"/>
+                                <TextBlock Text="LED中心波长"/>
+                                <TextBlock Text="照明模式最高刷新速率"/>
+                                <TextBlock Text="照明最大数值孔径"/>
+                                <TextBlock Text="照明亮度"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="参数加载与复位" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"   >
+                                <TextBlock Text="LED行列数"/>
+                                <TextBlock Text="LED间距"/>
+                                <TextBlock Text="LED高度"/>
+                                <TextBlock Text="LED颜色Bit数"/>
+                                <TextBlock Text="LED中心波长"/>
+                                <TextBlock Text="照明模式最高刷新速率"/>
+                                <TextBlock Text="照明最大数值孔径"/>
+                                <TextBlock Text="照明亮度"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="用户配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"   >
+                                <TextBlock Text="LED行列数"/>
+                                <TextBlock Text="LED间距"/>
+                                <TextBlock Text="LED高度"/>
+                                <TextBlock Text="LED颜色Bit数"/>
+                                <TextBlock Text="LED中心波长"/>
+                                <TextBlock Text="照明模式最高刷新速率"/>
+                                <TextBlock Text="照明最大数值孔径"/>
+                                <TextBlock Text="照明亮度"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="存储器配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"   >
+                                <TextBlock Text="LED行列数"/>
+                                <TextBlock Text="LED间距"/>
+                                <TextBlock Text="LED高度"/>
+                                <TextBlock Text="LED颜色Bit数"/>
+                                <TextBlock Text="LED中心波长"/>
+                                <TextBlock Text="照明模式最高刷新速率"/>
+                                <TextBlock Text="照明最大数值孔径"/>
+                                <TextBlock Text="照明亮度"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="固件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"  Height="140" >
+    
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="软件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"  Height="140" >
+         
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5" Height="140"  >
+                                <Button Content="主题"  Click="Button_Click"/>
+                                <Button Content="向导"  Click="Button_Click_1"/>
+                                <Button Content="自动校准"  Click="Button_Click_2"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox  Header="自动校准" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"  Height="140" >
+      
+                            </StackPanel>
+                        </GroupBox>
 
                     </StackPanel>
-                </Border>
+                </ScrollViewer>
+
             </Grid>
 
         </Border>
