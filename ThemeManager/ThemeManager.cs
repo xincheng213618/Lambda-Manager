@@ -12,6 +12,9 @@ namespace ThemeManager
         Dark,
         White
     };
+    /// <summary>
+    /// 主题管理器
+    /// </summary>
     public static class ThemeManagers
     {
         public static Theme CurrentUITheme { get; set; } = Theme.Dark;
@@ -38,7 +41,6 @@ namespace ThemeManager
                     }
                 }
             }
-
         }
 
 

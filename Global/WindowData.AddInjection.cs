@@ -421,7 +421,7 @@ namespace Global
                 {
                     RadioMenuItem menuItem = new RadioMenuItem();
                     StackPanel stackPanel = new StackPanel() { Orientation = Orientation.Horizontal };
-                    stackPanel.Children.Add(new Image() { Width = 50, Source = new BitmapImage(new Uri($"/Global;component/usercontrols/image/{item.ToLower()}.jpg", UriKind.Relative)) };);
+                    stackPanel.Children.Add(new Image() { Width = 50, Source = new BitmapImage(new Uri($"/Global;component/usercontrols/image/{item.ToLower()}.jpg", UriKind.Relative)) });
                     stackPanel.Children.Add(new TextBlock() { Text = item, Margin = new Thickness(10, 0, 0, 0) });
 
                     menuItem.Header = stackPanel;
@@ -585,6 +585,7 @@ namespace Global
             {
                 if (Application.Current.MainWindow.FindName("leftTab") is TabControl leftTab)
                 {
+                    tabControl = leftTab;
                     propertySetItem = new TabItem() { Header = "属性设置" };
                     ScrollViewer scrollViewer = new ScrollViewer() { HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
                     Viewbox proViewBox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top, Stretch = Stretch.Uniform };
