@@ -111,7 +111,6 @@ namespace Global.UserControls.SeriesMap
 
         }
 
-        private bool ismultiRect = false;
 
         private void listview_SelectionChanged(object sender, SelectionChangedEventArgs e)  // selected change 
         {
