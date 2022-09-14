@@ -44,7 +44,7 @@
 
     </UserControl.Resources>
     <Grid >
-        <Border Background="#404040"  >
+        <Border Background="{DynamicResource WindowBackgroundBrush}"  >
             <Grid x:Name="grid" Margin="20">
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="150"/>
@@ -67,7 +67,7 @@
                 </TreeView>
 
 
-                <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="#333333" Margin="20,0" >
+                <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="20,0" >
                     <StackPanel Margin="20">
                         <GroupBox  Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel Margin="10,5"  >
