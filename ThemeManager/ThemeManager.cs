@@ -21,24 +21,21 @@ namespace ThemeManager
 
         public static void ApplyTheme(this Application app, Theme theme)
         {
-            if (theme != CurrentUITheme)
+            CurrentUITheme = theme;
+            if (theme == Theme.Dark)
             {
-                CurrentUITheme = theme;
-                if (theme == Theme.Dark)
+                foreach (var item in ResourceDictionaryDark)
                 {
-                    foreach (var item in ResourceDictionaryDark)
-                    {
-                        ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                        app.Resources.MergedDictionaries.Add(dictionary);
-                    }
+                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                    app.Resources.MergedDictionaries.Add(dictionary);
                 }
-                else if (theme == Theme.White)
+            }
+            else if (theme == Theme.White)
+            {
+                foreach (var item in ResourceDictionaryWhite)
                 {
-                    foreach (var item in ResourceDictionaryWhite)
-                    {
-                        ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                        app.Resources.MergedDictionaries.Add(dictionary);
-                    }
+                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                    app.Resources.MergedDictionaries.Add(dictionary);
                 }
             }
         }

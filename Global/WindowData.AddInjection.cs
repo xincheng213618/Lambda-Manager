@@ -32,12 +32,15 @@ namespace Global
     /// </summary>
     public partial class WindowData
     {
+        public TabItem propertySetItem;
+        public TabControl tabControl;
+        private ToggleButton histogramTogg;
+
+
         private void AddInjection()
         {
             if (Application.Current.MainWindow.FindName("grid0") is not Grid) return;
-            TabItem propertySetItem;
-            TabControl tabControl;
-            ToggleButton histogramTogg;
+
             try
             {
                 // Add Histogram

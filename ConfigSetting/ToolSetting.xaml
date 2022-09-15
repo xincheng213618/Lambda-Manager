@@ -44,7 +44,7 @@
 
     </UserControl.Resources>
     <Grid >
-        <Border Background="{DynamicResource WindowBackgroundBrush}"  >
+        <Border Background="{DynamicResource GlobalBackgroundBrush}"  >
             <Grid x:Name="grid" Margin="20">
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="150"/>
