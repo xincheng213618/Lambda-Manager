@@ -1,24 +1,11 @@
-﻿using Global.Common.Extensions;
-using Lambda;
-using Solution.RecentFile;
+﻿using Solution.RecentFile;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ThemeManager.Controls;
-using static Global.Common.Util.JsonHelper;
 
 namespace Solution
 {
@@ -48,30 +35,14 @@ namespace Solution
                 }
             }
             ListView1.ItemsSource = SoulutionInfos;
-
-            //LambdaControl.AddLambdaEventHandler("SET_CELL_INFOS", SET_CELL_INFOS, false);
         }
-        //private bool SET_CELL_INFOS(object sender, EventArgs e)
-        //{
-        //    Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-        //    if (eventData == null)
-        //        return false;
 
-        //    Application.Current.Dispatcher.Invoke(delegate
-        //    {
-        //        string json = eventData.GetString("cellinfos");
-        //        var CellInfos = JsonSerializer.Deserialize<ObservableCollection<SoulutionInfo>>(json);
-        //        ListView1.ItemsSource = CellInfos;
-        //    });
-        //    return true;
-        //}
 
 
         
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
 
             if (Tool.Utils.OpenFileDialog(out string FullName))
             {
@@ -93,13 +64,6 @@ namespace Solution
                 if (listView.SelectedIndex > -1)
                 {
                     FullName = SoulutionInfos[listView.SelectedIndex].FullName;
-
-                    //JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
-                    //string value = JsonSerializer.Serialize(SoulutionInfos, jsonSerializerOptions);
-
-                    //File.WriteAllText("1.text", value);
-                    //string value1 = File.ReadAllText("1.txt");
-                    //var a = JsonSerializer.Deserialize<ObservableCollection<SoulutionInfo>>(value1);
 
                     this.Close();
                 }
