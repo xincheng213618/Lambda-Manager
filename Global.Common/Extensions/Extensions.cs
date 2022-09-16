@@ -8,6 +8,8 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
+using System.IO;
+using System.Text.Json;
 
 namespace Global.Common.Extensions
 {
@@ -29,6 +31,16 @@ namespace Global.Common.Extensions
                 BitmapSizeOptions.FromEmptyOptions());
 
             return imageSource;
+        }
+
+        /// <summary>
+        /// 中文转ASCII
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string ToASCII(this string str)
+        {
+            return Converter.String.ToASCII(str);
         }
     }
 }

@@ -24,15 +24,6 @@ namespace Solution
             InitializeComponent();
         }
 
-        private static string ToStrings(string value)
-        {
-            using MemoryStream memoryStream = new();
-            using (Utf8JsonWriter writer = new((Stream)memoryStream, default))
-            {
-                writer.WriteStringValue(value);
-            }
-            return Encoding.UTF8.GetString(memoryStream.ToArray())[1..^1];
-        }
 
 
         private void OK_Click(object sender, RoutedEventArgs e)

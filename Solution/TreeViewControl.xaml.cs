@@ -14,6 +14,7 @@ using Tool;
 using Solution.RecentFile;
 using Global.Common;
 using System.Diagnostics;
+using Global.Common.Extensions;
 
 namespace Solution
 {
@@ -64,7 +65,7 @@ namespace Solution
                 IsFirstLoad = false;
 
                 //追加在显示的时候显示触发
-                //LambdaControl.Trigger("UpdateSolutionPath", this, ToStrings(SolutionDir));
+                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToASCII());
                 Config.ConfigSet();
             }
         }
@@ -82,7 +83,7 @@ namespace Solution
         {
             get { return solutionDir; }
             set { solutionDir = value;
-                //LambdaControl.Trigger("UpdateSolutionPath", this, ToStrings(SolutionDir));
+                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToASCII());
             }
         }
 
@@ -105,15 +106,6 @@ namespace Solution
             {
                 Config.ConfigWrite(SolutionFullName);
             }
-        }
-        private static string ToStrings(string value)
-        {
-            using MemoryStream memoryStream = new();
-            using (Utf8JsonWriter writer = new((Stream)memoryStream, default))
-            {
-                writer.WriteStringValue(value);
-            }
-            return Encoding.UTF8.GetString(memoryStream.ToArray())[1..^1];
         }
 
         //第一次的点击逻辑
@@ -156,21 +148,20 @@ namespace Solution
                 {
                     if (item.DataContext is ProjectFile projectFile1)
                     {
-                        LambdaControl.Trigger("projectFile", this, ToStrings(projectFile1.FullName));
+                        LambdaControl.Trigger("projectFile", this, projectFile1.FullName.ToASCII());
                     }
                     if (item.DataContext is ProjectFolder projectFolder1)
                     {
-                        LambdaControl.Trigger("projectFolder", this, ToStrings(projectFolder1.FullName));
+                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName.ToASCII());
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
-                        //LambdaControl.Trigger("projectManager", this, new Dictionary<string, object> { { "FullPath", ToStrings(projectMannager1.FullPath) } });
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName);
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName.ToASCII());
 
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("seriesProjectManager", this, ToStrings(seriesProjectManager1.FullName));
+                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName.ToASCII());
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
                     }
 

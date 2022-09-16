@@ -38,7 +38,7 @@
                 </StackPanel>
             </Border>
 
-        </Grid>
+        </Grid> 
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel x:Name="ObjectiveSettingStackPanel" Orientation="Horizontal">
                 <!--物镜部分-->
