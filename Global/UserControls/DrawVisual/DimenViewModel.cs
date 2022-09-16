@@ -25,6 +25,7 @@ namespace Global
 		private bool _dimPosShow=false;
 		private bool _labPosShow = false;
 		private bool _dimShapeCombo = false;
+		private int _lineWidth = 2;
 
 		#endregion fields
 		public DimenViewModel()
@@ -98,6 +99,24 @@ namespace Global
 				}
 			}
 		}
+
+		public int LineWidth
+		{
+			get { return _lineWidth; }
+			set
+			{
+				if (_lineWidth != value)
+				{
+					_lineWidth = value;
+					RaisePropertyChanged(nameof(LineWidth));
+				}
+			}
+		}
+
+
+
+
+
 		public bool DimPosShow
         {
 			get { return _dimPosShow; }

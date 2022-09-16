@@ -123,19 +123,44 @@ namespace Global
                             }
                         };
 
-                        if (ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.ArrowChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked || ImageViewState.toolTop.EraserChecked)
-                        {
-                            propertySetItem.Visibility = Visibility.Visible;
-                            propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
-                            tempSelectedIndex = tabControl.SelectedIndex;
-                            tabControl.SelectedIndex = 5;
-                            DrawInkMethod.dimenViewModel.DimShapeCombo = false;
-                            if (ImageViewState.toolTop.LineChecked)
-                            {
-                                DrawInkMethod.dimenViewModel.DimShapeCombo = true;
-                            }
-                        }
 
+                        if (e.PropertyName == "RulerChecked" || e.PropertyName == "ArrowChecked" || e.PropertyName == "CircleChecked" || e.PropertyName == "CurveChecked" || e.PropertyName == "LineChecked" || e.PropertyName == "PolygonChecked" || e.PropertyName == "RectangleChecked" || e.PropertyName == "TextChecked" || e.PropertyName == "EraserChecked")
+                        {
+                            if (ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked)
+                            {
+                                propertySetItem.Visibility = Visibility.Visible;
+                                propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                                tempSelectedIndex = tabControl.SelectedIndex;
+                                tabControl.SelectedIndex = 5;
+                                DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                                if (ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.RulerChecked)
+                                {
+                                    DrawInkMethod.dimenViewModel.DimShapeCombo = true;
+                                };
+                            }
+                            else
+                            {
+                                if (ImageViewState.toolTop.DimensionChecked == true || ImageViewState.toolTop.EraserChecked)
+                                {
+                                    propertySetItem.Visibility = Visibility.Visible;
+                                    tempSelectedIndex = tabControl.SelectedIndex;
+                                    tabControl.SelectedIndex = 5;
+                                    DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                                    propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
+                                    DrawInkMethod.defdimenViewModel.DimPosShow = true;
+                                    DrawInkMethod.defdimenViewModel.DimSelectedIndex = 2;
+
+                                }
+                                else
+                                {
+                                    propertySetItem.Visibility = Visibility.Collapsed;
+                                    tabControl.SelectedIndex = tempSelectedIndex;
+                                };
+
+                            }
+
+
+                        }
 
                         if (e.PropertyName == "DimensionChecked")
                         {
@@ -143,7 +168,6 @@ namespace Global
                             {
                                 propertySetItem.Visibility = Visibility.Visible;
                                 tempSelectedIndex = tabControl.SelectedIndex;
-
                                 tabControl.SelectedIndex = 5;
                                 DrawInkMethod.dimenViewModel.DimShapeCombo = false;
                                 propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
@@ -151,13 +175,33 @@ namespace Global
                                 DrawInkMethod.defdimenViewModel.DimSelectedIndex = 2;
 
                             }
-                            else if (ImageViewState.toolTop.DimensionChecked == false)
+                            else if (ImageViewState.toolTop.DimensionChecked == false && ImageViewState.toolTop.EraserChecked == false)
                             {
-                                DrawInkMethod.defdimenViewModel.DimSelectedIndex = 0;
-                                DrawInkMethod.defdimenViewModel.DimPosShow = false;
                                 propertySetItem.Visibility = Visibility.Collapsed;
                                 tabControl.SelectedIndex = tempSelectedIndex;
+                                DrawInkMethod.defdimenViewModel.DimSelectedIndex = 0;
+                                DrawInkMethod.defdimenViewModel.DimPosShow = false;
                             };
+                            if (ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked)
+                            {
+                                propertySetItem.Visibility = Visibility.Visible;
+                                propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                                tempSelectedIndex = tabControl.SelectedIndex;
+                                tabControl.SelectedIndex = 5;
+                                DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                                if (ImageViewState.toolTop.LineChecked)
+                                {
+                                    DrawInkMethod.dimenViewModel.DimShapeCombo = true;
+                                    DrawInkMethod.dimenViewModel.DimSelectedIndex = 0;
+
+                                };
+                                if (ImageViewState.toolTop.LineChecked)
+                                {
+                                    DrawInkMethod.dimenViewModel.DimShapeCombo = true;
+                                    DrawInkMethod.dimenViewModel.DimSelectedIndex = 2;
+
+                                };
+                            }
                         }
 
                     };
@@ -529,13 +573,13 @@ namespace Global
                 myBindingTotalFrame.Mode = BindingMode.TwoWay;
 
                 //Slider1.Visibility = Visibility.Collapsed;
-                Slider1.Minimum = 1;
-                Slider1.SetBinding(Slider.ValueProperty, myBindingFrameIndex);
-                Slider1.SetBinding(Slider.MaximumProperty, myBindingTotalFrame);
-                Slider1.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
-                {
-                    LambdaControl.Trigger("TSERIES_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider1.Value - 1 } });
-                };
+                //Slider1.Minimum = 1;
+                //Slider1.SetBinding(Slider.ValueProperty, myBindingFrameIndex);
+                //Slider1.SetBinding(Slider.MaximumProperty, myBindingTotalFrame);
+                //Slider1.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+                //{
+                //    LambdaControl.Trigger("TSERIES_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider1.Value - 1 } });
+                //};
 
 
                 TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
@@ -611,13 +655,47 @@ namespace Global
                 SliceIndex1.Source = updateStatus;
                 SliceIndex1.Mode = BindingMode.TwoWay;
 
-                Slider2.Minimum = 1;
-                Slider2.SetBinding(Slider.ValueProperty, SliceIndex1);
-                Slider2.SetBinding(Slider.MaximumProperty, TotalSlice1);
-                Slider2.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+                Slider SliderZ = (Slider)rightToolbar.Children[13];
+
+                int beforeZ = 0;
+                // Brush brushZ = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
+                ThemeManager.Rangeslider.RangeSlider rangeZ = new ThemeManager.Rangeslider.RangeSlider();
+                rangeZ.Width = 30;
+                rangeZ.Height = 200;
+                rangeZ.LowerRangeBackground = brush;
+                rangeZ.Orientation = Orientation.Vertical;
+                rangeZ.RangeBackground = brush;
+                rangeZ.SlidThumbVis = Visibility.Hidden;
+                rangeZ.LowerValueChanged += delegate
                 {
-                    LambdaControl.Trigger("ZINDEX_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider2.Value - 1 } });
+                    int current = (int)Math.Floor(rangeZ.LowerValue);
+                    int value = Math.Abs(before - current);
+                    if (value > 0)
+                    {
+                        LambdaControl.Trigger("TRIGGER_PROGRESSBAR_Z", this, new Dictionary<string, object> { { "CurrentZ", (int)Math.Floor(rangeZ.LowerValue) } });
+                    }
+                    before = (int)Math.Floor(rangeZ.LowerValue);
                 };
+
+                Binding bZ1 = new Binding("MiniMumZ");
+                BindingOperations.SetBinding(rangeZ, ThemeManager.Rangeslider.RangeSlider.MinimumProperty, bZ1);
+                Binding bZ2 = new Binding("MaxMumZ");
+                BindingOperations.SetBinding(rangeZ, ThemeManager.Rangeslider.RangeSlider.MaximumProperty, bZ2);
+                Binding bZ3 = new Binding("CurrentZ");
+                BindingOperations.SetBinding(rangeZ, ThemeManager.Rangeslider.RangeSlider.LowerValueProperty, bZ3);
+                Binding bZ4 = new Binding("LoadingMaxZ");
+                BindingOperations.SetBinding(rangeZ, ThemeManager.Rangeslider.RangeSlider.HigherValueProperty, bZ4);
+                rangeZ.DataContext = progressBarModel;
+                rightToolbar.Children.Remove(SliderZ);
+                rightToolbar.Children.Insert(13, rangeZ);
+
+                //Slider2.Minimum = 1;
+                //Slider2.SetBinding(Slider.ValueProperty, SliceIndex1);
+                //Slider2.SetBinding(Slider.MaximumProperty, TotalSlice1);
+                //Slider2.ValueChanged += delegate (object sender, RoutedPropertyChangedEventArgs<double> e)
+                //{
+                //    LambdaControl.Trigger("ZINDEX_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider2.Value - 1 } });
+                //};
 
             }
             catch (Exception ex)

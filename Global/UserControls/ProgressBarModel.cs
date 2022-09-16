@@ -22,7 +22,7 @@ namespace Global
 				}
 			}
 		}
-		private double maxMum = 5;
+		private double maxMum = 0;
 
 		public double MaxMum
 		{
@@ -37,7 +37,7 @@ namespace Global
 			}
 		}
 
-		private double current = 1;
+		private double current = 0;
 
 		public double Current
 		{
@@ -52,7 +52,7 @@ namespace Global
 			}
 		}
 
-		private double loadingMax = 3;
+		private double loadingMax = 0;
 
 		public double LoadingMax
 		{
@@ -67,7 +67,64 @@ namespace Global
 			}
 		}
 
+		private double miniMumZ = 0;
 
+		public double MiniMumZ
+		{
+			get { return miniMumZ; }
+			set
+			{
+				if (miniMumZ != value)
+				{
+					miniMumZ = value;
+					RaisePropertyChanged(nameof(MiniMumZ));
+				}
+			}
+		}
+		private double maxMumZ = 5;
+
+		public double MaxMumZ
+		{
+			get { return maxMumZ; }
+			set
+			{
+				if (maxMumZ != value)
+				{
+					maxMumZ = value;
+					RaisePropertyChanged(nameof(MaxMumZ));
+				}
+			}
+		}
+
+		private double currentZ = 1;
+
+		public double CurrentZ
+		{
+			get { return currentZ; }
+			set
+			{
+				if (currentZ != value)
+				{
+					currentZ = value;
+					RaisePropertyChanged(nameof(CurrentZ));
+				}
+			}
+		}
+
+		private double loadingMaxZ = 3;
+
+		public double LoadingMaxZ
+		{
+			get { return loadingMaxZ; }
+			set
+			{
+				if (loadingMaxZ != value)
+				{
+					loadingMaxZ = value;
+					RaisePropertyChanged(nameof(LoadingMaxZ));
+				}
+			}
+		}
 
 
 

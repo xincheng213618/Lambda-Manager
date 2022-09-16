@@ -63,6 +63,7 @@ namespace ConfigObjective
 
 
 			Global.Mode.Config.TimeWiseSerial timeWiseSerial = new Global.Mode.Config.TimeWiseSerial();
+			
 			Global.Mode.Config.Optimized optimized = new Optimized();
 			optimized.Optimize = mulDimensional.OptimizedSel;
 			// focus-mode
@@ -157,11 +158,49 @@ namespace ConfigObjective
 					break;
 			}
 
+			if (mulDimensional.FocusImageMod != null)
+			{
+				if (mulDimensional.FocusImageMod.FocusImageModeSel != null)
+				{
+					switch (mulDimensional.FocusImageMod.FocusImageModeSel.mode)
+					{
+						case "明场":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "bright-field";
+							break;
+						case "暗场":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "dark-field";
+							break;
+						case "莱茵":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "rheinberg";
+							break;
+
+						case "差分":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "relief-contrast";
+							break;
+						case "相差":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "phase-contrast";
+							break;
+						case "相位":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "quantitative-phase";
+							break;
+						default: /* 可选的 */
+							testMean.Dimensional.Focusmode.FocusModeSelect = "";
+							break;
+
+					}
+
+				}
+
+			}
+
+
+
+
+
+
+
+			testMean.Dimensional.TimeWiseSerial = timeWiseSerial;
 			
-
-
-		   testMean.Dimensional.TimeWiseSerial = timeWiseSerial;
-
 			Global.Mode.Config.ZstackWiseSerial zstackWiseSerial = new Global.Mode.Config.ZstackWiseSerial();
 			zstackWiseSerial.ZStep = mulDimensional.Zstep;
 			zstackWiseSerial.ZBegin = mulDimensional.ZStart;
@@ -190,7 +229,7 @@ namespace ConfigObjective
 			windowData.Config.Spot = testMean.Spot;
 			windowData.Config.Stage = testMean.Stage;
 
-            //System.Windows.MessageBox.Show(testMean.ToJson());
+          // System.Windows.MessageBox.Show(testMean.ToJson());
 
 			if (testMean.Dimensional.Mode.Count == 0)
             {
@@ -199,9 +238,17 @@ namespace ConfigObjective
                 System.Windows.MessageBox.Show("请选择成像模式  ！","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
 
                 LambdaControl.Trigger("COLLECTION_COMPLETED", this, new Dictionary<string, object>() { });
+
 			}
             else
             {
+
+
+				if (!zstackWiseSerial.ZAbsolute && (!mulDimensional.PwiseEnable || !mulDimensional.TwiseEnable || mulDimensional.OptimizedSel))
+				{
+					MessageBox.Show("绝对坐标情况下，自动聚焦不生效 ！", "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
+				}
+
 				//Start Collection need to startalive first
 				Window mainwin = Application.Current.MainWindow;
 				Grid grid = (Grid)mainwin.FindName("stageAcquisition");

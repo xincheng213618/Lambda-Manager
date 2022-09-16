@@ -50,26 +50,5 @@ namespace Tool
             FileName = dialog.FileName;
             return result == true;
         }
-
-
-
-
-        /// <summary>s
-        /// 文本
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static bool IsNullOrEmpty(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return true;
-            }
-            if (text.Equals("null"))
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }

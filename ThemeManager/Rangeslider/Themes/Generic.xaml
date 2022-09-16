@@ -56,8 +56,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
-                        <Border x:Name="MainBorder" 
-                       Background="{TemplateBinding Background}" CornerRadius="7" />
+                        <Border x:Name="MainBorder"  Height="11"
+                       Background="{TemplateBinding Background}" CornerRadius="5" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -72,8 +72,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
-                        <Border x:Name="MainBorder" 
-                       Background="{TemplateBinding Background}"  CornerRadius="0,7,7,0" />
+                        <Border x:Name="MainBorder"  Height="11"
+                       Background="{TemplateBinding Background}"  CornerRadius="0,5,5,0" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -88,13 +88,68 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
-                        <Border x:Name="MainBorder" 
-                       Background="{TemplateBinding Background}"  CornerRadius="7" />
+                        <Border x:Name="MainBorder"  Height="11"
+                       Background="{TemplateBinding Background}"  CornerRadius="5" />
                         </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- Repeat Button - This is used by RangeSlider for the LowerRange -->
+    <Style x:Key="DefaultRangeStyleLV"
+         TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable"
+            Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid>
+                        <Border x:Name="MainBorder"  Width="12"
+                       Background="{TemplateBinding Background}" CornerRadius="0,0,5,5" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Repeat Button - This is used by RangeSlider for the  Ranges -->
+    <Style x:Key="DefaultRangeStyleRV"
+         TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable"
+            Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid>
+                        <Border x:Name="MainBorder"  Width="12"
+                       Background="{TemplateBinding Background}"  CornerRadius="5,5,0,0" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Repeat Button - This is used by RangeSlider for the  HigherRange  -->
+    <Style x:Key="DefaultRangeStyleHV"
+         TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable"
+            Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid>
+                        <Border x:Name="MainBorder"  Width="12"
+                       Background="{TemplateBinding Background}"  CornerRadius="5" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+
 
     <!-- Since a thumb is pretty small, we put a bigger visual clue
         outside the thumb bounds to give the user a hint where the focus is -->
@@ -127,12 +182,12 @@
                    Fill="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource NormalThumbFillBackground}}"
                    StrokeThickness="1"
                    Stroke="Transparent"
-                   Width="13"
-                   Height="24"
+                   Width="12"
+                   Height="22"
                    Opacity="1"
-                    RadiusX="3" RadiusY="3"
+                    RadiusX="4" RadiusY="4"
                    SnapsToDevicePixels="True"
-                           Margin="0,-3"/>
+                           Margin="-1,0,-1,0"/>
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
@@ -152,10 +207,13 @@
                    Value="Vertical">
                 <Setter TargetName="MainBorder"
                 Property="Width"
-                Value="20" />
+                Value="22" />
                 <Setter TargetName="MainBorder"
                 Property="Height"
-                Value="9" />
+                Value="12" />
+                <Setter TargetName="MainBorder"
+                Property="Margin"
+                Value="0,-1,0,-1" />
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -372,13 +430,13 @@
             BorderThickness="{TemplateBinding BorderThickness}"
             Background="{TemplateBinding Background}">
             <Grid HorizontalAlignment="Left"
-            VerticalAlignment="Top">
+            VerticalAlignment="Center" Margin="0,-5,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="LeftColumn"
-                            Width="0" />
+                            Width="3" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition x:Name="RightColumn"
-                            Width="0" />
+                            Width="3" />
                 </Grid.ColumnDefinitions>
                 <!-- Get the Thumbs's height to set a good height for the RangeSlider. -->
                 <Grid.RowDefinitions>
@@ -388,18 +446,21 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="11" />
+                    <RowDefinition Height="5" />
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="1"
                 Grid.RowSpan="3"
                 Grid.Column="1"
-                BorderThickness="1"
-                BorderBrush="{StaticResource SliderVerticalBorderBrush}"
-                Background="#FFE7EAEA"
+                BorderThickness="2"
+                BorderBrush="White"
+                Background="Transparent"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Center"
-                Width="4" />
+                Width="16"
+                Margin="0,-2,0,-2"  
+                CornerRadius="6"
+                        />
 
                 <!-- Create a Hidden Slider to only display its Ticks -->
                 <Slider x:Name="TickSlider"
@@ -414,12 +475,14 @@
                 TickFrequency="{TemplateBinding TickFrequency}">
                 </Slider>
 
+                
+                
                 <RepeatButton x:Name="PART_LowerRange"
                       Height="{TemplateBinding LowerRangeWidth}"
                       Grid.Row="3"
                       Grid.Column="1"
                       Background="{TemplateBinding LowerRangeBackground}"
-                      Style="{Binding LowerRangeStyle, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultRangeStyleL}}"
+                      Style="{Binding LowerRangeStyle, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultRangeStyleLV}}"
                       SnapsToDevicePixels="True" >
                 </RepeatButton>
 
@@ -427,7 +490,7 @@
                       Grid.Row="2"
                       Grid.Column="1"
                       Background="{TemplateBinding RangeBackground}"
-                      Style="{Binding RangeStyle, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultRangeStyleR}}"
+                      Style="{Binding RangeStyle, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultRangeStyleRV}}"
                       SnapsToDevicePixels="True" >
                 </RepeatButton>
 
@@ -436,13 +499,14 @@
                       Grid.Row="1"
                       Grid.Column="1"
                       Background="{TemplateBinding HigherRangeBackground}"
-                      Style="{Binding HigherRangeStyle, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultRangeStyleH}}"
+                      Style="{Binding HigherRangeStyle, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultRangeStyleHV}}"
                       SnapsToDevicePixels="True" >
                 </RepeatButton>
 
                 <!-- Margin is set in CodeBehind, based on HigherSlider's Thumb Height -->
                 <Slider x:Name="PART_LowerSlider"
                 Orientation="Vertical"
+                Width="24"
                 Grid.RowSpan="5"
                 Grid.Column="1"
                 Focusable="False"
@@ -459,8 +523,10 @@
                 <Slider x:Name="PART_HigherSlider"
                 Grid.RowSpan="5"
                 Grid.Column="1"
+                 Width="24"
                 Orientation="Vertical"
                 Focusable="False"
+                Visibility="{TemplateBinding SlidThumbVis}"
                 Background="{TemplateBinding HigherThumbBackground}"
                 Template="{StaticResource SliderTemplate}"
                 IsSnapToTickEnabled="{TemplateBinding IsSnapToTickEnabled}"
@@ -522,7 +588,7 @@
                             <Grid.ColumnDefinitions>
                                 <!-- 11 is equal to the width of the horizontal slider thumb, (or the height of the vertical slider thumb)
                      See Thumb template -->
-                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="5" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -537,8 +603,8 @@
                       BorderBrush="White"
                       Background="Transparent"
                       VerticalAlignment="Center"
-                      Height="18" Margin="-2,-3,-2,0" 
-                      CornerRadius="8"
+                      Height="15" Margin="-2,-3,-2,0" 
+                      CornerRadius="6"
                                     
                      />
 
@@ -554,6 +620,8 @@
                       TickFrequency="{TemplateBinding TickFrequency}">
                             </Slider>
 
+                            
+                            
                             <RepeatButton x:Name="PART_LowerRange"
                             Width="{TemplateBinding LowerRangeWidth}"
                                           Height="14"
@@ -583,12 +651,15 @@
                             Style="{Binding HigherRangeStyle, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultRangeStyleH}}"
                             SnapsToDevicePixels="True" >
                             </RepeatButton>
+                            
+                            
+
 
                             <!-- Margin is set in CodeBehind, based on HigherSlider's Thumb width -->
                             <Slider x:Name="PART_LowerSlider"
                       Grid.ColumnSpan="5"
                       Grid.Row="1"
-                                    Height="24"
+                      Height="24"
                       Focusable="False"
                       Background="{TemplateBinding LowerThumbBackground}"
                       Template="{StaticResource SliderTemplate}"
@@ -603,7 +674,7 @@
                       Grid.ColumnSpan="5"
                       Grid.Row="1"
                       Focusable="False"
-                                    Width="8"
+                       Height="24"
                       Background="{TemplateBinding HigherThumbBackground}"
                       Template="{StaticResource SliderTemplate}"
                       IsSnapToTickEnabled="{TemplateBinding IsSnapToTickEnabled}"

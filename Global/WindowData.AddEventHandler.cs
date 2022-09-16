@@ -53,6 +53,9 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("COLLECTION_COMPLETED", CollectionCompleted, false);
             //加载进度
             LambdaControl.AddLambdaEventHandler("UPDATE_PROGRESSBAR", UpdateProgressBarModel, false);
+            // AUTO camera setting
+            LambdaControl.AddLambdaEventHandler("UPDATE_AUTO_CAMERA", UpdateAutoCameraSetting, false);
+
 
         }
 
@@ -71,10 +74,10 @@ namespace Global
             {
                 if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count>1&& stageAcquisition.Children[1] is DockPanel dockPanel &&
                 dockPanel.Children.Count>1 && dockPanel.Children[1] is StackPanel stackPanel && stackPanel.Children.Count > 0 && stackPanel.Children[0] is ToggleButton toggleButton)
-                {
-                    toggleButton.IsChecked = false;
-                    toggleButton.Content = "开始采集";
-                }
+                        {
+                            toggleButton.IsChecked = false;
+                            toggleButton.Content = "开始采集";
+                        }
                 ACQUIRE = false;
             });
             return true;
@@ -88,9 +91,9 @@ namespace Global
                 if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count > 1 && stageAcquisition.Children[1] is DockPanel dockPanel &&
                 dockPanel.Children.Count > 0 && dockPanel.Children[0] is  ToggleButton toggleButton)
                 {
-                    toggleButton.IsChecked = false;
-                    toggleButton.Content = "预览";
-                }
+                            toggleButton.IsChecked = false;
+                            toggleButton.Content = "预览";
+                        }
             });
             return true;
         }
@@ -164,18 +167,29 @@ namespace Global
 
             //MessageBox.Show("循环间隔预计" + time.ToString()+"秒","信息提示",MessageBoxButton.OK,MessageBoxImage.Information);
             string message = "循环间隔预计" + time.ToString() + mode+"大于设定循环间隔,是否启动无间隔循环采集";
-
-             int i=(int)System.Windows.MessageBox.Show(message, "信息提示",MessageBoxButton.OKCancel,MessageBoxImage.Question);
-             if (i == 1)
+            if (!MulDimensional.TIntervalEnable)
             {
-                MulDimensional.TInterval = ">>";
-                MulDimensional.TIntervalEnable = true;
+                int i = (int)System.Windows.MessageBox.Show(message, "信息提示", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+
+                if (i == 1)
+                {
+                    MulDimensional.TInterval = ">>";
+                    MulDimensional.TIntervalEnable = true;
+                    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
+                }
+                else
+                {
+                    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 0 } });
+                }
+
+            }
+            else
+            {
                 LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
             }
-             else
-            {
-                LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 0 } });
-            }
+
+
+
             return true;
 
 
@@ -254,15 +268,76 @@ namespace Global
           
             if (eventData == null)
                 return false;
-           
-            
-            progressBarModel.MiniMum = double.Parse(eventData.GetString("Min"));
-            progressBarModel.MaxMum = double.Parse(eventData.GetString("Max"));
-            progressBarModel.Current = double.Parse(eventData.GetString("Current"));
-            progressBarModel.LoadingMax = double.Parse(eventData.GetString("LoadingMax"));
-           
+
+            if (!string.IsNullOrEmpty(eventData.GetString("Min")))
+                progressBarModel.MiniMum = double.Parse(eventData.GetString("Min"));
+            if (!string.IsNullOrEmpty(eventData.GetString("Max")))
+                progressBarModel.MaxMum = double.Parse(eventData.GetString("Max"));
+            if (!string.IsNullOrEmpty(eventData.GetString("Current")))
+                progressBarModel.Current = double.Parse(eventData.GetString("Current"));
+            if (!string.IsNullOrEmpty(eventData.GetString("LoadingMax")))
+                progressBarModel.LoadingMax = double.Parse(eventData.GetString("LoadingMax"));
+            if (!string.IsNullOrEmpty(eventData.GetString("MinZ")))
+                progressBarModel.MiniMumZ = double.Parse(eventData.GetString("MinZ"));
+            if (!string.IsNullOrEmpty(eventData.GetString("MaxZ")))
+                progressBarModel.MaxMumZ = double.Parse(eventData.GetString("MaxZ"));
+            if (!string.IsNullOrEmpty(eventData.GetString("CurrentZ")))
+                progressBarModel.CurrentZ = double.Parse(eventData.GetString("CurrentZ"));
+            if (!string.IsNullOrEmpty(eventData.GetString("LoadingMaxZ")))
+                progressBarModel.LoadingMaxZ = double.Parse(eventData.GetString("LoadingMaxZ"));
+
+
             return true;
         }
+
+        // UPDATE AUTO CAMERA SETTING
+
+        private bool UpdateAutoCameraSetting(object sender, EventArgs e)
+        {
+
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            string Mode;
+            if (eventData == null)
+                return false;
+            Mode = eventData.GetString("mode");
+
+            switch (Mode)
+            {
+
+                case "bright-field":
+                    OperatingMode.BrightField.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                    break;
+                case "dark-field":
+                    OperatingMode.DarkField.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                    break;
+                case "relief-contrast":
+                    OperatingMode.ReliefContrast.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                    break;
+
+                case "phase-contrast":
+                    OperatingMode.PhaseContrast.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                    break;
+                case "quantitative-phase":
+                    OperatingMode.QuantitativePhase.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                    break;
+                case "rheinberg":
+                    OperatingMode.Reinberg.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                    break;
+
+            }
+
+            return true;
+        }
+
+
+
+
+
+
+
+
+
+
 
 
         private bool UpdateHistogramModel(object sender, EventArgs e)
@@ -279,18 +354,32 @@ namespace Global
             histogramModel.Variance = eventData.GetString("Variance");
             //histogramModel.Gamma= eventData.GetString("Gamma");
             histogramModel.Outlier = eventData.GetString("Outlier");
-            histogramModel.RangeMin = int.Parse(eventData.GetString("RangeMin"));
-            histogramModel.RangeMax = int.Parse(eventData.GetString("RangeMax"));
+
+            //other mode
+            if (!string.IsNullOrEmpty(eventData.GetString("RangeMin")))
+            {
+                histogramModel.RangeMin = int.Parse(eventData.GetString("RangeMin"));
+            }
+            if (!string.IsNullOrEmpty(eventData.GetString("RangeMax")))
+            {
+                histogramModel.RangeMax = int.Parse(eventData.GetString("RangeMax"));
+            }
+          
 
             // phase histogram
-            int rangeMinP = int.Parse(eventData.GetString("RangeMinP"));
-            int rangeMaxP = int.Parse(eventData.GetString("RangeMaxP"));
-            //MessageBox.Show(rangeMinP.ToString()+"min");
-            //MessageBox.Show(rangeMaxP.ToString() + "max");
-            histogramModel.RangeMinP =(double)(rangeMinP-127);
-           // MessageBox.Show(histogramModel.RangeMinP.ToString());
-            histogramModel.RangeMaxP =(double)(rangeMaxP- 128);
-           // MessageBox.Show(histogramModel.RangeMaxP.ToString());
+            if (!string.IsNullOrEmpty(eventData.GetString("RangeMinP")))
+                {
+                int rangeMinP = int.Parse(eventData.GetString("RangeMinP"));
+                histogramModel.RangeMinP = (double)(rangeMinP - 127);
+               }
+            if (!string.IsNullOrEmpty(eventData.GetString("RangeMaxP")))
+            {
+                int rangeMaxP = int.Parse(eventData.GetString("RangeMaxP"));
+
+                histogramModel.RangeMaxP = (double)(rangeMaxP - 128);
+            }
+               
+           
             return true;
         }
 
@@ -325,53 +414,53 @@ namespace Global
 
         private bool OnUpdateStatus(object sender, EventArgs e)
         {
-            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-            if (eventData == null)
-                return false;
-            updateStatus.ImageX = eventData.GetString("x");
-            updateStatus.ImageY = eventData.GetString("y");
-            updateStatus.ImageZ = eventData.GetString("z");
+                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+                if (eventData == null)
+                    return false;
+                updateStatus.ImageX = eventData.GetString("x");
+                updateStatus.ImageY = eventData.GetString("y");
+                updateStatus.ImageZ = eventData.GetString("z");
 
-            updateStatus.ImageSize = eventData.GetString("size");
-            updateStatus.imageFocus = eventData.GetString("focus");
-            updateStatus.CreateTime = eventData.GetString("createTime");
-            string frameIndex = eventData.GetString("frameIndex");
-            if (frameIndex != null)
-            {
-                updateStatus.FrameIndex = int.Parse(frameIndex);
-
-            }
-
-            string totalFrame = eventData.GetString("totalFrame");
-            if (totalFrame != null)
-            {
-                try
+                updateStatus.ImageSize = eventData.GetString("size");
+                updateStatus.imageFocus = eventData.GetString("focus");
+                updateStatus.CreateTime = eventData.GetString("createTime");
+                string frameIndex = eventData.GetString("frameIndex");
+                if (frameIndex != null)
                 {
-                    updateStatus.TotalFrame = int.Parse(totalFrame);
-                }
-                catch
-                {
-                    updateStatus.TotalFrame = 0;
-                }
-            }
+                    updateStatus.FrameIndex = int.Parse(frameIndex);
 
-            updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
-            updateStatus.TotalTime = eventData.GetString("totalTime");
-            //string sliceIndex = eventData.GetString("sliceIndex");
-            //if (sliceIndex != null)
-            //{
-            //    updateStatus.SliceIndex = int.Parse(sliceIndex);
-            //}
-            //string totalSlice = eventData.GetString("totalSlice");
-            //if (totalSlice != null)
-            //{
-            //    updateStatus.TotalSlice = int.Parse(totalSlice);
-            //}
-            updateStatus.ZTop = eventData.GetString("zTop");
-            updateStatus.ZCurrent = eventData.GetString("zCurrent");
-            updateStatus.ZBottom = eventData.GetString("zBottom");
-            updateStatus.Ratio = eventData.GetString("ratio");
-            updateStatus.FpsState = eventData.GetString("fps");
+                }
+
+                string totalFrame = eventData.GetString("totalFrame");
+                if (totalFrame != null)
+                {
+                    try
+                    {
+                        updateStatus.TotalFrame = int.Parse(totalFrame);
+                    }
+                    catch
+                    {
+                        updateStatus.TotalFrame = 0;
+                    }
+                }
+
+                updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
+                updateStatus.TotalTime = eventData.GetString("totalTime");
+                //string sliceIndex = eventData.GetString("sliceIndex");
+                //if (sliceIndex != null)
+                //{
+                //    updateStatus.SliceIndex = int.Parse(sliceIndex);
+                //}
+                //string totalSlice = eventData.GetString("totalSlice");
+                //if (totalSlice != null)
+                //{
+                //    updateStatus.TotalSlice = int.Parse(totalSlice);
+                //}
+                updateStatus.ZTop = eventData.GetString("zTop");
+                updateStatus.ZCurrent = eventData.GetString("zCurrent");
+                updateStatus.ZBottom = eventData.GetString("zBottom");
+                updateStatus.Ratio = eventData.GetString("ratio");
+                updateStatus.FpsState = eventData.GetString("fps");
             return true;
         }
 
@@ -476,9 +565,8 @@ namespace Global
                 }
             }
         }
-        
+
 
 
     }
-
 }

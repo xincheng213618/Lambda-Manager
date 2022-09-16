@@ -57,11 +57,9 @@ namespace Global.UserControls.DrawVisual
                         {
 
                             pointList1.Add(PointSt);
-                            point1 = new StylusPointCollection(pointList1);
-                            stroke1 = new Stroke(point1)
-                            {
-                                DrawingAttributes = inkMethod.drawingAttributes.Clone()
-                            };
+                            Color color = dimenViewModel.SelectedAccentColor;
+                            int lineWidth = dimenViewModel.LineWidth;
+                            stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color,lineWidth);
                             try
                             {
                                 inkCanvas.Strokes.Remove(lastTempStroke);
@@ -117,57 +115,12 @@ namespace Global.UserControls.DrawVisual
                 
                 DrawInkMethod.StrokesCollection.Clear();
                 int i = 1;
+                FilterStroke(i);
                 //for (i=0; i < inkCanvas.Strokes.Count; i++)
                 //{
 
                 //}
-                foreach (var item in inkCanvas.Strokes)
-                {
 
-
-                    if (item is CustomTextInput textInput)
-                    {
-                        textInput.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(item);
-                    };
-                    if (item is EllipseStroke ellipse)
-                    {
-                        ellipse.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(ellipse);
-                    }
-
-                    if (item is RectangleStroke rectangle)
-                    {
-                        rectangle.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(rectangle);
-                    }
-                    if (item is CircleStroke circleStroke)
-                    {
-                        circleStroke.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(circleStroke);
-                    }
-                    if (item is SquareStroke square)
-                    {
-                        square.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(square);
-                    }
-                    if (item is LineStroke line)
-                    {
-                        line.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(line);
-                    }
-                    if (item is ArrowStroke arrow)
-                    {
-                        arrow.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(arrow);
-                    }
-                    if (item is Dim1Stroke dim1)
-                    {
-                        dim1.Index = i++;
-                        DrawInkMethod.StrokesCollection.Add(dim1);
-                    }
-
-                }
             };
 
         }
@@ -204,8 +157,89 @@ namespace Global.UserControls.DrawVisual
 
 
         private Point movePoint = new Point(0, 0);
-       
 
+        private void FilterStroke( int i)
+        {
+            foreach (var item in inkCanvas.Strokes)
+            {
+
+
+                if (item is CustomTextInput textInput)
+                {
+                    textInput.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(item);
+                };
+                if (item is EllipseStroke ellipse)
+                {
+                    ellipse.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(ellipse);
+                }
+
+                if (item is RectangleStroke rectangle)
+                {
+                    rectangle.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(rectangle);
+                }
+                if (item is CircleStroke circleStroke)
+                {
+                    circleStroke.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(circleStroke);
+                }
+                if (item is SquareStroke square)
+                {
+                    square.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(square);
+                }
+                if (item is LineStroke line)
+                {
+                    line.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(line);
+                }
+                if (item is ArrowStroke arrow)
+                {
+                    arrow.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(arrow);
+                }
+                if (item is Dim1Stroke dim1)
+                {
+                    dim1.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(dim1);
+                }
+                if (item is Dim2Stroke dim2)
+                {
+                    dim2.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(dim2);
+                }
+                if (item is Dim3Stroke dim3)
+                {
+                    dim3.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(dim3);
+                }
+                if (item is Dim4Stroke dim4)
+                {
+                    dim4.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(dim4);
+                }
+                if(item is QuadraticBezierpath quadraticBezier)
+                {
+                    quadraticBezier.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(quadraticBezier);
+                }
+                if (item is Bezierpath bezier)
+                {
+                    bezier.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(bezier);
+
+                }
+                if (item is PolygonStroke polygon)
+                {
+                    polygon.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(polygon);
+
+                }
+
+            }
+        }
 
 
         public void DrawProfile()
@@ -238,9 +272,6 @@ namespace Global.UserControls.DrawVisual
             StylusPointCollection point;
             Stroke stroke;
             Stroke stroke0;
-           
-          
-            
             StrokeCollection strokes = new StrokeCollection();
           
             if (isMouseDown && ToolTop.CurveChecked)  //Curve
@@ -250,7 +281,9 @@ namespace Global.UserControls.DrawVisual
                     double dist = GetDistance(endP, iniP);
                     if (dist < 5)
                         return;
-                    stroke = inkMethod.GenerateLineStroke(iniP, endP);
+                    Color color0 = dimenViewModel.SelectedAccentColor;
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color0, lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempCurveStroke);
@@ -270,7 +303,8 @@ namespace Global.UserControls.DrawVisual
                     }
                     CurvePointsList.Insert(1, m1);
                     Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
-                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color,lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempCurveStroke);
@@ -289,7 +323,8 @@ namespace Global.UserControls.DrawVisual
                     }
                     CurvePointsList.Insert(2, m2);
                     Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
-                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color,lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempCurveStroke);
@@ -312,6 +347,42 @@ namespace Global.UserControls.DrawVisual
                 }
                if (isMouseDown && ToolTop.RulerChecked)
                 {
+                    //var isShiftDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                    //double deltaX = Math.Abs(iniP.X - endP.X);
+                    //double deltaY = Math.Abs(iniP.Y - endP.Y);
+                    //if (isShiftDown)
+                    //{
+                    //    if (deltaX >= deltaY)
+                    //    {
+                    //        endP.Y = iniP.Y;
+                    //    }
+                    //    else
+                    //    {
+                    //        endP.X = iniP.X;
+                    //    }
+
+                    //}
+
+                    //double dist = GetDistance(endP, iniP);
+                    //if (dist < 5)
+                    //    return;
+                    //stroke = inkMethod.GenerateRulerStroke(iniP, endP);
+                    //try
+                    //{
+                    //    inkCanvas.Strokes.Remove(lastTempStroke);
+                    //}
+                    //catch { }
+                    //lastTempStroke = stroke;
+                    //inkCanvas.Strokes.Add(stroke);
+                    //double width = ActualWidth;
+                    //stroke0 = DrawInkMethod.InkCanvasMethod.CreateRulerText(iniP, endP, ratio1);
+                    //try
+                    //{
+                    //    inkCanvas.Strokes.Remove(lastTempStroke0);
+                    //}
+                    //catch { }
+                    //lastTempStroke0 = stroke0;
+                    //inkCanvas.Strokes.Add(stroke0);
                     var isShiftDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
                     double deltaX = Math.Abs(iniP.X - endP.X);
                     double deltaY = Math.Abs(iniP.Y - endP.Y);
@@ -325,13 +396,49 @@ namespace Global.UserControls.DrawVisual
                         {
                             endP.X = iniP.X;
                         }
+                    }
+                    double dist1 = GetDistance(endP, iniP);
+                    if (dist1 < 5)
+                        return;
+
+                    switch (DrawInkMethod.dimenViewModel.DimSelectedIndex)
+                    {
+                        case 0:
+                            Color color0 = dimenViewModel.SelectedAccentColor;
+                            int lineWidth = dimenViewModel.LineWidth;
+                            stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color0,lineWidth) ;
+                            break;
+
+                        case 1:
+
+                            Color color1 = dimenViewModel.SelectedAccentColor;
+                            int lineWidth1 = dimenViewModel.LineWidth;
+                            stroke = InkCanvasMethod.CreateArrowStroke(iniP, endP, color1,lineWidth1);
+                            break;
+                        case 2:
+                            int lineWidth2 = dimenViewModel.LineWidth;
+                            stroke = InkCanvasMethod.CreateDim1Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth2);
+                            break;
+                        case 3:
+                            int lineWidth3 = dimenViewModel.LineWidth;
+                            stroke = InkCanvasMethod.CreateDim2Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth3);
+                            break;
+                        case 4:
+                            int lineWidth4 = dimenViewModel.LineWidth;
+                            stroke = InkCanvasMethod.CreateDim3Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth4);
+                            break;
+                        case 5:
+                            int lineWidth5 = dimenViewModel.LineWidth;
+                            stroke = InkCanvasMethod.CreateDim4Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth5);
+                            break;
+
+                        default:
+                            Color color6 = dimenViewModel.SelectedAccentColor;
+                            int lineWidth6 = dimenViewModel.LineWidth;
+                            stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color6, lineWidth6);
+                            break;
 
                     }
-                   
-                    double dist = GetDistance(endP, iniP);
-                    if (dist < 5)
-                        return;
-                    stroke = inkMethod.GenerateRulerStroke(iniP, endP);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -339,19 +446,27 @@ namespace Global.UserControls.DrawVisual
                     catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
-                    double width = ActualWidth;
-                    stroke0 = DrawInkMethod.InkCanvasMethod.CreateRulerText(iniP, endP, ratio1);
-                    try
+                    double theta = Math.Atan2(endP.Y - iniP.Y, endP.X - iniP.X);
+                    double dist = GetDistance(iniP, endP);
+                    DrawInkMethod.dimenViewModel.Length = (double)dist / ratio1.actualwidth * 1689.12 / ratio1.Ratio;
+
+                    if (theta / Math.PI * 180 == 0)
                     {
-                        inkCanvas.Strokes.Remove(lastTempStroke0);
+                        DrawInkMethod.dimenViewModel.Angle = 0;
                     }
-                    catch { }
-                    lastTempStroke0 = stroke0;
-                    inkCanvas.Strokes.Add(stroke0);
+                    else
+                    {
+                        DrawInkMethod.dimenViewModel.Angle = theta / Math.PI * 180;
+
+                    }
+                    Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                    if (DrawInkMethod.dimenViewModel.DimSelectedIndex == 0 || DrawInkMethod.dimenViewModel.DimSelectedIndex == 1)
+                        return;
+
 
                 }
-            
-            
+
+
             }
             else if(isMouseDown && ToolTop.ProfileChecked)
             {
@@ -370,44 +485,61 @@ namespace Global.UserControls.DrawVisual
 
             }
 
-            else  if (isMouseDown && ToolTop.LineChecked) //dimension
+            else  if (isMouseDown && ToolTop.LineChecked ) //dimension
             {
-              
+                var isShiftDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                double deltaX = Math.Abs(iniP.X - endP.X);
+                double deltaY = Math.Abs(iniP.Y - endP.Y);
+                if (isShiftDown)
+                {
+                    if (deltaX >= deltaY)
+                    {
+                        endP.Y = iniP.Y;
+                    }
+                    else
+                    {
+                        endP.X = iniP.X;
+                    }
+                }
+                double dist1 = GetDistance(endP, iniP);
+                if (dist1 < 5)
+                    return;
+
                 switch (DrawInkMethod.dimenViewModel.DimSelectedIndex)
                 {
                     case 0:
                         Color color0 = dimenViewModel.SelectedAccentColor;
-                        stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color0);
-                       // stroke = inkMethod.GenerateLineStroke(iniP, endP);
-                      
-                      
+                        int lineWidth = dimenViewModel.LineWidth;
+                        stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color0, lineWidth);
                         break;
-
 
                     case 1:
-                        
+
                         Color color1 = dimenViewModel.SelectedAccentColor;
-                        stroke = InkCanvasMethod.CreateArrowStroke(iniP, endP, color1);
+                        int lineWidth1 = dimenViewModel.LineWidth;
+                        stroke = InkCanvasMethod.CreateArrowStroke(iniP, endP, color1, lineWidth1);
                         break;
                     case 2:
-                        stroke = InkCanvasMethod.CreateDim1Stroke(iniP, endP, dimenViewModel.SelectedAccentColor,ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label);
-                        //stroke = inkMethod.GenerateDimensionStroke1(iniP, endP);
+                        int lineWidth2 = dimenViewModel.LineWidth;
+                        stroke = InkCanvasMethod.CreateDim1Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth2);
                         break;
                     case 3:
-                        stroke = InkCanvasMethod.CreateDim2Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label);
-                       // stroke = inkMethod.GenerateDimensionStroke2(iniP, endP);
+                        int lineWidth3 = dimenViewModel.LineWidth;
+                        stroke = InkCanvasMethod.CreateDim2Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth3);
                         break;
                     case 4:
-                        stroke = inkMethod.GenerateDimensionStroke3(iniP, endP);
+                        int lineWidth4 = dimenViewModel.LineWidth;
+                        stroke = InkCanvasMethod.CreateDim3Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth4);
+                        break;
+                    case 5:
+                        int lineWidth5 = dimenViewModel.LineWidth;
+                        stroke = InkCanvasMethod.CreateDim4Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth5);
                         break;
 
-                    case 5:
-                        stroke = inkMethod.GenerateDimensionStroke4(iniP, endP);
-                        break;
-                   
-                   default:
+                    default:
                         Color color6 = dimenViewModel.SelectedAccentColor;
-                        stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color6);                       
+                        int lineWidth6 = dimenViewModel.LineWidth;
+                        stroke = InkCanvasMethod.CreateLineStroke(iniP, endP, color6, lineWidth6);
                         break;
 
                 }
@@ -434,14 +566,7 @@ namespace Global.UserControls.DrawVisual
                 Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
                 if (DrawInkMethod.dimenViewModel.DimSelectedIndex == 0 || DrawInkMethod.dimenViewModel.DimSelectedIndex == 1)
                     return;
-                //stroke0 = DrawInkMethod.InkCanvasMethod.CreateText(iniP, endP,ratio1,color);
-                //try
-                //{
-                //    inkCanvas.Strokes.Remove(lastTempStroke0);
-                //}
-                //catch { }
-                //lastTempStroke0 = stroke0;
-                //inkCanvas.Strokes.Add(stroke0);
+               
                
 
             }
@@ -477,11 +602,6 @@ namespace Global.UserControls.DrawVisual
 
                 }
 
-                //var container = VisualTreeHelper.GetChild(this,0) as UIElement;
-                //container.RenderTransform = new TranslateTransform(endP.X - movePoint.X, endP.Y - movePoint.Y);
-
-               
-
 
             }
 
@@ -492,7 +612,8 @@ namespace Global.UserControls.DrawVisual
                 if (isShiftDown && delta != 0)
                 {
                     Color color = dimenViewModel.SelectedAccentColor;
-                    stroke = InkCanvasMethod.CreateCircle(iniP, endP, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = InkCanvasMethod.CreateCircle(iniP, endP, color,lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -505,7 +626,8 @@ namespace Global.UserControls.DrawVisual
                 else if (delta != 0)
                 {
                     Color color = dimenViewModel.SelectedAccentColor;
-                    stroke = InkCanvasMethod.CreateEllipse(iniP, endP, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = InkCanvasMethod.CreateEllipse(iniP, endP, color, lineWidth);
 
                     try
                     {
@@ -531,7 +653,8 @@ namespace Global.UserControls.DrawVisual
                 if (isShiftDown && delta != 0)
                 {
                     Color color = dimenViewModel.SelectedAccentColor;
-                    stroke = InkCanvasMethod.CreateSquare(iniP, endP, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = InkCanvasMethod.CreateSquare(iniP, endP, color, lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -544,7 +667,8 @@ namespace Global.UserControls.DrawVisual
                 else
                 {
                     Color color = dimenViewModel.SelectedAccentColor;
-                    stroke = InkCanvasMethod.CreateRectangleStroke(iniP, endP, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = InkCanvasMethod.CreateRectangleStroke(iniP, endP, color,lineWidth);
 
                     try
                     {
@@ -600,6 +724,32 @@ namespace Global.UserControls.DrawVisual
                 inkCanvas.Strokes.Add(stroke);
 
             }
+
+            if (ToolTop.PolygonChecked == true)
+            {
+                Point Point2 = e.GetPosition(inkCanvas);
+                if (pointList1.Count > 0)
+                {
+                    pointList1.Add(Point2);
+                    // point1 = new StylusPointCollection(pointList1);
+                    Color color = dimenViewModel.SelectedAccentColor;
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth);
+                    //stroke1 = new Stroke(point1)
+                    //{
+                    //    DrawingAttributes = inkMethod.drawingAttributes.Clone()
+                    //};
+                    try
+                    {
+                        inkCanvas.Strokes.Remove(lastTempStroke);
+                    }
+                    catch { }
+                    lastTempStroke = stroke1;
+                    inkCanvas.Strokes.Add(stroke1);
+                    pointList1.Remove(Point2);
+                }
+
+            }
         }
 
         List<System.Windows.Point> pointList1 = new List<Point>();
@@ -638,14 +788,13 @@ namespace Global.UserControls.DrawVisual
             {
 
                 pointList1.Add(iniP);
-                point1 = new StylusPointCollection(pointList1);
+               // point1 = new StylusPointCollection(pointList1);
 
                 if (pointList1.Count > 1)
                 {
-                    stroke1 = new Stroke(point1)
-                    {
-                        DrawingAttributes = inkMethod.drawingAttributes.Clone()
-                    };
+                    Color color = dimenViewModel.SelectedAccentColor;
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -653,7 +802,7 @@ namespace Global.UserControls.DrawVisual
                     catch { }
                     lastTempStroke = stroke1;
                     inkCanvas.Strokes.Add(stroke1);
-                  
+
 
                 }
                 if (pointList1.Count == 1)
@@ -742,7 +891,8 @@ namespace Global.UserControls.DrawVisual
                 {
                     CurvePointsList.Insert(1, iniP);
                     Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
-                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color, lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempCurveStroke);
@@ -756,7 +906,8 @@ namespace Global.UserControls.DrawVisual
                 {
                     CurvePointsList.Insert(2, iniP);
                     Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
-                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color);
+                    int lineWidth = dimenViewModel.LineWidth;
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color,lineWidth);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempCurveStroke);
@@ -843,11 +994,9 @@ namespace Global.UserControls.DrawVisual
                     {
 
                         pointList1.Add(PointSt);
-                        point1 = new StylusPointCollection(pointList1);
-                        stroke1 = new Stroke(point1)
-                        {
-                            DrawingAttributes = inkMethod.drawingAttributes.Clone()
-                        };
+                        Color color = dimenViewModel.SelectedAccentColor;
+                        int lineWidth = dimenViewModel.LineWidth;
+                        stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth);
                         try
                         {
                             inkCanvas.Strokes.Remove(lastTempStroke);
@@ -892,11 +1041,6 @@ namespace Global.UserControls.DrawVisual
             pathFigure1.Segments.Add(lineSegment1);
             pathFigure1.Segments.Add(lineSegment2);
             pathGeometry.Figures.Add(pathFigure1);
-            //if (direction == 0)
-            //{
-            //    Canvas.SetLeft(dimText, (length * ratio - dimText.ActualWidth) / 2);
-            //    InkCanvas.SetLeft(defaultDim, 20);
-            //}
 
             switch (direction)
             {
@@ -928,34 +1072,11 @@ namespace Global.UserControls.DrawVisual
             }
 
         }
-
-
-
-
-
-
-
-        private async void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+       private async void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-
-
-            if (saveTempStroke && inkCanvas.Strokes.Count > 0)
+           if (saveTempStroke && inkCanvas.Strokes.Count > 0)
             {
-                //if (inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                //{
-                //    inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                //    inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-
-                //}
-
                 tempStroke = inkCanvas.Strokes.Clone();
-                //if (inkMethod.Dimstroke != null && inkMethod.Textstroke != null)
-
-                //{
-                //    inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                //    inkCanvas.Strokes.Add(inkMethod.Textstroke);
-                //}
-
                 saveTempStroke = false;
               
             }
@@ -1034,15 +1155,7 @@ namespace Global.UserControls.DrawVisual
                 {
                     inkCanvas.Cursor = Cursors.Arrow;
                 }
-
-
-
             }
-
-
-
-
-
         }
         // delete in the future
         private void RepaintDim()
@@ -1056,14 +1169,7 @@ namespace Global.UserControls.DrawVisual
                 Point iniP = new Point(w * 19 / 20, h * 19 / 20);
                 Point endP = new Point(w * 19 / 20 - w * 100 * ratio1.Ratio / 1689.12, h * 19 / 20);
                 inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                //try
-                //{
-                //    inkCanvas.Strokes.Remove(lastTempStroke);
-                //}
-                //catch { }
-                //inkVisual.lastTempStroke = inkMethod.Dimstroke;
-                inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                //inkVisual.lastTempStroke = null;
+                inkCanvas.Strokes.Add(inkMethod.Dimstroke);       
                 inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
                 inkCanvas.Strokes.Add(inkMethod.Textstroke);
 
@@ -1104,9 +1210,6 @@ namespace Global.UserControls.DrawVisual
                 string position = DrawInkMethod.defdimenViewModel.DimPos;
                 double length = DrawInkMethod.defdimenViewModel.Length;
                 drawDefaultDim(position, length, Colors.AliceBlue, ratio);
-
-
-
             }
           
 
@@ -1125,9 +1228,6 @@ namespace Global.UserControls.DrawVisual
                 {
                    // MessageBox.Show(ex.Message);
                 }
-                   
-               
-               
 
             }
         }
@@ -1136,6 +1236,9 @@ namespace Global.UserControls.DrawVisual
         {
            // MessageBox.Show(index.ToString());
         }
+
+
+
     }
 }
 

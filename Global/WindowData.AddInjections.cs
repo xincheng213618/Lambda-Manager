@@ -46,12 +46,20 @@ namespace Global
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
                     // MessageBox.Show("1111");
-                    if (e.PropertyName == "CurveChecked")
+                    if (e.PropertyName == "FocusChecked")
                     {
+                        //if (ImageViewState.toolTop.FocusChecked)
+                        //{
+                        //    inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+                        //}
+                        //else
+                        //{
+                        //    inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                        //}
 
-                       
+
                     }
-                   
+
                     else if (e.PropertyName == "EraserChecked")
                     {
                         if (ImageViewState.toolTop.EraserChecked == true)

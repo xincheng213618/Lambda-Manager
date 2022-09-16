@@ -27,4 +27,24 @@ namespace ConfigObjective.Converter
             return !(bool)value;
         }
     }
+
+    public class ValueClassToLayerConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //int val = int.Parse(value.ToString());
+            return value + "  层";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value + "  层";
+
+        }
+    }
+
+
+
+
+
 }

@@ -135,9 +135,10 @@ namespace Global.UserControls.SeriesMap
                     String JSON = JsonSerializer.Serialize(spotInfor, new JsonSerializerOptions());
                     System.Windows.MessageBox.Show(JSON);
 
-                    LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
-                    //LambdaControl.Trigger("MUL_POINT_POSITION", this, new Dictionary<string, object>() { { "Index", seriersPoint.Index }, { "Coordinate", seriersPoint.PointXY } });
-                    //MessageBox.Show(seriersPoint.Index.ToString(), seriersPoint.PointXY.ToString());
+                   // LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
+
+                    LambdaControl.Trigger("MUL_POINT_POSITION", this, new Dictionary<string, object>() { { "Index", seriersPoint.Index }, { "X", (int)seriersPoint.PointXY.X }, { "Y", (int)seriersPoint.PointXY.Y } });
+                  
                 }
                 else if (listview.SelectedItems.Count > 1)
                 {

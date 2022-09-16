@@ -14,6 +14,7 @@ using Tool;
 using Solution.RecentFile;
 using Global.Common;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Global.Common.Extensions;
 
 namespace Solution
@@ -109,7 +110,7 @@ namespace Solution
         }
 
         //第一次的点击逻辑
-        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        protected async override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
 
@@ -161,6 +162,8 @@ namespace Solution
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
+                        LambdaControl.Trigger("CLOSE_OPEN_SERIAL", this, new Dictionary<string, object>() { });
+                        await Task.Delay(300);
                         LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName.ToASCII());
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
                     }

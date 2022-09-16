@@ -62,6 +62,10 @@ namespace Global.Mode.Config
 
         [JsonPropertyName("optimized")]
         public Optimized Optimized { get; set; } = new();
+       
+        [JsonPropertyName("focus-image-mode")]
+        public string FocusModeSelect { get; set; } = "";
+       
 
 
 
@@ -123,8 +127,8 @@ namespace Global.Mode.Config
         [JsonPropertyName("isLocal")]
         public bool IsLocal { get; set; } = false;
     }
-    
 
+   
 
 
 }
