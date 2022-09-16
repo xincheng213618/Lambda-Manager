@@ -1,6 +1,7 @@
 ﻿using Global.Common;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -11,13 +12,19 @@ namespace Global.Mode.Config
 {
     public class OperatingMode : ViewModelBase
     {
+        public List<OperatingModeBase> SelectViewModeClass;
+
+        public OperatingMode() 
+        {
+            new List<OperatingModeBase>() { BrightField, DarkField,Reinberg,ReliefContrast, PhaseContrast, QuantitativePhase };
+
+        }
         private int selectViewMode = 0;
         public int SelectViewMode
         {
             get { return selectViewMode; }
             set { selectViewMode = value;  NotifyPropertyChanged(); }
         }
-
 
         [JsonPropertyName("bright-field")]
         public BrightField BrightField { get; set; } = new();
@@ -47,12 +54,24 @@ namespace Global.Mode.Config
             Reinberg.SetValue(OperatingMode.Reinberg);
             PhaseContrast.SetValue (OperatingMode.PhaseContrast);
         }
-
     }
 
-    public class BrightField : ViewModelBase
+    //让其他操作模式的都继承
+    public class OperatingModeBase : ViewModelBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 ,Gain = 0,Gamma = 1 };
+        public virtual Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0, Gain = 0, Gamma = 1 };
+
+        public virtual void SetValue(OperatingModeBase operatingModeBase)
+        {
+            CameraSetting.SetValue(operatingModeBase.CameraSetting);
+        }
+    }
+
+
+
+    public class BrightField : OperatingModeBase
+    {
+        public override Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 ,Gain = 0,Gamma = 1 };
 
         private int aperture = 9;
         [JsonPropertyName("led-diameter")]
@@ -81,15 +100,15 @@ namespace Global.Mode.Config
 
         public void SetValue(BrightField brightField)
         {
-            CameraSetting.SetValue(brightField.CameraSetting);
+            base.SetValue(brightField);
             Aperture = brightField.aperture;
             color = brightField.color;
         }
     };
 
-    public class DarkField : ViewModelBase
+    public class DarkField : OperatingModeBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 , Gamma =  1.67,Gain=17};
+        public override Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 1 , Gamma =  1.67,Gain=17};
 
         private int innerAperture = 12;
 
@@ -168,8 +187,7 @@ namespace Global.Mode.Config
 
         public void SetValue(DarkField  darkField)
         {
-            CameraSetting.SetValue(darkField.CameraSetting);
-
+            base.SetValue(darkField);
             InnerAperture = darkField.InnerAperture;
             OutAperture = darkField.OutAperture;
             Color = darkField.Color;   
@@ -194,10 +212,9 @@ namespace Global.Mode.Config
     }
 
 
-    public class Reinberg : ViewModelBase
+    public class Reinberg : OperatingModeBase
     {
-
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 , Gamma = 1.67,Gain =15 };
+        public override Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 , Gamma = 1.67,Gain =15 };
 
         private int innerAperture = 0;
         public int InnerAperture
@@ -267,7 +284,7 @@ namespace Global.Mode.Config
 
         public void SetValue(Reinberg reinberg)
         {
-            CameraSetting.SetValue(reinberg.CameraSetting);
+            base.SetValue(reinberg);
             Gamma = reinberg.Gamma;
             InnerAperture = reinberg.InnerAperture;
             OutAperture = reinberg.OutAperture;
@@ -294,9 +311,9 @@ namespace Global.Mode.Config
     };
 
     //差分
-    public class ReliefContrast : ViewModelBase
+    public class ReliefContrast : OperatingModeBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 3 , Gamma = 1 } ;
+        public override Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 3 , Gamma = 1 } ;
 
         public int rotationangle = 0;
         public int Rotationangle
@@ -407,7 +424,7 @@ namespace Global.Mode.Config
 
         public void SetValue(ReliefContrast  reliefContrast)
         {
-            CameraSetting.SetValue(reliefContrast.CameraSetting);
+            base.SetValue(reliefContrast);
             Rotationangle = reliefContrast.Rotationangle;
             InnerAperture = reliefContrast.InnerAperture;
             OutAperture = reliefContrast.OutAperture;
@@ -420,9 +437,9 @@ namespace Global.Mode.Config
         }
     }
     //相位
-    public class PhaseContrast : ViewModelBase
+    public class PhaseContrast : OperatingModeBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5, Gamma = 1};
+        public override Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5, Gamma = 1};
 
         private double filter = 0.07;
         public double Filter
@@ -510,8 +527,7 @@ namespace Global.Mode.Config
         }
         public void SetValue(PhaseContrast phaseContrast)
         {
-            CameraSetting.SetValue(phaseContrast.CameraSetting);
-
+            base.SetValue(phaseContrast);
             Filter = phaseContrast.Filter;
             Gamma = phaseContrast.Gamma;
             Contrast = phaseContrast.Contrast;
@@ -523,9 +539,9 @@ namespace Global.Mode.Config
     }
 
 
-    public class QuantitativePhase : ViewModelBase
+    public class QuantitativePhase : OperatingModeBase
     {
-        public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 ,Gamma =1};
+        public override Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 4 ,Gamma =1};
 
         private double regularization = 0.1;
 
@@ -597,15 +613,13 @@ namespace Global.Mode.Config
 
         public void SetValue(QuantitativePhase  quantitativePhase)
         {
-            CameraSetting.SetValue(quantitativePhase.CameraSetting);
-
+            base.SetValue(quantitativePhase);
             Regularization = quantitativePhase.Regularization;
             Detail = quantitativePhase.Detail;
             Gamma = quantitativePhase.Gamma;
             Min = quantitativePhase.Min;
             max = quantitativePhase.Max;
             BgCollection = quantitativePhase.BgCollection;
-
         }
     }
 
