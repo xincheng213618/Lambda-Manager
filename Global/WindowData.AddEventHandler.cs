@@ -23,7 +23,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
-            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
+            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StageIniClosed, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
 
@@ -54,11 +54,9 @@ namespace Global
             //加载进度
             LambdaControl.AddLambdaEventHandler("UPDATE_PROGRESSBAR", UpdateProgressBarModel, false);
 
-
-
         }
 
-        private bool StaheIniClose(object sender, EventArgs e)
+        private bool StageIniClosed(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -71,59 +69,30 @@ namespace Global
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                Window mainwin = Application.Current.MainWindow;
-                if (mainwin != null)
+                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count>1&& stageAcquisition.Children[1] is DockPanel dockPanel &&
+                dockPanel.Children.Count>1 && dockPanel.Children[1] is StackPanel stackPanel && stackPanel.Children.Count > 0 && stackPanel.Children[0] is ToggleButton toggleButton)
                 {
-                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
-                    if (grid != null)
-                    {
-                        DockPanel dockPanel = (DockPanel)grid.Children[1];
-                        StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
-                        ToggleButton toggleButton = (ToggleButton)stackPanel.Children[0];
-
-                        if (toggleButton != null && toggleButton.IsChecked == true)
-                        {
-                            toggleButton.IsChecked = false;
-                            toggleButton.Content = "开始采集";
-                        }
-                    }
-
+                    toggleButton.IsChecked = false;
+                    toggleButton.Content = "开始采集";
                 }
-
                 ACQUIRE = false;
-
             });
             return true;
         }
-
-
-       
 
         private bool seriesProjectManager(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                Window mainwin = Application.Current.MainWindow;
-                if (mainwin != null)
+
+                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count > 1 && stageAcquisition.Children[1] is DockPanel dockPanel &&
+                dockPanel.Children.Count > 0 && dockPanel.Children[0] is  ToggleButton toggleButton)
                 {
-                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
-                    if (grid != null)
-                    {
-                        DockPanel dockPanel = (DockPanel)grid.Children[1];
-                        ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
-                        if (toggleButton != null && toggleButton.IsChecked == true)
-                        {
-                            toggleButton.IsChecked = false;
-                            toggleButton.Content = "预览";
-                            EventArgs eventArgs = new EventArgs();
-                        }
-                    }
+                    toggleButton.IsChecked = false;
+                    toggleButton.Content = "预览";
                 }
-
             });
-
             return true;
-
         }
 
 
@@ -325,18 +294,10 @@ namespace Global
             return true;
         }
 
-
-
-
-
-
-
         public MulSummary mulSummary = new();
-
 
         private bool UpdateMulSummary(object sender, EventArgs e)
         {
-
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
@@ -355,7 +316,6 @@ namespace Global
                 mulSummary.AllCollectionTime = eventData.GetString("AllCollectionTime");
                 mulSummary.CameraWorkingTime = eventData.GetString("CameraWorkingTime");
             });
-
             return true;
         }
 
@@ -453,12 +413,10 @@ namespace Global
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
             return true;
         }
-
-
 
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
@@ -518,10 +476,9 @@ namespace Global
                 }
             }
         }
-
-
-
+        
 
 
     }
+
 }
