@@ -18,7 +18,7 @@ namespace LambdaManager.DataType
 
         public string? Timer { get; set; }
 
-        public List<Action>? Actions { get; set; }
+        public List<Actions>? Actions { get; set; }
 
         public List<string>? Exports { get; set; }
 

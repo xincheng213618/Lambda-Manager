@@ -1,12 +1,5 @@
 ﻿using Lambda;
-using LambdaManager.DataType;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LambdaManager.Core
 {
@@ -14,7 +7,7 @@ namespace LambdaManager.Core
 
     public static class Log
     {
-        public static LogWritetHandler LogWrite;
+        public static LogWritetHandler? LogWrite;
 
         public static void Report(Message message)
         {

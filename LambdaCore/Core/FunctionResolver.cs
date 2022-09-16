@@ -24,7 +24,7 @@ namespace LambdaManager.Core
             this.lib = lib;
         }
 
-        public IntPtr GetAddress(LambdaManager.DataType.Action action, Component component)
+        public IntPtr GetAddress(Actions action, Component component)
         {
             Parse(action);
             string name = action.Name;
@@ -48,7 +48,7 @@ namespace LambdaManager.Core
             return TypesInterop.GetCodes(argTypes);
         }
 
-        public void Parse(LambdaManager.DataType.Action action)
+        public void Parse(Actions action)
         {
             TypeInfos = new List<TypeInfo>();
             argTypes = new List<string>();
@@ -118,7 +118,7 @@ namespace LambdaManager.Core
             return T70.Parse(typeInfo, value, type);
         }
 
-        public static ArgumentType? GetEventArgType(LambdaManager.DataType.Action? action)
+        public static ArgumentType? GetEventArgType(Actions? action)
         {
             if (action == null)
             {

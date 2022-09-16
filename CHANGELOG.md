@@ -5,6 +5,7 @@
 - 修复一个MUL_SUMMARY_UPDATE , json 初始值位null 时，引起的C++ 异常错误✔
 - 修复工程发送初始化指令在界面加载之前，软件初始化启动之后。✔
 - 添加 辅助方法 ToASCII()，并添加静态扩展，并修改其他支持✔
+- LambdaCore Action ->Actions ✔
 
 ## [1.1.7] - 2022-09-14
 

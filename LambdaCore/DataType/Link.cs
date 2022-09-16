@@ -9,10 +9,10 @@ public class Link
 
 	public int TargetIndex;
 
-	public Action Source { get; set; } = new Action();
+	public Actions Source { get; set; } = new Actions();
 
 
-	public Action Target { get; set; } = new Action();
+	public Actions Target { get; set; } = new Actions();
 
 
 	public List<CastType> CastTypes { get; set; } = new List<CastType>();

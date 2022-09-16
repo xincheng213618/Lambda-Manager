@@ -10,25 +10,25 @@ namespace LambdaManager.Config
 {
     public class ConfigValidate
     {
-        public  Dictionary<string, List<Action>> lib_actions = new Dictionary<string, List<Action>>();
+        public  Dictionary<string, List<Actions>> lib_actions = new Dictionary<string, List<Actions>>();
 
-        public Dictionary<Component, List<Action>> component_actions = new Dictionary<Component, List<Action>>();
+        public Dictionary<Component, List<Actions>> component_actions = new Dictionary<Component, List<Actions>>();
 
         public Dictionary<string, EntryPoint> sigName_entrypoints = new Dictionary<string, EntryPoint>();
 
-        public Dictionary<EntryPoint, Action> entry_actions = new Dictionary<EntryPoint, Action>();
+        public Dictionary<EntryPoint, Actions> entry_actions = new Dictionary<EntryPoint, Actions>();
 
         public Dictionary<Function, Routine> function_routines = new Dictionary<Function, Routine>();
 
-        public Dictionary<Function, Action> function_actions = new Dictionary<Function, Action>();
+        public Dictionary<Function, Actions> function_actions = new Dictionary<Function, Actions>();
 
         public Dictionary<Routine, Procedure> routine_procedures = new Dictionary<Routine, Procedure>();
 
-        public Dictionary<Routine, Action> virtual_actions = new Dictionary<Routine, Action>();
+        public Dictionary<Routine, Actions> virtual_actions = new Dictionary<Routine, Actions>();
 
         public Dictionary<string, List<Procedure>> event_procedure = new Dictionary<string, List<Procedure>>();
 
-        public Dictionary<Action, Procedure> defer_resolved_actions = new Dictionary<Action, Procedure>();
+        public Dictionary<Actions, Procedure> defer_resolved_actions = new Dictionary<Actions, Procedure>();
 
         public Dictionary<Procedure, List<Event>> defer_events = new Dictionary<Procedure, List<Event>>();
 
@@ -38,11 +38,11 @@ namespace LambdaManager.Config
 
         public Dictionary<Procedure, List<ExportInfo>> procedure_exports = new Dictionary<Procedure, List<ExportInfo>>();
 
-        public Dictionary<Action, List<ImportInfo>> action_imports = new Dictionary<Action, List<ImportInfo>>();
+        public Dictionary<Actions, List<ImportInfo>> action_imports = new Dictionary<Actions, List<ImportInfo>>();
 
-        public Dictionary<Action, List<int>> action_inputFor = new Dictionary<Action, List<int>>();
+        public Dictionary<Actions, List<int>> action_inputFor = new Dictionary<Actions, List<int>>();
 
-        public Dictionary<Action, List<int>> action_functionArgument = new Dictionary<Action, List<int>>();
+        public Dictionary<Actions, List<int>> action_functionArgument = new Dictionary<Actions, List<int>>();
 
         public Severity Severity { get; set; }
 
@@ -84,13 +84,13 @@ namespace LambdaManager.Config
             Report(severity, type, name, attr, value, "不支持");
         }
 
-        internal void ReportArgTypeAsPointer(Component component, Procedure procedure, Action action, string attr, string? value)
+        internal void ReportArgTypeAsPointer(Component component, Procedure procedure, Actions action, string attr, string? value)
         {
             string fullName = FunctionResolver.GetFullName(component, procedure, action.Name);
             Report(Severity.WARNING, Type.Action, fullName, attr, value, "按指针类型处理");
         }
 
-        internal void ReportLinkNotMatch(Link best, Action action, int index)
+        internal void ReportLinkNotMatch(Link best, Actions action, int index)
         {
             string attr = (action.IsInputIO(index) ? "输入类型" : "输出类型");
             string refering = "引用";
@@ -116,7 +116,7 @@ namespace LambdaManager.Config
             Report(Severity.FATAL_ERROR, Type.Action, name, attr, type, defaultInterpolatedStringHandler.ToStringAndClear());
         }
 
-        internal void ReportActionImportNotSupported(Action action, List<ImportInfo> infos)
+        internal void ReportActionImportNotSupported(Actions action, List<ImportInfo> infos)
         {
             string s = "";
             foreach (ImportInfo info in infos)
@@ -201,7 +201,7 @@ namespace LambdaManager.Config
             }
             if (count == 1 && procedure.Key == null)
             {
-                Action action = procedure.Actions?[0];
+                Actions action = procedure.Actions?[0];
                 if (action != null)
                 {
                     List<Output>? outputs = action.Outputs;
@@ -224,7 +224,7 @@ namespace LambdaManager.Config
             }
         }
 
-        internal void Check(Action action, Procedure procedure, Component component, List<Component> components)
+        internal void Check(Actions action, Procedure procedure, Component component, List<Component> components)
         {
             Procedure procedure2 = procedure;
             action.Parent = procedure2;
@@ -248,7 +248,7 @@ namespace LambdaManager.Config
                 component_actions.TryGetValue(component, out var actions);
                 if (actions == null)
                 {
-                    actions = new List<Action>();
+                    actions = new List<Actions>();
                     actions.Add(action);
                     component_actions.Add(component, actions);
                 }
@@ -266,7 +266,7 @@ namespace LambdaManager.Config
 
         internal void CheckLocalActions()
         {
-            foreach (KeyValuePair<Component, List<Action>> item in component_actions)
+            foreach (KeyValuePair<Component, List<Actions>> item in component_actions)
             {
                 Component component = item.Key;
                 string libShortName = component.GetLibShortName();
@@ -277,13 +277,13 @@ namespace LambdaManager.Config
                 lib_actions.TryGetValue(libShortName, out var actions);
                 if (actions == null)
                 {
-                    actions = new List<Action>();
+                    actions = new List<Actions>();
                     lib_actions.Add(libShortName, actions);
                 }
-                foreach (Action action in item.Value)
+                foreach (Actions action in item.Value)
                 {
                     string sigName = action.GetSigName(component);
-                    if (!actions.Exists((Action a) => a.GetSigName(component) == sigName))
+                    if (!actions.Exists((Actions a) => a.GetSigName(component) == sigName))
                     {
                         actions.Add(action);
                     }
@@ -291,7 +291,7 @@ namespace LambdaManager.Config
             }
         }
 
-        internal List<Action>? GetLocalActions(Component component)
+        internal List<Actions>? GetLocalActions(Component component)
         {
             string libShortName = component.GetLibShortName();
             if (libShortName == null)
@@ -302,7 +302,7 @@ namespace LambdaManager.Config
             return actions;
         }
 
-        internal void Check(Input input, int index, Action action, Procedure procedure, Component component)
+        internal void Check(Input input, int index, Actions action, Procedure procedure, Component component)
         {
             if (input.Type == "action")
             {
@@ -330,12 +330,12 @@ namespace LambdaManager.Config
             }
         }
 
-        internal void Check(Output output, int index, Action action, Procedure procedure, Component component)
+        internal void Check(Output output, int index, Actions action, Procedure procedure, Component component)
         {
             CheckIO(output, index, action, procedure, component);
         }
 
-        internal void CheckIO(IO io, int index, Action action, Procedure procedure, Component component)
+        internal void CheckIO(IO io, int index, Actions action, Procedure procedure, Component component)
         {
             Type clazz = ((io is Input) ? Type.Input : Type.Output);
             if (io.Name != null)
@@ -357,7 +357,7 @@ namespace LambdaManager.Config
             }
         }
 
-        private void CheckExport(IO io, int index, Action action, Procedure procedure)
+        private void CheckExport(IO io, int index, Actions action, Procedure procedure)
         {
             List<string> exports = procedure.Exports;
             string name = io.Name;
@@ -383,7 +383,7 @@ namespace LambdaManager.Config
             }
         }
 
-        private void CheckImport(IO io, int argIndex, Action action)
+        private void CheckImport(IO io, int argIndex, Actions action)
         {
             string type = io.Type ?? "string";
             if (export_types.TryGetValue(type, out var type2))
@@ -408,7 +408,7 @@ namespace LambdaManager.Config
             }
         }
 
-        private void AddImport(Action action, ImportInfo info)
+        private void AddImport(Actions action, ImportInfo info)
         {
             if (!action_imports.TryGetValue(action, out var imports))
             {
@@ -418,7 +418,7 @@ namespace LambdaManager.Config
             imports.Add(info);
         }
 
-        internal List<string> CheckActionImports(List<ImportInfo>? infos, Action action)
+        internal List<string> CheckActionImports(List<ImportInfo>? infos, Actions action)
         {
             List<string> imports = new List<string>();
             if (infos == null)
@@ -466,10 +466,10 @@ namespace LambdaManager.Config
         internal List<KeyValuePair<string, EntryPoint>> GetSimilarEntryPoints(string sigNameWithoutParameters)
         {
             string sigNameWithoutParameters2 = sigNameWithoutParameters;
-            return sigName_entrypoints.Where<KeyValuePair<string, EntryPoint>>((KeyValuePair<string, EntryPoint> prop) => prop.Key.StartsWith(sigNameWithoutParameters2)).ToList();
+            return sigName_entrypoints.Where((KeyValuePair<string, EntryPoint> prop) => prop.Key.StartsWith(sigNameWithoutParameters2)).ToList();
         }
 
-        internal void AddEntryPoint(string sigName, EntryPoint entry, Action action)
+        internal void AddEntryPoint(string sigName, EntryPoint entry, Actions action)
         {
             sigName_entrypoints.Add(sigName, entry);
             entry_actions.Add(entry, action);
@@ -487,22 +487,22 @@ namespace LambdaManager.Config
             return functionResolver.DefaultValues;
         }
 
-        internal void AddFunctionAction(Function function, Action action)
+        internal void AddFunctionAction(Function function, Actions action)
         {
             function_actions.Add(function, action);
         }
 
-        internal Action? GetAction(Function function)
+        internal Actions? GetAction(Function function)
         {
             return function_actions[function];
         }
 
-        internal Action? GetAction(EntryPoint entry)
+        internal Actions? GetAction(EntryPoint entry)
         {
             return entry_actions[entry];
         }
 
-        internal Action? GetOriginalAction(Function function)
+        internal Actions? GetOriginalAction(Function function)
         {
             EntryPoint entry = function.EntryPoint;
             if (entry == null)
@@ -512,7 +512,7 @@ namespace LambdaManager.Config
             return entry_actions[entry];
         }
 
-        internal List<object?>? GetDefaultValues(Action action, EntryPoint entry)
+        internal List<object?>? GetDefaultValues(Actions action, EntryPoint entry)
         {
             FunctionResolver functionResolver = new FunctionResolver(null);
             functionResolver.Parse(action);
@@ -551,12 +551,12 @@ namespace LambdaManager.Config
             return procedure;
         }
 
-        internal Dictionary<Action, Procedure> GetDeferResolvedActions()
+        internal Dictionary<Actions, Procedure> GetDeferResolvedActions()
         {
             return defer_resolved_actions;
         }
 
-        internal void AddDeferResolvedAction(Action action, Procedure procedure)
+        internal void AddDeferResolvedAction(Actions action, Procedure procedure)
         {
             defer_resolved_actions.Add(action, procedure);
         }
@@ -621,45 +621,45 @@ namespace LambdaManager.Config
             return procedure_exports;
         }
 
-        internal Dictionary<Action, List<ImportInfo>> GetActionImports()
+        internal Dictionary<Actions, List<ImportInfo>> GetActionImports()
         {
             return action_imports;
         }
 
-        internal Dictionary<Action, List<int>> GetActionInputFor()
+        internal Dictionary<Actions, List<int>> GetActionInputFor()
         {
             return action_inputFor;
         }
 
-        internal Dictionary<Action, List<int>> GetFunctionArguments()
+        internal Dictionary<Actions, List<int>> GetFunctionArguments()
         {
             return action_functionArgument;
         }
 
-        internal Action? FindComponentAction(string? componentName, string? actionName)
+        internal Actions? FindComponentAction(string? componentName, string? actionName)
         {
             string actionName2 = actionName;
             if (componentName == null || actionName2 == null)
             {
                 return null;
             }
-            foreach (KeyValuePair<Component, List<Action>> pair in component_actions)
+            foreach (KeyValuePair<Component, List<Actions>> pair in component_actions)
             {
                 if (pair.Key.Name == componentName)
                 {
-                    return pair.Value.Find((Action action) => action.Name == actionName2);
+                    return pair.Value.Find((Actions action) => action.Name == actionName2);
                 }
             }
             return null;
         }
 
-        internal Action GetVirtualAction(Routine entryRoutine)
+        internal Actions GetVirtualAction(Routine entryRoutine)
         {
             if (virtual_actions.TryGetValue(entryRoutine, out var action))
             {
                 return action;
             }
-            action = new Action
+            action = new Actions
             {
                 Name = "virtual action"
             };

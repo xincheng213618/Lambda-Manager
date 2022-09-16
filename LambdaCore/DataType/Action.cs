@@ -7,7 +7,7 @@ namespace LambdaManager.DataType
         public string? For { get; set; }
     }
 
-    public class Action
+    public class Actions
     {
         public Procedure? Parent { get; set; }
 
@@ -136,7 +136,7 @@ namespace LambdaManager.DataType
 
         public bool HasPreviousArgName(string name)
         {
-            List<Action> actions = Parent?.Actions;
+            List<Actions> actions = Parent?.Actions;
             if (actions == null)
             {
                 return false;

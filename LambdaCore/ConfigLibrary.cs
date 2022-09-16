@@ -35,7 +35,7 @@ namespace LambdaManager
 
     public class ConfigLibrary
     {
-        private readonly DataType.Solution solution = FunctionExecutor.Solution;
+        private readonly Solution solution = FunctionExecutor.Solution;
 
         public ILambdaUI lambdaUI;
         public ConfigLibrary()
@@ -52,7 +52,7 @@ namespace LambdaManager
             }
             return false;
         }
-        private List<LambdaManager.DataType.Command> commands = new List<Command>();
+        private List<Command> commands = new List<Command>();
         private List<Component> all;
 
         private ConfigValidate validate;
@@ -63,7 +63,7 @@ namespace LambdaManager
                 return false;
 
             commands = (from c in root.Descendants("commands").Descendants("command")
-                                      select new LambdaManager.DataType.Command
+                                      select new Command
                                       {
                                           Name = c.Attribute((XName?)"name")?.Value,
                                           Icon = c.Attribute((XName?)"icon")?.Value,
@@ -89,7 +89,7 @@ namespace LambdaManager
                                                          Aysnc = p.Attribute((XName?)"async")?.Value,
                                                          Exports = Split(p.Attribute((XName?)"export")?.Value, ','),
                                                          Actions = (from a in p.Elements("action")
-                                                                    select new LambdaManager.DataType.Action
+                                                                    select new Actions
                                                                     {
                                                                         Name = a.Attribute((XName?)"name")?.Value,
                                                                         Raise = Split(a.Attribute((XName?)"raise")?.Value, '|'),
@@ -169,13 +169,13 @@ namespace LambdaManager
                 foreach (Procedure procedure in procedures)
                 {
                     validate.Check(procedure);
-                    List<LambdaManager.DataType.Action> actions = procedure.Actions;
+                    List<Actions> actions = procedure.Actions;
                     if (actions == null)
                     {
                         continue;
                     }
                     int pos = 0;
-                    foreach (LambdaManager.DataType.Action action in actions)
+                    foreach (Actions action in actions)
                     {
                         action.Index = pos++;
                         validate.Check(action, procedure, component, components);
@@ -283,14 +283,14 @@ namespace LambdaManager
 
             Lib lib = new Lib { Addr = address, Path = path };
             solution.Libs.Add(lib);
-            List<LambdaManager.DataType.Action> actions = validate.GetLocalActions(component);
+            List<Actions> actions = validate.GetLocalActions(component);
             if (actions == null)
             {
                 return;
             }
             for (int i = 0; i < actions.Count; i++)
             {
-                LambdaManager.DataType.Action action = actions[i];
+                Actions action = actions[i];
                 string sigName = action.GetSigName(component);
                 EntryPoint entryPoint = validate.GetEntryPoint(sigName);
                 if (entryPoint == null)
@@ -308,7 +308,7 @@ namespace LambdaManager
             }
         }
 
-        private EntryPoint? ResolveFunction(LambdaManager.DataType.Action action, Component component, Lib lib, ConfigValidate validate)
+        private EntryPoint? ResolveFunction(Actions action, Component component, Lib lib, ConfigValidate validate)
         {
             FunctionResolver resolver = new FunctionResolver(lib);
             IntPtr addr = resolver.GetAddress(action, component);
@@ -343,7 +343,7 @@ namespace LambdaManager
             return entry;
         }
 
-        private static Function SetFunction(LambdaManager.DataType.Action action, EntryPoint entryPoint)
+        private static Function SetFunction(Actions action, EntryPoint entryPoint)
         {
             FunctionResolver functionResolver = new FunctionResolver(null);
             functionResolver.Parse(action);
@@ -440,12 +440,12 @@ namespace LambdaManager
 
         private static void ResolveRotine(Routine routine, Procedure procedure, Component component, ConfigValidate validate)
         {
-            List<LambdaManager.DataType.Action> actions = procedure.Actions;
+            List<Actions> actions = procedure.Actions;
             if (actions == null)
             {
                 return;
             }
-            foreach (LambdaManager.DataType.Action action in actions)
+            foreach (Actions action in actions)
             {
                 List<Function> functions = routine.Functions;
                 if (functions == null)
@@ -481,7 +481,7 @@ namespace LambdaManager
             rountines.Add(routine);
         }
 
-        private static Function? ResolveActionFunction(LambdaManager.DataType.Action action, Procedure procedure, Component? component, ConfigValidate validate)
+        private static Function? ResolveActionFunction(Actions action, Procedure procedure, Component? component, ConfigValidate validate)
         {
             Function function = action.Function;
             if (function == null)
@@ -528,13 +528,13 @@ namespace LambdaManager
             return function;
         }
 
-        private static Function? ResolveActionToFunction(Component component, LambdaManager.DataType.Action action, ConfigValidate validate)
+        private static Function? ResolveActionToFunction(Component component, Actions action, ConfigValidate validate)
         {
-            List<LambdaManager.DataType.Action> actions = validate.GetLocalActions(component);
+            List<Actions> actions = validate.GetLocalActions(component);
             if (actions != null)
             {
                 string sigName = action.GetSigName(component);
-                foreach (LambdaManager.DataType.Action action2 in actions)
+                foreach (Actions action2 in actions)
                 {
                     if (action2.GetSigName(component) == sigName)
                     {
@@ -549,7 +549,7 @@ namespace LambdaManager
             return null;
         }
 
-        private static Function? ResolveActionToExternalFunction(string componentName, LambdaManager.DataType.Action action, ConfigValidate validate)
+        private static Function? ResolveActionToExternalFunction(string componentName, Actions action, ConfigValidate validate)
         {
             Component component = validate.GetComponentOfLocalActions(componentName);
             if (component == null)
@@ -582,7 +582,7 @@ namespace LambdaManager
             return null;
         }
 
-        private static Function? ResolveActionToProcedure(Component component, LambdaManager.DataType.Action action, ConfigValidate validate)
+        private static Function? ResolveActionToProcedure(Component component, Actions action, ConfigValidate validate)
         {
             List<Procedure> procedures = component.Procedures;
             if (procedures != null)
@@ -614,7 +614,7 @@ namespace LambdaManager
             return null;
         }
 
-        private static Function? ResolveProcedureToFunction(LambdaManager.DataType.Action action, Procedure procedure)
+        private static Function? ResolveProcedureToFunction(Actions action, Procedure procedure)
         {
             Routine routine = procedure.Routine;
             if (routine == null)
@@ -631,10 +631,10 @@ namespace LambdaManager
             return function;
         }
 
-        private static List<Link>? ResolveProcedureInput(Procedure procedure, LambdaManager.DataType.Action source, ConfigValidate validate)
+        private static List<Link>? ResolveProcedureInput(Procedure procedure, Actions source, ConfigValidate validate)
         {
             List<Input> inputs = source.Inputs;
-            List<LambdaManager.DataType.Action> actions = procedure.Actions;
+            List<Actions> actions = procedure.Actions;
             if (actions == null || inputs == null)
             {
                 return null;
@@ -656,10 +656,10 @@ namespace LambdaManager
             return links;
         }
 
-        private static List<Link>? TraverseLinkTarget(List<LambdaManager.DataType.Action> actions, IO source, bool sourceTimes, ConfigValidate validate)
+        private static List<Link>? TraverseLinkTarget(List<Actions> actions, IO source, bool sourceTimes, ConfigValidate validate)
         {
             List<Link> matches = new List<Link>();
-            foreach (LambdaManager.DataType.Action target in actions)
+            foreach (Actions target in actions)
             {
                 if (target != null && target.Component != null)
                 {
@@ -670,7 +670,7 @@ namespace LambdaManager
                     continue;
                 }
                 Routine routine = target.Function?.Routine;
-                List<LambdaManager.DataType.Action> actions2 = validate.GetProcedure(routine)?.Actions;
+                List<Actions> actions2 = validate.GetProcedure(routine)?.Actions;
                 if (actions2 != null)
                 {
                     List<Link> matches2 = TraverseLinkTarget(actions2, source, sourceTimes, validate);
@@ -715,7 +715,7 @@ namespace LambdaManager
             return true;
         }
 
-        private static Link? CheckLinkedSource(List<Link> links, LambdaManager.DataType.Action source, int index, ConfigValidate validate)
+        private static Link? CheckLinkedSource(List<Link> links, Actions source, int index, ConfigValidate validate)
         {
             if (links == null)
             {
@@ -730,7 +730,7 @@ namespace LambdaManager
 
         private static void DeferProcessing(ConfigValidate validate)
         {
-            Dictionary<LambdaManager.DataType.Action, Procedure> remains = ResolveDeferActions(validate.GetDeferResolvedActions());
+            Dictionary<Actions, Procedure> remains = ResolveDeferActions(validate.GetDeferResolvedActions());
             int count = 0;
             while (remains.Count > 0)
             {
@@ -741,7 +741,7 @@ namespace LambdaManager
                     continue;
                 }
                 {
-                    foreach (KeyValuePair<LambdaManager.DataType.Action, Procedure> item in remains)
+                    foreach (KeyValuePair<Actions, Procedure> item in remains)
                     {
                         validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, item.Key.Name, "接入点", null);
                     }
@@ -750,12 +750,12 @@ namespace LambdaManager
             }
         }
 
-        private static Dictionary<LambdaManager.DataType.Action, Procedure> ResolveDeferActions(Dictionary<LambdaManager.DataType.Action, Procedure> defers)
+        private static Dictionary<Actions, Procedure> ResolveDeferActions(Dictionary<Actions, Procedure> defers)
         {
-            Dictionary<LambdaManager.DataType.Action, Procedure> remains = new Dictionary<LambdaManager.DataType.Action, Procedure>();
-            foreach (KeyValuePair<LambdaManager.DataType.Action, Procedure> defer in defers)
+            Dictionary<Actions, Procedure> remains = new Dictionary<Actions, Procedure>();
+            foreach (KeyValuePair<Actions, Procedure> defer in defers)
             {
-                LambdaManager.DataType.Action action = defer.Key;
+                Actions action = defer.Key;
                 Procedure procedure = defer.Value;
                 Function function = ResolveProcedureToFunction(action, procedure);
                 if (function == null)
@@ -763,7 +763,7 @@ namespace LambdaManager
                     remains.Add(action, procedure);
                     continue;
                 }
-                List<LambdaManager.DataType.Action> actions = procedure.Actions;
+                List<Actions> actions = procedure.Actions;
                 if (actions != null)
                 {
                     int index = actions.IndexOf(action);
@@ -788,12 +788,12 @@ namespace LambdaManager
                 }
                 foreach (Procedure item in procedures)
                 {
-                    List<LambdaManager.DataType.Action> actions = item.Actions;
+                    List<Actions> actions = item.Actions;
                     if (actions == null)
                     {
                         continue;
                     }
-                    foreach (LambdaManager.DataType.Action item2 in actions)
+                    foreach (Actions item2 in actions)
                     {
                         ResolveActionAsync(item2, validate);
                     }
@@ -801,7 +801,7 @@ namespace LambdaManager
             }
         }
 
-        private static bool ResolveActionAsync(LambdaManager.DataType.Action action, ConfigValidate validate)
+        private static bool ResolveActionAsync(Actions action, ConfigValidate validate)
         {
             Function function = action.Function;
             if (function == null)
@@ -826,7 +826,7 @@ namespace LambdaManager
             {
                 return false;
             }
-            LambdaManager.DataType.Action origin = validate.GetAction(entry);
+            Actions origin = validate.GetAction(entry);
             if (origin == null || origin == action)
             {
                 return false;
@@ -859,7 +859,7 @@ namespace LambdaManager
             }
         }
 
-        private static void ResolveFunctionExports(LambdaManager.DataType.Action action, Function function, Procedure procedure, ConfigValidate validate)
+        private static void ResolveFunctionExports(Actions action, Function function, Procedure procedure, ConfigValidate validate)
         {
             FunctionResolver resolver = new FunctionResolver(null);
             resolver.Parse(action);
@@ -879,9 +879,9 @@ namespace LambdaManager
 
         private static void ResolveActionImports(ConfigValidate validate)
         {
-            foreach (KeyValuePair<LambdaManager.DataType.Action, List<ImportInfo>> pair in validate.GetActionImports())
+            foreach (KeyValuePair<Actions, List<ImportInfo>> pair in validate.GetActionImports())
             {
-                LambdaManager.DataType.Action action = pair.Key;
+                Actions action = pair.Key;
                 List<ImportInfo> infos = pair.Value;
                 Routine routine = action.Function?.Routine;
                 if (routine == null)
@@ -939,7 +939,7 @@ namespace LambdaManager
 
         private static void ResolveProcedureVariables(Procedure procedure, ConfigValidate validate)
         {
-            List<LambdaManager.DataType.Action> actions = procedure.Actions;
+            List<Actions> actions = procedure.Actions;
             if (actions == null)
             {
                 return;
@@ -948,7 +948,7 @@ namespace LambdaManager
             for (int i = 0; i < actions.Count; i++)
             {
                 int j = 0;
-                LambdaManager.DataType.Action target = actions[i];
+                Actions target = actions[i];
                 foreach (IO io in target.IoRange)
                 {
                     List<Link> matches = TraverseLinkSource(actions, io, i, validate);
@@ -969,7 +969,7 @@ namespace LambdaManager
             }
         }
 
-        private static List<Link>? TraverseLinkSource(List<LambdaManager.DataType.Action> actions, IO target, int targetIndex, ConfigValidate validate)
+        private static List<Link>? TraverseLinkSource(List<Actions> actions, IO target, int targetIndex, ConfigValidate validate)
         {
             if (target.Value != null || target.Name == null)
             {
@@ -978,7 +978,7 @@ namespace LambdaManager
             List<Link> matches = new List<Link>();
             for (int i = targetIndex - 1; i >= 0; i--)
             {
-                LambdaManager.DataType.Action source = actions[i];
+                Actions source = actions[i];
                 if (source != null && source.Component != null)
                 {
                     CheckActionOrigin(source, validate);
@@ -1006,14 +1006,14 @@ namespace LambdaManager
             return matches;
         }
 
-        private static LambdaManager.DataType.Action? CheckActionOrigin(LambdaManager.DataType.Action action, ConfigValidate validate)
+        private static Actions? CheckActionOrigin(Actions action, ConfigValidate validate)
         {
             Function function = action.Function;
             if (function == null)
             {
                 return null;
             }
-            LambdaManager.DataType.Action origin = null;
+            Actions origin = null;
             Routine routine = function.Routine;
             if (routine == null)
             {
@@ -1021,7 +1021,7 @@ namespace LambdaManager
             }
             else
             {
-                List<LambdaManager.DataType.Action> actions2 = validate.GetProcedure(routine)?.Actions;
+                List<Actions> actions2 = validate.GetProcedure(routine)?.Actions;
                 if (actions2 != null && actions2.Count > 0)
                 {
                     origin = actions2[0];
@@ -1035,7 +1035,7 @@ namespace LambdaManager
             return origin;
         }
 
-        private static void CopyOriginInputs(LambdaManager.DataType.Action action, List<Input>? inputs, ConfigValidate validate)
+        private static void CopyOriginInputs(Actions action, List<Input>? inputs, ConfigValidate validate)
         {
             List<Input> target = action.Inputs;
             if (target == null)
@@ -1094,7 +1094,7 @@ namespace LambdaManager
             }
         }
 
-        private static Link? CheckLinkedTarget(List<Link> links, LambdaManager.DataType.Action target, int index, ConfigValidate validate)
+        private static Link? CheckLinkedTarget(List<Link> links, Actions target, int index, ConfigValidate validate)
         {
             if (links == null)
             {
@@ -1304,7 +1304,7 @@ namespace LambdaManager
             {
                 return false;
             }
-            List<LambdaManager.DataType.Action> actions = procedure.Actions;
+            List<Actions> actions = procedure.Actions;
             List<string> keys = initial?.Keys ?? procedure.Key ?? procedure.Arg;
             if (actions == null || keys == null)
             {
@@ -1312,7 +1312,7 @@ namespace LambdaManager
             }
             keys = StringUtils.Copy(keys);
             bool result = false;
-            foreach (LambdaManager.DataType.Action action in actions)
+            foreach (Actions action in actions)
             {
                 Function function = action.Function;
                 if (function == null)
@@ -1342,10 +1342,10 @@ namespace LambdaManager
                 }
                 else
                 {
-                    LambdaManager.DataType.Action action2 = CheckActionOrigin(action, validate) ?? action;
+                    Actions action2 = CheckActionOrigin(action, validate) ?? action;
                     Dictionary<int, IO> indexArgs = action2.GetArgIndice(keys);
                     Function source = null;
-                    LambdaManager.DataType.Action target = null;
+                    Actions target = null;
                     if (initial != null)
                     {
                         source = initial!.Function;
@@ -1387,10 +1387,10 @@ namespace LambdaManager
             return result;
         }
 
-        private static Dictionary<int, IO> ResolveVariables(Function source, LambdaManager.DataType.Action target, Dictionary<int, IO> indexArgs, ConfigValidate validate, int group)
+        private static Dictionary<int, IO> ResolveVariables(Function source, Actions target, Dictionary<int, IO> indexArgs, ConfigValidate validate, int group)
         {
             Routine routine = validate.GetRoutine(source);
-            LambdaManager.DataType.Action action = ((source.Routine == null) ? validate.GetVirtualAction(routine) : validate.GetAction(source));
+            Actions action = ((source.Routine == null) ? validate.GetVirtualAction(routine) : validate.GetAction(source));
             Function function = ((source.Routine != null) ? source : action?.Function);
             if (action == null || function == null)
             {
@@ -1427,12 +1427,12 @@ namespace LambdaManager
                 }
                 foreach (Procedure item2 in procedures)
                 {
-                    List<LambdaManager.DataType.Action> actions = item2.Actions;
+                    List<Actions> actions = item2.Actions;
                     if (actions == null)
                     {
                         continue;
                     }
-                    foreach (LambdaManager.DataType.Action item3 in actions)
+                    foreach (Actions item3 in actions)
                     {
                         ResolveEventRaise(item3, validate);
                     }
@@ -1440,7 +1440,7 @@ namespace LambdaManager
             }
         }
 
-        private static void ResolveEventRaise(LambdaManager.DataType.Action action, ConfigValidate validate)
+        private static void ResolveEventRaise(Actions action, ConfigValidate validate)
         {
             List<string> raises = action.Raise;
             if (raises == null)
@@ -1499,7 +1499,7 @@ namespace LambdaManager
             }
         }
 
-        private static Dictionary<string, int>? ResolveRaiseKeys(List<string> keys, bool isKey, LambdaManager.DataType.Action action, LambdaManager.DataType.Action? action0, out bool isJsonString, ConfigValidate validate)
+        private static Dictionary<string, int>? ResolveRaiseKeys(List<string> keys, bool isKey, Actions action, Actions? action0, out bool isJsonString, ConfigValidate validate)
         {
             isJsonString = true;
             Function function = action.Function;
@@ -1507,7 +1507,7 @@ namespace LambdaManager
             {
                 return null;
             }
-            LambdaManager.DataType.Action action2 = validate.GetOriginalAction(function) ?? action;
+            Actions action2 = validate.GetOriginalAction(function) ?? action;
             Dictionary<int, IO> argIndice = action2.GetArgIndice(keys);
             Dictionary<string, int> keyIndice = new Dictionary<string, int>();
             foreach (KeyValuePair<int, IO> pair in argIndice)
@@ -1526,14 +1526,14 @@ namespace LambdaManager
             List<string> remains = keys.Except(keyIndice.Keys).ToList();
             if (remains.Count > 0)
             {
-                List<LambdaManager.DataType.Action> actions = validate.GetProcedure(action2.Function?.Routine)?.Actions;
+                List<Actions> actions = validate.GetProcedure(action2.Function?.Routine)?.Actions;
                 if (actions == null)
                 {
                     validate.ReportNotFound(Severity.ERROR, LambdaManager.DataType.Type.Action, action.Name, "RaiseKeys", remains.ToString());
                     return null;
                 }
                 {
-                    foreach (LambdaManager.DataType.Action action3 in actions)
+                    foreach (Actions action3 in actions)
                     {
                         Dictionary<string, int> keyIndice2 = ResolveRaiseKeys(remains, isKey, action3, action0 ?? action, out isJsonString, validate);
                         if (keyIndice2 != null)
@@ -1580,7 +1580,7 @@ namespace LambdaManager
                     Function function = functions[0];
                     if (function != null)
                     {
-                        LambdaManager.DataType.Action action = procedure.Actions?[0];
+                        Actions action = procedure.Actions?[0];
                         ArgumentType? argType2 = ((arg == null) ? FunctionResolver.GetEventArgType(action) : new ArgumentType?(GetArgumentType(arg)));
                         if (argType2.HasValue)
                         {
@@ -1604,9 +1604,9 @@ namespace LambdaManager
 
         private static void ResolveFunctionArgument(ConfigValidate validate)
         {
-            foreach (KeyValuePair<LambdaManager.DataType.Action, List<int>> pair in validate.GetFunctionArguments())
+            foreach (KeyValuePair<Actions, List<int>> pair in validate.GetFunctionArguments())
             {
-                LambdaManager.DataType.Action action = pair.Key;
+                Actions action = pair.Key;
                 foreach (int index in pair.Value)
                 {
                     Input input = action.Inputs?[index];
@@ -1614,7 +1614,7 @@ namespace LambdaManager
                     {
                         continue;
                     }
-                    LambdaManager.DataType.Action refAction = validate.FindComponentAction(input.Name, input.Value);
+                    Actions refAction = validate.FindComponentAction(input.Name, input.Value);
                     if (refAction == null)
                     {
                         validate.ReportNotFound(Severity.FATAL_ERROR, LambdaManager.DataType.Type.Action, action.Name, "引用的函数", input.Value);

@@ -24,7 +24,7 @@ namespace LambdaManager.Utils
             return oldValue;
         }
 
-        public static void Insert2(List<KeyValuePair<Action, int>?> list, int index, KeyValuePair<Action, int> value)
+        public static void Insert2(List<KeyValuePair<Actions, int>?> list, int index, KeyValuePair<Actions, int> value)
         {
             if (index < list.Count)
             {

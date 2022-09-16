@@ -2,7 +2,7 @@ namespace LambdaManager.DataType;
 
 public class ExportInfo
 {
-	public Action Action { get; set; } = new Action();
+	public Actions Action { get; set; } = new Actions();
 
 
 	public int ExportIndex { get; set; }
