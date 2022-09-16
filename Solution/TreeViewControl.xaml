@@ -29,7 +29,7 @@
             <StackPanel>
                 <UniformGrid Columns="2">
                     <CheckBox Content="支持多个工程" Height="15"  Padding="0" Margin="2" IsChecked="{Binding IsSupportMultiProject}"/>
-                    <Button Content="清空历史记录" Click="Button_Click_3"/>
+   
                 </UniformGrid>
             </StackPanel>
             <TreeView x:Name="SolutionTreeView">

@@ -136,5 +136,10 @@ namespace ConfigSetting
         {
             LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 }});
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

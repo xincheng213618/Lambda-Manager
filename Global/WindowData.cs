@@ -41,7 +41,10 @@ namespace Global
         }
 
         public string SolutionDir{
-            get { return FilePath?[..(FilePath.LastIndexOf("\\") + 1)];     } 
+            get {
+                if (FilePath == null)
+                    return string.Empty;
+                return FilePath?[..(FilePath.LastIndexOf("\\") + 1)]; } 
         }
 
         public string FilePath;
