@@ -365,73 +365,53 @@ namespace Global
 
         private bool OnUpdateStatus(object sender, EventArgs e)
         {
-            try
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            updateStatus.ImageX = eventData.GetString("x");
+            updateStatus.ImageY = eventData.GetString("y");
+            updateStatus.ImageZ = eventData.GetString("z");
+
+            updateStatus.ImageSize = eventData.GetString("size");
+            updateStatus.imageFocus = eventData.GetString("focus");
+            updateStatus.CreateTime = eventData.GetString("createTime");
+            string frameIndex = eventData.GetString("frameIndex");
+            if (frameIndex != null)
             {
-                Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+                updateStatus.FrameIndex = int.Parse(frameIndex);
 
-                if (eventData == null)
-                    return false;
-                updateStatus.ImageX = eventData.GetString("x");
-                updateStatus.ImageY = eventData.GetString("y");
-                updateStatus.ImageZ = eventData.GetString("z");
-                //try
-                //{
-                //    WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
-                //    WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
-                //    WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
-                //}
-                //catch
-                //{
-
-                //}
-
-                updateStatus.ImageSize = eventData.GetString("size");
-                updateStatus.imageFocus = eventData.GetString("focus");
-                updateStatus.CreateTime = eventData.GetString("createTime");
-                string frameIndex = eventData.GetString("frameIndex");
-                if (frameIndex != null)
-                {
-                    updateStatus.FrameIndex = int.Parse(frameIndex);
-
-                }
-
-                string totalFrame = eventData.GetString("totalFrame");
-                if (totalFrame != null)
-                {
-                    try
-                    {
-                        updateStatus.TotalFrame = int.Parse(totalFrame);
-                    }
-                    catch
-                    {
-                        updateStatus.TotalFrame = 0;
-                    }
-                }
-
-                updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
-                updateStatus.TotalTime = eventData.GetString("totalTime");
-                //string sliceIndex = eventData.GetString("sliceIndex");
-                //if (sliceIndex != null)
-                //{
-                //    updateStatus.SliceIndex = int.Parse(sliceIndex);
-                //}
-                //string totalSlice = eventData.GetString("totalSlice");
-                //if (totalSlice != null)
-                //{
-                //    updateStatus.TotalSlice = int.Parse(totalSlice);
-                //}
-                updateStatus.ZTop = eventData.GetString("zTop");
-                updateStatus.ZCurrent = eventData.GetString("zCurrent");
-                updateStatus.ZBottom = eventData.GetString("zBottom");
-                updateStatus.Ratio = eventData.GetString("ratio");
-                updateStatus.FpsState = eventData.GetString("fps");
             }
-            catch(Exception ex)
+
+            string totalFrame = eventData.GetString("totalFrame");
+            if (totalFrame != null)
             {
-                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+                try
+                {
+                    updateStatus.TotalFrame = int.Parse(totalFrame);
+                }
+                catch
+                {
+                    updateStatus.TotalFrame = 0;
+                }
             }
-          
 
+            updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
+            updateStatus.TotalTime = eventData.GetString("totalTime");
+            //string sliceIndex = eventData.GetString("sliceIndex");
+            //if (sliceIndex != null)
+            //{
+            //    updateStatus.SliceIndex = int.Parse(sliceIndex);
+            //}
+            //string totalSlice = eventData.GetString("totalSlice");
+            //if (totalSlice != null)
+            //{
+            //    updateStatus.TotalSlice = int.Parse(totalSlice);
+            //}
+            updateStatus.ZTop = eventData.GetString("zTop");
+            updateStatus.ZCurrent = eventData.GetString("zCurrent");
+            updateStatus.ZBottom = eventData.GetString("zBottom");
+            updateStatus.Ratio = eventData.GetString("ratio");
+            updateStatus.FpsState = eventData.GetString("fps");
             return true;
         }
 

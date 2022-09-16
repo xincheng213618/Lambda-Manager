@@ -51,8 +51,6 @@ namespace Global
 
         public MulDimensional MulDimensional = new();
 
-        public WindowMsg WindowMsg = new WindowMsg();
-
         public Stage Stage = new() {};
 
         public OperatingMode OperatingMode = new();
