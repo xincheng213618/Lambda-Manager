@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lambda;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,6 +125,16 @@ namespace ConfigSetting
         {
             TreeViewItem treeViewItem = sender as TreeViewItem;
             ScrollViewer1.ScrollToVerticalOffset(int.Parse(treeViewItem.Tag.ToString()));
+        }
+
+        private void TreeViewItem_Selected1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("1");
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 }});
         }
     }
 }

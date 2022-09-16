@@ -136,7 +136,7 @@ namespace ConfigObjective
             {
                 return;
             }
-            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal)
+            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal|| e.Key == Key.Subtract)
             {
                 e.Handled = false;
             }

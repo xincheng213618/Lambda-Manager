@@ -471,7 +471,6 @@
                 <Border Margin="5" Height="310"  Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid >
                         <userControls:MapCanvas HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Map" ></userControls:MapCanvas>
-                       
                     </Grid>
                 </Border>
 
