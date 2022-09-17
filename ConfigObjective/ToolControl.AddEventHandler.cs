@@ -162,32 +162,32 @@ namespace ConfigObjective
 			{
 				if (mulDimensional.FocusImageMod.FocusImageModeSel != null)
 				{
-					switch (mulDimensional.FocusImageMod.FocusImageModeSel.mode)
-					{
-						case "明场":
-							testMean.Dimensional.Focusmode.FocusModeSelect = "bright-field";
-							break;
-						case "暗场":
-							testMean.Dimensional.Focusmode.FocusModeSelect = "dark-field";
-							break;
-						case "莱茵":
-							testMean.Dimensional.Focusmode.FocusModeSelect = "rheinberg";
-							break;
+					//switch (mulDimensional.FocusImageMod.FocusImageModeSel.mode)
+					//{
+					//	case "明场":
+					//		testMean.Dimensional.Focusmode.FocusModeSelect = "bright-field";
+					//		break;
+					//	case "暗场":
+					//		testMean.Dimensional.Focusmode.FocusModeSelect = "dark-field";
+					//		break;
+					//	case "莱茵":
+					//		testMean.Dimensional.Focusmode.FocusModeSelect = "rheinberg";
+					//		break;
 
-						case "差分":
-							testMean.Dimensional.Focusmode.FocusModeSelect = "relief-contrast";
-							break;
-						case "相差":
-							testMean.Dimensional.Focusmode.FocusModeSelect = "phase-contrast";
-							break;
-						case "相位":
-							testMean.Dimensional.Focusmode.FocusModeSelect = "quantitative-phase";
-							break;
-						default: /* 可选的 */
-							testMean.Dimensional.Focusmode.FocusModeSelect = "";
-							break;
+					//	case "差分":
+					//		testMean.Dimensional.Focusmode.FocusModeSelect = "relief-contrast";
+					//		break;
+					//	case "相差":
+					//		testMean.Dimensional.Focusmode.FocusModeSelect = "phase-contrast";
+					//		break;
+					//	case "相位":
+					//		testMean.Dimensional.Focusmode.FocusModeSelect = "quantitative-phase";
+					//		break;
+					//	default: /* 可选的 */
+					//		testMean.Dimensional.Focusmode.FocusModeSelect = "";
+					//		break;
 
-					}
+					//}
 
 				}
 
@@ -270,11 +270,9 @@ namespace ConfigObjective
 					
 				}
 				LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
+            }
 
-
-		}
-			
-			return true;
+            return true;
         }
 	}
 }

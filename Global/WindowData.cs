@@ -40,11 +40,14 @@ namespace Global
             AddInjection1();
         }
 
-        public string SolutionDir{
-            get {
+        public string SolutionDir
+        {
+            get
+            {
                 if (FilePath == null)
                     return string.Empty;
-                return FilePath?[..(FilePath.LastIndexOf("\\") + 1)]; } 
+                return FilePath?[..(FilePath.LastIndexOf("\\") + 1)];
+            }
         }
 
         public string FilePath;

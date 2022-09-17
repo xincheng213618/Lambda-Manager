@@ -64,7 +64,11 @@ namespace LambdaManager
 
         public void AddMessage(Message message)
         {
-            TexoBoxMsg.Text += Environment.NewLine + message.Text;
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                TexoBoxMsg.Text += Environment.NewLine + message.Text;
+            });
+
         }
 
         public XElement loadxml()

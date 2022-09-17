@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ConfigObjective
 {
@@ -132,6 +134,7 @@ namespace ConfigObjective
 
         public void NumberValidationTextBox(object sender, KeyEventArgs e)
         {
+
             if (e.Key == Key.Enter || e.Key == Key.Back)
             {
                 return;
@@ -305,7 +308,7 @@ namespace ConfigObjective
 
 
 			testMean.Dimensional.Dimensions = Dimensions.ToString();
-			testMean.Dimensional.Savedir = windowData.SolutionDir;
+			testMean.Dimensional.Savedir = string.Empty;
 
 			testMean.Stage = windowData.Stage;
 			windowData.Config.Dimensional = testMean.Dimensional;

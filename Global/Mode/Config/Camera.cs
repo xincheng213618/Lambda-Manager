@@ -12,6 +12,9 @@ namespace Global.Mode.Config
     [Serializable]
     public class Camera : ViewModelBase
     {
+
+        public int SelectViewMode = 0;
+
         private double gamma = 1.0;
         /// <summary>
         /// 伽玛

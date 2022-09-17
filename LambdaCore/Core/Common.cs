@@ -206,15 +206,24 @@ namespace LambdaManager.Core
 
         public unsafe static int CallEvent(string type, string json, nint sender)
         {
-            sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes(type);
-            sbyte[] pStr = (sbyte[])(object)Encoding.UTF8.GetBytes(json);
-            fixed (sbyte* p = obj)
+            try
             {
-                fixed (sbyte* pData = pStr)
+                sbyte[] obj = (sbyte[])(object)Encoding.UTF8.GetBytes(type);
+                sbyte[] pStr = (sbyte[])(object)Encoding.UTF8.GetBytes(json);
+                fixed (sbyte* p = obj)
                 {
-                    return RaiseEvent(p, 1, (nint)pData, sender);
+                    fixed (sbyte* pData = pStr)
+                    {
+                        return RaiseEvent(p, 1, (nint)pData, sender);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                LambdaControl.Log(new Message() { Severity =Severity.ERROR,Text =ex.Message});
+                return 0;
+            }
+
 
         }
 
