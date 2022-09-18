@@ -3,7 +3,6 @@ using System.Windows.Controls;
 
 namespace Global.Common
 {
-
     //
     // 摘要:
     //     Displays a message box.
