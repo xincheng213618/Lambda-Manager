@@ -15,7 +15,6 @@ namespace HotKey
         public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyyName)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

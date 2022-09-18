@@ -17,7 +17,7 @@ namespace HotKey
 
         public static HotKeyHelper GetInstance()
         {
-            lock (locker) { if (instance == null) { instance = new HotKeyHelper(); } }
+            lock (locker) { instance ??= new HotKeyHelper(); }
             return instance;
         }
 
