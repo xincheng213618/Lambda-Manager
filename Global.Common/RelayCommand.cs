@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace Global.Common
+namespace Global.Common  
 {
     /// <summary>
     /// 中继命令
