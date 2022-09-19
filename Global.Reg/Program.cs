@@ -90,9 +90,9 @@ namespace Global.Reg
 
                 var subKey = reg.CreateSubKey(regPath);
 
-                subKey.SetValue("DumpCount", 1, RegistryValueKind.DWord);//dump文件个数
+                subKey.SetValue("DumpCount", 5, RegistryValueKind.DWord);//dump文件个数
                 subKey.SetValue("DumpFolder", outputDmpPath, RegistryValueKind.ExpandString);//dump文件目录
-                subKey.SetValue("DumpType", 1, RegistryValueKind.DWord);//dump文件类型
+                subKey.SetValue("DumpType", 2, RegistryValueKind.DWord);//dump文件类型
 
             }
             catch (Exception ex)

@@ -477,6 +477,7 @@ int SleepTest() {
 #include <fstream> 
 #include <iostream>
 #include <string>
+#include <imgproc/types_c.h>
 
 
 struct Cellinfo
@@ -535,7 +536,13 @@ int VideoTest() {
 	//j1["caption"] = "Grid1";
 	//Event::Trigger("MessageBox", &j1);
 
-	cv::Mat
+	//cv::Mat Input = cv::imread("11");
+
+	//Mat input1;
+	//cv::Mat input2;
+
+	//cv::cvtColor(Input, input1, CV_RGB2GRAY);
+	//input1.convertTo(input2, CV_32FC1, 1.0 / 255.0);
 
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 
