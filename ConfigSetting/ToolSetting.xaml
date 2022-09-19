@@ -88,36 +88,42 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TreeView x:Name="SolutionTreeView" Height="{Binding Path=ActualHeight,ElementName=grid }">
-                    <TreeViewItem Header="系统配置" FontSize="20" Tag="0" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="系统配置" FontSize="20" Tag="{Binding ElementName=GroupBox1}" Selected="TreeViewItem_Selected"/>
                     <TreeViewItem Header="硬件配置"  FontSize="20"   >
-                        <TreeViewItem Header="光源配置"  FontSize="15" Tag="150" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="载物台配置"  FontSize="15" Tag="300" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="物镜配置"  FontSize="15" Tag="450" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="相机配置"  FontSize="15" Tag="600" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="参数加载与复位"  FontSize="15" Tag="750" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="用户配置" FontSize="15"  Tag="1020" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="存储器配置"  FontSize="15" Tag="1190" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="光源配置" Tag="{Binding ElementName=GroupBox21}"  FontSize="15" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="载物台配置" Tag="{Binding ElementName=GroupBox22}"  FontSize="15"  Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="物镜配置"  FontSize="15" Tag="{Binding ElementName=GroupBox23}" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="相机配置"  FontSize="15" Tag="{Binding ElementName=GroupBox24}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="参数加载与复位"  FontSize="15" Tag="{Binding ElementName=GroupBox25}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="用户配置" FontSize="15"  Tag="{Binding ElementName=GroupBox26}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="存储器配置"  FontSize="15" Tag="{Binding ElementName=GroupBox27}" Selected="TreeViewItem_Selected" />
                     </TreeViewItem>
-                    <TreeViewItem Header="固件升级" FontSize="20"  Tag="1230" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="软件升级" FontSize="20"  Tag="1360" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="自动校准" FontSize="20"  Tag="1700" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="固件升级" FontSize="20"  Tag="{Binding ElementName=GroupBox3}" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="软件升级" FontSize="20"  Tag="{Binding ElementName=GroupBox4}" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="自动校准" FontSize="20"  Tag="{Binding ElementName=GroupBox5}" Selected="TreeViewItem_Selected"/>
                 </TreeView>
 
                 <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="20,0" >
-                    <StackPanel Margin="20,0">
-                        <GroupBox  Style="{DynamicResource GroupBoxStyle1}" Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <UniformGrid Margin="10,5" Height="100"  Columns="5"  >
-                                <Button Margin="20"  Content="主题"  Click="Button_Click"/>
+                    <StackPanel x:Name="StackPanelTreeView" Margin="20,0">
+                        <GroupBox x:Name="GroupBox1"  Style="{DynamicResource GroupBoxStyle1}" Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <UniformGrid Margin="10,5" Height="200"  Columns="5"  Rows="2" >
+                                <StackPanel>
+                                    <DockPanel>
+                                        <Label Content="主题:"/>
+                                        <ComboBox Name="ComboBox1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged"   />
+                                    </DockPanel>
+                                </StackPanel>
                                 <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
                                 <Button Margin="20"   Content="自动校准"  Click="Button_Click_2"/>
                                 <Button Margin="20"   Content="装饰灯关"  Click="Button_Click_3"/>
                                 <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
-
+                                <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
+                                <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>
                             </UniformGrid>
                         </GroupBox>
-                        <GroupBox   Style="{DynamicResource GroupBoxStyle1}" Header="硬件配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                        <GroupBox x:Name="GroupBox2"  Style="{DynamicResource GroupBoxStyle1}" Header="硬件配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel>
-                                <GroupBox  Style="{DynamicResource GroupBoxStyle2}" Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                <GroupBox x:Name="GroupBox21"  Style="{DynamicResource GroupBoxStyle2}" Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                                     <StackPanel Margin="10,5"  >
                                         <TextBlock Text="LED行列数"/>
                                         <TextBlock Text="LED间距"/>
@@ -129,97 +135,55 @@
                                         <TextBlock Text="照明亮度"/>
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox Style="{DynamicResource GroupBoxStyle2}" Header="载物台配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <TextBlock Text="LED行列数"/>
-                                        <TextBlock Text="LED间距"/>
-                                        <TextBlock Text="LED高度"/>
-                                        <TextBlock Text="LED颜色Bit数"/>
-                                        <TextBlock Text="LED中心波长"/>
-                                        <TextBlock Text="照明模式最高刷新速率"/>
-                                        <TextBlock Text="照明最大数值孔径"/>
-                                        <TextBlock Text="照明亮度"/>
+                                <GroupBox x:Name="GroupBox22" Style="{DynamicResource GroupBoxStyle2}" Header="载物台配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                    <StackPanel Margin="10,5" Height="120"  >
+  
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox Style="{DynamicResource GroupBoxStyle2}"  Header="物镜配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <TextBlock Text="LED行列数"/>
-                                        <TextBlock Text="LED间距"/>
-                                        <TextBlock Text="LED高度"/>
-                                        <TextBlock Text="LED颜色Bit数"/>
-                                        <TextBlock Text="LED中心波长"/>
-                                        <TextBlock Text="照明模式最高刷新速率"/>
-                                        <TextBlock Text="照明最大数值孔径"/>
-                                        <TextBlock Text="照明亮度"/>
+                                <GroupBox x:Name="GroupBox23" Style="{DynamicResource GroupBoxStyle2}"  Header="物镜配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                    <StackPanel Margin="10,5"  Height="120" >
+           
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox  Style="{DynamicResource GroupBoxStyle2}" Header="相机配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <TextBlock Text="LED行列数"/>
-                                        <TextBlock Text="LED间距"/>
-                                        <TextBlock Text="LED高度"/>
-                                        <TextBlock Text="LED颜色Bit数"/>
-                                        <TextBlock Text="LED中心波长"/>
-                                        <TextBlock Text="照明模式最高刷新速率"/>
-                                        <TextBlock Text="照明最大数值孔径"/>
-                                        <TextBlock Text="照明亮度"/>
+                                <GroupBox x:Name="GroupBox24" Style="{DynamicResource GroupBoxStyle2}" Header="相机配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                    <StackPanel Margin="10,5" Height="120"  >
+       
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox Style="{DynamicResource GroupBoxStyle2}"  Header="参数加载" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <TextBlock Text="LED行列数"/>
-                                        <TextBlock Text="LED间距"/>
-                                        <TextBlock Text="LED高度"/>
-                                        <TextBlock Text="LED颜色Bit数"/>
-                                        <TextBlock Text="LED中心波长"/>
-                                        <TextBlock Text="照明模式最高刷新速率"/>
-                                        <TextBlock Text="照明最大数值孔径"/>
-                                        <TextBlock Text="照明亮度"/>
+                                <GroupBox x:Name="GroupBox25" Style="{DynamicResource GroupBoxStyle2}"  Header="参数加载" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                    <StackPanel Margin="10,5"  Height="120" >
+
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox Style="{DynamicResource GroupBoxStyle2}"  Header="用户配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <TextBlock Text="LED行列数"/>
-                                        <TextBlock Text="LED间距"/>
-                                        <TextBlock Text="LED高度"/>
-                                        <TextBlock Text="LED颜色Bit数"/>
-                                        <TextBlock Text="LED中心波长"/>
-                                        <TextBlock Text="照明模式最高刷新速率"/>
-                                        <TextBlock Text="照明最大数值孔径"/>
-                                        <TextBlock Text="照明亮度"/>
+                                <GroupBox x:Name="GroupBox26" Style="{DynamicResource GroupBoxStyle2}"  Header="用户配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                    <StackPanel Margin="10,5"  Height="120" >
+    
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox  Style="{DynamicResource GroupBoxStyle2}" Header="存储器配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <TextBlock Text="LED行列数"/>
-                                        <TextBlock Text="LED间距"/>
-                                        <TextBlock Text="LED高度"/>
-                                        <TextBlock Text="LED颜色Bit数"/>
-                                        <TextBlock Text="LED中心波长"/>
-                                        <TextBlock Text="照明模式最高刷新速率"/>
-                                        <TextBlock Text="照明最大数值孔径"/>
-                                        <TextBlock Text="照明亮度"/>
+                                <GroupBox x:Name="GroupBox27" Style="{DynamicResource GroupBoxStyle2}" Header="存储器配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                    <StackPanel Margin="10,5" Height="120"  >
+ 
                                     </StackPanel>
                                 </GroupBox>
                             </StackPanel>
                         </GroupBox>
 
-                        <GroupBox  Style="{DynamicResource GroupBoxStyle1}" Header="固件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <StackPanel Margin="10,5"  Height="140" >
+                        <GroupBox x:Name="GroupBox3"  Style="{DynamicResource GroupBoxStyle1}" Header="固件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"  Height="200" >
                                 
                                 
                                 
     
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Style="{DynamicResource GroupBoxStyle1}"  Header="软件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <StackPanel Margin="10,5"  Height="140" >
+                        <GroupBox x:Name="GroupBox4" Style="{DynamicResource GroupBoxStyle1}"  Header="软件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"  Height="200" >
          
                             </StackPanel>
                         </GroupBox>
 
-                        <GroupBox  Style="{DynamicResource GroupBoxStyle1}" Header="自动校准" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <StackPanel Margin="10,5"  Height="140" >
+                        <GroupBox x:Name="GroupBox5"  Style="{DynamicResource GroupBoxStyle1}" Header="自动校准" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <StackPanel Margin="10,5"  Height="200" >
       
                             </StackPanel>
                         </GroupBox>

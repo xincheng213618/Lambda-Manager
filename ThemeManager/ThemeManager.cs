@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,31 +13,48 @@ namespace ThemeManager
         Dark,
         White
     };
+    public delegate void ThemeChangedEventHandler();
+
+
     /// <summary>
     /// 主题管理器
     /// </summary>
     public static class ThemeManagers
     {
-        public static Theme CurrentUITheme { get; set; } = Theme.Dark;
+        private static Theme _CurrentUITheme = Theme.Dark;
+
+        public static Theme CurrentUITheme
+        {
+            get { return _CurrentUITheme; }
+            set
+            { 
+                if (value != _CurrentUITheme)
+                {
+                    _CurrentUITheme = value;
+                    ThemeChanged?.Invoke();
+                }
+            }
+        }
+
+        public static event ThemeChangedEventHandler ThemeChanged;
 
         public static void ApplyTheme(this Application app, Theme theme)
         {
             CurrentUITheme = theme;
+
+            List<string> ResourceDictionary = new List<string>();
             if (theme == Theme.Dark)
             {
-                foreach (var item in ResourceDictionaryDark)
-                {
-                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                    app.Resources.MergedDictionaries.Add(dictionary);
-                }
+                ResourceDictionary = ResourceDictionaryDark;
             }
             else if (theme == Theme.White)
             {
-                foreach (var item in ResourceDictionaryWhite)
-                {
-                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                    app.Resources.MergedDictionaries.Add(dictionary);
-                }
+                ResourceDictionary = ResourceDictionaryWhite;
+            }
+            foreach (var item in ResourceDictionary)
+            {
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                app.Resources.MergedDictionaries.Add(dictionary);
             }
         }
 

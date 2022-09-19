@@ -29,7 +29,6 @@
             <StackPanel>
                 <UniformGrid Columns="2">
                     <CheckBox Content="支持多个工程" Height="15"  Padding="0" Margin="2" IsChecked="{Binding IsSupportMultiProject}"/>
-   
                 </UniformGrid>
             </StackPanel>
             <TreeView x:Name="SolutionTreeView">

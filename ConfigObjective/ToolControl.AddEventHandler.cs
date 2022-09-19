@@ -222,7 +222,7 @@ namespace ConfigObjective
 
 
 			testMean.Dimensional.Dimensions = Dimensions.ToString();
-			testMean.Dimensional.Savedir = windowData.SolutionDir;
+			testMean.Dimensional.Savedir ="";
 			
 			testMean.Stage = windowData.Stage;
 			windowData.Config.Dimensional = testMean.Dimensional;

@@ -176,6 +176,9 @@ namespace Solution
             {
                 SelectedTreeViewItem = null;
             }
+
+
+
             //if (e.RightButton == MouseButtonState.Pressed)
             //{
             //    HitTestResult result = VisualTreeHelper.HitTest(TreeView1, SelectPoint);
@@ -437,13 +440,6 @@ namespace Solution
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
-
-            //Process p = new Process();
-            //p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            //p.StartInfo.FileName = "Global.Reg.exe";
-            //p.StartInfo.UseShellExecute = true;
-            //p.StartInfo.Verb = "runas";
-            //p.Start();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

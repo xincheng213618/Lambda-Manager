@@ -21,6 +21,7 @@ using LambdaManager.Mode;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
 using Mode;
+using ThemeManager;
 using ThemeManager.Controls;
 
 namespace LambdaManager
@@ -75,6 +76,47 @@ namespace LambdaManager
             performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
+
+
+            MenuItem MenuThemes = new MenuItem() { Header = "主题(_H)" };
+            foreach (var item in Enum.GetValues(typeof(Theme)).Cast<Theme>())
+            {
+                MenuItem menu = new MenuItem()
+                {
+                    Header = item.ToString(),
+                    Tag = item,
+                    IsChecked = ThemeManagers.CurrentUITheme == item,
+                };
+
+                menu.Click += (s, e) =>
+                {
+                    if (s is MenuItem menuItem && menuItem.Tag is Theme theme)
+                    {
+                        Application.Current.ApplyTheme(theme);
+                    }
+                };
+                ThemeManagers.ThemeChanged += delegate 
+                {
+                    foreach (var item in MenuThemes.Items)
+                    {
+                        if (item is MenuItem menuItem)
+                        {
+                            if (menuItem.Tag is Theme theme && theme == ThemeManagers.CurrentUITheme)
+                            {
+                                menuItem.IsChecked = true;
+                            }
+                            else
+                            {
+                                menuItem.IsChecked = false;
+                            }
+                        }
+ 
+                    }
+                };
+                MenuThemes.Items.Add(menu);
+            }
+            menu.Items.Add(MenuThemes);
+
         }
 
         public void ViewChanged(object sender, ViewChangedEvent e)
