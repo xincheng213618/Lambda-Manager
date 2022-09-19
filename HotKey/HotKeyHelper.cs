@@ -44,7 +44,8 @@ namespace HotKey
                     GlobalHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
                 }
                 else
-                {
+                { 
+
                     WindowHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey,hotKeys.hotKeyHandler);
                 }
             }       

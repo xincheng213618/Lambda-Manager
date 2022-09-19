@@ -1,6 +1,8 @@
-﻿using System;
+﻿using HotKey.GlobalHotKey;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,16 +16,39 @@ namespace HotKey.WindowHotKey
 
     public class WindowHotKeyManager
     {
-        public static Dictionary<Window, WindowHotKeyManager> Instance = new Dictionary<Window, WindowHotKeyManager>(); 
+        public static Dictionary<Window, WindowHotKeyManager> Instance = new Dictionary<Window, WindowHotKeyManager>();
+
+        private static readonly object locker = new object();
 
         public Window window;
 
-        public WindowHotKeyManager(Window window)
+        private WindowHotKeyManager(Window window)
         {
             this.window = window;
             Instance.Add(window, this);
             HotKeysList = new List<HotKeys>();
         }
+
+        private static WindowHotKeyManager instance;
+
+        public static WindowHotKeyManager GetInstance(Window window)
+        {
+            lock (locker)
+            {
+                if (Instance.ContainsKey(window))
+                {
+                    return Instance[window];
+                }
+                else
+                {
+                    instance = new WindowHotKeyManager(window);
+                }
+            }
+            return instance;
+        }
+
+
+
 
         public List<HotKeys> HotKeysList;
 

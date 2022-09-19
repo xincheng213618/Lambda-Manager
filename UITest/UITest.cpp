@@ -534,6 +534,9 @@ int VideoTest() {
 	//j1["messageBoxText"] = "显示一个MessageBox";
 	//j1["caption"] = "Grid1";
 	//Event::Trigger("MessageBox", &j1);
+
+	cv::Mat
+
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 
 	return 0;
