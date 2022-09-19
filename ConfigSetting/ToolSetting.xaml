@@ -45,12 +45,6 @@
 
 
 
-        <Style x:Key="TreeViewItem1" TargetType="{x:Type TreeViewItem}">
-            <Setter Property="FontSize" Value="20"/>
-        </Style>
-        <Style x:Key="TreeViewItem2" TargetType="{x:Type TreeViewItem}">
-            <Setter Property="FontSize" Value="15"/>
-        </Style>
         <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
         <Style x:Key="GroupBoxStyle1" TargetType="{x:Type GroupBox}">
             <Setter Property="BorderThickness" Value="2"/>
@@ -61,7 +55,7 @@
                             <Border x:Name="Header" Grid.Column="1" Padding="3,1,3,0" Grid.RowSpan="2" Grid.Row="0">
                                 <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" TextBlock.FontSize="20"  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Border>
-                            <Border Background="White" Height="2" Margin="0,5,0,0"/>
+                            <Border Background="{DynamicResource ForegroundBrush}" Height="2" Margin="0,5,0,0"/>
                             <ContentPresenter Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" Grid.Row="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </StackPanel>
                     </ControlTemplate>
@@ -94,19 +88,19 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TreeView x:Name="SolutionTreeView" Height="{Binding Path=ActualHeight,ElementName=grid }">
-                    <TreeViewItem Header="系统配置" Style="{DynamicResource TreeViewItem1}"  Tag="0" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="硬件配置" Style="{DynamicResource TreeViewItem1}" FontSize="20"   >
-                        <TreeViewItem Header="光源配置" Style="{DynamicResource TreeViewItem2}" Tag="150" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="载物台配置" Style="{DynamicResource TreeViewItem2}" Tag="300" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="物镜配置" Style="{DynamicResource TreeViewItem2}" Tag="450" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="相机配置" Style="{DynamicResource TreeViewItem2}" Tag="600" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="参数加载与复位" Style="{DynamicResource TreeViewItem2}" Tag="750" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="用户配置" Style="{DynamicResource TreeViewItem2}" Tag="1020" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="存储器配置" Style="{DynamicResource TreeViewItem2}" Tag="1190" Selected="TreeViewItem_Selected" />
+                    <TreeViewItem Header="系统配置" FontSize="20" Tag="0" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="硬件配置"  FontSize="20"   >
+                        <TreeViewItem Header="光源配置"  FontSize="15" Tag="150" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="载物台配置"  FontSize="15" Tag="300" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="物镜配置"  FontSize="15" Tag="450" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="相机配置"  FontSize="15" Tag="600" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="参数加载与复位"  FontSize="15" Tag="750" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="用户配置" FontSize="15"  Tag="1020" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="存储器配置"  FontSize="15" Tag="1190" Selected="TreeViewItem_Selected" />
                     </TreeViewItem>
-                    <TreeViewItem Header="固件升级" Style="{DynamicResource TreeViewItem1}"  Tag="1230" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="软件升级" Style="{DynamicResource TreeViewItem1}"  Tag="1360" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="自动校准" Style="{DynamicResource TreeViewItem1}"  Tag="1700" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="固件升级" FontSize="20"  Tag="1230" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="软件升级" FontSize="20"  Tag="1360" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="自动校准" FontSize="20"  Tag="1700" Selected="TreeViewItem_Selected"/>
                 </TreeView>
 
                 <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="20,0" >
