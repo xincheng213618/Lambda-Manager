@@ -92,6 +92,8 @@ namespace ConfigObjective.UserControls
         private void UserControl_Initialized(object sender, EventArgs e)
         {
             LambdaControl.AddLambdaEventHandler("TestDataEvent", TestDataEvent, false);
+           // mapCanvas.Source = null;
+
         }
 
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]

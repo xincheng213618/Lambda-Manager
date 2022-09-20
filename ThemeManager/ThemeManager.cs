@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ThemeManager
 {
@@ -42,7 +36,7 @@ namespace ThemeManager
         {
             CurrentUITheme = theme;
 
-            List<string> ResourceDictionary = new List<string>();
+            List<string> ResourceDictionary = new();
             if (theme == Theme.Dark)
             {
                 ResourceDictionary = ResourceDictionaryDark;

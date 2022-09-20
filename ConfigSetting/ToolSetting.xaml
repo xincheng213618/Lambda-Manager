@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Initialized="UserControl_Initialized" d:Height="720" d:Width="1280"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
-
         <Style x:Key="SettingButton" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Background" Value="{DynamicResource ButtonBorder}"/>

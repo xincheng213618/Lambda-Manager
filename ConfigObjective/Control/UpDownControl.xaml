@@ -55,12 +55,12 @@
             <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
         </Style>
     </UserControl.Resources>
-    <Border Background="#565B5A" Height="24"  BorderBrush="#333333" BorderThickness="1" CornerRadius="3">
+    <Border Height="24"  BorderBrush="#333333" BorderThickness="1" CornerRadius="3">
         <Border.Effect>
             <DropShadowEffect Color="White" Direction="270" Opacity="0.2" ShadowDepth="1"  />
         </Border.Effect> 
         <DockPanel DockPanel.Dock="Right"  Visibility ="Visible">
-            <DockPanel Width="20"  DockPanel.Dock="Left" Margin="0,0,0,0">
+            <DockPanel Width="20"  DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="Collapsed">
                 <RepeatButton Style="{DynamicResource RepeatButtonStyle1}" x:Name="btn_ClickUp" Click="btn_ClickUp_Click" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White" FontFamily="Marlett" Content="5" Height="13" Margin="-2"/>
 
                 <RepeatButton Style="{DynamicResource RepeatButtonStyle1}" x:Name="btn_ClickDown" Click="btn_ClickDown_Click" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6" Height="13" Margin="-2" />

@@ -32,6 +32,8 @@ namespace Global
         public void AddImageConfident(Image image1, int viewindex)
         {
             DrawInkMethod inkMethod = new DrawInkMethod();
+
+
             InkVisual inkVisual = new InkVisual(viewindex, image1, ImageViewState.toolTop, inkMethod);
             if (image1.Parent is Grid grid0)
             {
