@@ -20,26 +20,12 @@ using Global.Common.Extensions;
 namespace Solution
 {
 
-    public class TreeViewSetting : ViewModelBase
-    {
-
-        public bool isSupportMultiProject = false;
-        public bool IsSupportMultiProject
-        {
-            get { return isSupportMultiProject; }
-            set { isSupportMultiProject = value;NotifyPropertyChanged(); } 
-        }
-
-
-    }
-
-
     /// <summary>
     /// TreeViewControl.xaml 的交互逻辑
     /// </summary>
     public partial class TreeViewControl : UserControl
     {
-        TreeViewSetting treeViewSetting = new TreeViewSetting();
+
         public TreeViewControl()
         {
             Window window = Application.Current.MainWindow;
@@ -47,7 +33,7 @@ namespace Solution
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
-            this.DataContext = treeViewSetting;
+            this.DataContext = SolutionConfig.treeViewSetting;
         }
 
         bool IsFirstLoad = true;
@@ -96,10 +82,9 @@ namespace Solution
             set { solutionFullName = value;}
         }
 
-
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (treeViewSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
+            if (SolutionConfig.treeViewSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
             {
                 MessageBox1.Show(Application.Current.MainWindow,"多工程情况下参数自动保存");
             }
@@ -219,7 +204,7 @@ namespace Solution
             OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
             openSolutionWindow.Closed += (s, e) =>
             {
-                if (treeViewSetting.isSupportMultiProject)
+                if (SolutionConfig.treeViewSetting.IsSupportMultiProject)
                 {
                     string FullName = openSolutionWindow.FullName;
 
@@ -457,7 +442,7 @@ namespace Solution
 
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
-                    TreeViewInitialized(SolutionFullName,!treeViewSetting.isSupportMultiProject);
+                    TreeViewInitialized(SolutionFullName,!SolutionConfig.treeViewSetting.IsSupportMultiProject);
 
 
                 }
@@ -473,7 +458,7 @@ namespace Solution
         private void Close_Click(object sender, RoutedEventArgs e)
         {
 
-            if (treeViewSetting.isSupportMultiProject&&LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
+            if (SolutionConfig.treeViewSetting.IsSupportMultiProject && LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
             {
                 SolutionExplorers.Remove(solutionExplorer);
             }

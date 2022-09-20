@@ -102,8 +102,8 @@
                     <TreeViewItem Header="自动校准" FontSize="16"  Tag="{Binding ElementName=GroupBox5}" Selected="TreeViewItem_Selected"/>
                 </TreeView>
 
-                <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="20,0,0,0" >
-                    <StackPanel x:Name="StackPanelTreeView" Margin="20,0">
+                <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="0,0,0,0" >
+                    <StackPanel x:Name="StackPanelTreeView" Margin="0,0,20,0">
                         <GroupBox x:Name="GroupBox1"  Style="{DynamicResource GroupBoxStyle1}" Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <UniformGrid Margin="10,5" Height="200"  Columns="5"  Rows="2" >
                                 <StackPanel>
@@ -111,6 +111,7 @@
                                         <Label Content="主题:"/>
                                         <ComboBox Name="ComboBox1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged"   />
                                     </DockPanel>
+                                    <CheckBox x:Name="CheckBox1" Content="支持多个工程" Height="15"  Padding="0" Margin="2" IsChecked="{Binding IsSupportMultiProject}"/>
                                 </StackPanel>
                                 <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
                                 <Button Margin="20"   Content="自动校准"  Click="Button_Click_2"/>

@@ -1,4 +1,5 @@
 ﻿using ConfigSetting.Configure;
+using Global.Common;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -110,6 +111,8 @@ namespace ConfigSetting
                             new FirmwareUpdate() { Name = "stageMod3333e", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618888888888888" }
                         };
                         ListView1.ItemsSource = firmwareUpdates;
+
+                        CheckBox1.DataContext = SolutionConfig.treeViewSetting;
                     }
 
                 }
@@ -170,7 +173,6 @@ namespace ConfigSetting
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-
         }
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
