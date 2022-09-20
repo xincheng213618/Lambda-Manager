@@ -143,7 +143,7 @@
     <Style TargetType="{x:Type Window}">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
         <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
-        
+
     </Style>
     <!-- Necessary for Blend designer for UserControls -->
     <Style TargetType="{x:Type UserControl}">
@@ -591,7 +591,7 @@
 							ViewportSize="{TemplateBinding ViewportWidth}"
 							Style="{DynamicResource HorisontalScrollBarStyle}"/>
                     </Grid>
-                </ControlTemplate>    
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -2295,14 +2295,6 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource MouseOverListItem}"/>
                         </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="true"/>
-                                <Condition Property="IsSelectionActive" Value="false"/>
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                        </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{StaticResource TreeViewDisabledForeground}"/>
                         </Trigger>
@@ -2438,15 +2430,7 @@
                                 </Setter.Value>
                             </Setter>
                             <Setter Property="Fill" TargetName="arrow" Value="Transparent"/>
-                            
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="true"/>
-                                <Condition Property="IsChecked" Value="true"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Fill" TargetName="arrow" Value="{StaticResource Expander.MouseOver.Arrow.Stroke}"/>
-                        </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>

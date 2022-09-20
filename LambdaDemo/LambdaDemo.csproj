@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AboutMsg\AboutMsg.csproj" />
+    <ProjectReference Include="..\ACE\ACE.csproj" />
+    <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\ConfigSetting\ConfigSetting.csproj" />
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
     <ProjectReference Include="..\Solution\Solution.csproj" />
   </ItemGroup>

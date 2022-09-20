@@ -81,28 +81,28 @@
     </UserControl.Resources>
     <Grid >
         <Border Background="{DynamicResource GlobalBackgroundBrush}"  >
-            <Grid x:Name="grid" Margin="20">
+            <Grid x:Name="grid" Margin="0,10">
                 <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="200"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TreeView x:Name="SolutionTreeView" Height="{Binding Path=ActualHeight,ElementName=grid }">
-                    <TreeViewItem Header="系统配置" FontSize="20" Tag="{Binding ElementName=GroupBox1}" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="硬件配置"  FontSize="20"   >
-                        <TreeViewItem Header="光源配置" Tag="{Binding ElementName=GroupBox21}"  FontSize="15" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="载物台配置" Tag="{Binding ElementName=GroupBox22}"  FontSize="15"  Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="物镜配置"  FontSize="15" Tag="{Binding ElementName=GroupBox23}" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="相机配置"  FontSize="15" Tag="{Binding ElementName=GroupBox24}" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="参数加载与复位"  FontSize="15" Tag="{Binding ElementName=GroupBox25}" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="用户配置" FontSize="15"  Tag="{Binding ElementName=GroupBox26}" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="存储器配置"  FontSize="15" Tag="{Binding ElementName=GroupBox27}" Selected="TreeViewItem_Selected" />
+                    <TreeViewItem Header="系统配置" FontSize="16" Tag="{Binding ElementName=GroupBox1}" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="硬件配置"  FontSize="16"   >
+                        <TreeViewItem Header="光源配置" Tag="{Binding ElementName=GroupBox21}"  Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="载物台配置" Tag="{Binding ElementName=GroupBox22}"   Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="物镜配置"   Tag="{Binding ElementName=GroupBox23}" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="相机配置" Tag="{Binding ElementName=GroupBox24}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="参数加载与复位"  Tag="{Binding ElementName=GroupBox25}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="用户配置" Tag="{Binding ElementName=GroupBox26}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="存储器配置" Tag="{Binding ElementName=GroupBox27}" Selected="TreeViewItem_Selected" />
                     </TreeViewItem>
-                    <TreeViewItem Header="固件升级" FontSize="20"  Tag="{Binding ElementName=GroupBox3}" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="软件升级" FontSize="20"  Tag="{Binding ElementName=GroupBox4}" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="自动校准" FontSize="20"  Tag="{Binding ElementName=GroupBox5}" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="固件更新" FontSize="16"  Tag="{Binding ElementName=GroupBox3}" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="软件升级" FontSize="16"  Tag="{Binding ElementName=GroupBox4}" Selected="TreeViewItem_Selected"/>
+                    <TreeViewItem Header="自动校准" FontSize="16"  Tag="{Binding ElementName=GroupBox5}" Selected="TreeViewItem_Selected"/>
                 </TreeView>
 
-                <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="20,0" >
+                <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="20,0,0,0" >
                     <StackPanel x:Name="StackPanelTreeView" Margin="20,0">
                         <GroupBox x:Name="GroupBox1"  Style="{DynamicResource GroupBoxStyle1}" Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <UniformGrid Margin="10,5" Height="200"  Columns="5"  Rows="2" >
@@ -167,22 +167,55 @@
                             </StackPanel>
                         </GroupBox>
 
-                        <GroupBox x:Name="GroupBox3"  Style="{DynamicResource GroupBoxStyle1}" Header="固件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <StackPanel Margin="10,5"  Height="200" >
-                                
-                                
-                                
-    
-                            </StackPanel>
+                        <GroupBox x:Name="GroupBox3"  Style="{DynamicResource GroupBoxStyle1}" Header="固件更新" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                            <Grid Margin="10,5" Height="550">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <ScrollViewer  Grid.Row="1"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                    <ListView  x:Name="ListView1"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                                        <ListView.View>
+                                            <GridView   >
+                                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
+                                                    <GridViewColumn.CellTemplate  >
+                                                        <DataTemplate >
+                                                            <Border   Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
+                                                                <Grid Margin="0,2,30,2" >
+                                                                    <Grid Grid.Column="1" Margin="2">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Column="0" Text="{Binding Path = Name}" TextTrimming = "CharacterEllipsis" FontWeight="Bold" />
+                                                                        <TextBlock Grid.Column="1" Text="{Binding Path = Version}" TextTrimming = "CharacterEllipsis" />
+                                                                        <TextBlock Grid.Column="2" Text="{Binding Path = UpdateSize}" TextTrimming = "CharacterEllipsis" />
+                                                                        <TextBlock Grid.Column="3" Text="{Binding Path = UpdateTime}" TextTrimming = "CharacterEllipsis" />
+                                                                        <Button  Grid.Column="4"  Content="更新"  Tag="{Binding .}"  Click="Button_Click"/>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+
+                                </ScrollViewer>
+
+                            </Grid>
                         </GroupBox>
                         <GroupBox x:Name="GroupBox4" Style="{DynamicResource GroupBoxStyle1}"  Header="软件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <StackPanel Margin="10,5"  Height="200" >
+                            <StackPanel Margin="10,5"  Height="500" >
          
                             </StackPanel>
                         </GroupBox>
 
                         <GroupBox x:Name="GroupBox5"  Style="{DynamicResource GroupBoxStyle1}" Header="自动校准" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <StackPanel Margin="10,5"  Height="200" >
+                            <StackPanel Margin="10,5"  Height="500" >
       
                             </StackPanel>
                         </GroupBox>
@@ -193,6 +226,8 @@
             </Grid>
 
         </Border>
+        <Border Background="{DynamicResource ForegroundBrush}" Height="2" Margin="5" VerticalAlignment="Top" Opacity="0.3"/>
+
 
 
     </Grid>

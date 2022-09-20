@@ -1,6 +1,8 @@
-﻿using Lambda;
+﻿using ConfigSetting.Configure;
+using Lambda;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -19,6 +21,8 @@ namespace ConfigSetting
         {
             InitializeComponent();
         }
+
+        public ObservableCollection<FirmwareUpdate> firmwareUpdates;
 
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -79,6 +83,33 @@ namespace ConfigSetting
                             ComboBox1.SelectedItem = ThemeManagers.CurrentUITheme;
                         };
 
+                        firmwareUpdates = new ObservableCollection<FirmwareUpdate>
+                        {
+                            new FirmwareUpdate() { Name = "stageModule", Version = "5.00", UpdateSize = "55 MB", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618" },
+                            new FirmwareUpdate() { Name = "CamerModudle", Version = "1.00", UpdateSize = "155 MB", UpdateTime = "20220509" ,UpdateUrl ="https://github.com/2222222" },
+                            new FirmwareUpdate() { Name = "Serial port Mode", Version = "2.10", UpdateSize = "255 MB", UpdateTime = "20220109" ,UpdateUrl ="https://github.com/xincheng213618222222" },
+                            new FirmwareUpdate() { Name = "Led", Version = "1.45", UpdateSize = "124 KB", UpdateTime = "20220909" ,UpdateUrl ="https://github.com/xincheng213618888888888888" },
+                             new FirmwareUpdate() { Name = "差分算法", Version = "3.20", UpdateSize = "1.5 GB", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618" },
+                            new FirmwareUpdate() { Name = "相位算法", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/2222222" },
+                            new FirmwareUpdate() { Name = "等差算法", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618222222" },
+                            new FirmwareUpdate() { Name = "采集", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618888888888888" },
+                            new FirmwareUpdate() { Name = "多模态", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618" },
+                            new FirmwareUpdate() { Name = "stageMode1", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/2222222" },
+                            new FirmwareUpdate() { Name = "stageMode2", Version = "01.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618222222" },
+                            new FirmwareUpdate() { Name = "stageMod3333e", Version = "0.00", UpdateSize = "22222", UpdateTime = "a222222" ,UpdateUrl ="https://github.com/xincheng213618888888888888" },
+                            new FirmwareUpdate() { Name = "stageMode1", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/2222222" },
+                            new FirmwareUpdate() { Name = "stageMode2", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618222222" },
+                            new FirmwareUpdate() { Name = "stageMod3333e", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618888888888888" },
+                            new FirmwareUpdate() { Name = "stageMode", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618" },
+                            new FirmwareUpdate() { Name = "stageMode1", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/2222222" },
+                            new FirmwareUpdate() { Name = "stageMode2", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618222222" },
+                            new FirmwareUpdate() { Name = "stageMod3333e", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618888888888888" },
+                            new FirmwareUpdate() { Name = "stageMode", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618" },
+                            new FirmwareUpdate() { Name = "stageMode1", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/2222222" },
+                            new FirmwareUpdate() { Name = "stageMode2", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618222222" },
+                            new FirmwareUpdate() { Name = "stageMod3333e", Version = "0.00", UpdateSize = "22222", UpdateTime = "222222" ,UpdateUrl ="https://github.com/xincheng213618888888888888" }
+                        };
+                        ListView1.ItemsSource = firmwareUpdates;
                     }
 
                 }
@@ -152,6 +183,7 @@ namespace ConfigSetting
 
         public void Button_Click_6(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("实验内容，点击后请确认给予权限");
             Process p = new Process();
             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             p.StartInfo.FileName = "Global.Reg.exe";
@@ -167,6 +199,12 @@ namespace ConfigSetting
 
         }
 
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is FirmwareUpdate firmwareUpdate)
+            {
+                MessageBox.Show(firmwareUpdate.UpdateUrl);
+            }
+        }
     }
 }
