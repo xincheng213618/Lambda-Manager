@@ -88,7 +88,6 @@ namespace ConfigObjective
                         Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", windowData.deviceInformation.CameraExpose[(int)Slider212.Value] } };
                         LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
                     }
-
                 }
             }
             else

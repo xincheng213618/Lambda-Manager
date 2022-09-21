@@ -1,7 +1,14 @@
 ## [1.1.10] - 2022-09-21
 
 - 迁移工程中的的配置信息✔
+
 - 调整updowncontrol✔
+
+- 移除ListViewItem 中 RelativeSource AncestorType={x:Type ItemsControl}，引起的警告✔
+
+- 解决WPF绘制矢量图形模糊的问题✔
+
+  http://www.codebaoku.com/it-csharp/it-csharp-253237.html
 
 ## [1.1.9] - 2022-09-19
 
