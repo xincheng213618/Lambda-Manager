@@ -65,10 +65,8 @@
                 </GeometryGroup>
             </Path.Data>
         </Path>
-        <Line Stroke="white" Canvas.Top="0" Canvas.Left="150" SnapsToDevicePixels="True" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="150" X2="300" Y2="150" />
-        <Line Stroke="White" Canvas.Top="0" Canvas.Left="150" SnapsToDevicePixels="True" StrokeDashArray="4" StrokeThickness="1" X1="150" Y1="2" X2="150" Y2="300"/>
-       
-       
-        
+        <Line Stroke="white"  Canvas.Top="0" Canvas.Left="150" SnapsToDevicePixels="False" StrokeDashArray="5"  StrokeThickness="1" X1="2" Y1="150" X2="300" Y2="150" />
+        <Line Stroke="White" Canvas.Top="0" Canvas.Left="150" SnapsToDevicePixels="False" StrokeDashArray="4" StrokeThickness="1" X1="150" Y1="2" X2="150" Y2="300"/>
+
     </Grid>
 </UserControl>

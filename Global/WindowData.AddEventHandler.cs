@@ -471,11 +471,11 @@ namespace Global
             if (eventData == null)
                 return false;
 
-            updateStatus.Window = eventData.GetString("windowstatus");
+            string windowstatus = eventData.GetString("windowstatus");
 
             try
             {
-                foreach (var item in updateStatus.Window.Split(";"))
+                foreach (var item in windowstatus.Split(";"))
                 {
                     string[] views = item.Split(",");
                     if (views.Length == 2)
