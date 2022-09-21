@@ -89,13 +89,13 @@
                 <TreeView x:Name="SolutionTreeView" Height="{Binding Path=ActualHeight,ElementName=grid }">
                     <TreeViewItem Header="系统配置" FontSize="16" Tag="{Binding ElementName=GroupBox1}" Selected="TreeViewItem_Selected"/>
                     <TreeViewItem Header="硬件配置"  FontSize="16"   >
-                        <TreeViewItem Header="光源配置" Tag="{Binding ElementName=GroupBox21}"  Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="载物台配置" Tag="{Binding ElementName=GroupBox22}"   Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="物镜配置"   Tag="{Binding ElementName=GroupBox23}" Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="相机配置" Tag="{Binding ElementName=GroupBox24}" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="参数加载与复位"  Tag="{Binding ElementName=GroupBox25}" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="用户配置" Tag="{Binding ElementName=GroupBox26}" Selected="TreeViewItem_Selected" />
-                        <TreeViewItem Header="存储器配置" Tag="{Binding ElementName=GroupBox27}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="光源配置" FontSize="14" Tag="{Binding ElementName=GroupBox21}"  Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="载物台配置" FontSize="14" Tag="{Binding ElementName=GroupBox22}"   Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="物镜配置"  FontSize="14"  Tag="{Binding ElementName=GroupBox23}" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="相机配置" FontSize="14" Tag="{Binding ElementName=GroupBox24}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="参数加载与复位" FontSize="14"  Tag="{Binding ElementName=GroupBox25}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="用户配置" FontSize="14" Tag="{Binding ElementName=GroupBox26}" Selected="TreeViewItem_Selected" />
+                        <TreeViewItem Header="存储器配置" FontSize="14" Tag="{Binding ElementName=GroupBox27}" Selected="TreeViewItem_Selected" />
                     </TreeViewItem>
                     <TreeViewItem Header="固件更新" FontSize="16"  Tag="{Binding ElementName=GroupBox3}" Selected="TreeViewItem_Selected"/>
                     <TreeViewItem Header="软件升级" FontSize="16"  Tag="{Binding ElementName=GroupBox4}" Selected="TreeViewItem_Selected"/>

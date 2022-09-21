@@ -1827,8 +1827,6 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Padding" Value="4,1"/>
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -1921,8 +1919,6 @@
     </Style>
 
     <Style x:Key="GridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Padding" Value="4,0,0,0"/>
         <Setter Property="Background" Value="{StaticResource GridViewColumnHeaderBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource GridViewColumnHeaderBorderBackground}"/>
@@ -2921,8 +2917,6 @@
     </ControlTemplate>
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"></Setter>
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="MinHeight" Value="21"/>
@@ -3009,8 +3003,6 @@
     </Style>
     <Style TargetType="{x:Type ListBoxItem}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Padding" Value="2,0,0,0"/>
         <Setter Property="Template">
             <Setter.Value>

@@ -164,7 +164,6 @@ namespace ConfigObjective
 
         //修改滑块的时候会触发两次，所以在这里加一个Tigger用来屏蔽掉第二次的触发，这里得(未来)重写。
         bool sliderfirst = true;
-
         /// <summary>
         /// SliderAbbreviation(int)
         /// </summary>

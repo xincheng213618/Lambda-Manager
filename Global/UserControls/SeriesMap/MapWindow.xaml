@@ -9,16 +9,14 @@
         mc:Ignorable="d"
         Height="340" Width="455" Background="#3A3A3A" ResizeMode="NoResize" WindowStartupLocation="Manual" Foreground="White" >
     <Window.Resources>
-
         <ResourceDictionary Source="/Global;component/Themes/ListView.xaml" ></ResourceDictionary>
-
     </Window.Resources>
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="采集点位置信息"  FontSize="16"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-20,0,0"></TextBlock>
+        <TextBlock Text="采集点位置信息"  FontSize="16"  HorizontalAlignment="Left"  WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Top" Margin="10,-20,0,0"></TextBlock>
         <Grid Grid.Column="0" VerticalAlignment="Top" Margin="5,10,0,5" >
             <Canvas Background="#7e7e7e" x:Name="mapCanvas" Width="300" Height="300" MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown"   >
               <!--  <Image  Width="{Binding ActualWidth, ElementName=mapCanvas}" Height="{Binding ActualHeight, ElementName=mapCanvas}" Stretch="Fill" Source="/Global;component/UserControls/Image/startpicture1.png" />-->
@@ -36,16 +34,12 @@
 
         </Grid>
         <Grid Grid.Column="1" Width="130" Margin="20,0,0,0" >
-
-            <ListView  Background="#3A3A3A" x:Name="listview" Loaded="listView_Loaded" Grid.RowSpan="2" SelectionChanged="listview_SelectionChanged"     >
-
+            <ListView  Background="#3A3A3A" x:Name="listview" Grid.RowSpan="2" SelectionChanged="listview_SelectionChanged"     >
                 <ListView.View >
                     <GridView >
                         <GridViewColumn Header="序号" Width="35"  DisplayMemberBinding="{Binding Index}" >
-
                         </GridViewColumn>
                         <GridViewColumn Header="坐标" Width="70" DisplayMemberBinding="{Binding PointXY}" >
-
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
@@ -53,6 +47,7 @@
             </ListView>
 
         </Grid>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="23,291,0,0" Click="Button_Click" VerticalAlignment="Top"/>
 
     </Grid>
 

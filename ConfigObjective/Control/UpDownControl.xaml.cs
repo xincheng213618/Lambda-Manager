@@ -26,8 +26,6 @@ namespace ConfigObjective
         {
             InitializeComponent();
             txt_NamberChange.DataContext = this;
-
-
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

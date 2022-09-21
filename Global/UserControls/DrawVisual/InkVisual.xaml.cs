@@ -39,7 +39,9 @@ namespace Global.UserControls.DrawVisual
             // imagingView = ImagingView;
             topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
             this.image = image1;
-            this.index=index1;
+            this.index = index1;
+
+
             ToolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
             {
 

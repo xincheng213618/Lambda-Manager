@@ -10,3 +10,9 @@ http://www.codebaoku.com/it-csharp/it-csharp-253237.html
 
 
 
+RelativeSource binding in ItemsControl doesn't work  样式切换时
+
+https://stackoverflow.com/questions/69958065/relativesource-binding-in-itemscontrol-doesnt-work
+
+
+
