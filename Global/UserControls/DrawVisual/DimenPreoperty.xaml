@@ -375,7 +375,7 @@
                             </StackPanel>
                         </Expander.Header>
                         
-                        <controls:ColorCanvas Width="390" Margin="-4,10,2,0" Name="colorCanvas" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
+                        <controls:ColorCanvas Width="390" Margin="-4,10,2,0" SnapsToDevicePixels="False" Name="colorCanvas" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
                         <!-- <userControl:ColorPicker ></userControl:ColorPicker> -->
                     </Expander>
                     <Grid Height="30"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="45,0,0,0" >

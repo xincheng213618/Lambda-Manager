@@ -36,9 +36,7 @@ namespace ConfigObjective
                 IsFirstUpdate = false;
                 MessageBox1.Show("根据参数更新","Grid");
             }
-
             CameraSetting_Update();
-            ObjectiveSetting_Update();
             OperatingMode_Update();
             Stage_Update();
             MulDimensional_Update();
@@ -65,7 +63,7 @@ namespace ConfigObjective
             IsFirstUpdate = true;
 
             ComboBox1.ItemsSource = windowData.deviceInformation.CameraResolution;
-            UpDownControl1.SelectedIndex = 60;
+
 
             #region slider
             SliderAbbreviation(Slider311, "BRIGHT_FIELD_DIAMETER", "diameter");

@@ -41,14 +41,14 @@
                 <ColumnDefinition Width="145" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Button MouseDoubleClick="Button_MouseDoubleClick"  BorderThickness="0" Padding="0" Margin="5,5,5,5">
-                    <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
-                </Button>
+                <Grid>
+                    <Button MouseDoubleClick="Button_MouseDoubleClick"  BorderThickness="0" Padding="0" Margin="5,5,5,5">
+                        <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
+                    </Button>
+                </Grid>
                 <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" >
                     <MenuItem Header="文件(_F)"/>
-
-                    <MenuItem Header="帮助(_H)">
-                    </MenuItem>
+                    <MenuItem Header="帮助(_H)"/>
                 </Menu>
             </StackPanel>
             

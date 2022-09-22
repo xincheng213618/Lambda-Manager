@@ -9,10 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Image\application-logo-3.0.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
     <ProjectReference Include="..\Wizard\Wizard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Image\application-logo-3.0.png" />
   </ItemGroup>
 
 </Project>

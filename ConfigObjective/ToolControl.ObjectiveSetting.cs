@@ -13,12 +13,8 @@ namespace ConfigObjective
     {
         private void ObjectiveSetting_Initialize()
         {
-
-        }
-        private void ObjectiveSetting_Update()
-        {
             ObjectiveSettingStackPanel.Children.Clear();
-            foreach (var item in windowData.ObjectiveSettingList)
+            foreach (var item in windowData.deviceInformation.ObjectiveSettings)
             {
                 RadioButton radioButton = new RadioButton
                 {
@@ -40,6 +36,10 @@ namespace ConfigObjective
                 };
                 ObjectiveSettingStackPanel.Children.Add(radioButton);
             }
+        }
+        private void ObjectiveSetting_Update()
+        {
+
         }
 
 

@@ -25,7 +25,8 @@ namespace Global
         }
 
         public DeviceInformation deviceInformation = new DeviceInformation();
-        public List<ObjectiveSetting> ObjectiveSettingList = new List<ObjectiveSetting>();
+        public ExposureViewMode ExposureViewMode = new ExposureViewMode();
+
         public MapModel mapModel = new MapModel();
 
         private WindowData()
