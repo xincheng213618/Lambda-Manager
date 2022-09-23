@@ -52,10 +52,11 @@ namespace Global.Hardware
         public ExposureViewMode()
         {
         }
-
+        public bool IsBackGroundChanged = false;
 
         public void SetValue(double Exposure)
         {
+            IsBackGroundChanged = true;
             if (exposure> ExposureInfos[ExposureInfos.Count - 1].Exposure)
             {
                 index = ExposureInfos.Count - 1;
@@ -80,6 +81,7 @@ namespace Global.Hardware
                     break;
                 }
             }
+            IsBackGroundChanged = false;
         }
 
 

@@ -100,9 +100,11 @@ namespace ConfigObjective
                     if (Border2.DataContext is Camera cameraSetting)
                     {
                          windowData.ExposureViewMode.Index = cameraSetting.Exposure;
-
-                        Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", windowData.ExposureViewMode.Exposure } };
-                        LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
+                        if (!windowData.ExposureViewMode.IsBackGroundChanged)
+                        {
+                            Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", windowData.ExposureViewMode.Exposure } };
+                            LambdaControl.Dispatch("CAMERA_SETTING_EXPOSURE", this, data);
+                        }
                     }
                 }
             }
