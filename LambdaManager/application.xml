@@ -1,13 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<main title="NJUST-SCIL多模显微镜" left="300" middle="closed" maximize="true">
-	
-	
-	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册(_R)"/>
-	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于(_A)"/>
-	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
-	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
-	<component name="ToolSetting" lib="ConfigSetting.dll" mount="PROCESS:0"/>
+<root title="NJUST-SCIL多模显微镜" left="300" middle="closed" maximize="true">
 
+	<singlecompoent path ="application1.xml"/>
 	
 	<component name="UITest" lib="lib\UITest.dll">
 
@@ -520,5 +514,4 @@
 			</action>
 		</procedure>
 	</component>
-
-</main>
+</root>

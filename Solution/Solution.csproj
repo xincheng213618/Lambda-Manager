@@ -40,6 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
+    <ProjectReference Include="..\Register\Register.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 

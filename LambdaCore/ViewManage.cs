@@ -30,9 +30,7 @@ namespace LambdaCore
             return instance;
         }
 
-
-
-        public ViewChangedEventHandler ViewChanged;
+        public event ViewChangedEventHandler ViewChanged;
 
 
         public void Add(View view)
@@ -72,10 +70,5 @@ namespace LambdaCore
                 Start = DateTime.Now;
             }
         }
-
-
-
-
-
     }
 }

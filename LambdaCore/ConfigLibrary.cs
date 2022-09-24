@@ -5,8 +5,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Shapes;
 using System.Xml.Linq;
 using Lambda;
+using LambdaCore.DataType;
 using LambdaManager.Config;
 using LambdaManager.Core;
 using LambdaManager.DataType;
@@ -33,6 +35,8 @@ namespace LambdaManager
         void LoadMenuCommand(string name, List<string> raises);
     }
 
+
+
     public class ConfigLibrary
     {
         private readonly Solution solution = FunctionExecutor.Solution;
@@ -54,23 +58,22 @@ namespace LambdaManager
         }
         private List<Command> commands = new List<Command>();
         private List<Component> all;
-
         private ConfigValidate validate;
 
         public bool Load(XElement root)
         {
             if (root == null)
-                return false;
+                return false;    
 
             commands = (from c in root.Descendants("commands").Descendants("command")
-                                      select new Command
-                                      {
-                                          Name = c.Attribute((XName?)"name")?.Value,
-                                          Icon = c.Attribute((XName?)"icon")?.Value,
-                                          Raise = Split(c.Attribute((XName?)"raise")?.Value, '|')
-                                      }).ToList();
+                        select new Command
+                        {  
+                            Name = c.Attribute((XName?)"name")?.Value,
+                            Icon = c.Attribute((XName?)"icon")?.Value,
+                            Raise = Split(c.Attribute((XName?)"raise")?.Value, '|')
+                        }).ToList();
             all = (from c in root.Descendants("component")
-                                   select new Component
+                   select new Component
                                    {
                                        Name = c.Attribute((XName?)"name")?.Value,
                                        Lib = c.Attribute((XName?)"lib")?.Value,
@@ -117,9 +120,17 @@ namespace LambdaManager
                                                                     }).ToList()
                                                      }).ToList()
                                    }).ToList();
+
+
+            List<SingleCompoent> singleCompoent = (from c in root.Descendants("singlecompoent")
+                                                   select new SingleCompoent
+                                                   {
+                                                       Path = c.Attribute((XName?)"path")?.Value,
+                                                   }).ToList();
+
+            LoadSingleCompoent(singleCompoent);
             validate = ValidateConfiguration(all);
             LoadComponents(all, validate);
-
 
 
             LoadProcedures(all, validate);
@@ -134,8 +145,87 @@ namespace LambdaManager
             ResolveFunctionArgument(validate);
             RefineSolutionFunctionRaise();
             InitializeScheduler();
-            //InitializeLibrary();
             return validate.Severity < Severity.FATAL_ERROR;
+        }
+
+        public void LoadSingleCompoent(List<SingleCompoent> singleCompoent)
+        {
+            foreach (var item in singleCompoent)
+            {
+                if (File.Exists(item.Path))
+                {
+                    XElement root = XDocument.Load(item.Path).Root;
+                    if (root != null)
+                    {
+                        List<Command> commands = new List<Command>();
+                        List<Component> all =   new List<Component>();
+                        commands = (from c in root.Descendants("commands").Descendants("command")
+                                    select new Command
+                                    {
+                                        Name = c.Attribute((XName?)"name")?.Value,
+                                        Icon = c.Attribute((XName?)"icon")?.Value,
+                                        Raise = Split(c.Attribute((XName?)"raise")?.Value, '|')
+                                    }).ToList();
+
+                        all = (from c in root.Descendants("component")
+                               select new Component
+                               {
+                                   Name = c.Attribute((XName?)"name")?.Value,
+                                   Lib = c.Attribute((XName?)"lib")?.Value,
+                                   Init = Split(c.Attribute((XName?)"init")?.Value, ','),
+                                   Mount = c.Attribute((XName?)"mount")?.Value,
+                                   Depend = Split(c.Attribute((XName?)"depend")?.Value, ','),
+                                   Procedures = (from p in c.Elements("procedure")
+                                                 select new Procedure
+                                                 {
+                                                     Name = p.Attribute((XName?)"name")?.Value,
+                                                     Icon = p.Attribute((XName?)"icon")?.Value,
+                                                     Event = Split(p.Attribute((XName?)"event")?.Value, '|'),
+                                                     Key = Split(p.Attribute((XName?)"key")?.Value, ','),
+                                                     Arg = Split(p.Attribute((XName?)"arg")?.Value, ','),
+                                                     Timer = p.Attribute((XName?)"timer")?.Value,
+                                                     Aysnc = p.Attribute((XName?)"async")?.Value,
+                                                     Exports = Split(p.Attribute((XName?)"export")?.Value, ','),
+                                                     Actions = (from a in p.Elements("action")
+                                                                select new Actions
+                                                                {
+                                                                    Name = a.Attribute((XName?)"name")?.Value,
+                                                                    Raise = Split(a.Attribute((XName?)"raise")?.Value, '|'),
+                                                                    Key = Split(a.Attribute((XName?)"key")?.Value, ','),
+                                                                    Arg = Split(a.Attribute((XName?)"arg")?.Value, ','),
+                                                                    Value = a.Attribute((XName?)"value")?.Value,
+                                                                    Component = a.Attribute((XName?)"component")?.Value,
+                                                                    Times = Convert.ToInt32(a.Attribute((XName?)"times")?.Value ?? "1"),
+                                                                    Inputs = (from i in a.Elements("input")
+                                                                              select new Input
+                                                                              {
+                                                                                  Name = i.Attribute((XName?)"name")?.Value,
+                                                                                  Type = i.Attribute((XName?)"type")?.Value,
+                                                                                  Value = i.Attribute((XName?)"value")?.Value,
+                                                                                  For = i.Attribute((XName?)"for")?.Value
+                                                                              }).ToList(),
+                                                                    Outputs = (from o in a.Elements("output")
+                                                                               select new Output
+                                                                               {
+                                                                                   Name = o.Attribute((XName?)"name")?.Value,
+                                                                                   Type = o.Attribute((XName?)"type")?.Value,
+                                                                                   Value = o.Attribute((XName?)"value")?.Value
+                                                                               }).ToList(),
+                                                                    Aysnc = a.Attribute((XName?)"async")?.Value
+                                                                }).ToList()
+                                                 }).ToList()
+                               }).ToList();
+
+                        this.all.AddRange(all);
+                        this.commands.AddRange(commands);
+                    }
+                }
+                else
+                {
+                    Log.LogWrite(new Message(Severity.ERROR, $"’“≤ªµΩ{item.Path}"));
+                }
+            }
+
         }
 
 
