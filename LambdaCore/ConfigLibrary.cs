@@ -59,7 +59,6 @@ namespace LambdaManager
         private List<Command> commands = new List<Command>();
         private List<Component> all;
         private ConfigValidate validate;
-
         public bool Load(XElement root)
         {
             if (root == null)
@@ -150,6 +149,8 @@ namespace LambdaManager
 
         public void LoadSingleCompoent(List<SingleCompoent> singleCompoent)
         {
+            if (singleCompoent == null)
+                return;
             foreach (var item in singleCompoent)
             {
                 if (File.Exists(item.Path))
@@ -222,7 +223,7 @@ namespace LambdaManager
                 }
                 else
                 {
-                    Log.LogWrite(new Message(Severity.ERROR, $"找不到{item.Path}"));
+                    Log.LogWrite(new Message() { Severity = Severity.ERROR, Text = $"找不到{item.Path}" });
                 }
             }
 
