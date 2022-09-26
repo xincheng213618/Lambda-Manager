@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Data;
 using Global.Common.Util;
 using Global.Common;
+using System.Timers;
 
 namespace ConfigObjective
 {
@@ -103,8 +104,8 @@ namespace ConfigObjective
             //相位
 
             //正则化参数
-            SliderAbbreviation1(Slider351, "QUANTITATIVE_PHASE_REG", "regularization");
-
+            // SliderAbbreviation1(Slider351, "QUANTITATIVE_PHASE_REG", "regularization");
+           
             //Min
             SliderAbbreviation1(Slider353, "QUANTITATIVE_PHASE_MIN", "min");
             // Max
@@ -261,12 +262,12 @@ namespace ConfigObjective
 
         private void ToggleButton222_Checked(object sender, RoutedEventArgs e)
         {
-            windowData.MulDimensional.TInterval = ">>";
+           // windowData.MulDimensional.TInterval = ">>";
         }
 
         private void ToggleButton221_Checked(object sender, RoutedEventArgs e)
         {
-            windowData.MulDimensional.TNumber = 0;
+             windowData.MulDimensional.TNumber = -1;
         }
 
         private void ToggleButton504_Checked(object sender, RoutedEventArgs e)
@@ -299,15 +300,61 @@ namespace ConfigObjective
         private void ToggleButton5221_Unchecked(object sender, RoutedEventArgs e)
         {
             ZAbsolute.Text = "Z-绝对坐标";
-            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 } , { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
-        }
+            LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 }, { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
 
 
 
        
         private void ToggleButton222_Unchecked(object sender, RoutedEventArgs e)
         {
-            windowData.MulDimensional.TInterval = "0";
+          windowData.MulDimensional.TInterval = "-1";
+        }
+        private static Dictionary<string, Timer> timers = new Dictionary<string, Timer>();
+        //延时触发实现
+        public static void AddEventTimer(string type, int millis, ElapsedEventHandler callback)
+        {
+            if (timers.TryGetValue(type, out var value))
+            {
+                value.Enabled = false;
+                timers.Remove(type);
+            }
+            Timer timer = new Timer(millis);
+            timer.Elapsed += callback;
+            //timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            timer.AutoReset = false;
+            timer.Enabled = true;
+            timer.Start();
+            timers.Add(type, timer);
+        }
+
+
+        
+        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            
+            //Application.Current.Dispatcher.Invoke(delegate
+            //{
+            //    WaitContorl.GetInstance().Hidden();
+            //});
+
+            Dictionary<string, object> data = new() { { "regularization", (double)windowData.OperatingMode.QuantitativePhase.Regularization * 0.01 } };
+            LambdaControl.Trigger("QUANTITATIVE_PHASE_REG", Slider351, data);
+           // MessageBox.Show(e.SignalTime.ToString());
+
+
+        }
+
+
+
+        private void Slider351_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            AddEventTimer("351", 300, OnTimedEvent);
+
+        }
+
+        private void ToggleButton221_Unchecked(object sender, RoutedEventArgs e)
+        {
+          //  windowData.MulDimensional.TNumber = -1;
         }
     }
 

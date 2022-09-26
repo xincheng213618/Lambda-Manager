@@ -17,6 +17,7 @@ namespace Global
 		private bool _italic = false;
 		private bool _underLine = false;
 		private bool _autoColor = false;
+		private int _dashSelectedIndex = 0;
 		private int _dimSelectedIndex = 0;
 		private FontFamily _fontFamily = new FontFamily("Arial");
 		private int _fontSize = 16;
@@ -26,6 +27,7 @@ namespace Global
 		private bool _labPosShow = false;
 		private bool _dimShapeCombo = false;
 		private int _lineWidth = 2;
+		private bool _LineProEnable = true;
 
 		#endregion fields
 		public DimenViewModel()
@@ -82,12 +84,21 @@ namespace Global
 				}
 			}
 		}
+		public bool LineProEnable
+        {
+			get { return _LineProEnable; }
+			set
+			{
+				if (_LineProEnable != value)
+				{
+					_LineProEnable = value;
+					RaisePropertyChanged(nameof(LineProEnable));
+				}
+			}
+		}
 
 
-
-
-
-		public int FontSize
+        public int FontSize
 		{
 			get { return _fontSize; }
 			set
@@ -129,7 +140,7 @@ namespace Global
 				}
 			}
 		}
-
+		
 		 public bool LabelPosShow
 		{
 			get { return _labPosShow; }
@@ -201,6 +212,25 @@ namespace Global
 					_dimSelectedIndex = value;
 					//Console.WriteLine()
 					RaisePropertyChanged(nameof(DimSelectedIndex));
+				}
+
+			}
+
+		}
+		public int DashSelectedIndex
+		{
+			get
+			{
+				return _dashSelectedIndex;
+
+			}
+			set
+			{
+				if (_dashSelectedIndex != value)
+				{
+					_dashSelectedIndex = value;
+					//Console.WriteLine()
+					RaisePropertyChanged(nameof(DashSelectedIndex));
 				}
 
 			}

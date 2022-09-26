@@ -48,14 +48,14 @@ namespace Global
                     // MessageBox.Show("1111");
                     if (e.PropertyName == "FocusChecked")
                     {
-                        //if (ImageViewState.toolTop.FocusChecked)
-                        //{
-                        //    inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.Select;
-                        //}
-                        //else
-                        //{
-                        //    inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                        //}
+                        if (ImageViewState.toolTop.FocusChecked)
+                        {
+                            inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+                        }
+                        else
+                        {
+                            inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                        }
 
 
                     }
@@ -94,10 +94,6 @@ namespace Global
                            
                         }
                     }
-
-
-
-
 
                     else if ( (bool)ImageViewState.toolTop.ArrowChecked || (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
                     {
@@ -262,6 +258,7 @@ namespace Global
                     {
                         if (w is MapWindow)
                         {
+                          
                             isMapWindowshow = true;
                             w.Activate();
                         };
@@ -269,6 +266,9 @@ namespace Global
                     }
                     if (!isMapWindowshow)
                     {
+                       // MessageBox.Show(MapWindow.SeriesPoints.Count.ToString());
+                        if (MapWindow.SeriesPoints.Count == 0)
+                            return;
                         MapWindow mapWindow = new MapWindow();
                         Point point= bottomPlace.PointToScreen(new Point(0, 0));
                         //Point point = bottomPlace.TransformToAncestor(mainwin).Transform(new Point(0, 0));
@@ -285,7 +285,7 @@ namespace Global
                         double y = point.Y/ dpiyRatio - mapWindow.ActualHeight - 3;
                         mapWindow.Left = x;
                         mapWindow.Top = y;
-                        mapWindow.DrawPointRec(mapWindow.SeriesPoints);
+                        mapWindow.DrawPointRec(MapWindow.SeriesPoints);
 
                         mainwin.Closing += delegate
                         {
@@ -304,6 +304,7 @@ namespace Global
             {
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
+          
 
 
 

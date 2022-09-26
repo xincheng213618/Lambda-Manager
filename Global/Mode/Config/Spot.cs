@@ -103,11 +103,11 @@ namespace Global.Mode.Config
     public class TimeWiseSerial 
     {
         [JsonPropertyName("times")]
-        public int Times { get; set; } = 0;
+        public int Times { get; set; } = -1;
         [JsonPropertyName("duration")]
-        public string Duration { get; set; } = "0";
+        public string Duration { get; set; } = "-1";
         [JsonPropertyName("mode")]
-        public String Mode { get; set; } = "s";
+        public String Mode { get; set; } = "h";
 
     }
 

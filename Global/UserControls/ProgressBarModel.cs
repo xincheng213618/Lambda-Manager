@@ -81,7 +81,7 @@ namespace Global
 				}
 			}
 		}
-		private double maxMumZ = 5;
+		private double maxMumZ = 0;
 
 		public double MaxMumZ
 		{
@@ -96,7 +96,7 @@ namespace Global
 			}
 		}
 
-		private double currentZ = 1;
+		private double currentZ = 0;
 
 		public double CurrentZ
 		{
@@ -111,7 +111,7 @@ namespace Global
 			}
 		}
 
-		private double loadingMaxZ = 3;
+		private double loadingMaxZ = 0;
 
 		public double LoadingMaxZ
 		{

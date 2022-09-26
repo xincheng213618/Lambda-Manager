@@ -7,9 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ConfigObjective
 {
@@ -17,12 +15,12 @@ namespace ConfigObjective
     {
         public void MulDimensional_Initialize()
         {
-			//StackPanelMul.DataContext = windowData.MulDimensional;
-			//focusModePanel.DataContext = windowData.MulDimensional;
-			//focusModeLab.DataContext = windowData.MulDimensional;
-			MulSummaryUniformGrid.DataContext = windowData.mulSummary;
-			//CollectionMode.DataContext = windowData.MulDimensional;
-			multiCollectionStack.DataContext = windowData.MulDimensional;
+            //StackPanelMul.DataContext = windowData.MulDimensional;
+            //focusModePanel.DataContext = windowData.MulDimensional;
+            //focusModeLab.DataContext = windowData.MulDimensional;
+            MulSummaryUniformGrid.DataContext = windowData.mulSummary;
+            //CollectionMode.DataContext = windowData.MulDimensional;
+            multiCollectionStack.DataContext = windowData.MulDimensional;
             windowData.MulDimensional.PropertyChanged += delegate
             {
 				MulCollectionUpdate();
@@ -54,9 +52,9 @@ namespace ConfigObjective
             TextBoxZStep.Text = MulDimensional.Zstep.ToString();
             var timeWiseSerial = windowData.Config.Dimensional.TimeWiseSerial;
 
-            MulDimensional.TNumberEnable = timeWiseSerial.Times == 0;
+            MulDimensional.TNumberEnable = timeWiseSerial.Times == -1;
             MulDimensional.TNumber = timeWiseSerial.Times;
-            MulDimensional.TIntervalEnable = timeWiseSerial.Duration == "0";
+            MulDimensional.TIntervalEnable = timeWiseSerial.Duration == "-1";
             MulDimensional.TInterval = timeWiseSerial.Duration;
 
             var Dimensions = windowData.Config.Dimensional.Dimensions;
@@ -90,12 +88,14 @@ namespace ConfigObjective
         }
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
+           // windowData.MulDimensional.ZEnd = windowData.WindowMsg.StageZ;
 
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 1 }, { "value", windowData.MulDimensional.ZEnd }, { "zstart", 0 }, { "zend", 0 } });
         }
 
         private void UpdateMulZstart_Click(object sender, RoutedEventArgs e)
         {
+           // windowData.MulDimensional.ZStart = windowData.WindowMsg.StageZ;
 
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 0 }, { "value", windowData.MulDimensional.ZStart } ,{ "zstart", 0 }, { "zend", 0 } });
 
@@ -105,6 +105,7 @@ namespace ConfigObjective
         private void UpdateMulZStep_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("算法计算");
+           // windowData.MulDimensional.Zstep = 400;
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 2 }, { "value", 0 }, { "zstart", 0 }, { "zend", 0 } });
 
 
@@ -134,14 +135,17 @@ namespace ConfigObjective
 
         public void NumberValidationTextBox(object sender, KeyEventArgs e)
         {
+			
 
-            if (e.Key == Key.Enter || e.Key == Key.Back)
+			if (e.Key == Key.Enter || e.Key == Key.Back)
             {
                 return;
             }
-            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal|| e.Key == Key.Subtract)
+            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal)
             {
-                e.Handled = false;
+				
+
+				e.Handled = false;
             }
             else
             {
@@ -149,7 +153,48 @@ namespace ConfigObjective
             }
         }
 
-		public  void  MulCollectionUpdate( )
+		public void NumberValidationTextBoxNegative(object sender, KeyEventArgs e)
+		{
+
+
+			if (e.Key == Key.Enter || e.Key == Key.Back)
+			{
+				return;
+			}
+            if (windowData.MulDimensional.ZAbsolute)
+            {
+				if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal || e.Key == Key.Subtract || e.Key == Key.OemMinus)
+				{
+
+					e.Handled = false;
+				}
+				else
+				{
+					e.Handled = true;
+				}
+
+			}
+            else
+            {
+				if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal )
+				{
+
+					e.Handled = false;
+				}
+				else
+				{
+					e.Handled = true;
+				}
+			}
+			
+		}
+
+
+
+
+
+
+		public void  MulCollectionUpdate( )
 		{
 			
 			var mulDimensional = windowData.MulDimensional;
@@ -253,9 +298,6 @@ namespace ConfigObjective
 
 			testMean.Dimensional.Focusmode.Pwise = pwise;
 
-
-
-
 			testMean.Dimensional.Focusmode.Optimized = optimized;
 
 			timeWiseSerial.Times = mulDimensional.TNumberEnable ? -1 : mulDimensional.TNumber;
@@ -281,11 +323,45 @@ namespace ConfigObjective
 					timeWiseSerial.Mode = "s";
 					break;
 			}
+            //MessageBox.Show("5555");
+            if (mulDimensional.FocusImageMod != null)
+            {
+                if (mulDimensional.FocusImageMod.FocusImageModeSel != null)
+                {
+					switch (mulDimensional.FocusImageMod.FocusImageModeSel.mode)
+					{
+						case "明场":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "bright";
+							break;
+						case "暗场":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "dark";
+							break;
+						case "莱茵":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "rheinberg";
+							break;
+
+						case "差分":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "relief-contrast";
+							break;
+						case "相差":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "quantitative-phase";
+							break;
+						case "相位":
+							testMean.Dimensional.Focusmode.FocusModeSelect = "phase";
+							break;
+						default: /* 可选的 */
+							testMean.Dimensional.Focusmode.FocusModeSelect = "";
+							break;
+
+					}
+
+				}
+
+			}
 
 
 
-
-			testMean.Dimensional.TimeWiseSerial = timeWiseSerial;
+            testMean.Dimensional.TimeWiseSerial = timeWiseSerial;
 
 			Global.Mode.Config.ZstackWiseSerial zstackWiseSerial = new Global.Mode.Config.ZstackWiseSerial();
 			zstackWiseSerial.ZStep = mulDimensional.Zstep;
@@ -308,7 +384,7 @@ namespace ConfigObjective
 
 
 			testMean.Dimensional.Dimensions = Dimensions.ToString();
-			testMean.Dimensional.Savedir = string.Empty;
+			testMean.Dimensional.Savedir = "";
 
 			testMean.Stage = windowData.Stage;
 			windowData.Config.Dimensional = testMean.Dimensional;

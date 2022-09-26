@@ -353,6 +353,34 @@ namespace Global.Mode.Config
             }
         }
 
+        private int aFSlices = 7;
+       // [JsonPropertyName("Z-Start")]
+        public int AFSlices
+        {
+            get { return aFSlices; }
+            set
+            {
+                aFSlices = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private int aFSlicesGap = 11;
+        // [JsonPropertyName("Z-Start")]
+        public int AFSlicesGap
+        {
+            get { return aFSlicesGap; }
+            set
+            {
+                aFSlicesGap = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+
+
+
         private bool tEnable = false;
 
         public bool TEnable
@@ -367,7 +395,7 @@ namespace Global.Mode.Config
 
         public bool TNumberEnable { get; set; } = false;
 
-        private int tNumber = 15;
+        private int tNumber = -1;
 
         [JsonPropertyName("T-Number")]
         public int TNumber
@@ -396,7 +424,7 @@ namespace Global.Mode.Config
         }
 
 
-        private string tInterval = "16";
+        private string tInterval = "-1";
 
         [JsonPropertyName("T-Interva")]
         public string TInterval

@@ -303,12 +303,11 @@
                     <Ellipse Width="5"  Height="5" StrokeThickness="1" Stroke="White" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,25,0" ></Ellipse>
                 </Grid>
 
-                <Grid Grid.Row="3">
-                    <StackPanel Orientation="Horizontal">
+                <Grid Grid.Row="3"  >
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding LineProEnable}" >
                         <StackPanel Orientation="Horizontal">
                             <Label Content="线型" FontSize="12" Foreground="White" VerticalAlignment="Top" Margin="5,2,0,0" ></Label>
-                            <ComboBox   FontSize="12" Name="LineShapeCombo" BorderThickness="0.6" Width="100"  SelectedIndex="{Binding DimSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25" IsEnabled="{Binding DimShapeCombo}" HorizontalAlignment="Left" Margin="36,0,0,0" SelectionChanged="ComboBox_SelectionChanged"  >
-                          
+                            <ComboBox   FontSize="12" Name="LineShapeCombo" BorderThickness="0.6" Width="100"  SelectedIndex="{Binding DashSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Left" Margin="36,0,0,0" SelectionChanged="ComboBox_SelectionChanged"  >
                                 <ComboBoxItem Tag="A" Foreground="White" Height="23">
                                     <Path Stroke="White" StrokeThickness="1">
                                         <Path.Data >
@@ -375,7 +374,7 @@
                             </StackPanel>
                         </Expander.Header>
                         
-                        <controls:ColorCanvas Width="390" Margin="-4,10,2,0" SnapsToDevicePixels="False" Name="colorCanvas" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
+                        <controls:ColorCanvas Width="390" Margin="-4,10,2,0" Name="colorCanvas" SelectedColor="{Binding SelectedAccentColor}" ></controls:ColorCanvas>
                         <!-- <userControl:ColorPicker ></userControl:ColorPicker> -->
                     </Expander>
                     <Grid Height="30"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="45,0,0,0" >
@@ -468,16 +467,16 @@
                                             <TextBlock Text="形状" FontSize="15" Margin="5,0"></TextBlock>
                                         </GridViewColumn.Header>
                                     </GridViewColumn>
-                                    <GridViewColumn  Width="85"  DisplayMemberBinding="{Binding}" >
+                                    <!--<GridViewColumn  Width="85"  DisplayMemberBinding="{x:Null}">
                                         <GridViewColumn.Header>
                                             <TextBlock Text="参数" FontSize="15" Margin="5,0"></TextBlock>
                                         </GridViewColumn.Header>
                                     </GridViewColumn>
-                                    <GridViewColumn   Width="85"  DisplayMemberBinding="{Binding }" >
+                                    <GridViewColumn   Width="85" DisplayMemberBinding="{x:Null}"  >
                                         <GridViewColumn.Header>
                                             <TextBlock Text="其他" FontSize="15" Margin="5,0"></TextBlock>
                                         </GridViewColumn.Header>
-                                    </GridViewColumn>
+                                    </GridViewColumn>-->
                                 </GridView>
                             </ListView.View>
 

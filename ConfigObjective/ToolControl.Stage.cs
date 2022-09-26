@@ -40,7 +40,6 @@ namespace ConfigObjective
         {
             WaitContorl.GetInstance().Show();
             WaitContorl.GetInstance().textBox.Text = "位移台校准中";
-            WaitContorl.GetInstance().ShowTimeOut = 60000;
             LambdaControl.Dispatch("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
         }
 

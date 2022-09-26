@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Global.Common.Extensions;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Dynamic;
 
 
 namespace Solution
@@ -481,6 +482,9 @@ namespace Solution
             recentFileList.Clear();
         }
 
+
+        
+
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             Excel.Application xlApp;
@@ -490,8 +494,21 @@ namespace Solution
             xlApp = new Excel.Application();
             xlWorkBook = xlApp.Workbooks.Add(misValue);
             xlWorkSheet = (Excel.Worksheet)xlWorkBook.Sheets["Sheet1"];
+
+
+
             xlWorkSheet.Cells[1, 1] = "http://csharp.net-informations.com";
             xlWorkSheet.Cells[2, 1] = "Adding picture in Excel File";
+            
+            int i = 1;
+            int j = 1;
+            foreach (var CellInfo in SolutionExplorers)
+            {
+                i++;
+                xlWorkSheet.Cells[i, 3] = CellInfo.Rootpath;
+            }
+
+
             xlWorkBook.SaveAs("csharp.net-informations.xlsx", Excel.XlFileFormat.xlOpenXMLWorkbook, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
             xlApp.Quit();
         }

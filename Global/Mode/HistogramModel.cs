@@ -180,6 +180,14 @@ namespace Global.Mode
         }
 
 
+        private bool moveEnable = false;
+        public bool MoveEnable
+        {
+            get { return moveEnable; }
+            set { moveEnable = value; NotifyPropertyChanged(); }
+        }
+
+
 
     }
 }

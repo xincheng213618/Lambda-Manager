@@ -26,21 +26,26 @@ namespace Global.UserControls.SeriesMap
         public MapWindow()
         {
             InitializeComponent();
-        }
-        public List<Point> SeriesPoints = new List<Point>()
-        {
-            new Point(120,66),new Point(96, 66),new Point(128, 72),new Point(184, 78),new Point(160, 84),new Point(96,84), new Point(112,84),new Point(208, 96),new Point(208, 102),new Point(128, 108),new Point(248, 108),new Point(88,114),
-            new Point(160,114),new Point(184, 120),new Point(232, 126),new Point(216, 126),new Point(56, 132),new Point(152,144), new Point(224,144),new Point(104, 150),new Point(240, 144),new Point(104, 150),new Point(192, 168),new Point(160,222)
-        };
-        public ObservableCollection<SeriersPoint> SeriersPointsCollection = new ObservableCollection<SeriersPoint>();
+           
 
-        private List<Point> SeriesPointsList;
-        public List<Rectangle> Rectangles = new List<Rectangle>();
+        }
+      
+        public static List<Point> SeriesPoints = new List<Point>()
+        {
+            //new Point(120,66),new Point(96, 66),new Point(128, 72),new Point(184, 78),new Point(160, 84),new Point(96,84), new Point(112,84),new Point(208, 96),new Point(208, 102),new Point(128, 108),new Point(248, 108),new Point(88,114),
+            //new Point(160,114),new Point(184, 120),new Point(232, 126),new Point(216, 126),new Point(56, 132),new Point(152,144), new Point(224,144),new Point(104, 150),new Point(240, 144),new Point(104, 150),new Point(192, 168),new Point(160,222)
+        };
+        public  ObservableCollection<SeriersPoint> SeriersPointsCollection = new ObservableCollection<SeriersPoint>();
+
+        private static List<Point> SeriesPointsList;
+        public static List<Rectangle> Rectangles = new List<Rectangle>();
 
         public void DrawPointRec(List<Point> points)    //Add rectangle to show acquire point 
         {
             int i = 0;
             points = points.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+            Rectangles.Clear();
+            SeriersPointsCollection.Clear();
 
             foreach (Point p in points)
             {
@@ -66,7 +71,6 @@ namespace Global.UserControls.SeriesMap
 
 
 
-        private bool ismultiRect = false;
 
         private void listview_SelectionChanged(object sender, SelectionChangedEventArgs e)  // selected change 
         {
@@ -118,7 +122,7 @@ namespace Global.UserControls.SeriesMap
 
         }
 
-  
+
 
         public class SeriersPoint
         {
@@ -137,17 +141,20 @@ namespace Global.UserControls.SeriesMap
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //public void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MapUpdate(SeriesPoints);
+        //}
+
+
+        public  void MapUpdate()
         {
             SeriersPointsCollection.Clear();
             foreach (var item in Rectangles)
             {
                 mapCanvas.Children.Remove(item);
             }
-            SeriesPoints.Clear();
-            List<Point> SeriesPoints1 = new List<Point>() {
-            new Point(120,66),new Point(96, 66),new Point(128, 72),new Point(184, 78),new Point(160, 84),new Point(96,84), new Point(112,84),new Point(208, 96),new Point(208, 102),new Point(128, 108),new Point(248, 108),new Point(88,114),  };
-            SeriesPoints = SeriesPoints1;
+          
             DrawPointRec(SeriesPoints);
         }
     }

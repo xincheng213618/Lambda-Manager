@@ -1,10 +1,14 @@
 ﻿using Global.Common.Controls;
 using Global.Common.Extensions;
 using Global.Mode;
+using Global.Mode.Config;
+using Global.UserControls.SeriesMap;
 using Lambda;
 using Mode;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -23,7 +27,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
-            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StageIniClosed, false);
+            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
 
@@ -44,7 +48,6 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
 
-
             //预览关闭
             LambdaControl.AddLambdaEventHandler("PREVIEW_CLOSE", seriesProjectManager, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
@@ -55,11 +58,14 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UPDATE_PROGRESSBAR", UpdateProgressBarModel, false);
             // AUTO camera setting
             LambdaControl.AddLambdaEventHandler("UPDATE_AUTO_CAMERA", UpdateAutoCameraSetting, false);
+            // multiPointsReback
+            LambdaControl.AddLambdaEventHandler("MULTI_COLLECTION_POINT", MultiCollectionP, false);
 
+           
 
         }
 
-        private bool StageIniClosed(object sender, EventArgs e)
+        private bool StaheIniClose(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -72,30 +78,60 @@ namespace Global
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count>1&& stageAcquisition.Children[1] is DockPanel dockPanel &&
-                dockPanel.Children.Count>1 && dockPanel.Children[1] is StackPanel stackPanel && stackPanel.Children.Count > 0 && stackPanel.Children[0] is ToggleButton toggleButton)
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
+                {
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)stackPanel.Children[0];
+
+                        if (toggleButton != null && toggleButton.IsChecked == true)
                         {
                             toggleButton.IsChecked = false;
                             toggleButton.Content = "开始采集";
                         }
+                    }
+
+                }
+
                 ACQUIRE = false;
+
             });
             return true;
         }
+
+       
+
+
 
         private bool seriesProjectManager(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-
-                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count > 1 && stageAcquisition.Children[1] is DockPanel dockPanel &&
-                dockPanel.Children.Count > 0 && dockPanel.Children[0] is  ToggleButton toggleButton)
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
                 {
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
+                        if (toggleButton != null && toggleButton.IsChecked == true)
+                        {
                             toggleButton.IsChecked = false;
                             toggleButton.Content = "预览";
+                            EventArgs eventArgs = new EventArgs();
                         }
+                    }
+                }
+
             });
+
             return true;
+
         }
 
 
@@ -127,8 +163,13 @@ namespace Global
 
         private bool STOP_ALIVE(object sender, EventArgs e)
         {
+            updateStatus.FpsEnable = true;
+            histogramModel.MoveEnable = true;
             ALIVE = false;
             return true;
+
+
+
         }
         private bool Mul_ZStep(object sender, EventArgs e)
         {
@@ -201,20 +242,12 @@ namespace Global
             //    MulDimensional.TIntervalEnable = true;
             //    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
 
-
-
             //}
             //else
             //{
             //    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 0 } });
             //}
             //return true;
-
-
-
-            
-       
-
 
         }
 
@@ -227,7 +260,10 @@ namespace Global
         private bool START_ALIVE(object sender, EventArgs e)
         {
             ALIVE = true;
+            updateStatus.FpsEnable = false;
+            histogramModel.MoveEnable = false;
             return true;
+            
         }
 
         private bool STOP_ACQUIRE(object sender, EventArgs e)
@@ -260,6 +296,7 @@ namespace Global
         public HistogramModel histogramModel = new HistogramModel();
         public ProfileModel profileModel = new ProfileModel();
         public ProgressBarModel progressBarModel = new ProgressBarModel();
+       // MapWindow mapWindow = new MapWindow();
 
         private bool UpdateProgressBarModel(object sender, EventArgs e)
         {
@@ -296,47 +333,42 @@ namespace Global
         {
 
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
-            string Mode;
+            int Mode;
             if (eventData == null)
                 return false;
-            Mode = eventData.GetString("mode");
+            // Mode = eventData.GetString("mode");
+            Mode = OperatingMode.SelectViewMode;
+
 
             switch (Mode)
             {
+                
+                case 0: 
+                   
+                    OperatingMode.BrightField.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")),1);
 
-                case "bright-field":
-                    OperatingMode.BrightField.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
                     break;
-                case "dark-field":
-                    OperatingMode.DarkField.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                case 1:
+                    OperatingMode.DarkField.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
                     break;
-                case "relief-contrast":
-                    OperatingMode.ReliefContrast.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                case 3:
+                    OperatingMode.ReliefContrast.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
                     break;
 
-                case "phase-contrast":
-                    OperatingMode.PhaseContrast.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                case 5:
+                    OperatingMode.PhaseContrast.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
                     break;
-                case "quantitative-phase":
-                    OperatingMode.QuantitativePhase.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                case 4:
+                    OperatingMode.QuantitativePhase.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
                     break;
-                case "rheinberg":
-                    OperatingMode.Reinberg.CameraSetting.Gain = double.Parse(eventData.GetString("Gain"));
+                case 2:
+                    OperatingMode.Reinberg.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
                     break;
 
             }
 
             return true;
         }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -383,10 +415,19 @@ namespace Global
             return true;
         }
 
+
+
+
+
+
+
         public MulSummary mulSummary = new();
+        // public MapWindow mapWindow = new MapWindow();
+        
 
         private bool UpdateMulSummary(object sender, EventArgs e)
         {
+
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
@@ -405,8 +446,67 @@ namespace Global
                 mulSummary.AllCollectionTime = eventData.GetString("AllCollectionTime");
                 mulSummary.CameraWorkingTime = eventData.GetString("CameraWorkingTime");
             });
+
             return true;
         }
+        public class MultiPoints
+        {
+            public List<List<int>> Points { get; set; } = new List<List<int>>();
+        }
+
+        private bool MultiCollectionP(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                string multiCollectJson = eventData.GetString("MultiCollectionP");
+                if (multiCollectJson != null)
+                {
+                    MultiPoints testMean = JsonSerializer.Deserialize<MultiPoints>(multiCollectJson);
+                    List<List<int>> points = testMean.Points;
+                   // MessageBox.Show(points.Count.ToString());
+                    MapWindow.SeriesPoints.Clear();
+                   // List<Point> points2 = new List<Point>();
+                    foreach (var point in points)
+                    {
+                        Point point1 = new Point { X = point[0], Y = point[1] };
+
+                        int x = (int)Math.Floor(point1.X / 8);
+                        int y = (int)Math.Floor(point1.Y / 6);
+
+                        Point selectedPoint = new Point(x * 8, y * 6);
+
+
+                        MapWindow.SeriesPoints.Add(selectedPoint);
+                    }
+                   // MessageBox.Show(MapWindow.SeriesPoints.Count.ToString());
+                    foreach (Window w in Application.Current.Windows)
+                    {
+                        if (w is MapWindow  mapWindow)
+                        {
+
+                            mapWindow.MapUpdate();
+                        }
+                    
+                    }
+                    
+                };
+            });
+
+
+
+            return true;
+        }
+
+       
+
+
+
+
+
+
 
 
 
@@ -414,25 +514,67 @@ namespace Global
 
         private bool OnUpdateStatus(object sender, EventArgs e)
         {
+            try
+            {
                 Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+
                 if (eventData == null)
                     return false;
+
+                if (!string.IsNullOrEmpty(eventData.GetString("BF")))
+                {
+                    updateStatus.BFToggEnable = bool.Parse(eventData.GetString("BF"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("DF")))
+                {
+                    updateStatus.DFToggEnable = bool.Parse(eventData.GetString("DF"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("RI")))
+                {
+                    updateStatus.RIToggEnable = bool.Parse(eventData.GetString("RI"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("DP")))
+                {
+                    updateStatus.DPToggEnable = bool.Parse(eventData.GetString("DP"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("QP")))
+                {
+                    updateStatus.QPToggEnable = bool.Parse(eventData.GetString("QP"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("PC")))
+                {
+                    updateStatus.PCToggEnable = bool.Parse(eventData.GetString("PC"));
+                }
+                //MessageBox.Show("1111");
+
                 updateStatus.ImageX = eventData.GetString("x");
                 updateStatus.ImageY = eventData.GetString("y");
                 updateStatus.ImageZ = eventData.GetString("z");
+                if (!string.IsNullOrEmpty(updateStatus.ImageX))
+                {
+                    WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
+                }
+                if (!string.IsNullOrEmpty(updateStatus.ImageY))
+                {
+                    WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
+                }
+                if (!string.IsNullOrEmpty(updateStatus.ImageZ))
+                {
+                    WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
+                }
 
                 updateStatus.ImageSize = eventData.GetString("size");
                 updateStatus.imageFocus = eventData.GetString("focus");
                 updateStatus.CreateTime = eventData.GetString("createTime");
+               
                 string frameIndex = eventData.GetString("frameIndex");
-                if (frameIndex != null)
+                if (!string.IsNullOrEmpty(frameIndex))
                 {
                     updateStatus.FrameIndex = int.Parse(frameIndex);
-
                 }
 
                 string totalFrame = eventData.GetString("totalFrame");
-                if (totalFrame != null)
+                if (!string.IsNullOrEmpty(totalFrame))
                 {
                     try
                     {
@@ -443,24 +585,35 @@ namespace Global
                         updateStatus.TotalFrame = 0;
                     }
                 }
-
+             
                 updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
                 updateStatus.TotalTime = eventData.GetString("totalTime");
-                //string sliceIndex = eventData.GetString("sliceIndex");
-                //if (sliceIndex != null)
-                //{
-                //    updateStatus.SliceIndex = int.Parse(sliceIndex);
-                //}
-                //string totalSlice = eventData.GetString("totalSlice");
-                //if (totalSlice != null)
-                //{
-                //    updateStatus.TotalSlice = int.Parse(totalSlice);
-                //}
+               
+                string sliceIndex = eventData.GetString("sliceIndex");
+                if (!string.IsNullOrEmpty(sliceIndex))
+                {
+                    updateStatus.SliceIndex = int.Parse(sliceIndex);
+                }
+                string totalSlice = eventData.GetString("totalSlice");
+                if (!string.IsNullOrEmpty(totalSlice))
+                {
+                    updateStatus.TotalSlice = int.Parse(totalSlice);
+                }
                 updateStatus.ZTop = eventData.GetString("zTop");
                 updateStatus.ZCurrent = eventData.GetString("zCurrent");
                 updateStatus.ZBottom = eventData.GetString("zBottom");
                 updateStatus.Ratio = eventData.GetString("ratio");
-                updateStatus.FpsState = eventData.GetString("fps");
+                updateStatus.FpsState = eventData.GetString("fps"); 
+                //OperatingMode.BrightField.CameraSetting.Gain = 1;
+
+                //OperatingMode.SelectViewMode 
+            }
+            catch(Exception ex)
+            {
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+            }
+          
+
             return true;
         }
 
@@ -502,10 +655,13 @@ namespace Global
             }
             catch (Exception ex)
             {
-                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+                MessageBox.Show(ex.Message);
             }
             return true;
         }
+
+
+
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
@@ -564,8 +720,6 @@ namespace Global
                 }
             }
         }
-
-
 
     }
 }

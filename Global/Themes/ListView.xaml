@@ -17,8 +17,8 @@
 
 
         <Color x:Key="ControlLightColor">#3A3A3A</Color>
-        <Color x:Key="ControlLightColor1">#515151</Color>
-        <Color x:Key="ControlMediumColor">#3A3A3A</Color>
+    <Color x:Key="ControlLightColor1">#515151</Color>
+    <Color x:Key="ControlMediumColor">#3A3A3A</Color>
         <Color x:Key="ControlDarkColor">#FF211AA9</Color>
 
         <Color x:Key="ControlMouseOverColor">#222222</Color>
@@ -446,7 +446,8 @@
         <!--#endregion-->
 
 
-        <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+        <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" 
+                                                                      TargetType="{x:Type ScrollViewer}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ScrollViewer">
@@ -689,13 +690,21 @@
         </Style>
 
 
-        <Style x:Key="{x:Type ListViewItem}"  TargetType="ListViewItem">
-            <Setter Property="SnapsToDevicePixels"  Value="true" />
-            <Setter Property="OverridesDefaultStyle"  Value="true" />
+        <Style x:Key="{x:Type ListViewItem}"
+       TargetType="ListViewItem">
+            <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+            <Setter Property="OverridesDefaultStyle"
+          Value="true" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="Border"  Padding="2"  BorderBrush="Transparent"  BorderThickness="1" SnapsToDevicePixels="true"  Background="Transparent">
+                        <Border x:Name="Border"
+                Padding="2"
+                BorderBrush="Transparent"
+                                BorderThickness="1"
+                SnapsToDevicePixels="true"
+                Background="Transparent">
 
                             <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Center" />
 

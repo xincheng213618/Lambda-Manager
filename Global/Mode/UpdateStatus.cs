@@ -8,6 +8,8 @@ namespace Mode
 {
     public class UpdateStatus : ViewModelBase
     {
+
+
         private string imageX = "X:1234";
 
         public string ImageX
@@ -15,7 +17,7 @@ namespace Mode
         {
             get { return imageX; }
             set {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     imageX = value;
                     NotifyPropertyChanged();
@@ -32,7 +34,7 @@ namespace Mode
             get { return imageY; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     imageY = value;
                     NotifyPropertyChanged();
@@ -47,7 +49,7 @@ namespace Mode
             get { return imageZ; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     imageZ = value;
                     NotifyPropertyChanged();
@@ -63,7 +65,7 @@ namespace Mode
             get { return imageSize; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     imageSize = value;
                     NotifyPropertyChanged();
@@ -79,7 +81,7 @@ namespace Mode
             get { return imageFocus; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     imageFocus = value;
                     NotifyPropertyChanged();
@@ -93,7 +95,7 @@ namespace Mode
             get { return createTime; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     createTime = value;
                     NotifyPropertyChanged();
@@ -103,7 +105,6 @@ namespace Mode
         
         public int frameIndex;
         public int FrameIndex
-
         {
             get { return frameIndex; }
             set
@@ -134,7 +135,7 @@ namespace Mode
             get { return timeElapsed; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     timeElapsed = value;
                     NotifyPropertyChanged();
@@ -144,12 +145,11 @@ namespace Mode
 
         public string totalTime ="00:00:00";
         public string TotalTime
-
         {
             get { return totalTime; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     totalTime = value;
                     NotifyPropertyChanged();
@@ -158,7 +158,6 @@ namespace Mode
         }
         public int sliceIndex =0;
         public int SliceIndex
-
         {
             get { return sliceIndex; }
             set
@@ -169,7 +168,6 @@ namespace Mode
         }
         public int totalSlice = 0;
         public int TotalSlice
-
         {
             get { return totalSlice; }
             set
@@ -180,12 +178,11 @@ namespace Mode
         }
         public string zTop= "0μm";
         public string ZTop
-
         {
             get { return zTop; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     zTop = value;
                     NotifyPropertyChanged();
@@ -199,7 +196,7 @@ namespace Mode
             get { return zCurrent; }
             set
             {
-                if (value != null)
+                                if (!string.IsNullOrEmpty(value))
                 {
                     zCurrent = value;
                     NotifyPropertyChanged();
@@ -213,7 +210,7 @@ namespace Mode
             get { return zBottom; }
             set
             {
-                if (value != null)
+                                if (!string.IsNullOrEmpty(value))
                 {
                     zBottom = value;
                     NotifyPropertyChanged();
@@ -227,7 +224,7 @@ namespace Mode
             get { return ratio; }
             set
             {
-                if (value != null)
+                                if (!string.IsNullOrEmpty(value))
                 {
                     ratio = value;
                     NotifyPropertyChanged();
@@ -244,14 +241,102 @@ namespace Mode
             get { return fpsState; }
             set
             {
-                if (value != null)
+                                if (!string.IsNullOrEmpty(value))
                 {
                     fpsState = value;
                     NotifyPropertyChanged();
                 }
             }
         }
+        private bool fpsEnable = false;
+        public bool FpsEnable
+        {
+            get { return fpsEnable; }   
+            set { 
+                fpsEnable = value;
+                NotifyPropertyChanged(); 
+                 }
+        }
 
+        private bool bFToggEnable= false;
+        public bool BFToggEnable
+
+        {
+            get { return bFToggEnable; }
+            set
+            {   
+                bFToggEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+        private bool dFToggEnable = false;
+        public bool DFToggEnable
+
+        {
+            get { return dFToggEnable; }
+            set
+            {
+                 dFToggEnable = value;
+                 NotifyPropertyChanged();
+                
+            }
+        }
+        
+
+        private bool rIToggEnable = false;
+        public bool RIToggEnable
+
+        {
+            get { return rIToggEnable; }
+            set
+            {
+                rIToggEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+        private bool dPToggEnable = false;
+        public bool DPToggEnable
+
+        {
+            get { return dPToggEnable; }
+            set
+            {
+                dPToggEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+        
+        private bool qPToggEnable = false;
+        public bool QPToggEnable
+
+        {
+            get { return qPToggEnable; }
+            set
+            {
+                qPToggEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+        
+              private bool pCToggEnable = false;
+        public bool PCToggEnable
+
+        {
+            get { return pCToggEnable; }
+            set
+            {
+                pCToggEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
 
 
 

@@ -14,7 +14,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
 namespace Global
 {
 
@@ -39,132 +38,135 @@ namespace Global
 
         private void AddInjection()
         {
+
+            Application.Current.MainWindow.Closing += delegate   // app closing close the lightBoard
+            {
+                LambdaControl.Trigger("IMAGE_MODE_CLOSE", this, new Dictionary<string, object>() { });
+            };
+
             if (Application.Current.MainWindow.FindName("grid0") is not Grid) return;
 
             try
-            {
+            {   
                 // Add Histogram
-                if (Application.Current.MainWindow.FindName("bottomView") is StackPanel bottomView && bottomView.Parent is Grid grid)
+                Histogram histogram = new Histogram();
+                StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
+                Grid grid1 =(Grid)stackPanel.Parent;
+                histogram.Height = Double.NaN;
+               // histogram.Width = 450;
+                histogram.Visibility = Visibility.Collapsed;
+                histogram.DataContext = histogramModel;
+                histogram.VerticalAlignment = VerticalAlignment.Stretch;
+                stackPanel.Children.Add(histogram);
+                
+                
+                Profile profile = new Profile();   //profile
+                profile.Height = Double.NaN;
+                profile.Visibility = Visibility.Collapsed;
+                profile.Margin= new Thickness(30, 0, 0, 0);
+                stackPanel.Orientation = Orientation.Horizontal;
+                profile.DataContext = profileModel;
+                Image HistogramImage = histogram.histogramImage;
+                Image ProfileImage = profile.profileImage;
+                LambdaControl.RegisterImageView(HistogramImage).ToString();
+                LambdaControl.RegisterImageView(ProfileImage).ToString();
+
+                profile.doubleUpDown1.ValueChanged += delegate
+                 {
+                     if (inkVisuals[0] !=null &&inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                         inkVisuals[0].DrawProfile();
+                 };
+                profile.doubleUpDown2.ValueChanged += delegate
                 {
-                    bottomView.Orientation = Orientation.Horizontal;
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                        inkVisuals[0].DrawProfile();
+                };
+                profile.Marker1Check.Click += delegate
+                {
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains( inkVisuals[0].profileStroke))
+                    inkVisuals[0].DrawProfile();
+                };
+                profile.Marker2Check.Click += delegate
+                {
+                    if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
+                        inkVisuals[0].DrawProfile();
+                };
+                stackPanel.Children.Add(profile);
 
-                    Histogram histogram = new Histogram() { Height = Double.NaN, Visibility = Visibility.Collapsed, DataContext = histogramModel, VerticalAlignment = VerticalAlignment.Stretch };
-                    bottomView.Children.Add(histogram);
+                //grid1.Children.Add(profile);
+                //Grid.SetRow(profile, 2);
 
-                    Profile profile = new Profile() { Height = Double.NaN, Visibility = Visibility.Collapsed, Margin = new Thickness(30, 0, 0, 0), DataContext = profileModel };
-                    bottomView.Children.Add(profile);
-                    profile.doubleUpDown1.ValueChanged += delegate
-                    {
-                        if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
-                            inkVisuals[0].DrawProfile();
-                    };
-                    profile.doubleUpDown2.ValueChanged += delegate
-                    {
-                        if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
-                            inkVisuals[0].DrawProfile();
-                    };
-                    profile.Marker1Check.Click += delegate
-                    {
-                        if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
-                            inkVisuals[0].DrawProfile();
-                    };
-                    profile.Marker2Check.Click += delegate
-                    {
-                        if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
-                            inkVisuals[0].DrawProfile();
-                    };
+                // gridSplitter
+                GridSplitter gridSplitter = (GridSplitter)grid1.Children[1];
+                gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
+                gridSplitter.VerticalAlignment = VerticalAlignment.Center;
+                Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
+                gridSplitter.Background = brush;
+                gridSplitter.Height = 3;
+                DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
+                if (leftToolBar == null) return;
+                WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
+                ToggleButton histogramTogg = (ToggleButton)leftToolBarChild.Children[3];
 
-                    if (grid.Children[1] is GridSplitter gridSplitter)
+                histogramTogg.Checked += delegate
+                {
+                   
+                    grid1.RowDefinitions[2].Height = new GridLength(180, GridUnitType.Pixel);
+                    histogram.Visibility = Visibility.Visible;
+                };
+                histogramTogg.Unchecked += delegate
+                {
+                    histogram.Visibility = Visibility.Collapsed;
+                    if (profile.Visibility == Visibility.Collapsed)
                     {
-                        gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        gridSplitter.VerticalAlignment = VerticalAlignment.Center;
-                        gridSplitter.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
-                        gridSplitter.Height = 3;
+                        grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
                     }
+                   
 
-                    if (Application.Current.MainWindow.FindName("leftToolbar") is DockPanel leftToolbar && leftToolbar.Children[0] is WrapPanel leftToolBarChild && leftToolBarChild.Children[3] is ToggleButton toggleButton)
+                };
+                int tempSelectedIndex = 0;
+
+                ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                {
+                   
+
+
+                    if (e.PropertyName == "ProfileChecked")
                     {
-                        histogramTogg = toggleButton;
-                        histogramTogg.Checked += delegate
+                        if (ImageViewState.toolTop.ProfileChecked)
                         {
 
-                            grid.RowDefinitions[2].Height = new GridLength(180, GridUnitType.Pixel);
-                            histogram.Visibility = Visibility.Visible;
-                        };
-                        histogramTogg.Unchecked += delegate
-                        {
-                            histogram.Visibility = Visibility.Collapsed;
-                            if (profile.Visibility == Visibility.Collapsed)
+                            grid1.RowDefinitions[2].Height = new GridLength(180, GridUnitType.Pixel);
+                            profile.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {         
+                            profile.Visibility = Visibility.Collapsed;
+                            if (histogram.Visibility == Visibility.Collapsed)
                             {
-                                grid.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
+                                grid1.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
                             }
-                        };
-                    }
-
-                    int tempSelectedIndex = 0;
-                    ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
-                    {
-
-                        if (e.PropertyName == "ProfileChecked")
-                        {
-                            if (ImageViewState.toolTop.ProfileChecked)
-                            {
-
-                                grid.RowDefinitions[2].Height = new GridLength(180, GridUnitType.Pixel);
-                                profile.Visibility = Visibility.Visible;
-                            }
-                            else
-                            {
-                                profile.Visibility = Visibility.Collapsed;
-                                if (histogram.Visibility == Visibility.Collapsed)
-                                {
-                                    grid.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
-                                }
-                            }
-                        };
-
-
-                        if (e.PropertyName == "RulerChecked" || e.PropertyName == "ArrowChecked" || e.PropertyName == "CircleChecked" || e.PropertyName == "CurveChecked" || e.PropertyName == "LineChecked" || e.PropertyName == "PolygonChecked" || e.PropertyName == "RectangleChecked" || e.PropertyName == "TextChecked" || e.PropertyName == "EraserChecked")
-                        {
-                            if (ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked)
-                            {
-                                propertySetItem.Visibility = Visibility.Visible;
-                                propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
-                                tempSelectedIndex = tabControl.SelectedIndex;
-                                tabControl.SelectedIndex = 5;
-                                DrawInkMethod.dimenViewModel.DimShapeCombo = false;
-                                if (ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.RulerChecked)
-                                {
-                                    DrawInkMethod.dimenViewModel.DimShapeCombo = true;
-                                };
-                            }
-                            else
-                            {
-                                if (ImageViewState.toolTop.DimensionChecked == true || ImageViewState.toolTop.EraserChecked)
-                                {
-                                    propertySetItem.Visibility = Visibility.Visible;
-                                    tempSelectedIndex = tabControl.SelectedIndex;
-                                    tabControl.SelectedIndex = 5;
-                                    DrawInkMethod.dimenViewModel.DimShapeCombo = false;
-                                    propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
-                                    DrawInkMethod.defdimenViewModel.DimPosShow = true;
-                                    DrawInkMethod.defdimenViewModel.DimSelectedIndex = 2;
-
-                                }
-                                else
-                                {
-                                    propertySetItem.Visibility = Visibility.Collapsed;
-                                    tabControl.SelectedIndex = tempSelectedIndex;
-                                };
-
-                            }
-
-
                         }
 
-                        if (e.PropertyName == "DimensionChecked")
+                    };
+
+                    if (e.PropertyName == "RulerChecked" || e.PropertyName == "ArrowChecked" || e.PropertyName == "CircleChecked"|| e.PropertyName == "CurveChecked"|| e.PropertyName== "LineChecked" || e.PropertyName == "PolygonChecked"|| e.PropertyName == "RectangleChecked"|| e.PropertyName=="TextChecked" || e.PropertyName == "EraserChecked")
+                    {
+                        if (ImageViewState.toolTop.RulerChecked  || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked )
                         {
-                            if (ImageViewState.toolTop.DimensionChecked == true)
+                            propertySetItem.Visibility = Visibility.Visible;
+                            propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                            tempSelectedIndex = tabControl.SelectedIndex;
+                            tabControl.SelectedIndex = 5;
+                            DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                            if (ImageViewState.toolTop.LineChecked)
+                            {
+                                DrawInkMethod.dimenViewModel.DimShapeCombo = true;
+                            };
+                        }
+                        else
+                        {
+                            if (ImageViewState.toolTop.DimensionChecked == true || ImageViewState.toolTop.EraserChecked)
                             {
                                 propertySetItem.Visibility = Visibility.Visible;
                                 tempSelectedIndex = tabControl.SelectedIndex;
@@ -175,44 +177,67 @@ namespace Global
                                 DrawInkMethod.defdimenViewModel.DimSelectedIndex = 2;
 
                             }
-                            else if (ImageViewState.toolTop.DimensionChecked == false && ImageViewState.toolTop.EraserChecked == false)
+                            else
                             {
                                 propertySetItem.Visibility = Visibility.Collapsed;
                                 tabControl.SelectedIndex = tempSelectedIndex;
-                                DrawInkMethod.defdimenViewModel.DimSelectedIndex = 0;
-                                DrawInkMethod.defdimenViewModel.DimPosShow = false;
                             };
-                            if (ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked)
-                            {
-                                propertySetItem.Visibility = Visibility.Visible;
-                                propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
-                                tempSelectedIndex = tabControl.SelectedIndex;
-                                tabControl.SelectedIndex = 5;
-                                DrawInkMethod.dimenViewModel.DimShapeCombo = false;
-                                if (ImageViewState.toolTop.LineChecked)
-                                {
-                                    DrawInkMethod.dimenViewModel.DimShapeCombo = true;
-                                    DrawInkMethod.dimenViewModel.DimSelectedIndex = 0;
 
-                                };
-                                if (ImageViewState.toolTop.LineChecked)
-                                {
-                                    DrawInkMethod.dimenViewModel.DimShapeCombo = true;
-                                    DrawInkMethod.dimenViewModel.DimSelectedIndex = 2;
-
-                                };
-                            }
                         }
+                        
 
-                    };
+                    }
+                   
+                    if (e.PropertyName == "DimensionChecked")
+                    {
+                        if (ImageViewState.toolTop.DimensionChecked == true )
+                        {
+                            propertySetItem.Visibility = Visibility.Visible;
+                            tempSelectedIndex = tabControl.SelectedIndex;
+                            tabControl.SelectedIndex = 5;
+                            DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                            propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
+     
+                            DrawInkMethod.defdimenViewModel.DimSelectedIndex = 2;
+                            DrawInkMethod.defdimenViewModel.DimPosShow = true;
+                           
+
+                        }
+                        else if (ImageViewState.toolTop.DimensionChecked == false && ImageViewState.toolTop.EraserChecked == false)
+                        {
+                            propertySetItem.Visibility = Visibility.Collapsed;
+                            tabControl.SelectedIndex = tempSelectedIndex;
+                            DrawInkMethod.defdimenViewModel.DimSelectedIndex = 0;
+                            DrawInkMethod.defdimenViewModel.DimPosShow = false;
+                        };
+                        if(ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked )
+                        {
+                            propertySetItem.Visibility = Visibility.Visible;
+                            propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
+                            tempSelectedIndex = tabControl.SelectedIndex;
+                            tabControl.SelectedIndex = 5;
+                            DrawInkMethod.dimenViewModel.DimShapeCombo = false;
+                            if (ImageViewState.toolTop.LineChecked)
+                            {
+                                DrawInkMethod.dimenViewModel.DimShapeCombo = true;
+                                DrawInkMethod.dimenViewModel.DimSelectedIndex=0;
+
+                            };
+                          
+                        }
+                    }
+                    
+
+                };
+              
                 }
-            }
             catch (Exception ex)
             {
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
 
            
+
             try
             {             
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
@@ -225,17 +250,34 @@ namespace Global
                 ToggleButton DFTogg =     (ToggleButton)WrapPanel1.Children[3];
                 ToggleButton RITogg =     (ToggleButton)WrapPanel1.Children[4];
                 ToggleButton DPTogg =     (ToggleButton)WrapPanel1.Children[5];
-                ToggleButton PhiTogg =    (ToggleButton)WrapPanel1.Children[6];
-                ToggleButton FLTogg =     (ToggleButton)WrapPanel1.Children[7];
+                ToggleButton QpiTogg =    (ToggleButton)WrapPanel1.Children[6];
+                ToggleButton PCTogg =     (ToggleButton)WrapPanel1.Children[7];
                 ToggleButton _3DTogg =    (ToggleButton)WrapPanel1.Children[8];
                 ToggleButton CubeTogg =   (ToggleButton)WrapPanel1.Children[9];
                 ToggleButton RepoTogg =   (ToggleButton)WrapPanel1.Children[10];
 
-                List<ToggleButton> RightTools2 = new List<ToggleButton>() {  BFTogg, DFTogg, RITogg, DPTogg, PhiTogg, FLTogg, _3DTogg, CubeTogg, RepoTogg };
+                Binding b1 = new Binding("BFToggEnable");
+                BindingOperations.SetBinding(BFTogg, ToggleButton.IsEnabledProperty, b1);
+                Binding b2 = new Binding("DFToggEnable");
+                BindingOperations.SetBinding(DFTogg, ToggleButton.IsEnabledProperty, b2);
+                Binding b3 = new Binding("RIToggEnable");
+                BindingOperations.SetBinding(RITogg, ToggleButton.IsEnabledProperty, b3);
+                Binding b4 = new Binding("DPToggEnable");
+                BindingOperations.SetBinding(DPTogg, ToggleButton.IsEnabledProperty, b4);
+                Binding b5 = new Binding("QPToggEnable");
+                BindingOperations.SetBinding(QpiTogg, ToggleButton.IsEnabledProperty, b5);
+                Binding b6 = new Binding("PCToggEnable");
+                BindingOperations.SetBinding(PCTogg, ToggleButton.IsEnabledProperty, b6);
+
+                WrapPanel1.DataContext = updateStatus;
+
+
+
+                List<ToggleButton> RightTools2 = new List<ToggleButton>() {  BFTogg, DFTogg, RITogg, DPTogg, QpiTogg, PCTogg, _3DTogg, CubeTogg, RepoTogg };
 
                 foreach (var item in RightTools2)
                 {
-                    item.Checked += delegate
+                    item.Checked += delegate (object sender, RoutedEventArgs e)
                     {
                         foreach (var item1 in RightTools2)
                         {
@@ -245,14 +287,16 @@ namespace Global
                                     item1.IsChecked = false;
                             }
                         }
+
                     };
+
                 }
 
                 List<ToggleButton> RightTools1 = new List<ToggleButton>() { QuaterTogg, DualTogg };
 
                 foreach (var item in RightTools1)
                 {
-                    item.Checked += delegate
+                    item.Checked += delegate (object sender, RoutedEventArgs e)
                     {
                         foreach (var item1 in RightTools1)
                         {
@@ -262,19 +306,31 @@ namespace Global
                                     item1.IsChecked = false;
                             }
                         }
+
                     };
 
                 }
-                Popup popup = new Popup() { PopupAnimation = PopupAnimation.Slide, PlacementTarget = QuaterTogg, HorizontalOffset = -65, VerticalOffset = -20, StaysOpen = false };
-                popup.Closed += delegate { popup.IsOpen = false; };
+
+
+
+                Popup popup = new Popup();
+                popup.PopupAnimation = PopupAnimation.Slide;
+                Binding binding8 = new Binding();
+                popup.PlacementTarget = QuaterTogg;
+               // Point point = Mouse.GetPosition(QuaterTogg);
+                popup.HorizontalOffset =-65;              
+                popup.VerticalOffset = -20;
+                popup.StaysOpen = false;
                 QuaterPopup quaterPopup = new QuaterPopup();
+                popup.Child = quaterPopup;
                 QuaterTogg.MouseEnter += delegate
                 {
                     popup.IsOpen = true;
-                };
 
-                popup.Child = quaterPopup;
-             
+                };
+                popup.Closed +=delegate { popup.IsOpen = false; };
+;
+               
                 quaterPopup.dual.Checked += delegate
                 {
                     if (QuaterTogg.IsChecked == true)
@@ -328,20 +384,20 @@ namespace Global
                 {
                     if ((bool)quaterPopup.four.IsChecked)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
 
                     }
                     else if ((bool)quaterPopup.six.IsChecked)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
                     }
                     else if ((bool)quaterPopup.dual.IsChecked)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
 
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
@@ -355,7 +411,7 @@ namespace Global
                 {
                     if (DualTogg.IsChecked == false)
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW} });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW} });
                         if (histogramTogg.IsEnabled == false)
                         {
                             histogramTogg.IsEnabled = true;
@@ -370,14 +426,14 @@ namespace Global
                     }
                     else
                     {
-                        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.DOUBLE_WINDOW } });
+                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.DOUBLE_WINDOW } });
                     }
 
                 };
                 QuaterTogg.Checked += FourWindowTogg_Checked;
                 QuaterTogg.Unchecked += delegate
                 {
-                    LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW } });
+                    LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW } });
                     if (histogramTogg.IsEnabled == false)
                     {
                         histogramTogg.IsEnabled = true;
@@ -389,18 +445,33 @@ namespace Global
                             inkVisuals[0].inkCanvas.ContextMenu = null;
                         }
                     }
-                };                           
+                };
+               
+
             }
             catch (Exception ex)
             {
                System.Windows.MessageBox.Show(ex.Message);
 
             }
-            
+            // histogramtogg
+            try
+            {
+                DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
+                if (leftToolBar == null) return;
+                WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
+                histogramTogg = (ToggleButton)leftToolBarChild.Children[3];
+            }
+            catch
+            {
+
+            }
+           
 
             //ColorBar ADD
             try
             {
+                
                 DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
                 if (leftToolBar == null) return;
                 Image image = (Image)leftToolBar.Children[1];
@@ -447,6 +518,7 @@ namespace Global
 
                 colorbarTogg.Checked += delegate
                 {
+                  
                     colorBarUser.Visibility = Visibility.Visible;
                 };
                 colorbarTogg.Unchecked += delegate
@@ -464,26 +536,37 @@ namespace Global
                 foreach (var item in colorname)
                 {
                     RadioMenuItem menuItem = new RadioMenuItem();
-                    StackPanel stackPanel = new StackPanel() { Orientation = Orientation.Horizontal };
-                    stackPanel.Children.Add(new Image() { Width = 50, Source = new BitmapImage(new Uri($"/Global;component/usercontrols/image/{item.ToLower()}.jpg", UriKind.Relative)) });
-                    stackPanel.Children.Add(new TextBlock() { Text = item, Margin = new Thickness(10, 0, 0, 0) });
-
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.Orientation = Orientation.Horizontal;
+                    Image img = new Image() { Width = 50 };
+                    img.Source = new BitmapImage(new Uri($"/Global;component/usercontrols/image/{item.ToLower()}.jpg", UriKind.Relative));
+                    stackPanel.Children.Add(img);
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = item;
+                    textBlock.Margin = new Thickness(10, 0, 0, 0);
+                    stackPanel.Children.Add(textBlock);
                     menuItem.Header = stackPanel;
                     menuItem.Tag = i++;
-
-                    ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("Global;Component/Themes/ColorMap.xaml", UriKind.Relative) };
                     menuItem.Checked += delegate (object sender, RoutedEventArgs e)
                     {
-                        colorBarUser.colorBar.SlidBackground = (LinearGradientBrush)resourceDictionary[item]; 
-                        LambdaControl.Trigger("COLORBAR_SELECTED_INDEX", this, new Dictionary<string, object> { { "mode", menuItem.Tag } });
+                        ResourceDictionary resourceDictionary = new ResourceDictionary();
+                        resourceDictionary.Source = new Uri("Global;Component/Themes/ColorMap.xaml", UriKind.Relative);
+                        LinearGradientBrush brush = (LinearGradientBrush)resourceDictionary[item];
+                        colorBarUser.colorBar.SlidBackground = brush;
+                        Dictionary<string, object> data = new() { { "mode", menuItem.Tag } };
+                        LambdaControl.Trigger("COLORBAR_SELECTED_INDEX", this, data);
                     };
 
                     menuItem.Unchecked += delegate (object sender, RoutedEventArgs e)
                     {
                         if (contextMenu.Tag == null)
                         {
-                            colorBarUser.colorBar.SlidBackground = (LinearGradientBrush)resourceDictionary["GRAY"];
+                            ResourceDictionary resourceDictionary = new ResourceDictionary();
+                            resourceDictionary.Source = new Uri("Global;Component/Themes/ColorMap.xaml", UriKind.Relative);
+                            LinearGradientBrush brush = (LinearGradientBrush)resourceDictionary["GRAY"];
+                            colorBarUser.colorBar.SlidBackground = brush;
                             LambdaControl.Trigger("COLORBAR_SELECTED_INDEX", this, new Dictionary<string, object> { { "mode", 22 } });
+
                         }
                     };
                     contextMenu.Items.Add(menuItem);
@@ -510,15 +593,15 @@ namespace Global
             }
             catch (Exception ex)
             {
-                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+                System.Windows.MessageBox.Show(ex.Message);
             }
 
 
             try
             {
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
-                Slider Slider1 = (Slider)bottomToolbar.Children[6];
 
+                Slider Slider1 = (Slider)bottomToolbar.Children[6];
 
                 //ProgressBar1 progressBar = new ProgressBar1();
                 //bottomToolbar.Children.Remove(Slider1);
@@ -536,7 +619,7 @@ namespace Global
                 int before = 0;
                 Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
                 ThemeManager.Rangeslider.RangeSlider range = new ThemeManager.Rangeslider.RangeSlider();
-                range.Width = 200; range.Height = 30; range.LowerRangeBackground = brush;
+                range.Width = 200;range.Height = 30; range.LowerRangeBackground = brush;
                 range.RangeBackground = brush; range.SlidThumbVis = Visibility.Hidden;
                 range.LowerValueChanged += delegate
                 {
@@ -562,8 +645,6 @@ namespace Global
                 bottomToolbar.Children.Remove(Slider1);
                 bottomToolbar.Children.Insert(6, range);
 
-
-
                 Binding myBindingFrameIndex = new Binding("FrameIndex");
                 myBindingFrameIndex.Source = updateStatus;
                 myBindingFrameIndex.Mode = BindingMode.TwoWay;
@@ -572,7 +653,7 @@ namespace Global
                 myBindingTotalFrame.Source = updateStatus;
                 myBindingTotalFrame.Mode = BindingMode.TwoWay;
 
-                //Slider1.Visibility = Visibility.Collapsed;
+                ////Slider1.Visibility = Visibility.Collapsed;
                 //Slider1.Minimum = 1;
                 //Slider1.SetBinding(Slider.ValueProperty, myBindingFrameIndex);
                 //Slider1.SetBinding(Slider.MaximumProperty, myBindingTotalFrame);
@@ -596,11 +677,20 @@ namespace Global
 
                 timeElapsed.DataContext = updateStatus;
                 timeElapsed.SetBinding(TextBlock.TextProperty, new Binding("TimeElapsed"));
-                TextBlock totalTime = (TextBlock)mainwin.FindName("totalTime");
 
+                TextBlock totalTime = (TextBlock)mainwin.FindName("totalTime");
                 Binding TotalTime = new Binding("TotalTime");
                 TotalTime.Source = updateStatus;
                 totalTime.SetBinding(TextBlock.TextProperty, TotalTime);
+
+
+                TextBox fpsState = (TextBox)mainwin.FindName("fpsState");
+                Binding fpsEnable = new Binding("FpsEnable");
+                fpsEnable.Source = updateStatus;
+                fpsEnable.Converter = new BooleanToVisibilityConverter1();
+                fpsState.SetBinding(TextBox.VisibilityProperty, fpsEnable);
+                //fpsState.Text = "100";
+
 
                 TextBlock zTop = (TextBlock)mainwin.FindName("zTop");
                 StackPanel stackPanel = (StackPanel)zTop.Parent;
@@ -645,20 +735,12 @@ namespace Global
 
                 WrapPanel rightToolbar = (WrapPanel)mainwin.FindName("rightToolbar");
 
-                Slider Slider2 = (Slider)rightToolbar.Children[13];
-
-                Binding TotalSlice1 = new Binding("TotalSlice");
-                TotalSlice1.Source = updateStatus;
-                TotalSlice1.Mode = BindingMode.TwoWay;
-
-                Binding SliceIndex1 = new Binding("SliceIndex");
-                SliceIndex1.Source = updateStatus;
-                SliceIndex1.Mode = BindingMode.TwoWay;
-
+                // change ZStack slider 
+              
                 Slider SliderZ = (Slider)rightToolbar.Children[13];
 
                 int beforeZ = 0;
-                // Brush brushZ = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
+               // Brush brushZ = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
                 ThemeManager.Rangeslider.RangeSlider rangeZ = new ThemeManager.Rangeslider.RangeSlider();
                 rangeZ.Width = 30;
                 rangeZ.Height = 200;
@@ -689,6 +771,23 @@ namespace Global
                 rightToolbar.Children.Remove(SliderZ);
                 rightToolbar.Children.Insert(13, rangeZ);
 
+
+
+
+
+
+
+
+                //Slider Slider2 = (Slider)rightToolbar.Children[13];
+
+                //Binding TotalSlice1 = new Binding("TotalSlice");
+                //TotalSlice1.Source = updateStatus;
+                //TotalSlice1.Mode = BindingMode.TwoWay;
+
+                //Binding SliceIndex1 = new Binding("SliceIndex");
+                //SliceIndex1.Source = updateStatus;
+                //SliceIndex1.Mode = BindingMode.TwoWay;
+
                 //Slider2.Minimum = 1;
                 //Slider2.SetBinding(Slider.ValueProperty, SliceIndex1);
                 //Slider2.SetBinding(Slider.MaximumProperty, TotalSlice1);
@@ -697,39 +796,53 @@ namespace Global
                 //    LambdaControl.Trigger("ZINDEX_CHANGED", sender, new Dictionary<string, object>() { { "num", (int)Slider2.Value - 1 } });
                 //};
 
+
+
             }
             catch (Exception ex)
             {
-                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
-            }
+                System.Windows.MessageBox.Show(ex.Message);
 
+            }
             try
             {
-                if (Application.Current.MainWindow.FindName("leftTab") is TabControl leftTab)
+
+                tabControl = (TabControl)mainwin.FindName("leftTab");
+                Border border = (Border)tabControl.Parent;
+                border.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
+                //tabControl.Parent 
+                if (tabControl == null) return;
+                propertySetItem = new TabItem();
+                propertySetItem.Header = "属性设置";
+                ScrollViewer scrollViewer = new ScrollViewer();
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                Viewbox proViewBox = new Viewbox();
+                proViewBox.VerticalAlignment = VerticalAlignment.Top;
+                proViewBox.Stretch = Stretch.Uniform;
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                DimenPreoperty dimenPreoperty = new DimenPreoperty();
+                stackPanel.Children.Add(dimenPreoperty);
+               // dimenPreoperty.DataContext = DrawInkMethod.dimenViewModel;
+                proViewBox.Child = stackPanel;
+                scrollViewer.Content = proViewBox;
+                propertySetItem.Content = scrollViewer;
+                propertySetItem.Visibility = Visibility.Collapsed;
+                tabControl.Items.Add(propertySetItem);
+                
+
+                dimenPreoperty.ColorTextBox.TextChanged += delegate
                 {
-                    tabControl = leftTab;
-                    propertySetItem = new TabItem() { Header = "属性设置" };
-                    ScrollViewer scrollViewer = new ScrollViewer() { HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-                    Viewbox proViewBox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top, Stretch = Stretch.Uniform };
-                    StackPanel stackPanel = new StackPanel() { HorizontalAlignment = HorizontalAlignment.Stretch };
-                    DimenPreoperty dimenPreoperty = new DimenPreoperty();
-                    stackPanel.Children.Add(dimenPreoperty);
+                    inkMethod.drawingAttributes.Color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
+                };
 
-                    proViewBox.Child = stackPanel;
-                    scrollViewer.Content = proViewBox;
-                    propertySetItem.Content = scrollViewer;
-                    propertySetItem.Visibility = Visibility.Collapsed;
-                    tabControl.Items.Add(propertySetItem);
 
-                    dimenPreoperty.ColorTextBox.TextChanged += delegate
-                    {
-                        inkMethod.drawingAttributes.Color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
-                    };
-                }
+
             }
             catch (Exception ex)
             {
-                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+                System.Windows.MessageBox.Show(ex.Message);
             }
 
 
@@ -750,6 +863,12 @@ namespace Global
                 ToggleButton ToggleButtonMove = ((ToggleButton)topToolbar.Children[2]);
                 ToggleButtonMove.SetBinding(ToggleButton.IsCheckedProperty, binding2);
 
+                //ToggleButtonMove.IsChecked = true;
+                //ImageViewState.toolTop.MoveChecked = true;
+
+                //Binding binding3 = new Binding("SearchChecked");
+                //Button ToggleButtonSearch = ((Button)topToolbar.Children[3]);
+                //ToggleButtonSearch.SetBinding(Button.IsCheckedProperty, binding3);
 
                 Binding binding4 = new Binding("ZoomOutChecked");
                 ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
@@ -762,7 +881,9 @@ namespace Global
                 ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
                 ToggleButtonZoomIn.SetBinding(ToggleButton.IsCheckedProperty, binding5);
 
-    
+                //Binding binding6 = new Binding("ScaleInChecked");
+                //ToggleButton ToggleButtonScale = ((ToggleButton)topToolbar.Children[6]);
+                //ToggleButtonScale.SetBinding(ToggleButton.IsCheckedProperty, binding6);
 
                 Binding binding9 = new Binding("DimensionChecked");
                 ToggleButton ToggleButtonDimen = ((ToggleButton)topToolbar.Children[9]);
@@ -794,6 +915,7 @@ namespace Global
                     ColumnDefinition leftView = (ColumnDefinition)mainwin.FindName("leftView");
                     leftViewtemp = leftView.Width;
                     leftView.Width = new GridLength(0);
+
 
                     Border border = (Border)mainwin.FindName("imagingView");
                     border.Background = Brushes.Transparent;
@@ -882,14 +1004,21 @@ namespace Global
                     mainwin.Width = tempWidth;
                     mainwin.Height = tempHeight;
                 };
-                Application.Current.MainWindow.PreviewKeyDown += delegate (object sender, KeyEventArgs e)
-                {
-                    if ((e.Key == Key.Escape) && ImageViewState.toolTop.InlineChecked)
+                try 
+                { 
+                    Application.Current.MainWindow.PreviewKeyDown += delegate (object sender, KeyEventArgs e)
                     {
-                        ImageViewState.toolTop.InlineChecked = false;
-                    }
-                };
-
+                        if ((e.Key == Key.Escape) && ImageViewState.toolTop.InlineChecked)
+                        {
+                            ImageViewState.toolTop.InlineChecked = false;
+                        }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show(ex.Message);
+                }
+               
 
                 ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[14]);
                 ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
@@ -941,8 +1070,11 @@ namespace Global
             }
             catch (Exception ex)
             {
-                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+                System.Windows.MessageBox.Show(ex.Message);
             }
+
+
+
         }
 
 

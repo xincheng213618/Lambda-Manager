@@ -39,6 +39,37 @@ namespace ConfigBottomView
        
 
     }
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public class VisibilityConverter1 : IValueConverter
+    {
+        public object Convert(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture)
+        {
+            if ((bool)value)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Hidden;
+            }
+        }
+
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture)
+        {
+            return (Visibility)value == Visibility.Visible;
+        }
+
+
+    }
+
     public class ValueToHalfConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
