@@ -278,13 +278,13 @@
                                     <Button Style="{DynamicResource ButtonStyle2}">
                                         <Image Source="/Resources/Icons/bottom-backward.png" Stretch="Fill"  />
                                     </Button>
-                                    <TextBlock VerticalAlignment="Center">
+                                    <TextBlock  VerticalAlignment="Center">
                                         <Run Text="FPS:"/>
-                                        <Run x:Name="fpsState" Text="{Binding FPS}"/>
+                                        <Run Text="{Binding FPS}"/>
                                         <!--<Run Text="/"/>-->
                                         <Run x:Name="allfpsState" Text="{Binding AllFPS}"/>
                                     </TextBlock>
-                                    <TextBox/>
+                                    <TextBox  x:Name="fpsState" />
 
                                     <Slider Width="180" Height="20" Maximum="100" Value="0" Style="{DynamicResource HorizontalSlider}" VerticalAlignment="Center"/>
 

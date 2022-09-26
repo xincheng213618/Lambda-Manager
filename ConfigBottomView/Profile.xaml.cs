@@ -26,6 +26,8 @@ namespace ConfigBottomView
         public DoubleUpDown doubleUpDown2;
         public CheckBox Marker1Check;
         public CheckBox Marker2Check;
+
+        public Image profileImage;
         public Profile()
         {
             InitializeComponent();
@@ -43,6 +45,7 @@ namespace ConfigBottomView
             doubleUpDown2 = NumUpdown2;
             Marker1Check = Marker1;
             Marker2Check = Marker2;
+            profileImage = ProfileImage;
 
         }
 

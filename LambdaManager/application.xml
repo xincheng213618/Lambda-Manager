@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root title="NJUST-SCIL多模显微镜" left="300" middle="closed" maximize="true">
 	<singlecompoent path ="application1.xml"/>
-	<singlecompoent path ="lib1\application.xml"/>
+	<singlecompoent path ="lib\application.xml"/>
 </root>

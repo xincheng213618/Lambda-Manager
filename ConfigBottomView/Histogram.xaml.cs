@@ -15,6 +15,7 @@ namespace ConfigBottomView
     /// </summary>
     public partial class Histogram : UserControl
     {
+        public Image histogramImage;
         public Histogram()
         {
             InitializeComponent();
@@ -28,12 +29,18 @@ namespace ConfigBottomView
                 IsHighlighter = true,
                 IgnorePressure = true,
             };
+            histogramImage = HistogramImage;
+
             // MessageBox.Show("1111");
         }
        
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            LambdaControl.RegisterImageView(HistogramImage).ToString();
+            //MessageBox.Show("33");
+            //LambdaControl.RegisterImageView(HistogramImage).ToString();
+            //LambdaControl.RegisterImageView(ProfileImage).ToString();
+
+
         }
         /// <summary>
         /// R4 G2 B1

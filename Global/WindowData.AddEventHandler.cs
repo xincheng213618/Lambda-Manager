@@ -27,7 +27,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
-            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
+            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StageIniClosed, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
 
@@ -65,7 +65,7 @@ namespace Global
 
         }
 
-        private bool StaheIniClose(object sender, EventArgs e)
+        private bool StageIniClosed(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -78,60 +78,30 @@ namespace Global
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                Window mainwin = Application.Current.MainWindow;
-                if (mainwin != null)
+                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count>1&& stageAcquisition.Children[1] is DockPanel dockPanel &&
+                dockPanel.Children.Count>1 && dockPanel.Children[1] is StackPanel stackPanel && stackPanel.Children.Count > 0 && stackPanel.Children[0] is ToggleButton toggleButton)
                 {
-                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
-                    if (grid != null)
-                    {
-                        DockPanel dockPanel = (DockPanel)grid.Children[1];
-                        StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
-                        ToggleButton toggleButton = (ToggleButton)stackPanel.Children[0];
-
-                        if (toggleButton != null && toggleButton.IsChecked == true)
-                        {
-                            toggleButton.IsChecked = false;
-                            toggleButton.Content = "开始采集";
-                        }
-                    }
-
+                    toggleButton.IsChecked = false;
+                    toggleButton.Content = "开始采集";
                 }
-
                 ACQUIRE = false;
-
             });
             return true;
         }
-
-       
-
-
 
         private bool seriesProjectManager(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                Window mainwin = Application.Current.MainWindow;
-                if (mainwin != null)
+
+                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count > 1 && stageAcquisition.Children[1] is DockPanel dockPanel &&
+                dockPanel.Children.Count > 0 && dockPanel.Children[0] is  ToggleButton toggleButton)
                 {
-                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
-                    if (grid != null)
-                    {
-                        DockPanel dockPanel = (DockPanel)grid.Children[1];
-                        ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
-                        if (toggleButton != null && toggleButton.IsChecked == true)
-                        {
                             toggleButton.IsChecked = false;
                             toggleButton.Content = "预览";
-                            EventArgs eventArgs = new EventArgs();
                         }
-                    }
-                }
-
             });
-
             return true;
-
         }
 
 
@@ -167,9 +137,6 @@ namespace Global
             histogramModel.MoveEnable = true;
             ALIVE = false;
             return true;
-
-
-
         }
         private bool Mul_ZStep(object sender, EventArgs e)
         {
@@ -550,18 +517,6 @@ namespace Global
                 updateStatus.ImageX = eventData.GetString("x");
                 updateStatus.ImageY = eventData.GetString("y");
                 updateStatus.ImageZ = eventData.GetString("z");
-                if (!string.IsNullOrEmpty(updateStatus.ImageX))
-                {
-                    WindowMsg.StageX = int.Parse(updateStatus.ImageX[2..]);
-                }
-                if (!string.IsNullOrEmpty(updateStatus.ImageY))
-                {
-                    WindowMsg.StageY = int.Parse(updateStatus.ImageY[2..]);
-                }
-                if (!string.IsNullOrEmpty(updateStatus.ImageZ))
-                {
-                    WindowMsg.StageZ = int.Parse(updateStatus.ImageZ[2..]);
-                }
 
                 updateStatus.ImageSize = eventData.GetString("size");
                 updateStatus.imageFocus = eventData.GetString("focus");
@@ -655,13 +610,10 @@ namespace Global
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
             return true;
         }
-
-
-
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };

@@ -302,9 +302,7 @@ namespace ConfigObjective
             ZAbsolute.Text = "Z-绝对坐标";
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 }, { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
 
-
-
-       
+        }
         private void ToggleButton222_Unchecked(object sender, RoutedEventArgs e)
         {
           windowData.MulDimensional.TInterval = "-1";

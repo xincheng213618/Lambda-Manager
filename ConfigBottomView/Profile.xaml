@@ -44,7 +44,7 @@
             <Grid Grid.Column="1" ShowGridLines="True" Margin="0,0,0,0" >
                 <Border Name="ImageBorder" Padding="20,0,10,15" BorderBrush="#333333" BorderThickness="0" Background="#444444">
                     <Border BorderBrush="White" BorderThickness="1" Margin="0">
-                        <Image Margin="0"   Name="ProfileImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill" ></Image>
+                        <Image Margin="0" Name="ProfileImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill" ></Image>
                     </Border>
 
                 </Border>
@@ -83,35 +83,34 @@
                 <WrapPanel>
                     <Label Content="标记" Foreground="White" ></Label>
                     <WrapPanel Margin="5,0,0,0">
-                        <WrapPanel Margin="5,0,0,0">
-                            <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="点1纵坐标">
-                                <CheckBox  Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker1Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker1" Content="标记1-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker1_Checked" Unchecked="Marker1_Unchecked" ></CheckBox>
-                                <TextBlock Width="50"  Text="0.2062" HorizontalAlignment="Right" Foreground="White" Margin="27,0,0,0" ></TextBlock>
-                            </StackPanel>
-                            <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="点2纵坐标">
-                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker2Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker2" Content="标记2-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker2_Checked" Unchecked="Marker2_Unchecked" ></CheckBox>
-                                <TextBlock Width="50" Text="0.0609" HorizontalAlignment="Right"  Foreground="White"  Margin="27,0,0,0"></TextBlock>
-                            </StackPanel>
-                            <StackPanel  Margin="0"  Orientation="Horizontal"  ToolTip="两点间纵坐标差值" >
-                                <TextBlock Text="标记  ∆Y" HorizontalAlignment="Left" Margin="4,0,0,0" Foreground="White"></TextBlock>
-                                <TextBlock Width="50" Text="0.2044" HorizontalAlignment="Right"  Foreground="White"  Margin="41,0,0,0"></TextBlock>
-                            </StackPanel>
+                        <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
+                            <CheckBox  Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker1Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker1" Content="标记1-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker1_Checked" Unchecked="Marker1_Unchecked" ></CheckBox>
+                            <TextBlock Width="50"  Text="0.2062" HorizontalAlignment="Right" Foreground="White" Margin="27,0,0,0" ></TextBlock>
+                        </StackPanel>
+                        <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
+                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" IsChecked="{Binding Marker2Show,Mode=TwoWay}" VerticalAlignment="Center" Name="Marker2" Content="标记2-Y" HorizontalContentAlignment="Left" Foreground="White" Checked="Marker2_Checked" Unchecked="Marker2_Unchecked" ></CheckBox>
+                            <TextBlock Width="50" Text="0.0609" HorizontalAlignment="Right"  Foreground="White"  Margin="27,0,0,0"></TextBlock>
 
-                            <StackPanel   Margin="0"  Orientation="Horizontal" HorizontalAlignment="Stretch" ToolTip="两点间横坐标差值" >
-                                <TextBlock Foreground="White" Text="标记  ∆X" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
-                                <TextBlock Width="50" Text="10.632" HorizontalAlignment="Right" Foreground="White"  Margin="41,0,0,0" ></TextBlock>
-                            </StackPanel>
-                        </WrapPanel>
+                        </StackPanel>
+                        <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Text="标记 ΔY" HorizontalAlignment="Left" Margin="4,0,0,0"  Foreground="White"></TextBlock>
+                            <TextBlock Width="50" Text="0.2044" HorizontalAlignment="Right"  Foreground="White"  Margin="45,0,0,0"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel   Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left" >
+                            <TextBlock Foreground="White" Text="标记 ΔX" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
+                            <TextBlock Width="50" Text="0.0013" HorizontalAlignment="Right" Foreground="White"  Margin="45,0,0,0" ></TextBlock>
+                        </StackPanel>
                     </WrapPanel>
                     <Label Content="高度" Foreground="White"></Label>
                     <WrapPanel Orientation="Vertical" Margin="5,0,0,0">
                         <StackPanel   Orientation="Horizontal" HorizontalAlignment="Stretch" >
                             <TextBlock Foreground="White" Text="物体折射率" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
-                            <TextBox Width="50" Text="1.4500" HorizontalAlignment="Right"  Foreground="White" Margin="30,0,0,0" ></TextBox>
+                            <TextBox Width="50" Text="1.4500" HorizontalAlignment="Right"  Foreground="White" Margin="27,0,0,0" ></TextBox>
                         </StackPanel>
                         <StackPanel   Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Foreground="White" Text="介质折射率" HorizontalAlignment="Left" Margin="4,0,0,0"></TextBlock>
-                            <TextBox Width="50" Text="1.0000" HorizontalAlignment="Right" Foreground="White"   Margin="30,0,0,0" ></TextBox>
+                            <TextBlock Foreground="White" Text="介质折射率" HorizontalAlignment="Left" Margin="4,2,0,0"></TextBlock>
+                            <TextBox Width="50" Text="1.0000" HorizontalAlignment="Right" Foreground="White"   Margin="27,2,0,0" ></TextBox>
                         </StackPanel>
                     </WrapPanel>
 

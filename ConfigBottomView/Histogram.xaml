@@ -59,7 +59,7 @@
                 <Border Name="ImageBorder" Padding="20,0,10,15" BorderBrush="#333333" BorderThickness="0" Background="#444444">
                     <Border BorderBrush="White" BorderThickness="1" Margin="0">
 
-                        <Image Margin="0"   Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill"  SizeChanged="HistogramImage_SizeChanged"></Image>
+                        <Image Margin="0"   x:Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill"  SizeChanged="HistogramImage_SizeChanged"></Image>
                     </Border>
 
                 </Border>
