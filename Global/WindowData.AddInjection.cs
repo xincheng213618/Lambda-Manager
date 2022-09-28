@@ -46,6 +46,26 @@ namespace Global
 
             if (Application.Current.MainWindow.FindName("grid0") is not Grid) return;
 
+
+
+            if (Application.Current.MainWindow.Content is Grid mainGrid && mainGrid.Children[0] is Grid grid2 && grid2.Children[1] is StackPanel stackPanelMode)
+            {
+
+                if (stackPanelMode.Children[3] is RadioButton radioButton)
+                {
+
+                    radioButton.Checked += delegate
+                    {
+
+                    };
+                    radioButton.Unchecked += delegate
+                    {
+
+                    };
+                }
+            }
+
+
             try
             {   
                 // Add Histogram

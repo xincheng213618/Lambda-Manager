@@ -34,7 +34,6 @@ namespace Solution
                 }
             }
             ListView1.ItemsSource = SoulutionInfos;
-
         }
 
 

@@ -460,12 +460,52 @@ int CameraSettingExposureIni(char** result_data, int len)
 	a++;
 	return  0;
 }
+int getImagePathList(std::string folder, std::vector<cv::String>& imagePathList)
+{
+	//search all the image in a folder
+	cv::glob(folder, imagePathList);
+	return 0;
+}
+
+string UTF8ToGB(const char* str)
+{
+	string result;
+	WCHAR* strSrc;
+	LPSTR szRes;
+
+	int i = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+	strSrc = new WCHAR[i + 1];
+	MultiByteToWideChar(CP_UTF8, 0, str, -1, strSrc, i);
+
+	i = WideCharToMultiByte(CP_ACP, 0, strSrc, -1, NULL, 0, NULL, NULL);
+	szRes = new CHAR[i + 1];
+	WideCharToMultiByte(CP_ACP, 0, strSrc, -1, szRes, i, NULL, NULL);
+
+	result = szRes;
+	delete[]strSrc;
+	delete[]szRes;
+	return result;
+}
+
+
 
 int OpenSerial(char* FullPath)	
 {
 	//std::wstring fp = StringUtils::string2wstring(FullPath);
 	Logger::Log1(Severity::INFO, FullPath);
+	std::string str = UTF8ToGB(FullPath);
+	Logger::Log1(Severity::INFO, str);
+
 	return  0;
+}
+
+CAMERA_API int Read_img(char* FilePath)
+{
+	Logger::Log1(Severity::INFO, FilePath);
+	cv::Mat  file = cv::imread(FilePath);
+	LambdaView* view = LambdaView::GetIdleOrNew();
+	view->Show(file);
+	return 0;
 }
 
 

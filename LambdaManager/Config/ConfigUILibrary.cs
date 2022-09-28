@@ -14,8 +14,8 @@ namespace LambdaManager.Config;
 
 public class UIPlugin
 {
-	public string filePath { get; set; }
-    public string typeName { get; set; }
+	public string FilePath { get; set; }
+    public string TypeName { get; set; }
 
 	public string MD5 { get; set; }
 
@@ -77,9 +77,9 @@ public class ConfigUILibrary: ILambdaUI
     public void LoadControl(string name, string lib, string mount)
 	{
         string typeName = lib.Replace(".dll", "") + "." + name;
-        UIPlugin uIPlugin = new UIPlugin() { filePath = Directory.GetCurrentDirectory() + "\\" + lib, typeName = typeName };
+        UIPlugin uIPlugin = new UIPlugin() { FilePath = Directory.GetCurrentDirectory() + "\\" + lib, TypeName = typeName };
 
-        byte[] dllbytes = File.ReadAllBytes(uIPlugin.filePath);
+        byte[] dllbytes = File.ReadAllBytes(uIPlugin.FilePath);
         Assembly assembly = Assembly.Load(dllbytes);
 
         Side side = GetConfigSide(mount);
@@ -117,11 +117,11 @@ public class ConfigUILibrary: ILambdaUI
         else
         {
             stackPanel = (StackPanel)Main.GetConfigPanel(uIPlugin.side);
-            uIPlugin.MD5 = GetMD5(uIPlugin.filePath);
+            uIPlugin.MD5 = GetMD5(uIPlugin.FilePath);
         }
-        byte[] dllbytes = File.ReadAllBytes(uIPlugin.filePath);
+        byte[] dllbytes = File.ReadAllBytes(uIPlugin.FilePath);
         Assembly assembly = Assembly.Load(dllbytes);
-        if ((assembly.CreateInstance(uIPlugin.typeName) is Control control))
+        if ((assembly.CreateInstance(uIPlugin.TypeName) is Control control))
         {
             uIPlugin.control = control;
             stackPanel.Children.Add(control);

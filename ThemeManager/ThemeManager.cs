@@ -17,7 +17,7 @@ namespace ThemeManager
     public static class TypeExtension
     {
 
-        public static string Description(this Theme obj)
+        public static string GetDescription(this Theme obj)
         {
             return GetDescription(obj);
         }

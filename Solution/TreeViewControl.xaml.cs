@@ -55,7 +55,7 @@ namespace Solution
                 IsFirstLoad = false;
 
                 //追加在显示的时候显示触发
-                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToUincode());
+                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
             }
         }
@@ -72,8 +72,12 @@ namespace Solution
         public string SolutionDir
         {
             get { return solutionDir; }
-            set { solutionDir = value;
-                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToUincode());
+            set { 
+                if (value!=null && value!= solutionDir)
+                {
+                    solutionDir = value;
+                    LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
+                }
             }
         }
 
@@ -82,7 +86,13 @@ namespace Solution
         public string SolutionFullName 
         {
             get { return solutionFullName; }
-            set { solutionFullName = value;}
+            set {
+                if (solutionFullName != value) 
+                {
+                    solutionFullName = value;
+                    SolutionDir =Path.GetDirectoryName(solutionFullName);
+                }
+                }
         }
 
         private void Window_Closed(object sender, EventArgs e)

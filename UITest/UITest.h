@@ -38,6 +38,8 @@ extern "C" CAMERA_API int MatShow(cv::Mat * Test);
 extern "C" CAMERA_API int MatShow1(cv::Mat * Test , int num);
 extern "C" CAMERA_API  int ViewWindow(int type, int window, int mode1, int mode2);
 extern "C" CAMERA_API int StageSettingReset();
+
+
 struct Cam
 {
 	char ip[16];
@@ -50,6 +52,8 @@ struct Cam
 extern "C" CAMERA_API int CameraSettingCam(Cam &cam);
 
 extern "C" CAMERA_API int OpenSerial(char* FullPath);
+
+extern "C" CAMERA_API int Read_img(char* FilePath);
 
 int Start();
 

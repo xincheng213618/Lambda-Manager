@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Solution"
         xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="400" Width="350" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen"   >
+        Height="440" Width="350" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen"   >
     <Grid>
         <TextBlock Text="导出为" FontSize="15"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <DockPanel  >
