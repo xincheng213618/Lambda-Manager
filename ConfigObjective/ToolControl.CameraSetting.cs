@@ -23,6 +23,8 @@ namespace ConfigObjective
                       cameraSetting.Exposure = windowData.ExposureViewMode.Index;
                 }
             };
+            UpDownControl1.ExposureViewMode = windowData.ExposureViewMode;
+            UpDownControl1.DataContext = windowData.ExposureViewMode;
 
             if (Border2.DataContext is Camera cameraSetting)
             {

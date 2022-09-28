@@ -498,6 +498,7 @@ int test() {
 	Cellinfos.push_back({ 1,2,1,2222,4444,5555 });
 
 	Event::Trigger("CellinfoTest", &Cellinfos);
+	return 1;
 }
 
 int VideoTest() {

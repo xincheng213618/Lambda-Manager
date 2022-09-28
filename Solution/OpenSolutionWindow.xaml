@@ -35,14 +35,14 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="true">
-                                    <Setter Property="Background" TargetName="Bd" Value="#222222"/>
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SelectedListItem}"/>
                                 </Trigger>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
                                         <Condition Property="IsMouseOver" Value="true"/>
                                         <Condition Property="IsSelected" Value="false"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" TargetName="Bd" Value="#555555"/>
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SelectedListItem}"/>
                                 </MultiTrigger>
                                 <Trigger Property="IsEnabled" Value="false">
                                     <Setter Property="Foreground" Value="{StaticResource DisabledMenuForeground}"/>
@@ -70,6 +70,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="最近使用的内容"  FontSize="15"/>
                 <ScrollViewer  Grid.Row="1"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+ 
                     <ListView  x:Name="ListView1"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ScrollViewer.VerticalScrollBarVisibility="Auto" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
                         <ListView.View>
                             <GridView   >

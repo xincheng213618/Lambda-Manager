@@ -7,13 +7,14 @@
 
     <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
     <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>
+    
     <Style TargetType="{x:Type ToolTip}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
-                    <Border Name="Border" Background="#1F1F1F" BorderBrush="#707070"  BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                    <Border Name="Border" Background="{DynamicResource ThemeBrush}" BorderBrush="{DynamicResource ForegroundBrush}" Opacity="0.9"  BorderThickness="0.5" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                         <ContentPresenter Margin="4"  HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </Border>
                     <ControlTemplate.Triggers>

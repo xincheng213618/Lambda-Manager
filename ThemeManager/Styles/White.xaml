@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="ThemeColor">White</Color>
+    <Color x:Key="ForegroundColor">black</Color>
+
     <Color x:Key="WindowBackgroundColor">#EEEEF2</Color>
     <Color x:Key="DarkBackgroundColor">#EEEEF2</Color>
     <Color x:Key="LightBackgroundColor">#DDDDDD</Color>
@@ -7,7 +10,6 @@
     <Color x:Key="DisabledBackgroundColor">#BDBDBD</Color>
     <Color x:Key="LightDisabledBackgroundColor">#999999</Color>
 
-    <Color x:Key="ForegroundColor">#000000</Color>
 
     <Color x:Key="HighlightColor">#C2C2C2</Color>
     <Color x:Key="HotColor">#ADADAD</Color>

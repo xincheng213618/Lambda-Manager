@@ -109,6 +109,18 @@ namespace Lambda
                 Data = json2
             }));
         }
+        public void Dispatch(string type, Dictionary<string, object>? json, int millis)
+        {
+            AddEventTimer(type, millis, delegate
+            {
+                timers.Remove(type);
+                CallEventHandler?.Invoke(type, this, new LambdaArgs
+                {
+                    Data = json
+                });
+            });
+        }
+
 
         public void Trigger(string type, string? json)
         {
@@ -125,6 +137,22 @@ namespace Lambda
             }));
         }
 
+        public void Dispatch(string type, string? json, int millis)
+        {
+            string type2 = type;
+            string json2 = json;
+            AddEventTimer(type2, millis, delegate
+            {
+                timers.Remove(type2);
+                CallEventHandler?.Invoke(type2, this, new LambdaArgs
+                {
+                    Data = json2
+                });
+            });
+        }
+
+
+
         public void Trigger(string type, EventArgs e)
         {
             CallEventHandler?.Invoke(type, this, e);
@@ -136,6 +164,17 @@ namespace Lambda
             EventArgs e2 = e;
             await Task.Run(() => CallEventHandler?.Invoke(type2, this, e2));
         }
+        public void Dispatch(string type, EventArgs e, int millis)
+        {
+            string type2 = type;
+            EventArgs e3 = e;
+            AddEventTimer(type2, millis, delegate
+            {
+                timers.Remove(type2);
+                CallEventHandler?.Invoke(type2, this, e3);
+            });
+        }
+
 
         /// <summary>
         /// ×Öµä´«²Î
@@ -160,37 +199,37 @@ namespace Lambda
         /// </summary>
         public static void Trigger(string type, object sender, Array? array)
         {
-            //if (array != null)
-            //{
-            //    List<string> logarray = new List<string>();
-            //    foreach (var item in array)
-            //    {
-            //        if (item != null)
-            //        {
-            //            string logtemp = item.ToString();
-
-            //            logarray.Add(logtemp);
-            //        }
-
-            //    }
-            //    string temp = $"[{String.Join(",", logarray.ToArray())}]" ;
-            //    Log(new Message { Severity = Severity.INFO, Text = type + temp });
-            //}
             CallEventHandler?.Invoke(type, sender, new LambdaArgs
             {
                 Data = array
             });
         }
+        public void Dispatch(string type, object sender, Array? array, int millis)
+        {
+            AddEventTimer(type, millis, delegate
+            {
+                timers.Remove(type);
+                Trigger(type, sender, array);
+            });
+        }
+
+
 
         public static async void Dispatch(string type, object sender, Dictionary<string, object>? json)
         {
-            string type2 = type;
-            object sender2 = sender;
-            Dictionary<string, object> json2 = json;
-            await Task.Run(() => CallEventHandler?.Invoke(type2, sender2, new LambdaArgs
+            await Task.Run(() => CallEventHandler?.Invoke(type, sender, new LambdaArgs
             {
-                Data = json2
+                Data = json
             }));
+        }
+
+        public static void Dispatch(string type, object sender, Dictionary<string, object>? json, int millis)
+        {
+            AddEventTimer(type, millis, delegate
+            {
+                timers.Remove(type);
+                Trigger(type, sender, json);
+            });
         }
 
         public static void Trigger(string type, object sender, string? json)
@@ -204,31 +243,43 @@ namespace Lambda
 
         }
 
-        public static async void Dispatch(string type, object sender, string? json)
+        public async void Dispatch(string type, object sender, string? json)
         {
-            string type2 = type;
-            object sender2 = sender;
-            string json2 = json;
-            await Task.Run(() => CallEventHandler?.Invoke(type2, sender2, new LambdaArgs
+            await Task.Run(() => CallEventHandler?.Invoke(type, sender, new LambdaArgs
             {
-                Data = json2
+                Data = json
             }));
         }
 
+        public static void Dispatch(string type, object sender, string? json, int millis)
+        {
+            AddEventTimer(type, millis, delegate
+            {
+                timers.Remove(type);
+                Trigger(type, sender, json);
+            });
+        }
         public static void Trigger(string type, object sender, EventArgs e)
         {
             Log(new Message { Severity = Severity.INFO, Text = type  });
             CallEventHandler?.Invoke(type, sender, e);
         }
 
-        public static async void Dispatch(string type, object sender, EventArgs e)
+        public  async void Dispatch(string type, object sender, EventArgs e)
         {
             string type2 = type;
             object sender2 = sender;
             EventArgs e2 = e;
             await Task.Run(() => CallEventHandler?.Invoke(type2, sender2, e2));
         }
-
+        public static void Dispatch(string type, object sender, EventArgs e, int millis)
+        {
+            AddEventTimer(type, millis, delegate
+            {
+                timers.Remove(type);
+                Trigger(type, sender, e);
+            });
+        }
         public static void AddLambdaEventHandler(string type, LambdaHandler handler, bool once)
         {
             AddEventHandler?.Invoke(type, handler, once);

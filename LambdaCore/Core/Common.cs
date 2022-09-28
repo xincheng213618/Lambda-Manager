@@ -649,10 +649,9 @@ namespace LambdaManager.Core
                 4 => PixelFormats.Bgr32,
                 _ => PixelFormats.Default,
             };
-
+            if (rows == 0) { return 2; }
             Application.Current.Dispatcher.Invoke(delegate
             {
-
                 WriteableBitmap writeableBitmap = new WriteableBitmap(cols, rows, 96.0, 96.0, format, null);
                 CopyMemory(writeableBitmap.BackBuffer, buff, (uint)(cols * rows * type));
                 writeableBitmap.Lock();

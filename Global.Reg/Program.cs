@@ -81,7 +81,7 @@ namespace Global.Reg
                     Directory.CreateDirectory(outputDmpPath);
                 }
 
-                var fileName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+                var fileName = Process.GetCurrentProcess().MainModule.FileName;
                 var processName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
 
                 //注册表地址

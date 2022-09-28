@@ -34,13 +34,13 @@ namespace Global.Common.Extensions
         }
 
         /// <summary>
-        /// 中文转ASCII
+        ///  只有中文转换成Uincode
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string ToASCII(this string str)
+        public static string ToUincode(this string str)
         {
-            return Converter.String.ToASCII(str);
+            return Converter.String.ToUincode(str);
         }
     }
 }

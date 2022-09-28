@@ -10,7 +10,7 @@ namespace Global.Common.Converter
 {
     public static class String
     {
-        public static string ToASCII(string str)
+        public static string ToUincode(string str)
         {
             using MemoryStream memoryStream = new();
             using (Utf8JsonWriter writer = new((Stream)memoryStream, default))

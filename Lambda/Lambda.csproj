@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
     <AssemblyName>Lambda</AssemblyName>
-    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <UseWPF>True</UseWPF>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
@@ -12,11 +11,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <IncludeSymbols>False</IncludeSymbols>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-    <IsPublishable>True</IsPublishable>
-    <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>

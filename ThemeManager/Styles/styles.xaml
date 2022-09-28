@@ -9,22 +9,9 @@
     <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
     <!--#endregion-->
 
-    <!--#region Colors-->
-    <!--<Color x:Key="WindowBackgroundColor">#444444</Color>
-    <Color x:Key="DarkBackgroundColor">#333333</Color>
-    <Color x:Key="LightBackgroundColor">#595959</Color>
-    <Color x:Key="BackgroundColor">#3D3D3D</Color>
-    <Color x:Key="DisabledBackgroundColor">#424242</Color>
-    <Color x:Key="LightDisabledBackgroundColor">#666666</Color>
-
-    <Color x:Key="ForegroundColor">#EFEFEF</Color>
-
-    <Color x:Key="HighlightColor">#3D3D3D</Color>
-    <Color x:Key="HotColor">#525252</Color>-->
-
-    <!--#endregion-->
-
     <!--#region Brushes-->
+    <SolidColorBrush x:Key="ThemeBrush" Color="{StaticResource ThemeColor}"/>
+
     <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
     <SolidColorBrush x:Key="MouseOverForegroundBrush" Color="{StaticResource DarkBackgroundColor}"/>
     <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}"/>
@@ -156,7 +143,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
-                    <Border Name="Border" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource GlobalBackgroundBrush}"  BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                    <Border Name="Border" Background="{DynamicResource ThemeBrush}" BorderBrush="{DynamicResource ForegroundBrush}" Opacity="0.9"  BorderThickness="0.5" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                         <ContentPresenter Margin="4"  HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -1845,14 +1832,14 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" TargetName="Bd" Value="#222222"/>
+                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource SelectedListItem}"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsSelected" Value="false"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="Bd" Value="#555555"/>
+                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource SelectedListItem}"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{StaticResource DisabledMenuForeground}"/>
@@ -2065,6 +2052,42 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="true">
+                        <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource SelectedListItem}"/>
+                            <Setter Property="Foreground" Value="{StaticResource SelectedListItemForeground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsSelected" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource MouseOverListItem}"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource DisabledMenuForeground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style x:Key="ListViewItemGridViewStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}">
         <Setter Property="Template">

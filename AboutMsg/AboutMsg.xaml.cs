@@ -61,6 +61,7 @@ namespace AboutMsg
         {
             System.Diagnostics.Process.Start("dxdiag.exe");
         }
+
     }
 
 

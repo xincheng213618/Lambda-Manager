@@ -156,7 +156,10 @@ namespace Global
                         {
                             propertySetItem.Visibility = Visibility.Visible;
                             propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
-                            tempSelectedIndex = tabControl.SelectedIndex;
+
+                            if (tabControl.SelectedIndex!=5)
+                                tempSelectedIndex = tabControl.SelectedIndex;
+
                             tabControl.SelectedIndex = 5;
                             DrawInkMethod.dimenViewModel.DimShapeCombo = false;
                             if (ImageViewState.toolTop.LineChecked)
@@ -169,7 +172,8 @@ namespace Global
                             if (ImageViewState.toolTop.DimensionChecked == true || ImageViewState.toolTop.EraserChecked)
                             {
                                 propertySetItem.Visibility = Visibility.Visible;
-                                tempSelectedIndex = tabControl.SelectedIndex;
+                                if (tabControl.SelectedIndex != 5)
+                                    tempSelectedIndex = tabControl.SelectedIndex;
                                 tabControl.SelectedIndex = 5;
                                 DrawInkMethod.dimenViewModel.DimShapeCombo = false;
                                 propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
@@ -193,7 +197,8 @@ namespace Global
                         if (ImageViewState.toolTop.DimensionChecked == true )
                         {
                             propertySetItem.Visibility = Visibility.Visible;
-                            tempSelectedIndex = tabControl.SelectedIndex;
+                            if (tabControl.SelectedIndex != 5)
+                                tempSelectedIndex = tabControl.SelectedIndex;
                             tabControl.SelectedIndex = 5;
                             DrawInkMethod.dimenViewModel.DimShapeCombo = false;
                             propertySetItem.DataContext = DrawInkMethod.defdimenViewModel;
@@ -214,7 +219,8 @@ namespace Global
                         {
                             propertySetItem.Visibility = Visibility.Visible;
                             propertySetItem.DataContext = DrawInkMethod.dimenViewModel;
-                            tempSelectedIndex = tabControl.SelectedIndex;
+                            if (tabControl.SelectedIndex != 5)
+                                tempSelectedIndex = tabControl.SelectedIndex;
                             tabControl.SelectedIndex = 5;
                             DrawInkMethod.dimenViewModel.DimShapeCombo = false;
                             if (ImageViewState.toolTop.LineChecked)

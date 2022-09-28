@@ -63,13 +63,15 @@ namespace LambdaDemo
             {
                 if (control is Window window)
                 {
-                    MenuItem menuItem = AddMenuItem(mount);
-                    menuItem.Click += delegate
+                    if (AddMenuItem(mount) is MenuItem menuItem)
                     {
-                        window.Owner = this;
-                        window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                        window.ShowDialog();
-                    };
+                        menuItem.Click += delegate
+                        {
+                            window.Owner = this;
+                            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                            window.ShowDialog();
+                        };
+                    }
                 }
                 else
                 {

@@ -105,49 +105,89 @@
                 <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="0,0,0,0" >
                     <StackPanel x:Name="StackPanelTreeView" Margin="0,0,20,0">
                         <GroupBox x:Name="GroupBox1"  Style="{DynamicResource GroupBoxStyle1}" Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <UniformGrid Margin="10,5" Height="200"  Columns="5"  Rows="2" >
-                                <StackPanel>
-                                    <DockPanel>
-                                        <Label Content="主题:"/>
-                                        <ComboBox Name="ComboBox1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged"   />
-                                    </DockPanel>
-                                    <CheckBox x:Name="CheckBox1" Content="支持多个工程" Height="15"  Padding="0" Margin="2" IsChecked="{Binding IsSupportMultiProject}"/>
-                                </StackPanel>
-                                <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
-                                <Button Margin="20"   Content="自动校准"  Click="Button_Click_2"/>
-                                <Button Margin="20"   Content="装饰灯关"  Click="Button_Click_3"/>
-                                <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
-                                <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
-                                <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>
-                            </UniformGrid>
+                            <StackPanel>
+                                <GroupBox Style="{DynamicResource GroupBoxStyle2}" Header="工程管理模式">
+                                    <StackPanel Margin="10,5"  >
+                                        <CheckBox x:Name="CheckBox1" Content="支持多个工程" Height="15"  Padding="0" Margin="2" IsChecked="{Binding IsSupportMultiProject}"/>
+                                        <CheckBox Content="工程数据保存路径"/>
+                                        <CheckBox Content="工程数据保存路径"/>
+
+                                    </StackPanel>
+
+                                </GroupBox>
+                                
+                                <UniformGrid Margin="10,5" Height="150"  Columns="5"  Rows="2" >
+                                    <StackPanel>
+                                        <DockPanel>
+                                            <Label Content="主题:"/>
+                                            <ComboBox Name="ComboBox1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged"   />
+                                        </DockPanel>
+                                    </StackPanel>
+                                    <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
+                                    <Button Margin="20"   Content="自动校准"  Click="Button_Click_2"/>
+                                    <Button Margin="20"   Content="装饰灯关"  Click="Button_Click_3"/>
+                                    <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
+                                    <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
+                                    <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>
+                                </UniformGrid>
+
+                            </StackPanel>
+
                         </GroupBox>
                         <GroupBox x:Name="GroupBox2"  Style="{DynamicResource GroupBoxStyle1}" Header="硬件配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel>
                                 <GroupBox x:Name="GroupBox21"  Style="{DynamicResource GroupBoxStyle2}" Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                                     <StackPanel Margin="10,5"  >
-                                        <TextBlock Text="LED行列数"/>
-                                        <TextBlock Text="LED间距"/>
-                                        <TextBlock Text="LED高度"/>
-                                        <TextBlock Text="LED颜色Bit数"/>
-                                        <TextBlock Text="LED中心波长"/>
-                                        <TextBlock Text="照明模式最高刷新速率"/>
-                                        <TextBlock Text="照明最大数值孔径"/>
-                                        <TextBlock Text="照明亮度"/>
+                                        <TextBlock Margin="0,3" Text="LED行列数： 64"/>
+                                        <TextBlock Margin="0,3" Text="LED间距：  5nm"/>
+                                        <TextBlock Margin="0,3" Text="LED高度:  10cm"/>
+                                        <TextBlock Margin="0,3" Text="LED颜色Bit数:  3"/>
+                                        <TextBlock Margin="0,3" Text="LED中心波长:  15um"/>
+                                        <TextBlock Margin="0,3" Text="照明模式最高刷新速率:  1MHZ"/>
+                                        <TextBlock Margin="0,3" Text="照明最大数值孔径:  30"/>
+                                        <TextBlock Margin="0,3" Text="照明亮度: 10cd"/>
                                     </StackPanel>
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox22" Style="{DynamicResource GroupBoxStyle2}" Header="载物台配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5" Height="120"  >
-  
+                                    <StackPanel Margin="10,5"  >
+
                                     </StackPanel>
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox23" Style="{DynamicResource GroupBoxStyle2}"  Header="物镜配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"  Height="120" >
+                                    <StackPanel Margin="10,5"   >
            
                                     </StackPanel>
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox24" Style="{DynamicResource GroupBoxStyle2}" Header="相机配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5" Height="120"  >
-       
+                                    <StackPanel Margin="10,5"   >
+                                        <DockPanel  Margin="0,5" HorizontalAlignment="Left" >
+                                            <TextBlock Text="相机型号" VerticalAlignment="Center"/>
+                                            <ComboBox SelectedIndex="0"  Height="22" Margin="10,0">
+                                                <ComboBoxItem Content="DFK 22AUC03" />
+                                                <ComboBoxItem Content="DFK 33UX264"/>
+                                            </ComboBox>
+                                        </DockPanel>
+                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
+                                            <TextBlock Text="图像翻转" VerticalAlignment="Center"/>
+                                            <CheckBox Content="水平翻转" Margin="10,0"/>
+                                            <CheckBox Content="垂直翻转"/>
+                                        </DockPanel>
+                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
+                                            <TextBlock Text="相机靶面大小: 2222"/>
+                                        </DockPanel>
+                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
+                                            <TextBlock Text="动态范围: 222"/>
+                                        </DockPanel>
+                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
+                                            <TextBlock Text="最高帧率: 240"/>
+                                        </DockPanel>
+                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
+                                            <TextBlock Text="相机触发模式: 硬触发"/>
+                                        </DockPanel>
+                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
+                                            <TextBlock Text="相机触发模式: 硬触发"/>
+                                        </DockPanel>
+
                                     </StackPanel>
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox25" Style="{DynamicResource GroupBoxStyle2}"  Header="参数加载" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">

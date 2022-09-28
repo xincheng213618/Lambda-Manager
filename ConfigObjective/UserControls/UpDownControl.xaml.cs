@@ -33,11 +33,9 @@ namespace ConfigObjective
             InitializeComponent();
         }
 
-        public ExposureViewMode ExposureViewMode { get; set; }
+        public ExposureViewMode ExposureViewMode = new ExposureViewMode();
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            ExposureViewMode = WindowData.GetInstance().ExposureViewMode;
-            txt_NamberChange.DataContext = ExposureViewMode;
         }
 
         public int index = 0;

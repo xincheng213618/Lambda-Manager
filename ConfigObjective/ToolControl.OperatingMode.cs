@@ -1,6 +1,7 @@
 ﻿using Global;
 using Global.Mode.Config;
 using Lambda;
+using LambdaUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -190,9 +191,17 @@ namespace ConfigObjective
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
                 OperatingMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
                 
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this,new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
+                //LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this,new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
+                Dispatch("BRIGHT_FIELD_BRIGHTNESS", this, new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
             }
         }
+
+        public async void Dispatch(string type, object sender, Array? array)
+        {
+            await Task.Run(() => LambdaControl.Trigger(type, sender, array));
+        }
+
+
 
         private void Slider324_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

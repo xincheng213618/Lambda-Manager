@@ -1,12 +1,43 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Reflection;
+using System.Windows;
 
 namespace ThemeManager
 {
     public enum Theme
     {
+        [Description("黑色")]
         Dark,
-        White
+        [Description("白色")]
+        White,
+        [Description("跟随系统")]
+        Defaul,
     };
+
+    public static class TypeExtension
+    {
+
+        public static string Description(this Theme obj)
+        {
+            return GetDescription(obj);
+        }
+
+        public static string GetDescription(object obj)
+        {
+            System.Type type = obj.GetType();
+            MemberInfo[] infos = type.GetMember(obj.ToString() ?? "");
+            if (infos != null && infos.Length != 0)
+            {
+                object[] attrs = infos[0].GetCustomAttributes(typeof(DescriptionAttribute), inherit: false);
+                if (attrs != null && attrs.Length != 0)
+                {
+                    return ((DescriptionAttribute)attrs[0]).Description;
+                }
+            }
+            return type.ToString();
+        }
+    }
+
     public delegate void ThemeChangedEventHandler();
 
 
@@ -44,6 +75,9 @@ namespace ThemeManager
             else if (theme == Theme.White)
             {
                 ResourceDictionary = ResourceDictionaryWhite;
+            }
+            else if (theme == Theme.Defaul) {
+                ResourceDictionary = ResourceDictionaryDark;
             }
             foreach (var item in ResourceDictionary)
             {

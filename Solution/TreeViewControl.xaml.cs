@@ -55,7 +55,7 @@ namespace Solution
                 IsFirstLoad = false;
 
                 //追加在显示的时候显示触发
-                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToASCII());
+                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToUincode());
                 Config.ConfigSet();
             }
         }
@@ -73,7 +73,7 @@ namespace Solution
         {
             get { return solutionDir; }
             set { solutionDir = value;
-                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToASCII());
+                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir.ToUincode());
             }
         }
 
@@ -137,22 +137,22 @@ namespace Solution
                 {
                     if (item.DataContext is ProjectFile projectFile1)
                     {
-                        LambdaControl.Trigger("projectFile", this, projectFile1.FullName.ToASCII());
+                        LambdaControl.Trigger("projectFile", this, projectFile1.FullName.ToUincode());
                     }
                     if (item.DataContext is ProjectFolder projectFolder1)
                     {
-                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName.ToASCII());
+                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName.ToUincode());
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName.ToASCII());
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName.ToUincode());
 
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
                         LambdaControl.Trigger("CLOSE_OPEN_SERIAL", this, new Dictionary<string, object>() { });
                         await Task.Delay(300);
-                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName.ToASCII());
+                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName.ToUincode());
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
                     }
 
@@ -487,30 +487,7 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            Excel.Application xlApp;
-            Excel.Workbook xlWorkBook;
-            Excel.Worksheet xlWorkSheet;
-            object misValue = System.Reflection.Missing.Value;
-            xlApp = new Excel.Application();
-            xlWorkBook = xlApp.Workbooks.Add(misValue);
-            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Sheets["Sheet1"];
 
-
-
-            xlWorkSheet.Cells[1, 1] = "http://csharp.net-informations.com";
-            xlWorkSheet.Cells[2, 1] = "Adding picture in Excel File";
-            
-            int i = 1;
-            int j = 1;
-            foreach (var CellInfo in SolutionExplorers)
-            {
-                i++;
-                xlWorkSheet.Cells[i, 3] = CellInfo.Rootpath;
-            }
-
-
-            xlWorkBook.SaveAs("csharp.net-informations.xlsx", Excel.XlFileFormat.xlOpenXMLWorkbook, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-            xlApp.Quit();
         }
     }
 

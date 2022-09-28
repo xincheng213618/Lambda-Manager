@@ -44,7 +44,7 @@ namespace Solution
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            if (Tool.Utils.OpenFileDialog(out string FullName))
+            if (Tool.Utils.OpenFileDialog(out var FullName))
             {
                 this.FullName = FullName;
                 this.Close();
@@ -71,6 +71,7 @@ namespace Solution
 
             }
         }
+
     }
 
     public class SoulutionInfo

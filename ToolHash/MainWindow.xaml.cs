@@ -31,65 +31,6 @@ namespace ToolHash
         }
 
         string BasePath;
-        private bool AddHash(string BasePath)
-        {
-            string applicationxml = BasePath + "\\application.xml";
-
-            if (!File.Exists(applicationxml))
-            {
-                MessageBox.Show($"找不到{applicationxml}");
-                return false;
-            }
-
-
-            XDocument xmlDoc = XDocument.Load(applicationxml);
-            XElement root = xmlDoc.Root;
-
-            foreach (var item in root.Descendants("md5"))
-            {
-                item.RemoveAll();
-            }
-            XElement md5 = new XElement("md5", null);
-            root.Add(md5);
-            var Directoryroot = new DirectoryInfo(BasePath);
-            foreach (var item in Directoryroot.GetFiles())
-            {
-                if (item.Extension == ".dll")
-                {
-                    XElement dll = new XElement("dll", null);
-                    dll.SetAttributeValue("path", item.FullName.Replace(BasePath + "\\", "")); ;
-                    dll.SetAttributeValue("md5", Hash.GetMD5(item.FullName));
-                    md5.Add(dll);
-                }
-            }
-            foreach (var item in Directoryroot.GetDirectories())
-            {
-                AddDirectory(md5, item.FullName);
-            }
-            xmlDoc.Save(applicationxml);
-            MessageBox.Show("hash创建成功");
-            return true;
-
-        }
-
-        public void AddDirectory(XElement xElement, string FullName)
-        {
-            var Directoryroot = new DirectoryInfo(FullName);
-            foreach (var file in Directoryroot.GetFiles())
-            {
-                if (file.Extension==".dll")
-                {
-                    XElement dll = new XElement("dll", null);
-                    dll.SetAttributeValue("path", file.FullName.Replace(BasePath+"\\", ""));
-                    dll.SetAttributeValue("md5", Hash.GetMD5(file.FullName));
-                    xElement.Add(dll);
-                }
-            }
-            foreach (var directoryInfo in Directoryroot.GetDirectories())
-            {
-                AddDirectory(xElement,directoryInfo.FullName);
-            }
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -120,7 +61,7 @@ namespace ToolHash
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 BasePath = dialog.SelectedPath;
-                if(AddHash(BasePath))
+                if(XmlHelper.AddHash(BasePath))
                 {
                     AESHelper.EncryptFileName = BasePath + "\\application.xml";
 
@@ -137,11 +78,7 @@ namespace ToolHash
                         if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             File.WriteAllText(dialog1.SelectedPath + "\\default.json", registerInfo.ToBase64());
-
-
                         }
-
-
                     }
 
                 };
