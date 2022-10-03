@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Solution"
              xmlns:Solution="clr-namespace:XSolution" 
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="400" Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -12,6 +13,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type system:String}">
+                <TextBlock Text="{Binding}">
+                    <TextBlock.Resources>
+                        <Style TargetType="{x:Type TextBlock}"/>
+                    </TextBlock.Resources>
+                </TextBlock>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid >
@@ -20,7 +28,8 @@
                 <Button Content="新建" Click="Button_Click_2"/>
                 <Button Content="打开" Click="Button_Click"/>
                 <Button Content="关闭" Click="Close_Click"/>
-                <Button Content="保存" Click="Save_Click"/>
+                <Button Foreground="Red" Content="保存" Click="Save_Click">
+                </Button>
                 <Button Content="应用" Click="Config_Set_Click"/>
                 <Button Content="查找"/>
                 <Button Content="导出" Click="Button_Click_1"/>

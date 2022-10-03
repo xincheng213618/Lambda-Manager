@@ -61,19 +61,19 @@ namespace Lambda
         public static void Initialize(LogHandler logHandler, LogHandler logHandler2, AddEventHandler addEventHandler, CallEventHandler callEventHandler, RegisterImageViewHandler registerImageViewHandler, StopRegisteredImageViewHandler stopRegisteredImageViewHandler, View[] views)
         {
             if (logHandler != null)
-                LogHandler = (LogHandler)Delegate.Combine(LogHandler, logHandler);
+                LogHandler += logHandler;
 
             if (logHandler2 != null)
-                LogHandler2 = (LogHandler)Delegate.Combine(LogHandler2, logHandler2);
+                LogHandler2 += logHandler2;
 
             if (addEventHandler != null)
-                AddEventHandler = (AddEventHandler)Delegate.Combine(AddEventHandler, addEventHandler);
+                AddEventHandler += addEventHandler;
 
             if (callEventHandler != null)
-                CallEventHandler = (CallEventHandler)Delegate.Combine(CallEventHandler, callEventHandler);
+                CallEventHandler += callEventHandler;
 
             if (registerImageViewHandler != null)
-                RegisterImageViewHandler = (RegisterImageViewHandler)Delegate.Combine(RegisterImageViewHandler, registerImageViewHandler);
+                RegisterImageViewHandler+= registerImageViewHandler;
 
             if (stopRegisteredImageViewHandler != null)
                 StopRegisteredImageViewHandler += stopRegisteredImageViewHandler;
@@ -267,10 +267,7 @@ namespace Lambda
 
         public  async void Dispatch(string type, object sender, EventArgs e)
         {
-            string type2 = type;
-            object sender2 = sender;
-            EventArgs e2 = e;
-            await Task.Run(() => CallEventHandler?.Invoke(type2, sender2, e2));
+            await Task.Run(() => CallEventHandler?.Invoke(type, sender, e));
         }
         public static void Dispatch(string type, object sender, EventArgs e, int millis)
         {

@@ -72,6 +72,9 @@ namespace LambdaManager
                 mainView.Children.Clear();
                 mainView.Children.Add(viewGrid.mainView);
             }
+            //menu.Items.Add(new MenuItem() { Header = "文件(_F)" });
+            //menu.Items.Add(new MenuItem() { Header = "帮助(_H)" });
+
             Log.LogWrite += AddMessage;
             performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;

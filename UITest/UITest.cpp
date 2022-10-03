@@ -184,7 +184,7 @@ int Start() {
 	int index = 0;
 	for (;;) {
 		cv::Mat& frame = frames[index];
-		cap.read(frame);
+		cap>>frame;
 		pipeline.push(pool.Commit(Filter, frame));
 		++index;
 		if (index == MAX_THREADPOOL_NUM)
@@ -492,8 +492,11 @@ string UTF8ToGB(const char* str)
 int OpenSerial(char* FullPath)	
 {
 	//std::wstring fp = StringUtils::string2wstring(FullPath);
+	std::wstring fp = StringUtils::Multi2WideByte(FullPath);
+
 	Logger::Log1(Severity::INFO, FullPath);
 	std::string str = UTF8ToGB(FullPath);
+	const char* bbb = str.c_str();
 	Logger::Log1(Severity::INFO, str);
 
 	return  0;

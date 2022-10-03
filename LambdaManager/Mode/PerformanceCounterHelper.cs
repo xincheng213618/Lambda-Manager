@@ -49,7 +49,7 @@ namespace LambdaManager.Mode
         public PerformanceCounter CPU;
         public PerformanceCounter ProcessThis;
 
-        public double RAMAL = 16000000 / 1024 / 1024;
+        public double RAMAL = 64;
         public PerformanceCounter RAM;
         public PerformanceCounter DiskUse;
 

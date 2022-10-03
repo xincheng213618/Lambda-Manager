@@ -47,6 +47,34 @@ char* StringUtils::Wide2MultiByte(const wchar_t* p)
 	return dBuf;
 }
 
+std::string StringUtils::Multi2Utf8(const char* str)
+{
+	std::string result;
+	WCHAR* strSrc;
+	LPSTR szRes;
+
+	int i = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+	strSrc = new WCHAR[i + 1];
+	MultiByteToWideChar(CP_UTF8, 0, str, -1, strSrc, i);
+
+	i = WideCharToMultiByte(CP_ACP, 0, strSrc, -1, NULL, 0, NULL, NULL);
+	szRes = new CHAR[i + 1];
+	WideCharToMultiByte(CP_ACP, 0, strSrc, -1, szRes, i, NULL, NULL);
+
+	result = szRes;
+	delete[]strSrc;
+	delete[]szRes;
+	return result;
+
+	return std::string();
+}
+
+std::string StringUtils::Wide2Utf8(std::wstring& wide_string)
+{
+	static std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	return converter.to_bytes(wide_string);
+}
+
 std::string Chartostring(char* cha)
 {
 	std::string str(cha);

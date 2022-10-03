@@ -1,7 +1,12 @@
+## [1.2.2] - 2022-09-30
+
+- 解决C# string 中文指针传入到C++ 中乱码的问题✔  https://blog.csdn.net/lpy369369/article/details/84849532
+- 通过级联配置Process的代码✔  
+-  Fix  textblock 的样式被隐式覆盖 ✔  https://social.msdn.microsoft.com/Forums/vstudio/en-US/f36c8a4b-0072-4a78-871e-b7fe800507ce/textbloxk-style-override-label-style-in-wpf?forum=wpf
+
 ## [1.2.1] - 2022-09-25
 
 - 为主控添加级联支持，和测试，同时支持沈德同的DLL和自己的测试DLL 加载。并封装成压缩包进行测试，使之同时支持不同的DLL✔
-- 
 
 ## [1.1.10] - 2022-09-23
 

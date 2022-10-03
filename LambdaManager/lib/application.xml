@@ -56,14 +56,8 @@
 				<input name="FullPath" type="#string" />
 			</action>
 		</procedure>
-		<procedure name="ProjectExportAs" event="ProjectExportAs" arg ="FullPath" >
-			<action name="OpenSerial">
-				<input name="FullPath" type="#string" />
-			</action>
-		</procedure>
 
-		
-
+	
 
 		<procedure name="UpdateSolutionPath" event="UpdateSolutionPath" arg ="FullPath" >
 			<action name="OpenSerial">

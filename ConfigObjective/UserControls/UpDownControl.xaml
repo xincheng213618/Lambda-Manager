@@ -12,7 +12,7 @@
         </Border.Effect> 
         <DockPanel DockPanel.Dock="Right"  Visibility ="Visible">
             <DockPanel Width="20"  DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="Visible">
-                <RepeatButton x:Name="btn_ClickUp" Click="btn_ClickUp_Click" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White" FontFamily="Marlett" Content="5" Height="13" Margin="-2"/>
+                <RepeatButton x:Name="btn_ClickUp" Click="btn_ClickUp_Click" BorderThickness="0"  Background="Transparent" DockPanel.Dock="Top" Foreground="Red" FontFamily="Marlett" Content="5" Height="13" Margin="-2"/>
 
                 <RepeatButton  x:Name="btn_ClickDown" Click="btn_ClickDown_Click" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6" Height="13" Margin="-2" />
             </DockPanel>

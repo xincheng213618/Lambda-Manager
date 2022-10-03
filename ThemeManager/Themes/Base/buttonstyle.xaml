@@ -191,7 +191,8 @@
         <Setter Property="Background" Value="{StaticResource ButtonBorder}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ButtonBackground}"/>
         <Setter Property="BorderThickness" Value="2" />
-    <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="Padding" Value="1" />
     <Setter Property="Template">

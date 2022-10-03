@@ -32,15 +32,5 @@ namespace Global.Common.Extensions
 
             return imageSource;
         }
-
-        /// <summary>
-        ///  只有中文转换成Uincode
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string ToUincode(this string str)
-        {
-            return Converter.String.ToUincode(str);
-        }
     }
 }

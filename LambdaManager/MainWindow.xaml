@@ -46,10 +46,10 @@
                         <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
                     </Button>
                 </Grid>
-                <Menu DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" >
-                    <MenuItem Header="文件(_F)"/>
+                <Menu  DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" >
                     <MenuItem Header="帮助(_H)"/>
                 </Menu>
+
             </StackPanel>
             
             
@@ -341,7 +341,7 @@
                                             <!--Unknown connection ID: 70-->
                                         </ToggleButton>
                                     </WrapPanel>
-                                    <Image Source="/Resources/Icons/left-glitter.jpg" Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                                    <Image  Width="24" VerticalAlignment="Bottom" Margin="0,0,0,3" />
                                 </DockPanel>
                             </Border>
                             <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource RadiusBorder}" Padding="1" BorderThickness="1">

@@ -233,6 +233,9 @@ public:
 
 	static wchar_t* Multi2WideByte(const char* p);
 	static char* Wide2MultiByte(const wchar_t* p);
+
+	static std::string Multi2Utf8(const char* str);
+	static std::string Wide2Utf8(std::wstring& wide_string);
 };
 
 

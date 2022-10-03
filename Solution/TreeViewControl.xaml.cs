@@ -147,26 +147,23 @@ namespace Solution
                 {
                     if (item.DataContext is ProjectFile projectFile1)
                     {
-                        LambdaControl.Trigger("projectFile", this, projectFile1.FullName.ToUincode());
+                        LambdaControl.Trigger("projectFile", this, projectFile1.FullName);
                     }
                     if (item.DataContext is ProjectFolder projectFolder1)
                     {
-                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName.ToUincode());
+                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName);
                     }
                     if (item.DataContext is ProjectManager projectMannager1)
                     {
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName.ToUincode());
-
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName);
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
                         LambdaControl.Trigger("CLOSE_OPEN_SERIAL", this, new Dictionary<string, object>() { });
                         await Task.Delay(300);
-                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName.ToUincode());
+                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName);
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
                     }
-
-
                 }
 
             }

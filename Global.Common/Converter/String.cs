@@ -10,6 +10,12 @@ namespace Global.Common.Converter
 {
     public static class String
     {
+        ///https://blog.csdn.net/lpy369369/article/details/84849532
+        ///已经由C++解决，String 的指针传输过去 中文异常的问题
+
+        /// <summary>
+        /// 中文的部分转换成Uincode
+        /// </summary>
         public static string ToUincode(string str)
         {
             using MemoryStream memoryStream = new();

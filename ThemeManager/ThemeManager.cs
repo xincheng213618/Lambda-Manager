@@ -78,6 +78,9 @@ namespace ThemeManager
             }
             else if (theme == Theme.Defaul) {
                 ResourceDictionary = ResourceDictionaryDark;
+                app.Resources.Clear();
+
+                return;
             }
             foreach (var item in ResourceDictionary)
             {
