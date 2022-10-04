@@ -90,7 +90,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UITest", "UITest\UITest.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.vcxproj", "{6EBB6852-3075-4A32-9A86-1FA9578CC6B9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gltools", "gltools\gltools.vcxproj", "{F577B769-C3A6-4C37-B958-A31E968D5393}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gltools", "3rdparty\gltools\gltools.vcxproj", "{F577B769-C3A6-4C37-B958-A31E968D5393}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rdparty", "3rdparty", "{D7E6C000-1188-488C-8D61-634998A9B773}"
 EndProject
