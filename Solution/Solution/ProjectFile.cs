@@ -11,6 +11,9 @@ namespace XSolution
 {
     public class ProjectFile : BaseObject
     {
+        public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
+
+
         private string fileSize;
         public string FileSize
         {
@@ -22,13 +25,13 @@ namespace XSolution
         protected FileInfo FileInfo;
         public ProjectFile(string FullName) :base(FullName)
         {
+            ProjectFiles.Add(this);
             FileInfo = new FileInfo(FullName);
             this.Name = Path.GetFileNameWithoutExtension(fullName);
             OpenExplorer = new RelayCommand(OpenFolder, (object value) => { return true; });
 
             Task.Run(CalculSize);
         }
-
 
 
         public override void AddChild(object obj)

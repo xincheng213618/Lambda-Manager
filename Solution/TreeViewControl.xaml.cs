@@ -19,7 +19,6 @@ using Global.Common.Extensions;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Dynamic;
 
-
 namespace Solution
 {
 
@@ -42,17 +41,10 @@ namespace Solution
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
+            if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox)
             {
-                stackPanel1.Children.Remove(this);
-
-                StackPanel stackPanel = new StackPanel() { Name = "projectView", Margin = new Thickness(2, 2, 2, 0) };
-                stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                stackPanel.Children.Add(this);
-                Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top };
-                viewbox.Child = stackPanel;
-                scrollViewer1.Content = viewbox;
-                IsFirstLoad = false;
+                stackPanel.Margin = new Thickness(2, 2, 2, 0);
+                viewbox.Width = double.NaN;
 
                 //追加在显示的时候显示触发
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
@@ -494,7 +486,14 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            FileBase1 file = new FileBase1();
+            int a = FileBase1.FileKinds.Count;
+            FileBase1 fil1e = new FileBase1();
+            a = FileBase.FileKinds.Count;
 
+            FileBase fil1e333 = new FileBase();
+            a = FileBase1.FileKinds.Count;
+            a = FileBase.FileKinds.Count;
         }
     }
 

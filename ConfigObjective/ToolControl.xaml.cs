@@ -132,16 +132,10 @@ namespace ConfigObjective
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
+            if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox)
             {
-                stackPanel1.Children.Remove(this);
-
-                StackPanel stackPanel = new StackPanel() { Name = "acquireView", Margin = new Thickness(2, 2, 2, 0) };
-                stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                stackPanel.Children.Add(this);
-                Viewbox viewbox = new Viewbox() { VerticalAlignment = VerticalAlignment.Top };
-                viewbox.Child = stackPanel;
-                scrollViewer1.Content = viewbox;
+                stackPanel.Margin = new Thickness(2, 2, 2, 0);
+                viewbox.Width = double.NaN;
                 IsFirstLoad = false;
                 if (Reg.ReadValue("Software\\Grid", "InitializeStage"))
                 {
