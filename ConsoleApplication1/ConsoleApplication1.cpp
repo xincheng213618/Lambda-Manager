@@ -7,46 +7,125 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
-
+#include "zlib.h"
 
 using namespace std;
 struct GridFile
 {
     char Name[20];
-    cv::Mat Content;
-    size_t size;
+    int rows;
+    int cols;
     int type;
+    double srcLen;
+    double destLen;
 };
+
+
+void WriteFile(cv::Mat WriteMat,string FileName) {
+    const char* istream = (char*)WriteMat.data;
+    uLongf srcLen = WriteMat.total() * WriteMat.elemSize();      // +1 for the trailing `\0`
+    uLongf destLen = compressBound(srcLen); // this is how you should estimate size 
+    char* ostream = (char*)malloc(destLen);
+    int res = compress((Bytef*)ostream, &destLen, (Bytef*)istream, srcLen);
+    if (res == Z_BUF_ERROR) {
+        printf("Buffer was too small!\n");
+    }
+    if (res == Z_MEM_ERROR) {
+        printf("Not enough memory for compression!\n");
+    }
+
+    GridFile grid;
+    strcpy(grid.Name, "陈新城");
+    grid.rows = WriteMat.rows;
+    grid.cols = WriteMat.cols;
+    grid.type = WriteMat.type();
+    grid.srcLen = srcLen;
+    grid.destLen = destLen;
+
+    ofstream outFile(FileName, ios::out | ios::binary);
+
+    outFile.write((char*)&grid, sizeof(grid));
+    outFile.write(ostream, grid.destLen);
+    outFile.close();
+}
+
+cv::Mat ReadFile(string FileName) {
+    ifstream inFile(FileName, ios::in | ios::binary); //二进制读方式打开
+    if (!inFile) {
+        cout << "error" << endl;
+        return cv::Mat::zeros(0, 0, CV_8UC3);
+    }
+    GridFile gridFile;
+    inFile.read((char*)&gridFile, sizeof(gridFile));
+    char* i2stream = new char[gridFile.destLen];
+    // Read the pixels from the stringstream
+    inFile.read(i2stream, gridFile.destLen);
+
+    char* o2stream = (char*)malloc(gridFile.srcLen);
+    uLongf destLen2 = gridFile.destLen;
+    uLongf srcLen = gridFile.srcLen;
+
+    int des = uncompress((Bytef*)o2stream, &srcLen, (Bytef*)i2stream, destLen2);
+    cv::Mat mat1 = cv::Mat(gridFile.rows, gridFile.cols, gridFile.type, o2stream);
+    return mat1;
+}
+
+GridFile ReadFileHeader(string FileName) {
+    GridFile gridFile{};
+
+    ifstream inFile(FileName, ios::in | ios::binary); //二进制读方式打开
+    if (!inFile) {
+        cout << "error" << endl;
+        return gridFile;
+    }
+    inFile.read((char*)&gridFile, sizeof(gridFile));
+    return gridFile;
+}
+
+
+
+
 
 int main()
 {
-    GridFile grid;
-    strcpy(grid.Name, "陈新城");
-    grid.Content = cv::imread("D:\\PNT1A.tif",CV_64FC1);
+    //cv::Mat TestMat = cv::imread("D:\\PNT1A.tif", CV_64FC1);
+    //WriteFile(TestMat,"PNT1A.grid");
 
-    ofstream outFile("students.grid", ios::out | ios::binary);
-    cv::Mat input = grid.Content;
-    grid.size = input.total() * input.elemSize();
-    grid.type = input.type();
-
-    outFile.write((char*)&grid, sizeof(grid));
-    outFile.write((char*)input.data, grid.size);
-    outFile << input;
-    outFile.close();
-
-    GridFile grid1;
-    ifstream inFile("students.grid", ios::in | ios::binary); //二进制读方式打开
-    if (!inFile) {
-        cout << "error" << endl;
-        return 0;
-    }
-    inFile.read((char*)&grid1, sizeof(grid1));
-    char* data = new char[grid1.size];
-    // Read the pixels from the stringstream
-    inFile.read(data, grid1.size);
-    cv::Mat mat1 = cv::Mat(grid1.Content.rows, grid1.Content.cols,grid1.type,data);
-    cv::imshow("22", mat1);
+    cv::Mat Mat1 = ReadFile("PNT1A.grid");
+    GridFile gridfile = ReadFileHeader("students.grid");
+    cv::imshow("22", Mat1);
     cv::waitKey(0);
+
+
+    //const char* istream = (char*)TestMat.data;
+    //uLongf srcLen = TestMat.total() * TestMat.elemSize();      // +1 for the trailing `\0`
+    //uLongf destLen = compressBound(srcLen); // this is how you should estimate size 
+    //// needed for the buffer
+    //char* ostream = (char*)malloc(destLen);
+    //int res = compress2((Bytef*)ostream, &destLen, (Bytef*)istream, srcLen,9);
+    //// destLen is now the size of actuall buffer needed for compression
+    //// you don't want to uncompress whole buffer later, just the used part
+    //if (res == Z_BUF_ERROR) {
+    //    printf("Buffer was too small!\n");
+    //    return 1;
+    //}
+    //if (res == Z_MEM_ERROR) {
+    //    printf("Not enough memory for compression!\n");
+    //    return 2;
+    //}
+
+    //const char* i2stream = ostream;
+    //char* o2stream = (char*)malloc(srcLen);
+    //uLongf destLen2 = destLen; //destLen is the actual size of the compressed buffer
+    //int des = uncompress((Bytef*)o2stream, &srcLen, (Bytef*)i2stream, destLen2);
+    //printf("%s\n", o2stream);
+
+    //cv::Mat TestMat1 = cv::Mat(TestMat.rows, TestMat.cols, TestMat.type(), o2stream);
+
+
+    
+
+
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
