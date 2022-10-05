@@ -20,7 +20,6 @@ struct GridFile
     double destLen;
 };
 
-
 void WriteFile(cv::Mat WriteMat,string FileName) {
     const char* istream = (char*)WriteMat.data;
     uLongf srcLen = WriteMat.total() * WriteMat.elemSize();      // +1 for the trailing `\0`
@@ -48,6 +47,7 @@ void WriteFile(cv::Mat WriteMat,string FileName) {
     outFile.write(ostream, grid.destLen);
     outFile.close();
 }
+
 
 cv::Mat ReadFile(string FileName) {
     ifstream inFile(FileName, ios::in | ios::binary); //二进制读方式打开
@@ -83,18 +83,105 @@ GridFile ReadFileHeader(string FileName) {
 }
 
 
+int GrifToMat(std::string path, cv::Mat& src)
+{
 
-
+    cv::FileStorage hFs;
+    //打开需要读取的路径和文件，将data写入到Mat中
+    if (hFs.open(path, cv::FileStorage::READ))
+    {
+        std::vector<uchar> vData;
+        hFs["data"] >> src;
+        hFs.release();
+        return 0;
+    }
+    return -1;
+}
+int WriteGrifFile(std::string path, std::string name, cv::Mat src, int x, int y, int z)
+{
+    cv::FileStorage hFs;
+    //打开需要创建的路径和文件,将xyz位移台信息和Mat数据写入到文件中
+    if (hFs.open((path + name), cv::FileStorage::WRITE_BASE64))
+    {
+        hFs << "x" << x;
+        hFs << "y" << y;
+        hFs << "z" << z;
+        hFs << "data" << src;
+        hFs.release();
+        return 0;
+    }
+    return -1;
+}
 
 int main()
 {
+    clock_t start, end;
+
+
+
+
+
+
+
+
     //cv::Mat TestMat = cv::imread("D:\\PNT1A.tif", CV_64FC1);
     //WriteFile(TestMat,"PNT1A.grid");
+    cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
+    start = clock();
+    GrifToMat("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grif", src);
+    end = clock();   //结束时间
+    cout << "GrifToMat = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
+    WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grid");
+    end = clock();   //结束时间
+    cout << "WriteFile = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
+    cv::Mat Mat1 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grid");
+    end = clock();   //结束时间
+    cout << "ReadFile = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
+    GridFile gridfile = ReadFileHeader("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grid");
+    end = clock();   //结束时间
+    cout << "ReadFileHeader = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
+    ofstream outFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 11.grid", ios::out | ios::binary);
+    outFile << Mat1;
+    outFile.close();
+    end = clock();   //结束时间
+    cout << "ofstream writemat = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
+    ofstream outFile1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 112.grid", ios::out | ios::binary);
+    outFile1.write((char*)Mat1.data, Mat1.total() * Mat1.elemSize());
+    outFile1.close();
+    end = clock();   //结束时间
+    cout << "ofstream writedata = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\","Image 111.grid", Mat1,1,1,1);
+    end = clock();   //结束时间
+    cout << "WriteGrifFile = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    cv::Mat src11 = cv::Mat(1280, 720, CV_8UC3);
+    start = clock();
+    GrifToMat("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 2.grif", src11);
+    end = clock();   //结束时间
+    cout << "GrifToMat = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    cv::imshow("1111", src);
 
-    cv::Mat Mat1 = ReadFile("PNT1A.grid");
-    GridFile gridfile = ReadFileHeader("students.grid");
-    cv::imshow("22", Mat1);
+    cv::Mat  mat22;
+    src.convertTo(mat22,CV_64FC3);
+    WriteFile(mat22, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\doubletest.grid");
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "Image doubletest.grid", mat22, 1, 1, 1);
+    cv::Mat  mat33;
+    mat33=ReadFile( "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\doubletest.grid");
+    mat33.convertTo(mat33, CV_8UC3);
+    cv::imshow("22222", mat33);
+
+
+
+
+
     cv::waitKey(0);
+
+
 
 
     //const char* istream = (char*)TestMat.data;
