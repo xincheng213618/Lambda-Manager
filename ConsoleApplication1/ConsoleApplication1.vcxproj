@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleApplication1.cpp" />
+    <ClCompile Include="Customfiletest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\3rdparty\zlib\zlib.vcxproj">

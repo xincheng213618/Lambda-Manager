@@ -20,7 +20,7 @@ struct GridFile
     double destLen;
 };
 
-void WriteFile(cv::Mat WriteMat,string FileName) {
+int WriteFile(cv::Mat WriteMat,string FileName) {
     const char* istream = (char*)WriteMat.data;
     uLongf srcLen = WriteMat.total() * WriteMat.elemSize();      // +1 for the trailing `\0`
     uLongf destLen = compressBound(srcLen); // this is how you should estimate size 
@@ -28,9 +28,11 @@ void WriteFile(cv::Mat WriteMat,string FileName) {
     int res = compress((Bytef*)ostream, &destLen, (Bytef*)istream, srcLen);
     if (res == Z_BUF_ERROR) {
         printf("Buffer was too small!\n");
+        return -1;
     }
     if (res == Z_MEM_ERROR) {
         printf("Not enough memory for compression!\n");
+        return -2;
     }
 
     GridFile grid;
@@ -46,6 +48,8 @@ void WriteFile(cv::Mat WriteMat,string FileName) {
     outFile.write((char*)&grid, sizeof(grid));
     outFile.write(ostream, grid.destLen);
     outFile.close();
+    return 0;
+
 }
 
 
@@ -118,12 +122,6 @@ int main()
     clock_t start, end;
 
 
-
-
-
-
-
-
     //cv::Mat TestMat = cv::imread("D:\\PNT1A.tif", CV_64FC1);
     //WriteFile(TestMat,"PNT1A.grid");
     cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
@@ -168,8 +166,19 @@ int main()
 
     cv::Mat  mat22;
     src.convertTo(mat22,CV_64FC3);
+    start = clock();
     WriteFile(mat22, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\doubletest.grid");
+    end = clock();   //结束时间
+    cout << "WriteFile doubletest = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
     WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "Image doubletest.grid", mat22, 1, 1, 1);
+    end = clock();   //结束时间
+    cout << "WriteGrifFile doubletest = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "Image doubletest.grid.gz", mat22, 1, 1, 1);
+    end = clock();   //结束时间
+    cout << "WriteGrifFile doubletestgz = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    start = clock();
     cv::Mat  mat33;
     mat33=ReadFile( "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\doubletest.grid");
     mat33.convertTo(mat33, CV_8UC3);
