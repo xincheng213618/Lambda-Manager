@@ -5,10 +5,10 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib");
-	  if not exist "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib");
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)LambdaManager\bin\x64\Release\net6.0-windows\lib";</Command>
+      <Command>if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib");
+	  if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib");
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib";
+	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
