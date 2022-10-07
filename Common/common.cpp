@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "common.h"
+#include "common1.h"
 #include <chrono>
 #include <thread>
 //#include <libcron/Cron.h>
@@ -35,14 +36,14 @@ void Initialize() {
 }
 
 
-LIB_API int GetArraySize(void* pArray)
+COMMON_API int GetArraySize(void* pArray)
 {
 	return getArraySize(pArray);
 }
 
  extern std::list<void*> RaiseEventMark_map;
 
-LIB_API int SetHandlerRaise(void* pArray) {
+COMMON_API int SetHandlerRaise(void* pArray) {
 
 	RaiseEventMark_map.push_back(pArray);
 	return 1;
@@ -209,11 +210,11 @@ void SetMessageHandler2(LogCallBack2 fn)
 
 
 
-LIB_API const char* Schedule(const char* cron, int times, Callback callback, Callback end)
+COMMON_API const char* Schedule(const char* cron, int times, Callback callback, Callback end)
 {
 	return callbackSchedule(cron,times, callback);
 }
-LIB_API const char* Delay(int seconds, int times,Callback callback, Callback end)
+COMMON_API const char* Delay(int seconds, int times,Callback callback, Callback end)
 {
 	return callbackDelay(seconds, times,callback);
 }
@@ -223,7 +224,7 @@ std::map<int, std::function<int()>> Schedule2_End_map;
 
 int i = 0;
 
-LIB_API const char* Schedule2(const char* cron, int times, std::function<int()> callback, std::function<int()> end)
+COMMON_API const char* Schedule2(const char* cron, int times, std::function<int()> callback, std::function<int()> end)
 {
 	i++;
 	Schedule2_map.insert(std::make_pair(i, callback));
@@ -233,7 +234,7 @@ LIB_API const char* Schedule2(const char* cron, int times, std::function<int()> 
 
 
 
-LIB_API const char* Delay2(int seconds,int times, std::function<int()> callback, std::function<int()> end)
+COMMON_API const char* Delay2(int seconds,int times, std::function<int()> callback, std::function<int()> end)
 {
 	i++;
 	Schedule2_map.insert(std::make_pair(i, callback));
@@ -243,19 +244,19 @@ LIB_API const char* Delay2(int seconds,int times, std::function<int()> callback,
 
 
 
-LIB_API void StopSchedule(const char* scheduleName)
+COMMON_API void StopSchedule(const char* scheduleName)
 {
 	callbackStopSchedule(scheduleName);
 }
 
 
-LIB_API void InvokeCallback(void* callback)
+COMMON_API void InvokeCallback(void* callback)
 {
 	((Callback)callback)();
 }
 
 
-LIB_API void InvokeScheduleCallback(int id)
+COMMON_API void InvokeScheduleCallback(int id)
 {
 	bool IsDelay = id < 0;
 	if (IsDelay)
@@ -268,7 +269,7 @@ LIB_API void InvokeScheduleCallback(int id)
 	}
 }
 
-LIB_API void InvokeScheduleEnd(int callBackEnd)
+COMMON_API void InvokeScheduleEnd(int callBackEnd)
 {
 	auto it = Schedule2_End_map.find(callBackEnd);
 	if (it != Schedule2_End_map.end()) {

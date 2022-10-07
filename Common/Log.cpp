@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "common.h"
+#include "common1.h"
 #include <locale>         // std::wstring_convert
 #include <codecvt>        // std::codecvt_utf8
 #include <atlcore.h>

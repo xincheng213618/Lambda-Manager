@@ -1,6 +1,6 @@
 ## [1.2.3] - 2022-10-05
 
-- 添加从沈德同的文件读取测试操作，并增加相关测试用例✔
+- 添加文件读取测试操作，并增加相关测试用例✔
 
 - 自定义文件读取，重新组织Demo✔
 
@@ -12,7 +12,7 @@
 
   https://stackoverflow.com/questions/21186535/compressing-decompressing-char-array-using-zlib-some-characters-missing
 
-- 添加Copy 刘娜的OpenGL的测试代码，解决内存泄露问题，遗留多线程问题✔
+- 添加Copy 刘娜的OpenGL的测试代码，解决内存泄露问题，✔
 
 - 对工程的重构，使其支持复杂的模式调度✔
 

@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "common.h"
+#include "common1.h"
 #include <locale>         // std::wstring_convert
 #include <codecvt>        // std::codecvt_utf8
 std::string ws2s(const std::wstring& input)
@@ -75,8 +76,3 @@ std::string StringUtils::Wide2Utf8(std::wstring& wide_string)
 	return converter.to_bytes(wide_string);
 }
 
-std::string Chartostring(char* cha)
-{
-	std::string str(cha);
-	return str;
-}

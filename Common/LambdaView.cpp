@@ -1,5 +1,6 @@
-   #include "pch.h"
+#include "pch.h"
 #include "common.h"
+#include "common1.h"
 
 extern InitialFrame initialFrame;
 extern UpdateFrame updateFrame;
@@ -104,5 +105,13 @@ LambdaView* LambdaView::GetRegistered(int index)
 	}else{
 		instance->index = index;
 	}
+	return instance;
+}
+
+
+LambdaView* LambdaView::GetIdleOrNew()
+{
+	LambdaView* instance;
+	instance = new LambdaView(false);
 	return instance;
 }
