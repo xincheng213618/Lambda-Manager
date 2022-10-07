@@ -78,6 +78,18 @@
     <Import Project="..\props\OpenCV.Debug.x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -151,7 +163,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;COMMON_EXPORTS</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>if not exist "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)LambdaManager\bin\x64\Debug\net6.0-windows\lib");
@@ -164,10 +176,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="common.h" />
-    <ClInclude Include="concurrent.h" />
+    <ClInclude Include="..\packages\common\include\common.h" />
+    <ClInclude Include="..\packages\common\include\concurrent.h" />
+    <ClInclude Include="..\packages\common\include\threadpool.h" />
+    <ClInclude Include="common1.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="threadpool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common.cpp" />

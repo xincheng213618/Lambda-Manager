@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "common.h"
+#include "common1.h"
 #include <iostream>
 
 //#include <libcron/Cron.h>
@@ -34,16 +35,16 @@ std::list<void*> RaiseEventMark_map;
 
 
 
-LIB_API void RegisterRoutineEvent(char* type, int rotineId, ArgumentType handlerType, int once)
+COMMON_API void RegisterRoutineEvent(char* type, int rotineId, ArgumentType handlerType, int once)
 {
-	std::string RoutineEvent = Chartostring(type);
+	std::string RoutineEvent = std::string(type);
 	RoutineEvent_map.insert(std::make_pair(rotineId, RoutineEvent));
-	ArgumentType_map.insert(std::make_pair(Chartostring(type), handlerType));
+	ArgumentType_map.insert(std::make_pair(std::string(type), handlerType));
 }
 
-LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerType, int once)
+COMMON_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerType, int once)
 {
-	std::string FunctionEvent = Chartostring(type);
+	std::string FunctionEvent = std::string(type);
 
 	FunctionEvent_map.insert(std::make_pair(FunctionEvent, fn1));
 	ArgumentType_map.insert(std::make_pair(FunctionEvent, handlerType));
@@ -51,7 +52,7 @@ LIB_API void RegisterFunctionEvent(char* type, void* fn1, ArgumentType handlerTy
 
 int CallFunction(char* type, int argType, void* eventObject, void* sender)
 {
-	std::string Event = Chartostring(type);
+	std::string Event = std::string(type);
 
 
 	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
