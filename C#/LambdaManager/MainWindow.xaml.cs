@@ -72,16 +72,17 @@ namespace LambdaManager
                 mainView.Children.Clear();
                 mainView.Children.Add(viewGrid.mainView);
             }
-            //menu.Items.Add(new MenuItem() { Header = "文件(_F)" });
-            //menu.Items.Add(new MenuItem() { Header = "帮助(_H)" });
+
+
 
             Log.LogWrite += AddMessage;
             performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
 
+            
 
-            MenuItem MenuThemes = new MenuItem() { Header = "主题(_H)" };
+            MenuItem MenuThemes = new MenuItem() { Header = Properties.Resources._Theme};
             foreach (var item in Enum.GetValues(typeof(Theme)).Cast<Theme>())
             {
                 MenuItem menu = new MenuItem()
@@ -118,8 +119,13 @@ namespace LambdaManager
                 };
                 MenuThemes.Items.Add(menu);
             }
-            menu.Items.Add(MenuThemes);
-
+            MenuItem Toolmenu = new MenuItem() { Header = Properties.Resources._Tool };
+            Toolmenu.Items.Add(MenuThemes);
+            MenuItem Filemenu = new MenuItem() { Header = Properties.Resources._File };
+            Filemenu.Items.Add(new MenuItem() { Header = Properties.Resources._New });
+            menu.Items.Add(Filemenu);
+            menu.Items.Add(Toolmenu);
+            menu.Items.Add(new MenuItem() { Header = Properties.Resources._Help });
         }
 
         public void ViewChanged(object sender, ViewChangedEvent e)

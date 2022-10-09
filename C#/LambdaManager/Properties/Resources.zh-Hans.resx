@@ -121,7 +121,7 @@
     <value>名称</value>
   </data>
   <data name="Execute" xml:space="preserve">
-    <value>执行</value>
+    <value>执行111555</value>
   </data>
   <data name="ConfigLoaded" xml:space="preserve">
     <value>应用组件加载完毕</value>
@@ -302,5 +302,23 @@
   </data>
   <data name="FpsRunning" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="_About" xml:space="preserve">
+    <value>关于(_A)</value>
+  </data>
+  <data name="_Help" xml:space="preserve">
+    <value>帮助(_H)</value>
+  </data>
+  <data name="_File" xml:space="preserve">
+    <value>文件(_F)</value>
+  </data>
+  <data name="_New" xml:space="preserve">
+    <value>新建(_N)</value>
+  </data>
+  <data name="_Tool" xml:space="preserve">
+    <value>工具(_T)</value>
+  </data>
+  <data name="_Theme" xml:space="preserve">
+    <value>主题(_T)</value>
   </data>
 </root>

@@ -74,6 +74,35 @@ namespace Global.Common.Util
 
 
 
+        public static bool ReadValue(string path, string name,bool def )
+        {
+            RegistryKey regKey = null;
+            try
+            {
+                regKey = Registry.CurrentUser.OpenSubKey(path, false);
+                string value = regKey?.GetValue(name) as string;
+                if (string.IsNullOrEmpty(value))
+                {
+                    WriteValue(path, name, def);
+                    return false;
+                }
+                else
+                {
+                    return Convert.ToBoolean(regKey?.GetValue(name));
+                }
+
+            }
+            catch
+            {
+            }
+            finally
+            {
+                regKey?.Close();
+            }
+            return false;
+        }
+
+
         public static bool ReadValue(string path, string name)
         {
             RegistryKey regKey = null;
@@ -101,7 +130,6 @@ namespace Global.Common.Util
             }
             return false;
         }
-
 
         /// <summary>
         /// 设置扩展

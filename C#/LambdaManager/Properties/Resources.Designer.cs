@@ -61,6 +61,60 @@ namespace LambdaManager.Properties {
         }
         
         /// <summary>
+        ///   查找类似 _About 的本地化字符串。
+        /// </summary>
+        internal static string _About {
+            get {
+                return ResourceManager.GetString("_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 _File 的本地化字符串。
+        /// </summary>
+        internal static string _File {
+            get {
+                return ResourceManager.GetString("_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 _Help 的本地化字符串。
+        /// </summary>
+        internal static string _Help {
+            get {
+                return ResourceManager.GetString("_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 _New 的本地化字符串。
+        /// </summary>
+        internal static string _New {
+            get {
+                return ResourceManager.GetString("_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 _Theme 的本地化字符串。
+        /// </summary>
+        internal static string _Theme {
+            get {
+                return ResourceManager.GetString("_Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 _Tool 的本地化字符串。
+        /// </summary>
+        internal static string _Tool {
+            get {
+                return ResourceManager.GetString("_Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Action 的本地化字符串。
         /// </summary>
         internal static string Action {

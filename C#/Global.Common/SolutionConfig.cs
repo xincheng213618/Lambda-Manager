@@ -1,9 +1,11 @@
 ﻿using Global.Common;
+using Global.Common.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Global.Common
 {
@@ -18,14 +20,18 @@ namespace Global.Common
     public class TreeViewSetting : ViewModelBase
     {
 
-        private bool isSupportMultiProject = false;
+        private bool isSupportMultiProject = Reg.ReadValue("Software\\Grid", "isSupportMultiProject", false);
         public bool IsSupportMultiProject
         {
             get { return isSupportMultiProject; }
             set
             {
-                isSupportMultiProject = value;
-                NotifyPropertyChanged();
+                if (isSupportMultiProject!=value) {
+                    isSupportMultiProject = value;
+                    Reg.WriteValue("Software\\Grid", "isSupportMultiProject", isSupportMultiProject);
+                    NotifyPropertyChanged();
+                }
+
             }
         }
     }

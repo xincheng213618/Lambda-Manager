@@ -46,9 +46,7 @@
                         <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
                     </Button>
                 </Grid>
-                <Menu  DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" >
-                    <MenuItem Header="帮助(_H)"/>
-                </Menu>
+                <Menu  DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" />
 
             </StackPanel>
             

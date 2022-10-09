@@ -50,6 +50,10 @@ partial class App : Application
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
+        //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-Hans");
+
+
         StartWindow startWindow = new StartWindow();
         startWindow.Show();
 

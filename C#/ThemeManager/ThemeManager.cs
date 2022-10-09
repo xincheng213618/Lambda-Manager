@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
+using ThemeManager.Util;
 
 namespace ThemeManager
 {
@@ -46,7 +47,7 @@ namespace ThemeManager
     /// </summary>
     public static class ThemeManagers
     {
-        private static Theme _CurrentUITheme = Theme.Dark;
+        private static Theme _CurrentUITheme = Reg.ReadValue("Software\\Grid", "CurrentUITheme");
 
         public static Theme CurrentUITheme
         {
@@ -55,7 +56,8 @@ namespace ThemeManager
             { 
                 if (value != _CurrentUITheme)
                 {
-                    _CurrentUITheme = value;
+                    _CurrentUITheme = value; 
+                    Reg.WriteValue("Software\\Grid", "CurrentUITheme", CurrentUITheme);
                     ThemeChanged?.Invoke();
                 }
             }

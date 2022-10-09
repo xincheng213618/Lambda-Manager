@@ -28,8 +28,7 @@
                 <Button Content="新建" Click="Button_Click_2"/>
                 <Button Content="打开" Click="Button_Click"/>
                 <Button Content="关闭" Click="Close_Click"/>
-                <Button Foreground="Red" Content="保存" Click="Save_Click">
-                </Button>
+                <Button Content="保存" Click="Save_Click"/>
                 <Button Content="应用" Click="Config_Set_Click"/>
                 <Button Content="查找"/>
                 <Button Content="导出" Click="Button_Click_1"/>

@@ -27,7 +27,7 @@ namespace Wizard
         public MainWindow()
         {
             InitializeComponent();
-            Application.Current.ApplyTheme(Theme.Dark);
+            Application.Current.ApplyTheme(ThemeManager.Util.Reg.ReadValue("Software\\Grid", "CurrentUITheme"));
         }
         public MainWindow(string Name)
         {

@@ -445,8 +445,6 @@ namespace Solution
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
                     TreeViewInitialized(SolutionFullName,!SolutionConfig.treeViewSetting.IsSupportMultiProject);
-
-
                 }
             };
             newCreatWindow.ShowDialog();
