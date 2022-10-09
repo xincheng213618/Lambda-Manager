@@ -116,11 +116,15 @@ int WriteGrifFile(std::string path, std::string name, cv::Mat src, int x, int y,
     }
     return -1;
 }
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h"  // support for loading levels from the environment variable
+#include "spdlog/fmt/ostr.h" // support for user defined types
 
 int main()
 {
     clock_t start, end;
 
+    spdlog::warn("Easy padding in numbers like {:08d}", 12);
 
     //cv::Mat TestMat = cv::imread("D:\\PNT1A.tif", CV_64FC1);
     //WriteFile(TestMat,"PNT1A.grid");
