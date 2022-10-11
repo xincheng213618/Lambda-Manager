@@ -9,12 +9,10 @@
         Height="200" Width="500" MinWidth="500" MinHeight="300" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ThemeManager;component/Styles/styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <Style x:Key="TextBoxStyle1" BasedOn="{StaticResource {x:Type Control}}" TargetType="{x:Type TextBox}">
-                <Setter Property="Background" Value="#1F1F1F"/>
-                <Setter Property="BorderBrush" Value="#999999"/>
+                <Setter Property="Background" Value="{DynamicResource TextBoxBackground}"/>
+                <Setter Property="BorderBrush" Value="#888888"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Padding" Value="2,2,2,1"/>
                 <Setter Property="AllowDrop" Value="true"/>
@@ -29,9 +27,6 @@
                                 <ScrollViewer x:Name="PART_ContentHost" Background="{TemplateBinding Background}"  Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsFocused" Value="false">
-                                    <Setter TargetName="PART_ContentHost" Property="Background" Value="#383838"/>
-                                </Trigger>
                                 <Trigger Property="IsEnabled" Value="false">
                                     <Setter Property="Foreground" Value="{StaticResource TextBoxDisabledForeground}"/>
                                     <Setter Property="Background" TargetName="PART_ContentHost" Value="{StaticResource TextBoxDisabledBackground}"/>

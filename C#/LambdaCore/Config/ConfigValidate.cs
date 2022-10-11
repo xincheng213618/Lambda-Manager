@@ -199,7 +199,7 @@ namespace LambdaManager.Config
                 }
                 procedures.Add(procedure);
             }
-            if (count == 1 && procedure.Key == null)
+            if (count == 1 && procedure.Key == null &&procedure.Arg ==null)
             {
                 Actions action = procedure.Actions?[0];
                 if (action != null)

@@ -351,6 +351,33 @@
     </ControlTemplate>
 
     <Style x:Key="Base_Slider" TargetType="Slider">
+        <Style.Resources>
+            <Style  TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="2,2,2,1"/>
+                <Setter Property="AllowDrop" Value="true"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border x:Name="Bd"
+						BorderBrush="{TemplateBinding BorderBrush}" 
+						BorderThickness="{TemplateBinding BorderThickness}" 
+						Background="Red"
+						CornerRadius="100"
+						SnapsToDevicePixels="true">
+                                <ScrollViewer x:Name="PART_ContentHost" Padding="{TemplateBinding Padding}" 
+							            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -365,6 +392,7 @@
 
 
     <Style x:Key="LM_Slider" TargetType="Slider" BasedOn="{StaticResource Base_Slider}">
+
         <Setter Property="TickFrequency" Value="1"/>
         <Setter Property="LargeChange" Value="2"/>
         <Setter Property="SmallChange" Value="1"/>

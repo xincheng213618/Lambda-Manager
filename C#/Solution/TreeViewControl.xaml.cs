@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using Global.Common.Extensions;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Dynamic;
+using System.Windows.Controls.Primitives;
+using System.Windows.Markup;
 
 namespace Solution
 {
@@ -426,7 +428,17 @@ namespace Solution
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
+
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
+            //EventSetter eventSetter  = new EventSetter(ButtonBase.ClickEvent, new RoutedEventHandler(Button_Click_211));
+            //Style style = new Style();
+            //style.Setters.Add(eventSetter);
+            //HeaderStackPanel.Style = style;
+
+        }
+        private void Button_Click_211(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("1");
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -484,14 +496,12 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            FileBase1 file = new FileBase1();
-            int a = FileBase1.FileKinds.Count;
-            FileBase1 fil1e = new FileBase1();
-            a = FileBase.FileKinds.Count;
+        }
 
-            FileBase fil1e333 = new FileBase();
-            a = FileBase1.FileKinds.Count;
-            a = FileBase.FileKinds.Count;
+        private void HeaderStackPanel_Click(object sender, RoutedEventArgs e)
+        {
+
+
         }
     }
 

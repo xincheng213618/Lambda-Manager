@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<root>	
+<root>
 	<component name="UITest" lib="lib\UITest.dll">
 
 		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
@@ -10,18 +10,18 @@
 		</procedure>
 		<procedure name="SleepTest" event="SleepTest" >
 			<action name="SleepTest"/>
-		</procedure>	
+		</procedure>
 		<procedure name="StageSettingReset" event="STAGE_SETTING_RESET">
 			<action name="StageSettingReset"/>
 		</procedure>
 
-	
+
 		<procedure name="test_double" event="test_double" key ="data">
 			<action name="test_double">
 				<input name="data" type="double"/>
 			</action>
 		</procedure>
-		
+
 
 		<procedure name="VideoTest" event="VideoTest" >
 			<action name="VideoTest"/>
@@ -36,7 +36,7 @@
 				<input name="mode2" type="int" />
 			</action>
 		</procedure>
-		
+
 		<procedure  event="MatShow222" arg="image" >
 
 
@@ -57,7 +57,7 @@
 			</action>
 		</procedure>
 
-	
+
 
 		<procedure name="UpdateSolutionPath" event="UpdateSolutionPath" arg ="FullPath" >
 			<action name="OpenSerial">
@@ -65,7 +65,7 @@
 			</action>
 		</procedure>
 
-		
+
 
 
 		<procedure name="OpenCamera">
@@ -92,6 +92,10 @@
 				<input name="value" type="string"/>
 				<![CDATA[ Set property]]>
 			</action>
+			<action name="LoadProperty">
+				<input name="xmlProperties" type="string"/>
+				<![CDATA[ Load and set property]]>
+			</action>
 		</procedure>
 
 		<procedure name="LoadProperty">
@@ -115,8 +119,8 @@
 			</action>
 		</procedure>
 	</component>
-	
-	<component name="Interop Test" lib="lib\InteropTest.dll" init ="group1">	
+
+	<component name="Interop Test" lib="lib\InteropTest.dll" init ="group1">
 		<procedure name="group1" async="true">
 			<action name="Test0" />
 			<action name="Test1">
@@ -487,17 +491,6 @@
 
 	<component name="Event object is array" lib="lib\InteropTest.dll" >
 
-		<procedure name="BrightFieldBrightness" event="BRIGHT_FIELD_BRIGHTNESS" arg ="brightness">
-			<action name="BrightFieldBrightness">
-				<output name="brightness" type="pointer" />
-			</action>	
-		</procedure>
-		
-		<procedure name="CellinfoTest" event="CellinfoTest" arg ="Cellinfos">
-			<action name="CellinfoTest">
-				<input name="Cellinfos" type="handle" />
-			</action>
-		</procedure>	
 	</component>
 	<component name="CUDA" lib="lib/CUDA.dll">
 		<procedure name="FFTCUDA_img" event="COLORBAR_CLICKED">

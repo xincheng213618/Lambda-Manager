@@ -10,43 +10,140 @@
 #include "zlib.h"
 
 using namespace std;
-struct GridFile
+typedef struct GrifFile
 {
-    char Name[20];
+    char Name[20]; //样片种类
+
+    int x; //x
+    int y; //y
+    int z; //z
+    int rows; //宽度
+    int cols; //高度
+    int depth; //位深度
+    char OperatingMode[255]; //操作模式  xyztp-edof
+    char Lighting[20]; //长度
+}GrifFile;
+
+typedef struct GrifMatFile
+{
     int rows;
     int cols;
     int type;
-    double srcLen;
-    double destLen;
-};
+    int compression;  //0,不压缩; 1,Zlib; 2,gz
+    double srcLen; 
+    double destLen; //无压缩时，destLen =0;
+}GrifMatFile;
 
-int WriteFile(cv::Mat WriteMat,string FileName) {
-    const char* istream = (char*)WriteMat.data;
-    uLongf srcLen = WriteMat.total() * WriteMat.elemSize();      // +1 for the trailing `\0`
-    uLongf destLen = compressBound(srcLen); // this is how you should estimate size 
-    char* ostream = (char*)malloc(destLen);
-    int res = compress((Bytef*)ostream, &destLen, (Bytef*)istream, srcLen);
-    if (res == Z_BUF_ERROR) {
-        printf("Buffer was too small!\n");
-        return -1;
-    }
-    if (res == Z_MEM_ERROR) {
-        printf("Not enough memory for compression!\n");
-        return -2;
-    }
+typedef struct GrifFileHeader
+{
+    char Name[5] = "grif";
+    int Verison; //0
+    double Matoffset; //直接读取Mat数据的偏移量
+}GrifFileHeader;
 
-    GridFile grid;
-    strcpy(grid.Name, "陈新城");
-    grid.rows = WriteMat.rows;
-    grid.cols = WriteMat.cols;
-    grid.type = WriteMat.type();
-    grid.srcLen = srcLen;
-    grid.destLen = destLen;
 
+int gzip_inflate(char* compr, int comprLen, char* uncompr, int uncomprLen)
+{
+    int err;
+    z_stream d_stream; /* decompression stream */
+
+    d_stream.zalloc = (alloc_func)0;
+    d_stream.zfree = (free_func)0;
+    d_stream.opaque = (voidpf)0;
+
+    d_stream.next_in = (unsigned char*)compr;
+    d_stream.avail_in = comprLen;
+
+    d_stream.next_out = (unsigned char*)uncompr;
+    d_stream.avail_out = uncomprLen;
+
+    err = inflateInit2(&d_stream, 16 + MAX_WBITS);
+    if (err != Z_OK) return err;
+
+    while (err != Z_STREAM_END) err = inflate(&d_stream, Z_NO_FLUSH);
+
+    err = inflateEnd(&d_stream);
+    return err;
+}
+#define CHUNK 16384
+
+int compressToGzip(const char* input, int inputSize, char* output, int outputSize)
+{
+    z_stream zs;
+    zs.zalloc = Z_NULL;
+    zs.zfree = Z_NULL;
+    zs.opaque = Z_NULL;
+    zs.avail_in = (uInt)inputSize;
+    zs.next_in = (Bytef*)input;
+    zs.avail_out = (uInt)outputSize;
+    zs.next_out = (Bytef*)output;
+
+    // hard to believe they don't have a macro for gzip encoding, "Add 16" is the best thing zlib can do:
+    // "Add 16 to windowBits to write a simple gzip header and trailer around the compressed data instead of a zlib wrapper"
+    deflateInit2(&zs, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 15 | 16, 8, Z_DEFAULT_STRATEGY);
+    deflate(&zs, Z_FINISH);
+    deflateEnd(&zs);
+    return zs.total_out;
+}
+
+int WriteFile(cv::Mat WriteMat,string FileName ,int compression = 1) {
     ofstream outFile(FileName, ios::out | ios::binary);
 
-    outFile.write((char*)&grid, sizeof(grid));
-    outFile.write(ostream, grid.destLen);
+    GrifFileHeader fileHeader;
+    fileHeader.Verison = 0;
+    fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(GrifFile);
+    outFile.write((char*)&fileHeader, sizeof(GrifFileHeader));
+
+
+    GrifFile grif;
+    strcpy(grif.Name, "海拉");
+    grif.x = 0;
+    grif.y = 0;
+    grif.z = 0;
+    grif.rows = WriteMat.rows;
+    grif.cols = WriteMat.cols;
+    grif.depth = WriteMat.depth();
+    outFile.write((char*)&grif, sizeof(GrifFile));
+
+
+    GrifMatFile grifMat;
+    grifMat.rows = WriteMat.rows;
+    grifMat.cols = WriteMat.cols;
+    grifMat.type = WriteMat.type();
+    grifMat.srcLen = WriteMat.total() * WriteMat.elemSize();
+    grifMat.compression = compression;
+
+    if (grifMat.compression == 1) {
+
+
+        const char* istream = (char*)WriteMat.data;
+        uLongf srcLen = grifMat.srcLen;      // +1 for the trailing `\0`
+        uLongf destLen = compressBound(srcLen); // this is how you should estimate size 
+        char* ostream = (char*)malloc(destLen);
+        int res = compress((Bytef*)ostream, &destLen, (Bytef*)istream, srcLen);
+        if (res == Z_BUF_ERROR) {
+            printf("Buffer was too small!\n");
+            return -1;
+        }
+        if (res == Z_MEM_ERROR) {
+            printf("Not enough memory for compression!\n");
+            return -2;
+        }
+        //char* ostream1 = (char*)malloc(destLen);
+        //uLongf destLen1 = compressBound(srcLen); // this is how you should estimate size 
+
+        //int b = compressToGzip(istream, srcLen, ostream1, destLen1);
+
+        grifMat.destLen = destLen;
+        outFile.write((char*)&grifMat, sizeof(GrifMatFile));
+        outFile.write(ostream, grifMat.destLen);
+    }
+    else if (grifMat.compression == 0)
+    {
+        outFile.write((char*)&grifMat, sizeof(GrifMatFile));
+        outFile.write((char*)WriteMat.data, grifMat.srcLen);
+    }
+
     outFile.close();
     return 0;
 
@@ -56,30 +153,53 @@ int WriteFile(cv::Mat WriteMat,string FileName) {
 cv::Mat ReadFile(string FileName) {
     ifstream inFile(FileName, ios::in | ios::binary); //二进制读方式打开
     if (!inFile) {
-        cout << "error" << endl;
         return cv::Mat::zeros(0, 0, CV_8UC3);
     }
-    GridFile gridFile;
-    inFile.read((char*)&gridFile, sizeof(gridFile));
-    char* i2stream = new char[gridFile.destLen];
-    // Read the pixels from the stringstream
-    inFile.read(i2stream, gridFile.destLen);
+    GrifFileHeader grifheader;
+    inFile.read((char*)&grifheader, sizeof(GrifFileHeader));
+    if (std::string("grif").compare(grifheader.Name))
+    {
+        return cv::Mat::zeros(0, 0, CV_8UC3);
+    }
+    inFile.seekg(grifheader.Matoffset, ios::beg);
+    GrifMatFile grifMat;
+    inFile.read((char*)&grifMat, sizeof(GrifMatFile));
+    if (grifMat.compression == 1)
+    {
+        char* i2stream = new char[grifMat.destLen];
+        // Read the pixels from the stringstream
+        inFile.read(i2stream, grifMat.destLen);
 
-    char* o2stream = (char*)malloc(gridFile.srcLen);
-    uLongf destLen2 = gridFile.destLen;
-    uLongf srcLen = gridFile.srcLen;
+        char* o2stream = (char*)malloc(grifMat.srcLen);
+        uLongf destLen2 = grifMat.destLen;
+        uLongf srcLen = grifMat.srcLen;
 
-    int des = uncompress((Bytef*)o2stream, &srcLen, (Bytef*)i2stream, destLen2);
-    cv::Mat mat1 = cv::Mat(gridFile.rows, gridFile.cols, gridFile.type, o2stream);
-    return mat1;
+        int des = uncompress((Bytef*)o2stream, &srcLen, (Bytef*)i2stream, destLen2);
+        return cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, o2stream);
+    }
+    else if (grifMat.compression == 0)
+    {
+        char* data = new char[grifMat.srcLen];
+        // Read the pixels from the stringstream
+        inFile.read(data, grifMat.srcLen);
+        cv::Mat mat1 = cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, data);
+        return mat1;
+    }
+    return cv::Mat::zeros(0, 0, CV_8UC3);
 }
 
-GridFile ReadFileHeader(string FileName) {
-    GridFile gridFile{};
+GrifFile ReadFileHeader(string FileName) {
+    GrifFile gridFile{};
 
     ifstream inFile(FileName, ios::in | ios::binary); //二进制读方式打开
     if (!inFile) {
         cout << "error" << endl;
+        return gridFile;
+    }
+    GrifFileHeader grifheader;
+    inFile.read((char*)&grifheader, sizeof(GrifFileHeader));
+    if (std::string("grif").compare(grifheader.Name))
+    {
         return gridFile;
     }
     inFile.read((char*)&gridFile, sizeof(gridFile));
@@ -95,9 +215,12 @@ int GrifToMat(std::string path, cv::Mat& src)
     if (hFs.open(path, cv::FileStorage::READ))
     {
         std::vector<uchar> vData;
+        int x = 0;
+        hFs["x"] >> x;
+
         hFs["data"] >> src;
         hFs.release();
-        return 0;
+        return x;
     }
     return -1;
 }
@@ -116,49 +239,50 @@ int WriteGrifFile(std::string path, std::string name, cv::Mat src, int x, int y,
     }
     return -1;
 }
-#include "spdlog/spdlog.h"
-#include "spdlog/cfg/env.h"  // support for loading levels from the environment variable
-#include "spdlog/fmt/ostr.h" // support for user defined types
 
 int main()
 {
     clock_t start, end;
 
-    spdlog::warn("Easy padding in numbers like {:08d}", 12);
+    cv::Mat TestMat = cv::imread("D:\\PNT1A.tif", CV_64FC1);
+    WriteFile(TestMat, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A.grif");
+    WriteFile(TestMat, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A0.grif",0);
 
-    //cv::Mat TestMat = cv::imread("D:\\PNT1A.tif", CV_64FC1);
-    //WriteFile(TestMat,"PNT1A.grid");
+    cv::Mat TestMat0 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A0.grif");
+    cv::Mat TestMat1 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A.grif");
+
+
+    cv::Mat PNT1B = cv::imread("D:\\PNT1B.tif", CV_64FC1);
+    WriteFile(PNT1B, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1B.grif");
+    WriteFile(PNT1B, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1B0.grif", 0);
+
+    //cv::imshow("TestMat0", TestMat0);
+    //cv::imshow("TestMat", TestMat1)
+
     cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
     start = clock();
     GrifToMat("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grif", src);
     end = clock();   //结束时间
     cout << "GrifToMat = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+
+
+    WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif");
+    WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif", 0);
+
     start = clock();
-    WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grid");
+    WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\testWrite.grif");
     end = clock();   //结束时间
     cout << "WriteFile = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     start = clock();
-    cv::Mat Mat1 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grid");
+    cv::Mat Mat1 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\testWrite.grif");
     end = clock();   //结束时间
     cout << "ReadFile = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     start = clock();
-    GridFile gridfile = ReadFileHeader("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grid");
+    GrifFile gridfile = ReadFileHeader("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\testWrite.grif");
     end = clock();   //结束时间
     cout << "ReadFileHeader = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     start = clock();
-    ofstream outFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 11.grid", ios::out | ios::binary);
-    outFile << Mat1;
-    outFile.close();
-    end = clock();   //结束时间
-    cout << "ofstream writemat = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
-    start = clock();
-    ofstream outFile1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 112.grid", ios::out | ios::binary);
-    outFile1.write((char*)Mat1.data, Mat1.total() * Mat1.elemSize());
-    outFile1.close();
-    end = clock();   //结束时间
-    cout << "ofstream writedata = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
-    start = clock();
-    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\","Image 111.grid", Mat1,1,1,1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\","Image 111.grif", Mat1,1,1,1);
     end = clock();   //结束时间
     cout << "WriteGrifFile = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     cv::Mat src11 = cv::Mat(1280, 720, CV_8UC3);
@@ -167,26 +291,21 @@ int main()
     end = clock();   //结束时间
     cout << "GrifToMat = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     cv::imshow("1111", src);
-
     cv::Mat  mat22;
     src.convertTo(mat22,CV_64FC3);
     start = clock();
-    WriteFile(mat22, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\doubletest.grid");
+    WriteFile(mat22, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\doubletest.grif");
     end = clock();   //结束时间
     cout << "WriteFile doubletest = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     start = clock();
-    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "Image doubletest.grid", mat22, 1, 1, 1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "Image doubletest.grif", mat22, 1, 1, 1);
     end = clock();   //结束时间
     cout << "WriteGrifFile doubletest = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     start = clock();
-    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "Image doubletest.grid.gz", mat22, 1, 1, 1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "Image doubletest.grif.gz", mat22, 1, 1, 1);
     end = clock();   //结束时间
     cout << "WriteGrifFile doubletestgz = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     start = clock();
-    cv::Mat  mat33;
-    mat33=ReadFile( "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\doubletest.grid");
-    mat33.convertTo(mat33, CV_8UC3);
-    cv::imshow("22222", mat33);
 
 
 

@@ -23,7 +23,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid >
-        <StackPanel x:Name="HeaderStackPanel" Width="400" >
+        <StackPanel x:Name="HeaderStackPanel"  Width="400" >
             <UniformGrid Columns="8" >
                 <Button Content="新建" Click="Button_Click_2"/>
                 <Button Content="打开" Click="Button_Click"/>
