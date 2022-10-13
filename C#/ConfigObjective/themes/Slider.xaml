@@ -353,7 +353,6 @@
     <Style x:Key="Base_Slider" TargetType="Slider">
         <Style.Resources>
             <Style  TargetType="{x:Type TextBox}">
-                <Setter Property="Background" Value="Black"/>
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Padding" Value="2,2,2,1"/>
@@ -364,14 +363,8 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type TextBox}">
-                            <Border x:Name="Bd"
-						BorderBrush="{TemplateBinding BorderBrush}" 
-						BorderThickness="{TemplateBinding BorderThickness}" 
-						Background="Red"
-						CornerRadius="100"
-						SnapsToDevicePixels="true">
-                                <ScrollViewer x:Name="PART_ContentHost" Padding="{TemplateBinding Padding}" 
-							            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <Border x:Name="Bd"  Background="#595959" CornerRadius="{TemplateBinding Padding}" 	BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                                <ScrollViewer x:Name="PART_ContentHost" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}"  Padding="{TemplateBinding Padding}"  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>

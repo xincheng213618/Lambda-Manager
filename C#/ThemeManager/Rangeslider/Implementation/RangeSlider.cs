@@ -40,6 +40,8 @@ namespace ThemeManager.Rangeslider
             return Application.Current.FindResource(typeof(RangeSlider)) as Style ?? null;
         }
 
+        
+
 
         //#region Constructors
         static RangeSlider()

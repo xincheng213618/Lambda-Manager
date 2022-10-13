@@ -79,6 +79,8 @@
                     <TextBlock Width="50" Text="白平衡" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <Button x:Name="Button211"   Width="50" Content="自动" Click="Button211_Click" HorizontalAlignment="Right" Margin="0,0,0,3"/>
                 </DockPanel>
+
+
                 <DockPanel>
                     <TextBlock  Width="50" Text="增益" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ToggleButton x:Name="ToggleButton211"  DockPanel.Dock="Right" Content="自动" Width="50" Style="{StaticResource ToggleButtonStyle1}" IsChecked="{Binding Path=GainAuto}" Click="ToggleButton211_Click" />

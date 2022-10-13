@@ -916,7 +916,7 @@
 
     <!--#region TextBox-->
     <Style BasedOn="{StaticResource {x:Type Control}}" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Background" Value="{StaticResource TextBoxBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorder}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="2,2,2,1"/>

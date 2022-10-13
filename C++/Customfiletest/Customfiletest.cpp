@@ -13,15 +13,16 @@ using namespace std;
 typedef struct GrifFile
 {
     char Name[20]; //样片种类
-
+    char OperatingMode[20]; //操作模式  xyztp-edof
+    char Lighting[20]; //长度
     int x; //x
     int y; //y
     int z; //z
     int rows; //宽度
     int cols; //高度
     int depth; //位深度
-    char OperatingMode[255]; //操作模式  xyztp-edof
-    char Lighting[20]; //长度
+    int jsonoffset;//json的相对文件头的数据量，可以直接通过这里去读取json的内存，(如果不使用元数据，可以把这个合并在头文件中，并取消Griffile的元数据类型)
+
 }GrifFile;
 
 typedef struct GrifMatFile
@@ -30,15 +31,15 @@ typedef struct GrifMatFile
     int cols;
     int type;
     int compression;  //0,不压缩; 1,Zlib; 2,gz
-    double srcLen; 
+    double srcLen; //Mat.data 的长度
     double destLen; //无压缩时，destLen =0;
 }GrifMatFile;
 
 typedef struct GrifFileHeader
 {
-    char Name[5] = "grif";
+    char Name[4] = {0x67,0x72,0x69,0x66};
     int Verison; //0
-    double Matoffset; //直接读取Mat数据的偏移量
+    int Matoffset; //直接读取Mat数据的偏移量 int 限制了2G大小，如果需要更多，则需要float or double d但是这回让内存对齐比较麻烦
 }GrifFileHeader;
 
 
@@ -87,10 +88,14 @@ int compressToGzip(const char* input, int inputSize, char* output, int outputSiz
 }
 
 int WriteFile(cv::Mat WriteMat,string FileName ,int compression = 1) {
+    clock_t start, end;
+    start = clock();
     ofstream outFile(FileName, ios::out | ios::binary);
 
     GrifFileHeader fileHeader;
     fileHeader.Verison = 0;
+    int a = sizeof(GrifFileHeader);
+    int b = sizeof(GrifFile);
     fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(GrifFile);
     outFile.write((char*)&fileHeader, sizeof(GrifFileHeader));
 
@@ -143,6 +148,11 @@ int WriteFile(cv::Mat WriteMat,string FileName ,int compression = 1) {
         outFile.write((char*)&grifMat, sizeof(GrifMatFile));
         outFile.write((char*)WriteMat.data, grifMat.srcLen);
     }
+
+    std::streampos sp = outFile.tellp();      //获取文件大小
+    cout<< FileName <<":  " << sp / 1024 << "KB" ;
+    end = clock();
+    cout << " , " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
 
     outFile.close();
     return 0;
@@ -210,6 +220,7 @@ GrifFile ReadFileHeader(string FileName) {
 int GrifToMat(std::string path, cv::Mat& src)
 {
 
+
     cv::FileStorage hFs;
     //打开需要读取的路径和文件，将data写入到Mat中
     if (hFs.open(path, cv::FileStorage::READ))
@@ -224,8 +235,11 @@ int GrifToMat(std::string path, cv::Mat& src)
     }
     return -1;
 }
+
 int WriteGrifFile(std::string path, std::string name, cv::Mat src, int x, int y, int z)
 {
+    clock_t start, end;
+    start = clock();
     cv::FileStorage hFs;
     //打开需要创建的路径和文件,将xyz位移台信息和Mat数据写入到文件中
     if (hFs.open((path + name), cv::FileStorage::WRITE_BASE64))
@@ -235,9 +249,34 @@ int WriteGrifFile(std::string path, std::string name, cv::Mat src, int x, int y,
         hFs << "z" << z;
         hFs << "data" << src;
         hFs.release();
+        end = clock();
+        cout << path + name <<":  " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
         return 0;
     }
     return -1;
+}
+int GrifToMatGz(std::string path, cv::Mat& src)
+{
+    string newName = path + ".gz";
+    GrifToMat(newName,src);
+    return 0;
+}
+
+int WriteGrifFileGz(std::string path, std::string name, cv::Mat src, int x, int y, int z)
+{
+    WriteGrifFile(path,name +".gz",src,x,y,z);
+    return 0;
+}
+
+void OsWrite(std::string path, cv::Mat src) {
+    ofstream outFile1(path, ios::out | ios::binary);
+    outFile1.write((char*)src.data, src.total() * src.elemSize());
+    outFile1.close();
+}
+void OsWrite1(std::string path, cv::Mat src) {
+    ofstream outFile1(path, ios::out | ios::binary);
+    outFile1 << src;
+    outFile1.close();
 }
 
 int main()
@@ -245,8 +284,14 @@ int main()
     clock_t start, end;
 
     cv::Mat TestMat = cv::imread("D:\\PNT1A.tif", CV_64FC1);
+    int i = sizeof(TestMat);
+
     WriteFile(TestMat, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A.grif");
     WriteFile(TestMat, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A0.grif",0);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "PNT1A2.grif", TestMat,1,1,1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "PNT1A2.grif.gz", TestMat, 1, 1, 1);
+    OsWrite("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A3.grif",TestMat);
+    OsWrite1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A4.grif", TestMat);
 
     cv::Mat TestMat0 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A0.grif");
     cv::Mat TestMat1 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1A.grif");
@@ -255,19 +300,52 @@ int main()
     cv::Mat PNT1B = cv::imread("D:\\PNT1B.tif", CV_64FC1);
     WriteFile(PNT1B, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1B.grif");
     WriteFile(PNT1B, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1B0.grif", 0);
-
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "PNT1B2.grif", PNT1B, 1, 1, 1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "PNT1B2.grif.gz", PNT1B, 1, 1, 1);
+    OsWrite("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1B3.grif", PNT1B);
+    OsWrite1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\PNT1B4.grif", PNT1B);
     //cv::imshow("TestMat0", TestMat0);
     //cv::imshow("TestMat", TestMat1)
 
     cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
-    start = clock();
     GrifToMat("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grif", src);
-    end = clock();   //结束时间
-    cout << "GrifToMat = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    
+    //WriteGrifFileGz("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif", src, 1, 1, 1);
+    //GrifToMatGz("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\FsGzTest.grif", src);
 
 
     WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif");
     WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif", 0);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif", src, 1, 1, 1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif.gz", src, 1, 1, 1);
+    OsWrite("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src3.grif", src);
+    OsWrite1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src4.grif", src);
+
+    cv::Mat  srcdouble;
+    src.convertTo(srcdouble, CV_64FC3, 1.0 / 255.0);
+    WriteFile(srcdouble, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\srcdouble.grif");
+    WriteFile(srcdouble, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\srcdouble0.grif", 0);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "srcdouble2.grif", srcdouble, 1, 1, 1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "srcdouble2.grif.gz", srcdouble, 1, 1, 1);
+    OsWrite("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\srcdouble3.grif", srcdouble);
+    OsWrite1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\srcdouble4.grif", srcdouble);
+
+    cv::Mat test = cv::imread("D:\\test.bmp");
+    WriteFile(test, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\test.grif");
+    WriteFile(test, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\test0.grif", 0);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "test2.grif", test, 1, 1, 1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "test2.grif.gz", test, 1, 1, 1);
+    OsWrite("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\test3.grif", test);
+    OsWrite1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\test4.grif", test);
+
+    cv::Mat  ZeroTest = cv::Mat::zeros(2448,2048,CV_8UC3);
+    WriteFile(ZeroTest, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\ZeroTest.grif");
+    WriteFile(ZeroTest, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\ZeroTest0.grif", 0);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "ZeroTest2.grif", ZeroTest, 1, 1, 1);
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "ZeroTest.grif.gz", ZeroTest, 1, 1, 1);
+    OsWrite("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\ZeroTest3.grif", ZeroTest);
+    OsWrite1("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\ZeroTest4.grif", ZeroTest);
+
 
     start = clock();
     WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\testWrite.grif");

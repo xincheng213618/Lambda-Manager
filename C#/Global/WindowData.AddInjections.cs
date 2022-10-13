@@ -27,6 +27,8 @@ namespace Global
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
+
+
                 InkVisual inkVisual = new InkVisual(0,image,ImageViewState.toolTop, inkMethod);
                 inkVisual.profileModel = profileModel;
 
