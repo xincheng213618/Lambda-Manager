@@ -6,6 +6,8 @@
 #include <opencv.hpp>
 using namespace std;
 
+
+//使用读写同时操作时，需要用seekp(写) Seekg(读)来确定位置
 int main()
 {
     cv::String folder = "C:\\Users\\Chen\\Desktop\\cell000";
