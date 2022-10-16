@@ -15,7 +15,8 @@ int main()
     std::map<int, int> ChacheLen1;
 
     int chache[100];
-    fstream cacheFile("1.cache", ios::out | ios::in | ios::binary);
+    fstream cacheFile("1.cache", ios::out | ios::binary);
+    fstream cacheFile1("1.cache", ios::in | ios::binary);
 
     for (size_t i = 0; i < imagePathList.size(); i++)
     {
@@ -41,10 +42,12 @@ int main()
         cout << " read, " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
 
         start = clock();
-        cacheFile.seekg(ChacheLen[n], ios::beg);
+        //fstream cacheFile1("1.cache", ios::in | ios::binary);
+        cacheFile1.seekg(ChacheLen[n], ios::beg);
         char* i2stream = new char[ChacheLen1[ChacheLen[n]]];
 
-        cacheFile.read(i2stream, ChacheLen1[ChacheLen[n]]);
+        cacheFile1.read(i2stream, ChacheLen1[ChacheLen[n]]);
+        //cacheFile1.close();
 
         cv::Mat src1(1024,1024,CV_8UC3, i2stream);
         end = clock();
@@ -56,10 +59,11 @@ int main()
             n = 0;
         }
     }
+    cacheFile.close();   
+    cacheFile1.close();
 
 
 
-    cacheFile.close();
 
 
 

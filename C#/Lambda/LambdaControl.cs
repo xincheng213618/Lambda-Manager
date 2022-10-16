@@ -92,19 +92,19 @@ namespace Lambda
             LogHandler2?.Invoke(message);
         }
 
-        public void Trigger(string type, Dictionary<string, object>? json)
+        public static void Trigger(string type, Dictionary<string, object>? json)
         {
-            CallEventHandler?.Invoke(type, this, new LambdaArgs
+            CallEventHandler?.Invoke(type,null, new LambdaArgs
             {
                 Data = json
             });
         }
 
-        public async void Dispatch(string type, Dictionary<string, object>? json)
+        public static async void Dispatch(string type, Dictionary<string, object>? json)
         {
             string type2 = type;
             Dictionary<string, object> json2 = json;
-            await Task.Run(() => CallEventHandler?.Invoke(type2, this, new LambdaArgs
+            await Task.Run(() => CallEventHandler?.Invoke(type2, null, new LambdaArgs
             {
                 Data = json2
             }));
@@ -136,6 +136,7 @@ namespace Lambda
                 Data = json2
             }));
         }
+
 
         public void Dispatch(string type, string? json, int millis)
         {
@@ -243,7 +244,7 @@ namespace Lambda
 
         }
 
-        public async void Dispatch(string type, object sender, string? json)
+        public static async void Dispatch(string type, object sender, string? json)
         {
             await Task.Run(() => CallEventHandler?.Invoke(type, sender, new LambdaArgs
             {

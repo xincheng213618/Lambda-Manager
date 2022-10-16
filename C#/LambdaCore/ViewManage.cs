@@ -1,11 +1,7 @@
 ﻿using Lambda;
-using LambdaUtils;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Media.Imaging;
 
 namespace LambdaCore
@@ -28,6 +24,23 @@ namespace LambdaCore
         {
             lock (locker) { instance ??= new ViewManager(); }
             return instance;
+        }
+        Timer timer;
+        public ViewManager()
+        {
+             timer = new Timer(TimeRun, null, 0, 1000);
+        }
+
+        private DateTime Start = DateTime.Now;
+        private void TimeRun(object state)
+        {
+            if (TimerCounter != 0)
+            {
+                double fps = TimerCounter / (DateTime.Now - Start).TotalSeconds;
+                AllFPS = fps.ToString("0.0");
+                TimerCounter = 0;
+                Start = DateTime.Now;
+            }
         }
 
         public event ViewChangedEventHandler ViewChanged;
@@ -58,17 +71,13 @@ namespace LambdaCore
             set { fps = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllFPS))); }
         }
         private int Counter = 0;
-        private DateTime Start = DateTime.Now;
+        private int TimerCounter = 0;
+
 
         public void Inc()
         {
             Counter++;
-            if (Counter % 30 == 0)
-            {
-                double fps = 30.0 / (DateTime.Now - Start).TotalSeconds;
-                AllFPS = fps.ToString("0.0");
-                Start = DateTime.Now;
-            }
+            TimerCounter++;
         }
     }
 }

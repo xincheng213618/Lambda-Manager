@@ -628,31 +628,31 @@ Type sum( const Vector<Type> &v )
 /**
  * Minimum value of vector.
  */
-template <typename Type>
-Type min( const Vector<Type> &v )
-{
-    Type m = v[0];
-    for( int i=1; i<v.size(); ++i )
-        if( m > v[i] )
-            m = v[i];
-
-    return m;
-}
+//template <typename Type>
+//Type min( const Vector<Type> &v )
+//{
+//    Type m = v[0];
+//    for( int i=1; i<v.size(); ++i )
+//        if( m > v[i] )
+//            m = v[i];
+//
+//    return m;
+//}
 
 
 /**
  * Maximum value of vector.
  */
-template <typename Type>
-Type max( const Vector<Type> &v )
-{
-    Type M = v[0];
-    for( int i=1; i<v.size(); ++i )
-        if( M < v[i] )
-            M = v[i];
-
-    return M;
-}
+//template <typename Type>
+//Type max( const Vector<Type> &v )
+//{
+//    Type M = v[0];
+//    for( int i=1; i<v.size(); ++i )
+//        if( M < v[i] )
+//            M = v[i];
+//
+//    return M;
+//}
 
 
 /**

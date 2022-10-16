@@ -20,6 +20,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Dynamic;
 using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
+using Microsoft.Win32;
 
 namespace Solution
 {
@@ -496,6 +497,20 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,//该值确定是否可以选择多个文件
+                Title = "请选择文件",
+                RestoreDirectory = true,
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                string Filename = dialog.FileName;
+                LambdaControl.Dispatch("LFOCMOpenVideo",this, Filename);
+            }
+
+
         }
 
         private void HeaderStackPanel_Click(object sender, RoutedEventArgs e)

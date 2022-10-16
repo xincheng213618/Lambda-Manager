@@ -178,8 +178,8 @@ namespace splab
 
     // utilities
     template<typename Type> Type sum( const Vector<Type>& );
-    template<typename Type> Type min( const Vector<Type>& );
-    template<typename Type> Type max( const Vector<Type>& );
+    //template<typename Type> Type min( const Vector<Type>& );
+    //template<typename Type> Type max( const Vector<Type>& );
     template<typename Type> Type norm( const Vector<Type>& );
     template<typename Type> Type norm( const Vector<complex<Type> >& );
     template<typename Type> void swap( Vector<Type>&, Vector<Type>& );

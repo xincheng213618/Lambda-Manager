@@ -498,4 +498,13 @@
 			</action>
 		</procedure>
 	</component>
+	<component name="LFOCM" lib="lib/LFOCM.dll">
+		<procedure name="OpenVideo" event="LFOCMOpenVideo" arg="FullPath">
+			<action name="OpenVideo" >
+				<input name="FullPath" type="#string" />
+			</action>
+		</procedure>
+	</component>
+
+	
 </root>

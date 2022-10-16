@@ -1,4 +1,4 @@
-#pragma warning(disable:26812 26495 26451 6294 6201)
+﻿#pragma warning(disable:26812 26495 26451 6294 6201)
 
 #include "pch.h"
 #include "UITest.h"
@@ -544,7 +544,37 @@ int test() {
 	Event::Trigger("CellinfoTest", &Cellinfos);
 }
 
+#include "Customfiletest.h"
+
 int VideoTest() {
+	cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
+	clock_t start, end;
+	start = clock();
+	GrifToMat("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grif", src);
+	end = clock();
+	Logger::Log2(Severity::INFO, L"GrifToMat[%d ms]", end - start);
+	start = clock();
+	WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif");
+	end = clock();
+	Logger::Log2(Severity::INFO, L"WriteFile[%d ms]", end - start);
+	start = clock();
+	WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif", src, 1, 1, 1);
+	end = clock();
+	Logger::Log2(Severity::INFO, L"WriteGrifFile[%d ms]", end - start);
+	start = clock();
+    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif.gz", src, 1, 1, 1);
+	end = clock();
+	Logger::Log2(Severity::INFO, L"WriteGrifFilegz[%d ms]", end - start);
+	start = clock();
+	WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif", 0);
+	end = clock();
+	Logger::Log2(Severity::INFO, L"WriteFile0[%d ms]", end - start);
+	start = clock();
+	cv::Mat test1= ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif");
+	end = clock();
+	Logger::Log2(Severity::INFO, L"ReadFile[%d ms]", end - start);
+
+
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");
 
 
@@ -588,7 +618,6 @@ int VideoTest() {
 	//input1.convertTo(input2, CV_32FC1, 1.0 / 255.0);
 
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
-
 	return 0;
 }
 int StageSettingReset() {
