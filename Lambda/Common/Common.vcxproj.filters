@@ -21,13 +21,13 @@
     <ClInclude Include="common1.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\packages\common\include\concurrent.h">
+    <ClInclude Include="$(SolutionDir)packages\common\include\common.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\packages\common\include\threadpool.h">
+    <ClInclude Include="$(SolutionDir)packages\common\include\concurrent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\packages\common\include\common.h">
+    <ClInclude Include="$(SolutionDir)packages\common\include\threadpool.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigObjective", "C#\Confi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solution", "C#\Solution\Solution.csproj", "{5C593C4B-5CD2-4666-8EBE-E337C84D7DF4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaManager", "C#\LambdaManager\LambdaManager.csproj", "{EE50A5A7-23FB-430F-BCE1-691CA08B67BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaManager", "Lambda\LambdaManager\LambdaManager.csproj", "{EE50A5A7-23FB-430F-BCE1-691CA08B67BD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grid", "C#\Grid\Grid.csproj", "{021D4E03-82FE-4B8B-90C5-91A5AD456248}"
 EndProject
@@ -52,7 +52,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DPCAutoFocus", "C++\DPCAuto
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InteropTest", "C++\IntereopTest\InteropTest.vcxproj", "{07E63B9A-05D4-4769-8642-2D43A169EE8E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Common\Common.vcxproj", "{257097AC-30F8-4BFF-9672-2F52B0BB5AA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Lambda\Common\Common.vcxproj", "{257097AC-30F8-4BFF-9672-2F52B0BB5AA9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaUtils", "C#\LambdaUtils\LambdaUtils.csproj", "{8983C0A3-B289-4C49-9E7C-A2A9A53607E6}"
 EndProject
@@ -66,7 +66,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tool", "Tool", "{0E572FA3-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToolHash", "C#\ToolHash\ToolHash.csproj", "{25A301FA-857B-4E83-9816-C869FC2C6EA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaCore", "C#\LambdaCore\LambdaCore.csproj", "{1D058204-3B54-44BA-98D7-06ACB9FA7D0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaCore", "Lambda\LambdaCore\LambdaCore.csproj", "{1D058204-3B54-44BA-98D7-06ACB9FA7D0F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{666A4CF4-0F39-4E38-B717-281068419642}"
 EndProject
@@ -74,7 +74,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AboutMsg", "C#\AboutMsg\Abo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CudaTest", "C++\CudaTest\CudaTest.vcxproj", "{8D2610AC-CF84-4DBF-9483-E896134538B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaDemo", "C#\LambdaDemo\LambdaDemo.csproj", "{4E1CE5AB-9E49-4AF4-9AEE-816161838707}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaDemo", "Lambda\LambdaDemo\LambdaDemo.csproj", "{4E1CE5AB-9E49-4AF4-9AEE-816161838707}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Global.Common", "C#\Global.Common\Global.Common.csproj", "{EE1D5791-2390-4727-A1D2-61447D96502A}"
 EndProject

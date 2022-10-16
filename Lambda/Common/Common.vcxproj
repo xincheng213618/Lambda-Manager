@@ -62,30 +62,34 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir)props\nlohmann.props" />
+    <Import Project="$(SolutionDir)props\OpenCV.Debug.x86.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir)props\nlohmann.props" />
+    <Import Project="$(SolutionDir)props\OpenCV.Release.x86.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\props\nlohmann.props" />
-    <Import Project="..\props\OpenCV.Release.x64.props" />
-    <Import Project="..\props\NativeCopy.props" />
+    <Import Project="$(SolutionDir)props\nlohmann.props" />
+    <Import Project="$(SolutionDir)props\OpenCV.Release.x64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="..\props\NativeCopy.props" />
-    <Import Project="..\props\nlohmann.props" />
-    <Import Project="..\props\OpenCV.Debug.x64.props" />
+    <Import Project="$(SolutionDir)props\nlohmann.props" />
+    <Import Project="$(SolutionDir)props\OpenCV.Debug.x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExternalIncludePath>$(SolutionDir)packages\common\include;$(ExternalIncludePath)</ExternalIncludePath>
@@ -94,7 +98,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;COMMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;COMMON_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -105,12 +109,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib");
-	  if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib");
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
-	  copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";</Command>
+      <Command>copy "$(OutDir)$(TargetName)d$(TargetExt)" "$(SolutionDir)packages\common\x86";copy "$(OutDir)$(TargetName)d.lib" "$(SolutionDir)packages\common\x86";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,7 +118,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;COMMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;COMMON_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -132,12 +131,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib");
-	  if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib");
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
-	  copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common\x86";copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common\x86";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,13 +159,17 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent />
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib");
-	  if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib");
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
-	  copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";</Command>
+      <Command>if not exist "$(SolutionDir)Lambda\LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)Lambda\LambdaManager\bin\x64\Debug\net6.0-windows\lib");
+if not exist "$(SolutionDir)Lambda\LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)Lambda\LambdaManager\bin\x64\Release\net6.0-windows\lib");
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)Lambda\LambdaManager\bin\x64\Debug\net6.0-windows\lib";
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)Lambda\LambdaManager\bin\x64\Release\net6.0-windows\lib";
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
+copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -181,18 +179,13 @@
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;COMMON_EXPORTS</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib");
-	  if not exist "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib" (mkdir "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib");
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Debug\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)C#\LambdaManager\bin\x64\Release\net6.0-windows\lib";
-	  copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
-	  copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";</Command>
+      <Command>copy "$(OutDir)$(TargetName)d$(TargetExt)" "$(SolutionDir)packages\common";copy "$(OutDir)$(TargetName)d.lib" "$(SolutionDir)packages\common";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\packages\common\include\common.h" />
-    <ClInclude Include="..\packages\common\include\concurrent.h" />
-    <ClInclude Include="..\packages\common\include\threadpool.h" />
+    <ClInclude Include="$(SolutionDir)packages\common\include\common.h" />
+    <ClInclude Include="$(SolutionDir)packages\common\include\concurrent.h" />
+    <ClInclude Include="$(SolutionDir)packages\common\include\threadpool.h" />
     <ClInclude Include="common1.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

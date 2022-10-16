@@ -123,15 +123,15 @@
     <Resource Include="resources\icons\top-eraser.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AboutMsg\AboutMsg.csproj" />
-    <ProjectReference Include="..\ACE\ACE.csproj" />
-    <ProjectReference Include="..\ConfigObjective\ConfigObjective.csproj" />
-    <ProjectReference Include="..\ConfigSetting\ConfigSetting.csproj" />
-    <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\AboutMsg\AboutMsg.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\ACE\ACE.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\ConfigSetting\ConfigSetting.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
-    <ProjectReference Include="..\Register\Register.csproj" />
-    <ProjectReference Include="..\Solution\Solution.csproj" />
-    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\Register\Register.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\Solution\Solution.csproj" />
+    <ProjectReference Include="$(SolutionDir)C#\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\icons\application-icon.png" />
