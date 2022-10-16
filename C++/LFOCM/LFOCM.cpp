@@ -55,7 +55,7 @@ void ConsumerTask() // 消费者任务
 
 		Mat fft_DH, fft_magnitude;
 		fft2(frame, fft_DH, fft_magnitude);
-		fftshift(fft_DH);
+		fftshift(fft_DH);  
 		normalize(fft_magnitude, fft_magnitude, 0, 255, NORM_MINMAX);
 		Mat fft_magnitude1;
 		fft_magnitude.convertTo(fft_magnitude1, CV_8UC1);

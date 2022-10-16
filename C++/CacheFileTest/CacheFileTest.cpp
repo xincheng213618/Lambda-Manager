@@ -15,9 +15,8 @@ int main()
     std::map<int, int> ChacheLen1;
 
     int chache[100];
-    fstream cacheFile("1.cache", ios::out | ios::binary);
-    fstream cacheFile1("1.cache", ios::in | ios::binary);
-
+    fstream cacheFile("1.cache", ios_base::in | ios_base::out | ios::binary);
+    cacheFile.seekp(ios::beg);
     for (size_t i = 0; i < imagePathList.size(); i++)
     {
         cv::Mat src = cv::imread(imagePathList[i]);
@@ -28,39 +27,44 @@ int main()
         ChacheLen1.insert(std::make_pair(start, src.total() * src.elemSize()));
         cacheFile.write((char*)src.data, src.total() * src.elemSize());
     }
+
     //cacheFile.close();
     //fstream cacheFile1("1.cache", ios::in | ios::binary);
-
+    char* i2stream =NULL;
     clock_t start, end;
     int n=0;
     while (1)
     {
         n++;
-        start = clock();
-        cv::Mat src = cv::imread(imagePathList[n]);
-        end = clock();
-        cout << " read, " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+        //start = clock();
+        //cv::Mat src = cv::imread(imagePathList[n]);
+        //end = clock();
+        //cout << " read, " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
 
         start = clock();
         //fstream cacheFile1("1.cache", ios::in | ios::binary);
-        cacheFile1.seekg(ChacheLen[n], ios::beg);
-        char* i2stream = new char[ChacheLen1[ChacheLen[n]]];
-
-        cacheFile1.read(i2stream, ChacheLen1[ChacheLen[n]]);
+        cacheFile.seekg(ChacheLen[n], ios::beg);
+        if (i2stream ==NULL)
+            i2stream = (char*)malloc(ChacheLen1[ChacheLen[n]]);
+        
+        if (!cacheFile.read(i2stream, ChacheLen1[ChacheLen[n]])) {
+            throw "read failed";
+        }
+        ;
         //cacheFile1.close();
 
         cv::Mat src1(1024,1024,CV_8UC3, i2stream);
         end = clock();
         cout << "cache , " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
         cv::imshow("cache", src1);
-        cv::imshow("read", src);
+        //cv::imshow("read", src);
         cv::waitKey(1);
         if (n == imagePathList.size() - 2) {
             n = 0;
         }
     }
     cacheFile.close();   
-    cacheFile1.close();
+    //cacheFile1.close();
 
 
 
