@@ -23,6 +23,7 @@ namespace Solution
         RecentFileList recentFileList = new RecentFileList();
         public ObservableCollection<SoulutionInfo> SoulutionInfos = new ObservableCollection<SoulutionInfo>();
 
+
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
             foreach (var item in recentFileList.RecentFiles)

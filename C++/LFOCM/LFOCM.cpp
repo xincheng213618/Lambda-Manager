@@ -19,12 +19,27 @@ int OpenVideo(char* FullPath)
 	std::thread consumer2(ConsumerTask);
 	std::thread consumer3(ConsumerTask);
 	std::thread consumer4(ConsumerTask);
+	std::thread consumer5(ConsumerTask);
+	std::thread consumer6(ConsumerTask);
+	std::thread consumer7(ConsumerTask);
+	std::thread consumer8(ConsumerTask);
+	std::thread consumer9(ConsumerTask);
+	std::thread consumer10(ConsumerTask);
+	std::thread consumer11(ConsumerTask);
 
 	producer.detach();
 	consumer1.detach();
 	consumer2.detach();
 	consumer3.detach();
 	consumer4.detach();
+	consumer5.detach();
+	consumer6.detach();
+	consumer7.detach();
+	consumer8.detach();
+	consumer9.detach();
+	consumer10.detach();
+	consumer11.detach();
+
 	return  0;
 }
 std::mutex mtx; // 互斥量,保护产品缓冲区
@@ -39,17 +54,19 @@ LambdaView* pView1 = LambdaView::GetIdleOrNew();
 void ConsumerTask() // 消费者任务
 {
 	while (1) {
+		Sleep(1);
 		Mat frame;
-		if (MatCache.size() == 0) {
+		std::unique_lock<std::mutex> lock(mtx);
+		if (MatCache.size() <= 0 || MatCache.size() >= 100) {
+			lock.unlock();
 			continue;
-
 		}
 		else {
 			frame = MatCache.front();
 			MatCache.pop();
 			Logger::Log2(Severity::INFO, L"id[%d]", std::this_thread::get_id());
 		}
-
+		lock.unlock();
 		pView->Show(frame);
 		cvtColor(frame, frame, COLOR_BGR2GRAY);
 
@@ -112,14 +129,17 @@ int PlayFilm(std::string fileName) {
 		return -1;
 	}
 	while (true)
-	{	
-		if (MatCache.size() > 10) {
+	{
+		Sleep(1);
+		std::unique_lock<std::mutex> lock(mtx);
+		if (MatCache.size()<100&&MatCache.size() > 10) {
+			lock.unlock();
 			continue;
 		}
 		cv::Mat frame;
 		cap >> frame;
 		MatCache.push(frame);
-
+		lock.unlock();
 		if (frame.empty()) {
 			Logger::Log1(Severity::INFO, "Video is end");
 			break;
