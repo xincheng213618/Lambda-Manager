@@ -558,6 +558,10 @@ int VideoTest() {
 	end = clock();
 	Logger::Log2(Severity::INFO, L"WriteFile[%d ms]", end - start);
 	start = clock();
+	cv::Mat test0 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif");
+	end = clock();
+	Logger::Log2(Severity::INFO, L"ReadFile[%d ms]", end - start);
+	start = clock();
 	WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif", src, 1, 1, 1);
 	end = clock();
 	Logger::Log2(Severity::INFO, L"WriteGrifFile[%d ms]", end - start);
@@ -572,7 +576,7 @@ int VideoTest() {
 	start = clock();
 	cv::Mat test1= ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif");
 	end = clock();
-	Logger::Log2(Severity::INFO, L"ReadFile[%d ms]", end - start);
+	Logger::Log2(Severity::INFO, L"ReadFile0[%d ms]", end - start);
 
 
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");

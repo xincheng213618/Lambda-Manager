@@ -92,13 +92,11 @@ void fftshift(cv::Mat& out)
 	pt.y = (int)floor(sz.height / 2.0);
 	circshift(out, pt);
 }
+cufftComplex* cu_complexI_h , * cu_complexI_d;
 
-void FFTCUDA_img()
+void FFTCUDA_img(cv::Mat test_img)
 {
-	cv::Mat test_img, img_fft, magnitudeImage;
-	test_img = cv::imread("C:\\Users\\Chen\\Desktop\\Lambda Manager\\x64\\Release\\001.BMP", 0);
-	test_img.convertTo(test_img, CV_32FC1);
-
+	cv::Mat img_fft, magnitudeImage;
 	int nH, nW;
 	nH = test_img.rows;
 	nW = test_img.cols;
@@ -108,11 +106,9 @@ void FFTCUDA_img()
 	cudaError_t error_id = cudaGetDeviceCount(&deviceCount);
 
 	cv::Mat planes[] = { cv::Mat_<float>(test_img), cv::Mat::zeros(test_img.size(), CV_32F) };
-	
-	cufftComplex* cu_complexI_h, * cu_complexI_d, cu_complexI_d1;
+
 	cu_complexI_h = (cufftComplex*)malloc(sizeof(cufftComplex) * nW * nH);
-	cudaMalloc((void**)&cu_complexI_d, sizeof(cufftComplex) * nW * nH);
-	cudaMalloc((void**)&cu_complexI_d1, sizeof(cufftComplex) * 54000 * 900000);
+	cudaMalloc((void**)&cu_complexI_d, sizeof(cufftComplex) * nW * nW);
 
 	Mat2Complex(planes[0], planes[1], cu_complexI_h, nH, nW);
 	cudaMemcpy(cu_complexI_d, cu_complexI_h, sizeof(cufftComplex) * nW * nH, cudaMemcpyHostToDevice);
@@ -120,6 +116,7 @@ void FFTCUDA_img()
 	cufftPlan2d(&plan_forward, nH, nW, CUFFT_C2C);
 	cufftExecC2C(plan_forward, cu_complexI_d, cu_complexI_d, CUFFT_FORWARD);
 	cudaDeviceSynchronize();
+
 	cudaMemcpy(cu_complexI_h, cu_complexI_d, sizeof(cufftComplex) * nW * nH, cudaMemcpyDeviceToHost);
 	Complex2Mat(planes[0], planes[1], cu_complexI_h, nH, nW);
 	cufftDestroy(plan_forward);
@@ -136,12 +133,33 @@ void FFTCUDA_img()
 	normalize(magnitudeImage, magnitudeImage, 0, 1, cv::NORM_MINMAX);
 	magnitudeImage.convertTo(magnitudeImage, CV_8UC1, 255, 0);
 
+	//cudaFree(cu_complexI_d);
 }
 
+using namespace std;
 
 int main()
 {
-	FFTCUDA_img();
+	clock_t start, end;
+	start = clock();
+	cv::Mat test_img;
+	test_img = cv::imread("C:\\Users\\Chen\\Desktop\\Image\\001.BMP", 0);
+	test_img.convertTo(test_img, CV_32FC1);
+	int nH, nW;
+	nH = test_img.rows;
+	nW = test_img.cols;
+
+	for (size_t i = 0; i < 100; i++)
+	{
+		start = clock();
+		FFTCUDA_img(test_img);
+		end = clock();
+		cout << " read, " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+	}
+
+	end = clock();
+	cout << " read, " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
     std::cout << "Hello World!\n";
+	system("pause");
 }
 
