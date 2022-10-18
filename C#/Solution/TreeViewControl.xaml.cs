@@ -500,20 +500,17 @@ namespace Solution
         public static extern void VideoTest();
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            VideoTest();
-            //OpenFileDialog dialog = new()
-            //{
-            //    Multiselect = false,//该值确定是否可以选择多个文件
-            //    Title = "请选择文件",
-            //    RestoreDirectory = true,
-            //};
-            //if (dialog.ShowDialog() == true)
-            //{
-            //    string Filename = dialog.FileName;
-            //    LambdaControl.Dispatch("LFOCMOpenVideo",this, Filename);
-            //}
-
-
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,//该值确定是否可以选择多个文件
+                Title = "请选择文件",
+                RestoreDirectory = true,
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                string Filename = dialog.FileName;
+                LambdaControl.Dispatch("LFOCMOpenVideo", this, Filename);
+            }
         }
 
 
