@@ -24,7 +24,7 @@
     <ClInclude Include="UITest.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Customfiletest.h">
+    <ClInclude Include="Customfile.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,7 +38,7 @@
     <ClCompile Include="UITest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Customfiletest.cpp">
+    <ClCompile Include="Customfile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

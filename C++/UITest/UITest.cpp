@@ -544,7 +544,7 @@ int test() {
 	Event::Trigger("CellinfoTest", &Cellinfos);
 }
 
-#include "Customfiletest.h"
+#include "Customfile.h"
 
 int VideoTest() {
 	cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
@@ -554,7 +554,7 @@ int VideoTest() {
 	end = clock();
 	Logger::Log2(Severity::INFO, L"GrifToMat[%d ms]", end - start);
 	start = clock();
-	WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif");
+	WriteFile( "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif", src);
 	end = clock();
 	Logger::Log2(Severity::INFO, L"WriteFile[%d ms]", end - start);
 	start = clock();
@@ -570,7 +570,7 @@ int VideoTest() {
 	end = clock();
 	Logger::Log2(Severity::INFO, L"WriteGrifFilegz[%d ms]", end - start);
 	start = clock();
-	WriteFile(src, "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif", 0);
+	WriteFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif", src, 0);
 	end = clock();
 	Logger::Log2(Severity::INFO, L"WriteFile0[%d ms]", end - start);
 	start = clock();
