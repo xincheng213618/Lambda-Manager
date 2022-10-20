@@ -299,7 +299,7 @@ namespace Solution
 
                         projectMannager.AddChild(projectFile);
 
-                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
+                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt"|| Extension == ".grif")
                         {
                             solutionExplorer.AddChild(projectFile);
                         };
@@ -496,8 +496,8 @@ namespace Solution
 
 
 
-        [DllImport("lib\\UITest.dll")]
-        public static extern void VideoTest();
+
+
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new()

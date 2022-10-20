@@ -1,8 +1,11 @@
 ﻿using Global.Common;
+using Global.Common.Extensions;
+using Lambda;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Tool;
@@ -13,14 +16,20 @@ namespace XSolution
     {
         public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
 
-
         private string fileSize;
         public string FileSize
         {
             get { return fileSize; }
             set { fileSize = value; NotifyPropertyChanged(); }
         }
-        public RelayCommand OpenExplorer { get; set; }
+        public RelayCommand OpenExplorerCommand { get; set; }
+        public RelayCommand AttributesCommand { get; set; }
+
+        public RelayCommand ExportAsTiffCommand { get; set; }
+        public RelayCommand ExportAsJPEGCommand { get; set; }
+
+        public RelayCommand ExportAsPNGCommand { get; set; }
+
 
         protected FileInfo FileInfo;
         public ProjectFile(string FullName) :base(FullName)
@@ -28,11 +37,83 @@ namespace XSolution
             ProjectFiles.Add(this);
             FileInfo = new FileInfo(FullName);
             this.Name = Path.GetFileNameWithoutExtension(fullName);
-            OpenExplorer = new RelayCommand(OpenFolder, (object value) => { return true; });
+            OpenExplorerCommand = new RelayCommand(OpenFolder, (object value) => { return true; });
+            AttributesCommand = new RelayCommand(OpenAttributes, (object value) => { return true; });
+            ExportAsTiffCommand = new RelayCommand(ExportAsTiff, (object value) => { return true; });
+            ExportAsJPEGCommand = new RelayCommand(ExportAsJPEG, (object value) => { return true; });
+            ExportAsPNGCommand = new RelayCommand(ExportAsPNG, (object value) => { return true; });
 
             Task.Run(CalculSize);
         }
+        private void ExportAsTiff(object value)
+        {
+            ExportAs(value, "tiff");
+        }
+        private void ExportAsJPEG(object value)
+        {
+            ExportAs(value, "jpeg");
 
+        }
+
+
+        private void ExportAsPNG(object value)
+        {
+            ExportAs(value,"png");
+        }
+        public class GrifExportAs
+        {
+            public string FullName { get; set; }
+            public string ExportFullName { get; set; }
+            public string Kinds { get; set; }
+
+            public override string ToString()
+            {
+                return $"{{FullName:\"{FullName}\",ExportFullName:\"{ExportFullName}\",Kinds=\"{Kinds}\"}}";
+            }
+        }        
+        private void ExportAs(object value,string kinds)
+        {
+            string Filter;
+            switch (kinds)
+            {
+                case "png":
+                    Filter = "(*.png) | *.png";
+                    break;
+                case "jpeg":
+                    Filter = "(*.jpeg) | *.jpeg";
+                    break;
+                case "tiff":
+                    Filter = "(*.tiff) | *.tiff";
+                    break;
+                default:
+                    return;
+            }
+            SaveFileDialog dialog = new()
+            {
+                Title = "另存为",
+                RestoreDirectory = true,
+                Filter = Filter,
+            };
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                GrifExportAs grifExportAs = new GrifExportAs() { FullName = FullName,ExportFullName =dialog.FileName,Kinds =kinds};
+
+                LambdaControl.Trigger("GrifExportAs", this , grifExportAs.ToString());
+            };
+        }
+
+
+
+        private void OpenAttributes(object value)
+        {
+            GrifFile grifFile;
+            if (value is ProjectFile projectFile)
+            {
+                grifFile = CustomFileManger.ReadFileInfo(projectFile.FullName);
+                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}","grif");
+            }
+        }
 
         public override void AddChild(object obj)
         {

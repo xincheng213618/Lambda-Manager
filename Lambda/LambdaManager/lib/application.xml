@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
 	<component name="UITest" lib="lib\UITest.dll">
-
+		
+		<procedure name="GrifExportAs" event="GrifExportAs" arg ="GrifExportAsJson" >
+			<action name="GrifExportAs">
+				<input name="GrifExportAsJson" type="#string" />
+			</action>
+		</procedure>
 		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
 			<action name="CameraSettingExposure">
 				<input name="mode" type="int"/>

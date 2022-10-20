@@ -544,9 +544,24 @@ int test() {
 	Event::Trigger("CellinfoTest", &Cellinfos);
 }
 
+
 #include "Customfile.h"
+GrifFile ReadFileInfo(char* FilePath) {
+	return ReadFileHeader(FilePath);
+}
+
+CAMERA_API int GrifExportAs(char* GrifExportAsJson)
+{
+	std::string json = StringUtils::Multi2Utf8(GrifExportAsJson);
+
+
+	return 0;
+}
+
 
 int VideoTest() {
+
+
 	cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
 	clock_t start, end;
 	start = clock();
