@@ -64,8 +64,7 @@ namespace ConfigSetting
                 {
                     stageConfig.Children.Add(this);
 
-                    Application.Current.ApplyTheme(ThemeManager.Util.Reg.ReadValue("Software\\Grid", "CurrentUITheme"));
-
+                    Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
 
                     stageConfig.SetResourceReference(Grid.BackgroundProperty, "WindowBackgroundBrush");
                     

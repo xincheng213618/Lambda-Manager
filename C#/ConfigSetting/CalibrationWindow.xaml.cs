@@ -29,6 +29,7 @@ namespace ConfigSetting
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "灯光校准" });
+            LambdaControl.Trigger("LightCalibrationStart",this,new Dictionary<string, object>());
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

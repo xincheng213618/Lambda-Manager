@@ -36,7 +36,7 @@ namespace XSolution
 
     public static class CustomFileManger
     {
-        [DllImport("lib\\UITest.dll")]
+        [DllImport("lib\\CustomFile.dll")]
         public static extern GrifFile ReadFileInfo(string filepath);
     }
 }

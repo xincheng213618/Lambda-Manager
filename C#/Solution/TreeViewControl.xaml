@@ -176,6 +176,7 @@
                                         <MenuItem Header="快速导出为"  />
                                         <MenuItem Header="导出为" />
                                         <Separator/>
+                                        <MenuItem Header="导出BMP..."  Command="{Binding ExportAsBMPCommand}" CommandParameter="{Binding .}"   />
                                         <MenuItem Header="导出Tiff..."  Command="{Binding ExportAsTiffCommand}" CommandParameter="{Binding .}"   />
                                         <MenuItem Header="导出JPEG..."  Command="{Binding ExportAsJPEGCommand}" CommandParameter="{Binding .}"   />
                                         <MenuItem Header="导出PNG..."  Command="{Binding ExportAsPNGCommand}" CommandParameter="{Binding .}"   />

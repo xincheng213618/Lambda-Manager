@@ -8,7 +8,9 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Text.RegularExpressions;
 using Tool;
+using System.Diagnostics;
 
 namespace XSolution
 {
@@ -29,6 +31,7 @@ namespace XSolution
         public RelayCommand ExportAsJPEGCommand { get; set; }
 
         public RelayCommand ExportAsPNGCommand { get; set; }
+        public RelayCommand ExportAsBMPCommand { get; set; }
 
 
         protected FileInfo FileInfo;
@@ -42,8 +45,13 @@ namespace XSolution
             ExportAsTiffCommand = new RelayCommand(ExportAsTiff, (object value) => { return true; });
             ExportAsJPEGCommand = new RelayCommand(ExportAsJPEG, (object value) => { return true; });
             ExportAsPNGCommand = new RelayCommand(ExportAsPNG, (object value) => { return true; });
+            ExportAsBMPCommand = new RelayCommand(ExportAsBMP, (object value) => { return true; });
 
             Task.Run(CalculSize);
+        }
+        private void ExportAsBMP(object value)
+        {
+            ExportAs(value, "bmp");
         }
         private void ExportAsTiff(object value)
         {
@@ -52,24 +60,18 @@ namespace XSolution
         private void ExportAsJPEG(object value)
         {
             ExportAs(value, "jpeg");
-
         }
-
-
         private void ExportAsPNG(object value)
         {
             ExportAs(value,"png");
         }
+
         public class GrifExportAs
         {
             public string FullName { get; set; }
             public string ExportFullName { get; set; }
             public string Kinds { get; set; }
-
-            public override string ToString()
-            {
-                return $"{{FullName:\"{FullName}\",ExportFullName:\"{ExportFullName}\",Kinds=\"{Kinds}\"}}";
-            }
+            public override string ToString() => $"{{\"FullName\":\"{FullName.Replace("\\","\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\"}}";
         }        
         private void ExportAs(object value,string kinds)
         {
@@ -84,6 +86,9 @@ namespace XSolution
                     break;
                 case "tiff":
                     Filter = "(*.tiff) | *.tiff";
+                    break;
+                case "bmp":
+                    Filter = "(*.bmp) | *.bmp";
                     break;
                 default:
                     return;
@@ -111,7 +116,7 @@ namespace XSolution
             if (value is ProjectFile projectFile)
             {
                 grifFile = CustomFileManger.ReadFileInfo(projectFile.FullName);
-                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}","grif");
+                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}", "grif");
             }
         }
 
