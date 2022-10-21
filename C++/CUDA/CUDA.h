@@ -13,3 +13,4 @@
 #endif
 
 extern "C" CUDA_API void FFTCUDA_img();
+extern "C" CUDA_API  void TestCUDAPhaseToPC();

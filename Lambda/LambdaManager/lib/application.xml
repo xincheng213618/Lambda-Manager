@@ -498,8 +498,12 @@
 
 	</component>
 	<component name="CUDA" lib="lib/CUDA.dll">
-		<procedure name="FFTCUDA_img" event="COLORBAR_CLICKED">
+		<procedure name="FFTCUDA_img" event="FFTCUDA_img">
 			<action name="FFTCUDA_img">
+			</action>
+		</procedure>
+		<procedure name="TestCUDAPhaseToPC" event="TestCUDAPhaseToPC">
+			<action name="TestCUDAPhaseToPC" >
 			</action>
 		</procedure>
 	</component>
@@ -510,6 +514,12 @@
 			</action>
 		</procedure>
 	</component>
-
+	
+	<!--<component name="CUDAPhaseToPC" lib="lib/CUDAPhaseToPC.dll">
+		<procedure name="TestCUDAPhaseToPC" event="TestCUDAPhaseToPC">
+			<action name="TestCUDAPhaseToPC" >
+			</action>
+		</procedure>
+	</component>-->
 	
 </root>
