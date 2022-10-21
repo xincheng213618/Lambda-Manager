@@ -11,9 +11,18 @@ using System.Windows;
 using System.Text.RegularExpressions;
 using Tool;
 using System.Diagnostics;
+using Solution;
 
 namespace XSolution
 {
+    public class GrifExportAs
+    {
+        public string FullName { get; set; }
+        public string ExportFullName { get; set; }
+        public string Kinds { get; set; }
+        public override string ToString() => $"{{\"FullName\":\"{FullName.Replace("\\", "\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\"}}";
+    }
+
     public class ProjectFile : BaseObject
     {
         public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
@@ -26,6 +35,8 @@ namespace XSolution
         }
         public RelayCommand OpenExplorerCommand { get; set; }
         public RelayCommand AttributesCommand { get; set; }
+
+        public RelayCommand GrifExportAsCommand { get; set; }  
 
         public RelayCommand ExportAsTiffCommand { get; set; }
         public RelayCommand ExportAsJPEGCommand { get; set; }
@@ -46,9 +57,15 @@ namespace XSolution
             ExportAsJPEGCommand = new RelayCommand(ExportAsJPEG, (object value) => { return true; });
             ExportAsPNGCommand = new RelayCommand(ExportAsPNG, (object value) => { return true; });
             ExportAsBMPCommand = new RelayCommand(ExportAsBMP, (object value) => { return true; });
-
+            GrifExportAsCommand = new RelayCommand(GrifExportAsWindow, (object value) => { return true; });
             Task.Run(CalculSize);
         }
+        private void GrifExportAsWindow(object value)
+        {
+            GrifExportAsWindow grifExportAsWindow = new GrifExportAsWindow(this) ;
+            grifExportAsWindow.ShowDialog();  
+        }
+
         private void ExportAsBMP(object value)
         {
             ExportAs(value, "bmp");
@@ -65,15 +82,8 @@ namespace XSolution
         {
             ExportAs(value,"png");
         }
-
-        public class GrifExportAs
-        {
-            public string FullName { get; set; }
-            public string ExportFullName { get; set; }
-            public string Kinds { get; set; }
-            public override string ToString() => $"{{\"FullName\":\"{FullName.Replace("\\","\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\"}}";
-        }        
-        private void ExportAs(object value,string kinds)
+   
+        public void ExportAs(object value,string kinds)
         {
             string Filter;
             switch (kinds)
@@ -103,7 +113,6 @@ namespace XSolution
             if (result == true)
             {
                 GrifExportAs grifExportAs = new GrifExportAs() { FullName = FullName,ExportFullName =dialog.FileName,Kinds =kinds};
-
                 LambdaControl.Trigger("GrifExportAs", this , grifExportAs.ToString());
             };
         }

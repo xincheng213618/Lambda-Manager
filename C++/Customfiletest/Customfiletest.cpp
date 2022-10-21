@@ -14,6 +14,31 @@ using namespace std;
 int main()
 {
     clock_t start, end;
+    char* test22 = (char*)malloc(1024 * 1024*1024);
+    char Temp[10] ="测试只读";
+
+    //ofstream outFile1("C:\\Users\\Chen\\Desktop\\WriteCacheTest\\1.chache", ios::out | ios::binary);
+    //outFile1.write((char*)test22, 1024 * 1024*1024);
+    //outFile1.write((char*)Temp, 10);
+    //outFile1.close();
+
+    start = clock();
+    for (size_t i = 0; i < 1000; i++)
+    {
+        ifstream inFile("C:\\Users\\Chen\\Desktop\\WriteCacheTest\\1.chache", ios::in | ios::binary); //二进制读方式打开
+        inFile.seekg(1024 * 1024 * 1024, ios::beg);
+        char* read = (char*)malloc(10);
+        inFile.read(read, 10);
+        cout << read << endl;
+        inFile.close();
+    }
+    end = clock();
+    cout << "10000次 = " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+    system("pause");
+    return 0;
+
+
+
 
     //cv::Mat src1 = cv::Mat(1280, 720, CV_8UC3);
     //GrifToMat("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grif", src1);

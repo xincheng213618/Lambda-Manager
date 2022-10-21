@@ -118,14 +118,14 @@
                                     <MenuItem Header="重命名(_M)" Command="{x:Static Solution:Commands.ReName}" CommandParameter="{Binding .}"/>
                                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
                                     <Separator/>
-                                    <MenuItem Header="导出(_E)">
-                                        <MenuItem Header="导出Tiff..."    Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                    <MenuItem Header="导出(_E)" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}">
+                                        <!--<MenuItem Header="导出Tiff..."    Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
                                         <MenuItem Header="导出JPEG..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  />
                                         <MenuItem Header="导出QuickTime..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  />
                                         <MenuItem Header="导出AVL..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
                                         <MenuItem Header="导出MPEG-4..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
                                         <MenuItem Header="导出WMV..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
-                                        <MenuItem Header="导出DICOM..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                                        <MenuItem Header="导出DICOM..."  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />-->
                                     </MenuItem>
                                     <MenuItem Header="应用参数(_Y)"  CommandParameter="{Binding .}"/>
                                     <MenuItem Header="文件属性(_R)"  CommandParameter="{Binding .}" />
@@ -173,8 +173,7 @@
                                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
                                     <Separator/>
                                     <MenuItem Header="导出(_E)">
-                                        <MenuItem Header="快速导出为"  />
-                                        <MenuItem Header="导出为" />
+                                        <MenuItem Header="导出为" Command="{Binding GrifExportAsCommand}" CommandParameter="{Binding .}" />
                                         <Separator/>
                                         <MenuItem Header="导出BMP..."  Command="{Binding ExportAsBMPCommand}" CommandParameter="{Binding .}"   />
                                         <MenuItem Header="导出Tiff..."  Command="{Binding ExportAsTiffCommand}" CommandParameter="{Binding .}"   />

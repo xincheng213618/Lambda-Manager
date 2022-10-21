@@ -10,8 +10,4 @@
     <AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y &quot;$(OutDir)ThemeManager.dll&quot; &quot;C:\Users\15850\Desktop\NJUST-SCIL - 样式\Lambda Manager\ThemeManager.dll&quot;" />
-  </Target>
-
 </Project>

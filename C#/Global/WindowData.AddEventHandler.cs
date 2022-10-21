@@ -616,7 +616,7 @@ namespace Global
         }
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
-        List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
+        List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差"};
 
         private void AddViewContentMenu(int view, List<int> ints)
         {

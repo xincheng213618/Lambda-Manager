@@ -51,8 +51,8 @@ namespace XSolution
             CanReName = false;
             PoejectExportAs = new RelayCommand(delegate
             {
-                ExportAsWindow exportAsWindow = new ExportAsWindow(this);
-                exportAsWindow.ShowDialog();
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this);
+                GrifExportAsWindow.ShowDialog();
             }, (object value) => { return true; });
 
 

@@ -1,0 +1,71 @@
+﻿<base:BaseWindow x:Class="Solution.SeriesExportAsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Solution"
+        xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
+        mc:Ignorable="d"
+        Height="450" Width="350" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen"   >
+    <Grid>
+        <TextBlock Text="系列导出" FontSize="15"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
+        <DockPanel  >
+            <UniformGrid Columns="2" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10">
+                <Button Content="取消" Height="20" Width="75" Margin="5,0" Click="Cancel_Click"/>
+                <Button Content="导出" Height="20" Width="75" Margin="5,0" Click="OK_Click" />
+            </UniformGrid>
+
+            <Border  CornerRadius="3" Margin="10">
+                <StackPanel>
+                    <GroupBox Header="文件设置" BorderThickness="1" BorderBrush="#454545" Padding="5">
+                        <StackPanel>
+                            <DockPanel Margin="2" >
+                                <TextBlock Text="格式: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ComboBox SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                    <ComboBoxItem  Content="mp4"/>
+                                    <ComboBoxItem  Content="avi"/>
+                                    <ComboBoxItem  Content="rar"/>
+                                </ComboBox>
+                            </DockPanel>
+                            <DockPanel Margin="2" >
+                                <TextBlock Text="模态: " HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                <UniformGrid Columns="3" Visibility="Visible"  Margin="20,0,0,0"   >
+                                    <CheckBox x:Name="checkbox51" IsChecked="{Binding Bright,Mode=TwoWay}"  Content="明场"  />
+                                    <CheckBox x:Name="checkbox52" IsChecked="{Binding Dark,Mode=TwoWay}" Content="暗场"  />
+                                    <CheckBox x:Name="checkbox53" IsChecked="{Binding Rheinberg,Mode=TwoWay}" Content="莱茵" />
+                                    <CheckBox x:Name="checkbox54" IsChecked="{Binding Relief,Mode=TwoWay}" Content="差分"  />
+                                    <CheckBox x:Name="checkbox55" IsChecked="{Binding Phase,Mode=TwoWay}" Content="相位"  />
+                                    <CheckBox x:Name="checkbox56" IsChecked="{Binding Quantitative,Mode=TwoWay}" Content="相差" />
+                                </UniformGrid>
+                            </DockPanel>
+
+
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="导出设置" BorderThickness="1" BorderBrush="#454545" Padding="5" Margin="0,10">
+                        <StackPanel>
+                            <CheckBox Content="输出叠加图像"/>
+                            <CheckBox Content="使用目录"/>
+                            <CheckBox Content="使用保存的标注内容"/>
+                            <CheckBox Content="保存原始图像"/>
+                            <CheckBox Content="导出视图"/>
+                            <CheckBox Content="导出兴趣区域（ROI）"/>
+
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="标注" BorderThickness="2" BorderBrush="#454545" Padding="5"  Margin="0,10">
+                        <StackPanel>
+                            <CheckBox Content="拍照时间"/>
+                            <CheckBox Content="相对开始采集时间间隔"/>
+                            <CheckBox Content="标尺信息"/>
+                            <CheckBox Content="维度信息"/>
+        
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+
+            </Border>
+        </DockPanel>
+
+    </Grid>
+</base:BaseWindow>
