@@ -26,7 +26,7 @@ namespace ThemeManager.Rangeslider
         private RepeatButton _higherRange;
         private Slider _lowerSlider;
         private Slider _higherSlider;
-        private Track _lowerTrack;
+        public  Track _lowerTrack;
         private Track _higherTrack;
         private double? _deferredUpdateValue;
 
@@ -39,8 +39,6 @@ namespace ThemeManager.Rangeslider
 
             return Application.Current.FindResource(typeof(RangeSlider)) as Style ?? null;
         }
-
-        
 
 
         //#region Constructors
@@ -741,6 +739,7 @@ namespace ThemeManager.Rangeslider
                 this._lowerSlider = _lowerSlider;
                 _lowerSlider.Loaded += this.Slider_Loaded;
                 _lowerSlider.ValueChanged += LowerSlider_ValueChanged;
+               
                 _lowerSlider.ApplyTemplate();
                 if (_lowerSlider.Template.FindName(PART_Track, _lowerSlider) is Track _lowerTrack)
                 {
@@ -760,7 +759,7 @@ namespace ThemeManager.Rangeslider
                 if (_higherSlider.Template.FindName(PART_Track, _higherSlider) is Track _higherTrack)
                 {
                     this._higherTrack = _higherTrack;
-                    _higherTrack.Thumb.DragCompleted += this.LowerSlider_DragCompleted;
+                    _higherTrack.Thumb.DragCompleted += this.HigherSlider_DragCompleted;
                 }
             }
         }
@@ -971,6 +970,26 @@ namespace ThemeManager.Rangeslider
                 RemoveHandler(RangeSlider.HigherValueChangedEvent, value);
             }
         }
+
+        public static readonly RoutedEvent DragEvent = EventManager.RegisterRoutedEvent("DragEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(RangeSlider));
+        public event RoutedEventHandler DragOver
+        {
+            add
+            {
+                AddHandler(RangeSlider.DragEvent, value);
+            }
+            remove
+            {
+                RemoveHandler(RangeSlider.DragEvent, value);
+            }
+        }
+
+
+
+
+
+
+
 
         #endregion //Events
 
