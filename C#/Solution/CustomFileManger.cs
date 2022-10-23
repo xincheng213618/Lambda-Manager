@@ -10,7 +10,7 @@ namespace XSolution
 {
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
-    public struct GrifFile
+    public struct GrifFileMeta
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]   //ByValTStr           ByValArray     CertVol
         public string Name;      //姓名   
@@ -36,7 +36,6 @@ namespace XSolution
 
     public static class CustomFileManger
     {
-        [DllImport("lib\\CustomFile.dll")]
-        public static extern GrifFile ReadFileInfo(string filepath);
+
     }
 }

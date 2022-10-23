@@ -78,5 +78,8 @@
   <ItemGroup>
     <Resource Include="Grid.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="grif.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

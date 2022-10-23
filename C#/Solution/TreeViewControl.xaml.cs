@@ -23,6 +23,7 @@ using System.Windows.Markup;
 using Microsoft.Win32;
 using System.Windows.Documents;
 using System.Runtime.InteropServices;
+using System.ComponentModel.DataAnnotations;
 
 namespace Solution
 {
@@ -294,15 +295,19 @@ namespace Solution
                     }
                     foreach (var item in dic.GetFiles())
                     {
-                        ProjectFile projectFile = new ProjectFile(item.FullName);
-                        string Extension = Path.GetExtension(projectFile.FullName);
+                        string Extension = Path.GetExtension(item.FullName);
+                        
 
-                        projectMannager.AddChild(projectFile);
-
-                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt"|| Extension == ".grif")
+                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
                         {
-                            solutionExplorer.AddChild(projectFile);
+                            solutionExplorer.AddChild(new ProjectFile(item.FullName));
+                        }
+                        else if (Extension == ".grif")
+                        {
+                            solutionExplorer.AddChild(new GrifFile(item.FullName));
                         };
+
+
                     }
                     solutionExplorer.AddChild(projectMannager);
                     projectMannager.Visibility = Visibility.Hidden;

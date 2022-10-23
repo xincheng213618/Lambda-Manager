@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <None Remove="filer.png" />
+    <None Remove="images\grif.png" />
     <None Remove="图片2.png" />
     <None Remove="图片3.png" />
   </ItemGroup>
@@ -41,6 +42,7 @@
 
   <ItemGroup>
     <Resource Include="images\filer.png" />
+    <Resource Include="images\grif.png" />
     <Resource Include="images\图片2.png" />
     <Resource Include="images\图片3.png" />
   </ItemGroup>

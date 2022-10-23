@@ -11,7 +11,6 @@ using System.Windows;
 using System.Text.RegularExpressions;
 using Tool;
 using System.Diagnostics;
-using Solution;
 
 namespace XSolution
 {
@@ -36,7 +35,6 @@ namespace XSolution
         public RelayCommand OpenExplorerCommand { get; set; }
         public RelayCommand AttributesCommand { get; set; }
 
-        public RelayCommand GrifExportAsCommand { get; set; }  
 
         public RelayCommand ExportAsTiffCommand { get; set; }
         public RelayCommand ExportAsJPEGCommand { get; set; }
@@ -52,19 +50,13 @@ namespace XSolution
             FileInfo = new FileInfo(FullName);
             this.Name = Path.GetFileNameWithoutExtension(fullName);
             OpenExplorerCommand = new RelayCommand(OpenFolder, (object value) => { return true; });
-            AttributesCommand = new RelayCommand(OpenAttributes, (object value) => { return true; });
             ExportAsTiffCommand = new RelayCommand(ExportAsTiff, (object value) => { return true; });
             ExportAsJPEGCommand = new RelayCommand(ExportAsJPEG, (object value) => { return true; });
             ExportAsPNGCommand = new RelayCommand(ExportAsPNG, (object value) => { return true; });
             ExportAsBMPCommand = new RelayCommand(ExportAsBMP, (object value) => { return true; });
-            GrifExportAsCommand = new RelayCommand(GrifExportAsWindow, (object value) => { return true; });
             Task.Run(CalculSize);
         }
-        private void GrifExportAsWindow(object value)
-        {
-            GrifExportAsWindow grifExportAsWindow = new GrifExportAsWindow(this) ;
-            grifExportAsWindow.ShowDialog();  
-        }
+
 
         private void ExportAsBMP(object value)
         {
@@ -119,15 +111,7 @@ namespace XSolution
 
 
 
-        private void OpenAttributes(object value)
-        {
-            GrifFile grifFile;
-            if (value is ProjectFile projectFile)
-            {
-                grifFile = CustomFileManger.ReadFileInfo(projectFile.FullName);
-                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}", "grif");
-            }
-        }
+
 
         public override void AddChild(object obj)
         {
