@@ -30,10 +30,10 @@ namespace Global.Reg
             regKey = Registry.ClassesRoot.CreateSubKey(".grif");
             regKey?.SetValue("", "Grid.Launcher.grif");
             regKey = Registry.ClassesRoot.CreateSubKey("Grid.Launcher.grif" + "\\DefaultIcon");
-            regKey?.SetValue("", System.Windows.Forms.Application.ExecutablePath + " ,1");
+            regKey?.SetValue("", System.Windows.Forms.Application.StartupPath + "GridIcons64.dll ,1");
             regKey.Close();
 
-            if (SetIcon(".gprj", "Grid.Launcher.gprj", System.Windows.Forms.Application.ExecutablePath + " ,0", $"{System.Windows.Forms.Application.StartupPath}\\Grid.exe %1"))
+            if (SetIcon(".gprj", "Grid.Launcher.gprj", System.Windows.Forms.Application.StartupPath + "GridIcons64.dll ,0", $"{System.Windows.Forms.Application.StartupPath}\\Grid.exe %1"))
             {
                 string Arguments = string.Empty;
                 if (Environment.OSVersion.Version.Major == 6)
