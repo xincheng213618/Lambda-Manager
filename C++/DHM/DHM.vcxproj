@@ -25,6 +25,7 @@
     <ProjectGuid>{f24fc91c-20d9-4e3b-8044-86d6f57fbb10}</ProjectGuid>
     <RootNamespace>LFOCM</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>DHM</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -155,7 +156,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="IpemBase.h" />
     <ClInclude Include="Ipemunwrap.h" />
-    <ClInclude Include="LFOCM.h" />
+    <ClInclude Include="DHM.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="unwrap.h" />
   </ItemGroup>
@@ -164,7 +165,7 @@
     <ClCompile Include="CIpemun.cpp" />
     <ClCompile Include="DH.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="LFOCM.cpp" />
+    <ClCompile Include="DHM.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

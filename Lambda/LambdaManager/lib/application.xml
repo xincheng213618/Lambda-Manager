@@ -507,7 +507,7 @@
 			</action>
 		</procedure>
 	</component>
-	<component name="LFOCM" lib="lib/LFOCM.dll">
+	<component name="DHM" lib="lib/DHM.dll">
 		<procedure name="OpenVideo" event="LFOCMOpenVideo" arg="FullPath">
 			<action name="OpenVideo" >
 				<input name="FullPath" type="#string" />
