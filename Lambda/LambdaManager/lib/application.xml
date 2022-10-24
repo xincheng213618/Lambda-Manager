@@ -514,6 +514,13 @@
 			</action>
 		</procedure>
 	</component>
+
+	<component name="PhaseAlgorithm" lib="lib/PhaseAlgorithm.dll">
+		<procedure name="NativeTestCudaTime" event="NativeTestCudaTime">
+			<action name="NativeTestCudaTime" >
+			</action>
+		</procedure>
+	</component>
 	
 	<!--<component name="CUDAPhaseToPC" lib="lib/CUDAPhaseToPC.dll">
 		<procedure name="TestCUDAPhaseToPC" event="TestCUDAPhaseToPC">

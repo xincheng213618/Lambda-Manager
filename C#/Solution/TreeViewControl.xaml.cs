@@ -527,9 +527,8 @@ namespace Solution
             //LambdaControl.Dispatch("FFTCUDA_img", this, new Dictionary<string, object> { });
             //FFTCUDA_img();
             //TestCUDAPhaseToPC();
-            LambdaControl.Dispatch("TestCUDAPhaseToPC", this, new Dictionary<string, object> { });
-
-
+            //LambdaControl.Dispatch("TestCUDAPhaseToPC", this, new Dictionary<string, object> { });
+            LambdaControl.Dispatch("NativeTestCudaTime", this, new Dictionary<string, object> { });
         }
 
 
