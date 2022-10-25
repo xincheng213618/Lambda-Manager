@@ -518,17 +518,16 @@ namespace Solution
             }
         }
 
-        [DllImport("lib\\CUDAPhaseToPC.dll")]
-        public static extern void TestCUDAPhaseToPC();
-        [DllImport("lib\\CUDA.dll")]
-        public static extern void FFTCUDA_img();
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             //LambdaControl.Dispatch("FFTCUDA_img", this, new Dictionary<string, object> { });
             //FFTCUDA_img();
             //TestCUDAPhaseToPC();
-            //LambdaControl.Dispatch("TestCUDAPhaseToPC", this, new Dictionary<string, object> { });
-            LambdaControl.Dispatch("NativeTestCudaTime", this, new Dictionary<string, object> { });
+            LambdaControl.Dispatch("TestCUDAPhaseToPC", this, new Dictionary<string, object> { });
+
+            //LambdaControl.Dispatch("NativeTestCudaTime", this, new Dictionary<string, object> { });
+
+
         }
 
 

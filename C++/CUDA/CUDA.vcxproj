@@ -145,7 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\CUDAPhaseToPC\thread.h" />
+    <ClInclude Include="thread.h" />
     <ClInclude Include="CUDA.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="my_cuda.cuh" />
@@ -153,7 +153,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\CUDAPhaseToPC\thread.cpp" />
+    <ClCompile Include="thread.cpp" />
     <ClCompile Include="CUDA.cpp" />
     <ClCompile Include="CUDAPhaseToPC.cpp" />
     <ClCompile Include="dllmain.cpp" />

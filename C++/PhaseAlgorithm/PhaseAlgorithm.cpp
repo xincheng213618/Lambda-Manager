@@ -1349,18 +1349,16 @@ int NativeTestCudaTime()
 	image[2].convertTo(image[2], CV_32FC1, 1.0 / 255.0);
 	cuda_Function.Init_ALL();
 
-	for (int k = 0; k < 10; k++)
+	for (int i = 0; i < 10; i++)
 	{
 		start = clock();
-		for (int i = 0; i < 10; i++)
-		{
-			int j = i % 3;
-			Show_PC = Phase2PC222(image[j], Max_frequency, Pixelsize, Filter);
-		}
+
+		int j = i % 3;
+		Show_PC = Phase2PC222(image[j], Max_frequency, Pixelsize, Filter);
 		stop = clock();
 		endtime = (double)(stop - start) / CLOCKS_PER_SEC;
 		//std::cout << "time: " << endtime / 50 << "s" << "\r\n\r\n";
-		Logger::Log2(Severity::INFO, L"time() detail:%f", endtime );
+		Logger::Log2(Severity::INFO, L"time() detail:%f", endtime);
 	}
 
 	cv::imshow("Show_PC", Show_PC);
