@@ -436,17 +436,12 @@ namespace Solution
 
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
             //EventSetter eventSetter  = new EventSetter(ButtonBase.ClickEvent, new RoutedEventHandler(Button_Click_211));
             //Style style = new Style();
             //style.Setters.Add(eventSetter);
             //HeaderStackPanel.Style = style;
 
-        }
-        private void Button_Click_211(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("1");
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -531,13 +526,12 @@ namespace Solution
         }
 
 
-        private void HeaderStackPanel_Click(object sender, RoutedEventArgs e)
-        {
 
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Dispatch("NativeTestCudaTime", this, new Dictionary<string, object> { });
 
         }
-
-
     }
 
 

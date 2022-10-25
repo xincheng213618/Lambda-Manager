@@ -1219,7 +1219,7 @@ void GammaTransform(const cv::Mat& srcImage, cv::Mat& dstImage, double gamma)
 
 cv::Mat Phase2PC222(cv::Mat _phi, float Max_frequency, float Pixelsize, float Filter)
 {
-	//, float Gamma, float Gain, 
+	clock_t start, end;
 
 	int nW;
 	int nH;
@@ -1239,7 +1239,6 @@ cv::Mat Phase2PC222(cv::Mat _phi, float Max_frequency, float Pixelsize, float Fi
 	delta_x = 1 / Pixelsize / nW; //列像素数
 	delta_y = 1 / Pixelsize / nH; //行像素数
 
-	clock_t start = 0, stop = 0;
 
 	cv::Mat rho, weight, filter2, Ipc, Phi, real_filter, imag_filter;
 	cv::Mat Show_PC;
@@ -1316,7 +1315,11 @@ cv::Mat Phase2PC222(cv::Mat _phi, float Max_frequency, float Pixelsize, float Fi
 	//copyMakeBorder用OpenCV不划算，速度差不多，主要是一开始不是在Opencv框架下写得程序。
 	copyMakeBorder(Phi, Phi, nH_extend, nH_extend, nW_extend, nW_extend, cv::BORDER_REPLICATE);
 
+	start = clock();
 	cuda_Function.ALL_calculate(Phi, real_filter, imag_filter, &Ipc, nH_extend, nW_extend, i);
+	end = clock();
+	std::cout << "tim33333e: " << (double)(end - start) / CLOCKS_PER_SEC << "s" << "\r\n\r\n";
+	Logger::Log2(Severity::INFO, L"ALL_calculate:%f", (double)(end - start) / CLOCKS_PER_SEC);
 
 	cv::Scalar mean1 = cv::mean(Ipc);
 	Ipc = Mat2Gray(Ipc, 0.25f, 0.9f, 2);
@@ -1333,10 +1336,10 @@ int NativeTestCudaTime()
 	float Filter = sqrt(0.0008f);
 	float Pixelsize = 1.0f;
 	float Denoise = 1.0f;
+
 	cv::Mat Show_PC;
-	clock_t start = 0, stop = 0;
+	clock_t start, end;
 	char str[100];
-	double endtime = 0;
 
 	image[0] = cv::imread("1.tiff");
 	cv::cvtColor(image[0], image[0], cv::COLOR_BGR2GRAY);
@@ -1349,19 +1352,15 @@ int NativeTestCudaTime()
 	image[2].convertTo(image[2], CV_32FC1, 1.0 / 255.0);
 	cuda_Function.Init_ALL();
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		start = clock();
-
 		int j = i % 3;
 		Show_PC = Phase2PC222(image[j], Max_frequency, Pixelsize, Filter);
-		stop = clock();
-		endtime = (double)(stop - start) / CLOCKS_PER_SEC;
-		//std::cout << "time: " << endtime / 50 << "s" << "\r\n\r\n";
-		Logger::Log2(Severity::INFO, L"time() detail:%f", endtime);
+		end = clock();
+		Logger::Log2(Severity::INFO, L"time() detail:%f", (double)(end - start) / CLOCKS_PER_SEC);
 	}
-
 	cv::imshow("Show_PC", Show_PC);
-
+	cv::waitKey(0);
 	return 0;
 }

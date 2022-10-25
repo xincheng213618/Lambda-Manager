@@ -33,6 +33,8 @@
                 <Button Content="查找" Click="Button_Click_5" />
                 <Button Content="导出" Click="Button_Click_1"/>
                 <Button Content="导入" Click="Button_Click_4"/>
+                <Button Content="导入" Click="Button_Click_6"/>
+
             </UniformGrid>
             <TreeView x:Name="SolutionTreeView">
                 <TreeView.Resources >

@@ -175,9 +175,12 @@ cv::Mat Phase2PC(cv::Mat _phi, float Max_frequency, float Pixelsize, float Filte
 
 	//copyMakeBorder用OpenCV不划算，速度差不多，主要是一开始不是在Opencv框架下写得程序。
 	copyMakeBorder(Phi, Phi, nH_extend, nH_extend, nW_extend, nW_extend, cv::BORDER_REPLICATE);
-
+	clock_t start1, end1;
+	start1 = clock();
 	//到进来为止都是对的
 	cuda_Function->ALL_calculate(Phi, real_filter, imag_filter, &Ipc, nH_extend, nW_extend, j);
+	end1 = clock();
+	Logger::Log2(Severity::INFO, L"cuda_Function :[%d ms]", end1 - start1);
 
 	cv::Scalar mean1 = cv::mean(Ipc);
 	Ipc = Mat2Gray(Ipc, 0.25f, 0.9f, 2);
@@ -187,9 +190,9 @@ cv::Mat Phase2PC(cv::Mat _phi, float Max_frequency, float Pixelsize, float Filte
 	//cv::imwrite(str, Show_PC);
 	cuda_Function->Set_unlock(j);
 	end = clock();
-	//Logger::Log2(Severity::INFO, L"cuda_Function :[%d ms]",end - start);
+	Logger::Log2(Severity::INFO, L"cuda_Function :[%d ms]",end - start);
 
-	if (cuda_Function->num >= 500)
+	if (cuda_Function->num >= 100)
 	{
 		cuda_Function->num = -1;
 	}
@@ -219,41 +222,24 @@ void TestCUDAPhaseToPC()
 	image[2] = imread("ceshi3.bmp");
 	cv::cvtColor(image[2], image[2], COLOR_BGR2GRAY);
 	image[2].convertTo(image[2], CV_32FC1, 1.0 / 255.0);
-	//cuda_Function.Init_ALL();
 	pool.start(4);
 	start = clock();
 	Mycuda cuda_Function;
-	//time start
-	for (int i = 0; i < 500; i++) {
+	cuda_Function->Init_ALL();
+
+	for (int i = 0; i < 100; i++) {
 
 		Show_PC = pool.submit(Phase2PC,image[i % 3], Max_frequency, Pixelsize, Filter, &cuda_Function);
-		//Show_PC = Phase2PC(image[i % 3], Max_frequency, Pixelsize, Filter, i);
-		//stop = clock();
-		//endtime = (double)(stop - start) / CLOCKS_PER_SEC; 
-		//cout << "endtime = " << endtime << "\r\n";
-		//if (i % 4 == 0) {
-		//	std::this_thread::sleep_for(50ms);
-		//}
-		//Show_PC = Phase2PC(image[j], Max_frequency, Pixelsize, Filter);
-
-		/*start = clock();
-		Show_PC = Phase2PC(image[j], Max_frequency, Pixelsize, Filter);
-		stop = clock();
-		sprintf_s(str, sizeof(str), "E:\\实验室学习\\Task4-22.08.04\\CV\\封装\\old\\write\\%d.jpg", num_1);
-		cv::imwrite(str, Show_PC);
-		endtime += (double)(stop - start) / CLOCKS_PER_SEC;*/
-
-		//std::this_thread::sleep_for(50ms);
 	}
-	//std::this_thread::sleep_for(10000ms);
+
 	while (1)
 	{
 		std::this_thread::sleep_for(10ms);
-		if (cuda_Function.num == -1)
+		if (cuda_Function.num ==-1)
 		{
 			break;
 		}
 	}
 	end = clock();
-	Logger::Log2(Severity::INFO, L"ALL500[%d ms]", end - start );
+	Logger::Log2(Severity::INFO, L"ALL100[%d ms]", end - start );
 }
