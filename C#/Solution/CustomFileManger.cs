@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using static Solution.TreeViewControl;
 
 namespace XSolution
@@ -37,5 +39,27 @@ namespace XSolution
     public static class CustomFileManger
     {
 
+        public static IntPtr intPtr = IntPtr.Zero;
+
+        public unsafe static GrifFileMeta ReadFileInfo(string filepath)
+        {
+            if (intPtr == IntPtr.Zero)
+            {
+                try
+                {
+                    IntPtr dll = NativeLibrary.Load("lib\\CustomFile.dll");
+                    if (dll == IntPtr.Zero)
+                    {
+                        MessageBox.Show("lib\\CustomFile.dll Not Exit");
+                    }
+                    intPtr = NativeLibrary.GetExport(dll, "ReadFileInfo");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+            return ((delegate* unmanaged[Cdecl]<string, GrifFileMeta>)(void*)intPtr)(filepath);
+        }
     }
 }

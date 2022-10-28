@@ -101,7 +101,6 @@ namespace XSolution
                     Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
                         AddChild(new SeriesProjectManager(e.FullPath));
-
                     }));
                 }
 

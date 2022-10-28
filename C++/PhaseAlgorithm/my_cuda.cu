@@ -5,7 +5,7 @@ using namespace std;
 static float(*device1_float_out)[4] = NULL, (*device2_float_out)[4] = NULL, (*device3_float_out)[4] = NULL, (*device4_float_out)[4] = NULL;
 static float(*Amp_real_out)[4] = NULL, (*Phi_imag_out)[4] = NULL;
 static cufftComplex(*U0_device_out)[4] = NULL;
-cudaStream_t stream[4];
+cufftHandle cufft_Handle;
 
 #define PI 3.14159265358979323846
 
@@ -66,9 +66,9 @@ __global__ void grid_creat_kernel(float* dst, int nH, int nW, float delta_x, flo
 	int idx = blockDim.x * blockIdx.x + threadIdx.x;
 	if (idx < N) {
 		dst[idx] = sqrt((-nW / 2.0f * delta_x + idx % nW * delta_x)\
-					  * (-nW / 2.0f * delta_x + idx % nW * delta_x)\
-					  + (-nH / 2.0f * delta_y + idx / nW * delta_y)\
-					  * (-nH / 2.0f * delta_y + idx / nW * delta_y));
+			* (-nW / 2.0f * delta_x + idx % nW * delta_x)\
+			+ (-nH / 2.0f * delta_y + idx / nW * delta_y)\
+			* (-nH / 2.0f * delta_y + idx / nW * delta_y));
 	}
 }
 
@@ -156,7 +156,7 @@ __global__ void Phase_delay(float* data, bool flag, int N)
 {
 	int idx = blockDim.x * blockIdx.x + threadIdx.x;
 	if (idx < N) {
-		if (flag){
+		if (flag) {
 			data[idx] = data[idx] * PI / 2;
 		}
 		else {
@@ -183,7 +183,7 @@ void CUDA_Init_ALL(int nH, int nW)
 	Check(cudaMalloc((void**)&Amp_real_out, 4 * nH * nW * sizeof(float)));
 	Check(cudaMalloc((void**)&Phi_imag_out, 4 * nH * nW * sizeof(float)));
 	Check(cudaMalloc((void**)&U0_device_out, 4 * nH * nW * sizeof(cufftComplex)));
-
+	cufftPlan2d(&cufft_Handle, nH, nW, CUFFT_C2C);
 }
 //
 void CUDA_Free_ALL()
@@ -249,7 +249,7 @@ void CUDA_filter_creat_now(cv::Mat src1, cv::Mat src2, cv::Mat& dst1, cv::Mat& d
 	int nH = src2.rows;
 	int nW = src2.cols;
 	int Nt = nH * nW;
-	
+
 	float* device1_float = device1_float_out[i];
 	float* device2_float = device2_float_out[i];
 	float* device3_float = device3_float_out[i];
@@ -270,7 +270,7 @@ void CUDA_filter_creat_now(cv::Mat src1, cv::Mat src2, cv::Mat& dst1, cv::Mat& d
 	Complex2mat_kernel << <grid, block >> > (U0_device, Amp_real, Phi_imag, false, Nt);
 	CUDA_mul_kernel << <grid, block >> > (Amp_real, device2_float, Amp_real, Nt);
 	CUDA_mul_kernel << <grid, block >> > (Phi_imag, device2_float, Phi_imag, Nt);
-	
+
 	//fftshift real
 	fftshift_step1_kernel << <grid, block >> > (Amp_real, device1_float, device2_float, device3_float, device4_float, nH, nW, Nt);
 	fftshift_step2_kernel << <grid, block >> > (device1_float, device2_float, device3_float, device4_float, Amp_real, nH, nW, Nt);
@@ -293,57 +293,46 @@ void CUDA_ALL_calculate(cv::Mat Phi, cv::Mat real_filter, cv::Mat imag_filter, c
 	int Nt = nH * nW;
 	float a = 0.7f;
 
-	float* device1_float;
-	float* device2_float;
-	float* device3_float;
-	float* device4_float;
-	float* Amp_real;
-	float* Phi_imag;
-	cufftComplex* U0_device;
-	cufftHandle cufft_Handle;
+	float* device1_float = device1_float_out[i];
+	float* device2_float = device2_float_out[i];
+	float* device3_float = device3_float_out[i];
+	float* device4_float = device4_float_out[i];
+	float* Amp_real = Amp_real_out[i];
+	float* Phi_imag = Phi_imag_out[i];
+	cufftComplex* U0_device = U0_device_out[i];
 
-	Check(cudaMalloc((void**)&device1_float, nH * nW * sizeof(float)));
-	Check(cudaMalloc((void**)&device2_float, nH * nW * sizeof(float)));
-	Check(cudaMalloc((void**)&device3_float, nH * nW * sizeof(float)));
-	Check(cudaMalloc((void**)&device4_float, nH * nW * sizeof(float)));
-	Check(cudaMalloc((void**)&Amp_real, nH * nW * sizeof(float)));
-	Check(cudaMalloc((void**)&Phi_imag, nH * nW * sizeof(float)));
-	Check(cudaMalloc((void**)&U0_device, nH * nW * sizeof(cufftComplex)));
-
-	cufftPlan2d(&cufft_Handle, nH, nW, CUFFT_C2C);
-	cufftSetStream(cufft_Handle, stream[i]);
 
 	cv::Mat Ipc_out = cv::Mat::zeros(nH_old, nW_old, CV_32FC1);
 
-	Check(cudaMemcpyAsync(Phi_imag, Phi.data, nH * nW * sizeof(float), cudaMemcpyHostToDevice, stream[i]));
-	Check(cudaMemcpyAsync(Amp_real, real_filter.data, nH * nW * sizeof(float), cudaMemcpyHostToDevice, stream[i]));
+	Check(cudaMemcpy(Phi_imag, Phi.data, nH * nW * sizeof(float), cudaMemcpyHostToDevice));
+	Check(cudaMemcpy(Amp_real, real_filter.data, nH * nW * sizeof(float), cudaMemcpyHostToDevice));
 
 	dim3 grid((nH * nW + 1024 - 1) / 1024);//(1280*960+1024-1)/1024
 	dim3 block(1024);//1024
-	Mat2complex_kernel << <grid, block, 0, stream[i] >> > (Phi_imag, U0_device, a, Nt);
+	Mat2complex_kernel << <grid, block >> > (Phi_imag, U0_device, a, Nt);
 	//Ö´ÐÐfftÕý±ä»»
 	cufftExecC2C(cufft_Handle, U0_device, U0_device, CUFFT_FORWARD);
-	
-	Complex2mat_kernel << <grid, block, 0, stream[i] >> > (U0_device, device1_float, device2_float, false, Nt);
 
-	Check(cudaMemcpyAsync(Phi_imag, imag_filter.data, nH * nW * sizeof(float), cudaMemcpyHostToDevice, stream[i]));
-	
-	CUDA_mul_kernel_2 << <grid, block, 0, stream[i] >> > (Amp_real, Phi_imag, device1_float, device2_float, device3_float, device4_float, Nt);
+	Complex2mat_kernel << <grid, block >> > (U0_device, device1_float, device2_float, false, Nt);
 
-	Mat2complex_kernel << <grid, block, 0, stream[i] >> > (device3_float, device4_float, U0_device, false, Nt);
+	Check(cudaMemcpy(Phi_imag, imag_filter.data, nH * nW * sizeof(float), cudaMemcpyHostToDevice));
+
+	CUDA_mul_kernel_2 << <grid, block >> > (Amp_real, Phi_imag, device1_float, device2_float, device3_float, device4_float, Nt);
+
+	Mat2complex_kernel << <grid, block >> > (device3_float, device4_float, U0_device, false, Nt);
 
 	cufftExecC2C(cufft_Handle, U0_device, U0_device, CUFFT_INVERSE);
-	
-	normalizing << <grid, block, 0, stream[i] >> > (U0_device, Nt);
-	Complex2mat_kernel << <grid, block, 0, stream[i] >> > (U0_device, Amp_real, Phi_imag, true, Nt);
-	
-	CUDA_mul_kernel << <grid, block, 0, stream[i] >> > (Amp_real, Amp_real, device1_float, Nt);
 
-	rect_kernel << <grid, block, 0, stream[i] >> > (device1_float, device3_float, nH, nW, nH_extend, nW_extend, nH_old, nW_old, Nt);
+	normalizing << <grid, block >> > (U0_device, Nt);
+	Complex2mat_kernel << <grid, block >> > (U0_device, Amp_real, Phi_imag, true, Nt);
 
-	Check(cudaMemcpyAsync(Ipc_out.data, (uchar*)device3_float, nH_old * nW_old * sizeof(float), cudaMemcpyDeviceToHost, stream[i]));
+	CUDA_mul_kernel << <grid, block >> > (Amp_real, Amp_real, device1_float, Nt);
+
+	rect_kernel << <grid, block >> > (device1_float, device3_float, nH, nW, nH_extend, nW_extend, nH_old, nW_old, Nt);
+
+	Check(cudaMemcpy(Ipc_out.data, (uchar*)device3_float, nH_old * nW_old * sizeof(float), cudaMemcpyDeviceToHost));
 	*Ipc = Ipc_out;
-	
+
 }
 
 //void CUDA_gaussianBlur_gpu(cv::Mat & src, cv::Mat & dst, int Gas_Radius, int Gas_var)

@@ -11,6 +11,16 @@ namespace XSolution
 {
     public class ProjectFolder : BaseObject
     {
+        private SolutionExplorer solutionExplorer = null;
+
+        public SolutionExplorer SolutionExplorer
+        { 
+            get 
+            {
+                return solutionExplorer ??= (SolutionExplorer)GetAncestor(typeof(SolutionExplorer));
+            } 
+            protected set { }
+        }
 
         public FileSystemWatcher watcher;
 
@@ -120,6 +130,15 @@ namespace XSolution
                         RemoveChild(projectFile);
                     }));
                 }
+
+                var projectFile1 = SolutionExplorer.VisualChildren.ToList().Find(t => t.FullName == e.FullPath);
+                if (projectFile1 != null)
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        SolutionExplorer.RemoveChild(projectFile1);
+                    }));
+                }
             }
 
         }
@@ -130,7 +149,15 @@ namespace XSolution
             {
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    AddChild(new ProjectFile(e.FullPath));
+                    string Extension = Path.GetExtension(e.FullPath);
+                    if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
+                    {
+                        AddChild(new ProjectFile(e.FullPath));
+                    }
+                    else if (Extension == ".grif")
+                    {
+                        AddChild(new GrifFile(e.FullPath));
+                    };
                 }));
             }
             else if (Directory.Exists(e.FullPath))
@@ -155,13 +182,15 @@ namespace XSolution
         {
             if (baseObject == null) return;
 
-            base.RemoveChild(baseObject);   
             if (baseObject.Parent == this)
             {
                 baseObject.Parent = null;
-                VisualChildren.Remove(baseObject);
                 baseObject.Delete();
             }
+
+            VisualChildren.Remove(baseObject);
+            base.RemoveChild(baseObject);
+
         }
 
     }

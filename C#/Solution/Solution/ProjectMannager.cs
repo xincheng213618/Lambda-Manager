@@ -57,7 +57,7 @@ namespace XSolution
             if (this.Parent != null)
                 if (this.Parent != null)
                 {
-                    string Extension = System.IO.Path.GetExtension(baseObject.FullName);
+                    string Extension = Path.GetExtension(baseObject.FullName);
                     if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt"|| Extension == ".grif")
                         this.Parent.AddChild(baseObject);
 

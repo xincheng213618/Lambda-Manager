@@ -251,20 +251,27 @@ namespace Solution
         public BaseObject GetFile(BaseObject projectFolder, string FullPath)
         {
             var root = new DirectoryInfo(FullPath);
+            foreach (var item in root.GetFiles())
+            {
+                string Extension = Path.GetExtension(item.FullName);
+                if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff")
+                {
+                    ProjectFile projectFile = new ProjectFile(item.FullName);
+                    projectFolder.AddChild(projectFile);
+                    projectFile.Visibility = Visibility.Visible;
+                }
+                else if (Extension == ".grif")
+                {
+                    GrifFile projectFile = new GrifFile(item.FullName);
+                    projectFolder.AddChild(projectFile);
+                    projectFile.Visibility = Visibility.Visible;
+                }
+
+            }
             foreach (var item in root.GetDirectories())
             {
                 ProjectFolder projectFolder1 = new ProjectFolder(item.FullName);
                 projectFolder.AddChild(GetFile(projectFolder1, item.FullName));
-            }
-            foreach (var item in root.GetFiles())
-            {
-                ProjectFile projectFile = new ProjectFile(item.FullName);
-                string Extension = Path.GetExtension(projectFile.FullName);
-                projectFolder.AddChild(projectFile);
-                if (Extension == "png" || Extension == "jpg" || Extension == "tiff")
-                {
-                    projectFile.Visibility = Visibility.Visible;
-                };
             }
             return projectFolder;
         }
@@ -296,8 +303,6 @@ namespace Solution
                     foreach (var item in dic.GetFiles())
                     {
                         string Extension = Path.GetExtension(item.FullName);
-                        
-
                         if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
                         {
                             solutionExplorer.AddChild(new ProjectFile(item.FullName));
@@ -306,11 +311,8 @@ namespace Solution
                         {
                             solutionExplorer.AddChild(new GrifFile(item.FullName));
                         };
-
-
                     }
                     solutionExplorer.AddChild(projectMannager);
-                    projectMannager.Visibility = Visibility.Hidden;
                 }
                 else
                 {
@@ -437,11 +439,6 @@ namespace Solution
         private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
-            //EventSetter eventSetter  = new EventSetter(ButtonBase.ClickEvent, new RoutedEventHandler(Button_Click_211));
-            //Style style = new Style();
-            //style.Setters.Add(eventSetter);
-            //HeaderStackPanel.Style = style;
-
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -515,23 +512,11 @@ namespace Solution
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            //LambdaControl.Dispatch("FFTCUDA_img", this, new Dictionary<string, object> { });
-            //FFTCUDA_img();
-            //TestCUDAPhaseToPC();
-            LambdaControl.Dispatch("TestCUDAPhaseToPC", this, new Dictionary<string, object> { });
-
-            //LambdaControl.Dispatch("NativeTestCudaTime", this, new Dictionary<string, object> { });
 
 
         }
 
 
-
-        private void Button_Click_6(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Dispatch("NativeTestCudaTime", this, new Dictionary<string, object> { });
-
-        }
     }
 
 

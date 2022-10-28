@@ -6,6 +6,8 @@ using Global.Common.Extensions;
 using System.Collections.Generic;
 using Lambda;
 using Microsoft.Win32;
+using System.Text;
+using System.Windows.Input;
 
 namespace Solution
 {
@@ -27,8 +29,17 @@ namespace Solution
 
         public List<string>  Mode { get; set; }
 
-        //相对开始采集时间间隔
 
+        public string ToJson()
+        {
+            var mode = new StringBuilder();
+            foreach (var item in Mode)
+            {
+                mode.Append(item);
+                mode.Append(',');
+            }
+            return $"{{\"FullName\":\"{FullName.Replace("\\", "\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")},\"Mode\":\"{mode.ToString().Replace("\\", "\\\\")}\"}}";
+        }
     }
 
     /// <summary>
@@ -94,7 +105,7 @@ namespace Solution
             if (result == true)
             {
                 ProjectExportAs.ExportFullName = dialog.FileName;
-                LambdaControl.Trigger("ProjectExportAs", this, ProjectExportAs.ToJson());
+                LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
             };
             this.Close();
         }

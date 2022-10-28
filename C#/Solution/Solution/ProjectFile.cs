@@ -11,9 +11,11 @@ using System.Windows;
 using System.Text.RegularExpressions;
 using Tool;
 using System.Diagnostics;
+using System.Windows.Ink;
 
 namespace XSolution
 {
+
     public class GrifExportAs
     {
         public string FullName { get; set; }
@@ -24,6 +26,8 @@ namespace XSolution
 
     public class ProjectFile : BaseObject
     {
+
+        
         public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
 
         private string fileSize;

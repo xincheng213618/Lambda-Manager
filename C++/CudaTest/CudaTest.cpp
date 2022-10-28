@@ -140,6 +140,10 @@ using namespace std;
 
 int main()
 {
+	int a[10];
+	a[2] = 10;
+	int b = 2[a];
+
 	clock_t start, end;
 	start = clock();
 	cv::Mat test_img;

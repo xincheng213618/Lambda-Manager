@@ -33,8 +33,6 @@
                 <Button Content="查找" Click="Button_Click_5" />
                 <Button Content="导出" Click="Button_Click_1"/>
                 <Button Content="导入" Click="Button_Click_4"/>
-                <Button Content="导入" Click="Button_Click_6"/>
-
             </UniformGrid>
             <TreeView x:Name="SolutionTreeView">
                 <TreeView.Resources >
@@ -164,14 +162,6 @@
                                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
                                     <Separator/>
-                                    <MenuItem Header="导出(_E)">
-                                        <MenuItem Header="导出为" Command="{Binding GrifExportAsCommand}" CommandParameter="{Binding .}" />
-                                        <Separator/>
-                                        <MenuItem Header="导出BMP..."  Command="{Binding ExportAsBMPCommand}" CommandParameter="{Binding .}"   />
-                                        <MenuItem Header="导出Tiff..."  Command="{Binding ExportAsTiffCommand}" CommandParameter="{Binding .}"   />
-                                        <MenuItem Header="导出JPEG..."  Command="{Binding ExportAsJPEGCommand}" CommandParameter="{Binding .}"   />
-                                        <MenuItem Header="导出PNG..."  Command="{Binding ExportAsPNGCommand}" CommandParameter="{Binding .}"   />
-                                    </MenuItem>
                                     <Separator/>
                                     <MenuItem Header="打开所在的文件夹(_O)" Command="{Binding OpenExplorerCommand}" CommandParameter="{Binding .}"/>
                                     <MenuItem Header="属性(_R)"  Command="{Binding AttributesCommand}" CommandParameter="{Binding .}" />

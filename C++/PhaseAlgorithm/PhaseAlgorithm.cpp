@@ -1338,7 +1338,7 @@ int NativeTestCudaTime()
 	float Denoise = 1.0f;
 
 	cv::Mat Show_PC;
-	clock_t start, end;
+	clock_t start, start1, end;
 	char str[100];
 
 	image[0] = cv::imread("1.tiff");
@@ -1351,8 +1351,8 @@ int NativeTestCudaTime()
 	cv::cvtColor(image[2], image[2], cv::COLOR_BGR2GRAY);
 	image[2].convertTo(image[2], CV_32FC1, 1.0 / 255.0);
 	cuda_Function.Init_ALL();
-
-	for (int i = 0; i < 100; i++)
+	start1 = clock();
+	for (int i = 0; i < 50; i++)
 	{
 		start = clock();
 		int j = i % 3;
@@ -1360,6 +1360,7 @@ int NativeTestCudaTime()
 		end = clock();
 		Logger::Log2(Severity::INFO, L"time() detail:%f", (double)(end - start) / CLOCKS_PER_SEC);
 	}
+	Logger::Log2(Severity::INFO, L"Alltime() detail:%f", (double)(end - start1) / CLOCKS_PER_SEC);
 	cv::imshow("Show_PC", Show_PC);
 	cv::waitKey(0);
 	return 0;
