@@ -23,9 +23,8 @@ namespace ConfigObjective
                       cameraSetting.Exposure = windowData.ExposureViewMode.Index;
                 }
             };
-            UpDownControl1.ExposureViewMode = windowData.ExposureViewMode;
             UpDownControl1.DataContext = windowData.ExposureViewMode;
-
+            UpDownControl1.ExposureViewMode = windowData.ExposureViewMode;
             if (Border2.DataContext is Camera cameraSetting)
             {
                 LambdaControl.Trigger("CAMERA_SETTING_GAMMA", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "gamma", cameraSetting.Gamma } });
@@ -75,7 +74,7 @@ namespace ConfigObjective
             {
                 LambdaControl.Trigger("CAMERA_SETTING_GAIN_AUTO", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "auto", ToggleButton211.IsChecked } });
             }
-            Test();
+            //Test();
         }
 
         public async void Test()

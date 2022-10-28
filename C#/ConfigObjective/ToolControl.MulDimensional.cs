@@ -216,17 +216,17 @@ namespace ConfigObjective
 			testMean.Spot = spot;
 
 			List<string> Mode = new();
-			if (checkbox51.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Bright == true)
 				Mode.Add("bright-field");
-			if (checkbox52.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Dark == true)
 				Mode.Add("dark-field");
-			if (checkbox53.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Rheinberg == true)
 				Mode.Add("rheinberg");
-			if (checkbox54.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Relief)
 				Mode.Add("relief-contrast");
-			if (checkbox55.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Quantitative)
 				Mode.Add("quantitative-phase");
-			if (checkbox56.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Phase)
 				Mode.Add("phase-contrast");
 
 			testMean.Dimensional = new Global.Mode.Config.Dimensional() { Mode = Mode };
@@ -323,7 +323,7 @@ namespace ConfigObjective
 					timeWiseSerial.Mode = "s";
 					break;
 			}
-            //MessageBox.Show("5555");
+           // MessageBox.Show("5555");
             if (mulDimensional.FocusImageMod != null)
             {
                 if (mulDimensional.FocusImageMod.FocusImageModeSel != null)

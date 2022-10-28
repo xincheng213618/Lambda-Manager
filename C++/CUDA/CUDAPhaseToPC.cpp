@@ -225,7 +225,6 @@ void TestCUDAPhaseToPC()
 	pool.start(4);
 	start = clock();
 	Mycuda cuda_Function;
-	cuda_Function->Init_ALL();
 
 	for (int i = 0; i < 100; i++) {
 

@@ -218,17 +218,14 @@ namespace Mode
             }
         }
         
-        public string ratio;
-        public string Ratio
+        public int ratio=100;
+        public int Ratio
         {
             get { return ratio; }
             set
             {
-                                if (!string.IsNullOrEmpty(value))
-                {
                     ratio = value;
-                    NotifyPropertyChanged();
-                }
+                    NotifyPropertyChanged();  
             }
         }
 
@@ -337,6 +334,147 @@ namespace Mode
 
             }
         }
+        // IS CHECKED
+        private bool bFCheckEnable = false;
+        public bool BFCheckEnable
+
+        {
+            get { return bFCheckEnable; }
+            set
+            {
+                bFCheckEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+        
+        private bool dFCheckEnable = false;
+        public bool DFCheckEnable
+
+        {
+            get { return dFCheckEnable; }
+            set
+            {
+                dFCheckEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+
+        private bool rICheckEnable = false;
+        public bool RICheckEnable
+
+        {
+            get { return rICheckEnable; }
+            set
+            {
+                rICheckEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+        //差分
+        private bool dPCheckEnable = false;
+        public bool DPCheckEnable
+
+        {
+            get { return dPCheckEnable; }
+            set
+            {
+                dPCheckEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+        // 相位
+        private bool qPCheckEnable = false;
+        public bool QPCheckEnable
+
+        {
+            get { return qPCheckEnable; }
+            set
+            {
+                qPCheckEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+        //相差
+        private bool pCCheckEnable = false;
+        public bool PCCheckEnable
+
+        {
+            get { return pCCheckEnable; }
+            set
+            {
+                pCCheckEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+
+        private bool startEnable = false;
+        public bool StartEnable
+
+        {
+            get { return startEnable; }
+            set
+            {
+                startEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+        private bool stopEnable = false;
+        public bool StopEnable
+
+        {
+            get { return stopEnable; }
+            set
+            {
+                stopEnable = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+
+        private bool forwardEnbale = false;
+        public bool ForwardEnbale
+
+        {
+            get { return forwardEnbale; }
+            set
+            {
+                forwardEnbale = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+        private bool backwardEnbale = false;
+        public bool BackwardEnbale
+
+        {
+            get { return backwardEnbale; }
+            set
+            {
+                backwardEnbale = value;
+                NotifyPropertyChanged();
+
+            }
+        }
+
+       
+
+
+     
+
+
 
 
 

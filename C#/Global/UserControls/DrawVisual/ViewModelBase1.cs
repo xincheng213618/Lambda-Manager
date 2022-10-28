@@ -17,6 +17,17 @@ namespace Global
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		public void NotifyPropertyChanged(string propertyName)
+        {
+			var handler = PropertyChanged;
+
+			if (handler != null)
+				handler(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+
+
+
 		/// <summary>
 		/// Tell bound controls (via WPF binding) to refresh their display.
 		///

@@ -46,17 +46,17 @@ namespace ConfigObjective
 			testMean.Spot = spot;
 
 			List<string> Mode = new();
-			if (checkbox51.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Bright == true)
 				Mode.Add("bright-field");
-			if (checkbox52.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Dark == true)
 				Mode.Add("dark-field");
-			if (checkbox53.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Rheinberg == true)
 				Mode.Add("rheinberg");
-			if (checkbox54.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Relief)
 				Mode.Add("relief-contrast");
-			if (checkbox55.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Quantitative)
 				Mode.Add("quantitative-phase");
-			if (checkbox56.IsChecked == true)
+			if (mulDimensional.FocusImageMod.Phase)
 				Mode.Add("phase-contrast");
 
 			testMean.Dimensional = new Global.Mode.Config.Dimensional() { Mode = Mode };
@@ -245,26 +245,27 @@ namespace ConfigObjective
 				}
 
 				//Start Collection need to startalive first
-				Window mainwin = Application.Current.MainWindow;
-				Grid grid = (Grid)mainwin.FindName("stageAcquisition");
-				if (grid != null)
-				{
-					DockPanel dockPanel = (DockPanel)grid.Children[1];
-					ToggleButton toggleAlive = (ToggleButton)dockPanel.Children[0];
-					StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
-					ToggleButton toggleAcquire = (ToggleButton)stackPanel.Children[0];
+				//Window mainwin = Application.Current.MainWindow;
+				//Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+				//if (grid != null)
+				//{
+				//	DockPanel dockPanel = (DockPanel)grid.Children[1];
+				//	ToggleButton toggleAlive = (ToggleButton)dockPanel.Children[0];
+				//	StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
+				//	ToggleButton toggleAcquire = (ToggleButton)stackPanel.Children[0];
 					
-					if (toggleAlive != null && toggleAlive.IsChecked == false)
-						{
+				//	if (toggleAlive != null && toggleAlive.IsChecked == false)
+				//		{
 
-							toggleAlive.IsChecked = true;
-							toggleAlive.Content = "停止预览";
-							LambdaControl.Trigger("STOP_ALIVE", this, new Dictionary<string, object>() { });
-							EventArgs eventArgs = new EventArgs();
-					}
+				//			toggleAlive.IsChecked = true;
+				//			toggleAlive.Content = "停止预览";
+				//			LambdaControl.Trigger("STOP_ALIVE", this, new Dictionary<string, object>() { });
+				//			EventArgs eventArgs = new EventArgs();
+				//	}
 					
-				}
+				//}
 				LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
+				
 
 
 		}

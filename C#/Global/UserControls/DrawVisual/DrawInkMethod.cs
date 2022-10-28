@@ -3,6 +3,7 @@ using Global.UserControls.DrawVisual;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -16,12 +17,50 @@ using System.Windows.Media.Imaging;
 
 namespace Global
 {
-    public class DrawInkMethod
+
+    public class CustomStroke : Stroke
+    {
+        public CustomStroke(StylusPointCollection points) : base(points)
+        {
+            StylusPoints = points.Clone();
+           
+        }
+        public int Dash { get; set; }
+        public int LineWidth { get; set; }
+        public int Index { get; set; }
+        public string Type { get; set; }
+        public Color ColorBru { get; set; }
+        public Point CenterPoint { get; set; }
+        public Point SizePoint { get; set; }
+        public FormattedText customTextInput{ get; set; }
+
+        public int Fontsize { get; set; }
+        public FontFamily FontFamily { get; set; }
+        public bool Bold { get; set; }
+        public bool Italic { get; set; }
+        public bool UnderLine { get; set; }
+        public bool showLabel { get; set; }
+        public RatioClass ratio { get; set; }
+       
+        public Color textColor { get; set; }
+        public string LabPos { get; set; }
+
+        public double length { get; set; }
+        public double angle { get; set; }
+        public int dimSelectIndex { get; set; }
+
+
+    }
+  
+
+    public class DrawInkMethod: ViewModelBase1
     {
 
         public DrawInkMethod()
         {
             defdimenViewModel.LineProEnable = false;
+            defdimenViewModel.LabelPosShow = false;
+           
         }
 
         public DrawingAttributes drawingAttributes = new DrawingAttributes()
@@ -31,8 +70,8 @@ namespace Global
             Height = 2,
             StylusTip = StylusTip.Ellipse,
             FitToCurve = false,
-            IsHighlighter = true,
-            IgnorePressure = true,
+            IsHighlighter = false,
+            IgnorePressure = false,
         };
         public DrawingAttributes drawingAttribute1 = new DrawingAttributes()
         { //Color = Colors.Red,
@@ -41,20 +80,43 @@ namespace Global
             Height = 4,
             StylusTip = StylusTip.Ellipse,
             FitToCurve = false,
-            IsHighlighter = true,
-            IgnorePressure = true,
+            IsHighlighter = false,
+            IgnorePressure = false,
         };
-
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;//静态事件处理属性更改
         public static DimenViewModel defdimenViewModel = new DimenViewModel();
-       
+        
         public static DimenViewModel dimenViewModel = new DimenViewModel();
         public static StrokeCollection DrawStrokes = new StrokeCollection();
         public static ObservableCollection<Stroke> StrokesCollection = new ObservableCollection<Stroke>();
+        public static bool IsZoom = true;
+       
         public Stroke Dimstroke;
         public Stroke Textstroke;
         public double distance;
         public static bool rulerOver = false;
-        public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
+        public static bool ZoomWard = false;
+        public static int activeWindow = 0;
+        public static InkCanvas ActiveInk = new InkCanvas();
+        public static InkVisual[]  InkAll = new InkVisual[6];
+        //public static event EventHandler propertyChanged;
+        public static int ActiveWindow
+        {
+            get { return activeWindow; }
+            set
+            {
+               
+                    if (activeWindow != value)
+                    {
+                    activeWindow = value;
+                    StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(ActiveWindow)));
+                }
+
+            }
+        }
+
+       
+    public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
 
         public Stroke GenerateLineStroke(System.Windows.Point st, System.Windows.Point ed)
         {
@@ -71,6 +133,7 @@ namespace Global
                 DrawingAttributes = drawingAttributes.Clone()
             };
             return stroke;
+            
         }
         private StrokeCollection GenerateDashedLineStrokeCollection(System.Windows.Point st, System.Windows.Point ed)
         {
@@ -597,7 +660,7 @@ namespace Global
                     Color = ColorDefault,
                     StylusTip = StylusTip.Ellipse,
                     IsHighlighter = false,
-                    IgnorePressure = true,
+                    IgnorePressure = false,
                 };
                 return attributes;
             }
@@ -612,7 +675,7 @@ namespace Global
                     Color = color,
                     StylusTip = StylusTip.Ellipse,
                     IsHighlighter = false,
-                    IgnorePressure = true,
+                    IgnorePressure = false,
                 };
                 return attributes;
             }
@@ -635,7 +698,7 @@ namespace Global
                         Thickness = lineWidth,
                         DashCap = PenLineCap.Round,
                         LineJoin = PenLineJoin.Round,
-
+                        
                         DashStyle = new DashStyle()
                         {
                             Dashes = new DoubleCollection() { 3, 2 },
@@ -812,7 +875,7 @@ namespace Global
             }
 
 
-            public static CustomTextInput CreateTextInput(System.Windows.Point point1, double height, double width, FormattedText text, Brush brush)
+            public static CustomTextInput CreateTextInput(System.Windows.Point point1, double height, double width, FormattedText text, Color brush,bool italic,bool bold,bool underLine,int fonSize,FontFamily fontFamily)
             {
                 StylusPointCollection points = new StylusPointCollection()
                   {
@@ -822,14 +885,32 @@ namespace Global
                    new StylusPoint(point1.X+width, point1.Y+height),
 
                     };
-                CustomTextInput stroke = new CustomTextInput(new StylusPointCollection(points), text, brush)
+                CustomTextInput stroke = new CustomTextInput(new StylusPointCollection(points), text, brush, italic, bold, underLine, fonSize, fontFamily)
                 {
                     DrawingAttributes = SetInkAttributes(),
                 };
                 return stroke;
             }
 
-            //pixel information
+            public static CustomTextInput ReCustomTextInput(System.Windows.Point point1, double height, double width ,FormattedText text, Color brush, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily)
+            {
+                StylusPointCollection points = new StylusPointCollection()
+                  {
+                   new StylusPoint(point1.X, point1.Y),
+                   new StylusPoint(point1.X+width, point1.Y),
+                   new StylusPoint(point1.X, point1.Y+height),
+                   new StylusPoint(point1.X+width, point1.Y+height),
+
+                    };
+
+                CustomTextInput stroke = new CustomTextInput(new StylusPointCollection(points), text, brush, italic, bold, underLine, fonSize, fontFamily)
+                {
+                    DrawingAttributes = SetInkAttributes(),
+                };
+                return stroke;
+            }
+
+           //pixel information
             public static CustomPixel CreatePixel(System.Windows.Point point1, Image image)
             {
                 StylusPointCollection points = new StylusPointCollection()
@@ -861,6 +942,19 @@ namespace Global
 
             }
 
+            public static Bezierpath ReCreateBesizer(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+
+                Bezierpath stroke = new Bezierpath(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
+
+
+
 
             public static QuadraticBezierpath CreateQuadraticBesizer(List<Point> bezierList, Color color, int lineWidth,int dash)
             {
@@ -879,6 +973,24 @@ namespace Global
                 return stroke;
 
             }
+
+            public static QuadraticBezierpath ReCreateQuadraticBesizer(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+
+                QuadraticBezierpath stroke = new QuadraticBezierpath(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+
+                };
+                return stroke;
+            }
+
+
+
+
+
+
+
             public static EllipseStroke CreateEllipse(Point st, Point ed, Color color, int LineWidth,int dash)
             {
 
@@ -901,6 +1013,20 @@ namespace Global
                 };
                 return stroke;
             }
+
+            public static EllipseStroke ReCreateEllipse(StylusPointCollection point, Color color, int LineWidth, int dash)
+            {
+
+                EllipseStroke stroke = new EllipseStroke(point, color, LineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, LineWidth),
+                };
+                return stroke;
+            }
+
+
+
+
             public static PolygonStroke CreatePolygon(List<System.Windows.Point> pointList, Color color, int lineWidth,int dash)
             {
 
@@ -913,6 +1039,17 @@ namespace Global
                 };
                 return stroke;
             }
+
+            public static PolygonStroke ReCreatePolygon(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+
+                PolygonStroke stroke = new PolygonStroke(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
 
 
             public static CircleStroke CreateCircle(Point st, Point ed, Color color, int lineWidth,int dash)
@@ -942,6 +1079,15 @@ namespace Global
                 return stroke;
             }
 
+            public static CircleStroke ReCreateCircle(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+                CircleStroke stroke = new CircleStroke(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
 
 
             public static RectangleStroke CreateRectangleStroke(System.Windows.Point st, System.Windows.Point ed, Color color, int lineWidth,int dash)
@@ -964,6 +1110,18 @@ namespace Global
 
                 return stroke;
             }
+
+            public static RectangleStroke ReCreateRectangle(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+                RectangleStroke stroke = new RectangleStroke(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
+
+
 
 
 
@@ -996,9 +1154,16 @@ namespace Global
                 };
                 return stroke;
 
-
-
             }
+            public static SquareStroke ReCreateSquare(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+                SquareStroke stroke = new SquareStroke(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
 
             public static LineStroke CreateLineStroke(System.Windows.Point st, System.Windows.Point ed, Color color, int lineWidth,int dash)
             {
@@ -1017,40 +1182,40 @@ namespace Global
 
                 return stroke;
 
-
-
-
             }
 
-            public static Dim1Stroke CreateDim1Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash)
+            public static LineStroke ReCreateLine(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+                LineStroke stroke = new LineStroke(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
+
+
+
+
+
+
+
+            public static Dim1Stroke CreateDim1Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily,string LabPos)
             {
                 List<System.Windows.Point> pointList = new List<System.Windows.Point>();
                 StylusPointCollection point;
-
-                //double w = 20, h = 7;
                 double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
-                //double sint = Math.Sin(theta);
-                //double cost = Math.Cos(theta);
-
                 double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
-                //double sint1 = Math.Sin(theta1);
-                //double cost1 = Math.Cos(theta1);
-
                 pointList = new List<System.Windows.Point>
                {
                 new System.Windows.Point(st.X, st.Y),
                 new System.Windows.Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
-                //new Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
                 new System.Windows.Point(st.X, st.Y),
                 new System.Windows.Point(ed.X , ed.Y),
-                //new Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
                 new System.Windows.Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
-
                };
                 point = new StylusPointCollection(pointList);
-                //Point p1 = new Point(point[0].X, point[0].Y);
-                //Point p2 = new Point(point[3].X, point[3].Y);
-                Dim1Stroke stroke = new Dim1Stroke(point, color, ratio, textColor, showLabel, lineWidth,dash)
+                Dim1Stroke stroke = new Dim1Stroke(point, color, ratio, textColor, showLabel, lineWidth,dash, italic, bold, underLine, fonSize, fontFamily, LabPos)
                 {
                     DrawingAttributes = SetInkAttributes1(color, lineWidth)
                 };
@@ -1058,7 +1223,19 @@ namespace Global
                 return stroke;
             }
 
-            public static Dim2Stroke CreateDim2Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash)
+            public static Dim1Stroke ReCreateDim1(StylusPointCollection point, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string LabPos)
+            {
+                Dim1Stroke stroke = new Dim1Stroke(point, color, ratio, textColor, showLabel, lineWidth, dash ,italic, bold, underLine, fonSize, fontFamily, LabPos)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
+
+
+
+            public static Dim2Stroke CreateDim2Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string LabPos)
             {
                 List<System.Windows.Point> pointList = new List<System.Windows.Point>();
                 StylusPointCollection point;
@@ -1080,15 +1257,29 @@ namespace Global
                 point = new StylusPointCollection(pointList);
                 //Point p1 = new Point(point[0].X, point[0].Y);
                 //Point p2 = new Point(point[3].X, point[3].Y);
-                Dim2Stroke stroke = new Dim2Stroke(point, color, ratio, textColor, showLabel, lineWidth,dash)
+                Dim2Stroke stroke = new Dim2Stroke(point, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, LabPos)
                 {
                     DrawingAttributes = SetInkAttributes1(color, lineWidth)
                 };
 
                 return stroke;
             }
+            public static Dim2Stroke ReCreateDim2(StylusPointCollection point, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily,string LabPos)
+            {
+                Dim2Stroke stroke = new Dim2Stroke(point, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, LabPos)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
 
-            public static Dim3Stroke CreateDim3Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash)
+
+
+
+
+
+
+            public static Dim3Stroke CreateDim3Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string LabPos)
             {
                 List<System.Windows.Point> pointList = new List<System.Windows.Point>();
                 StylusPointCollection point;
@@ -1122,7 +1313,7 @@ namespace Global
 
             };
                 point = new StylusPointCollection(pointList);
-                Dim3Stroke stroke = new Dim3Stroke(point, color, ratio, textColor, showLabel, lineWidth,dash)
+                Dim3Stroke stroke = new Dim3Stroke(point, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, LabPos)
                 {
                     DrawingAttributes = SetInkAttributes1(color, lineWidth)
                 };
@@ -1130,7 +1321,25 @@ namespace Global
                 return stroke;
             }
 
-            public static Dim4Stroke CreateDim4Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash)
+            public static Dim3Stroke ReCreateDim3(StylusPointCollection point, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string LabPos)
+            {
+                Dim3Stroke stroke = new Dim3Stroke(point, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, LabPos)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
+
+
+
+
+
+
+
+
+
+            public static Dim4Stroke CreateDim4Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string LabPos)
             {
                 List<System.Windows.Point> pointList = new List<System.Windows.Point>();
                 StylusPointCollection point;
@@ -1158,7 +1367,7 @@ namespace Global
 
             };
                 point = new StylusPointCollection(pointList);
-                Dim4Stroke stroke = new Dim4Stroke(point, color, ratio, textColor, showLabel, lineWidth,dash)
+                Dim4Stroke stroke = new Dim4Stroke(point, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, LabPos)
                 {
                     DrawingAttributes = SetInkAttributes1(color, lineWidth)
                 };
@@ -1166,7 +1375,14 @@ namespace Global
                 return stroke;
             }
 
-
+            public static Dim4Stroke ReCreateDim4(StylusPointCollection point, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string LabPos)
+            {
+                Dim4Stroke stroke = new Dim4Stroke(point, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, LabPos)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
 
 
             public static ArrowStroke CreateArrowStroke(System.Windows.Point st, System.Windows.Point ed, Color color, int lineWidth,int dash)
@@ -1193,6 +1409,16 @@ namespace Global
                     DrawingAttributes = SetInkAttributes1(color, lineWidth)
                 };
 
+
+                return stroke;
+            }
+
+            public static ArrowStroke ReCreateArrow(StylusPointCollection point, Color color, int lineWidth, int dash)
+            {
+                ArrowStroke stroke = new ArrowStroke(point, color, lineWidth, dash)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth)
+                };
 
                 return stroke;
             }
@@ -1247,24 +1473,23 @@ namespace Global
                 drawingContext.DrawText(new FormattedText("1", CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint);
                 drawingContext.DrawText(new FormattedText("2", CultureInfo.CurrentCulture,
-              FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint1);
+                FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25), labPoint1);
             }
         }
 
-        public class EllipseStroke : Stroke
+        public class EllipseStroke : CustomStroke
         {
-            public EllipseStroke(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
+            public EllipseStroke(StylusPointCollection points, Color color, int lineWidth, int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "椭圆";
             }
-            int LineWidth;
-            int Dash;
-            Color Color1;
-            public int Index { get; set; }
-            public string Type { get; set; } = "椭圆";
+          
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1272,27 +1497,43 @@ namespace Global
                 double y0 = StylusPoints[0].Y;
                 double x1 = StylusPoints[2].X;
                 double y1 = StylusPoints[2].Y;
+                listX = new List<double> { x0, x1 };
+                listY = new List<double> { y0, y1 };
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
                 double dist = GetDistance(new System.Windows.Point(x1, y1), new System.Windows.Point(x0, y0));
-               // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid(Color1, LineWidth,Dash), new Point((x0 + x1) / 2, (y1 + y0) / 2), Math.Abs(x1 - x0)/2, Math.Abs(y1 - y0)/2);
+                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new Point((x0 + x1) / 2, (y1 + y0) / 2), Math.Abs(x1 - x0) / 2, Math.Abs(y1 - y0) / 2);
+
             }
 
 
         }
-        public class CircleStroke : Stroke
+        public class CircleStroke : CustomStroke
         {
             public CircleStroke(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "圆";
             }
-            Color Color1;
-            int LineWidth;
-            int Dash;
-            public int Index { get; set; }
-            public string Type { get; set; } = "圆";
+           
+            //int LineWidth;
+            //int Dash;
+            //public Color ColorBru { get; set; }
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "圆";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1300,39 +1541,73 @@ namespace Global
                 double y0 = StylusPoints[0].Y;
                 double x1 = StylusPoints[2].X;
                 double y1 = StylusPoints[2].Y;
+
+                listX = new List<double> { x0, x1 };
+                listY = new List<double> { y0, y1 };
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+
                 double dist = GetDistance(new System.Windows.Point(x1, y1), new System.Windows.Point(x0, y0));
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid(Color1, LineWidth,Dash), new Point((x0 + x1) / 2, (y1 + y0) / 2), Math.Abs(x1 - x0) / 2, Math.Abs(y1 - y0) / 2);
+                drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid(ColorBru, LineWidth,Dash), new Point((x0 + x1) / 2, (y1 + y0) / 2), Math.Abs(x1 - x0) / 2, Math.Abs(y1 - y0) / 2);
             }
 
 
 
         }
 
-        public class PolygonStroke : Stroke
+        public class PolygonStroke : CustomStroke
         {
             public PolygonStroke(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "多边形";
             }
-            int LineWidth;
-            int Dash;
-            Color Color1;
-            public int Index { get; set; }
-            public string Type { get; set; } = "多边形";
+            //int LineWidth;
+            //int Dash;
+            //public Color ColorBru { get; set; }
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "多边形";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX = new List<double>();
+            List<double> listY = new List<double>();
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
+                listX.Clear();
+                listY.Clear();
                 for (int i = 0; i < StylusPoints.Count-1; i++)
                 {
                     double x0 = StylusPoints[i].X;
                     double y0 = StylusPoints[i].Y;
                     double x1 = StylusPoints[i+1].X;
                     double y1 = StylusPoints[i + 1].Y;
-                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                    listX.Add(x0);
+                    listY.Add(y0);
+
+
                 }
+
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
 
             }
 
@@ -1344,20 +1619,27 @@ namespace Global
 
        
 
-        public class LineStroke : Stroke
+        public class LineStroke : CustomStroke
         {
             public LineStroke(StylusPointCollection points, Color color, int lineWidth, int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "直线";
+                dimSelectIndex = 0;
             }
-            Color Color1;
-            int LineWidth;
-            int Dash;
-            public int Index { get; set; }
-            public string Type { get; set; } = "直线";
+            //public Color ColorBru { get; set; }
+            //int LineWidth;
+            //int Dash;
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "直线";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX;
+            List<double> listY;
+
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1365,26 +1647,44 @@ namespace Global
                 double y0 = StylusPoints[0].Y;
                 double x1 = StylusPoints[1].X;
                 double y1 = StylusPoints[1].Y;
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+
+                listX = new List<double> { x0, x1 };
+                listY = new List<double> { y0, y1 };
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
 
             }
 
 
         }
-        public class ArrowStroke : Stroke
+        public class ArrowStroke : CustomStroke
         {
             public ArrowStroke(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "箭头";
+                dimSelectIndex = 1;
             }
-            Color Color1;
-            int LineWidth;
-            int Dash;
-            public int Index { get; set; }
-            public string Type { get; set; } = "箭头";
+            //public Color ColorBru { get; set; }
+            //int LineWidth;
+            //int Dash;
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "箭头";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1396,34 +1696,60 @@ namespace Global
                 double y2 = StylusPoints[2].Y;
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x2, y2), new System.Windows.Point(x1, y1));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x4, y4), new System.Windows.Point(x1, y1));
+
+                listX = new List<double> { x0, x1, x2, x4 };
+                listY = new List<double> { y0, y1, y2, y4 };
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x2, y2), new System.Windows.Point(x1, y1));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x4, y4), new System.Windows.Point(x1, y1));
 
             }
         }
 
-        public class Dim1Stroke : Stroke
+        public class Dim1Stroke : CustomStroke
         {
-            public Dim1Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash) : base(points)
+            public Dim1Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash ,bool italic, bool bold, bool underLine, int fontSize, FontFamily fontFamily, string labPos) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 this.ratio = ratio;
                 this.textColor = textColor;
-                this.showLabel = showLabel;
+               
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "标尺 A";
+                Italic = italic;
+                Bold = bold;
+                UnderLine = underLine;
+                FontFamily = fontFamily;
+                Fontsize = fontSize;
+
+                this.showLabel = showLabel;
+                LabPos = labPos;
+                dimSelectIndex = 2;
 
             }
-            Color Color1;
-            RatioClass ratio;
-            int LineWidth;
-            int Dash;
-            bool showLabel;
-            Color textColor;
-            public int Index { get; set; }
-            public string Type { get; set; } = "标尺 A";
+            //int LineWidth;
+            //int Dash;
+            //public Color ColorBru { get; set; }
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "标尺 A";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            //RatioClass ratio;
+            //bool showLabel;
+            //Color textColor;
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1435,34 +1761,72 @@ namespace Global
                 double y3 = StylusPoints[3].Y;
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x3, y3));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
-                DrawText(drawingContext, new Point(x0, y0), new Point(x3, y3), ratio, Color1, textColor, showLabel);
+                listX = new List<double> { x0, x1, x3, x4 };
+                listY = new List<double> { y0, y1, y3, y4};
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+
+                double theta = Math.Atan2(y3 - y0, x3 - x0);
+                angle = theta / Math.PI * 180;
+                double dist = GetDistance(new Point(x0, y0), new Point(x3, y3));
+                length= (double)dist /ratio.actualwidth * 1689.12 / ratio.Ratio;
+
+
+
+                // DrawInkMethod.dimenViewModel.Length = (double)dist / ratio1.actualwidth * 1689.12 / ratio1.Ratio;
+
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x3, y3));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
+
+                customTextInput= WriteText(new Point(x0, y0), new Point(x3, y3), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
+
+                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x3, y3), ratio, textColor, showLabel, UnderLine,LabPos);
 
 
             }
         }
-        public class Dim2Stroke : Stroke
+        public class Dim2Stroke : CustomStroke
         {
-            public Dim2Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash) : base(points)
+            public Dim2Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fontSize, FontFamily fontFamily, string labPos) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 this.ratio = ratio;
                 this.textColor = textColor;
                 this.showLabel = showLabel;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "标尺 B";
+
+                Italic = italic;
+                Bold = bold;
+                UnderLine = underLine;
+                FontFamily = fontFamily;
+                Fontsize = fontSize;
+                LabPos = labPos;
+                dimSelectIndex =3;
             }
-            Color Color1;
-            int LineWidth;
-            int Dash;
-            bool showLabel;
-            RatioClass ratio;
-            Color textColor;
-            public int Index { get; set; }
-            public string Type { get; set; } = "标尺 B";
+            //int LineWidth;
+            //int Dash;
+            //public Color ColorBru { get; set; }
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "标尺 A";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            //RatioClass ratio;
+            //bool showLabel;
+            //Color textColor;
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1480,38 +1844,75 @@ namespace Global
                 double y5 = StylusPoints[5].Y;
                 double x6 = StylusPoints[6].X;
                 double y6 = StylusPoints[6].Y;
+                listX = new List<double> { x0, x1, x2, x3, x4, x5, x6 };
+                listY = new List<double> { y0, y1, y2, y3, y4, y5, y6};
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+                double theta = Math.Atan2(y4 - y0, x4 - x0);
+                angle = theta / Math.PI * 180;
+                double dist = GetDistance(new Point(x0, y0), new Point(x4, y4));
+                length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
+
+
+
 
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
 
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth,Dash), new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x6, y6));
-                DrawText(drawingContext, new Point(x0, y0), new Point(x4, y4), ratio, Color1, textColor, showLabel);
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth,Dash), new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x6, y6));
+                customTextInput = WriteText(new Point(x3, y3), new Point(x4, y4), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
+                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x4, y4), ratio, textColor, showLabel, UnderLine, LabPos);
+
+
+
+
 
 
             }
         }
 
-        public class Dim3Stroke : Stroke
+        public class Dim3Stroke : CustomStroke
         {
-            public Dim3Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash) : base(points)
+            public Dim3Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fontSize, FontFamily fontFamily, string labPos) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 this.ratio = ratio;
                 this.textColor = textColor;
                 this.showLabel = showLabel;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type= "标尺 C";
+
+                Italic = italic;
+                Bold = bold;
+                UnderLine = underLine;
+                FontFamily = fontFamily;
+                Fontsize = fontSize;
+                LabPos = labPos;
+                dimSelectIndex = 4;
             }
-            Color Color1;
-            bool showLabel;
-            int Dash;
-            int LineWidth;
-            RatioClass ratio;
-            Color textColor;
-            public int Index { get; set; }
-            public string Type { get; set; } = "标尺 C";
+            //int LineWidth;
+            //int Dash;
+            //public Color ColorBru { get; set; }
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "标尺 A";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            //RatioClass ratio;
+            //bool showLabel;
+            //Color textColor;
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1537,45 +1938,74 @@ namespace Global
                 double x9 = StylusPoints[14].X;
                 double y9 = StylusPoints[14].Y;
 
+                listX = new List<double> { x0, x1, x2, x3, x4, x5,x6,x7,x8,x9 };
+                listY = new List<double> { y0, y1, y2, y3, y4, y5,y6,y7,y8,y9 };
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+
+                double theta = Math.Atan2(y5 - y0, x5 - x0);
+                angle = theta / Math.PI * 180;
+                double dist = GetDistance(new Point(x0, y0), new Point(x5, y5));
+                length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
 
 
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
 
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x2, y2));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x5, y5));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x6, y6));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x7, y7));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x8, y8), new System.Windows.Point(x9, y9));
-
-                DrawText(drawingContext, new Point(x0, y0), new Point(x5, y5), ratio, Color1, textColor, showLabel);
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x2, y2));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x5, y5));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x6, y6));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x7, y7));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x8, y8), new System.Windows.Point(x9, y9));
+                customTextInput = WriteText(new Point(x0, y0), new Point(x5, y5), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
+                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x5, y5), ratio, textColor, showLabel, UnderLine, LabPos);
 
 
             }
         }
 
-        public class Dim4Stroke : Stroke
+        public class Dim4Stroke : CustomStroke
         {
-            public Dim4Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth,int dash) : base(points)
+            public Dim4Stroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fontSize, FontFamily fontFamily, string labPos) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 this.ratio = ratio;
                 this.textColor = textColor;
                 this.showLabel = showLabel;
                 LineWidth = lineWidth;
                 Dash = dash;
-                
+                Type = "标尺 D";
+
+                Italic = italic;
+                Bold = bold;
+                UnderLine = underLine;
+                FontFamily = fontFamily;
+                Fontsize = fontSize;
+                LabPos = labPos;
+                dimSelectIndex = 5;
             }
-            Color Color1;
-            bool showLabel;
-            int Dash;
-            int LineWidth;
-            RatioClass ratio;
-            Color textColor;
-            public int Index { get; set; }
-            public string Type { get; set; } = "标尺 D";
+            //int LineWidth;
+            //int Dash;
+            //public Color ColorBru { get; set; }
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "标尺 A";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            //RatioClass ratio;
+            //bool showLabel;
+            //Color textColor;
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1592,13 +2022,33 @@ namespace Global
                 double x5 = StylusPoints[8].X;
                 double y5 = StylusPoints[8].Y;
 
-                // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
+                listX = new List<double> { x0, x1, x2, x3, x4,x5 };
+                listY = new List<double> { y0, y1, y2, y3, y4 ,y5};
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
 
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x2, y2));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x5, y5));
-                DrawText(drawingContext, new Point(x0, y0), new Point(x5, y5), ratio, Color1, textColor, showLabel);
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+                double theta = Math.Atan2(y5 - y0, x5 - x0);
+                angle = theta / Math.PI * 180;
+                double dist = GetDistance(new Point(x0, y0), new Point(x5, y5));
+                length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
+
+
+
+
+                // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x2, y2));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x5, y5));
+                customTextInput = WriteText(new Point(x0, y0), new Point(x5, y5), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
+                DrawText(drawingContext, customTextInput, new Point(x0, y0), new Point(x5, y5), ratio,  textColor, showLabel, UnderLine, LabPos);
 
 
             }
@@ -1614,29 +2064,26 @@ namespace Global
 
 
 
-        public class RectangleStroke : Stroke
+        public class RectangleStroke : CustomStroke
         {
             public RectangleStroke(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
-                p1.X = (int)StylusPoints[0].X;
-                p1.Y = (int)StylusPoints[0].Y;
-                p2.X = (int)StylusPoints[1].X;
-                p2.Y = (int)StylusPoints[1].Y;
-                Points = "P1:(" + p1.ToString() + "),P2:(" + p2.ToString() + ")";
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type  = "矩形";
             }
-            Color Color1;
-            int x;
-            Point p1;
-            Point p2;
-            int LineWidth;
-            int Dash;
-            public int Index { get; set; }
-            public string Type { get; set; } = "矩形";
-            public string Points { get; set; }
+            //public Color ColorBru { get; set; }
+           
+            //int LineWidth;
+            //int Dash;
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "矩形";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1650,41 +2097,49 @@ namespace Global
                 double y3 = StylusPoints[3].Y;
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
-              
+                
+                 listX = new List<double> { x0, x1, x2, x3, x4 };
+                 listY = new List<double> { y0, y1, y2, y3, y4 };
+                 double xLeft = listX.Min();
+                 double xRight = listX.Max();
+                 double yUp = listY.Max();
+                 double yDown = listY.Min();
 
+                double Xcenter =(int) (xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft),(int) (yUp - yDown));
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
 
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x2, y2), new System.Windows.Point(x3, y3));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x2, y2), new System.Windows.Point(x3, y3));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
                // drawingContext.DrawRectangle(InkCanvasMethod.SetPenSolid(Color1, LineWidth), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
             }
 
 
         }
-        public class SquareStroke : Stroke
+        public class SquareStroke : CustomStroke
         {
             public SquareStroke(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
-                p1.X = (int)StylusPoints[0].X;
-                p1.Y = (int)StylusPoints[0].Y;
-                p2.X = (int)StylusPoints[1].X;
-                p2.Y = (int)StylusPoints[1].Y;
-                Points = "P1:(" + p1.ToString() + "),P2:(" + p2.ToString() + ")";
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "正方形";
             }
-            Color Color1;
-            int LineWidth;
-            int Dash;
-            Point p1;
-            Point p2;
-            public int Index { get; set; }
-            public string Type { get; set; } = "正方形";
-            public string Points { get; set; }
+            //public Color ColorBru { get; set; }
+            //int LineWidth;
+            //int Dash;
+           
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "正方形";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1699,13 +2154,27 @@ namespace Global
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
 
+                listX = new List<double> { x0, x1, x2, x3, x4 };
+                listY = new List<double> { y0, y1, y2, y3, y4 };
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+
+
 
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
 
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x2, y2), new System.Windows.Point(x3, y3));
-                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x2, y2), new System.Windows.Point(x3, y3));
+                drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
 
             }
 
@@ -1713,28 +2182,51 @@ namespace Global
 
 
 
-        public class Bezierpath : Stroke
+        public class Bezierpath : CustomStroke
         {
             public Bezierpath(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                Color1 = color;
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "曲线";
             }
-            Color Color1;
-            int LineWidth;
-            int Dash;
-            public int Index { get; set; }
-            public string Type { get; set; } = "二次贝塞尔曲线";
-            public string Points { get; set; }
+            //public Color ColorBru { get; set; }
+            //int LineWidth;
+            //int Dash;
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "曲线";
+            //public string Points { get; set; }
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
-                //double x1 = StylusPoints[0].X;
-                //double y1 = StylusPoints[0].Y;
-                //double x2 = StylusPoints[1].X;
-                //double y2 = StylusPoints[1].Y;
+                double x0 = StylusPoints[0].X;
+                double y0 = StylusPoints[0].Y;
+                double x1 = StylusPoints[1].X;
+                double y1 = StylusPoints[1].Y;
+                double x2 = StylusPoints[2].X;
+                double y2 = StylusPoints[2].Y;
+                double x3 = StylusPoints[3].X;
+                double y3 = StylusPoints[3].Y;
+             
+
+                listX = new List<double> { x0, x1, x2, x3};
+                listY = new List<double> { y0, y1, y2, y3};
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
 
                 PathGeometry geometry = new PathGeometry();
                 PathFigure figure = new PathFigure
@@ -1747,30 +2239,59 @@ namespace Global
                 BezierSegment bezierSegment = new BezierSegment((Point)StylusPoints[1], (Point)StylusPoints[2], (Point)StylusPoints[3], true);
                 figure.Segments.Add(bezierSegment);
                 geometry.Figures.Add(figure);
-                drawingContext.DrawGeometry(null, InkCanvasMethod.SetPenSolid(Color1, LineWidth, Dash), geometry);
+                drawingContext.DrawGeometry(null, InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), geometry);
 
 
             }
         }
 
 
-        public class QuadraticBezierpath : Stroke
+        public class QuadraticBezierpath : CustomStroke
         {
             public QuadraticBezierpath(StylusPointCollection points, Color color, int lineWidth,int dash) : base(points)
             {
                 StylusPoints = points.Clone();
-                color1 = color;
+                ColorBru = color;
                 LineWidth = lineWidth;
                 Dash = dash;
+                Type = "曲线1";
+
             }
-            Color color1;
-            int LineWidth;
-            int Dash;
-            public int Index { get; set; }
-            public string Type { get; set; } = "一次贝塞尔曲线";
-            public string Points { get; set; }
+            //public Color ColorBru { get; set; }
+            //int LineWidth;
+            //int Dash;
+            //public int Index { get; set; }
+            //public string Type { get; set; } = "曲线1";
+            //public Point CenterPoint { get; set; }
+            //public Point SizePoint { get; set; }
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
+
+
+
+                double x0 = StylusPoints[0].X;
+                double y0 = StylusPoints[0].Y;
+                double x1 = StylusPoints[1].X;
+                double y1 = StylusPoints[1].Y;
+                double x2 = StylusPoints[2].X;
+                double y2 = StylusPoints[2].Y;
+                listX = new List<double> { x0, x1, x2 };
+                listY = new List<double> { y0, y1, y2};
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+
+
+
 
                 PathGeometry geometry = new PathGeometry();
                 PathFigure figure = new PathFigure
@@ -1782,7 +2303,7 @@ namespace Global
                 figure.Segments.Add(quadraticBezier);
 
                 geometry.Figures.Add(figure);
-                drawingContext.DrawGeometry(null, InkCanvasMethod.SetPenSolid(color1, LineWidth, Dash), geometry);
+                drawingContext.DrawGeometry(null, InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), geometry);
 
 
             }
@@ -1840,20 +2361,32 @@ namespace Global
 
 
 
-        public class CustomTextInput : Stroke
+        public class CustomTextInput : CustomStroke
         {
-            public CustomTextInput(StylusPointCollection points, FormattedText text, Brush brush) : base(points)
+            public CustomTextInput(StylusPointCollection points, FormattedText text, Color brush, bool italic, bool bold, bool underLine, int fontSize, FontFamily fontFamily) : base(points)
             {
                 StylusPoints = points.Clone();
 
                 this.customTextInput = text;
-                this.brush = brush;
+                this.textColor = brush;
                 Index = 1;
+                Type = "文本";
+                UnderLine= underLine;
+                Italic = italic;
+                Bold = bold;
+                Fontsize = fontSize;
+                FontFamily = fontFamily;
+
+
             }
-            FormattedText customTextInput;
-            public int Index { get; set; }
-            public string Type { get; set; } = "文本";
-            Brush brush;
+            //FormattedText customTextInput;
+            //public int Index { get; set; }
+            //public Color ColorBru { get; set; }
+            //public string Type { get; set; } = "文本";
+
+            //public Point CenterPoint { get; set; }
+            List<double> listX;
+            List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1866,9 +2399,23 @@ namespace Global
                 double x4 = StylusPoints[3].X;
                 double y4 = StylusPoints[3].Y;
 
+
+                listX = new List<double> { x1, x2, x3, x4 };
+                listY = new List<double> { y1, y2, y3, y4 };
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
                 System.Windows.Point labPoint = new System.Windows.Point(x1 - 1, y1 - 1);
                 drawingContext.DrawText(customTextInput, labPoint);
-                if (dimenViewModel.UnderLine)
+                Brush brush = new SolidColorBrush(textColor);
+                if (UnderLine)
                 {
                     drawingContext.DrawLine(InkCanvasMethod.SetPenSolid5(brush), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
                 }
@@ -2202,9 +2749,10 @@ namespace Global
 
             }
         }
-        public static void DrawText(DrawingContext drawingContext, Point p1, Point p2, RatioClass ratio, Color color1, Color TextColor, bool showLabel)
 
+        private static FormattedText WriteText(Point p1, Point p2, RatioClass ratio, Color TextColor,bool italic,bool bold,bool underline,int fontsize,FontFamily  font )
         {
+
             double x1 = p1.X;
             double y1 = p1.Y;
             double x2 = p2.X;
@@ -2219,13 +2767,50 @@ namespace Global
             System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
             FontWeight fontWeight = new FontWeight();
             FontStretch fontStretch = new FontStretch();
-            if (dimenViewModel.Italic) fontStyle = FontStyles.Italic;
-            if (dimenViewModel.Bold) fontWeight = FontWeights.Bold;
+            if (italic) fontStyle = FontStyles.Italic;
+            if (bold) fontWeight = FontWeights.Bold;
             System.Windows.Point labelPosition;
             Brush textBrush = new SolidColorBrush(TextColor);
             FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
 
-                                          FlowDirection.LeftToRight, new Typeface(dimenViewModel.FontFam, fontStyle, fontWeight, fontStretch), dimenViewModel.FontSize, textBrush, 1.25);
+                                          FlowDirection.LeftToRight, new Typeface(font, fontStyle, fontWeight, fontStretch), fontsize, textBrush, 1.25);
+
+            return formattedText;
+        }
+
+
+
+
+
+
+
+
+
+        public static void DrawText(DrawingContext drawingContext, FormattedText  formattedText , Point p1, Point p2, RatioClass ratio, Color TextColor, bool showLabel,bool underline,string labpos)
+
+        {
+            double x1 = p1.X;
+            double y1 = p1.Y;
+            double x2 = p2.X;
+            double y2 = p2.Y;
+            double theta = Math.Atan2(y1 - y2, x1 - x2);
+            // MessageBox.Show(theta.ToString());
+            double dist = GetDistance(new System.Windows.Point(x1, y1), new System.Windows.Point(x2, y2)) / ratio.Ratio;
+            dist = (double)dist / ratio.actualwidth * 1689.12;
+            //dist= (double)dist / inkCanvas.ActualWidth * 1689.12 ;
+            string label = Math.Round(dist, 2).ToString() + " μm";
+
+            //System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
+            //FontWeight fontWeight = new FontWeight();
+            //FontStretch fontStretch = new FontStretch();
+            //if (dimenViewModel.Italic) fontStyle = FontStyles.Italic;
+            //if (dimenViewModel.Bold) fontWeight = FontWeights.Bold;
+          
+            //Brush textBrush = new SolidColorBrush(TextColor);
+            //FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
+
+            //                              FlowDirection.LeftToRight, new Typeface(dimenViewModel.FontFam, fontStyle, fontWeight, fontStretch), dimenViewModel.FontSize, textBrush, 1.25);
+            System.Windows.Point labelPosition;
             int textHeight = (int)formattedText.Height;
             int textWidth = (int)formattedText.Width;
             if (showLabel)
@@ -2264,7 +2849,7 @@ namespace Global
                     }
                     else
                     {
-                        switch (dimenViewModel.LabelPos)
+                        switch (labpos)
                         {
                             case " 上左":
 
@@ -2297,7 +2882,7 @@ namespace Global
                 {
                     if (-3 * Math.PI / 4 < theta && theta < -Math.PI / 4)
                     {
-                        switch (dimenViewModel.LabelPos)
+                        switch (labpos)
                         {
 
                             case " 上左":
@@ -2327,7 +2912,7 @@ namespace Global
                     }
                     else
                     {
-                        switch (dimenViewModel.LabelPos)
+                        switch (labpos)
                         {
 
                             case " 上左":
@@ -2358,9 +2943,9 @@ namespace Global
 
                 }
 
-                if (dimenViewModel.UnderLine)
+                if (underline)
                 {
-                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(color1, 2, 0), new System.Windows.Point(labelPosition.X, labelPosition.Y + textHeight + 2), new System.Windows.Point(labelPosition.X + textWidth, labelPosition.Y + textHeight + 2));
+                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(TextColor, 2, 0), new System.Windows.Point(labelPosition.X, labelPosition.Y + textHeight + 2), new System.Windows.Point(labelPosition.X + textWidth, labelPosition.Y + textHeight + 2));
                 }
             }
         }

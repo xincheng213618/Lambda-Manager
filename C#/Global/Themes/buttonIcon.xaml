@@ -1,0 +1,510 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTemplate x:Key="select">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30">
+                    <Canvas Width="30"  Height="30">
+                        <Path  Fill="#4d4d4d" Stroke="#666" 
+                          Data="M29.113,4.5v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V4.5a4,4,0,0,1,4-4h18A4,4,0,0,1,29.113,4.5Z" />
+                        <Path  Fill="Gray" Stroke="#b3b3b3"   Data="M26.113,5.5v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V5.5a2,2,0,0,1,2-2h16A2,2,0,0,1,26.113,5.5Z" />
+                        <Path  Fill="#fff" Data="M14.173,5.912l9.093,10.456-6.746-1.214-5.252,4.309Z" />
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Areaselect">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30">
+                        <Path Fill="#4d4d4d"  Stroke="#666"  StrokeThickness="1" Data="M29.614,7.5v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V7.5a4,4,0,0,1,4-4h18A4,4,0,0,1,29.614,7.5Z" />
+                        <Path Fill="gray" Stroke="#b3b3b3" Data="M26.614,8.5v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V8.5a2,2,0,0,1,2-2h16A2,2,0,0,1,26.614,8.5Z" />
+                        <Path Fill="#fff" Data="M9.613,20.512h1v3h-1v-3h0Z" />
+                        <Path  Fill="#fff" Data="M12.614,22.513v1h-3v-1h3Z" />
+                        <Path  Fill="#fff" Data="M18.614,22.513v1h-4v-1h4Z" />
+                        <Path  Fill="#fff" Data="M18.614,9.513v1h-4v-1h4Z" />
+                        <Path  Fill="#fff" Data="M20.614,23.513v-1h3v1h-3Z" />
+                        <Path  Fill="#fff" Data="M22.614,20.512h1v3h-1v-3h0Z"/>
+                        <Path   Fill="#fff" Data="M9.613,12.507h1v-3h-1v3h0Z" />
+                        <Path  Fill="#fff" Data="M9.613,18.511h1v-4h-1v4h0Z" />
+                        <Path  Fill="#fff" Data="M22.614,18.511h1v-4h-1v4h0Z" />
+                        <Path  Fill="#fff"  Data="M12.614,10.506v-1h-2v1h2Z" />
+                        <Path  Fill="#fff" Data="M20.614,9.506v1h3v-1h-3Z" />
+                        <Path  Fill="#fff" Data="M22.614,12.507h1v-3h-1v3h0Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="serach">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-930.5,-82.5,0,0"  StrokeThickness="1" Data="M958.118,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,958.118,88Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-930.5,-82.5,0,0" Data="M955.118,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,955.118,89Z" />
+                        <Path Fill="#fff"   Margin="-930.5,-82.5,0,0" Data="M944.953,96.366h0a1.051,1.051,0,0,0-.025,1.447l5.482,5.892a0.962,0.962,0,0,0,1.395.025,1.048,1.048,0,0,0,.025-1.446l-5.481-5.892A0.963,0.963,0,0,0,944.953,96.366Z" />
+                        <Path Fill="GRAY"  Stroke="#FFF" Margin="-930.5,-82.5,0,0" Data="M940.455,92.316a4.726,4.726,0,0,0-.112,6.512h0a4.329,4.329,0,0,0,6.279.117,4.726,4.726,0,0,0,.112-6.512h0A4.329,4.329,0,0,0,940.455,92.316Z" />
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="zoomOut">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-966.5,-82.5,0,0"  StrokeThickness="1" Data="M994.119,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,994.119,88Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-966.5,-82.5,0,0" Data="M991.119,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,991.119,89Z" />
+                        <Path Fill="#fff"   Margin="-966.5,-82.5,0,0" Data="M980.954,96.366h0a1.05,1.05,0,0,0-.024,1.447l5.481,5.892a0.962,0.962,0,0,0,1.4.025,1.048,1.048,0,0,0,.025-1.446l-5.481-5.892A0.963,0.963,0,0,0,980.954,96.366Z" />
+                        <Path Fill="GRAY"  Stroke="#FFF" Margin="-966.5,-82.5,0,0" Data="M976.456,92.316h0a4.726,4.726,0,0,0-.112,6.512h0a4.329,4.329,0,0,0,6.279.117,4.726,4.726,0,0,0,.112-6.512A4.329,4.329,0,0,0,976.456,92.316Z" />
+                        <Path Fill="#fff"   Margin="-966.5,-82.5,0,0" Data="M979.894,93.4h-0.82a0.083,0.083,0,0,0-.083.083v4.95a0.083,0.083,0,0,0,.083.083h0.82a0.083,0.083,0,0,0,.083-0.083v-4.95A0.083,0.083,0,0,0,979.894,93.4Z"/>
+                        <Path Fill="#fff"   Margin="-966.5,-82.5,0,0" Data="M977.264,95.526v0.857a0.083,0.083,0,0,0,.083.083h4.767a0.084,0.084,0,0,0,.084-0.083V95.526a0.084,0.084,0,0,0-.084-0.083h-4.767A0.083,0.083,0,0,0,977.264,95.526Z" />
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    
+    
+    <ControlTemplate x:Key="zoomIn">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1002,-83,0,0"  StrokeThickness="1" Data="M1030.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1030.12,88Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1002,-83,0,0" Data="M1027.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1027.12,89Z" />
+                        <Path Fill="#fff"  Margin="-1002,-83,0,0" Data="M1016.96,96.366h0a1.041,1.041,0,0,0-.03,1.447l5.48,5.892a0.968,0.968,0,0,0,1.4.025,1.05,1.05,0,0,0,.02-1.446l-5.48-5.892A0.956,0.956,0,0,0,1016.96,96.366Z" />
+                        <Path Fill="GRAY"  Stroke="#FFF" Margin="-1002,-83,0,0" Data="M1012.46,92.316h0a4.715,4.715,0,0,0-.11,6.512h0a4.319,4.319,0,0,0,6.27.117,4.725,4.725,0,0,0,.12-6.512A4.331,4.331,0,0,0,1012.46,92.316Z"/>
+                        <Path Fill="#fff"  Margin="-1002,-83,0,0" Data="M1013.26,95.526v0.857a0.087,0.087,0,0,0,.09.083h4.77a0.085,0.085,0,0,0,.08-0.083V95.526a0.085,0.085,0,0,0-.08-0.083h-4.77A0.087,0.087,0,0,0,1013.26,95.526Z"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="scale">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1038.5,-82.5,0,0"  StrokeThickness="1" Data="M1066.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1066.12,88Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-1038.5,-82.5,0,0" Data="M1063.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1063.12,89Z" />
+                        <TextBlock  Width="16" Height="14" Text="1:1" FontSize="10" Canvas.Left="8" Canvas.Top="8" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="text">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1342.5,-82.5,0,0"  StrokeThickness="1" Data="M1370.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1370.12,88Z" />
+                        <Path Fill="#f0f0f0"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-1342.5,-82.5,0,0" Data="M1367.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1367.12,89Z" />
+                        <TextBlock  Foreground="#1A1A1A" Width="18"  FontFamily="RomanT" Height="20" Text="T" FontWeight="Bold"  FontSize="18" Canvas.Left="8" Canvas.Top="4"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="Arrow">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1376.5,-80.5,0,0"  StrokeThickness="1" Data="M1406.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1406.12,88Z" />
+                        <Path Fill="#f0f0f0"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1376.5,-80.5,0,0" Data="M1403.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1403.12,89Z" />
+                        <Path Fill="#1a1a1a"   Margin="-1376.5,-80.5,0,0" Data="M1399.39,91.446l-1.79,6.573-4.85-5.042Z"/>
+                        <Path Fill="#1a1a1a"  Margin="-1376.5,-80.5,0,0" Data="M1398.06,92.07l0.61,0.654h0l-12.43,11.6h0l-0.61-.654h0l12.43-11.6h0Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="line">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1414.5,-82.5,0,0"  StrokeThickness="1" Data="M1442.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1442.12,88Z" />
+                        <Path Fill="#f0f0f0"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1414.5,-82.5,0,0" Data="M1439.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1439.12,89Z"/>
+                        <Path Fill="#1a1a1a"  Margin="-1414.5,-82.5,0,0" Data="M1434.5,90.169l0.86,0.842h0l-12.62,12.84h0l-0.86-.842h0l12.62-12.839h0Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="circle">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1486.5,-82.5,0,0"  StrokeThickness="1" Data="M1514.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1514.12,88Z" />
+                        <Path Fill="#f0f0f0"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1486.5,-82.5,0,0" Data="M1511.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1511.12,89Z"/>
+                        <Ellipse Stroke="#1a1a1a" Width="11.69" Height="11.69" Margin="9,9,0,0"></Ellipse>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="rectangle">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1522.5,-82.5,0,0"  StrokeThickness="1" Data="M1550.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1550.12,88Z" />
+                        <Path Fill="#f0f0f0"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1522.5,-82.5,0,0" Data="M1547.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1547.12,89Z"/>
+                        <Path  Stroke="#1a1a1a" StrokeThickness="1" Margin="-1522.5,-82.5,0,0" Data="M1531.29,93.258h11.67v7.5h-11.67v-7.5h0Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="polygon">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1558.5,-82.5,0,0"  StrokeThickness="1" Data="M1586.13,88v18.013a4.006,4.006,0,0,1-4,4h-18.01a4.006,4.006,0,0,1-4-4V88a4.006,4.006,0,0,1,4-4h18.01A4.006,4.006,0,0,1,1586.13,88Z "/>
+                        <Path Fill="#f0f0f0"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1558.5,-82.5,0,0"   Data="M1583.13,89v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1583.13,89Z" />
+                        <Path  Stroke="#1a1a1a" StrokeThickness="1" Margin="-1558.5,-82.5,0,0"   Data="M1567.44,97.895l7.09,5.386,4.92-6.522-4.81-5.386-0.07,5.36Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="curve">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1450.5,-82.5,0,0"  StrokeThickness="1" Data="M1478.12,88v18.013a4,4,0,0,1-4,4h-18a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18A4,4,0,0,1,1478.12,88Z"/>
+                        <Path Fill="#f0f0f0"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1450.5,-82.5,0,0"  Data="M1475.12,89v16.011a2,2,0,0,1-2,2h-16a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16A2,2,0,0,1,1475.12,89Z" />
+                        <Path  Stroke="#1a1a1a" StrokeThickness="1" Margin="-1450.5,-82.5,0,0"  Data="M1471.08,91.072s-8.6-.308-4.76,6.9c1.77,5.2-2.29,5.838-7.19,4.363"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+    <ControlTemplate x:Key="profile">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1255.5,-83,0,0"  StrokeThickness="1" Data="M1283.27,88v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V88a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1283.27,88Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-1255.5,-83,0,0"  Data="M1280.27,89v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V89a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1280.27,89Z" />
+                        <Ellipse Width="4" Fill="#f3f3f3" Height="4" Margin="7,10,0,0" ></Ellipse>
+                        <Ellipse Width="4" Fill="#f3f3f3" Height="4" Margin="18,7.5,0,0" ></Ellipse>
+                        <Path  Stroke="#f3f3f3" Fill="#171717" StrokeThickness="1" Data="M14.78,13.45l2.44-0.8Z" Height="1.9" Canvas.Left="12" Stretch="Fill" Canvas.Top="10" Width="5"/>
+                        <Path Fill="#f3f3f3"   Margin="-1255.5,-83,0,0" Data="M1262.85,98h2v7h-2V98h0Z"/>
+                        <Path Fill="#f3f3f3"  Margin="-1255.5,-83,0,0" Data="M1276.85,104v1h-14v-1h14Z" />
+                        <Path Fill="#f3f3f3"  Margin="-1255.5,-83,0,0" Data="M1274.85,95h2v10h-2V95h0Z"/>
+                        <Path Fill="#f3f3f3"  Margin="-1255.5,-83,0,0" Data="M1270.85,96h2v9h-2V96h0Z"/>
+                        <Path Fill="#f3f3f3"  Margin="-1255.5,-83,0,0" Data="M1266.85,97h2v8h-2V97h0Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="quarter">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1873.5,-118.5,0,0"  StrokeThickness="1" Data="M1901.5,124.021v18.014a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V124.021a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,124.021Z"/>
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-118.5,0,0"   Data="M1898.5,125.023v16.01a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2v-16.01a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,125.023Z"  />
+
+                        <Path Fill="#fff"   Margin="-1873.5,-118.5,0,0" Data="M1887.49,126.029v6h-6v-6h6Z"/>
+                        <Path Fill="#fff"  Margin="-1873.5,-118.5,0,0" Data="M1887.49,134.033v6h-6v-6h6Z"/>
+                        <Path Fill="#b3b3b3"  Margin="-1873.5,-118.5,0,0" Data="M1895.5,134.033v6h-6.01v-6h6.01Z"/>
+                        <Path Fill="#fff"  Margin="-1873.5,-118.5,0,0" Data="M1895.5,126.029v6h-6.01v-6h6.01Z"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="dual">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666" Margin="-1873.5,-118.5,0,0"  StrokeThickness="1" Data="M1901.5,124.021v18.014a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V124.021a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,124.021Z"/>
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-118.5,0,0"  Data="M1898.5,125.023v16.01a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2v-16.01a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,125.023Z"  />
+
+                        <Path Fill="#fff"   Margin="-1873.5,-118.5,0,0" Data="M1887.49,126.029v6h-6v-6h6Z"/>
+                        <Path Fill="#fff"   Margin="-1873.5,-118.5,0,0" Data="M1887.49,134.033v6h-6v-6h6Z"/>
+                        <Path Fill="#b3b3b3" Margin="-1873.5,-118.5,0,0" Data="M1895.5,134.033v6h-6.01v-6h6.01Z"/>
+                        <Path Fill="#fff"  Margin="-1873.5,-118.5,0,0" Data="M1895.5,126.029v6h-6.01v-6h6.01Z"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="BF">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-189.5,0,0" StrokeThickness="1" Data="M1901.5,195.059v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V195.059a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,195.059Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-189.5,0,0"   Data="M1898.5,196.06v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V196.06a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,196.06Z"  />
+
+                        <TextBlock  Foreground="White" Width="18"   Height="20" Text="BF" FontWeight="Bold"  FontSize="10" Canvas.Left="9" Canvas.Top="8"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="DF">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-189.5,0,0" StrokeThickness="1" Data="M1901.5,195.059v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V195.059a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,195.059Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-189.5,0,0"   Data="M1898.5,196.06v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V196.06a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,196.06Z"  />
+
+                        <TextBlock  Foreground="White" Width="18"   Height="20" Text="DF" FontWeight="Bold"  FontSize="10" Canvas.Left="9" Canvas.Top="8"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="RI">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-189.5,0,0" StrokeThickness="1" Data="M1901.5,195.059v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V195.059a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,195.059Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-189.5,0,0"   Data="M1898.5,196.06v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V196.06a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,196.06Z"  />
+
+                        <TextBlock  Foreground="White" Width="18"   Height="20" Text="RI" FontWeight="Bold"  FontSize="10" Canvas.Left="9" Canvas.Top="8"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="DP">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-189.5,0,0" StrokeThickness="1" Data="M1901.5,195.059v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V195.059a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,195.059Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-189.5,0,0"   Data="M1898.5,196.06v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V196.06a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,196.06Z"  />
+
+                        <TextBlock  Foreground="White" Width="18"   Height="20" Text="DP" FontWeight="Bold"  FontSize="10" Canvas.Left="9" Canvas.Top="8"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="PHI">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-189.5,0,0" StrokeThickness="1" Data="M1901.5,195.059v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V195.059a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,195.059Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-189.5,0,0"   Data="M1898.5,196.06v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V196.06a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,196.06Z"  />
+
+                        <TextBlock  Foreground="White" Width="18"   Height="20" Text="PHI" FontWeight="Bold"  FontSize="10" Canvas.Left="9" Canvas.Top="8"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="FL">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-189.5,0,0" StrokeThickness="1" Data="M1901.5,195.059v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V195.059a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,195.059Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-189.5,0,0"   Data="M1898.5,196.06v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V196.06a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,196.06Z"  />
+
+                        <TextBlock  Foreground="White" Width="18"   Height="20" Text="FL" FontWeight="Bold"  FontSize="10" Canvas.Left="9" Canvas.Top="8"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="3D">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-189.5,0,0" StrokeThickness="1" Data="M1901.5,195.059v18.013a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V195.059a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,195.059Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1" Margin="-1873.5,-189.5,0,0"   Data="M1898.5,196.06v16.011a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2V196.06a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,196.06Z"  />
+
+                        <TextBlock  Foreground="White" Width="18"   Height="20" Text="3D" FontWeight="Bold"  FontSize="10" Canvas.Left="9" Canvas.Top="8"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="3D1">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="#666"  Margin="-1873.5,-492.5,0,0" StrokeThickness="1" Data="M1901.5,498.217v18.014a4,4,0,0,1-4,4h-18.01a4,4,0,0,1-4-4V498.217a4,4,0,0,1,4-4h18.01A4,4,0,0,1,1901.5,498.217Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-1873.5,-492.5,0,0"   Data="M1898.5,499.219v16.01a2,2,0,0,1-2,2h-16.01a2,2,0,0,1-2-2v-16.01a2,2,0,0,1,2-2h16.01A2,2,0,0,1,1898.5,499.219Z"   />
+                        <Path   Stroke="#FFF"  Margin="-1873.5,-492.5,0,0" StrokeThickness="1" Data="M1881.49,501.221h14.01v9h-14.01v-9h0Z" />
+                        <Path  Stroke="#FFF" StrokeThickness="1" Margin="-1873.5,-492.5,0,0"  Data="M1881.49,511.226h4v4h-4v-4h0Z"  />
+                        <Path    Stroke="#FFF"  Margin="-1873.5,-492.5,0,0" StrokeThickness="1" Data="M1886.49,511.226h4v4h-4v-4h0Z" />
+                        <Path  Stroke="#FFF" StrokeThickness="1" Margin="-1873.5,-492.5,0,0"  Data="M1891.49,511.226h4.01v4h-4.01v-4h0Z" />
+                        <Path  Stroke="#FFF" StrokeThickness="1" Margin="-1873.5,-492.5,0,0"  Data="M1881.49,499.22h8v3h-8v-3h0Z" />
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="div">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="Gray"  Margin="-462.5,-185.5,0,0" StrokeThickness="1" Data="M490.736,191.057V209.07a4,4,0,0,1-4,4H468.862a4,4,0,0,1-4-4V191.057a4,4,0,0,1,4-4h17.874A4,4,0,0,1,490.736,191.057Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-462.5,-185.5,0,0"  Data="M487.751,192.058v16.011a2,2,0,0,1-2,2h-15.9a2,2,0,0,1-2-2V192.058a2,2,0,0,1,2-2h15.9A2,2,0,0,1,487.751,192.058Z"   />
+                        <Path   Fill="#FFF"  Margin="-462.5,-185.5,0,0" StrokeThickness="1" Data="M473.819,196.061h10.946v11.006H473.819V196.061h0Z" />
+                        <Path  Fill="#333" StrokeThickness="1" Margin="-462.5,-185.5,0,0"  Data="M470.833,193.06H481.78v11H470.833v-11h0Z"  />
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+
+    <ControlTemplate x:Key="monocolor">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="Gray"  Margin="-462.5,-152.5,0,0" StrokeThickness="1" Data="M490.736,158.039v18.014a4,4,0,0,1-4,4H468.862a4,4,0,0,1-4-4V158.039a4,4,0,0,1,4-4h17.874A4,4,0,0,1,490.736,158.039Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"   Margin="-462.5,-152.5,0,0"  Data="M487.751,159.041v16.01a2,2,0,0,1-2,2h-15.9a2,2,0,0,1-2-2v-16.01a2,2,0,0,1,2-2h15.9A2,2,0,0,1,487.751,159.041Z"   />
+                        <Path   Fill="#ff2600"  Margin="-462.5,-152.5,0,0" StrokeThickness="1" Data="M484.765,160.042h0V174.05H471.828" />
+
+
+                        <Path Fill="black"  StrokeThickness="1"  Margin="-462.5,-152.5,0,0"  Data="M470.833,159.042h1.327v4h-1.327v-4h0Z"  />
+                        <Path Fill="black"    Margin="-462.5,-152.5,0,0" StrokeThickness="1" Data="M470.833,160.042V159.05h3.981v0.992h-3.981Z" />
+                        <Path Fill="black"  StrokeThickness="1"   Margin="-462.5,-152.5,0,0" Data="M485.76,159.042h-1.327v4h1.327v-4h0Z"   />
+                            <Path Fill="black"    Margin="-462.5,-152.5,0,0" StrokeThickness="1" Data="M481.78,160.042V159.05h3.98v0.992h-3.98Z" />
+
+                        <Path Fill="black"  StrokeThickness="1"  Margin="-462.5,-152.5,0,0"  Data="M470.833,175.05h1.327v-4h-1.327v4h0Z"  />
+                        <Path  Fill="black"     Margin="-462.5,-152.5,0,0" StrokeThickness="1" Data="M470.833,174.05v0.992h3.981V174.05h-3.981Z" />
+                        <Path Fill="black"  StrokeThickness="1"  Margin="-462.5,-152.5,0,0"  Data="M485.76,175.05h-1.327v-4h1.327v4h0Z"   />
+                        <Path  Fill="black"   Margin="-462.5,-152.5,0,0"  StrokeThickness="1" Data="M485.76,170.049h-0.987V165.043h0.987v10.006h0Z" />
+                        <Path Fill="black" StrokeThickness="1"  Margin="-462.5,-152.5,0,0"  Data="M472.014,174.55l-0.721-.679h0l13.287-14.334h0l0.721,0.679h0L472.014,174.55h0Z"  />
+
+                        <Path   Fill="black"   Margin="-462.5,-152.5,0,0" StrokeThickness="1" Data="M471.828,169.047H470.5v-4h1.327v4h0Z" />
+                        <Path  Fill="black"  StrokeThickness="1" Margin="-462.5,-152.5,0,0"  Data="M481.78,174.05v0.992h3.98V174.05h-3.98Z"  />
+                        <Path  Fill="black"   Margin="-462.5,-152.5,0,0" StrokeThickness="1" Data="M475.814,174.172v0.75h4.961v-0.75h-7.961Z" />
+                        <Path  Fill="black"  StrokeThickness="1"  Margin="-462.5,-152.5,0,0"  Data="M476.8,159.042v0.744h2.985v-0.744H476.8Z" />
+
+
+
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="colorbar">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="Gray"  Margin="-462.5,-118.5,0,0" StrokeThickness="1" Data="M490.736,124.021v18.014a4,4,0,0,1-4,4H468.862a4,4,0,0,1-4-4V124.021a4,4,0,0,1,4-4h17.874A4,4,0,0,1,490.736,124.021Z" />
+                        <Path Fill="gray"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-462.5,-118.5,0,0"  Data="M487.751,125.023v16.01a2,2,0,0,1-2,2h-15.9a2,2,0,0,1-2-2v-16.01a2,2,0,0,1,2-2h15.9A2,2,0,0,1,487.751,125.023Z"   />
+                        <Path Fill="#fff"  Margin="-462.5,-118.5,0,0" StrokeThickness="1" Data="M470.833,128.026h0.995v9h-0.995v-9h0Z" />
+
+
+                        <Path Fill="#757575"  StrokeThickness="1" Margin="-462.5,-118.5,0,0"  Data="M483.77,128.025v10.007a2,2,0,0,1-2,2h-7.942a2,2,0,0,1-2-2V128.025a2,2,0,0,1,2-2h7.942A2,2,0,0,1,483.77,128.025Z"  />
+                        <Path Fill=" #ff2600"  Margin="-462.5,-118.5,0,0" StrokeThickness="1" Data="M471.828,126.025H477.8v7h-5.971v-7h0Z" />
+                        <Path Fill="#fcff00"  StrokeThickness="1"  Margin="-462.5,-118.5,0,0"  Data="M477.8,126.025h5.971v7H477.8v-7h0Z"   />
+                        <Path Fill="#0042ff"   Margin="-462.5,-118.5,0,0" StrokeThickness="1" Data="M471.828,133.028H477.8v7h-5.971v-7h0Z" />
+
+                        <Path Fill="#00ff18"  StrokeThickness="1" Margin="-462.5,-118.5,0,0"  Data="M477.8,133.028h5.971v7H477.8v-7h0Z"  />
+                        <Path  Stroke="#fff"   Margin="-462.5,-118.5,0,0" StrokeThickness="1" Data="M471.828,128.993v-0.967a2,2,0,0,1,1.99-2h7.962a2,2,0,0,1,1.99,2v10a2,2,0,0,1-1.99,2h-7.962a2,2,0,0,1-1.99-2v-1.009" />
+
+
+
+
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="histogram">
+        <Viewbox Stretch="UniformToFill">
+            <Canvas Width="30" Height="30">
+                <Viewbox Width="30" Height="30" >
+                    <Canvas Width="30"  Height="30" >
+                        <Path Fill="#4d4d4d"   Stroke="Gray"  Margin="-462.5,-218.5,0,0" StrokeThickness="1" Data="M490.736,224.074v18.013a4,4,0,0,1-4,4H468.862a4,4,0,0,1-4-4V224.074a4,4,0,0,1,4-4h17.874A4,4,0,0,1,490.736,224.074Z" />
+                        <Path Fill="#343434"  Stroke="#b3b3b3" StrokeThickness="1"  Margin="-462.5,-218.5,0,0"  Data="M487.751,225.075v16.011a2,2,0,0,1-2,2h-15.9a2,2,0,0,1-2-2V225.075a2,2,0,0,1,2-2h15.9A2,2,0,0,1,487.751,225.075Z"  />
+                        <Path Fill="#dcdcdc"   Margin="-462.5,-218.5,0,0" StrokeThickness="1" Data="M468.843,237.083h1.99v6h-1.99v-6h0Z" />
+
+
+                        <Path Fill="#dcdcdc"  StrokeThickness="1"  Margin="-462.5,-218.5,0,0" Data="M472.823,235.082h1.991v8h-1.991v-8h0Z"  />
+                        <Path Fill=" #dcdcdc"    Margin="-462.5,-218.5,0,0" StrokeThickness="1" Data="M476.8,230.079h1.99v13.007H476.8V230.079h0Z" />
+                        <Path Fill="#dcdcdc"  StrokeThickness="1"   Margin="-462.5,-218.5,0,0"  Data="M480.785,233.081h1.99v10.005h-1.99V233.081h0Z"   />
+                        <Path Fill="#dcdcdc"     Margin="-462.5,-218.5,0,0" StrokeThickness="1" Data="M484.765,228.078h1.99v15.008h-1.99V228.078h0Z" />
+
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+
+</ResourceDictionary>

@@ -22,6 +22,40 @@ namespace Global
 				}
 			}
 		}
+		private double sliderValueH = 0;
+
+		public double SliderValueH
+		{
+			get { return sliderValueH; }
+			set
+			{
+				if (sliderValueH != value)
+				{
+					sliderValueH = value;
+					RaisePropertyChanged(nameof(SliderValueH));
+				}
+			}
+		}
+
+		private double sliderValueV = 0;
+
+		public double SliderValueV
+		{
+			get { return sliderValueV; }
+			set
+			{
+				if (sliderValueV != value)
+				{
+					sliderValueV = value;
+					RaisePropertyChanged(nameof(SliderValueV));
+				}
+			}
+		}
+
+
+
+
+
 		private double maxMum = 0;
 
 		public double MaxMum
@@ -52,7 +86,7 @@ namespace Global
 			}
 		}
 
-		private double loadingMax = 0;
+		private double loadingMax =0;
 
 		public double LoadingMax
 		{

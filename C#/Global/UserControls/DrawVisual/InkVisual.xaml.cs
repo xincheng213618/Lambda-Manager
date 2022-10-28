@@ -3,6 +3,7 @@ using Global.Mode.Config;
 using Lambda;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -17,12 +18,15 @@ using static Global.DrawInkMethod;
 
 namespace Global.UserControls.DrawVisual
 {
-    public class RatioClass { 
+    public class RatioClass
+    { 
     
         public double Ratio = 1;
         public double actualwidth=1;
        
     }
+
+
 
     /// <summary>
     /// InkVisual.xaml 的交互逻辑
@@ -37,9 +41,12 @@ namespace Global.UserControls.DrawVisual
             this.ToolTop = ToolTop;
             this.inkMethod = inkMethod;
             // imagingView = ImagingView;
+            //BackCanvas= backCanvas;
             topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
             this.image = image1;
             this.index=index1;
+
+          
             ToolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
             {
 
@@ -83,48 +90,64 @@ namespace Global.UserControls.DrawVisual
                 };
                 if (e.PropertyName == "DimensionChecked")
                 {
-                   
-
                     if ((bool)ToolTop.DimensionChecked)
-                    {
-                       
-                        defaultDim.Visibility = Visibility.Visible;
-                        
+                    { 
+                      defaultDim.Visibility = Visibility.Visible;   
                     }
                     else
                     {
-                        defaultDim.Visibility = Visibility.Hidden;
+                      defaultDim.Visibility = Visibility.Hidden;
                     }
-                }
-
+                };
+                if (e.PropertyName == "ProfileChecked")
+                {
+                    if (!ToolTop.ProfileChecked)
+                    {
+                      if (inkCanvas.Strokes.Contains(profileStroke) && profileStroke != null)
+                        {
+                            inkCanvas.Strokes.Remove(profileStroke);
+                        }
+                    };
+                };
                 
-            };
+                };
 
-            defaultDim.DataContext = DrawInkMethod.defdimenViewModel;  // default Dimension bingding ViewModel
+            defaultDim.DataContext =inkDimViewModel;  // default Dimension bingding ViewModel
             DrawInkMethod.defdimenViewModel.PropertyChanged += delegate(object? sender, PropertyChangedEventArgs e)
             {
-                if (e.PropertyName== "DimPos" || e.PropertyName == "Length" )
+                if (e.PropertyName== "DimPos" || e.PropertyName == "Length" || e.PropertyName == "SelectedAccentColor" || e.PropertyName == "TextSelectedAccentColor")
                 {
                     double ratio = ratio1.Ratio;
                     string position = DrawInkMethod.defdimenViewModel.DimPos;
                     double length = DrawInkMethod.defdimenViewModel.Length;
-                    drawDefaultDim(position, length, Colors.AliceBlue, ratio);
+                    Color color = DrawInkMethod.defdimenViewModel.SelectedAccentColor;
+                    Color TextColor = DrawInkMethod.defdimenViewModel.TextSelectedAccentColor;
+                    if (index == ActiveWindow)
+                    {
+                        drawDefaultDim(position, length, color, ratio, TextColor);
+                    }
+
+                  
                 }
 
             };
             inkCanvas.Strokes.StrokesChanged += delegate
             {
-                int z = inkCanvas.Strokes.Count;
-                
-                DrawInkMethod.StrokesCollection.Clear();
-                int i = 1;
-                FilterStroke(i);
-                //for (i=0; i < inkCanvas.Strokes.Count; i++)
-                //{
 
-                //}
+                DrawInkMethod.StrokesCollection.Clear();
+               
+                FilterStroke(1);
+               // FilterStroke1(1,RegisterStroke);
+
+
 
             };
+
+            if (index1 == 0)
+            {
+                DrawInkMethod.ActiveInk = this.inkCanvas;
+            }
+
 
         }
 
@@ -132,6 +155,7 @@ namespace Global.UserControls.DrawVisual
         WrapPanel topToolbar;
         private double width;
         private double height;
+        public Canvas BackCanvas;
         public ImageViewState.ToolTop ToolTop;
         private Image image;
         public int index;
@@ -144,7 +168,6 @@ namespace Global.UserControls.DrawVisual
         Point iniP = new Point(0, 0);
         public Stroke lastTempStroke = null;
         public Stroke lastTempStroke0 = null;
-        public int ZoomInOut = 0;
 
         public StrokeCollection tempStroke = new StrokeCollection();
         public StrokeCollection RegisterStroke = new StrokeCollection();
@@ -157,12 +180,23 @@ namespace Global.UserControls.DrawVisual
         int i = 0;
         Stroke lastTempCurveStroke = null;
         List<Point> CurvePointsList = new List<Point>();
-
-
+        public InkDimViewModel inkDimViewModel = new InkDimViewModel();
         private Point movePoint = new Point(0, 0);
+        public string deftDimP = "下右";
+        public double defDimL = 100;
+        public Color  defDimC = Color.FromArgb(240, 240, 0, 0);
+        public Color defDimTextC = Colors.White;
+       // public  ObservableCollection<Stroke> StrokesRegister = new ObservableCollection<Stroke>();
 
-        private void FilterStroke( int i)
-        {
+
+        
+
+
+
+            public void FilterStroke( int i)
+          {
+
+           
             foreach (var item in inkCanvas.Strokes)
             {
 
@@ -171,79 +205,188 @@ namespace Global.UserControls.DrawVisual
                 {
                     textInput.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(item);
+                  
                 };
                 if (item is EllipseStroke ellipse)
                 {
                     ellipse.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(ellipse);
+                   
                 }
 
                 if (item is RectangleStroke rectangle)
                 {
                     rectangle.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(rectangle);
+                   
                 }
                 if (item is CircleStroke circleStroke)
                 {
                     circleStroke.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(circleStroke);
+                   
                 }
                 if (item is SquareStroke square)
                 {
                     square.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(square);
+                   
                 }
                 if (item is LineStroke line)
                 {
                     line.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(line);
+                   
                 }
                 if (item is ArrowStroke arrow)
                 {
                     arrow.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(arrow);
+                  
                 }
                 if (item is Dim1Stroke dim1)
                 {
                     dim1.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim1);
+                   
                 }
                 if (item is Dim2Stroke dim2)
                 {
                     dim2.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim2);
+                   
                 }
                 if (item is Dim3Stroke dim3)
                 {
                     dim3.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim3);
+                   
                 }
                 if (item is Dim4Stroke dim4)
                 {
                     dim4.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim4);
+                   
                 }
                 if(item is QuadraticBezierpath quadraticBezier)
                 {
                     quadraticBezier.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(quadraticBezier);
+                  
                 }
                 if (item is Bezierpath bezier)
                 {
                     bezier.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(bezier);
-
+                  
                 }
                 if (item is PolygonStroke polygon)
                 {
                     polygon.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(polygon);
+              
 
                 }
 
             }
         }
+        public void FilterStroke1(int i,StrokeCollection strokes)
+        {
+            strokes.Clear();
 
+            foreach (var item in inkCanvas.Strokes)
+            {
+
+
+                if (item is CustomTextInput textInput)
+                {
+                    textInput.Index = i++;
+                    strokes.Add(item);
+
+                };
+                if (item is EllipseStroke ellipse)
+                {
+                    ellipse.Index = i++;
+                    strokes.Add(ellipse);
+
+                }
+
+                if (item is RectangleStroke rectangle)
+                {
+                    rectangle.Index = i++;
+                    strokes.Add(rectangle);
+
+                }
+                if (item is CircleStroke circleStroke)
+                {
+                    circleStroke.Index = i++;
+                    strokes.Add(circleStroke);
+
+                }
+                if (item is SquareStroke square)
+                {
+                    square.Index = i++;
+                    strokes.Add(square);
+
+                }
+                if (item is LineStroke line)
+                {
+                    line.Index = i++;
+                    strokes.Add(line);
+
+                }
+                if (item is ArrowStroke arrow)
+                {
+                    arrow.Index = i++;
+                    strokes.Add(arrow);
+
+                }
+                if (item is Dim1Stroke dim1)
+                {
+                    dim1.Index = i++;
+                    strokes.Add(dim1);
+
+                }
+                if (item is Dim2Stroke dim2)
+                {
+                    dim2.Index = i++;
+                    strokes.Add(dim2);
+
+                }
+                if (item is Dim3Stroke dim3)
+                {
+                    dim3.Index = i++;
+                    strokes.Add(dim3);
+
+                }
+                if (item is Dim4Stroke dim4)
+                {
+                    dim4.Index = i++;
+                    strokes.Add(dim4);
+
+                }
+                if (item is QuadraticBezierpath quadraticBezier)
+                {
+                    quadraticBezier.Index = i++;
+                    strokes.Add(quadraticBezier);
+
+                }
+                if (item is Bezierpath bezier)
+                {
+                    bezier.Index = i++;
+                    strokes.Add(bezier);
+
+                }
+                if (item is PolygonStroke polygon)
+                {
+                    polygon.Index = i++;
+                    strokes.Add(polygon);
+
+
+                }
+
+            }
+        }
 
         public void DrawProfile()
         {
@@ -269,7 +412,7 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-
+            
             Point endP = e.GetPosition(inkCanvas);
             List<System.Windows.Point> pointList;
             StylusPointCollection point;
@@ -466,22 +609,48 @@ namespace Global.UserControls.DrawVisual
                     case 2:
                         int lineWidth2 = dimenViewModel.LineWidth;
                         int dash2 = dimenViewModel.DashSelectedIndex;
-                        stroke = InkCanvasMethod.CreateDim1Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth2,dash2);
+
+                        bool italic = dimenViewModel.Italic;
+                        bool bold = dimenViewModel.Bold;
+                        bool underline = dimenViewModel.UnderLine;
+                        int fontSize = dimenViewModel.FontSize;
+                        FontFamily font = dimenViewModel.FontFam;
+                        string labpos = dimenViewModel.LabelPos;
+                        stroke = InkCanvasMethod.CreateDim1Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth2,dash2,italic,bold,underline,fontSize,font, labpos);
                         break;
                     case 3:
                         int lineWidth3 = dimenViewModel.LineWidth;
                         int dash3 = dimenViewModel.DashSelectedIndex;
-                        stroke = InkCanvasMethod.CreateDim2Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth3, dash3);
+                        bool italic3 = dimenViewModel.Italic;
+                        bool bold3 = dimenViewModel.Bold;
+                        bool underline3 = dimenViewModel.UnderLine;
+                        int fontSize3 = dimenViewModel.FontSize;
+                        FontFamily font3 = dimenViewModel.FontFam;
+                        string labpos3 = dimenViewModel.LabelPos;
+                        stroke = InkCanvasMethod.CreateDim2Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth3, dash3, italic3, bold3, underline3, fontSize3, font3, labpos3);
                         break;
                     case 4:
                         int lineWidth4 = dimenViewModel.LineWidth;
                         int dash4 = dimenViewModel.DashSelectedIndex;
-                        stroke = InkCanvasMethod.CreateDim3Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth4,dash4);
+                        bool italic4 = dimenViewModel.Italic;
+                        bool bold4 = dimenViewModel.Bold;
+                        bool underline4 = dimenViewModel.UnderLine;
+                        int fontSize4 = dimenViewModel.FontSize;
+                        FontFamily font4 = dimenViewModel.FontFam;
+                        string labpos4 = dimenViewModel.LabelPos;
+
+                        stroke = InkCanvasMethod.CreateDim3Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth4,dash4, italic4, bold4, underline4, fontSize4, font4, labpos4);
                         break;
                     case 5:
                         int lineWidth5 = dimenViewModel.LineWidth;
                         int dash5 = dimenViewModel.DashSelectedIndex;
-                        stroke = InkCanvasMethod.CreateDim4Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth5,dash5);
+                        bool italic5 = dimenViewModel.Italic;
+                        bool bold5 = dimenViewModel.Bold;
+                        bool underline5 = dimenViewModel.UnderLine;
+                        int fontSize5 = dimenViewModel.FontSize;
+                        FontFamily font5 = dimenViewModel.FontFam;
+                        string labpos5 = dimenViewModel.LabelPos;
+                        stroke = InkCanvasMethod.CreateDim4Stroke(iniP, endP, dimenViewModel.SelectedAccentColor, ratio1, dimenViewModel.TextSelectedAccentColor, dimenViewModel.Label, lineWidth5,dash5, italic5, bold5, underline5, fontSize5, font5, labpos5);
                         break;
 
                     default:
@@ -515,8 +684,6 @@ namespace Global.UserControls.DrawVisual
                 Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
                 if (DrawInkMethod.dimenViewModel.DimSelectedIndex == 0 || DrawInkMethod.dimenViewModel.DimSelectedIndex == 1)
                     return;
-               
-               
 
             }
            
@@ -547,10 +714,34 @@ namespace Global.UserControls.DrawVisual
                     Matrix matrixMove1 = new Matrix();
                     matrixMove1.Translate(endP.X - movePoint.X, endP.Y - movePoint.Y);
                     inkCanvas.Strokes.Transform(matrixMove1, false);
-                    movePoint = endP;
+
+                   
+
+                }
+                var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+                if (isCtrlDown)
+                {
+                    foreach (InkVisual ink in InkAll)
+                    {
+
+                        if (ink != null && ink.index != this.index)
+                        {
+
+                            if (ink.ratio1.Ratio != 1)
+                            {
+
+                                Matrix matrixMove2 = new Matrix();
+                                matrixMove2.Translate(endP.X - movePoint.X, endP.Y - movePoint.Y);
+                                ink.inkCanvas.Strokes.Transform(matrixMove2, false);
+                            }
+
+                        }
+
+                    }
 
                 }
 
+                movePoint = endP;
 
             }
 
@@ -563,7 +754,8 @@ namespace Global.UserControls.DrawVisual
                     Color color = dimenViewModel.SelectedAccentColor;
                     int lineWidth = dimenViewModel.LineWidth;
                     int dash = dimenViewModel.DashSelectedIndex;
-                    stroke = InkCanvasMethod.CreateCircle(iniP, endP, color,lineWidth, dash);
+                   stroke = InkCanvasMethod.CreateCircle(iniP, endP, color,lineWidth, dash);
+                   // stroke = inkMethod.GenerateCircleStroke(iniP, endP);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -591,8 +783,6 @@ namespace Global.UserControls.DrawVisual
                    
 
                 }
-
-               
 
 
             }
@@ -715,11 +905,11 @@ namespace Global.UserControls.DrawVisual
         {
             iniP = e.GetPosition(inkCanvas);
             isMouseDown = true;
-           // inkCanvas.CaptureMouse();
+            // inkCanvas.CaptureMouse();
             Stroke stroke;
             //Stroke stroke0;
 
-           if (ToolTop.MoveChecked == true)
+            if (ToolTop.MoveChecked == true)
             {
                 StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(hold.Stream);
@@ -736,20 +926,20 @@ namespace Global.UserControls.DrawVisual
                 LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
                 movePoint = iniP;
             };
-            
+
 
             if (ToolTop.PolygonChecked == true)
             {
 
                 pointList1.Add(iniP);
-               // point1 = new StylusPointCollection(pointList1);
+                // point1 = new StylusPointCollection(pointList1);
 
                 if (pointList1.Count > 1)
                 {
                     Color color = dimenViewModel.SelectedAccentColor;
                     int lineWidth = dimenViewModel.LineWidth;
                     int dash = dimenViewModel.DashSelectedIndex;
-                    stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth,dash);
+                    stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth, dash);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -766,21 +956,21 @@ namespace Global.UserControls.DrawVisual
                 }
 
             }
-           
+
             else if (ToolTop.TextChecked)
             {
-               
+
                 if (textFlag == 2) textFlag = 0;
                 if (textFlag == 0)
                 {
 
                     TextBox textBox = new TextBox()
-                    { 
+                    {
                         FontFamily = DrawInkMethod.dimenViewModel.FontFam,
                         FontSize = DrawInkMethod.dimenViewModel.FontSize,
                         Width = 100,
                         Style = (Style)(this.FindResource("TextBoxSty")),
-                       // TextWrapping = TextWrapping.Wrap,
+                        // TextWrapping = TextWrapping.Wrap,
                         Foreground = new SolidColorBrush(DrawInkMethod.dimenViewModel.TextSelectedAccentColor)
 
                     };
@@ -799,15 +989,19 @@ namespace Global.UserControls.DrawVisual
 
 
                     inkCanvas.Children.Add(textBox);
-                    InkCanvas.SetLeft(textBox, iniP.X-3);
-                    InkCanvas.SetTop(textBox, iniP.Y-1);
+                    InkCanvas.SetLeft(textBox, iniP.X - 3);
+                    InkCanvas.SetTop(textBox, iniP.Y - 1);
                     textBox.Focus();
 
 
                     textBox.LostFocus += delegate
                     {
                         if (textBox.Text == "")
+                        {
                             inkCanvas.Children.Remove(textBox);
+                            return;
+
+                        }
                         string label = (string)textBox.Text;
                         System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
                         FontWeight fontWeight = new FontWeight();
@@ -820,11 +1014,16 @@ namespace Global.UserControls.DrawVisual
 
                         double height = text.Height;
                         double width = text.Width;
-
-                        Stroke stroke = DrawInkMethod.InkCanvasMethod.CreateTextInput(iniP, height, width, text, brush); 
-                        inkCanvas.Strokes.Add(stroke);              
+                        bool italic = DrawInkMethod.dimenViewModel.Italic;
+                        bool bold = DrawInkMethod.dimenViewModel.Bold;
+                        bool underLine = DrawInkMethod.dimenViewModel.UnderLine;
+                        int fontSize = DrawInkMethod.dimenViewModel.FontSize;
+                        FontFamily fontFamily = DrawInkMethod.dimenViewModel.FontFam;
+                        Color textColor = DrawInkMethod.dimenViewModel.TextSelectedAccentColor;
+                        Stroke stroke = DrawInkMethod.InkCanvasMethod.CreateTextInput(iniP, height, width, text, textColor, italic, bold,underLine, fontSize, fontFamily);
+                        inkCanvas.Strokes.Add(stroke);
                         inkCanvas.Children.Remove(textBox);
-                          
+
 
                     };
 
@@ -835,7 +1034,7 @@ namespace Global.UserControls.DrawVisual
             }
             else if (ToolTop.CurveChecked)
             {
-              
+
 
                 if (i == 0)
                 {
@@ -847,7 +1046,7 @@ namespace Global.UserControls.DrawVisual
                     Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
                     int lineWidth = dimenViewModel.LineWidth;
                     int dash = dimenViewModel.DashSelectedIndex;
-                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color, lineWidth,dash);
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateQuadraticBesizer(CurvePointsList, color, lineWidth, dash);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempCurveStroke);
@@ -857,13 +1056,13 @@ namespace Global.UserControls.DrawVisual
                     inkCanvas.Strokes.Add(stroke);
 
                 }
-                else if(i == 2)
+                else if (i == 2)
                 {
                     CurvePointsList.Insert(2, iniP);
                     Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
                     int lineWidth = dimenViewModel.LineWidth;
                     int dash = dimenViewModel.DashSelectedIndex;
-                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color,lineWidth,dash);
+                    stroke = DrawInkMethod.InkCanvasMethod.CreateBesizer(CurvePointsList, color, lineWidth, dash);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempCurveStroke);
@@ -877,11 +1076,9 @@ namespace Global.UserControls.DrawVisual
 
 
             }
+
+
         }
-
-
-     
-      
 
 
         private void inkCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -893,12 +1090,13 @@ namespace Global.UserControls.DrawVisual
             }
             else if ( ToolTop.ProfileChecked)
             {
+                
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
                             {
-                            {"p1x",(int)iniP.X},
-                            {"p1y",(int)iniP.Y },
-                            {"p2x",(int)end.X },
-                            {"p2y",(int)end.Y }
+                            {"p1x",(int)(iniP.X/ ActualWidth * 1280)},
+                            {"p1y",(int)(iniP.Y /ActualHeight * 960)},
+                            {"p2x",(int)(end.X / ActualWidth * 1280)},
+                            { "p2y",(int)(end.Y / ActualHeight * 960)}
 
                             };
                 LambdaControl.Trigger("PROFILE_PARAMETERS", null, parameters);
@@ -937,7 +1135,7 @@ namespace Global.UserControls.DrawVisual
                 lastTempStroke0 = null;
             };
             isMouseDown = false;
-            inkCanvas.ReleaseMouseCapture();
+           // inkCanvas.ReleaseMouseCapture();
 
             if (ToolTop.MoveChecked == true)
             {
@@ -998,11 +1196,15 @@ namespace Global.UserControls.DrawVisual
         public double GetDistance(Point point1, Point point2)
         {
             return Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) + (point1.Y - point2.Y) * (point1.Y - point2.Y));
+           
         }
 
 
-        public void drawDefaultDim(string direction,double length,Color color,double ratio)
+        public void drawDefaultDim(string direction,double length,Color color,double ratio,Color textColor)
         {
+
+            if (!DrawInkMethod.defdimenViewModel.DefDimReadOnly)
+                return;
             pathGeometry.Clear();
             double dimLength = length * ratio * R.ActualWidth / 1689.12;
             PathFigure pathFigure1 = new PathFigure() { StartPoint = new Point(5, 6) };
@@ -1013,6 +1215,12 @@ namespace Global.UserControls.DrawVisual
             pathFigure1.Segments.Add(lineSegment1);
             pathFigure1.Segments.Add(lineSegment2);
             pathGeometry.Figures.Add(pathFigure1);
+            //Brush brush = new SolidColorBrush(color);
+            //Path.Stroke = brush;
+            //Brush brush1 = new SolidColorBrush(textColor);
+            //this.dimTextL.Text = length.ToString();
+            //dimText.Foreground = brush1;
+
 
             switch (direction)
             {
@@ -1044,11 +1252,23 @@ namespace Global.UserControls.DrawVisual
                     break;
 
             }
+            inkDimViewModel.DimPos = direction;
+            inkDimViewModel.DimColor = color;
+            inkDimViewModel.DimLength = length;
+            inkDimViewModel.TextColor = textColor;
+            //this.defDimC = color;
+            //this.defDimL = length;
+            //this.deftDimP = direction;
+            //this.defDimTextC = textColor;
+
 
         }
        private async void inkCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-           if (saveTempStroke && inkCanvas.Strokes.Count > 0)
+           
+            ZoomWard = true;
+            var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+            if (saveTempStroke && inkCanvas.Strokes.Count > 0)
             {
                 tempStroke = inkCanvas.Strokes.Clone();
                 saveTempStroke = false;
@@ -1056,23 +1276,63 @@ namespace Global.UserControls.DrawVisual
             }
             Point curPoint = e.GetPosition(e.Device.Target);
             Matrix matrix = new Matrix();
-            if (e.Delta > 0 && ZoomInOut<5)
+            if (e.Delta > 0)
             {
-                matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
-               // MessageBox.Show(curPoint.ToString());
-                ZoomInOut++;
-                //marker
-                ratio1.Ratio = ratio1.Ratio * 1.2;
-                inkCanvas.Strokes.Transform(matrix, false);
-                RepaintDim();
-                double ratio = ratio1.Ratio;
-                string position = DrawInkMethod.defdimenViewModel.DimPos;
-                double length = DrawInkMethod.defdimenViewModel.Length;
-                drawDefaultDim(position, length, Colors.AliceBlue, ratio);
-                double x = curPoint.X/ActualWidth*1280;
-                double y = curPoint.Y / ActualHeight * 960;
+                if (isCtrlDown)
+                {
+                    foreach (InkVisual ink in InkAll)
+                    {
+                        if (ink != null && ink.index != this.index)
+                        {
+                            Matrix matrixE = new Matrix();
+                            double r1 = ink.ratio1.Ratio * 1.2;
+                            if (r1 >= 2.49)
+                            {
+                                matrixE.ScaleAt(2.49 * 1.2 / r1, 2.49 * 1.2 / r1, curPoint.X, curPoint.Y);
+                                ink.ratio1.Ratio = 2.49;
+                            }
+                            else
+                            {
+                                matrixE.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
+                                ink.ratio1.Ratio = r1;
+                            }
 
-                Dictionary<string, object> parameters = new Dictionary<string, object>()
+                            ink.inkCanvas.Strokes.Transform(matrixE, false);
+                            ink.drawDefaultDim(ink.inkDimViewModel.DimPos, ink.inkDimViewModel.DimLength, ink.inkDimViewModel.DimColor, ink.ratio1.Ratio, ink.inkDimViewModel.TextColor);
+
+                        }
+                    }
+
+                };
+               
+                if (ratio1.Ratio < 2.5)
+                {
+                    ratio1.Ratio = ratio1.Ratio * 1.2;
+
+                    if (ratio1.Ratio >= 2.49)
+                    {
+                        matrix.ScaleAt(2.49 * 1.2 / ratio1.Ratio, 2.49 * 1.2 / ratio1.Ratio, curPoint.X, curPoint.Y);
+                        ratio1.Ratio = 2.49;
+                    }
+                    else
+                    {
+                        matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
+                    }
+                    //  ZoomInOut++;
+                    inkCanvas.Strokes.Transform(matrix, false);
+                    if (index == DrawInkMethod.ActiveWindow)
+                    {
+                        DrawInkMethod.StrokesCollection.Clear();
+                        FilterStroke(1);
+                    }
+
+                    //  RepaintDim();
+                    double ratio = ratio1.Ratio;
+                    WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
+                    drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
+                    double x = curPoint.X / ActualWidth * 1280;
+                    double y = curPoint.Y / ActualHeight * 960;
+                    Dictionary<string, object> parameters = new Dictionary<string, object>()
                             {
                             { "event",(int)10},
                             {"x",(int)x},
@@ -1080,34 +1340,85 @@ namespace Global.UserControls.DrawVisual
                             {"flag",(int)1024 }
 
                             };
-                LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-                StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
-                inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
-                  await Task.Delay(500);
+                    LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+                    StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
+                    inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
+                    await Task.Delay(500);
 
-                if (ToolTop.MoveChecked)
+                    if (ToolTop.MoveChecked)
+                    {
+                        inkCanvas.Cursor = Cursors.Hand;
+                    }
+                    else
+                    {
+                        inkCanvas.Cursor = Cursors.Arrow;
+                    }
+
+                }
+
+
+            }
+            else if(e.Delta < 0 && ratio1.Ratio >= 1)
+            {
+                ratio1.Ratio = ratio1.Ratio / 1.2;
+
+                if (ratio1.Ratio <=1)
                 {
-                    inkCanvas.Cursor = Cursors.Hand;
+                    matrix.ScaleAt(1 / (ratio1.Ratio*1.2), 1 / (ratio1.Ratio * 1.2), curPoint.X, curPoint.Y);
+                    ratio1.Ratio = 1;
                 }
                 else
                 {
-                    inkCanvas.Cursor = Cursors.Arrow;
+                    matrix.ScaleAt(1 / 1.2, 1 / 1.2, curPoint.X, curPoint.Y);
                 }
-               
+              
+                //ZoomInOut--;
 
-            }
-            else if(e.Delta < 0 && ZoomInOut>0)
-            {
-                matrix.ScaleAt(1/1.2, 1/1.2, curPoint.X, curPoint.Y);
-                ZoomInOut--;
-                //marker
-                ratio1.Ratio = ratio1.Ratio / 1.2;
                 inkCanvas.Strokes.Transform(matrix, false);
-                RepaintDim();
+             
+                if (index == DrawInkMethod.ActiveWindow)
+                {
+                    DrawInkMethod.StrokesCollection.Clear();
+                    FilterStroke(1);
+                }
+
                 double ratio = ratio1.Ratio;
-                string position = DrawInkMethod.defdimenViewModel.DimPos;
-                double length = DrawInkMethod.defdimenViewModel.Length;
-                drawDefaultDim(position, length, Colors.AliceBlue, ratio);
+                WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
+               
+                drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
+
+                if (isCtrlDown)
+                {
+                    foreach (InkVisual ink in InkAll)
+                    {
+
+                        if (ink != null && ink.index != this.index)
+                        {
+                            Matrix matrix1 = new Matrix();
+                            double r1 = ink.ratio1.Ratio / 1.2;
+                            if (r1 <=1)
+                            {
+                                matrix1.ScaleAt(1 / (r1*1.2), 1 / (r1 * 1.2), curPoint.X, curPoint.Y);
+                                ink.ratio1.Ratio = 1;
+                            }
+                            else
+                            {
+                                matrix1.ScaleAt(1 / 1.2, 1 / 1.2, curPoint.X, curPoint.Y);
+                                ink.ratio1.Ratio = r1;
+                            }
+
+                            ink.inkCanvas.Strokes.Transform(matrix1, false);
+                            ink.drawDefaultDim(ink.inkDimViewModel.DimPos, ink.inkDimViewModel.DimLength, ink.inkDimViewModel.DimColor, ink.ratio1.Ratio, ink.inkDimViewModel.TextColor);
+
+                        }
+
+                    }
+
+                }
+
+
+
+
                 double x = curPoint.X / ActualWidth * 1280;
                 double y = curPoint.Y / ActualHeight * 960;
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -1130,26 +1441,11 @@ namespace Global.UserControls.DrawVisual
                     inkCanvas.Cursor = Cursors.Arrow;
                 }
             }
-        }
-        // delete in the future
-        private void RepaintDim()
-        {
-            if (inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-            {
-                inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-                double w = inkCanvas.ActualWidth;
-                double h = inkCanvas.ActualHeight;
-                Point iniP = new Point(w * 19 / 20, h * 19 / 20);
-                Point endP = new Point(w * 19 / 20 - w * 100 * ratio1.Ratio / 1689.12, h * 19 / 20);
-                inkMethod.Dimstroke = inkMethod.GenerateDimensionStroke0(iniP, endP);
-                inkCanvas.Strokes.Add(inkMethod.Dimstroke);       
-                inkMethod.Textstroke = DrawInkMethod.InkCanvasMethod.CreateText1(iniP, endP);
-                inkCanvas.Strokes.Add(inkMethod.Textstroke);
+            ZoomWard = false;
 
-            }
         }
-
+     
+      
 
        
         private  void MatrixTransform()
@@ -1182,9 +1478,7 @@ namespace Global.UserControls.DrawVisual
                 ratio1.actualwidth = ActualWidth;
                 MatrixTransform();
                 double ratio = ratio1.Ratio;
-                string position = DrawInkMethod.defdimenViewModel.DimPos;
-                double length = DrawInkMethod.defdimenViewModel.Length;
-                drawDefaultDim(position, length, Colors.AliceBlue, ratio);
+                drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
             }
           
 
@@ -1214,7 +1508,138 @@ namespace Global.UserControls.DrawVisual
 
         private void inkCanvas_SelectionChanged(object sender, EventArgs e)
         {
+            if (DimenPreoperty.isForwardTran)
+            {
+                DimenPreoperty.isReverseTran = false;
+                StrokeCollection strokes = inkCanvas.GetSelectedStrokes();
+                DimenPreoperty.ListView1.SelectedItems.Clear();
+                foreach (Stroke stroke in strokes)
+                {
+                    foreach (var item in DimenPreoperty.ListView1.Items)
+                    {
+                       
+                        if (stroke.Equals((Stroke)item))
+                        {   
+                            object.Equals(stroke, item);
+
+                            DimenPreoperty.ListView1.SelectedItems.Add(item);
+
+                        }
+
+                    }
+                }
+                DimenPreoperty.isReverseTran = true;
+            }
+          
+
+        }
+
+        private void inkCanvas_LayoutUpdated(object sender, EventArgs e)
+        {
+            //MessageBox.Show("layout");
+        }
+
+        private void inkCanvas_SelectionMoved(object sender, EventArgs e)
+        {
+            StrokeCollection strokes = inkCanvas.GetSelectedStrokes();
+            DrawInkMethod.StrokesCollection.Clear();
+            int i = 1;
+           
+            FilterStroke(i);
+            //FilterStroke1(1, RegisterStroke);
+            foreach (Stroke stroke in strokes)
+            {
+                foreach (var item in DimenPreoperty.ListView1.Items)
+                {
+                    if (stroke.Equals((Stroke)item))
+                    {
+                        DimenPreoperty.ListView1.SelectedItems.Add(item);
+
+                    }
+
+                }
+            }
+
+
+
+        }
+
+        private void inkCanvas_SelectionResized(object sender, EventArgs e)
+        {
+            StrokeCollection strokes = inkCanvas.GetSelectedStrokes();
+            DrawInkMethod.StrokesCollection.Clear();
+           
+            FilterStroke(1);
+            //FilterStroke1(1, RegisterStroke);
+            foreach (Stroke stroke in strokes)
+            {
+                foreach (var item in DimenPreoperty.ListView1.Items)
+                {
+                    if (stroke.Equals((Stroke)item))
+                    {
+                        DimenPreoperty.ListView1.SelectedItems.Add(item);
+
+                    }
+
+                }
+            }
+
+        }
+
+        private void inkCanvas_SelectionChanging(object sender, InkCanvasSelectionChangingEventArgs e)
+        {
+          
+
+        }
+
+        private void inkCanvas_ActiveEditingModeChanged(object sender, RoutedEventArgs e)
+        {
             
+            if(inkCanvas.EditingMode == InkCanvasEditingMode.Select)
+            {
+                this.inkCanvas.UseCustomCursor = false;
+            }
+            else
+            {
+                this.inkCanvas.UseCustomCursor = true;
+            }
+            
+        }
+
+        private void inkCanvas_EditingModeChanged(object sender, RoutedEventArgs e)
+        {
+           // MessageBox.Show("EditingModeChanged");
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowData.ExportAs("bmp");
+        }
+
+        private void inkCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+           
+        }
+       
+        private void inkCanvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DrawInkMethod.ActiveWindow != this.index)
+            {
+                DrawInkMethod.ActiveWindow = this.index;
+               DrawInkMethod.StrokesCollection.Clear();
+              FilterStroke(1);
+              FilterStroke1(1, RegisterStroke);
+                //FilterStroke1(1, RegisterStroke);
+
+
+            }
+
+        }
+
+        private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+           
+            InkAll = WindowData.GetInstance().inkVisuals;
         }
     }
 }

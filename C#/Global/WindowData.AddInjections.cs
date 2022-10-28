@@ -2,6 +2,7 @@
 using Global.UserControls.SeriesMap;
 using Lambda;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
@@ -27,8 +28,6 @@ namespace Global
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
-
-
                 InkVisual inkVisual = new InkVisual(0,image,ImageViewState.toolTop, inkMethod);
                 inkVisual.profileModel = profileModel;
 
@@ -44,19 +43,74 @@ namespace Global
                 inkVisual.SetBinding(InkVisual.HeightProperty, bindingH);
                 grid.Children.Add(inkVisual);
                 Grid.SetRow(inkVisual, 0);
-               
+              
+                //TextBox ratioTextBox = (TextBox) mainwin.FindName("ratio");
+                //Binding bindingRatio = new Binding();
+                //bindingRatio.Source = updateStatus;
+
+                //ratioTextBox.SetBinding(TextBox.TextProperty, bindingRatio);
+
+                TextBox ratioTextBox = (TextBox)mainwin.FindName("ratio");
+                //ratioTextBox.Background = Brushes.Black;
+                Binding bindingRatio = new Binding("Ratio")
+                {
+                   Mode = BindingMode.TwoWay
+                };
+                
+                bindingRatio.Source = updateStatus;
+                bindingRatio.Converter = new ValueClassTodPercentonverter();
+                ratioTextBox.SetBinding(TextBox.TextProperty, bindingRatio);
+
+
+            
+                double ReRatio = 1;
+
+                updateStatus.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName == "Ratio")
+                    {
+                      if (!DrawInkMethod.ZoomWard)
+                        {
+                            ReRatio = inkVisuals[DrawInkMethod.ActiveWindow].ratio1.Ratio;
+                            double ratio = updateStatus.Ratio / 100.0;
+                            Matrix matrix = new Matrix();
+                            double centerX = inkVisuals[0].inkCanvas.ActualWidth / 2.0;
+                            double centerY = inkVisuals[0].inkCanvas.ActualHeight / 2.0;
+
+                            //  ReRatio =1/ReRatio * ratio;
+                            matrix.ScaleAt(ratio/ReRatio, ratio/ReRatio, centerX, centerY);
+                            inkVisuals[DrawInkMethod.ActiveWindow].inkCanvas.Strokes.Transform(matrix, false);
+                            inkVisuals[DrawInkMethod.ActiveWindow].ratio1.Ratio = ratio;
+
+
+                            InkDimViewModel inkDimViewModel = new InkDimViewModel();
+                            inkDimViewModel = inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel;
+                            inkVisuals[DrawInkMethod.ActiveWindow].drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
+                            DrawInkMethod.StrokesCollection.Clear();
+                            inkVisuals[DrawInkMethod.ActiveWindow].FilterStroke(1);
+
+                        }
+                      
+
+
+
+                    }
+                };
+
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
-                    // MessageBox.Show("1111");
+                   
                     if (e.PropertyName == "FocusChecked")
                     {
                         if (ImageViewState.toolTop.FocusChecked)
                         {
-                            inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+                           
+                          
+
                         }
                         else
                         {
-                            inkVisuals[0].inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                          
                         }
 
 
@@ -70,7 +124,7 @@ namespace Global
                             inkVisual.inkCanvas.UseCustomCursor = true;
                             StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
                             inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
-                            
+
 
                         }
                         else
@@ -97,9 +151,11 @@ namespace Global
                         }
                     }
 
-                    else if ( (bool)ImageViewState.toolTop.ArrowChecked || (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
+                    else if ( (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
                     {
                         inkVisual.inkCanvas.Cursor = Cursors.Cross;
+                        // drawing Mode
+                        inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
                     }
                     else if ((bool)ImageViewState.toolTop.MoveChecked)
                     {
@@ -135,117 +191,121 @@ namespace Global
 
                 };
 
-
-                inkVisual.inkCanvas.MouseLeave += delegate (object sender, MouseEventArgs e)
+                inkVisual.inkCanvas.EditingModeChanged += (s, e) =>
                 {
-                    
+                   
+                    if (inkVisual.inkCanvas.EditingMode == InkCanvasEditingMode.Select)
+                    {
+                        foreach (var item in DrawingModeList)
+                        {
+                            if (item.IsChecked == true)
+                                item.IsChecked = false;
+                        }
+                    }
+
+
+
                 };
+
+
+
+
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
                 ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
                 ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
                 Button ScaleButton = (Button)topToolbar.Children[6];
-
+              
                 ToggleButtonZoomOut.Click += delegate
                 {
-                    if (inkVisual.ZoomInOut < 5)
+                    if (inkVisual.index == DrawInkMethod.ActiveWindow)
                     {
-                        if (inkVisual.saveTempStroke && inkVisual.inkCanvas.Strokes.Count > 0)
+                        if (inkVisual.ratio1.Ratio < 2.5)
                         {
-                            if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
+                            Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
+                            inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio * 1.2;
+                            Matrix matrix = new Matrix();
+                            if (inkVisual.ratio1.Ratio >= 2.49)
                             {
-                                inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-
+                                matrix.ScaleAt(2.49 * 1.2 / inkVisual.ratio1.Ratio, 2.49 * 1.2 / inkVisual.ratio1.Ratio, curPoint.X, curPoint.Y);
+                                inkVisual.ratio1.Ratio = 2.49;
                             }
-
-                            inkVisual.tempStroke = inkVisual.inkCanvas.Strokes.Clone();
-                            if (inkMethod.Dimstroke != null)
+                            else
                             {
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
+                                matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
                             }
+                            //  ZoomInOut++;
+                            inkVisual.inkCanvas.Strokes.Transform(matrix, false);
+                            DrawInkMethod.StrokesCollection.Clear();
+                            inkVisual.FilterStroke(1);
+                            //  RepaintDim();
+                            double ratio = inkVisual.ratio1.Ratio;
+                            WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
+                            inkVisual.drawDefaultDim(inkVisual.inkDimViewModel.DimPos, inkVisual.inkDimViewModel.DimLength, inkVisual.inkDimViewModel.DimColor, inkVisual.ratio1.Ratio, inkVisual.inkDimViewModel.TextColor);
 
-                            inkVisual.saveTempStroke = false;
-                        }
-                        Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
-
-                        Matrix matrix = new Matrix();
-                        matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
-                        inkVisual.inkCanvas.Strokes.Transform(matrix, false);
-                        inkVisual.ZoomInOut++;
-                        inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio * 1.2;
-                        
-                        string position = DrawInkMethod.defdimenViewModel.DimPos;
-                        double length = DrawInkMethod.defdimenViewModel.Length;
-                        inkVisual.drawDefaultDim(position, length, Colors.AliceBlue, inkVisual.ratio1.Ratio);
-                       
-
-                    };
+                        };
+                    }
+   
 
                 };
                 ToggleButtonZoomIn.Click += delegate
                 {
-                    if (inkVisual.ZoomInOut >0)
+                    if (inkVisual.index == DrawInkMethod.ActiveWindow)
                     {
-                        if (inkVisual.saveTempStroke && inkVisual.inkCanvas.Strokes.Count > 0)
-                        {
-                            if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                            {
-                                inkVisual.inkCanvas.Strokes.Remove(inkMethod.Dimstroke);
-                                inkVisual.inkCanvas.Strokes.Remove(inkMethod.Textstroke);
-
-                            }
-
-                            inkVisual.tempStroke = inkVisual.inkCanvas.Strokes.Clone();
-                            if (inkMethod.Dimstroke != null)
-                            {
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Dimstroke);
-                                inkVisual.inkCanvas.Strokes.Add(inkMethod.Textstroke);
-                            }
-                            inkVisual.saveTempStroke = false;
-                        }
-                        Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
-
-                        Matrix matrix = new Matrix();
-
-                        matrix.ScaleAt(1 / 1.2, 1 / 1.2, curPoint.X, curPoint.Y);
-                        inkVisual.inkCanvas.Strokes.Transform(matrix, false);
-                        inkVisual.ZoomInOut--;
-                        inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio / 1.2;
-
-                        string position = DrawInkMethod.defdimenViewModel.DimPos;
-                        double length = DrawInkMethod.defdimenViewModel.Length;
-                        inkVisual.drawDefaultDim(position, length, Colors.AliceBlue, inkVisual.ratio1.Ratio);
-
-                        
                        
-                    };
+                        if (inkVisual.ratio1.Ratio >= 1)
+                        {
+
+                            Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
+
+                            Matrix matrix = new Matrix();
+                            inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio / 1.2;
+                            if (inkVisual.ratio1.Ratio <= 1)
+                            {
+                                matrix.ScaleAt(1 / (inkVisual.ratio1.Ratio * 1.2), 1 / (inkVisual.ratio1.Ratio * 1.2), curPoint.X, curPoint.Y);
+                                inkVisual.ratio1.Ratio = 1;
+                            }
+                            else
+                            {
+                                matrix.ScaleAt(1 / 1.2, 1 / 1.2, curPoint.X, curPoint.Y);
+                            }
+
+
+                            inkVisual.inkCanvas.Strokes.Transform(matrix, false);
+                            DrawInkMethod.StrokesCollection.Clear();
+                            inkVisual.FilterStroke(1);
+                            double ratio = inkVisual.ratio1.Ratio;
+                            WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
+                            inkVisual.drawDefaultDim(inkVisual.inkDimViewModel.DimPos, inkVisual.inkDimViewModel.DimLength, inkVisual.inkDimViewModel.DimColor, inkVisual.ratio1.Ratio, inkVisual.inkDimViewModel.TextColor);
+
+                        };
+                      
+                    }
               };
                 ScaleButton.Click += delegate
                 {
                     //register markerDrawing
 
-                    if (!inkVisual.saveTempStroke)
-                    {
-                        if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                        {
-                            inkVisual.tempStroke.Add(inkMethod.Dimstroke);
-                        }
+                    //if (!inkVisual.saveTempStroke)
+                    //{
+                    //    if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
+                    //    {
+                    //        inkVisual.tempStroke.Add(inkMethod.Dimstroke);
+                    //    }
 
-                        inkVisual.inkCanvas.Strokes.Clear();
-                        if (inkVisual.tempStroke != null)
-                        {
-                            inkVisual.inkCanvas.Strokes.Add(inkVisual.tempStroke);
-                        }
-                        inkVisual.tempStroke = null;
-                        inkVisual.saveTempStroke = true;
-                        inkVisual.ZoomInOut = 0;
-                        inkVisual.ratio1.Ratio = 1;
-                      
+                    //    inkVisual.inkCanvas.Strokes.Clear();
+                    //    if (inkVisual.tempStroke != null)
+                    //    {
+                    //        inkVisual.inkCanvas.Strokes.Add(inkVisual.tempStroke);
+                    //    }
+                    //    inkVisual.tempStroke = null;
+                    //    inkVisual.saveTempStroke = true;
+                    //   // inkVisual.ZoomInOut = 0;
+                    //    inkVisual.ratio1.Ratio = 1;
 
 
-                    }
 
+                    //}
+                    WindowData.GetInstance().updateStatus.Ratio = 100;
 
                 };
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");  // multiPoint position show 
@@ -294,11 +354,45 @@ namespace Global
                             mapWindow.Close();
                         };
 
+
+
+                      
                     }
                    
 
                 };
+                DrawInkMethod.StaticPropertyChanged += delegate
+                {
+                    DrawInkMethod.ActiveInk = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkCanvas;
+                    foreach(InkVisual k in WindowData.GetInstance().inkVisuals)
+                    {
+                        if (k != null)
+                        {
+                            if (ImageViewState.toolTop.EraserChecked)
+                            {
+                                k.inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
+                            }
+                            else
+                            {
+                                k.inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                            }
 
+                         
+                        }
+                    }
+                    DrawInkMethod.defdimenViewModel.DefDimReadOnly = false;
+                    WindowData.GetInstance().updateStatus.Ratio =(int)(Math.Round( WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].ratio1.Ratio,2)*100);
+                  
+                    DrawInkMethod.defdimenViewModel.DimPos = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.DimPos;
+                    DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.DimColor;
+                    DrawInkMethod.defdimenViewModel.Length = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.DimLength;
+                    DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.TextColor;
+                    DrawInkMethod.defdimenViewModel.DefDimReadOnly = true;
+
+
+
+                    //MessageBox.Show(DrawInkMethod.ActiveWindow.ToString());
+                };
 
 
             }

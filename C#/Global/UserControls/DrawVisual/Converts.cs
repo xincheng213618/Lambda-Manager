@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -21,6 +22,73 @@ namespace Global
         }
     }
 
+    public class ValueClassTodPercentonverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((int)value >=100 && (int)value <=249)
+            {
+                return value.ToString() + "%";
+            }
+            else if ((int)value >249)
+            {
+                return  "249%";
+            }
+            else
+            {
+                return "100%";
+            }
+         
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //return int.Parse((string)value);
+            if (value != null)
+            {
+                string percent = (string)value;
+
+                double number = int.Parse(percent.Replace("%", ""));
+                if (number>100&& number<=249)
+                return number;
+                else if (number>249)
+                {
+                    return 249;
+                }
+                else
+                {
+                    return 100;
+                }
+            }
+            else
+            {
+                return 100;
+            }
+          
+        }
+    }
+
+
+    public class EditModeToCursorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+           if (value is InkCanvasEditingMode.Select)
+            {
+                return true;
+            }
+            else
+            {
+               return false;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+
+        }
+    }
     public class ColorToSolidColorBrushConverter : IValueConverter
     {
         #region IValueConverter Members

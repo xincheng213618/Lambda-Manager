@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="ConfigObjective.UserControls.SlideMap"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigObjective.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="200">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=Tag}" Value="0">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Name="default">
+                            <Storyboard RepeatBehavior="Forever">
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Background.Color">
+                                    <EasingColorKeyFrame KeyTime="0" Value="blue"></EasingColorKeyFrame>
+                                    <EasingColorKeyFrame KeyTime="0:0:0.5" Value="Orange"></EasingColorKeyFrame>
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="default" />
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=Tag}" Value="1">
+                    <Setter Property="Background"
+                        Value="Red"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=Tag}" Value="2">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Name="Shine">
+                            <Storyboard RepeatBehavior="Forever">
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Background.Color">
+                                    <EasingColorKeyFrame KeyTime="0" Value="white"></EasingColorKeyFrame>
+                                    <EasingColorKeyFrame KeyTime="0:0:0.5" Value="orange"></EasingColorKeyFrame>
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="Shine" />
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Canvas  x:Name="canvas" Background="Transparent">
+            <local:DrawCanvas SnapsToDevicePixels="True" Stretch="UniformToFill" Source="/ConfigObjective;component/UserControls/Image/cell.png"  Width="200" Height="200" Opacity="1" x:Name="mapCanvas" MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown" MouseMove="mapCanvas_MouseMove" MouseLeftButtonUp="mapCanvas_MouseLeftButtonUp" MouseRightButtonDown="mapCanvas_MouseRightButtonDown" MouseRightButtonUp="mapCanvas_MouseRightButtonUp"> </local:DrawCanvas>
+        </Canvas>
+        <Label   Width="8" Height="6" Background="White" Opacity="1" Tag="2" x:Name="moveButton" Canvas.Left="{Binding StageX}"  Canvas.Top="{Binding StageY}"  MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown"  MouseLeftButtonUp="mapCanvas_MouseLeftButtonUp" MouseRightButtonDown="mapCanvas_MouseRightButtonDown" MouseRightButtonUp="mapCanvas_MouseRightButtonUp" ></Label>
+        
+        <Path Stroke="white" StrokeThickness="1" StrokeDashArray="5">
+            <Path.Data>
+                <PathGeometry Figures="M 2 100 200 100"/>
+            </Path.Data>
+        </Path>
+
+        <Path Stroke="white" StrokeThickness="1" StrokeDashArray="5">
+            <Path.Data>
+                <PathGeometry Figures="M  100 2  100 200"/>
+            </Path.Data>
+        </Path>
+
+
+    </Grid>
+</UserControl>

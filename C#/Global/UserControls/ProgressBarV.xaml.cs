@@ -17,40 +17,41 @@ using System.Windows.Shapes;
 namespace Global.UserControls
 {
     /// <summary>
-    /// ProgressBar.xaml 的交互逻辑
+    /// ProgressBarV.xaml 的交互逻辑
     /// </summary>
-    public partial class ProgressBar1 : UserControl
+    public partial class ProgressBarV : UserControl
     {
-        public ProgressBar1()
+        public ProgressBarV()
         {
             InitializeComponent();
-           // (this.Content as FrameworkElement).DataContext = new ProgressBarModel();
-            
         }
-        int before=0;
+        //private void Slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        //{
+        //    LambdaControl.Trigger("TRIGGER_PROGRESSBAR_Z", this, new Dictionary<string, object> { { "CurrentZ", (int)Math.Floor(SliderV.LowerValue) } });
+        //}
+        int before = 0;
         bool isActive = false;
         private void RangeSlider_LowerValueChanged(object sender, RoutedEventArgs e)
         {
-            int current = (int)Math.Floor(pro.LowerValue);
+            int current = (int)Math.Floor(SliderV.LowerValue);
             int value = Math.Abs(before - current);
-            if (value > 0& isActive)
+            if (value > 0 & isActive)
             {
-                LambdaControl.Trigger("TRIGGER_PROGRESSBAR", this, new Dictionary<string, object> { { "Current", (int)Math.Floor(pro.LowerValue) } });
+                LambdaControl.Trigger("TRIGGER_PROGRESSBAR_Z", this, new Dictionary<string, object> { { "CurrentZ", (int)Math.Floor(SliderV.LowerValue) } });
             }
-            before = (int)Math.Floor(pro.LowerValue);
+            before = (int)Math.Floor(SliderV.LowerValue);
         }
 
         private void P1_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             isActive = false;
-          //  LambdaControl.Trigger("TRIGGER_PROGRESSBAR", this, new Dictionary<string, object> { { "Current", (int)Math.Floor(pro.LowerValue) } });
+           // LambdaControl.Trigger("TRIGGER_PROGRESSBAR", this, new Dictionary<string, object> { { "Current", (int)Math.Floor(pro.LowerValue) } });
         }
 
         private void drag_start(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
             isActive = true;
         }
-
 
     }
 }

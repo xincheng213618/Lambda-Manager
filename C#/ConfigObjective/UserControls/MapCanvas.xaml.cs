@@ -110,6 +110,8 @@ namespace ConfigObjective.UserControls
                     int size = (int)eventData["size"];
 
                     IntPtr intPtr = (IntPtr)eventData["data"];
+                    //byte[] aaa = new byte[size];
+                    //Marshal.Copy(intPtr, aaa, 0, size);
 
                     if (mapCanvas.Source is WriteableBitmap writeableBitmap1)
                     {

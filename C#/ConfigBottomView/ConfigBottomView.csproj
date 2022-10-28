@@ -7,11 +7,16 @@
     <Platforms>AnyCPU;x64</Platforms>
 	<UseWindowsForms>True</UseWindowsForms>
 	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\Histogram.jpg" />
     <None Remove="Resources\hold.cur" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,5 +37,6 @@
     <Resource Include="Resources\Histogram.jpg" />
     <Resource Include="Resources\hold.cur" />
   </ItemGroup>
+
 
 </Project>

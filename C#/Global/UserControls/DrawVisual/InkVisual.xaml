@@ -5,11 +5,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:draw="clr-namespace:Global"
+             xmlns:rmenuitem="clr-namespace:Global.Common.Controls;assembly=Global.Common"
              xmlns:local="clr-namespace:Global.UserControls.DrawVisual"
+            
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Name="R" SizeChanged="inkCanvas_SizeChanged"  >
     <UserControl.Resources>
         <draw:ColorToSolidColorBrushConverter x:Key="colorBrush"></draw:ColorToSolidColorBrushConverter>
+        <draw:EditModeToCursorConverter x:Key="CustomCursor"></draw:EditModeToCursorConverter>
         <Style x:Key="TextBoxSty"  TargetType="{x:Type TextBox}" >
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
@@ -64,19 +67,42 @@
         </Style>
         
     </UserControl.Resources>
-    
-    
-    
-    <Grid>
-        <InkCanvas
-            EditingMode="None" UseCustomCursor="True" Background="Transparent" x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave" MouseRightButtonDown="inkCanvas_MouseRightButtonDown" SelectionChanged="inkCanvas_SelectionChanged" >
 
-            <Canvas Width="auto" x:Name="defaultDim" Height="auto"  InkCanvas.Left="20" InkCanvas.Top="20" Visibility="Visible" >
-                <TextBlock Name="dimText"   Foreground="{Binding TextSelectedAccentColor,Converter={StaticResource colorBrush}}" Canvas.Left="15" Canvas.Top="0">
-                                     <Run Text="{Binding Length,StringFormat='F0'}"/>
+
+
+    <Grid>
+        <!--<Canvas Background="Black" Name="backCanvas"  Width="{Binding ElementName=inkCanvas,Path=ActualWidth}"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" Visibility="Hidden"></Canvas>-->
+        <InkCanvas
+            EditingMode="None"    Background="Transparent"  x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave" MouseRightButtonDown="inkCanvas_MouseRightButtonDown" SelectionChanged="inkCanvas_SelectionChanged" LayoutUpdated="inkCanvas_LayoutUpdated" SelectionMoved="inkCanvas_SelectionMoved" SelectionResized="inkCanvas_SelectionResized" SelectionChanging="inkCanvas_SelectionChanging" ActiveEditingModeChanged="inkCanvas_ActiveEditingModeChanged" EditingModeChanged="inkCanvas_EditingModeChanged" MouseDown="inkCanvas_MouseDown" PreviewMouseDown="inkCanvas_PreviewMouseDown" Loaded="inkCanvas_Loaded" >
+            <InkCanvas.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="切换成像模式">
+                        <rmenuitem:RadioMenuItem    Header="明场"></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="暗场"></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="莱茵伯格"></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="差分"></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="相位"></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="相差"></rmenuitem:RadioMenuItem>
+                    </MenuItem>
+                    <MenuItem Header="导出(_E)" FontSize="14">
+                        <MenuItem Header="导出Tiff..."  FontSize="14"  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"   />
+                        <MenuItem Header="导出JPEG..."  FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  Click="MenuItem_Click" />
+                        <MenuItem Header="导出QuickTime..." FontSize="14"  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  />
+                        <MenuItem Header="导出AVL..." FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                        <MenuItem Header="导出MPEG-4..." FontSize="14"  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                        <MenuItem Header="导出WMV..."  FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                        <MenuItem Header="导出DICOM..."  FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
+                    </MenuItem>
+
+                    <!--<MenuItem Header="导出BMP..." ></MenuItem>-->
+                </ContextMenu>
+            </InkCanvas.ContextMenu>
+            <Canvas Width="auto" x:Name="defaultDim" Height="auto"  InkCanvas.Left="20" InkCanvas.Top="20" Visibility="Visible" Background="Transparent">
+                <TextBlock Name="dimText"   Foreground="{Binding TextColor,Converter={StaticResource colorBrush}}" Canvas.Left="15" Canvas.Top="0">
+                                     <Run Text="{Binding DimLength,StringFormat='F0'}"/>
                                      <Run Text="μm"/>
                     </TextBlock>
-                <Path Stroke="{Binding SelectedAccentColor,Converter={StaticResource colorBrush}}"  StrokeThickness="2" Canvas.Left="0" Canvas.Top="5" >
+                <Path Stroke="{Binding DimColor,Converter={StaticResource colorBrush}}"  StrokeThickness="2" Canvas.Left="0" Canvas.Top="5" >
                     <Path.Data >
                         <PathGeometry x:Name="pathGeometry" >
                             <PathFigure x:Name="pathFigure" StartPoint="5,6">

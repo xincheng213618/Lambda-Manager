@@ -18,40 +18,52 @@ namespace Global.Common.Controls
         {
             if (IsChecked)
             {
-                if (this.Parent is ContextMenu contextMenu)
+                if (this.Parent is ContextMenu contextMenu )
                 {
-                    if (contextMenu.Tag is RadioMenuItem MenuItem)
-                    {
-                        if (MenuItem == this)
-                        {
-                            contextMenu.Tag = null;
-                        }
-
-                    }
+                    TClick(contextMenu);
+                };
+                if (this.Parent is MenuItem menuItem)
+                {
+                    TClick(menuItem);
                 }
             }
             IsChecked = !IsChecked;
         }
 
+
+
         private void RadioChecked(object sender, RoutedEventArgs e)
         {
             if (this.Parent is ContextMenu contextMenu)
             {
-                if (contextMenu.Tag is RadioMenuItem MenuItem)
-                {
-
-                    MenuItem.IsChecked = false;
-                }
-                contextMenu.Tag = this;
-
+                TChecked(contextMenu);
             }
             if (this.Parent is Menu menu)
             {
-                if (menu.Tag is RadioMenuItem MenuItem)
+                TChecked(menu);
+            }
+            if (this.Parent is MenuItem menuItem)
+            {
+                TChecked(menuItem);
+            }
+        }
+        public void TChecked<T>(T ParentObject) where T : Control
+        {
+            if (ParentObject.Tag is RadioMenuItem MenuItem)
+            {
+                MenuItem.IsChecked = false;
+            }
+            ParentObject.Tag = this;
+        }
+        public void TClick<T>(T ParentObject) where T : Control
+        {
+            if (ParentObject.Tag is RadioMenuItem MenuItem)
+            {
+                if (MenuItem == this)
                 {
-                    MenuItem.IsChecked = false;
+                    ParentObject.Tag = null;
                 }
-                menu.Tag = this;
+
             }
         }
     }

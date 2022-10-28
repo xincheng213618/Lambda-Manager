@@ -23,11 +23,11 @@ namespace Solution
         //拍照时间
         public bool PhotoTime { get; set; }
 
-        public bool Dimension{ get; set; }
+        public bool Dimension { get; set; }
 
         public bool Ruler { get; set; }
 
-        public List<string>  Mode { get; set; }
+        public List<string> Mode { get; set; }
 
 
         public string ToJson()
@@ -38,7 +38,7 @@ namespace Solution
                 mode.Append(item);
                 mode.Append(',');
             }
-            return $"{{\"FullName\":\"{FullName.Replace("\\", "\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")},\"Mode\":\"{mode.ToString().Replace("\\", "\\\\")}\"}}";
+            return $"{{\"FullName\":\"{FullName.Replace("\\", "\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\",\"Mode\":\"{mode.ToString().Replace("\\", "\\\\")}\"}}";
         }
     }
 

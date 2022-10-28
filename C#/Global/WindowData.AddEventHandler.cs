@@ -13,6 +13,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using ConfigBottomView;
+using System.Runtime.InteropServices;
+using System.IO;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Drawing.Imaging;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using Microsoft.Win32;
+using System.Text;
 
 namespace Global
 {
@@ -27,7 +37,7 @@ namespace Global
 
             LambdaControl.AddLambdaEventHandler("UPDATE_STATUS1", OnUpdateStatus, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
-            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StageIniClosed, false);
+            LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
 
             LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
 
@@ -43,7 +53,8 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("MUL_TIME_INTERVAL", Mul_TInterval, false);
 
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
-            
+            LambdaControl.AddLambdaEventHandler("SNAPSHOT", Snapshot, false);
+
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
@@ -60,12 +71,16 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UPDATE_AUTO_CAMERA", UpdateAutoCameraSetting, false);
             // multiPointsReback
             LambdaControl.AddLambdaEventHandler("MULTI_COLLECTION_POINT", MultiCollectionP, false);
-
-           
+            //multiCurrentP
+            LambdaControl.AddLambdaEventHandler("MULTI_CURRENT_POINT", MultiCollectionCurrentP, false);
+            // ProfilePointsReback
+            LambdaControl.AddLambdaEventHandler("PROFILE_COLLECTION_POINT",ProfileCollectionP, false);
+            LambdaControl.AddLambdaEventHandler("PROFILE_COLLECTION_POINT1", ReProfileCollectionP, false);
+          
 
         }
 
-        private bool StageIniClosed(object sender, EventArgs e)
+        private bool StaheIniClose(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -78,32 +93,87 @@ namespace Global
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count>1&& stageAcquisition.Children[1] is DockPanel dockPanel &&
-                dockPanel.Children.Count>1 && dockPanel.Children[1] is StackPanel stackPanel && stackPanel.Children.Count > 0 && stackPanel.Children[0] is ToggleButton toggleButton)
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
                 {
-                    toggleButton.IsChecked = false;
-                    toggleButton.Content = "开始采集";
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)stackPanel.Children[0];
+
+                        if (toggleButton != null && toggleButton.IsChecked == true)
+                        {
+                            toggleButton.IsChecked = false;
+                            toggleButton.Content = "开始采集";
+                        }
+                    }
+
                 }
+
                 ACQUIRE = false;
+
             });
             return true;
         }
+
+       
+
+
 
         private bool seriesProjectManager(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-
-                if (Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition && stageAcquisition.Children.Count > 1 && stageAcquisition.Children[1] is DockPanel dockPanel &&
-                dockPanel.Children.Count > 0 && dockPanel.Children[0] is  ToggleButton toggleButton)
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
                 {
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
+                        if (toggleButton != null && toggleButton.IsChecked == true)
+                        {
                             toggleButton.IsChecked = false;
                             toggleButton.Content = "预览";
+                            EventArgs eventArgs = new EventArgs();
                         }
+                    }
+                }
+
+                PlayerEnable();
+
+
+
             });
+
             return true;
+
+        }
+       
+
+
+            private  void PlayerEnable()
+        {
+            updateStatus.StartEnable = true;
+            updateStatus.StopEnable = true;
+            updateStatus.ForwardEnbale = true;
+            updateStatus.BackwardEnbale = true;
         }
 
+
+
+
+
+        private void PlayerDisable()
+        {
+            updateStatus.StartEnable = false;
+            updateStatus.StopEnable = false;
+            updateStatus.ForwardEnbale = false;
+            updateStatus.BackwardEnbale = false;
+        }
 
         public bool IsSelectImageView = true;
         public int SelectImageView = -1;
@@ -130,13 +200,17 @@ namespace Global
         }
 
 
-
+        // START ALIVE
         private bool STOP_ALIVE(object sender, EventArgs e)
         {
             updateStatus.FpsEnable = true;
             histogramModel.MoveEnable = true;
             ALIVE = false;
+            PlayerDisable();
             return true;
+          
+
+
         }
         private bool Mul_ZStep(object sender, EventArgs e)
         {
@@ -232,14 +306,74 @@ namespace Global
             return true;
             
         }
-
+        // start acquire
         private bool STOP_ACQUIRE(object sender, EventArgs e)
         {
             ACQUIRE = true;
+            // SaveToPng(inkVisuals[0], "C:\\1\\File.PNG");
+            PlayerDisable();
             return true;
 
         }
+        private bool Snapshot(object sender, EventArgs e)
+        {
+          
+            SaveToPng(inkVisuals[0]);
+
+            return true;
+
+        }
+
+
+        private async void SaveToPng(FrameworkElement visual)
+        {
+            //inkVisuals[0].backCanvas.Visibility = Visibility.Visible;
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(visual);
+            BitmapFrame frame = BitmapFrame.Create(bitmap);    
+            encoder.Frames.Add(frame);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                encoder.Save(stream);
+                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
+                System.Drawing.Image sbmpthum = image.GetThumbnailImage(1280, 960, () => { return false; }, IntPtr.Zero);
+                MemoryStream ms = new MemoryStream();
+                sbmpthum.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                byte[] bytes = BitmpToByte((Bitmap)sbmpthum);
+                LambdaControl.Trigger("INKDATA_TRANSFER", this, bytes);
+            }
+            
+            //inkVisuals[0].backCanvas.Visibility = Visibility.Hidden;
+
+        }
        
+
+        private byte[] BitmpToByte(System.Drawing.Bitmap bmp)
+        {
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
+            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
+            int ch = System.Drawing.Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
+            int rowBytes = bmpData.Width * ch;
+            int imgBytes = bmp.Height * rowBytes;
+            byte[] rgbValues = new byte[imgBytes];
+            IntPtr ptr = bmpData.Scan0;
+            for (int j = 0; j < bmp.Height; j++)
+            {
+                Marshal.Copy(ptr, rgbValues, j * rowBytes, rowBytes);   //对齐
+                ptr += bmpData.Stride; // next row
+            }
+            bmp.UnlockBits(bmpData);
+            //string result = Encoding.UTF8.GetString(rgbValues);
+            //string path = "C://Users//15850//Desktop//RGB.txt";
+            //File.WriteAllText(path, result);
+            return rgbValues;
+           
+        }
+
+       
+
+
         private bool START_ACQUIRE(object sender, EventArgs e)
         {
             ACQUIRE = false;
@@ -262,6 +396,7 @@ namespace Global
 
         public HistogramModel histogramModel = new HistogramModel();
         public ProfileModel profileModel = new ProfileModel();
+        public ProfileChart profile = new ProfileChart();
         public ProgressBarModel progressBarModel = new ProgressBarModel();
        // MapWindow mapWindow = new MapWindow();
 
@@ -272,24 +407,31 @@ namespace Global
           
             if (eventData == null)
                 return false;
+            Application.Current.Dispatcher.Invoke(delegate
+            {
 
-            if (!string.IsNullOrEmpty(eventData.GetString("Min")))
-                progressBarModel.MiniMum = double.Parse(eventData.GetString("Min"));
-            if (!string.IsNullOrEmpty(eventData.GetString("Max")))
-                progressBarModel.MaxMum = double.Parse(eventData.GetString("Max"));
-            if (!string.IsNullOrEmpty(eventData.GetString("Current")))
-                progressBarModel.Current = double.Parse(eventData.GetString("Current"));
-            if (!string.IsNullOrEmpty(eventData.GetString("LoadingMax")))
-                progressBarModel.LoadingMax = double.Parse(eventData.GetString("LoadingMax"));
-            if (!string.IsNullOrEmpty(eventData.GetString("MinZ")))
-                progressBarModel.MiniMumZ = double.Parse(eventData.GetString("MinZ"));
-            if (!string.IsNullOrEmpty(eventData.GetString("MaxZ")))
-                progressBarModel.MaxMumZ = double.Parse(eventData.GetString("MaxZ"));
-            if (!string.IsNullOrEmpty(eventData.GetString("CurrentZ")))
-                progressBarModel.CurrentZ = double.Parse(eventData.GetString("CurrentZ"));
-            if (!string.IsNullOrEmpty(eventData.GetString("LoadingMaxZ")))
-                progressBarModel.LoadingMaxZ = double.Parse(eventData.GetString("LoadingMaxZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("Min")))
+                    progressBarModel.MiniMum = double.Parse(eventData.GetString("Min"));
+                if (!string.IsNullOrEmpty(eventData.GetString("Max")))
+                    progressBarModel.MaxMum = double.Parse(eventData.GetString("Max"));
+                if (!string.IsNullOrEmpty(eventData.GetString("Current")))
+                    progressBarModel.Current = double.Parse(eventData.GetString("Current"));
+                if (!string.IsNullOrEmpty(eventData.GetString("LoadingMax")))
+                    progressBarModel.LoadingMax = double.Parse(eventData.GetString("LoadingMax"));
+                if (!string.IsNullOrEmpty(eventData.GetString("MinZ")))
+                    progressBarModel.MiniMumZ = double.Parse(eventData.GetString("MinZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("MaxZ")))
+                    progressBarModel.MaxMumZ = double.Parse(eventData.GetString("MaxZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("CurrentZ")))
+                    progressBarModel.CurrentZ = double.Parse(eventData.GetString("CurrentZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("LoadingMaxZ")))
+                    progressBarModel.LoadingMaxZ = double.Parse(eventData.GetString("LoadingMaxZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("SliderValueH")))
+                    progressBarModel.SliderValueH = double.Parse(eventData.GetString("SliderValueH"));
+                if (!string.IsNullOrEmpty(eventData.GetString("SliderValueV")))
+                    progressBarModel.SliderValueV = double.Parse(eventData.GetString("SliderValueV"));
 
+            });
 
             return true;
         }
@@ -298,41 +440,45 @@ namespace Global
 
         private bool UpdateAutoCameraSetting(object sender, EventArgs e)
         {
-
+           
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             int Mode;
             if (eventData == null)
                 return false;
             // Mode = eventData.GetString("mode");
             Mode = OperatingMode.SelectViewMode;
-
-
-            switch (Mode)
+            if (!string.IsNullOrEmpty(eventData.GetString("exposure")))
             {
-                
-                case 0: 
-                   
-                    OperatingMode.BrightField.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")),1);
-
-                    break;
-                case 1:
-                    OperatingMode.DarkField.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
-                    break;
-                case 3:
-                    OperatingMode.ReliefContrast.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
-                    break;
-
-                case 5:
-                    OperatingMode.PhaseContrast.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
-                    break;
-                case 4:
-                    OperatingMode.QuantitativePhase.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
-                    break;
-                case 2:
-                    OperatingMode.Reinberg.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
-                    break;
-
+                double esposure = Math.Round(double.Parse(eventData.GetString("exposure")), 3);
+                WindowData.GetInstance().ExposureViewMode.SetValue(esposure);
             }
+           if (!string.IsNullOrEmpty(eventData.GetString("Gain")))
+            {
+                switch (Mode)
+                {
+
+                    case 0:
+                        OperatingMode.BrightField.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
+                        break;
+                    case 1:
+                        OperatingMode.DarkField.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
+                        break;
+                    case 3:
+                        OperatingMode.ReliefContrast.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
+                        break;
+                    case 5:
+                        OperatingMode.PhaseContrast.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
+                        break;
+                    case 4:
+                        OperatingMode.QuantitativePhase.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
+                        break;
+                    case 2:
+                        OperatingMode.Reinberg.CameraSetting.Gain = Math.Round(double.Parse(eventData.GetString("Gain")), 1);
+                        break;
+
+                }
+            }
+           
 
             return true;
         }
@@ -344,15 +490,31 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
+           
 
+                if (!string.IsNullOrEmpty(eventData.GetString("Max")))
+            {
+                histogramModel.Max = eventData.GetString("Max");
+                histogramModel.HalfMax = int.Parse(eventData.GetString("Max")) / 2;
 
-            histogramModel.Max = eventData.GetString("Max");
-            histogramModel.HalfMax = int.Parse(eventData.GetString("Max")) / 2;
-            histogramModel.Min = eventData.GetString("Min");
-            histogramModel.Mean = eventData.GetString("Mean");
-            histogramModel.Variance = eventData.GetString("Variance");
-            //histogramModel.Gamma= eventData.GetString("Gamma");
-            histogramModel.Outlier = eventData.GetString("Outlier");
+            }
+            if (!string.IsNullOrEmpty(eventData.GetString("Min")))
+            {
+                histogramModel.Min = eventData.GetString("Min");
+            }
+            if (!string.IsNullOrEmpty(eventData.GetString("Mean")))
+            {
+                histogramModel.Mean = eventData.GetString("Mean");
+            }
+            if (!string.IsNullOrEmpty(eventData.GetString("Variance")))
+            {
+                histogramModel.Variance = eventData.GetString("Variance");
+            }
+            if (!string.IsNullOrEmpty(eventData.GetString("Outlier")))
+            {
+                histogramModel.Outlier= eventData.GetString("Outlier");
+            }
+           
 
             //other mode
             if (!string.IsNullOrEmpty(eventData.GetString("RangeMin")))
@@ -369,13 +531,17 @@ namespace Global
             if (!string.IsNullOrEmpty(eventData.GetString("RangeMinP")))
                 {
                 int rangeMinP = int.Parse(eventData.GetString("RangeMinP"));
-                histogramModel.RangeMinP = (double)(rangeMinP - 127);
+               
+                
+                
+                histogramModel.RangeMinP = ((rangeMinP - 255)/255.0)*(2* histogramModel.XAxisMaxP)+ histogramModel.XAxisMaxP;
+              
                }
             if (!string.IsNullOrEmpty(eventData.GetString("RangeMaxP")))
             {
                 int rangeMaxP = int.Parse(eventData.GetString("RangeMaxP"));
 
-                histogramModel.RangeMaxP = (double)(rangeMaxP - 128);
+                histogramModel.RangeMaxP = (double)((rangeMaxP - 255) / 255.0 * 2 * histogramModel.XAxisMaxP +  histogramModel.XAxisMaxP); ;
             }
                
            
@@ -421,11 +587,60 @@ namespace Global
             public List<List<int>> Points { get; set; } = new List<List<int>>();
         }
 
+ 
+        private bool ProfileCollectionP(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                int size = (int)eventData["size"];
+
+                IntPtr intPtr = (IntPtr)eventData["data"];
+                double[] points = new double[size];
+                Marshal.Copy(intPtr, points, 0, size);
+               // MessageBox.Show(points.Length.ToString());
+                profile.ReadPointsArry(points);
+            });
+            return true;
+
+           
+
+        }
+
+        private bool ReProfileCollectionP(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                int size = (int)eventData["size"];
+
+                IntPtr intPtr = (IntPtr)eventData["data"];
+                double[] points = new double[size];
+                Marshal.Copy(intPtr, points, 0, size);
+                // MessageBox.Show(points.Length.ToString());
+                profile.RefreshPointsArry(points);
+            });
+            return true;
+
+           
+
+        }
+
+
+
+
         private bool MultiCollectionP(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
+            MapWindow.ReverseTrans = true;
             Application.Current.Dispatcher.Invoke(delegate
             {
                 string multiCollectJson = eventData.GetString("MultiCollectionP");
@@ -433,19 +648,21 @@ namespace Global
                 {
                     MultiPoints testMean = JsonSerializer.Deserialize<MultiPoints>(multiCollectJson);
                     List<List<int>> points = testMean.Points;
-                   // MessageBox.Show(points.Count.ToString());
+                    // MessageBox.Show(points.Count.ToString());
+                    if (MapWindow.ListViewP!=null)
+                    { MapWindow.ListViewP.SelectedItem = null; }
+                   
                     MapWindow.SeriesPoints.Clear();
+                    
                    // List<Point> points2 = new List<Point>();
                     foreach (var point in points)
                     {
-                        Point point1 = new Point { X = point[0], Y = point[1] };
+                        System.Windows.Point point1 = new System.Windows.Point { X = point[0], Y = point[1] };
 
                         int x = (int)Math.Floor(point1.X / 8);
                         int y = (int)Math.Floor(point1.Y / 6);
 
-                        Point selectedPoint = new Point(x * 8, y * 6);
-
-
+                        System.Windows.Point selectedPoint = new System.Windows.Point(x * 8, y * 6);
                         MapWindow.SeriesPoints.Add(selectedPoint);
                     }
                    // MessageBox.Show(MapWindow.SeriesPoints.Count.ToString());
@@ -454,30 +671,62 @@ namespace Global
                         if (w is MapWindow  mapWindow)
                         {
 
+
                             mapWindow.MapUpdate();
                         }
                     
                     }
-                    
+                    MapWindow.ReverseTrans = false;
+
                 };
             });
-
-
 
             return true;
         }
 
+
+
+
+        private bool MultiCollectionCurrentP(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            MapWindow.ReverseTrans = true;
+            // MessageBox.Show(eventData.Count.ToString());
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                   
+                   System.Windows.Point point1 = new System.Windows.Point() {X= 0,Y=0};
+                if (!string.IsNullOrEmpty(eventData.GetString("CurrentPX")))
+                {
+                    point1.X = int.Parse(eventData.GetString("CurrentPX"));
+                   // MessageBox.Show(point1.X.ToString());
+                   }
+                if (!string.IsNullOrEmpty(eventData.GetString("CurrentPY")))
+                {
+                    point1.Y = int.Parse(eventData.GetString("CurrentPY"));
+                  //  MessageBox.Show(point1.Y.ToString());
+                }
+                if(MapWindow.ListViewP != null)
+                {
+                    MapWindow.ReverseTransCurrentP(point1);
+                }
+                MapWindow.ReverseTrans = false;
+            });
+          
+            return true;
+        }
+
+
+
+
+
+
        
 
-
-
-
-
-
-
-
-
-        public UpdateStatus updateStatus = new();
+        public  UpdateStatus updateStatus = new();
+        
 
         private bool OnUpdateStatus(object sender, EventArgs e)
         {
@@ -512,11 +761,46 @@ namespace Global
                 {
                     updateStatus.PCToggEnable = bool.Parse(eventData.GetString("PC"));
                 }
+                if (!string.IsNullOrEmpty(eventData.GetString("BF")))
+                {
+                    updateStatus.BFToggEnable = bool.Parse(eventData.GetString("BF"));
+                }
+                // isChecked 
+                if (!string.IsNullOrEmpty(eventData.GetString("BFC")))
+                {
+                    updateStatus.BFCheckEnable = bool.Parse(eventData.GetString("BFC"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("DFC")))
+                {
+                    updateStatus.DFCheckEnable = bool.Parse(eventData.GetString("DFC"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("RIC")))
+                {
+                    updateStatus.RICheckEnable = bool.Parse(eventData.GetString("RIC"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("DPC")))
+                {
+                    updateStatus.DPCheckEnable = bool.Parse(eventData.GetString("DPC"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("QPC")))
+                {
+                    updateStatus.QPCheckEnable = bool.Parse(eventData.GetString("QPC"));
+                }
+                if (!string.IsNullOrEmpty(eventData.GetString("PCC")))
+                {
+                    updateStatus.PCCheckEnable = bool.Parse(eventData.GetString("PCC"));
+                }
+
+
+
+
+
                 //MessageBox.Show("1111");
 
                 updateStatus.ImageX = eventData.GetString("x");
                 updateStatus.ImageY = eventData.GetString("y");
                 updateStatus.ImageZ = eventData.GetString("z");
+
 
                 updateStatus.ImageSize = eventData.GetString("size");
                 updateStatus.imageFocus = eventData.GetString("focus");
@@ -557,7 +841,7 @@ namespace Global
                 updateStatus.ZTop = eventData.GetString("zTop");
                 updateStatus.ZCurrent = eventData.GetString("zCurrent");
                 updateStatus.ZBottom = eventData.GetString("zBottom");
-                updateStatus.Ratio = eventData.GetString("ratio");
+               // updateStatus.Ratio = eventData.GetString("ratio");
                 updateStatus.FpsState = eventData.GetString("fps"); 
                 //OperatingMode.BrightField.CameraSetting.Gain = 1;
 
@@ -571,6 +855,52 @@ namespace Global
 
             return true;
         }
+
+        public static void ExportAs(string kinds)
+        {
+            string Filter;
+            switch (kinds)
+            {
+                case "png":
+                    Filter = "(*.png) | *.png";
+                    break;
+                case "jpeg":
+                    Filter = "(*.jpeg) | *.jpeg";
+                    break;
+                case "tiff":
+                    Filter = "(*.tiff) | *.tiff";
+                    break;
+                case "bmp":
+                    Filter = "(*.bmp) | *.bmp";
+                    break;
+                default:
+                    return;
+            }
+            SaveFileDialog dialog = new()
+            {
+                Title = "另存为",
+                RestoreDirectory = true,
+                Filter = Filter,
+            };
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                ImageExportAs imageExportAs = new ImageExportAs() {ExportFullName = dialog.FileName, Kinds = kinds };
+                LambdaControl.Trigger("IMAGE_SAVEAS", null, imageExportAs.ToString());
+            };
+        }
+
+        public class ImageExportAs
+        {
+          
+            public string ExportFullName { get; set; }
+            public string Kinds { get; set; }
+            public override string ToString() => $"{{\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\"}}";
+        }
+
+
+
+
 
 
         private bool OnUpdateWindowStatus(object sender, EventArgs e)
@@ -610,21 +940,25 @@ namespace Global
             }
             catch (Exception ex)
             {
-                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+                MessageBox.Show(ex.Message);
             }
             return true;
         }
 
-        Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
-        List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差"};
 
+
+
+        Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
+        List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
+        List<string> ImageExportAsString = new List<string>() { "导出Tiff...", "导出JPEG...", "导出QuickTime...", "导出AVL...", "导出MPEG-4...", "导出WMV...", "导出DICOM..." };
         private void AddViewContentMenu(int view, List<int> ints)
         {
             if (view >= 0 && view <= inkVisuals.Length && inkVisuals[view] != null)
             {
                 ContextMenu contextMenu = new ContextMenu();
                 List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
-
+                MenuItem menuItem1 = new MenuItem() { Header= "切换成像模式",FontSize= 14};
+                MenuItem menuItem2= new MenuItem() { Header = "导出(_E)", FontSize = 14 };
                 bool IsLeft = true;
                 for (int i = 0; i < ViewContentMenuContent.Count; i++)
                 {
@@ -643,13 +977,35 @@ namespace Global
                             LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ints[0] }, { "mode2", ints[1] } });
                         }
                     };
-
-                    contextMenu.Items.Add(radioMenuItem);
+                    menuItem1.Items.Add(radioMenuItem);
+                   // contextMenu.Items.Add(radioMenuItem);
                     menuItem1s.Add(radioMenuItem);
                 }
 
+                for (int i = 0; i < ImageExportAsString.Count; i++)
+                {
+                    MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i],FontSize=14 };
+
+                    menuItem2.Items.Add(menuItem);
+                }
+
+
+
+
+                //Separator separator = new Separator();
+                //separator.Margin = new Thickness(0, 0, 0, 0);
+                // MenuItem menuItem = new MenuItem() { Header = "导出BMP..." };
+                //menuItem.Click += delegate {
+
+                //    ExportAs("bmp");
+                //};
+                //contextMenu.Items.Add(separator);
+                contextMenu.Items.Add(menuItem1);
+                contextMenu.Items.Add(menuItem2);
                 InkCanvas drawingInkCanvas = inkVisuals[view].inkCanvas;
                 drawingInkCanvas.ContextMenu = contextMenu;
+
+
                 if (ints.Count == 1)
                 {
                     menuItem1s[ints[0]].IsChecked = true;

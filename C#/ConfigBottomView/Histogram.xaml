@@ -59,7 +59,7 @@
                 <Border Name="ImageBorder" Padding="20,0,10,15" BorderBrush="#333333" BorderThickness="0" Background="#444444">
                     <Border BorderBrush="White" BorderThickness="1" Margin="0">
 
-                        <Image Margin="0"   x:Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill"  SizeChanged="HistogramImage_SizeChanged"></Image>
+                        <Image Margin="0"   Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill"  SizeChanged="HistogramImage_SizeChanged"></Image>
                     </Border>
 
                 </Border>
@@ -69,7 +69,7 @@
                     <TextBlock Name="highThumbText" Visibility="Collapsed" Width="25" TextAlignment="Center" InkCanvas.Left="0" Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" Foreground="White" InkCanvas.Bottom="0"  Opacity="1"></TextBlock>
                     <!--otherMode-->
                     <InkCanvas Visibility="{Binding MoveEnable,Converter={StaticResource VisHid} }"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}" Background="Transparent" EditingMode="None"  Opacity="1" >
-                    <Canvas Width="12" Name="leftCanvas"  Cursor="Hand" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvas_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvas_MouseLeftButtonUp" MouseMove="leftCanvas_MouseMove" Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
+                        <Canvas Width="12" Name="leftCanvas"  Cursor="SizeWE" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvas_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvas_MouseLeftButtonUp" MouseMove="leftCanvas_MouseMove" Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
                         <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-12,0,-12,0"  Text="{Binding ElementName=RangeSlider,Path=LowerValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
                         <Grid x:Name="leftEllipse" Visibility="Collapsed" Canvas.Left="2"  >
@@ -78,16 +78,16 @@
                         </Grid>
                     </Canvas>
                     <!--phase-->
-                    <Canvas Width="12" Name="leftCanvasP"  Cursor="Hand" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="12" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvasP_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvasP_MouseLeftButtonUp" MouseMove="leftCanvasP_MouseMove" Visibility="{Binding Phase,Converter={StaticResource Vis}}" >
+                        <Canvas Width="12" Name="leftCanvasP"  Cursor="SizeWE" Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="12" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="leftCanvasP_MouseLeftButtonDown" MouseLeftButtonUp="leftCanvasP_MouseLeftButtonUp" MouseMove="leftCanvasP_MouseMove" Visibility="{Binding Phase,Converter={StaticResource Vis}}" >
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
-                        <TextBlock  Width="30"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-15,0,-12,0"  Text="{Binding ElementName=RangeSliderP,Path=LowerValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
+                        <TextBlock  Width="30"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-15,0,-12,0"  Text="{Binding ElementName=RangeSliderP,Path=LowerValue,StringFormat=f2}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
                         <Grid x:Name="leftEllipseP" Visibility="Collapsed" Canvas.Left="2"  >
                             <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
                             <Ellipse  Width="6" Height="6"  Fill="#444444"  ></Ellipse>
                         </Grid>
                     </Canvas>
                     <!--otherMode-->
-                    <Canvas Width="12" Name="rightCanvas"   Cursor="Hand"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="rightCanvas_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvas_MouseLeftButtonUp" MouseMove="rightCanvas_MouseMove"  Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
+                        <Canvas Width="12" Name="rightCanvas"   Cursor="SizeWE"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="rightCanvas_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvas_MouseLeftButtonUp" MouseMove="rightCanvas_MouseMove"  Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
                         <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-12,0,-12,0"  Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
                         <Grid x:Name="rightEllipse" Visibility="Collapsed" Canvas.Left="2"  >
@@ -96,9 +96,9 @@
                         </Grid>
                     </Canvas>
                     <!--phase-->
-                    <Canvas Width="12" Name="rightCanvasP"   Cursor="Hand"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0"   Visibility="{Binding Phase,Converter={StaticResource Vis}}" MouseLeftButtonDown="rightCanvasP_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvasP_MouseLeftButtonUp" MouseMove="rightCanvasP_MouseMove">
+                    <Canvas Width="12" Name="rightCanvasP"   Cursor="SizeWE"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0"   Visibility="{Binding Phase,Converter={StaticResource Vis}}" MouseLeftButtonDown="rightCanvasP_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvasP_MouseLeftButtonUp" MouseMove="rightCanvasP_MouseMove">
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
-                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-14,0,-12,0"  Text="{Binding ElementName=RangeSliderP,Path=HigherValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
+                        <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-14,0,-12,0"  Text="{Binding ElementName=RangeSliderP,Path=HigherValue,StringFormat=f2}"   VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
                         <Grid x:Name="rightEllipseP" Visibility="Collapsed" Canvas.Left="2"  >
                             <Ellipse  Width="8" Height="8"  Fill="white"  ></Ellipse>
                             <Ellipse  Width="6" Height="6"  Fill="#444444" Cursor="Hand"  ></Ellipse>
@@ -108,8 +108,8 @@
                     <TextBlock InkCanvas.Left="17.5" InkCanvas.Bottom="0" Text="{Binding XAxisMin}" Foreground="White" Visibility="{Binding Phase,Converter={StaticResource Visb}}"   ></TextBlock>
                     <TextBlock InkCanvas.Right="0" InkCanvas.Bottom="0" Text="{Binding XAxisMax}" Foreground="White" Visibility="{Binding Phase,Converter={StaticResource Visb}}"  ></TextBlock>
                     <TextBlock   Text="0" Width="7" Foreground="White" Visibility="{Binding Phase,Converter={StaticResource Vis}}" InkCanvas.Right="{Binding ElementName=HistogramImage,Path=ActualWidth,Converter={StaticResource half }}" InkCanvas.Bottom="0" ></TextBlock>
-                    <TextBlock InkCanvas.Left="12" InkCanvas.Bottom="0" Width="30" Name="phaseRangeMin" Text="{Binding XAxisMinP}" Visibility="{Binding Phase,Converter={StaticResource Vis}}" Foreground="White" ></TextBlock>
-                    <TextBlock InkCanvas.Right="-10" InkCanvas.Bottom="0" Padding="1,0,0,0" Width="30" Name="phaseRangeMax" Text="{Binding XAxisMaxP}" Visibility="{Binding Phase,Converter={StaticResource Vis}}" Foreground="White" ></TextBlock>
+                    <TextBlock InkCanvas.Left="6" InkCanvas.Bottom="0" Width="30" Name="phaseRangeMin" Text="{Binding XAxisMinP}" Visibility="{Binding Phase,Converter={StaticResource Vis}}" Foreground="White" ></TextBlock>
+                    <TextBlock InkCanvas.Right="-6" InkCanvas.Bottom="0" Padding="0,0,0,0" Width="30" Name="phaseRangeMax" Text="{Binding XAxisMaxP}" Visibility="{Binding Phase,Converter={StaticResource Vis}}" Foreground="White" ></TextBlock>
 
                 </InkCanvas>
                 <Grid  ToggleButton.Checked="RGBGrid_Checked" x:Name="RGBGrid" ToggleButton.Unchecked="RGBGrid_UnChecked"  Visibility="{Binding Phase,Converter={StaticResource Visb}}"  >

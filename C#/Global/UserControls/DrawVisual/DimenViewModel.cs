@@ -28,6 +28,7 @@ namespace Global
 		private bool _dimShapeCombo = false;
 		private int _lineWidth = 2;
 		private bool _LineProEnable = true;
+		private bool _defDimReadOnly = true;
 
 		#endregion fields
 		public DimenViewModel()
@@ -81,6 +82,18 @@ namespace Global
 				{
 					_dimShapeCombo = value;
 					RaisePropertyChanged(nameof(DimShapeCombo));
+				}
+			}
+		}
+		public bool DefDimReadOnly
+		{
+			get { return _defDimReadOnly; }
+			set
+			{
+				if (_defDimReadOnly != value)
+				{
+					_defDimReadOnly = value;
+					RaisePropertyChanged(nameof(DefDimReadOnly));
 				}
 			}
 		}

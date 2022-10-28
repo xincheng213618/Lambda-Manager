@@ -3,21 +3,102 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ConfigObjective"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="200" Initialized="UserControl_Initialized">
-    <Border Height="24"  BorderBrush="#333333" BorderThickness="1" CornerRadius="3">
-        <Border.Effect>
-            <DropShadowEffect Color="White" Direction="270" Opacity="0.2" ShadowDepth="1"  />
-        </Border.Effect> 
-        <DockPanel DockPanel.Dock="Right"  Visibility ="Visible">
-            <DockPanel Width="20"  DockPanel.Dock="Left" Margin="0,0,0,0" Visibility="Visible">
-                <RepeatButton x:Name="btn_ClickUp" Click="btn_ClickUp_Click" BorderThickness="0"  Background="Transparent" DockPanel.Dock="Top" Foreground="Red" FontFamily="Marlett" Content="5" Height="13" Margin="-2"/>
+             d:DesignHeight="21" d:DesignWidth="120" Initialized="UserControl_Initialized">
+    <UserControl.Resources>
+        <!--before--> 
+        <Style x:Key="RepeatButtonUpStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Focusable" Value="True"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Foreground" Value="red"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}" Background="{TemplateBinding Panel.Background}" Name="border" SnapsToDevicePixels="True">
+                            <ContentPresenter RecognizesAccessKey="True" Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" Name="contentPresenter" Margin="{TemplateBinding Control.Padding}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Focusable="False" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                                <!--<Setter Property="Foreground"  Value="Yellow"/>-->
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Foreground"  Value="#444444"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled"  Value="false">
+                                <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="RepeatButtonStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Width" Value="22"  />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="#1e1e1e" CornerRadius="2">
+                            <Grid Margin="1"  Background="Transparent" >
+                                <Rectangle Name="Border" StrokeThickness="0" RadiusX="2" RadiusY="2" Stroke="#cccccc">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#1e1e1e" Offset="0" />
+                                            <GradientStop Color="#1e1e1e" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
 
-                <RepeatButton  x:Name="btn_ClickDown" Click="btn_ClickDown_Click" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom" FontFamily="Marlett" Content="6" Height="13" Margin="-2" />
-            </DockPanel>
-            <Border Background="#333333" Margin="3,0,0,0" DockPanel.Dock="Right" CornerRadius="2">
-                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="5,0"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="{Binding  Path=ExposureShow}"  />
+                                </Rectangle>
+
+                                <ContentPresenter  HorizontalAlignment="Center" x:Name="path1" VerticalAlignment="Center"></ContentPresenter>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Fill" Value="#444444" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+
+    </UserControl.Resources>
+    
+    <Border Height="20"  BorderBrush="#333333" BorderThickness="1" CornerRadius="2">
+        <!--<Border.Effect>
+            <DropShadowEffect Color="White" Direction="200" Opacity="0.2" ShadowDepth="1"  />
+        </Border.Effect>-->
+        <DockPanel DockPanel.Dock="Right"  Visibility ="Visible" >
+            <StackPanel Width="16"  DockPanel.Dock="Left" Orientation="Horizontal" Margin="-1,0,-1,-1" Visibility="Visible" >
+                <Border Background="#1e1e1e" Margin="0,0,-1,1 " CornerRadius="2,0,0,2" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <RepeatButton x:Name="btn_ClickUp" Grid.Row="0" Width="14" Style="{StaticResource RepeatButtonStyle}" Click="btn_ClickUp_Click" BorderThickness="0" Background="Transparent" DockPanel.Dock="Top" Foreground="White"  Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                            <Path Data="M0,1 L3,-3 6,1 " Fill="Transparent" StrokeThickness="1" Stroke="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Name="PathUp" Margin="0,0,0,-2" >
+                            </Path>
+                        </RepeatButton>
+                        <RepeatButton  Grid.Row="1" x:Name="btn_ClickDown" Width="15" Style="{StaticResource RepeatButtonStyle}" Click="btn_ClickDown_Click" BorderThickness="0" Background="Transparent"  Foreground="White" DockPanel.Dock="Bottom"   Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+                            <Path Data="M0,-4 L3,0 6,-4 " Name="PathDown" StrokeThickness="1" Fill="Transparent"  Stroke="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"   Margin="0,0,0,-3"  >
+                            </Path>
+                        </RepeatButton>
+                    </Grid>
+                </Border>
+              
+            </StackPanel>
+            <Border Background="#1e1e1e" Margin="0,0,0,0" DockPanel.Dock="Right" CornerRadius="0,2,2,0">
+                <TextBlock x:Name="txt_NamberChange"  VerticalAlignment="Center" Margin="2,0"  TextAlignment="Right" Background="Transparent" Foreground="White"  Text="{Binding  Path=ExposureShow}"  />
             </Border>
         </DockPanel>
 

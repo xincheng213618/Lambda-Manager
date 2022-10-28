@@ -12,8 +12,8 @@ namespace Global.Mode.Config
     [Serializable]
     public class Camera : ViewModelBase
     {
-
         public int SelectViewMode = 0;
+
 
         private double gamma = 1.0;
         /// <summary>
@@ -100,6 +100,7 @@ namespace Global.Mode.Config
 
         public void SetValue(Camera camera)
         {
+           // this.SelectViewMode = camera.SelectViewMode;
             this.Gamma = camera.gamma;
             this.Gain = camera.gain;
             this.GainAuto = camera.GainAuto;

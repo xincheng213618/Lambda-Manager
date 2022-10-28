@@ -9,7 +9,7 @@
              xmlns:updown ="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
              mc:Ignorable="d" 
              Height="Auto"
-             Width="400" BorderBrush="#515151" BorderThickness="0" Background="#515151">
+             Width="400" BorderBrush="#515151" BorderThickness="0" Background="#515151" Loaded="UserControl_Loaded"   >
     <UserControl.Resources>
         <local:ColorToSolidColorBrushConverter x:Key="colorBrush"></local:ColorToSolidColorBrushConverter>
         <local:ValueClassToUmConverter x:Key="um"></local:ValueClassToUmConverter>
@@ -307,7 +307,7 @@
                     <StackPanel Orientation="Horizontal" IsEnabled="{Binding LineProEnable}" >
                         <StackPanel Orientation="Horizontal">
                             <Label Content="线型" FontSize="12" Foreground="White" VerticalAlignment="Top" Margin="5,2,0,0" ></Label>
-                            <ComboBox   FontSize="12" Name="LineShapeCombo" BorderThickness="0.6" Width="100"  SelectedIndex="{Binding DashSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Left" Margin="36,0,0,0" SelectionChanged="ComboBox_SelectionChanged"  >
+                            <ComboBox   FontSize="12" Name="LineShapeCombo" BorderThickness="0.6" Width="100"  SelectedIndex="{Binding DashSelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MinWidth="50"  Height="25"  HorizontalAlignment="Left" Margin="36,0,0,0" SelectionChanged="ComboBox_SelectionChanged" Loaded="LineShapeCombo_Loaded"  >
                                 <ComboBoxItem Tag="A" Foreground="White" Height="23">
                                     <Path Stroke="White" StrokeThickness="1">
                                         <Path.Data >
@@ -342,7 +342,7 @@
 
                         <StackPanel Orientation="Horizontal" Margin="43,0,0,0">
                             <Label Content="线宽" FontSize="12" Foreground="White" VerticalAlignment="Top" Margin="5,2,0,0" ></Label>
-                            <Slider Style="{StaticResource updown}" Minimum="1" Maximum="5" SmallChange="1" Value="{Binding LineWidth,Mode=TwoWay}" Width="100" Height="25" Margin="8,0,0,0" ></Slider>
+                            <Slider Style="{StaticResource updown}" Minimum="1" Maximum="5" SmallChange="1" Name="LineWidthUpdown" Value="{Binding LineWidth,Mode=TwoWay}" Width="100" Height="25" Margin="8,0,0,0"  ></Slider>
                         </StackPanel>
 
                     </StackPanel>
@@ -383,7 +383,7 @@
                             <!--<TextBox Foreground="White" BorderBrush="#515151" Padding="10,0,0,0"  behav:AllowableCharactersTextBoxBehavior.RegularExpressionProperty="^[0-9|a-f|A-F|#]+$" MaxLength="9" SelectionLength="9"  Height="23" VerticalContentAlignment="Center"  Text="{Binding SelectedAccentColor }"  Width="100" Background="#515151" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,1,0,0" ></TextBox> -->
 
                             <Grid MouseLeftButtonDown="_colorPicker_MouseLeftButtonDown" >
-                                <controls:ColorPicker  Height="40" Width="40" Visibility="{Binding ElementName=expander,Path=IsExpanded,Converter={StaticResource Visb}}"  IsEnabled="False"  Name="_colorPicker" SelectedColor="{Binding SelectedAccentColor}" Margin="5,-5,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left"  ></controls:ColorPicker>  
+                                <controls:ColorPicker  Height="40" Width="40" Visibility="{Binding ElementName=expander,Path=IsExpanded,Converter={StaticResource Visb}}"  IsEnabled="False"  Name="_colorPicker" SelectedColor="{Binding SelectedAccentColor}" Margin="5,-5,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" SelectedColorChanged="_colorPicker_SelectedColorChanged"   ></controls:ColorPicker>  
                             </Grid>
                           
 
@@ -408,25 +408,25 @@
                             <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,174,0">
                                     <Label Content="颜色" Foreground="white"  VerticalAlignment="Center" VerticalContentAlignment="Center"></Label>
-                                    <controls:ColorPicker Width="40" Height="40" VerticalAlignment="center" SelectedColor="{Binding TextSelectedAccentColor}" ></controls:ColorPicker>
+                                    <controls:ColorPicker Width="40" Height="40" VerticalAlignment="center" SelectedColor="{Binding TextSelectedAccentColor}" SelectedColorChanged="ColorPicker_SelectedColorChanged"  ></controls:ColorPicker>
                                 </StackPanel>
                                
-                                <ComboBox Width="98" BorderThickness="0.6" Name="FontFamilyCombo" Grid.Row="0" Grid.Column="0" ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectedItem="{Binding FontFam,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  Foreground="white" Height="25"  HorizontalAlignment="Right" Margin="0,2,70,2" />
-                                <ComboBox Width="60" Foreground="White"   Grid.Row="0" ItemsSource="{Binding FontSizeList}" SelectedItem="{Binding FontSize,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Height="25" MinWidth="50" Name="FontSizeComb" HorizontalAlignment="Right" Margin="0,2,0,2" />
+                                <ComboBox Width="98" BorderThickness="0.6" Name="FontFamilyCombo" Grid.Row="0" Grid.Column="0" ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectedItem="{Binding FontFam,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  Foreground="white" Height="25"  HorizontalAlignment="Right" Margin="0,2,70,2" SelectionChanged="FontFamilyCombo_SelectionChanged" />
+                                <ComboBox Width="60" Foreground="White"   Grid.Row="0" ItemsSource="{Binding FontSizeList}" SelectedItem="{Binding FontSize,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Height="25" MinWidth="50" Name="FontSizeComb" HorizontalAlignment="Right" Margin="0,2,0,2" SelectionChanged="FontSizeComb_SelectionChanged"  />
                             </Grid>
 
                             <Grid Grid.Row="1" Grid.Column="0">
-                                <CheckBox Foreground="White" FontSize="12"  IsChecked="{Binding Bold,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Content="粗体" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Foreground="White" FontSize="12"  IsChecked="{Binding Bold,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Content="粗体" Margin="0,5,0,0" Click="CheckBox_Click" ></CheckBox>
                             </Grid>
                             <Grid Grid.Row="2 " Grid.Column="0">
-                                <CheckBox Foreground="White" FontSize="12"  IsChecked="{Binding Italic}" Content="斜体" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Foreground="White" FontSize="12"  IsChecked="{Binding Italic}" Content="斜体" Margin="0,5,0,0" Click="CheckBox_Click_1" ></CheckBox>
                             </Grid>
                             <Grid Grid.Row="3" Grid.Column="0">
-                                <CheckBox Foreground="White" FontSize="12" IsChecked="{Binding UnderLine}"   Content="下划线" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Foreground="White" FontSize="12" IsChecked="{Binding UnderLine}"   Content="下划线" Margin="0,5,0,0 " Click="CheckBox_Click_2" ></CheckBox>
                             </Grid>
                             <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="1" >
                                 <GroupBox Header="预览" FontSize="12"  BorderThickness="0.5" BorderBrush="White"  Margin="5,0,0,0">
-                                    <TextBlock Text="样例  Aa 01"   VerticalAlignment="Center" Foreground="{Binding TextSelectedAccentColor,Converter={StaticResource colorBrush }}" FontWeight="{Binding Bold ,Converter={StaticResource bold}}"  FontFamily="{Binding FontFam,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HorizontalAlignment="Center" FontSize="{Binding FontSize,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay }"  TextDecorations="{Binding UnderLine,Converter={StaticResource underLine}}"   FontStyle="{Binding Italic,Converter={StaticResource Italic}}">
+                                    <TextBlock Text="样例  Aa 01"   VerticalAlignment="Center" Foreground="{Binding TextSelectedAccentColor,Converter={StaticResource colorBrush }}" FontWeight="{Binding Bold ,Converter={StaticResource bold}}"  FontFamily="{Binding FontFam,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HorizontalAlignment="Center" FontSize="{Binding FontSize,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay }"  TextDecorations="{Binding UnderLine,Converter={StaticResource underLine}}"   FontStyle="{Binding Italic,Converter={StaticResource Italic}}" >
 
                                     </TextBlock>
                                 </GroupBox>
@@ -453,7 +453,7 @@
                     </Grid.Resources>
                     <GridSplitter Height="1"  Background="gray" HorizontalAlignment="Stretch" VerticalAlignment="Top" ></GridSplitter>
                     <Border BorderThickness="0.5" BorderBrush="gray" Padding="5" CornerRadius="2" Margin="5,10,5,10" >
-                        <ListView BorderBrush="White" Background="#515151" Style="{StaticResource listviewStyle1}" x:Name="listview" Loaded="listview_Loaded" MaxHeight="300"  >
+                        <ListView BorderBrush="White" Background="#515151" Style="{StaticResource listviewStyle1}" x:Name="listview" Loaded="listview_Loaded" MaxHeight="300" SelectionChanged="listview_SelectionChanged"   >
 
                             <ListView.View >
                                 <GridView >
@@ -462,17 +462,36 @@
                                             <TextBlock Text="序号" FontSize="15" Margin="5,0"></TextBlock>
                                         </GridViewColumn.Header>
                                     </GridViewColumn>
-                                    <GridViewColumn   Width="120" DisplayMemberBinding="{Binding Type}" >
+                                    <GridViewColumn   Width="60" DisplayMemberBinding="{Binding Type}" >
                                         <GridViewColumn.Header>
                                             <TextBlock Text="形状" FontSize="15" Margin="5,0"></TextBlock>
                                         </GridViewColumn.Header>
                                     </GridViewColumn>
-                                    <!--<GridViewColumn  Width="85"  DisplayMemberBinding="{x:Null}">
+                                    <GridViewColumn  Width="120"  >
                                         <GridViewColumn.Header>
-                                            <TextBlock Text="参数" FontSize="15" Margin="5,0"></TextBlock>
+                                            <TextBlock Text="颜色" FontSize="15" HorizontalAlignment="Center" Margin="35,0,0,0"></TextBlock>
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Width="20" VerticalAlignment="Center"  Height="20" Background="{Binding Path=ColorBru, Converter={StaticResource colorBrush}}"></Border>
+                                                    <TextBlock Width="100" Margin="5,2,0,0"  Text="{Binding Path=ColorBru}"></TextBlock>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn  Width="80"  DisplayMemberBinding="{Binding CenterPoint}"  >
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="位置" FontSize="15" Margin="15,0,0,0"></TextBlock>
                                         </GridViewColumn.Header>
                                     </GridViewColumn>
-                                    <GridViewColumn   Width="85" DisplayMemberBinding="{x:Null}"  >
+                                    <GridViewColumn  Width="80"  DisplayMemberBinding="{Binding SizePoint}"  >
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="大小" FontSize="15" Margin="15,0,0,0"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+
+                                    <!--<GridViewColumn   Width="85" DisplayMemberBinding="{x:Null}"  >
                                         <GridViewColumn.Header>
                                             <TextBlock Text="其他" FontSize="15" Margin="5,0"></TextBlock>
                                         </GridViewColumn.Header>

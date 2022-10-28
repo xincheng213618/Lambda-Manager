@@ -23,7 +23,7 @@ namespace ConfigObjective
                     Margin = new Thickness(5, 0, 5, 0),
                     Content = item.Magnitude,
                     IsChecked = item.IsChecked,
-                    IsEnabled = item.IsEnabled
+                    IsEnabled = item.IsEnabled, FontSize = 14
                 };
                 radioButton.Click += delegate
                 {

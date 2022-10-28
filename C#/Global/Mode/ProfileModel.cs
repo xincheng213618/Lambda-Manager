@@ -7,6 +7,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using Global.Common;
 using Global.UserControls.DrawVisual;
+using OxyPlot;
+using OxyPlot.Axes;
 
 namespace Global.Mode
 {
@@ -68,9 +70,8 @@ namespace Global.Mode
             get { return marker2Show; }
             set { marker2Show = value; NotifyPropertyChanged(); }
         }
+        }
 
 
 
-
-    }
 }

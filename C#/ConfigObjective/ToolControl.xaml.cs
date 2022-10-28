@@ -15,6 +15,7 @@ using System.Windows.Data;
 using Global.Common.Util;
 using Global.Common;
 using System.Timers;
+using System.ComponentModel;
 
 namespace ConfigObjective
 {
@@ -27,8 +28,17 @@ namespace ConfigObjective
             windowData = WindowData.GetInstance();
             Update.UpdateEvent += UpdateGlobal;
             InitializeComponent();
+            InitCheckList();
         }
-
+        private List<CheckBox> checklist = new List<CheckBox>();
+        private CheckBox checkCurrent;
+        private CheckBox checkCurrent1;
+        private void InitCheckList()
+        {
+            checklist.Add(_25x25);
+            checklist.Add(_35mm);
+            checklist.Add(_45mm);
+        }
         bool IsFirstUpdate = true;
         private void UpdateGlobal()
         {
@@ -64,7 +74,7 @@ namespace ConfigObjective
             IsFirstUpdate = true;
 
             ComboBox1.ItemsSource = windowData.deviceInformation.CameraResolution;
-
+            ComboBox1.SelectedIndex = 1;
 
             #region slider
             SliderAbbreviation(Slider311, "BRIGHT_FIELD_DIAMETER", "diameter");
@@ -295,8 +305,10 @@ namespace ConfigObjective
         {
             ZAbsolute.Text = "Z-绝对坐标";
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 }, { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
-
         }
+
+
+       
         private void ToggleButton222_Unchecked(object sender, RoutedEventArgs e)
         {
           windowData.MulDimensional.TInterval = "-1";
@@ -347,6 +359,170 @@ namespace ConfigObjective
         private void ToggleButton221_Unchecked(object sender, RoutedEventArgs e)
         {
           //  windowData.MulDimensional.TNumber = -1;
+        }
+
+        private void ColorButton311_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ToggleButton2_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void popUp42_Closed(object sender, EventArgs e)
+        {
+            popUp42.IsOpen = false;
+        }
+
+       
+
+       
+
+        private void _35mm_Checked(object sender, RoutedEventArgs e)
+        {
+            
+            popUp42.IsOpen = false;
+            if (Map != null)
+            {
+                Map.mapEllipse.RadiusX = 130;
+                Map.mapEllipse.RadiusY = 130;
+                string dataH = "M 20 150 280 150";
+                string dataV = "M 150 20  150 280";
+                var converter = TypeDescriptor.GetConverter(typeof(Geometry));
+                Map.LineHor.Data = (Geometry)converter.ConvertFrom(dataH);
+                Map.LineVer.Data = (Geometry)converter.ConvertFrom(dataV);
+            }
+            Button42.IsChecked = true;
+            var current = (System.Windows.Controls.CheckBox)sender;
+            checkCurrent = current;
+            checkCurrent1 = current;
+            foreach (var checkBox in checklist)
+            {
+                if (checkBox != current)
+                {
+                    checkBox.IsChecked = false;
+                }
+            }
+
+
+        }
+
+        private void _45mm_Checked(object sender, RoutedEventArgs e)
+        {
+            popUp42.IsOpen = false;
+            if (Map != null)
+            {
+                Map.mapEllipse.RadiusX = 150;
+                Map.mapEllipse.RadiusY = 150;
+                string dataH = "M 2 150 300 150";
+                string dataV = "M  150 2  150 300";
+                var converter = TypeDescriptor.GetConverter(typeof(Geometry));
+                Map.LineHor.Data = (Geometry)converter.ConvertFrom(dataH);
+                Map.LineVer.Data = (Geometry)converter.ConvertFrom(dataV);
+            }
+            Button42.IsChecked = true;
+            var current = (System.Windows.Controls.CheckBox)sender;
+            checkCurrent = current;
+            checkCurrent1 = current;
+            foreach (var checkBox in checklist)
+            {
+                if (checkBox != current)
+                {
+                    checkBox.IsChecked = false;
+                }
+            }
+
+
+        }
+        private void _25x25_Checked(object sender, RoutedEventArgs e)
+        {
+            popUp41.IsOpen = false;
+            var current = (System.Windows.Controls.CheckBox)sender;
+            checkCurrent = current;
+            foreach (var checkBox in checklist)
+            {
+                if (checkBox != current)
+                {
+                    checkBox.IsChecked = false;
+                }
+            }
+
+
+        }
+
+        private void popUp42_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+           // popUp42.IsOpen = false;
+        }
+
+        private void popUp41_Closed(object sender, EventArgs e)
+        {
+            popUp41.IsOpen = false;
+        }
+
+       
+
+        private void popUp41_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+
+        private void _Unchecked(object sender, RoutedEventArgs e)
+        {
+            int i = 0;
+            foreach (var checkBox in checklist)
+            {
+                if (checkBox.IsChecked == false)
+                {
+                    i++;
+                }
+                
+            }
+            if (i == checklist.Count)
+            {
+                checkCurrent.IsChecked = true;
+            }
+            
+        }
+
+        private void Button42_Checked(object sender, RoutedEventArgs e)
+        {
+            if (popUp42 != null)
+            {
+                if (_35mm.IsChecked == false && _45mm.IsChecked == false)
+                {
+                    checkCurrent1.IsChecked = true;
+                }
+            }
+          
+        }
+
+        private void StackPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (Button42.IsMouseOver)
+                return;
+            popUp42.IsOpen = false; 
+        }
+
+        private void StackPanel_MouseLeave_1(object sender, MouseEventArgs e)
+        {
+            if (Button41.IsMouseOver)
+                return;
+            popUp41.IsOpen = false;
+        }
+
+        private void Button42_Click(object sender, RoutedEventArgs e)
+        {
+            popUp42.IsOpen = true;
+        }
+
+        private void Button41_Click(object sender, RoutedEventArgs e)
+        {
+            popUp41.IsOpen = true;
         }
     }
 

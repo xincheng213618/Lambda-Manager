@@ -43,15 +43,25 @@ namespace ConfigObjective
         private void btn_ClickUp_Click(object sender, RoutedEventArgs e)
         {
             index = ExposureViewMode.Index;
-            index = ++index % ExposureViewMode.ExposureInfos.Count;
+            if(index== ExposureViewMode.ExposureInfos.Count-1)
+            {
+               
+            }
+            else
+            {
+                index = ++index % ExposureViewMode.ExposureInfos.Count;
+                
+            }
             ExposureViewMode.Index = index;
+
+
         }
 
         private void btn_ClickDown_Click(object sender, RoutedEventArgs e)
         {
             index = ExposureViewMode.Index;
             index = --index % ExposureViewMode.ExposureInfos.Count;
-            index = index < 0 ? ExposureViewMode.ExposureInfos.Count - 1 : index;
+            index = index <= 0 ? 0 : index;
             ExposureViewMode.Index = index;
         }
 
