@@ -100,7 +100,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DHM", "C++\DHM\DHM.vcxproj"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomFile", "C++\CustomFile\CustomFile.vcxproj", "{9D0B20B9-B149-429B-A7CE-8D048A2A5635}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GridIcons64", "GridIcons64\GridIcons64.vcxproj", "{87FFB8BB-20C4-4D0D-8EF6-A39B0C14FF3A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GridIcons64", "C++\GridIcons64\GridIcons64.vcxproj", "{87FFB8BB-20C4-4D0D-8EF6-A39B0C14FF3A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaUtils", "C#\LambdaUtils\LambdaUtils.csproj", "{0E329CF2-629E-4762-B709-8529D80CC9B3}"
 EndProject
