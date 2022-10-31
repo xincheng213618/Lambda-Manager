@@ -12,6 +12,8 @@ using System.Text.RegularExpressions;
 using Tool;
 using System.Diagnostics;
 using System.Windows.Ink;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace XSolution
 {
@@ -24,10 +26,22 @@ namespace XSolution
         public override string ToString() => $"{{\"FullName\":\"{FullName.Replace("\\", "\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\"}}";
     }
 
-    public class ProjectFile : BaseObject
+    //暂时没啥用，用来作为一个反射的一个入口
+    public interface IProjectFile
+    {
+        /// <summary>
+        /// Extension
+        /// </summary>
+        /// <returns></returns>
+        public string GetExtension();
+        public string[] SupportExtensions();
+
+
+    };
+
+    public class ProjectFile : BaseObject, IProjectFile
     {
 
-        
         public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
 
         private string fileSize;
@@ -153,7 +167,7 @@ namespace XSolution
                     if (!isEditMode)
                     {
                         string oldpath = FullName;
-                        string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, Extension);
+                        string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, GetExtension());
                         if (newpath != FullName)
                         {
                             try
@@ -172,6 +186,7 @@ namespace XSolution
                 }
             }
         }
+
 
         public override void Delete()
         {
@@ -208,12 +223,13 @@ namespace XSolution
             }
         }
 
-
-        public string Extension
+        public string GetExtension()
         {
-            get { return Path.GetExtension(FullName); }
-            protected set { }
-        }   
-
+            return Path.GetExtension(FullName);
+        }
+        public string[] SupportExtensions()
+        {
+            return new string[] { ".png", ".jpg", ".tiff", ".bmp", ".txt" };
+        }
     }
 }

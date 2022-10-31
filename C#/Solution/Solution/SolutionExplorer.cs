@@ -84,7 +84,7 @@ namespace XSolution
             {
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    AddChild(new ProjectFile(e.FullPath));
+                    AddChild(SolutionGlobal.GetInstance().GetProjectFile(e.FullPath));
                 }));
             }
             else if (Directory.Exists(e.FullPath))

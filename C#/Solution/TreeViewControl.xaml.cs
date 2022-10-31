@@ -253,20 +253,24 @@ namespace Solution
             var root = new DirectoryInfo(FullPath);
             foreach (var item in root.GetFiles())
             {
-                string Extension = Path.GetExtension(item.FullName);
-                if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff")
+                //string Extension = Path.GetExtension(item.FullName);
+                //if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff")
+                //{
+                //    ProjectFile projectFile = new ProjectFile(item.FullName);
+                //    projectFolder.AddChild(projectFile);
+                //    projectFile.Visibility = Visibility.Visible;
+                //}
+                //else if (Extension == ".grif")
+                //{
+                //    GrifFile projectFile = new GrifFile(item.FullName);
+                //    projectFolder.AddChild(projectFile);
+                //    projectFile.Visibility = Visibility.Visible;
+                //}
+                BaseObject baseObject = SolutionGlobal.GetInstance().GetProjectFile(item.FullName);
+                if (baseObject != null)
                 {
-                    ProjectFile projectFile = new ProjectFile(item.FullName);
-                    projectFolder.AddChild(projectFile);
-                    projectFile.Visibility = Visibility.Visible;
+                    solutionExplorer.AddChild(baseObject);
                 }
-                else if (Extension == ".grif")
-                {
-                    GrifFile projectFile = new GrifFile(item.FullName);
-                    projectFolder.AddChild(projectFile);
-                    projectFile.Visibility = Visibility.Visible;
-                }
-
             }
             foreach (var item in root.GetDirectories())
             {
@@ -302,15 +306,11 @@ namespace Solution
                     }
                     foreach (var item in dic.GetFiles())
                     {
-                        string Extension = Path.GetExtension(item.FullName);
-                        if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
+                        BaseObject baseObject = SolutionGlobal.GetInstance().GetProjectFile(item.FullName);
+                        if (baseObject != null)
                         {
-                            solutionExplorer.AddChild(new ProjectFile(item.FullName));
+                            solutionExplorer.AddChild(baseObject);
                         }
-                        else if (Extension == ".grif")
-                        {
-                            solutionExplorer.AddChild(new GrifFile(item.FullName));
-                        };
                     }
                     solutionExplorer.AddChild(projectMannager);
                 }
@@ -512,6 +512,7 @@ namespace Solution
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
+            SolutionGlobal solutionGlobal = SolutionGlobal.GetInstance();
 
 
         }

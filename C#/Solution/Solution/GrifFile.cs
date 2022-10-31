@@ -5,8 +5,13 @@ using System.Runtime.InteropServices;
 namespace XSolution
 {
 
-    public class GrifFile : ProjectFile
+    public class GrifFile : ProjectFile, IProjectFile
     {
+        public new string[] SupportExtensions()
+        {
+            return new string[] { ".grif" };
+        }
+
         public GrifFileMeta GrifFileMeta {  get; private set; }
 
         public RelayCommand GrifExportAsCommand { get; set; }

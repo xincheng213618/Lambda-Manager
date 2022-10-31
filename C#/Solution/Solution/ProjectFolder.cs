@@ -149,15 +149,7 @@ namespace XSolution
             {
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    string Extension = Path.GetExtension(e.FullPath);
-                    if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt")
-                    {
-                        AddChild(new ProjectFile(e.FullPath));
-                    }
-                    else if (Extension == ".grif")
-                    {
-                        AddChild(new GrifFile(e.FullPath));
-                    };
+                    AddChild(SolutionGlobal.GetInstance().GetProjectFile(e.FullPath));
                 }));
             }
             else if (Directory.Exists(e.FullPath))

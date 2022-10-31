@@ -54,16 +54,6 @@ namespace XSolution
         public override void AddChild(BaseObject baseObject)
         {
             base.AddChild(baseObject);
-            if (this.Parent != null)
-                if (this.Parent != null)
-                {
-                    string Extension = Path.GetExtension(baseObject.FullName);
-                    if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff" || Extension == ".bmp" || Extension == ".txt"|| Extension == ".grif")
-                        this.Parent.AddChild(baseObject);
-
-                }
-
-
         }
     }
 }

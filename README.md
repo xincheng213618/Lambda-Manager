@@ -42,27 +42,23 @@ Lambda的一个依赖，没什么用
 
 ## Common
 
-c++ 转发的核心，目前已经支持到0.8.2，需配合LambdaCore 使用
+C++ ,C# 并行调用C++的一部分 ，需配合LambdaCore 使用
 
 ## LambdaCore
 
-从主控中拆离出的核心转发代码，目前已经支持到0.8.2 ，需配合Common使用
+C++ ,C# 并行调用C#的一部分 ， 需配合Common使用
 
 ## LambdaManager
 
-在拆分完成之后，负责主窗口的部分。
-
-## LambdaDemo
-
-简易的调用LambdaCore的展示级的程序，在进行开发和维护LambdaManager之前，可以参考LambdaDemo。
+程序的主体部分。
 
 ## packages
 
-包的一部分，为了方便编译，程序集中引用的c++的DLL的路径放在这里
+包管理
 
 ## props
 
-调用packages的属性表，可以直接在c++项目中引用
+调用packages的属性表
 
 ## ACE
 
@@ -102,8 +98,10 @@ c++ 转发的核心，目前已经支持到0.8.2，需配合LambdaCore 使用
 
 主题管理模块DLL，将会支持多种主题颜色。 目前支持 黑，白 两种主题
 
-
-
 ## ToolHash
 
 自动配置脚本工具
+
+## HotKey
+
+封装的热键工具
