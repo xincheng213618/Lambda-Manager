@@ -8,6 +8,8 @@ using Lambda;
 using Microsoft.Win32;
 using System.Text;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace Solution
 {
@@ -47,14 +49,22 @@ namespace Solution
     /// </summary>
     public partial class SeriesExportAsWindow : BaseWindow
     {
-        public BaseObject BaseObject;
+        public SeriesProjectManager seriesProjectManager;
+
+        public ObservableCollection<SeriesProjectManager> SeriesProjectManagers = new ObservableCollection<SeriesProjectManager>();
 
         public ProjectExportAs ProjectExportAs;
-        public SeriesExportAsWindow(BaseObject BaseObject)
+        public SeriesExportAsWindow(SeriesProjectManager seriesProjectManager)
         {
-            this.BaseObject = BaseObject;
-            ProjectExportAs = new ProjectExportAs() { Kinds = "mp4", FullName = BaseObject.FullName, PhotoTime = false };
+            this.seriesProjectManager = new SeriesProjectManager(seriesProjectManager.FullName);
+            this.seriesProjectManager.ExportIni();
+            SeriesProjectManagers.Add(this.seriesProjectManager);
             InitializeComponent();
+
+            SeriesExportTreeView1.ItemsSource = SeriesProjectManagers;
+
+            ProjectExportAs = new ProjectExportAs() { Kinds = "mp4", FullName = seriesProjectManager.FullName, PhotoTime = false };
+            this.DataContext = ProjectExportAs;
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -75,6 +85,43 @@ namespace Solution
 
             ProjectExportAs.Mode = Mode;
 
+
+
+
+
+            LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
+
+            this.Close();
+        }
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb.Tag is XSolution.BaseObject baseObject)
+            {
+                baseObject.IsEditMode = false;
+            }
+        }
+
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb.Tag is XSolution.BaseObject baseObject)
+            {
+                baseObject.Name = tb.Text;
+                if (e.Key == Key.Escape || e.Key == Key.Enter)
+                {
+                    baseObject.IsEditMode = false;
+                }
+            }
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
             string Filter;
             switch (ProjectExportAs.Kinds)
             {
@@ -94,7 +141,6 @@ namespace Solution
                     return;
             }
 
-
             SaveFileDialog dialog = new()
             {
                 Title = "另存为",
@@ -105,14 +151,7 @@ namespace Solution
             if (result == true)
             {
                 ProjectExportAs.ExportFullName = dialog.FileName;
-                LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
             };
-            this.Close();
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

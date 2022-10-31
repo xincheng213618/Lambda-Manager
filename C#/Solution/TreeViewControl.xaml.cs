@@ -285,22 +285,7 @@ namespace Solution
                 {
                     SeriesProjectManager seriesProjectManager = new SeriesProjectManager(dic.FullName);
                     solutionExplorer.AddChild(ADDDerivativeSeriesFile(seriesProjectManager, dic.FullName));
-
-                    //foreach (var item in dic.GetDirectories())
-                    //{
-                    //    if (item.Name == "derives")
-                    //    {
-                    //        var root1 = new DirectoryInfo(item.FullName);
-                    //        foreach (var item1 in root1.GetDirectories())
-                    //        {
-                    //            DerivativeSeriesFile derivativeSeriesFile = new DerivativeSeriesFile(item1.FullName);
-                    //            seriesProjectManager.AddChild(derivativeSeriesFile);
-                    //        }
-                    //    }
-                    //}
-                    //solutionExplorer.AddChild(seriesProjectManager);
                 }
-
             }
             if (init)
                 SolutionExplorers.Clear();

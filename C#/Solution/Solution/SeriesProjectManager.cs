@@ -38,15 +38,25 @@ namespace XSolution
         /// </summary>
         public RelayCommand PoejectExportAs { get; set; }
 
+        public void ExportIni()
+        {
+            foreach (var item in new DirectoryInfo(FullName).GetDirectories())
+            {
+                BaseObject baseObject = SolutionGlobal.FromDirectories(this, item);
+                AddChild(baseObject);
+            }
+        }
+
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
         {
             CanReName = false;
+            Visibility = Visibility.Visible;
+
             PoejectExportAs = new RelayCommand(delegate
             {
                 SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this);
                 GrifExportAsWindow.ShowDialog();
             }, (object value) => { return true; });
-
 
 
             watcher = new FileSystemWatcher(SeriesFolderPath)

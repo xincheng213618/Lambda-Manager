@@ -144,7 +144,7 @@ namespace XSolution
 
         private void OpenFolder(object value)
         {
-            System.Diagnostics.Process.Start("explorer.exe", FullName);
+            Process.Start("explorer.exe", FullName);
         }
 
         public void CalculSize()
