@@ -100,7 +100,7 @@ namespace XSolution
         {
             this.FullName = FullName;
 
-            AddChildren = new RelayCommand(AddChild, (object value) => { return true; });
+            AddChildren = new RelayCommand(AddChildDialog, (object value) => { return true; });
             VisibilityHidden = new RelayCommand(delegate
             {
                 this.Visibility = Visibility.Hidden;
@@ -125,11 +125,11 @@ namespace XSolution
             VisualChildren = new ObservableCollection<BaseObject>() { };
             VisualChildrenHidden = new ObservableCollection<BaseObject>() { };
         }
-        
 
 
 
-        public virtual void AddChild(object obj)
+
+        public virtual void AddChildDialog(object obj)
         {
 
         }

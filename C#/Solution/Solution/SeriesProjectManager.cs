@@ -18,7 +18,6 @@ namespace XSolution
 
         public FileSystemWatcher watcher;
 
-
         private string fileSize;
         public string FileSize
         {
@@ -31,14 +30,7 @@ namespace XSolution
         {
             //加延迟是为了显示效果更好。
             await Task.Delay(1000);
-            try
-            {
-                FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullName, "derives"));
-            }
-            catch
-            {
-
-            }
+            FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullName, "derives"));
         }
 
         /// <summary>
@@ -71,10 +63,7 @@ namespace XSolution
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            if (sender == null)
-                throw new NotImplementedException();
             Task.Run(CalculSize);
-
         }
 
         public void Watcher_Renamed(object sender, RenamedEventArgs e)
@@ -113,28 +102,22 @@ namespace XSolution
 
         public void Watcher_Created(object sender, FileSystemEventArgs e)
         {
-            if (File.Exists(e.FullPath))
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Application.Current.Dispatcher.Invoke((Action)(() =>
+                if (File.Exists(e.FullPath))
                 {
-                    AddChild(new ProjectFile(e.FullPath) { Visibility = Visibility.Hidden });
-                }));
-            }
-            else if (Directory.Exists(e.FullPath))
-            {
-                Application.Current.Dispatcher.Invoke((Action)(() =>
+                    BaseObject baseObject = SolutionGlobal.GetInstance().GetProjectFile(e.FullPath);
+                    baseObject.Visibility = Visibility.Hidden;  
+                    AddChild(baseObject);
+                }
+                else if (Directory.Exists(e.FullPath))
                 {
-                    AddChild(new ProjectFolder(e.FullPath) { Visibility=Visibility.Hidden});
-                }));
-            }
+                    AddChild(new ProjectFolder(e.FullPath) { Visibility = Visibility.Hidden });
+                }
+            });
         }
 
-
-
-
-
-
-        public override void AddChild(object obj)
+        public override void AddChildDialog(object obj)
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -143,6 +126,12 @@ namespace XSolution
                 AddChild(derivativeSeriesFile);
 
             }
+        }
+
+
+        public override void AddChild(BaseObject baseObject)
+        {
+            base.AddChild(baseObject);
         }
 
 

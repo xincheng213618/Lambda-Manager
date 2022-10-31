@@ -77,6 +77,20 @@ namespace XSolution
             return null;
         }
 
+        public static BaseObject FromDirectories(BaseObject baseObject, DirectoryInfo root)
+        {
+            foreach (var directoryInfo in root.GetDirectories())
+            {
+                ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
+                baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
+            }
+            foreach (var directoryInfo in root.GetFiles())
+            {
+                baseObject.AddChild(GetInstance().GetProjectFile(directoryInfo.FullName));
+            }
+            return baseObject;
+        }
+
 
 
 

@@ -127,11 +127,7 @@ namespace XSolution
             };
         }
 
-
-
-
-
-        public override void AddChild(object obj)
+        public override void AddChildDialog(object obj)
         {
             OpenFileDialog dialog = new()
             {
@@ -139,9 +135,13 @@ namespace XSolution
                 RestoreDirectory = true,
                 Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif |JPEG Image (.jpeg)|*.jpeg |Png Image (.png)|*.png |Tiff Image (.tiff)|*.tiff |Wmf Image (.wmf)|*.wmf"
             };
-            bool? result = dialog.ShowDialog();
-            AddChild(new DerivativeFile(dialog.FileName));
+            if (dialog.ShowDialog() == true)
+            {
+                AddChild(new DerivativeFile(dialog.FileName)); 
+            }
         }
+
+
         private void OpenFolder(object value)
         {
             System.Diagnostics.Process.Start("explorer.exe", FullName);

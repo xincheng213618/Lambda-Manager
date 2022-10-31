@@ -54,6 +54,9 @@ namespace XSolution
         public override void AddChild(BaseObject baseObject)
         {
             base.AddChild(baseObject);
-        }
+            //添加到主窗口中
+            if (FullName.Contains("Image")|| FullName.Contains("Video"))
+                GetAncestor(typeof(SolutionExplorer))?.AddChild(baseObject);
+       }
     }
 }

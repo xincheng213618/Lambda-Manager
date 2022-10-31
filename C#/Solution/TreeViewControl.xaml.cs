@@ -245,40 +245,7 @@ namespace Solution
             };
             openSolutionWindow.ShowDialog();
         }
-         
-
-
-        public BaseObject GetFile(BaseObject projectFolder, string FullPath)
-        {
-            var root = new DirectoryInfo(FullPath);
-            foreach (var item in root.GetFiles())
-            {
-                //string Extension = Path.GetExtension(item.FullName);
-                //if (Extension == ".png" || Extension == ".jpg" || Extension == ".tiff")
-                //{
-                //    ProjectFile projectFile = new ProjectFile(item.FullName);
-                //    projectFolder.AddChild(projectFile);
-                //    projectFile.Visibility = Visibility.Visible;
-                //}
-                //else if (Extension == ".grif")
-                //{
-                //    GrifFile projectFile = new GrifFile(item.FullName);
-                //    projectFolder.AddChild(projectFile);
-                //    projectFile.Visibility = Visibility.Visible;
-                //}
-                BaseObject baseObject = SolutionGlobal.GetInstance().GetProjectFile(item.FullName);
-                if (baseObject != null)
-                {
-                    solutionExplorer.AddChild(baseObject);
-                }
-            }
-            foreach (var item in root.GetDirectories())
-            {
-                ProjectFolder projectFolder1 = new ProjectFolder(item.FullName);
-                projectFolder.AddChild(GetFile(projectFolder1, item.FullName));
-            }
-            return projectFolder;
-        }
+        
 
         SolutionExplorer solutionExplorer;
 
@@ -286,14 +253,18 @@ namespace Solution
         {
             solutionExplorer = new SolutionExplorer(FilePath)
             {
-                SolutionName = System.IO.Path.GetFileNameWithoutExtension(FilePath),
+                SolutionName = Path.GetFileNameWithoutExtension(FilePath),
             };
-
-
-            SolutionDir = System.IO.Path.GetDirectoryName(FilePath);
+            SolutionDir = Path.GetDirectoryName(FilePath);
 
             DirectoryInfo root = new DirectoryInfo(SolutionDir);
             var dics = root.GetDirectories();
+
+            foreach (var item in root.GetFiles())
+            {
+                solutionExplorer.AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
+            }
+
             foreach (var dic in dics)
             {
                 if (dic.Name == "Video" || dic.Name == "Image")
@@ -301,16 +272,12 @@ namespace Solution
                     ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false, CanReName = false, Visibility = Visibility.Hidden };
                     foreach (var item in dic.GetDirectories())
                     {
-                        ProjectFolder projectFolder = new ProjectFolder(item.FullName);
-                        projectMannager.AddChild(GetFile(projectFolder, item.FullName));
+                        projectMannager.AddChild(SolutionGlobal.FromDirectories(new ProjectFolder(item.FullName), item));
                     }
                     foreach (var item in dic.GetFiles())
                     {
-                        BaseObject baseObject = SolutionGlobal.GetInstance().GetProjectFile(item.FullName);
-                        if (baseObject != null)
-                        {
-                            solutionExplorer.AddChild(baseObject);
-                        }
+                        projectMannager.AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
+                        solutionExplorer.AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
                     }
                     solutionExplorer.AddChild(projectMannager);
                 }
@@ -512,7 +479,6 @@ namespace Solution
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            SolutionGlobal solutionGlobal = SolutionGlobal.GetInstance();
 
 
         }

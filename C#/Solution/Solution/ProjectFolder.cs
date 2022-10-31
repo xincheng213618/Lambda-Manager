@@ -147,17 +147,17 @@ namespace XSolution
         {
             if (File.Exists(e.FullPath))
             {
-                Application.Current.Dispatcher.Invoke((Action)(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     AddChild(SolutionGlobal.GetInstance().GetProjectFile(e.FullPath));
-                }));
+                });
             }
             else if (Directory.Exists(e.FullPath))
             {
-                Application.Current.Dispatcher.Invoke((Action)(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     AddChild(new ProjectFolder(e.FullPath));
-                }));
+                });
             }
         }
         
@@ -167,7 +167,7 @@ namespace XSolution
 
         public override void AddChild(BaseObject baseObject)
         {
-            base.AddChild(baseObject);  
+            base.AddChild(baseObject);
         }
 
         public override void RemoveChild(BaseObject baseObject)
