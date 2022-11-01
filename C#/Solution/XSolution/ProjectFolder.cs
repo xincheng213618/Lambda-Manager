@@ -1,17 +1,24 @@
-﻿using System;
+﻿using Global.Common.Extensions;
+using Global.Common.Helper;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace XSolution
 {
     public class ProjectFolder : BaseObject
     {
         private SolutionExplorer solutionExplorer = null;
+
+
+        public ImageSource Icon { get; set; }
 
         public SolutionExplorer SolutionExplorer
         { 
@@ -27,7 +34,7 @@ namespace XSolution
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
             VisualChildren = new ObservableCollection<BaseObject>();
-
+            Icon = FileIcon.GetDirectoryIcon().ToImageSource();
             watcher = new FileSystemWatcher(FolderPath)
             {
                 IncludeSubdirectories = false,               

@@ -11,6 +11,12 @@ using System.Windows.Controls;
 namespace Solution
 {
 
+    public class GrifExportAs : ViewModelBase
+    {
+        public string FullName { get; set; }
+        public string ExportFullName { get; set; }
+        public string Kinds { get; set; }
+    }
 
     /// <summary>
     /// GrifExportAsWindow1.xaml 的交互逻辑

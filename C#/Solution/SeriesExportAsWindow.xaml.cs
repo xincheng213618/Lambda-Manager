@@ -32,18 +32,6 @@ namespace Solution
         public bool Ruler { get; set; } 
 
         public List<string> Mode { get; set; }= new List<string>();
-
-
-        public string ToJson()
-        {
-            var mode = new StringBuilder();
-            foreach (var item in Mode)
-            {
-                mode.Append(item);
-                mode.Append(',');
-            }
-            return $"{{\"FullName\":\"{FullName.Replace("\\", "\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\",\"Mode\":\"{mode.ToString().Replace("\\", "\\\\")}\"}}";
-        }
     }
 
     /// <summary>

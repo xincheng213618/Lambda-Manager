@@ -32,7 +32,6 @@ namespace XSolution
             this.Parent = null;
         }
 
-
         /// <summary>
         /// 显示的子集
         /// </summary>
@@ -99,7 +98,6 @@ namespace XSolution
         public BaseObject(string FullName)
         {
             this.FullName = FullName;
-
             AddChildren = new RelayCommand(AddChildDialog, (object value) => { return true; });
             VisibilityHidden = new RelayCommand(delegate
             {
@@ -141,7 +139,7 @@ namespace XSolution
             get { return parent; }
             set
             {
-                if (value != parent && value is BaseObject)
+                if (value != parent && value is not null)
                 {
                     parent = value;
                     NotifyPropertyChanged();

@@ -2,7 +2,9 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Global.Common.Util
 {
@@ -18,7 +20,7 @@ namespace Global.Common.Util
         /// <returns></returns>
         public static string ToJson(Object obj)
         {
-            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) };
             jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
             return JsonSerializer.Serialize(obj, jsonSerializerOptions);
         }

@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using Tool;
 using System.Diagnostics;
+using Global.Common.Extensions;
+using Solution;
+using System.Drawing;
+using Global.Common.Helper;
+using System.Windows.Media;
 
 namespace XSolution
 {
-    public class GrifExportAs
-    {
-        public string FullName { get; set; }
-        public string ExportFullName { get; set; }
-        public string Kinds { get; set; }
-        public override string ToString() => $"{{\"FullName\":\"{FullName.Replace("\\", "\\\\")}\",\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\"}}";
-    }
+
 
     //暂时没啥用，用来作为一个反射的一个入口
     public interface IProjectFile
@@ -28,6 +27,7 @@ namespace XSolution
 
     public class ProjectFile : BaseObject, IProjectFile
     {
+        public ImageSource Icon { get; set; }
 
         public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
 
@@ -54,6 +54,7 @@ namespace XSolution
             ProjectFiles.Add(this);
             FileInfo = new FileInfo(FullName);
             Name = Path.GetFileNameWithoutExtension(fullName);
+            Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
 
             OpenExplorerCommand = new RelayCommand(OpenFolder, (object value) => { return true; });
             ExportAsTiffCommand = new RelayCommand(ExportAsTiff, (object value) => { return true; });
@@ -111,7 +112,7 @@ namespace XSolution
             if (result == true)
             {
                 GrifExportAs grifExportAs = new GrifExportAs() { FullName = FullName,ExportFullName =dialog.FileName,Kinds =kinds};
-                LambdaControl.Trigger("GrifExportAs", this , grifExportAs.ToString());
+                LambdaControl.Trigger("GrifExportAs", this , grifExportAs.ToJson());
             };
         }
 

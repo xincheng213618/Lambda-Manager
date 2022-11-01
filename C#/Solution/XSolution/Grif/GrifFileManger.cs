@@ -6,79 +6,69 @@ using System.Runtime.InteropServices;
 namespace XSolution
 {
 
-    //花活，NativeLibrary + Trace + 结构体 + Goto
-    public static class GrifFileManger
+    //花活，NativeLibrary + Trace + 结构体 + Goto + 单例
+    public class GrifFileManger
     {
-        public static string libraryPath = "lib\\CustomFile.dll";
-
-        public static Dictionary<string, IntPtr> libraryExport = new Dictionary<string, IntPtr>()
+        private static GrifFileManger _instance;
+        private static readonly object _locker = new();
+        public static GrifFileManger GetInstance()
         {
-            {"ReadFileInfo",IntPtr.Zero},
-            {"NativeIsGrifFile",IntPtr.Zero}
-        };
+            lock (_locker) { _instance ??= new GrifFileManger(); }
+            return _instance;
+        }
 
-
-
-        //如果找不到CustomFile，则提示报错，然后该接口之反馈空的信息状态
-        private static bool IsLoad = false;
-        public unsafe static GrifFileMeta ReadGrifFileInfo(string filepath)
+        private string libraryPath;
+        private List<string> libraryExport;
+        private Dictionary<string, IntPtr> libraryExportDic;
+        private GrifFileManger()
         {
-            if (libraryExport["ReadFileInfo"] == IntPtr.Zero && !IsLoad)
+            libraryPath = "lib\\CustomFile.dll";
+            libraryExport = new List<string>() { "ReadFileInfo", "NativeIsGrifFile" };
+
+            IntPtr dll = NativeLibrary.Load(libraryPath);
+
+            foreach (var item in libraryExport)
             {
-                IsLoad = true;
                 try
                 {
-                    IntPtr dll = NativeLibrary.Load(libraryPath);
-                    if (dll == IntPtr.Zero)
+                    if (dll != IntPtr.Zero)
                     {
-                        goto ERROR1;
+                        libraryExportDic.Add(item, NativeLibrary.GetExport(dll, "item"));
+                        continue;
                     }
-                    libraryExport["ReadFileInfo"] = NativeLibrary.GetExport(dll, "ReadFileInfo");
                 }
                 catch (Exception e)
                 {
                     Trace.WriteLine("### [" + e.Source + "] Exception: " + e.Message);
                     Trace.WriteLine("### " + e.StackTrace);
-                    goto ERROR1;
                 }
+                libraryExportDic.Add(item, IntPtr.Zero);
             }
-            if (libraryExport["ReadFileInfo"] != IntPtr.Zero && IsLoad)
+        }
+
+        //如果找不到CustomFile，则提示报错，然后该接口之反馈空的信息状态
+        public unsafe GrifFileMeta ReadGrifFileInfo(string filepath)
+        {
+            IntPtr intPtr = libraryExportDic["ReadFileInfo"];
+            if (intPtr != IntPtr.Zero )
             {
-                return ((delegate* unmanaged[Cdecl]<string, GrifFileMeta>)(void*)libraryExport["ReadFileInfo"])(filepath);
+                return ((delegate* unmanaged[Cdecl]<string, GrifFileMeta>)(void*)intPtr)(filepath);
             }
-            ERROR1:
             return new GrifFileMeta();
         }
 
-
-        private static bool IsLoad1 = false;
-
-        public unsafe static int IsGrifFile(string filepath)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns>0,-1,-2,-3</returns>
+        public unsafe int IsGrifFile(string filepath)
         {
-            if (libraryExport["NativeIsGrifFile"] == IntPtr.Zero && !IsLoad1)
+            IntPtr intPtr = libraryExportDic["NativeIsGrifFile"];
+            if (intPtr != IntPtr.Zero)
             {
-                IsLoad1 = true;
-                try
-                {
-                    IntPtr dll = NativeLibrary.Load(libraryPath);
-                    if (dll == IntPtr.Zero)
-                    {
-                        goto ERROR1;
-                    }
-                    libraryExport["NativeIsGrifFile"] = NativeLibrary.GetExport(dll, "NativeIsGrifFile");
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine("### [" + e.Source + "] Exception: " + e.Message);
-                    Trace.WriteLine("### " + e.StackTrace);
-                    goto ERROR1;
-                }
+                return ((delegate* unmanaged[Cdecl]<string, int>)(void*)intPtr)(filepath);
             }
-            if (libraryExport["NativeIsGrifFile"] != IntPtr.Zero && IsLoad)
-            {
-                return ((delegate* unmanaged[Cdecl]<string, int>)(void*)libraryExport["NativeIsGrifFile"])(filepath);
-            }
-            ERROR1:
             return -3;
         }
 

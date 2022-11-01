@@ -2,7 +2,7 @@
 <root>
 	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册(_R)"/>
 	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于(_A)"/>
-	<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />
+	<!--<component name="ToolControl" lib="ConfigObjective.dll" mount="acquire:0" />-->
 	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
 	<component name="ToolSetting" lib="ConfigSetting.dll" mount="PROCESS:0"/>
 	<component name="UserControl1" lib="Process.dll" mount="process:0"/>

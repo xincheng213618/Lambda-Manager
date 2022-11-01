@@ -113,7 +113,7 @@
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
         <StackPanel  Style="{StaticResource style_treeViewItem_panel}" >
-            <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/filer.png" />
+            <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
 
             <StackPanel.ContextMenu>
@@ -132,7 +132,7 @@
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFile}" ItemsSource="{Binding VisualChildren}" >
         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
-            <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
+            <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
                             <Run Text=" -"/>

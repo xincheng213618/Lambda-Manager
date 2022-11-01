@@ -60,7 +60,6 @@ namespace XSolution
             {
                 if (item.Key.Contains(Extension))
                 {
-
                     return (BaseObject)Activator.CreateInstance(item.Value, FullName);
                 }
             };
@@ -71,19 +70,8 @@ namespace XSolution
         {
             foreach (var directoryInfo in root.GetDirectories())
             {
-                if (directoryInfo.Name == "Image")
-                {
-                    foreach (var direc in directoryInfo.GetFiles())
-                    {
-                        baseObject.AddChild(GetInstance().GetProjectFile(direc.FullName));
-                    }
-                }
-                else
-                {
-                    ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
-                    baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
-                }
-
+                ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
+                baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
             }
             foreach (var directoryInfo in root.GetFiles())
             {
