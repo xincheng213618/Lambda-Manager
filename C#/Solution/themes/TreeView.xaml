@@ -2,8 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:XSolution="clr-namespace:XSolution" 
                     xmlns:local="clr-namespace:Solution"
-                    x:Class="Solution.TreeViewTextbox"
-                    >
+                    x:Class="Solution.TreeViewTextbox">
 
     <Style x:Key="style_treeViewItem_icon" TargetType="Image">
         <Setter Property="Width" Value="16"></Setter>

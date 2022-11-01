@@ -10,6 +10,8 @@ using System.Text;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System;
 
 namespace Solution
 {
@@ -51,17 +53,15 @@ namespace Solution
     {
         public SeriesProjectManager seriesProjectManager;
 
-        public ObservableCollection<SeriesProjectManager> SeriesProjectManagers = new ObservableCollection<SeriesProjectManager>();
-
         public ProjectExportAs ProjectExportAs;
         public SeriesExportAsWindow(SeriesProjectManager seriesProjectManager)
         {
             this.seriesProjectManager = new SeriesProjectManager(seriesProjectManager.FullName);
             this.seriesProjectManager.ExportIni();
-            SeriesProjectManagers.Add(this.seriesProjectManager);
             InitializeComponent();
 
-            SeriesExportTreeView1.ItemsSource = SeriesProjectManagers;
+            SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
+            SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
 
             ProjectExportAs = new ProjectExportAs() { Kinds = "mp4", FullName = seriesProjectManager.FullName, PhotoTime = false };
             this.DataContext = ProjectExportAs;
@@ -70,21 +70,20 @@ namespace Solution
         private void OK_Click(object sender, RoutedEventArgs e)
         {
              List<string>Mode = new();
-            if (checkbox51.IsChecked == true)
-                Mode.Add("bright-field");
-            if (checkbox52.IsChecked == true)
-                Mode.Add("dark-field");
-            if (checkbox53.IsChecked == true)
-                Mode.Add("rheinberg");
-            if (checkbox54.IsChecked == true)
-                Mode.Add("relief-contrast");
-            if (checkbox55.IsChecked == true)
-                Mode.Add("quantitative-phase");
-            if (checkbox56.IsChecked == true)
-                Mode.Add("phase-contrast");
+            //if (checkbox51.IsChecked == true)
+            //    Mode.Add("bright-field");
+            //if (checkbox52.IsChecked == true)
+            //    Mode.Add("dark-field");
+            //if (checkbox53.IsChecked == true)
+            //    Mode.Add("rheinberg");
+            //if (checkbox54.IsChecked == true)
+            //    Mode.Add("relief-contrast");
+            //if (checkbox55.IsChecked == true)
+            //    Mode.Add("quantitative-phase");
+            //if (checkbox56.IsChecked == true)
+            //    Mode.Add("phase-contrast");
 
             ProjectExportAs.Mode = Mode;
-
             LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
             this.Close();
         }
@@ -126,6 +125,48 @@ namespace Solution
             {
                 ProjectExportAs.ExportFullName = dialog.FileName;
             };
+        }
+
+        int Indexof = 0;
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (Indexof <= 0)
+                return;
+
+            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof-1];
+            seriesProjectManager.ExportChildren.Remove(baseObject);
+            seriesProjectManager.ExportChildren.Insert(Indexof, baseObject);
+            Indexof = Indexof - 1;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof + 1];
+            seriesProjectManager.ExportChildren.Remove(baseObject);
+            seriesProjectManager.ExportChildren.Insert(Indexof, baseObject);
+            Indexof = Indexof + 1;
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            seriesProjectManager.ExportChildren.Insert(Indexof, new SeriesProjectExportLine());
+        }
+
+        private void StackPanel_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            StackPanel stackPanel = sender as StackPanel;
+            if (stackPanel.Tag is BaseObject baseObject)
+                Indexof =seriesProjectManager.ExportChildren.IndexOf(baseObject);
+        }
+
+        private void Button_Click_01(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_02(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

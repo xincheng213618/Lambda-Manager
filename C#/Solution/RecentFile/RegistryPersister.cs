@@ -5,9 +5,6 @@ using System.Windows.Forms;
 
 namespace Solution.RecentFile
 {
-
-
-
     public class RegistryPersister : IPersist
     {
         public string RegistryKey { get; set; }

@@ -3,20 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Xml.Linq;
 
 namespace XSolution
 {
-
-    //IEnumerable<AbstractDataExport> exporters = typeof(AbstractDataExport)
-    //.Assembly.GetTypes()
-    //.Where(t => t.IsSubclassOf(typeof(AbstractDataExport)) && !t.IsAbstract)
-    //.Select(t => (AbstractDataExport)Activator.CreateInstance(t));
-
-
     public static class ReflectiveEnumerator
     {
         static ReflectiveEnumerator() { }
@@ -33,7 +22,7 @@ namespace XSolution
         }
     }
 
-
+    //单例 + 反射 + 迭代 + Linq
     public class SolutionGlobal
     {
         private static SolutionGlobal _instance;
@@ -71,6 +60,7 @@ namespace XSolution
             {
                 if (item.Key.Contains(Extension))
                 {
+
                     return (BaseObject)Activator.CreateInstance(item.Value, FullName);
                 }
             };
@@ -81,8 +71,19 @@ namespace XSolution
         {
             foreach (var directoryInfo in root.GetDirectories())
             {
-                ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
-                baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
+                if (directoryInfo.Name == "Image")
+                {
+                    foreach (var direc in directoryInfo.GetFiles())
+                    {
+                        baseObject.AddChild(GetInstance().GetProjectFile(direc.FullName));
+                    }
+                }
+                else
+                {
+                    ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
+                    baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
+                }
+
             }
             foreach (var directoryInfo in root.GetFiles())
             {

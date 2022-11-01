@@ -16,10 +16,11 @@ namespace XSolution
         public RelayCommand GrifExportAsCommand { get; set; }
 
 
+
         public GrifFile(string FullName) : base(FullName)
         {
             GrifExportAsCommand = new RelayCommand(GrifExportAsWindow, (value) => { return true; });
-            GrifFileMeta = GrifFileManger.ReadFileInfo(FullName);
+            GrifFileMeta = GrifFileManger.ReadGrifFileInfo(FullName);
             AttributesCommand = new RelayCommand(OpenAttributes, (value) => { return true; });
 
         }

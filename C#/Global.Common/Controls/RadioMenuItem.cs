@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Global.Common.Controls
 {
     /// <summary>
-    /// 利用Tag记录指针，自行还原
+    /// 利用Tag记录指针，自行还原,泛型化
     /// </summary>
     public class RadioMenuItem : MenuItem
     {
@@ -18,13 +18,9 @@ namespace Global.Common.Controls
         {
             if (IsChecked)
             {
-                if (this.Parent is ContextMenu contextMenu )
+                if (this.Parent is Control control)
                 {
-                    TClick(contextMenu);
-                };
-                if (this.Parent is MenuItem menuItem)
-                {
-                    TClick(menuItem);
+                    TClick(control);
                 }
             }
             IsChecked = !IsChecked;
@@ -34,17 +30,9 @@ namespace Global.Common.Controls
 
         private void RadioChecked(object sender, RoutedEventArgs e)
         {
-            if (this.Parent is ContextMenu contextMenu)
+            if (this.Parent is Control control)
             {
-                TChecked(contextMenu);
-            }
-            if (this.Parent is Menu menu)
-            {
-                TChecked(menu);
-            }
-            if (this.Parent is MenuItem menuItem)
-            {
-                TChecked(menuItem);
+                TChecked(control);
             }
         }
         public void TChecked<T>(T ParentObject) where T : Control

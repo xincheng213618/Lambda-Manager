@@ -17,7 +17,6 @@ namespace Global.Common
         public static event ConfigWriteEventHandler ConfigWriteEvent;
 
 
-
         public static int ConfigRead(string FileName)
         {
             return ConfigReadEvent?.Invoke(FileName) ?? 0;

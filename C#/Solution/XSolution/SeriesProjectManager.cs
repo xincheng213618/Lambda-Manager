@@ -10,9 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Tool;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 
 namespace XSolution
 {
+
+    public class SeriesProjectExportLine : BaseObject
+    {
+        public SeriesProjectExportLine(): base("Line") 
+        {
+
+        }
+    }
+
+
     public class SeriesProjectManager : BaseObject
     {
 
@@ -33,6 +45,9 @@ namespace XSolution
             FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullName, "derives"));
         }
 
+        public ObservableCollection<BaseObject> ExportChildren { get; set; }
+
+
         /// <summary>
         /// 导出为
         /// </summary>
@@ -42,10 +57,46 @@ namespace XSolution
         {
             foreach (var item in new DirectoryInfo(FullName).GetDirectories())
             {
-                BaseObject baseObject = SolutionGlobal.FromDirectories(this, item);
+                BaseObject baseObject = FromDirectories(new ProjectFolder(item.FullName), item);
                 AddChild(baseObject);
             }
+            ExportChildren = new ObservableCollection<BaseObject>();
+            GetAllExportGrif(this);
         }
+
+        public static BaseObject FromDirectories(BaseObject baseObject, DirectoryInfo root)
+        {
+            foreach (var directoryInfo in root.GetDirectories())
+            {
+                if (directoryInfo.Name == "Image")
+                {
+                    foreach (var direc in directoryInfo.GetFiles())
+                    {
+                        baseObject.AddChild(SolutionGlobal.GetInstance().GetProjectFile(direc.FullName));
+                    }
+                }
+
+            }
+            foreach (var directoryInfo in root.GetFiles())
+            {
+                baseObject.AddChild(SolutionGlobal.GetInstance().GetProjectFile(directoryInfo.FullName));
+            }
+            return baseObject;
+        }
+
+
+        private void GetAllExportGrif(BaseObject baseObject)
+        {
+            foreach (var item in baseObject.VisualChildren)
+            {
+                if (item is ProjectFolder)
+                    GetAllExportGrif(item);
+                if (item is GrifFile)
+                    ExportChildren.Add(item);
+            }
+        }
+
+
 
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
         {

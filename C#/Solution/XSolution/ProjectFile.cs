@@ -1,23 +1,16 @@
 ﻿using Global.Common;
-using Global.Common.Extensions;
 using Lambda;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Text.RegularExpressions;
 using Tool;
 using System.Diagnostics;
-using System.Windows.Ink;
-using System.Windows.Documents;
-using System.Collections.Generic;
 
 namespace XSolution
 {
-
     public class GrifExportAs
     {
         public string FullName { get; set; }
@@ -29,14 +22,8 @@ namespace XSolution
     //暂时没啥用，用来作为一个反射的一个入口
     public interface IProjectFile
     {
-        /// <summary>
-        /// Extension
-        /// </summary>
-        /// <returns></returns>
         public string GetExtension();
         public string[] SupportExtensions();
-
-
     };
 
     public class ProjectFile : BaseObject, IProjectFile
@@ -66,7 +53,8 @@ namespace XSolution
         {
             ProjectFiles.Add(this);
             FileInfo = new FileInfo(FullName);
-            this.Name = Path.GetFileNameWithoutExtension(fullName);
+            Name = Path.GetFileNameWithoutExtension(fullName);
+
             OpenExplorerCommand = new RelayCommand(OpenFolder, (object value) => { return true; });
             ExportAsTiffCommand = new RelayCommand(ExportAsTiff, (object value) => { return true; });
             ExportAsJPEGCommand = new RelayCommand(ExportAsJPEG, (object value) => { return true; });
