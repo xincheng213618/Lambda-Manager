@@ -69,9 +69,7 @@ int Read_img(char* s)
 {
 	std::string filename = StringUtils::Multi2Utf8(s);
 	img_o=cv::imread(filename);
-	cv::Mat show;
-	resize(img_o, show, cv::Size(1201, 1199), 0, 0, cv::InterpolationFlags::INTER_LINEAR);
-	LambdaViewShow(show);
+	LambdaViewShow(img_o);
 	return 0;
 }
 

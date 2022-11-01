@@ -15,21 +15,21 @@ namespace Solution
 {
     public class ProjectExportAs : ViewModelBase
     {
-        public string Kinds { get; set; }
+        public string Kinds { get; set; } = "";
 
-        public string FullName { get; set; }
+        public string FullName { get; set; } = "";
 
-        public string ExportFullName { get; set; }
+        public string ExportFullName { get; set; } = "";
 
 
         //拍照时间
-        public bool PhotoTime { get; set; }
+        public bool PhotoTime { get; set; } 
 
-        public bool Dimension { get; set; }
+        public bool Dimension { get; set; } 
 
-        public bool Ruler { get; set; }
+        public bool Ruler { get; set; } 
 
-        public List<string> Mode { get; set; }
+        public List<string> Mode { get; set; }= new List<string>();
 
 
         public string ToJson()
@@ -85,34 +85,8 @@ namespace Solution
 
             ProjectExportAs.Mode = Mode;
 
-
-
-
-
             LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
-
             this.Close();
-        }
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            if (tb.Tag is XSolution.BaseObject baseObject)
-            {
-                baseObject.IsEditMode = false;
-            }
-        }
-
-        private void TextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            if (tb.Tag is XSolution.BaseObject baseObject)
-            {
-                baseObject.Name = tb.Text;
-                if (e.Key == Key.Escape || e.Key == Key.Enter)
-                {
-                    baseObject.IsEditMode = false;
-                }
-            }
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

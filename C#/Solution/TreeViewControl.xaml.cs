@@ -179,27 +179,7 @@ namespace Solution
         }
 
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            if (tb.Tag is XSolution.BaseObject baseObject)
-            {
-                baseObject.IsEditMode = false;
-            }
-        }
 
-        private void TextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            if (tb.Tag is XSolution.BaseObject baseObject)
-            {
-                baseObject.Name = tb.Text;
-                if (e.Key == Key.Escape || e.Key == Key.Enter)
-                {
-                    baseObject.IsEditMode = false;
-                }
-            }
-        }
 
         /// <summary>
         /// 新建

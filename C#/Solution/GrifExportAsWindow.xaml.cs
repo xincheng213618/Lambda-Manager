@@ -47,6 +47,11 @@ namespace Solution
                 grifExportAs.Kinds = comboBoxItem.Content.ToString();
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 

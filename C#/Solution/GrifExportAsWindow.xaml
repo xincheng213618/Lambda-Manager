@@ -20,23 +20,16 @@
                     <GroupBox Header="文件设置" BorderThickness="1" BorderBrush="#454545" Padding="5">
                         <StackPanel>
                             <DockPanel Margin="2" >
+                                <Button Width="50" DockPanel.Dock="Right"  Content="..." Click="Button_Click"/>
+                                <TextBlock Text="选择文件位置: " Width="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Style="{DynamicResource TextBoxStyle1}" Text="{Binding ExportFullName}"  HorizontalAlignment="Stretch"  Margin="0,0,5,0" />
+                            </DockPanel>
+                            <DockPanel Margin="2" >
                                 <TextBlock Text="格式: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <ComboBox SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  SelectionChanged="ComboBox_SelectionChanged">
                                     <ComboBoxItem Content="png"/>
                                     <ComboBoxItem Content="jpg"/>
                                     <ComboBoxItem Content="tiff"/>
-                                </ComboBox>
-                            </DockPanel>
-                            <DockPanel Margin="2"  >
-                                <TextBlock Text="品质: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <ComboBox SelectedIndex="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                    <ComboBoxItem  Content="很差"/>
-                                    <ComboBoxItem  Content="差"/>
-                                    <ComboBoxItem  Content="一般"/>
-                                    <ComboBoxItem  Content="好"/>
-                                    <ComboBoxItem  Content="很好"/>
-                                    <ComboBoxItem  Content="极佳"/>
-                                    <ComboBoxItem  Content="极好"/>
                                 </ComboBox>
                             </DockPanel>
                         </StackPanel>
