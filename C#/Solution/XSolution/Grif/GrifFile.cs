@@ -1,6 +1,5 @@
 ﻿using Global.Common;
 using Solution;
-using System.Runtime.InteropServices;
 
 namespace XSolution
 {
@@ -12,7 +11,7 @@ namespace XSolution
             return new string[] { ".grif" };
         }
 
-        public GrifFileMeta GrifFileMeta {  get; private set; }
+        public GrifFileMeta GrifFileMeta { get; private set; }
 
         public RelayCommand GrifExportAsCommand { get; set; }
 
@@ -20,8 +19,8 @@ namespace XSolution
         public GrifFile(string FullName) : base(FullName)
         {
             GrifExportAsCommand = new RelayCommand(GrifExportAsWindow, (value) => { return true; });
-            GrifFileMeta = CustomFileManger.ReadFileInfo(FullName);
-            AttributesCommand = new RelayCommand(OpenAttributes, (object value) => { return true; });
+            GrifFileMeta = GrifFileManger.ReadFileInfo(FullName);
+            AttributesCommand = new RelayCommand(OpenAttributes, (value) => { return true; });
 
         }
 

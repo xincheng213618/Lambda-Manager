@@ -42,10 +42,9 @@
                             <CheckBox Content="保存原始图像"/>
                             <CheckBox Content="导出视图"/>
                             <CheckBox Content="导出兴趣区域（ROI）"/>
-
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="标注" BorderThickness="2" BorderBrush="#454545" Padding="5"  Margin="0,10">
+                    <GroupBox Header="临时添加标注" BorderThickness="2" BorderBrush="#454545" Padding="5"  Margin="0,10">
                         <StackPanel>
                             <CheckBox Content="拍照时间"/>
                             <CheckBox Content="相对开始采集时间间隔"/>
