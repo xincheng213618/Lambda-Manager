@@ -74,8 +74,6 @@ namespace Global.Mode
     [Serializable]
     public class Firmware
     {
-        [JsonPropertyName("objective")]
-        public ObjectiveSetting? ObjectiveSetting { get; set; }
 
         [JsonPropertyName("camera")]
         public Camera? CameraSetting { get; set; } = new ();

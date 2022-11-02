@@ -71,6 +71,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
+    <ProjectReference Include="..\Global.Setting\Global.Setting.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>

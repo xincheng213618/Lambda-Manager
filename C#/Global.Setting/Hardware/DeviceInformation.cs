@@ -1,14 +1,23 @@
 ﻿using Global.Common;
-using Global.Mode.Config;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace Global.Hardware
 {
+    public class ObjectiveSetting
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        [JsonPropertyName("magnitude")]
+        public string Magnitude { get; set; }
+
+        [JsonPropertyName("N.A")]
+        public double NA { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public bool IsChecked { get; set; } = false;
+    }
+
     public class DeviceInformation : ViewModelBase
     {
         //Objectiv
