@@ -11,7 +11,7 @@ using Global.Common.Util;
 using Global.Common;
 using System.Timers;
 using System.ComponentModel;
-
+using Global.Setting;
 
 namespace ConfigObjective
 {

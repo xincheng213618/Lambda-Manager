@@ -76,7 +76,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <TreeView x:Name="SeriesExportTreeView1"  Grid.Column="0" ToolTip="—级节点，显示位置点;B3f-2b4k2∶二级节点，显示z维坐标;B3f-2b4k3 :三级节点，显示成像模式">
                             <TreeView.Resources>
@@ -107,14 +107,14 @@
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="AliceBlue" Style="{StaticResource style_treeViewItem_panel}" Height="2" >
+                                    <StackPanel Background="AliceBlue" Style="{StaticResource style_treeViewItem_panel}" Height="2" Tag="{Binding .}" >
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
                         </TreeView>
                         <StackPanel Grid.Column="3">
                             <Button Content="+" Click="Button_Click_3"/>
-  
+ 
                             <Button x:Name="ButtonUp" Grid.Row="0"  Click="Button_Click_1" >
                                 <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                                     <TextBlock.RenderTransform>
@@ -122,9 +122,7 @@
                                     </TextBlock.RenderTransform>
                                 </TextBlock>
                             </Button>
-                            <Button x:Name="ButtonDown" Grid.Row="0" Click="Button_Click_2" >
-                                <TextBlock Text="V">
-                                </TextBlock>
+                            <Button x:Name="ButtonDown" Content="V" Grid.Row="0" Click="Button_Click_2" >
                             </Button>
 
                         </StackPanel>

@@ -132,7 +132,7 @@ namespace Solution
             BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof-1];
             seriesProjectManager.ExportChildren.Remove(baseObject);
             seriesProjectManager.ExportChildren.Insert(Indexof, baseObject);
-            Indexof = Indexof - 1;
+            Indexof--;
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -140,12 +140,14 @@ namespace Solution
             BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof + 1];
             seriesProjectManager.ExportChildren.Remove(baseObject);
             seriesProjectManager.ExportChildren.Insert(Indexof, baseObject);
-            Indexof = Indexof + 1;
+            Indexof++;
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             seriesProjectManager.ExportChildren.Insert(Indexof, new SeriesProjectExportLine());
+            Indexof++;
+
         }
 
         private void StackPanel_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -162,7 +164,7 @@ namespace Solution
 
         private void Button_Click_02(object sender, RoutedEventArgs e)
         {
-
+            seriesProjectManager.ExportChildren.RemoveAt(Indexof);
         }
     }
 }

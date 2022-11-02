@@ -24,25 +24,36 @@ namespace XSolution
             libraryPath = "lib\\CustomFile.dll";
             libraryExport = new List<string>() { "ReadFileInfo", "NativeIsGrifFile" };
             libraryExportDic = new Dictionary<string, IntPtr>();
-            IntPtr dll = NativeLibrary.Load(libraryPath);
-
-            foreach (var item in libraryExport)
+            try
             {
-                try
+                IntPtr dll = NativeLibrary.Load(libraryPath);
+                foreach (var item in libraryExport)
                 {
-                    if (dll != IntPtr.Zero)
+                    try
                     {
-                        libraryExportDic.Add(item, NativeLibrary.GetExport(dll, "item"));
-                        continue;
+                        if (dll != IntPtr.Zero)
+                        {
+                            libraryExportDic.Add(item, NativeLibrary.GetExport(dll, item));
+                            continue;
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine("### [" + e.Source + "] Exception: " + e.Message);
+                        Trace.WriteLine("### " + e.StackTrace);
+                    }
+                    libraryExportDic.Add(item, IntPtr.Zero);
                 }
-                catch (Exception e)
-                {
-                    Trace.WriteLine("### [" + e.Source + "] Exception: " + e.Message);
-                    Trace.WriteLine("### " + e.StackTrace);
-                }
-                libraryExportDic.Add(item, IntPtr.Zero);
             }
+            catch
+            {
+                foreach (var item in libraryExport)
+                {
+                    libraryExportDic.Add(item, IntPtr.Zero);
+                }
+            }
+
+
         }
 
         //如果找不到CustomFile，则提示报错，然后该接口之反馈空的信息状态
