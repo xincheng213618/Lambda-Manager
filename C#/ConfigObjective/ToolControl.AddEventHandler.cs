@@ -220,9 +220,9 @@ namespace ConfigObjective
 			testMean.Dimensional.Savedir = "";
 			
 			testMean.Stage = windowData.Stage;
-			windowData.Config.Dimensional = testMean.Dimensional;
-			windowData.Config.Spot = testMean.Spot;
-			windowData.Config.Stage = testMean.Stage;
+			windowData.SolutionConfig.Dimensional = testMean.Dimensional;
+			windowData.SolutionConfig.Spot = testMean.Spot;
+			windowData.SolutionConfig.Stage = testMean.Stage;
 
           // System.Windows.MessageBox.Show(testMean.ToJson());
 

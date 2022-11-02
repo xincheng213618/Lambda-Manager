@@ -32,6 +32,8 @@ namespace Solution
         public bool Ruler { get; set; } 
 
         public List<string> Mode { get; set; }= new List<string>();
+        public List<string> FrameList { get; set; } = new List<string>();
+
     }
 
     /// <summary>
@@ -72,6 +74,12 @@ namespace Solution
             //    Mode.Add("phase-contrast");
 
             ProjectExportAs.Mode = Mode;
+            foreach (var item in seriesProjectManager.ExportChildren)
+            {
+                if (item is GrifFile grifFile)
+                    ProjectExportAs.FrameList.Add(grifFile.FullName);
+            }
+
             LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
             this.Close();
         }

@@ -75,7 +75,11 @@ namespace XSolution
                         baseObject.AddChild(SolutionGlobal.GetInstance().GetProjectFile(direc.FullName));
                     }
                 }
-
+                else
+                {
+                    ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
+                    baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
+                }
             }
             foreach (var directoryInfo in root.GetFiles())
             {

@@ -1,5 +1,5 @@
 ﻿using Global.Common;
-using Mode;
+using Global.Mode;
 using System;
 using System.Collections.Generic;
 using System.Linq;

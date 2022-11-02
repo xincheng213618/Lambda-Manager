@@ -1,7 +1,7 @@
 ﻿using Global;
 using Global.Common;
 using Global.Hardware;
-using Mode;
+using Global.Mode;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

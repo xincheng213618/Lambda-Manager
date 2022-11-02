@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 namespace XSolution
 {
 
-    //花活，NativeLibrary + Trace + 结构体 + Goto + 单例
     public class GrifFileManger
     {
         private static GrifFileManger _instance;
@@ -24,7 +23,7 @@ namespace XSolution
         {
             libraryPath = "lib\\CustomFile.dll";
             libraryExport = new List<string>() { "ReadFileInfo", "NativeIsGrifFile" };
-
+            libraryExportDic = new Dictionary<string, IntPtr>();
             IntPtr dll = NativeLibrary.Load(libraryPath);
 
             foreach (var item in libraryExport)

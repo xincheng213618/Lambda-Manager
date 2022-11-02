@@ -3,7 +3,7 @@ using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
-using Mode;
+using Global.Mode;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,20 +50,20 @@ namespace Global
         public OperatingMode OperatingMode = new();
         
 
-        public Config Config = new();
+        public SolutionConfig SolutionConfig = new();
 
 
         public void SetValue()
         {
             if (!ACQUIRE)
             {
-                MulDimensional.ZStart = Config.Dimensional.ZstackWiseSerial.ZBegin;
-                MulDimensional.Zstep = Config.Dimensional.ZstackWiseSerial.ZStep;
-                MulDimensional.ZEnd = Config.Dimensional.ZstackWiseSerial.ZEnd;
+                MulDimensional.ZStart = SolutionConfig.Dimensional.ZstackWiseSerial.ZBegin;
+                MulDimensional.Zstep = SolutionConfig.Dimensional.ZstackWiseSerial.ZStep;
+                MulDimensional.ZEnd = SolutionConfig.Dimensional.ZstackWiseSerial.ZEnd;
 
-                OperatingMode.SetValue(Config.OperatingMode);
-                Stage.SetValue(Config.Stage);
-                ImageViewState.SetValue(Config.ImageViewState);
+                OperatingMode.SetValue(SolutionConfig.OperatingMode);
+                Stage.SetValue(SolutionConfig.Stage);
+                ImageViewState.SetValue(SolutionConfig.ImageViewState);
                 Update.UpdateGlobal();
             }
             else
@@ -77,16 +77,16 @@ namespace Global
 
         public void SaveConfig(string ConfigFullName)
         {
-            Config.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
-            Config.Dimensional.ZstackWiseSerial.ZStep = MulDimensional.Zstep;
-            Config.Dimensional.ZstackWiseSerial.ZEnd = MulDimensional.ZEnd;
-            Config.OperatingMode.SetValue(OperatingMode);
-            Config.Stage.SetValue(Stage);
-            Config.ImageViewState.SetValue(ImageViewState);
+            SolutionConfig.Dimensional.ZstackWiseSerial.ZBegin = MulDimensional.ZStart;
+            SolutionConfig.Dimensional.ZstackWiseSerial.ZStep = MulDimensional.Zstep;
+            SolutionConfig.Dimensional.ZstackWiseSerial.ZEnd = MulDimensional.ZEnd;
+            SolutionConfig.OperatingMode.SetValue(OperatingMode);
+            SolutionConfig.Stage.SetValue(Stage);
+            SolutionConfig.ImageViewState.SetValue(ImageViewState);
 
-            Config.LastOpenTime = DateTime.Now.ToString();
-            Config.Dimensional.Saveprefix = ConfigFullName;
-            Config.ToJsonFile(ConfigFullName);
+            SolutionConfig.LastOpenTime = DateTime.Now.ToString();
+            SolutionConfig.Dimensional.Saveprefix = ConfigFullName;
+            SolutionConfig.ToJsonFile(ConfigFullName);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Global
             {
                 JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
                 jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
-                Config = JsonSerializer.Deserialize<Config>(result, jsonSerializerOptions);
+                SolutionConfig = JsonSerializer.Deserialize<SolutionConfig>(result, jsonSerializerOptions);
             }
             catch (Exception ex)
             {

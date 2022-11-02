@@ -20,7 +20,7 @@ using LambdaManager.Features;
 using LambdaManager.Mode;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
-using Mode;
+using Global.Mode;
 using ThemeManager;
 using ThemeManager.Controls;
 

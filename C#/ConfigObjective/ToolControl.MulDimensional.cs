@@ -50,14 +50,14 @@ namespace ConfigObjective
             TextBoxZstart.Text = MulDimensional.ZStart.ToString();
             TextBoxZend.Text = MulDimensional.ZEnd.ToString();
             TextBoxZStep.Text = MulDimensional.Zstep.ToString();
-            var timeWiseSerial = windowData.Config.Dimensional.TimeWiseSerial;
+            var timeWiseSerial = windowData.SolutionConfig.Dimensional.TimeWiseSerial;
 
             MulDimensional.TNumberEnable = timeWiseSerial.Times == -1;
             MulDimensional.TNumber = timeWiseSerial.Times;
             MulDimensional.TIntervalEnable = timeWiseSerial.Duration == "-1";
             MulDimensional.TInterval = timeWiseSerial.Duration;
 
-            var Dimensions = windowData.Config.Dimensional.Dimensions;
+            var Dimensions = windowData.SolutionConfig.Dimensional.Dimensions;
             if (Dimensions != null)
             {
                 ToggleButton501.IsChecked = Dimensions.Contains('x');
@@ -69,13 +69,13 @@ namespace ConfigObjective
             }
             else
             {
-                windowData.Config.Dimensional.Dimensions = "xy";
+                windowData.SolutionConfig.Dimensional.Dimensions = "xy";
                 ToggleButton501.IsChecked = true;
                 ToggleButton502.IsChecked = true;
             }
 
 
-            var mode = windowData.Config.Dimensional.Mode;
+            var mode = windowData.SolutionConfig.Dimensional.Mode;
 
             checkbox51.IsChecked = mode.Contains("bright-field");
             checkbox52.IsChecked = mode.Contains("dark-field");
@@ -387,9 +387,9 @@ namespace ConfigObjective
 			testMean.Dimensional.Savedir = "";
 
 			testMean.Stage = windowData.Stage;
-			windowData.Config.Dimensional = testMean.Dimensional;
-			windowData.Config.Spot = testMean.Spot;
-			windowData.Config.Stage = testMean.Stage;
+			windowData.SolutionConfig.Dimensional = testMean.Dimensional;
+			windowData.SolutionConfig.Spot = testMean.Spot;
+			windowData.SolutionConfig.Stage = testMean.Stage;
 
 			//System.Windows.MessageBox.Show(testMean.ToJson());
 

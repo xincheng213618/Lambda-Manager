@@ -4,7 +4,7 @@ using Global.Mode;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Mode
+namespace Global.Mode
 {
     public class UpdateStatus : ViewModelBase
     {

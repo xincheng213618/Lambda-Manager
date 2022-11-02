@@ -4,7 +4,7 @@ using Global.Mode;
 using Global.Mode.Config;
 using Global.UserControls.SeriesMap;
 using Lambda;
-using Mode;
+using Global.Mode;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

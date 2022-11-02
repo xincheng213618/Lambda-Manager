@@ -1,20 +1,16 @@
-﻿using Global;
-using Global.Common;
-using Global.Mode;
+﻿using Global.Common;
 using Global.Mode.Config;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Windows.Input;
 
-namespace Mode
+namespace Global.Mode
 {
     /// <summary>
     /// 本软件配置文件实体类
     /// </summary>
     [Serializable]
-    public class Config: ViewModelBase
+    public class SolutionConfig: ViewModelBase
     {
         [JsonPropertyName("version")]
         public string? Version { get; set; }
