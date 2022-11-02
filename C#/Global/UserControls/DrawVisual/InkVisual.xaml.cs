@@ -40,8 +40,6 @@ namespace Global.UserControls.DrawVisual
             InitializeComponent();
             this.ToolTop = ToolTop;
             this.inkMethod = inkMethod;
-            // imagingView = ImagingView;
-            //BackCanvas= backCanvas;
             topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
             this.image = image1;
             this.index=index1;
@@ -155,14 +153,12 @@ namespace Global.UserControls.DrawVisual
         WrapPanel topToolbar;
         private double width;
         private double height;
-        public Canvas BackCanvas;
         public ImageViewState.ToolTop ToolTop;
         private Image image;
         public int index;
 
         public RatioClass ratio1 = new RatioClass();
         public ProfileModel profileModel;
-        // public double ratio = 1;
         DrawInkMethod inkMethod;
         bool isMouseDown = false;
         Point iniP = new Point(0, 0);
@@ -173,10 +169,7 @@ namespace Global.UserControls.DrawVisual
         public StrokeCollection RegisterStroke = new StrokeCollection();
         public bool saveTempStroke = true;
         private int textFlag = 0;
-        //Stroke lastTempStroke1 = null;
-        //Stroke lastTempStroke2 = null;
         public Stroke profileStroke;
-        //curve
         int i = 0;
         Stroke lastTempCurveStroke = null;
         List<Point> CurvePointsList = new List<Point>();
@@ -186,14 +179,15 @@ namespace Global.UserControls.DrawVisual
         public double defDimL = 100;
         public Color  defDimC = Color.FromArgb(240, 240, 0, 0);
         public Color defDimTextC = Colors.White;
-       // public  ObservableCollection<Stroke> StrokesRegister = new ObservableCollection<Stroke>();
+
+        List<System.Windows.Point> pointList1 = new List<Point>();
+        StylusPointCollection point1;
+
+        Stroke stroke1;
+        Point PointSt;
 
 
-        
-
-
-
-            public void FilterStroke( int i)
+        public void FilterStroke( int i)
           {
 
            
@@ -896,11 +890,7 @@ namespace Global.UserControls.DrawVisual
             }
         }
 
-        List<System.Windows.Point> pointList1 = new List<Point>();
-        StylusPointCollection point1;
-
-        Stroke stroke1;
-        Point PointSt;
+      
         private void inkCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             iniP = e.GetPosition(inkCanvas);

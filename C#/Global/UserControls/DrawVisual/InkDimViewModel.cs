@@ -27,6 +27,7 @@ namespace Global.UserControls.DrawVisual
 				if (color != value)
 				{
 					color = value;
+					//RaisePropertyChanged(nameof(DimColor));
 					RaisePropertyChanged(() => DimColor);
 				}
 			}
@@ -39,6 +40,7 @@ namespace Global.UserControls.DrawVisual
 				if (textcolor != value)
 				{
 					textcolor = value;
+					//RaisePropertyChanged(nameof(TextColor));
 					RaisePropertyChanged(() => TextColor);
 				}
 			}

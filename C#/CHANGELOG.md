@@ -1,3 +1,33 @@
+## [1.3.7] -2022-11-2
+
+- 拆分 Global  添加 Global .Setting✔
+
+## [1.3.6] -2022-11-1
+
+- 调整Solution的文件封装，样式分离✔
+- 添加图标✔
+
+## [1.3.5] -2022-10-31
+
+- 修改ProjecFile种类为反射✔
+
+## [1.3.4] -2022-10-24
+
+- 修改Solution使其支持自定义格式，添加GridIcon64 ✔
+
+## [1.3.3] - 2022-10-20
+
+- 添加头文件信息，C# 对C++ 的联合读取 ✔
+
+## [1.3] - 2022-10-08
+
+- 对工程的重构，使其支持复杂的模式调度✔
+
+##  [1.2.2] 2022-09-30
+
+- 解决C# string 中文指针传入到C++ 中乱码的问题✔  https://blog.csdn.net/lpy369369/article/details/84849532
+- Fix  textblock 的样式被隐式覆盖 ✔  https://social.msdn.microsoft.com/Forums/vstudio/en-US/f36c8a4b-0072-4a78-871e-b7fe800507ce/textbloxk-style-override-label-style-in-wpf?forum=wpf
+
 ## [1.1.2] - 2022-09-20 - Xin 
 
 - 为主题管理添加一个状态变动触发事件✔
