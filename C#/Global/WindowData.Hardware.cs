@@ -1,10 +1,8 @@
-﻿using Global.Common.Extensions;
-using Global.Hardware;
-using Global.Mode.Config;
+﻿using Global.Hardware;
+using Global.Setting;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
+
 
 namespace Global
 {

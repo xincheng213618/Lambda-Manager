@@ -1,9 +1,7 @@
-﻿using Global.Mode.Config;
-
-namespace Global
+﻿
+namespace Global.Setting
 {
     public delegate void UpdateEventHandler();
-
 
     public static class Update
     {

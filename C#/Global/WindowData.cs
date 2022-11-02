@@ -3,12 +3,11 @@ using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
-using Global.Mode;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using Global.Setting;
 
 namespace Global
 {
