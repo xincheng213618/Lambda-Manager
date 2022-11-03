@@ -53,6 +53,7 @@ namespace Solution
             SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
             SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
 
+
             ProjectExportAs = new ProjectExportAs() { Kinds = "mp4", FullName = seriesProjectManager.FullName, PhotoTime = false };
             this.DataContext = ProjectExportAs;
         }
@@ -146,7 +147,7 @@ namespace Solution
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             seriesProjectManager.ExportChildren.Insert(Indexof, new SeriesProjectExportLine());
-            Indexof++;
+            Indexof--;
 
         }
 
@@ -159,12 +160,25 @@ namespace Solution
 
         private void Button_Click_01(object sender, RoutedEventArgs e)
         {
-
+            seriesProjectManager.ExportChildren.Add(baseObject1);
         }
 
         private void Button_Click_02(object sender, RoutedEventArgs e)
         {
             seriesProjectManager.ExportChildren.RemoveAt(Indexof);
+        }
+
+
+        int Indexof1 = 0;
+        BaseObject baseObject1 = null;
+        private void StackPanel1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            StackPanel stackPanel = sender as StackPanel;
+            if (stackPanel.Tag is BaseObject baseObject)
+            {
+                baseObject1 = baseObject;
+                Indexof1 = seriesProjectManager.ExportChildren.IndexOf(baseObject);
+            }
         }
     }
 }

@@ -10,7 +10,6 @@
         <Setter Property="Margin" Value="5,0,5,0"></Setter>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-
     </Style>
     <Style x:Key="style_treeViewItem_panel" TargetType="StackPanel">
         <Setter Property="Background" Value="Transparent"/>
@@ -147,7 +146,7 @@
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
                     <Separator/>
                     <Separator/>
-                    <MenuItem Header="打开所在的文件夹(_O)" Command="{Binding OpenExplorerCommand}" CommandParameter="{Binding .}"/>
+                    <MenuItem Header="系统打开文件(_O)" Command="{Binding OpenExplorerCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="属性(_R)"  Command="{Binding AttributesCommand}" CommandParameter="{Binding .}" />
                 </ContextMenu>
             </StackPanel.ContextMenu>
@@ -179,7 +178,7 @@
                         <MenuItem Header="导出PNG..."  Command="{Binding ExportAsPNGCommand}" CommandParameter="{Binding .}"   />
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="打开所在的文件夹(_O)" Command="{Binding OpenExplorerCommand}" CommandParameter="{Binding .}"/>
+                    <MenuItem Header="系统打开文件(_O)" Command="{Binding OpenExplorerCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="属性(_R)"  Command="{Binding AttributesCommand}" CommandParameter="{Binding .}" />
                 </ContextMenu>
             </StackPanel.ContextMenu>

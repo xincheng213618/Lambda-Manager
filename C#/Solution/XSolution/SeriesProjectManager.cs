@@ -61,7 +61,7 @@ namespace XSolution
                 AddChild(baseObject);
             }
             ExportChildren = new ObservableCollection<BaseObject>();
-            GetAllExportGrif(this);
+            //GetAllExportGrif(this);
         }
 
         public static BaseObject FromDirectories(BaseObject baseObject, DirectoryInfo root)

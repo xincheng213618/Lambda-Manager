@@ -37,8 +37,8 @@
                             <StackPanel>
                                 <DockPanel Margin="2" >
                                     <Button Width="50" DockPanel.Dock="Right"  Content="..." Click="Button_Click"/>
-                                    <TextBlock Text="选择文件位置: " Width="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBox Style="{DynamicResource TextBoxStyle1}" Text="{Binding ExportFullName}"  HorizontalAlignment="Stretch"  Margin="0,0,5,0" />
+                                    <TextBlock Text="保存目录: " Width="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBox Style="{DynamicResource TextBoxStyle1}"  CaretBrush="White" Foreground="White" Text="{Binding ExportFullName}"  HorizontalAlignment="Stretch"  Margin="0,0,5,0" />
                                 </DockPanel>
                                 <DockPanel Margin="2" >
                                     <TextBlock Text="格式: " Width="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -81,13 +81,13 @@
                         <TreeView x:Name="SeriesExportTreeView1"  Grid.Column="0" ToolTip="—级节点，显示位置点;B3f-2b4k2∶二级节点，显示z维坐标;B3f-2b4k3 :三级节点，显示成像模式">
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}">
+                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}"  >
                                         <CheckBox Margin="5,0"/>
                                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
+                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
                                         <CheckBox/>
                                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
                                     </StackPanel>
@@ -107,7 +107,7 @@
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="AliceBlue" Style="{StaticResource style_treeViewItem_panel}" Height="2" Tag="{Binding .}" >
+                                    <StackPanel x:Name="temp" Background="AliceBlue" Height="5"  Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}" >
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>

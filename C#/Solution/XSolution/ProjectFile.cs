@@ -37,15 +37,10 @@ namespace XSolution
             get { return fileSize; }
             set { fileSize = value; NotifyPropertyChanged(); }
         }
-        public RelayCommand OpenExplorerCommand { get; set; }
+        public RelayCommand OpenFileCommand { get; set; }
         public RelayCommand AttributesCommand { get; set; }
 
 
-        public RelayCommand ExportAsTiffCommand { get; set; }
-        public RelayCommand ExportAsJPEGCommand { get; set; }
-
-        public RelayCommand ExportAsPNGCommand { get; set; }
-        public RelayCommand ExportAsBMPCommand { get; set; }
 
 
         protected FileInfo FileInfo;
@@ -56,65 +51,12 @@ namespace XSolution
             Name = Path.GetFileNameWithoutExtension(fullName);
             Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
 
-            OpenExplorerCommand = new RelayCommand(OpenFolder, (object value) => { return true; });
-            ExportAsTiffCommand = new RelayCommand(ExportAsTiff, (object value) => { return true; });
-            ExportAsJPEGCommand = new RelayCommand(ExportAsJPEG, (object value) => { return true; });
-            ExportAsPNGCommand = new RelayCommand(ExportAsPNG, (object value) => { return true; });
-            ExportAsBMPCommand = new RelayCommand(ExportAsBMP, (object value) => { return true; });
+            OpenFileCommand = new RelayCommand(OpenFile, (object value) => { return true; });
+
             Task.Run(CalculSize);
         }
 
-
-        private void ExportAsBMP(object value)
-        {
-            ExportAs(value, "bmp");
-        }
-        private void ExportAsTiff(object value)
-        {
-            ExportAs(value, "tiff");
-        }
-        private void ExportAsJPEG(object value)
-        {
-            ExportAs(value, "jpeg");
-        }
-        private void ExportAsPNG(object value)
-        {
-            ExportAs(value,"png");
-        }
    
-        public void ExportAs(object value,string kinds)
-        {
-            string Filter;
-            switch (kinds)
-            {
-                case "png":
-                    Filter = "(*.png) | *.png";
-                    break;
-                case "jpeg":
-                    Filter = "(*.jpeg) | *.jpeg";
-                    break;
-                case "tiff":
-                    Filter = "(*.tiff) | *.tiff";
-                    break;
-                case "bmp":
-                    Filter = "(*.bmp) | *.bmp";
-                    break;
-                default:
-                    return;
-            }
-            SaveFileDialog dialog = new()
-            {
-                Title = "另存为",
-                RestoreDirectory = true,
-                Filter = Filter,
-            };
-            bool? result = dialog.ShowDialog();
-            if (result == true)
-            {
-                GrifExportAs grifExportAs = new GrifExportAs() { FullName = FullName,ExportFullName =dialog.FileName,Kinds =kinds};
-                LambdaControl.Trigger("GrifExportAs", this , grifExportAs.ToJson());
-            };
-        }
 
         public override void AddChildDialog(object obj)
         {
@@ -131,7 +73,7 @@ namespace XSolution
         }
 
 
-        private void OpenFolder(object value)
+        private void OpenFile(object value)
         {
             Process.Start("explorer.exe", FullName);
         }

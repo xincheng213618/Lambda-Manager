@@ -52,7 +52,7 @@ NativeCalculateWOTF g_pfnNativeCalculateWOTF;
 cv::Mat g_GRDmFrame[4];
 
 // 创建日志对象
-std::shared_ptr<spdlog::logger> my_logger = spdlog::basic_logger_mt("Phase", "Phase.txt");
+//std::shared_ptr<spdlog::logger> my_logger = spdlog::basic_logger_mt("Phase", "Phase.txt");
 
 /*********************我的变量添加*************************/
 //旧的行列

@@ -80,8 +80,6 @@ namespace LambdaManager
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
 
-            
-
             MenuItem MenuThemes = new MenuItem() { Header = Properties.Resources._Theme};
             foreach (var item in Enum.GetValues(typeof(Theme)).Cast<Theme>())
             {
