@@ -13,6 +13,7 @@ using static System.Net.WebRequestMethods;
 using ThemeManager;
 using System;
 using System.Linq;
+using System.Net.NetworkInformation;
 
 namespace Solution
 {
@@ -36,18 +37,18 @@ namespace Solution
             get { return exportFullName; }
             set
             {
-                if (value != null && value != fullName)
+                if (value != null && value != exportFullName)
                     exportFullName = value; NotifyPropertyChanged();
             }
         }
 
-        private string kinds = string.Empty;
-        public string Kinds
+        private GrifExportKinds kinds = GrifExportKinds.png;
+        public GrifExportKinds Kinds
         {
             get { return kinds; }
             set
             {
-                if (value != null && value != kinds)
+                if (value != kinds)
                     kinds = value; NotifyPropertyChanged();
             }
         }
@@ -66,15 +67,19 @@ namespace Solution
     /// </summary>
     public partial class GrifExportAsWindow : BaseWindow
     {
+        public BaseObject BaseObject;
+
         public GrifExportAs  grifExportAs;
         public GrifExportAsWindow(BaseObject BaseObject)
         {
-            grifExportAs = new GrifExportAs() { FullName = BaseObject.FullName,Kinds ="png"};
+            this.BaseObject = BaseObject;
+            grifExportAs = new GrifExportAs() { FullName = BaseObject.FullName,Kinds = GrifExportKinds.png};
             InitializeComponent();
         }
         public GrifExportAsWindow(BaseObject BaseObject, GrifExportKinds grifExportKinds)
         {
-            grifExportAs = new GrifExportAs() { FullName = BaseObject.FullName, Kinds = grifExportKinds.ToString() };
+            this.BaseObject = BaseObject;
+            grifExportAs = new GrifExportAs() { FullName = BaseObject.FullName, Kinds = grifExportKinds };
             InitializeComponent();
 
         }
@@ -85,13 +90,15 @@ namespace Solution
 
             for (int i = 0; i < combobox.Items.Count; i++)
             {
-                MessageBox.Show(combobox.Items[i].ToString());
-                if (combobox.Items[i].ToString().Contains(grifExportAs.Kinds))
+                if ((GrifExportKinds)combobox.Items[i] == grifExportAs.Kinds)
+                {
                     combobox.SelectedIndex = i;
-
+                    break;
+                }
             }
-            combobox.SelectedIndex = 0;
             this.DataContext = grifExportAs;
+            grifExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + BaseObject.Name +"."+ grifExportAs.Kinds;
+
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -110,7 +117,7 @@ namespace Solution
         {
             if (sender is ComboBoxItem comboBoxItem)
             {
-                grifExportAs.Kinds = comboBoxItem.Content.ToString();
+                grifExportAs.Kinds = (GrifExportKinds)comboBoxItem.Content;
             }
         }
 
@@ -119,20 +126,21 @@ namespace Solution
             string Filter;
             switch (grifExportAs.Kinds)
             {
-                case "png":
+                case GrifExportKinds.png:
                     Filter = "(*.png) | *.png";
                     break;
-                case "jpeg":
+                case GrifExportKinds.jpeg:
                     Filter = "(*.jpeg) | *.jpeg";
                     break;
-                case "tiff":
+                case GrifExportKinds.tiff:
                     Filter = "(*.tiff) | *.tiff";
                     break;
-                case "bmp":
+                case GrifExportKinds.bmp:
                     Filter = "(*.bmp) | *.bmp";
                     break;
                 default:
-                    return;
+                    Filter = "(*.png) | *.png";
+                    break;
             }
 
             SaveFileDialog dialog = new()

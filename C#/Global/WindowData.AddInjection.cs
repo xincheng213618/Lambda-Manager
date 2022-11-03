@@ -1049,9 +1049,13 @@ namespace Global
                 ToggleButtonFocus.SetBinding(ToggleButton.IsCheckedProperty, binding10);
                 ToggleButtonFocus.Margin = new Thickness(2, 0, 2, 0);
                 ToggleButtonFocus.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl focus = new ContentControl();
-                focus.Template = (ControlTemplate)resourceDictionary["focus"];
-                ToggleButtonFocus.Content = focus;
+                //ContentControl focus = new ContentControl();
+                //focus.Template = (ControlTemplate)resourceDictionary["focus"];
+
+                Grid grid = (Grid)resourceDictionary["grid1111"];
+                grid.SetBinding(Grid.BackgroundProperty, new Binding() { Source = ToggleButtonFocus, Path = new PropertyPath("Background") });
+                ToggleButtonFocus.Content = grid;
+
 
 
 

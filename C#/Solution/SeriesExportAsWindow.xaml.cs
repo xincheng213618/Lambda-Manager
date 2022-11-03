@@ -12,28 +12,56 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System;
+using System.Linq;
 
 namespace Solution
 {
     public class ProjectExportAs : ViewModelBase
     {
-        public string Kinds { get; set; } = "";
 
         public string FullName { get; set; } = "";
 
-        public string ExportFullName { get; set; } = "";
 
+        private string exportFullName = string.Empty;
+
+        public string ExportFullName
+        {
+            get { return exportFullName; }
+            set
+            {
+                if (value != null && value != exportFullName)
+                    exportFullName = value; NotifyPropertyChanged();
+            }
+        }
+        private SeriesExportKinds kinds = SeriesExportKinds.mp4;
+        public SeriesExportKinds Kinds
+        {
+            get { return kinds; }
+            set
+            {
+                if (value != kinds)
+                    kinds = value; NotifyPropertyChanged();
+            }
+        }
 
         //拍照时间
-        public bool PhotoTime { get; set; } 
+        public bool PhotoTime { get; set; }
 
-        public bool Dimension { get; set; } 
+        public bool Dimension { get; set; }
 
-        public bool Ruler { get; set; } 
+        public bool Ruler { get; set; }
 
-        public List<string> Mode { get; set; }= new List<string>();
+        public List<string> Mode { get; set; } = new List<string>();
         public List<string> FrameList { get; set; } = new List<string>();
 
+    }
+
+    public enum SeriesExportKinds
+    {
+        mp4,
+        avi,
+        rar,
+        dicom,
     }
 
     /// <summary>
@@ -48,19 +76,48 @@ namespace Solution
         {
             this.seriesProjectManager = new SeriesProjectManager(seriesProjectManager.FullName);
             this.seriesProjectManager.ExportIni();
+
+            ProjectExportAs = new ProjectExportAs() { Kinds = SeriesExportKinds.mp4, FullName = seriesProjectManager.FullName, PhotoTime = false };
+            this.DataContext = ProjectExportAs;
             InitializeComponent();
 
             SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
             SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
-
-
-            ProjectExportAs = new ProjectExportAs() { Kinds = "mp4", FullName = seriesProjectManager.FullName, PhotoTime = false };
-            this.DataContext = ProjectExportAs;
         }
+        public SeriesExportAsWindow(SeriesProjectManager seriesProjectManager,SeriesExportKinds seriesExportKinds)
+        {
+            this.seriesProjectManager = new SeriesProjectManager(seriesProjectManager.FullName);
+            this.seriesProjectManager.ExportIni();
+
+            ProjectExportAs = new ProjectExportAs() { Kinds = seriesExportKinds, FullName = seriesProjectManager.FullName, PhotoTime = false };
+            this.DataContext = ProjectExportAs;
+            InitializeComponent();
+
+            SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
+            SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
+        }
+
+        private void BaseWindow_Initialized(object sender, EventArgs e)
+        {
+            combobox.ItemsSource = Enum.GetValues(typeof(SeriesExportKinds)).Cast<SeriesExportKinds>();
+
+            for (int i = 0; i < combobox.Items.Count; i++)
+            {
+                if ((SeriesExportKinds)combobox.Items[i] == ProjectExportAs.Kinds)
+                {
+                    combobox.SelectedIndex = i;
+                    break;
+                }
+            }
+            this.DataContext = ProjectExportAs;
+            ProjectExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + seriesProjectManager.Name + "." + ProjectExportAs.Kinds;
+
+        }
+
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-             List<string>Mode = new();
+            List<string> Mode = new();
             //if (checkbox51.IsChecked == true)
             //    Mode.Add("bright-field");
             //if (checkbox52.IsChecked == true)
@@ -85,6 +142,17 @@ namespace Solution
             this.Close();
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ComboBoxItem comboBoxItem)
+            {
+                ProjectExportAs.Kinds = (SeriesExportKinds)comboBoxItem.Content;
+                ProjectExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + seriesProjectManager.Name + ProjectExportAs.Kinds;
+
+            }
+
+        }
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -95,16 +163,16 @@ namespace Solution
             string Filter;
             switch (ProjectExportAs.Kinds)
             {
-                case "mp4":
+                case SeriesExportKinds.mp4:
                     Filter = "(*.mp4) | *.mp4";
                     break;
-                case "avi":
+                case SeriesExportKinds.avi:
                     Filter = "(*.avi) | *.avi";
                     break;
-                case "rar":
+                case SeriesExportKinds.rar:
                     Filter = "(*.rar) | *.rar";
                     break;
-                case "dicom":
+                case SeriesExportKinds.dicom:
                     Filter = "(*.dicom) | *.dicom";
                     break;
                 default:
@@ -130,7 +198,7 @@ namespace Solution
             if (Indexof <= 0)
                 return;
 
-            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof-1];
+            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof - 1];
             seriesProjectManager.ExportChildren.Remove(baseObject);
             seriesProjectManager.ExportChildren.Insert(Indexof, baseObject);
             Indexof--;
@@ -155,7 +223,7 @@ namespace Solution
         {
             StackPanel stackPanel = sender as StackPanel;
             if (stackPanel.Tag is BaseObject baseObject)
-                Indexof =seriesProjectManager.ExportChildren.IndexOf(baseObject);
+                Indexof = seriesProjectManager.ExportChildren.IndexOf(baseObject);
         }
 
         private void Button_Click_01(object sender, RoutedEventArgs e)
@@ -179,6 +247,12 @@ namespace Solution
                 baseObject1 = baseObject;
                 Indexof1 = seriesProjectManager.ExportChildren.IndexOf(baseObject);
             }
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            SeriesExportAsSettingWindow baseWindow = new SeriesExportAsSettingWindow();
+            baseWindow.ShowDialog();
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Solution"
         xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="450" Width="350" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen"   Initialized="BaseWindow_Initialized" >
+        Height="450" Width="400" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen"   Initialized="BaseWindow_Initialized" >
     <Grid>
         <TextBlock Text="导出为" FontSize="15"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <DockPanel  >
@@ -21,11 +21,11 @@
                         <StackPanel>
                             <DockPanel Margin="2" >
                                 <Button Width="50" DockPanel.Dock="Right"  Content="..." Click="Button_Click"/>
-                                <TextBlock Text="保存目录: " Width="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="保存目录: " Width="55" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <TextBox Style="{DynamicResource TextBoxStyle1}"  CaretBrush="White" Foreground="White" Text="{Binding ExportFullName}"  HorizontalAlignment="Stretch"  Margin="0,0,5,0" />
                             </DockPanel>
                             <DockPanel Margin="2" >
-                                <TextBlock Text="格式: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="格式: " Width="55"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <ComboBox x:Name="combobox" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  SelectionChanged="ComboBox_SelectionChanged"/>
                             </DockPanel>
                         </StackPanel>

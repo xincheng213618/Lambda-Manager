@@ -53,6 +53,58 @@ namespace XSolution
         /// </summary>
         public RelayCommand PoejectExportAs { get; set; }
 
+        public RelayCommand ExportAsMp4Command { get; set; }
+        public RelayCommand ExportAsAVICommand { get; set; }
+
+        public RelayCommand ExportAsARARCommand { get; set; }
+        public RelayCommand ExportAsDICOMCommand { get; set; }
+
+
+
+        public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
+        {
+            CanReName = false;
+            Visibility = Visibility.Visible;
+
+            PoejectExportAs = new RelayCommand(delegate
+            {
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this);
+                GrifExportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+
+            ExportAsMp4Command = new RelayCommand(delegate
+            {
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this,SeriesExportKinds.mp4);
+                GrifExportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+            ExportAsAVICommand = new RelayCommand(delegate
+            {
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.avi);
+                GrifExportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+            ExportAsARARCommand = new RelayCommand(delegate
+            {
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this,SeriesExportKinds.rar);
+                GrifExportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+            ExportAsDICOMCommand = new RelayCommand(delegate
+            {
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.dicom);
+                GrifExportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+
+
+            watcher = new FileSystemWatcher(SeriesFolderPath)
+            {
+                IncludeSubdirectories = false,
+            };
+            watcher.Deleted += Watcher_Deleted;
+            watcher.Created += Watcher_Created;
+            watcher.Changed += Watcher_Changed;
+            watcher.Renamed += Watcher_Renamed;
+            watcher.EnableRaisingEvents = true;
+            Task.Run(CalculSize);
+        }
         public void ExportIni()
         {
             foreach (var item in new DirectoryInfo(FullName).GetDirectories())
@@ -101,30 +153,6 @@ namespace XSolution
         }
 
 
-
-        public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
-        {
-            CanReName = false;
-            Visibility = Visibility.Visible;
-
-            PoejectExportAs = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
-
-
-            watcher = new FileSystemWatcher(SeriesFolderPath)
-            {
-                IncludeSubdirectories = false,
-            };
-            watcher.Deleted += Watcher_Deleted;
-            watcher.Created += Watcher_Created;
-            watcher.Changed += Watcher_Changed;
-            watcher.Renamed += Watcher_Renamed;
-            watcher.EnableRaisingEvents = true;
-            Task.Run(CalculSize);
-        }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
