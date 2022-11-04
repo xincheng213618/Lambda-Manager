@@ -87,7 +87,7 @@
                                 <CheckBox Content="导出视图"/>
                                 <CheckBox Content="导出兴趣区域（ROI）"/>
                                 <CheckBox Content="导出全部图像"/>
-                                <CheckBox Content="定制..." Click="CheckBox_Click" />
+                                <CheckBox Content="高级导出设置" Click="CheckBox_Click" />
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="标注" BorderThickness="2" BorderBrush="#454545" Padding="5"  Margin="0,10">
@@ -99,63 +99,6 @@
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
-                    <Grid  Grid.Row="1">
-                        <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="20"/>
-                        </Grid.ColumnDefinitions>
-                        <TreeView x:Name="SeriesExportTreeView1"  Grid.Column="0" ToolTip="—级节点，显示位置点;B3f-2b4k2∶二级节点，显示z维坐标;B3f-2b4k3 :三级节点，显示成像模式">
-                            <TreeView.Resources>
-                                <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}"  >
-                                        <CheckBox Margin="5,0"/>
-                                        <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                                <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
-                                        <CheckBox/>
-                                        <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                            </TreeView.Resources>
-                        </TreeView>
-
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <Button Content=">" Click="Button_Click_01" Margin="0,10"/>
-                            <Button Content="&lt;" Click="Button_Click_02"  Margin="0,10"/>
-                        </StackPanel>
-                        <TreeView x:Name="SeriesExportTreeView2" Grid.Column="2" >
-                            <TreeView.Resources>
-                                <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}">
-                                        <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" Tag="{Binding .}"/>
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                                <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel x:Name="temp" Background="AliceBlue" Height="5"  Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}" >
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                            </TreeView.Resources>
-                        </TreeView>
-                        <StackPanel Grid.Column="3">
-                            <Button Content="+" Click="Button_Click_3"/>
- 
-                            <Button x:Name="ButtonUp" Grid.Row="0"  Click="Button_Click_1" >
-                                <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
-                                    <TextBlock.RenderTransform>
-                                        <RotateTransform Angle="180"/>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </Button>
-                            <Button x:Name="ButtonDown" Content="V" Grid.Row="0" Click="Button_Click_2" >
-                            </Button>
-
-                        </StackPanel>
-                    </Grid>
-
                 </Grid>
 
 

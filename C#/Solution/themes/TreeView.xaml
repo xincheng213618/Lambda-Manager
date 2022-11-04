@@ -105,8 +105,10 @@
                         <Separator/>
                         <MenuItem Header="导出_Mp4..."  Command="{Binding ExportAsMp4Command}" CommandParameter="{Binding .}"   />
                         <MenuItem Header="导出_AVI..."  Command="{Binding ExportAsAVICommand}" CommandParameter="{Binding .}"   />
-                        <MenuItem Header="导出_RAR..."  Command="{Binding ExportAsARARCommand}" CommandParameter="{Binding .}"   />
-                        <MenuItem Header="导出_DICOM..."  Command="{Binding ExportAsDICOMCommand}" CommandParameter="{Binding .}"   />
+                        <MenuItem Header="导出BMP..."  Command="{Binding ExportAsBMPCommand}" CommandParameter="{Binding .}"   />
+                        <MenuItem Header="导出Tiff..."  Command="{Binding ExportAsTiffCommand}" CommandParameter="{Binding .}"   />
+                        <MenuItem Header="导出JPEG..."  Command="{Binding ExportAsJPEGCommand}" CommandParameter="{Binding .}"   />
+                        <MenuItem Header="导出PNG..."  Command="{Binding ExportAsPNGCommand}" CommandParameter="{Binding .}"   />
                     </MenuItem>
                     <MenuItem Header="应用参数(_Y)"  CommandParameter="{Binding .}"/>
                     <MenuItem Header="文件属性(_R)"  CommandParameter="{Binding .}" />

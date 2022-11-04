@@ -56,9 +56,11 @@ namespace XSolution
         public RelayCommand ExportAsMp4Command { get; set; }
         public RelayCommand ExportAsAVICommand { get; set; }
 
-        public RelayCommand ExportAsARARCommand { get; set; }
-        public RelayCommand ExportAsDICOMCommand { get; set; }
+        public RelayCommand ExportAsTiffCommand { get; set; }
+        public RelayCommand ExportAsJPEGCommand { get; set; }
 
+        public RelayCommand ExportAsPNGCommand { get; set; }
+        public RelayCommand ExportAsBMPCommand { get; set; }
 
 
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
@@ -82,14 +84,24 @@ namespace XSolution
                 SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.avi);
                 GrifExportAsWindow.ShowDialog();
             }, (object value) => { return true; });
-            ExportAsARARCommand = new RelayCommand(delegate
+            ExportAsTiffCommand = new RelayCommand(delegate
             {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this,SeriesExportKinds.rar);
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this,SeriesExportKinds.tiff);
                 GrifExportAsWindow.ShowDialog();
             }, (object value) => { return true; });
-            ExportAsDICOMCommand = new RelayCommand(delegate
+            ExportAsJPEGCommand = new RelayCommand(delegate
             {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.dicom);
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.jpeg);
+                GrifExportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+            ExportAsPNGCommand = new RelayCommand(delegate
+            {
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.png);
+                GrifExportAsWindow.ShowDialog();
+            }, (object value) => { return true; });
+            ExportAsBMPCommand = new RelayCommand(delegate
+            {
+                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.bmp);
                 GrifExportAsWindow.ShowDialog();
             }, (object value) => { return true; });
 

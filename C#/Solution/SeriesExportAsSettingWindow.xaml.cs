@@ -23,9 +23,12 @@ namespace Solution
     {
         public SeriesProjectManager seriesProjectManager;
 
-        public SeriesExportAsSettingWindow()
+        public SeriesExportAsSettingWindow(SeriesProjectManager seriesProjectManager)
         {
+            this.seriesProjectManager = seriesProjectManager;
             InitializeComponent();
+            SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
+            SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
         }
         int Indexof = 0;
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -83,5 +86,12 @@ namespace Solution
                 Indexof1 = seriesProjectManager.ExportChildren.IndexOf(baseObject);
             }
         }
+
+        private void OK_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+
     }
 }
