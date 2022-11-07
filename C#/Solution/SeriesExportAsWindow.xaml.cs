@@ -95,19 +95,10 @@ namespace Solution
             this.DataContext = ProjectExportAs;
             InitializeComponent();
         }
-
+        bool IsIni = false;
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            combobox.ItemsSource = Enum.GetValues(typeof(SeriesExportKinds)).Cast<SeriesExportKinds>();
 
-            for (int i = 0; i < combobox.Items.Count; i++)
-            {
-                if ((SeriesExportKinds)combobox.Items[i] == ProjectExportAs.Kinds)
-                {
-                    combobox.SelectedIndex = i;
-                    break;
-                }
-            }
             this.DataContext = ProjectExportAs;
 
             SeriesExportKinds kinds;
@@ -131,6 +122,17 @@ namespace Solution
             }
 
             ProjectExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + seriesProjectManager.Name + "." + kinds;
+
+            combobox.ItemsSource = Enum.GetValues(typeof(SeriesExportKinds)).Cast<SeriesExportKinds>();
+            for (int i = 0; i < combobox.Items.Count; i++)
+            {
+                if ((SeriesExportKinds)combobox.Items[i] == ProjectExportAs.Kinds)
+                {
+                    IsIni = true;
+                    combobox.SelectedIndex = i;
+                    break;
+                }
+            }
 
         }
 
@@ -164,9 +166,11 @@ namespace Solution
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender is ComboBoxItem comboBoxItem)
+            if (combobox.SelectedIndex <0 || !IsIni)
+                return;
+            if (combobox.Items[combobox.SelectedIndex] is SeriesExportKinds seriesExportKindsss)
             {
-                ProjectExportAs.Kinds = (SeriesExportKinds)comboBoxItem.Content;
+                ProjectExportAs.Kinds = seriesExportKindsss;
 
 
                 SeriesExportKinds kinds;

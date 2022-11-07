@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="700" Width="700" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
+        Height="450" Width="500" Background="{DynamicResource GlobalBackgroundBrush}" SizeToContent="Height"  WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,39 +32,6 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <ToggleButton  Name="Test111" >
-                            <ToggleButton.Template>
-                                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                    <Grid>
-                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" SnapsToDevicePixels="true">
-                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        </Border>
-                                        <Border x:Name="DisableBorder" Background="Transparent"  Opacity="0.5"/>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <MultiTrigger>
-                                            <MultiTrigger.Conditions>
-                                                <Condition Property="IsChecked" Value="false"/>
-                                                <Condition Property="IsMouseOver" Value="true"/>
-                                            </MultiTrigger.Conditions>
-                                        </MultiTrigger>
-                                        <Trigger Property="IsMouseOver" Value="true">
-                                            <Setter Property="Background" Value="#6EA646"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource ForegroundBrush}"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="false">
-                                            <Setter TargetName="DisableBorder" Property="Background" Value="#595959"/>
-                                        </Trigger>
-                                        <Trigger Property="IsChecked" Value="true">
-                                            <Setter Property="Background" Value="#6EA646"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource ForegroundBrush}"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </ToggleButton.Template>
-
-                        </ToggleButton>
-
                         <GroupBox Header="文件设置" BorderThickness="1" BorderBrush="#454545" Padding="5">
                             <StackPanel>
                                 <DockPanel Margin="2" >

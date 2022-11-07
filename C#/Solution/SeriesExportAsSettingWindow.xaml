@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800" Background="{DynamicResource GlobalBackgroundBrush}">
+        Title="Window1" Height="450" Width="800" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
