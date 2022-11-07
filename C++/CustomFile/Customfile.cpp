@@ -61,7 +61,7 @@ int WriteFile(string path , GrifFile grifFileInfo, cv::Mat src, int compression)
     ofstream outFile(path, ios::out | ios::binary);
 
     GrifFileHeader fileHeader;
-    fileHeader.Verison = 0;
+    fileHeader.Version = 0;
     int a = sizeof(GrifFileHeader);
     int b = sizeof(GrifFile);
     fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(GrifFile);

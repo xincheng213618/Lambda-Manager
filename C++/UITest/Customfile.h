@@ -30,7 +30,7 @@ typedef struct GrifMatFile
 typedef struct GrifFileHeader
 {
     char Name[4] = { 0x67,0x72,0x69,0x66 };
-    int Verison; //0
+    int Version; //0
     int Matoffset; //直接读取Mat数据的偏移量 int 限制了2G大小，如果需要更多，则需要float or double d但是这回让内存对齐比较麻烦
 }GrifFileHeader;
 
