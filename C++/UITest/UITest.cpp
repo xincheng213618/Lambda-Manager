@@ -243,6 +243,8 @@ int PlayFilm(std::string fileName) {
 	pView->SetState(OCCUPIED);
 
 
+
+
 	LambdaView* pView1 = LambdaView::GetRegistered(-pView->GetIndex()-1);
 
 
@@ -261,6 +263,9 @@ int PlayFilm(std::string fileName) {
 
 	Event::Trigger("PREVIEW_CLOSE");
 
+	auto writer = cv::VideoWriter("C:\\Users\\Chen\\Desktop\\output2_8.mp4", VideoWriter::fourcc('H', '2', '6', '5'), 25, Size((int)cap.get(CAP_PROP_FRAME_WIDTH), (int)cap.get(CAP_PROP_FRAME_HEIGHT)));
+
+
 	for (;;)
 	{
 		// wait for a new frame from camera and store it into 'frame'
@@ -277,6 +282,7 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
+		writer.write(frame);
 
 		//for (size_t i = 0; i < 20; i++)
 		//{
@@ -306,6 +312,7 @@ int PlayFilm(std::string fileName) {
 
 		if (pView->IsState(ViewState::CLOSED)) {
 			delete pView;
+			writer.release();
 			break;
 		} 
 	}
@@ -560,38 +567,6 @@ CAMERA_API int GrifExportAs(char* GrifExportAsJson)
 
 
 int VideoTest() {
-
-
-	cv::Mat src = cv::Mat(1280, 720, CV_8UC3);
-	clock_t start, end;
-	start = clock();
-	GrifToMat("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\Image 1.grif", src);
-	end = clock();
-	Logger::Log2(Severity::INFO, L"GrifToMat[%d ms]", end - start);
-	start = clock();
-	WriteFile( "C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif", src);
-	end = clock();
-	Logger::Log2(Severity::INFO, L"WriteFile[%d ms]", end - start);
-	start = clock();
-	cv::Mat test0 = ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src.grif");
-	end = clock();
-	Logger::Log2(Severity::INFO, L"ReadFile[%d ms]", end - start);
-	start = clock();
-	WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif", src, 1, 1, 1);
-	end = clock();
-	Logger::Log2(Severity::INFO, L"WriteGrifFile[%d ms]", end - start);
-	start = clock();
-    WriteGrifFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\", "src2.grif.gz", src, 1, 1, 1);
-	end = clock();
-	Logger::Log2(Severity::INFO, L"WriteGrifFilegz[%d ms]", end - start);
-	start = clock();
-	WriteFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif", src, 0);
-	end = clock();
-	Logger::Log2(Severity::INFO, L"WriteFile0[%d ms]", end - start);
-	start = clock();
-	cv::Mat test1= ReadFile("C:\\Users\\Chen\\Desktop\\lamda 备份\\lambda\\src0.grif");
-	end = clock();
-	Logger::Log2(Severity::INFO, L"ReadFile0[%d ms]", end - start);
 
 
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");

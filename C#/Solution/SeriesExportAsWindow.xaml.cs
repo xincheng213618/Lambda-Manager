@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System;
 using System.Linq;
+using System.Windows.Shell;
 
 namespace Solution
 {
@@ -94,11 +95,11 @@ namespace Solution
             ProjectExportAs = new ProjectExportAs() { Kinds = seriesExportKinds, FullName = seriesProjectManager.FullName, PhotoTime = false };
             this.DataContext = ProjectExportAs;
             InitializeComponent();
+            
         }
         bool IsIni = false;
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-
             this.DataContext = ProjectExportAs;
 
             SeriesExportKinds kinds;
@@ -250,5 +251,6 @@ namespace Solution
             SeriesExportAsSettingWindow baseWindow = new SeriesExportAsSettingWindow(seriesProjectManager);
             baseWindow.ShowDialog();
         }
+
     }
 }

@@ -522,6 +522,7 @@
 		</procedure>
 	</component>
 	
+	
 	<!--<component name="CUDAPhaseToPC" lib="lib/CUDAPhaseToPC.dll">
 		<procedure name="TestCUDAPhaseToPC" event="TestCUDAPhaseToPC">
 			<action name="TestCUDAPhaseToPC" >

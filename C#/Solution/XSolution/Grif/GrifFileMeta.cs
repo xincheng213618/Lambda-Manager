@@ -2,7 +2,7 @@
 
 namespace XSolution
 {
-    //在C++中定义的结构体，在C#中需要顶一个一个一样的，这样方便指针直接传参
+    //在C++中定义的结构体，在C#中需要顶一个一样的，这样方便指针直接传参
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     public struct GrifFileMeta
     {

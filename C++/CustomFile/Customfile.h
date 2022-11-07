@@ -14,7 +14,6 @@ typedef struct GrifFile
     int cols; //高度
     int depth; //位深度
     int jsonoffset;//json的相对文件头的数据量，可以直接通过这里去读取json的内存，(如果不使用元数据，可以把这个合并在头文件中，并取消Griffile的元数据类型)
-
 }GrifFile;
 
 typedef struct GrifMatFile
@@ -33,6 +32,24 @@ typedef struct GrifFileHeader
     int Verison; //0
     int Matoffset; //直接读取Mat数据的偏移量 int 限制了2G大小，如果需要更多，则需要float or double d但是这回让内存对齐比较麻烦
 }GrifFileHeader;
+
+
+
+typedef struct GrifFile
+{
+    unsigned long int time;//拍摄时间戳  time(NULL)  
+    double DefocusDistance;//离焦距离
+    int Matoffset632;//632波长的Mat图像数据指针位置
+    int Matoffset521;
+    int Matoffset466;
+    int Matoffset588;
+    int Matoffset607;
+}GrifFile;
+
+
+
+
+
 
 int WriteFile(std::string path, cv::Mat src, int compression = 1);
 int WriteFile(std::string path, GrifFile grifFileInfo, cv::Mat src, int compression = 1);

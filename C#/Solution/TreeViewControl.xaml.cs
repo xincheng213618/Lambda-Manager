@@ -39,6 +39,7 @@ namespace Solution
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox)
             {
+                IsFirstLoad = false;
                 stackPanel.Margin = new Thickness(2, 2, 2, 0);
                 viewbox.Width = double.NaN;
 
