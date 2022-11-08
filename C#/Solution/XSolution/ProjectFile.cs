@@ -52,6 +52,7 @@ namespace XSolution
             Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
 
             OpenFileCommand = new RelayCommand(OpenFile, (object value) => { return true; });
+            AttributesCommand = new RelayCommand(OpenFile, (object value) => { return false; });
 
             Task.Run(CalculSize);
         }

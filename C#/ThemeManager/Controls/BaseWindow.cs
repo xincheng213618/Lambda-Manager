@@ -112,8 +112,7 @@ namespace ThemeManager.Controls
 
         private void ShowSystemMenu(object sender, ExecutedRoutedEventArgs e)
         {
-            var element = e.OriginalSource as FrameworkElement;
-            if (element == null)
+            if (e.OriginalSource is not FrameworkElement element)
                 return;
 
             var point = WindowState == WindowState.Maximized ? new Point(0, element.ActualHeight)

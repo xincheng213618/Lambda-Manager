@@ -4,7 +4,7 @@
 
 - 调整BaseWindow的结构和相关补充✔
 
-  https://developer.aliyun.com/article/332131
+  https://www.cnblogs.com/dino623/p/CustomWindowStyle.html?spm=a2c6h.12873639.article-detail.6.64ff2fa4FJC0lK
 
 ## [1.3.7] -2022-11-2
 

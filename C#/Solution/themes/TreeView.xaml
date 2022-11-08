@@ -153,8 +153,7 @@
                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
                     <Separator/>
-                    <Separator/>
-                    <MenuItem Header="系统打开文件(_O)" Command="{Binding OpenExplorerCommand}" CommandParameter="{Binding .}"/>
+                    <MenuItem Header="系统打开文件(_O)" Command="{Binding OpenFileCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="属性(_R)"  Command="{Binding AttributesCommand}" CommandParameter="{Binding .}" />
                 </ContextMenu>
             </StackPanel.ContextMenu>
@@ -171,8 +170,6 @@
             </TextBlock>
             <StackPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="添加(_D)"  Command="{Binding AddChildren}" CommandParameter="{Binding .}" />
-                    <Separator/>
                     <MenuItem Header="删除(_D)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
@@ -186,7 +183,7 @@
                         <MenuItem Header="导出PNG..."  Command="{Binding ExportAsPNGCommand}" CommandParameter="{Binding .}"   />
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="系统打开文件(_O)" Command="{Binding OpenExplorerCommand}" CommandParameter="{Binding .}"/>
+                    <MenuItem Header="系统打开文件(_O)" Command="{Binding OpenFileCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="属性(_R)"  Command="{Binding AttributesCommand}" CommandParameter="{Binding .}" />
                 </ContextMenu>
             </StackPanel.ContextMenu>
@@ -232,7 +229,6 @@
 
             <StackPanel.ContextMenu>
                 <ContextMenu>
-                    <!--<MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />-->
                     <MenuItem Header="删除(_D)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
@@ -243,7 +239,7 @@
                         <Separator/>
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="打开所在的文件夹(_O)" Command="{Binding OpenExplorer}" CommandParameter="{Binding .}"/>
+                    <!--<MenuItem Header="打开所在的文件夹(_O)" Command="{Binding OpenExplorer}" CommandParameter="{Binding .}"/>-->
                     <MenuItem Header="属性(_R)"  CommandParameter="{Binding .}" />
                 </ContextMenu>
             </StackPanel.ContextMenu>

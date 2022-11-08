@@ -16,18 +16,17 @@
 
         <Border  Grid.Row="1" CornerRadius="10,10,0,0" Background="#2D333A">
             <StackPanel Margin="10,0">
-                <Label Content="" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"  FontSize="20"/>
-                <Label x:Name="labelVersion" Content="Version 0.8" HorizontalAlignment="Left" Foreground="White"  />
+                <Label Content="Xin" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"  FontSize="20"/>
+                <Label x:Name="labelVersion" Content="Version 1.3.8" HorizontalAlignment="Left" Foreground="White"  />
             </StackPanel>
         </Border>
-        <!--<Image   Grid.Row="1" Source="/Image/zircon.png" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,-20" />-->
+        <Image   Grid.Row="1" Source="/Image/zircon.png" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,-20" />
 
         <Border  Grid.Row="2" CornerRadius="0,0,10,10" Background="#373B41" Margin="0,10,0,0">
             <Border Background="#484d4f"  Margin="10" CornerRadius="4">
                 <Grid>
                     <TextBox Margin="5,5,5,20"  Name="TexoBoxMsg"  Text="软件加载中" Foreground="White"  Background="Transparent" BorderThickness="0"  TextChanged="TexoBoxMsg_TextChanged"/>
 
-                    <!--<Label  Content="软件加载中" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="40"/>-->
                     <ProgressBar IsIndeterminate="True" Height="10"  Foreground="#B41515" Background="#242627" BorderThickness="0" Margin="5" VerticalAlignment="Bottom" />
                 </Grid>
             </Border>

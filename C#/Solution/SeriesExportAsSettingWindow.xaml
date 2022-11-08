@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen">
+         Height="450" Width="800" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -24,6 +24,7 @@
                 <Button Content="确定" Height="20" Width="75" Margin="5,0" Click="OK_Click"/>
             </UniformGrid>
 
+
             <Grid  Grid.Row="1" Margin="10">
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="*"/>
@@ -31,41 +32,52 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
-                <Border BorderThickness="1"  Grid.Column="0" CornerRadius="3"  Margin="5,0">
-                    <Border.BorderBrush>
-                        <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
-                            <DrawingBrush.Drawing>
-                                <DrawingGroup>
-                                    <GeometryDrawing Brush="White">
-                                        <GeometryDrawing.Geometry>
-                                            <GeometryGroup>
-                                                <RectangleGeometry Rect="0,0,50,50" />
-                                                <RectangleGeometry Rect="50,50,50,50" />
-                                            </GeometryGroup>
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Border.BorderBrush>
-                    <TreeView x:Name="SeriesExportTreeView1" Margin="2" >
-                        <TreeView.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
-                                <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}"  >
-                                    <CheckBox Margin="5,0"/>
-                                    <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                            <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
-                                    <CheckBox/>
-                                    <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                        </TreeView.Resources>
-                    </TreeView>
 
-                </Border>
+                <Grid  Grid.Column="0"  Margin="5,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="选中的视频片段:" Margin="0,0,0,5"/>
+                    <Border BorderThickness="1"  Grid.Row="1" CornerRadius="3" >
+                        <Border.BorderBrush>
+                            <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                                <DrawingBrush.Drawing>
+                                    <DrawingGroup>
+                                        <GeometryDrawing Brush="White">
+                                            <GeometryDrawing.Geometry>
+                                                <GeometryGroup>
+                                                    <RectangleGeometry Rect="0,0,50,50" />
+                                                    <RectangleGeometry Rect="50,50,50,50" />
+                                                </GeometryGroup>
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingGroup>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Border.BorderBrush>
+                        <TreeView x:Name="SeriesExportTreeView1" Margin="2" >
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
+                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}"  >
+                                        <CheckBox Margin="5,0"/>
+                                        <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
+                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
+                                        <CheckBox/>
+                                        <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+
+                    </Border>
+                </Grid>
+
+
+
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <Button Content=">>" Click="Button_Click_01" Margin="0,10"/>
@@ -75,41 +87,56 @@
                     <Button Content="&lt;&lt;" Click="Button_Click_02"  Margin="0,10"/>
 
                 </StackPanel>
-                <Border BorderThickness="1" Grid.Column="2"  Margin="5,0">
-                    <Border.BorderBrush>
-                        <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
-                            <DrawingBrush.Drawing>
-                                <DrawingGroup>
-                                    <GeometryDrawing Brush="White">
-                                        <GeometryDrawing.Geometry>
-                                            <GeometryGroup>
-                                                <RectangleGeometry Rect="0,0,50,50" />
-                                                <RectangleGeometry Rect="50,50,50,50" />
-                                            </GeometryGroup>
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Border.BorderBrush>
-                    <TreeView x:Name="SeriesExportTreeView2" Margin="2" >
-                        <TreeView.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}">
-                                    <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" Tag="{Binding .}"/>
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                            <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}" ItemsSource="{Binding VisualChildren}" >
-                                <StackPanel x:Name="temp" Background="AliceBlue" Height="5"  Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}" >
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                        </TreeView.Resources>
-                    </TreeView>
 
-                </Border>
+                <Grid  Grid.Column="2"  Margin="5,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="选中的视频片段:" Margin="0,0,0,5"/>
+                    <Border BorderThickness="1" Grid.Row="1"  Margin="5,0">
+                        <Border.BorderBrush>
+                            <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                                <DrawingBrush.Drawing>
+                                    <DrawingGroup>
+                                        <GeometryDrawing Brush="White">
+                                            <GeometryDrawing.Geometry>
+                                                <GeometryGroup>
+                                                    <RectangleGeometry Rect="0,0,50,50" />
+                                                    <RectangleGeometry Rect="50,50,50,50" />
+                                                </GeometryGroup>
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingGroup>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Border.BorderBrush>
+                        <TreeView x:Name="SeriesExportTreeView2" Margin="2" >
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
+                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}">
+                                        <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" Tag="{Binding .}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}" ItemsSource="{Binding VisualChildren}" >
+                                    <StackPanel x:Name="temp" Background="AliceBlue" Height="5"  Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}" >
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+
+                    </Border>
+
+
+                </Grid>
+
+
+
+
                 <StackPanel Grid.Column="3" VerticalAlignment="Center">
                     <Button Content="+" Click="Button_Click_3" Margin="0,2"/>
 
+                    
                     <Button x:Name="ButtonUp" Grid.Row="0"  Click="Button_Click_1"  Margin="0,2">
                         <TextBlock Text="V" RenderTransformOrigin="0.5,0.5">
                             <TextBlock.RenderTransform>
