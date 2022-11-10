@@ -140,7 +140,7 @@
                             <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="0.5"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
-                            <Setter TargetName="RootGrid" Property="Margin" Value="7" />
+                            <Setter TargetName="RootGrid" Property="Margin" Value="6" />
                             <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="RestoreButton" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="RootBorderActive" Property="BorderBrush" Value="White" />
