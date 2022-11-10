@@ -34,6 +34,13 @@ namespace XSolution
         }
 
 
+        private bool isCheck = false;
+        public bool IsCheck
+        {
+            get { return isCheck; }
+            set { isCheck = value;  NotifyPropertyChanged(); }
+        }
+
 
         private void ExportAsBMP(object value)
         {

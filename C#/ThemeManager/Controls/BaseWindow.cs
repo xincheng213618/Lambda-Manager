@@ -67,12 +67,13 @@ namespace ThemeManager.Controls
             }
         }
 
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            if (e.ButtonState == MouseButtonState.Pressed)
-                DragMove();
-        }
+        //拖动 暂时禁用掉
+        //protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseLeftButtonDown(e);
+        //    if (e.ButtonState == MouseButtonState.Pressed)
+        //        DragMove();
+        //}
 
         public virtual void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -97,6 +98,8 @@ namespace ThemeManager.Controls
         private void MaximizeWindow(object sender, ExecutedRoutedEventArgs e)
         {
             SystemCommands.MaximizeWindow(this);
+            //WindowState = WindowState.Maximized;
+
         }
 
         private void MinimizeWindow(object sender, ExecutedRoutedEventArgs e)

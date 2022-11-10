@@ -69,6 +69,7 @@ int Read_img(char* s)
 {
 	std::string filename = StringUtils::Multi2Utf8(s);
 	img_o=cv::imread(filename);
+
 	LambdaViewShow(img_o);
 	return 0;
 }

@@ -1,7 +1,6 @@
 ﻿using XSolution;
 using System.Windows;
 using ThemeManager.Controls;
-using Global.Common;
 using Global.Common.Extensions;
 using System.Collections.Generic;
 using Lambda;
@@ -17,56 +16,6 @@ using System.Windows.Shell;
 
 namespace Solution
 {
-    public class ProjectExportAs : ViewModelBase
-    {
-
-        public string FullName { get; set; } = "";
-
-
-        private string exportFullName = string.Empty;
-
-        public string ExportFullName
-        {
-            get { return exportFullName; }
-            set
-            {
-                if (value != null && value != exportFullName)
-                    exportFullName = value; NotifyPropertyChanged();
-            }
-        }
-        private SeriesExportKinds kinds = SeriesExportKinds.mp4;
-        public SeriesExportKinds Kinds
-        {
-            get { return kinds; }
-            set
-            {
-                if (value != kinds)
-                    kinds = value; NotifyPropertyChanged();
-            }
-        }
-
-        //拍照时间
-        public bool PhotoTime { get; set; }
-
-        public bool Dimension { get; set; }
-
-        public bool Ruler { get; set; }
-
-        public List<string> Mode { get; set; } = new List<string>();
-        public List<string> FrameList { get; set; } = new List<string>();
-
-    }
-
-    public enum SeriesExportKinds
-    {
-        mp4,
-        avi,
-        png,
-        jpeg,
-        tiff,
-        bmp,
-        rar,
-    }
 
     /// <summary>
     /// GrifExportAsWindow1.xaml 的交互逻辑

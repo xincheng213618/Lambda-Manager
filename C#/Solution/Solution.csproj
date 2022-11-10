@@ -44,13 +44,13 @@
     <Compile Update="OpenSolutionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="SeriesExportAsSettingWindow.xaml.cs">
+    <Compile Update="Export\SeriesExportAsSettingWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="SeriesExportAsSettingWindow.xaml">
+    <Page Update="Export\SeriesExportAsSettingWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -43,11 +43,6 @@
             <TextBlock Text="'"/>
             <StackPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="添加(_W)">
-                        <MenuItem Header="新建项目...(_M)" Command="{Binding AddNewProject}"  CommandParameter="{Binding .}"/>
-                        <MenuItem Header="现有项目...(_N)" />
-                    </MenuItem>
-                    <Separator/>
                     <MenuItem Header="重命名(_M)"  Command="{x:Static  XSolution:Commands.ReName}"  CommandParameter="{Binding .}"/>
                     <Separator/>
                     <MenuItem Header="取消隐藏" Command="{Binding VisibilityUnHidden}"  CommandParameter="{Binding .}"/>
@@ -69,16 +64,11 @@
 
             <StackPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="新建文件夹(_P)"/>
-                    <MenuItem Header="新建文件(_F)"/>
-                    <MenuItem Header="打开文件夹" />
-                    <Separator/>
                     <MenuItem Header="移除(_V)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                     <Separator/>
                     <MenuItem Header="隐藏文件夹(_H)" Command="{Binding VisibilityHidden}" CommandParameter="{Binding .}"/>
                     <Separator/>
-
                     <MenuItem Header="属性(_R)"/>
                 </ContextMenu>
             </StackPanel.ContextMenu>
@@ -89,13 +79,12 @@
         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
+            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
                             <Run Text=" -"/>
                             <Run Text="{Binding FileSize}"/>
             </TextBlock>
             <StackPanel.ContextMenu>
                 <ContextMenu >
-                    <!--<MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />-->
                     <MenuItem Header="删除(_D)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
@@ -125,9 +114,6 @@
 
             <StackPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="新建文件夹(_P)" />
-                    <MenuItem Header="新建文件(_F)" />
-                    <Separator/>
                     <MenuItem Header="剪切(_T)" Command="{x:Static ApplicationCommands.Cut}" CommandParameter="{Binding .}" />
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
                     <MenuItem Header="删除(_D)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
@@ -141,14 +127,12 @@
         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
+            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
                             <Run Text=" -"/>
                             <Run Text="{Binding FileSize}"/>
             </TextBlock>
             <StackPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="添加(_D)"  Command="{Binding AddChildren}" CommandParameter="{Binding .}" />
-                    <Separator/>
                     <MenuItem Header="删除(_D)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
@@ -164,7 +148,7 @@
         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/grif.png" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
+            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
                                 <Run Text=" -"/>
                                 <Run Text="{Binding FileSize}"/>
             </TextBlock>
@@ -194,7 +178,7 @@
         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
+            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
                             <Run Text=" -"/>
                             <Run Text="{Binding FileSize}"/>
             </TextBlock>
@@ -222,7 +206,7 @@
         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片3.png" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
-            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="White">
+            <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
                             <Run Text=" -"/>
                             <Run Text="{Binding FileSize}"/>
             </TextBlock>

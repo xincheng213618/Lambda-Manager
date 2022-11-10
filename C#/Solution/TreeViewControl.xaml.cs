@@ -14,6 +14,7 @@ using Global.Common;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.Windows.Data;
+using System.Runtime.InteropServices;
 
 namespace Solution
 {
@@ -319,15 +320,6 @@ namespace Solution
         }
 
 
-        private void MenuItem3_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void MenuItem4_Click(object sender, RoutedEventArgs e)
-        {
-
-
-        }
         RecentFileList recentFileList = new RecentFileList();
 
         private void UserControl_Initialized(object sender, EventArgs e)
@@ -433,9 +425,9 @@ namespace Solution
             }
         }
 
-        private async void Button_Click_5(object sender, RoutedEventArgs e)
-        {
 
+        private  void Button_Click_5(object sender, RoutedEventArgs e)
+        {
         }
 
 

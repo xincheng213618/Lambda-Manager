@@ -92,7 +92,7 @@
                     <Grid >
                         <Border x:Name="RootBorder" Padding="0 29 0 0"   Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid x:Name="RootGrid">
-                                <Grid Background="{TemplateBinding Background}" VerticalAlignment="Top" Height="30" Margin="0 -29 0 0" >
+                                <Grid Background="Transparent" VerticalAlignment="Top" Height="30" Margin="0 -29 0 0" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="auto" />
@@ -101,7 +101,7 @@
                                         <Button Margin="10,0,0,0" Content="{TemplateBinding Icon}" Height="18" Width="18" IsTabStop="False" Command="{x:Static SystemCommands.ShowSystemMenuCommand}">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Image Source="{TemplateBinding Content}" />
+                                                    <Image Source="{TemplateBinding Content}"/>
                                                 </ControlTemplate>
                                             </Button.Template>
                                         </Button>
@@ -146,7 +146,7 @@
                             <Setter TargetName="RootBorderActive" Property="BorderBrush" Value="White" />
                             <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="0"/>
                         </Trigger>
-
+                        
                         <Trigger Property="ResizeMode"  Value="NoResize">
                             <Setter TargetName="MaximizeButton" Property="Visibility"  Value="Collapsed" />
                             <Setter TargetName="MinimizeButton" Property="Visibility" Value="Collapsed" />

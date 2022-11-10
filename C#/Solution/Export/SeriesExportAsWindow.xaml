@@ -37,7 +37,7 @@
                                     <DockPanel Margin="2" >
                                         <Button Width="50" DockPanel.Dock="Right"  Content="..." Click="Button_Click"/>
                                         <TextBlock Text="保存目录: " Width="55" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <TextBox Style="{DynamicResource TextBoxStyle1}"  CaretBrush="White" Foreground="White" Text="{Binding ExportFullName}"  HorizontalAlignment="Stretch"  Margin="0,0,5,0" />
+                                        <TextBox Style="{DynamicResource TextBoxStyle1}"  CaretBrush="{DynamicResource ForegroundBrush}" Foreground="{DynamicResource ForegroundBrush}" Text="{Binding ExportFullName}"  HorizontalAlignment="Stretch"  Margin="0,0,5,0" />
                                     </DockPanel>
                                     <DockPanel Margin="2" >
                                         <TextBlock Text="格式: " Width="55" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -48,16 +48,16 @@
                             <GroupBox Header="导出设置" BorderThickness="1" BorderBrush="#454545" Padding="5" Margin="0,10">
                                 <UniformGrid Columns="2">
                                     <StackPanel>
-                                        <CheckBox Content="输出叠加图像" Margin="0,2"/>
-                                        <CheckBox Content="使用目录" Margin="0,2"/>
-                                        <CheckBox Content="使用保存的标注内容" Margin="0,2"/>
-                                        <CheckBox Content="保存原始图像" Margin="0,2"/>
+                                        <CheckBox Content="输出叠加图像" IsChecked="{Binding Path=OutputOverlayImage}" Margin="0,2"/>
+                                        <CheckBox Content="使用目录"  IsChecked="{Binding Path=UseDirectory}" Margin="0,2"/>
+                                        <CheckBox Content="使用保存的标注内容" IsChecked="{Binding Path=SavedCalloutContent}" Margin="0,2"/>
+                                        <CheckBox Content="保存原始图像" IsChecked="{Binding Path=SaveOriginalImage}" Margin="0,2"/>
                                     </StackPanel>
                                     <StackPanel>
-                                        <CheckBox Content="导出视图" Margin="0,2"/>
-                                        <CheckBox Content="导出兴趣区域（ROI）" Margin="0,2"/>
-                                        <CheckBox Content="导出全部图像" Margin="0,2"/>
-                                        <Button Content="高级导出设置" Click="CheckBox_Click"  />
+                                        <CheckBox Content="导出视图" IsChecked="{Binding Path=ExportView}"  Margin="0,2"/>
+                                        <CheckBox Content="导出兴趣区域（ROI）"  IsChecked="{Binding Path=ExportViewROI}" Margin="0,2"/>
+                                        <CheckBox Content="导出全部图像" IsChecked="{Binding Path=ExportAllImages}" Margin="0,2"/>
+                                        <Button Content="高级导出设置" Click="CheckBox_Click"/>
                                     </StackPanel>
                                 </UniformGrid>
 
@@ -65,12 +65,12 @@
                             <GroupBox Header="临时添加标注" BorderThickness="2" BorderBrush="#454545" Padding="5"  Margin="0,10">
                                 <UniformGrid Columns="2">
                                     <StackPanel>
-                                        <CheckBox Content="拍照时间" Margin="0,2"/>
-                                        <CheckBox Content="相对开始采集时间间隔" Margin="0,2"/>
+                                        <CheckBox Content="拍照时间"  IsChecked="{Binding Path=PhotoTime}" Margin="0,2"/>
+                                        <CheckBox Content="相对开始采集时间间隔" IsChecked="{Binding Path=RelativeInterval}" Margin="0,2"/>
                                     </StackPanel>
                                     <StackPanel>
-                                        <CheckBox Content="标尺信息" Margin="0,2"/>
-                                        <CheckBox Content="维度信息" Margin="0,2"/>
+                                        <CheckBox Content="标尺信息" IsChecked="{Binding Path=RulerInformation}" Margin="0,2"/>
+                                        <CheckBox Content="维度信息" IsChecked="{Binding Path=DimensionInformation}" Margin="0,2"/>
                                     </StackPanel>
                                 </UniformGrid>
 

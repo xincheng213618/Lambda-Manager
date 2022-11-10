@@ -1,66 +1,15 @@
 ﻿using XSolution;
 using System.Windows;
 using ThemeManager.Controls;
-using System.IO;
-using System.Text.Json;
-using System.Text;
-using Global.Common;
 using Global.Common.Extensions;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using Lambda;
-using static System.Net.WebRequestMethods;
-using ThemeManager;
 using System;
 using System.Linq;
-using System.Net.NetworkInformation;
 
 namespace Solution
 {
-
-    public class GrifExportAs : ViewModelBase
-    {
-
-        private string fullName =string.Empty;
-        public string FullName 
-        {
-            get { return fullName; }
-            set {
-                if (value != null && value != fullName)
-                    fullName = value; NotifyPropertyChanged();
-            }
-        }
-        private string exportFullName = string.Empty;
-
-        public string ExportFullName
-        {
-            get { return exportFullName; }
-            set
-            {
-                if (value != null && value != exportFullName)
-                    exportFullName = value; NotifyPropertyChanged();
-            }
-        }
-
-        private GrifExportKinds kinds = GrifExportKinds.png;
-        public GrifExportKinds Kinds
-        {
-            get { return kinds; }
-            set
-            {
-                if (value != kinds)
-                    kinds = value; NotifyPropertyChanged();
-            }
-        }
-    }
-
-    public enum GrifExportKinds
-    {
-        png,
-        jpeg,
-        tiff,
-        bmp
-    }
 
     /// <summary>
     /// GrifExportAsWindow1.xaml 的交互逻辑

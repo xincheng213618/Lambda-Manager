@@ -51,7 +51,10 @@ public class ConfigUILibrary: ILambdaUI
     {
         Application.Current.Dispatcher.Invoke(delegate
         {
-            UIPluginLoad(e.FullPath);
+            if (e.FullPath.Contains("dll"))
+            {
+                UIPluginLoad(e.FullPath);
+            }
         });
     }
 

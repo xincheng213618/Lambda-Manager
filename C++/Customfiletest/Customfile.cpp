@@ -57,25 +57,23 @@ int compressToGzip(const char* input, int inputSize, char* output, int outputSiz
 }
 
 
-int WriteFile(string path , GrifFile grifFileInfo, cv::Mat src, int compression) {
+int WriteFile(string path , GrifFileMeta grifFileInfo, cv::Mat src, int compression) {
     ofstream outFile(path, ios::out | ios::binary);
 
     GrifFileHeader fileHeader;
     fileHeader.Version = 0;
     int a = sizeof(GrifFileHeader);
-    int b = sizeof(GrifFile);
-    fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(GrifFile);
+    int b = sizeof(GrifFileMeta);
+    fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(GrifFileMeta);
     outFile.write((char*)&fileHeader, sizeof(GrifFileHeader));
 
-    GrifFile grif;
-    strcpy(grif.Name, "海拉11");
-    grif.x = 15;
-    grif.y = 16;
-    grif.z = 600;
+    GrifFileMeta grif;
+    //strncpy(grif.Name, "海拉11");
+
     grif.rows = src.rows;
     grif.cols = src.cols;
     grif.depth = src.depth();
-    outFile.write((char*)&grif, sizeof(GrifFile));
+    outFile.write((char*)&grif, sizeof(GrifFileMeta));
 
 
     GrifMatFile grifMat;
@@ -121,7 +119,7 @@ int WriteFile(string path , GrifFile grifFileInfo, cv::Mat src, int compression)
 }
 
 int WriteFile(string path, cv::Mat src, int compression) {
-    GrifFile gridFile{};
+    GrifFileMeta gridFile{};
     return WriteFile(path, gridFile, src, compression);
 }
 
@@ -163,8 +161,8 @@ cv::Mat ReadFile(string path) {
     return cv::Mat::zeros(0, 0, CV_8UC3);
 }
 
-GrifFile ReadFileHeader(string path) {
-    GrifFile gridFile{};
+GrifFileMeta ReadFileHeader(string path) {
+    GrifFileMeta gridFile{};
 
     ifstream inFile(path, ios::in | ios::binary); //二进制读方式打开
     if (!inFile) {
@@ -246,7 +244,7 @@ void OsWrite1(std::string path, cv::Mat src) {
 
 int WriteFileCache(std::string path, cv::Mat src)
 {
-    GrifFile gridFile{};
+    GrifFileMeta gridFile{};
     return WriteFileCache(path, gridFile,src);
 }
 
@@ -290,7 +288,7 @@ void WriteFileThread() {
 std::thread writethread(WriteFileThread);
 bool iswritethreadini = false;
 
-int WriteFileCache(std::string path,GrifFile grifFileInfo,cv::Mat src) {
+int WriteFileCache(std::string path, GrifFileMeta grifFileInfo,cv::Mat src) {
     if (!iswritethreadini) {
         writethread.detach();
         iswritethreadini = true;
