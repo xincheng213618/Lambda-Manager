@@ -1,3 +1,9 @@
+## [1.3.9] -2022-11-10
+
+- 修复因为调整BaseWindow结构引起的最大化坐标被覆盖的BUG
+- 调整导出模块的代码位置
+- 根据 Generation of All-in-focus Images by Noise-robust Selective Fusion of Limited Depth-of-field Images ，调整Fusion 算法 sth 13->11  
+
 ## [1.3.8] -2022-11-8
 
 - 对导出模块的重构✔

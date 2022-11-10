@@ -11,8 +11,8 @@ typedef struct GrifFileMeta
     int cols; //高度
     int depth; //位深度
     int jsonoffset;//json的相对文件头的数据量，可以直接通过这里去读取json的内存，(如果不使用元数据，可以把这个合并在头文件中，并取消Griffile的元数据类型)
+    int jsonoffsetlength;//char*的长度
     int MatCalloutoff;//标尺的信息
-    int Matoffset[]; //Mat*
 }GrifFileMeta;
 
 typedef struct GrifMatFile
@@ -32,8 +32,21 @@ typedef struct GrifFileHeader
     int Matoffset; //直接读取Mat数据的偏移量 int 限制了2G大小，如果需要更多，则需要float or double 但是这回让内存对齐比较麻烦
 }GrifFileHeader;
 
+
+//typedef struct GrifFileHeader
+//{
+//    char Name[4] = { 0x67,0x72,0x69,0x66 };
+//    char Version[4] ={0x00,0x00,0x00,0x00}; //0
+//    int Matoffset; //直接读取Mat数据的偏移量 int 限制了2G大小，如果需要更多，则需要float or double 但是这回让内存对齐比较麻烦
+//}GrifFileHeader;
+
+
+
 int WriteFile(std::string path, cv::Mat src, int compression = 1);
+int WriteFile(std::string path, cv::Mat src, cv::Mat src1, int compression = 1);
 int WriteFile(std::string path, GrifFileMeta grifFileInfo, cv::Mat src, int compression = 1);
+int WriteFile(std::string path, GrifFileMeta grifFileInfo, cv::Mat src, cv::Mat src1, int compression = 1);
+
 GrifFileMeta ReadFileHeader(std::string path);
 cv::Mat ReadFile(std::string FileName);
 int GrifToMat(std::string path, cv::Mat& src);

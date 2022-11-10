@@ -56,26 +56,7 @@ int compressToGzip(const char* input, int inputSize, char* output, int outputSiz
     return zs.total_out;
 }
 
-
-int WriteFile(string path , GrifFileMeta grifFileInfo, cv::Mat src, int compression) {
-    ofstream outFile(path, ios::out | ios::binary);
-
-    GrifFileHeader fileHeader;
-    fileHeader.Version = 0;
-    int a = sizeof(GrifFileHeader);
-    int b = sizeof(GrifFileMeta);
-    fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(GrifFileMeta);
-    outFile.write((char*)&fileHeader, sizeof(GrifFileHeader));
-
-    GrifFileMeta grif;
-    //strncpy(grif.Name, "海拉11");
-
-    grif.rows = src.rows;
-    grif.cols = src.cols;
-    grif.depth = src.depth();
-    outFile.write((char*)&grif, sizeof(GrifFileMeta));
-
-
+int WriteMat(ofstream* oswrite,cv::Mat src, int compression) {
     GrifMatFile grifMat;
     grifMat.rows = src.rows;
     grifMat.cols = src.cols;
@@ -84,8 +65,6 @@ int WriteFile(string path , GrifFileMeta grifFileInfo, cv::Mat src, int compress
     grifMat.compression = compression;
 
     if (grifMat.compression == 1) {
-
-
         const char* istream = (char*)src.data;
         uLongf srcLen = (uLongf)grifMat.srcLen;      // +1 for the trailing `\0`
         uLongf destLen = compressBound(srcLen); // this is how you should estimate size 
@@ -99,28 +78,120 @@ int WriteFile(string path , GrifFileMeta grifFileInfo, cv::Mat src, int compress
             printf("Not enough memory for compression!\n");
             return -2;
         }
-        //char* ostream1 = (char*)malloc(destLen);
-        //uLongf destLen1 = compressBound(srcLen); // this is how you should estimate size 
-
-        //int b = compressToGzip(istream, srcLen, ostream1, destLen1);
 
         grifMat.destLen = destLen;
-        outFile.write((char*)&grifMat, sizeof(GrifMatFile));
-        outFile.write(ostream, grifMat.destLen);
+        oswrite->write((char*)&grifMat, sizeof(GrifMatFile));
+        oswrite->write(ostream, grifMat.destLen);
     }
     else if (grifMat.compression == 0)
     {
-        outFile.write((char*)&grifMat, sizeof(GrifMatFile));
-        outFile.write((char*)src.data, grifMat.srcLen);
+        oswrite->write((char*)&grifMat, sizeof(GrifMatFile));
+        oswrite->write((char*)src.data, grifMat.srcLen);
     }
+    else if (grifMat.compression == 2) {
+        const char* istream = (char*)src.data;
+        uLongf srcLen = (uLongf)grifMat.srcLen;      // +1 for the trailing `\0`
+        uLongf destLen = compressBound(srcLen); // this is how you should estimate size 
+        char* ostream1 = (char*)malloc(destLen);
+        uLongf destLen1 = compressBound(srcLen); // this is how you should estimate size 
+        int b = compressToGzip(istream, srcLen, ostream1, destLen1);
+        oswrite->write((char*)&grifMat, sizeof(GrifMatFile));
+        oswrite->write((char*)ostream1, grifMat.srcLen);
+    }
+    return 0;
+}
+
+cv::Mat ReadMat(ifstream* inFile,int Matoffset) {
+    inFile->seekg(Matoffset, ios::beg);
+
+    GrifMatFile grifMat;
+    inFile->read((char*)&grifMat, sizeof(GrifMatFile));
+    if (grifMat.compression == 1)
+    {
+        char* i2stream = new char[grifMat.destLen];
+        // Read the pixels from the stringstream
+        inFile->read(i2stream, grifMat.destLen);
+
+        char* o2stream = (char*)malloc(grifMat.srcLen);
+        uLongf destLen2 = (uLongf)grifMat.destLen;
+        uLongf srcLen = (uLongf)grifMat.srcLen;
+
+        int des = uncompress((Bytef*)o2stream, &srcLen, (Bytef*)i2stream, destLen2);
+        return cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, o2stream);
+    }
+    else if (grifMat.compression == 0)
+    {
+        char* data = new char[grifMat.srcLen];
+        // Read the pixels from the stringstream
+        inFile->read(data, grifMat.srcLen);
+        return cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, data);
+    }
+    else if (grifMat.compression == 2) {
+        return cv::Mat::zeros(0, 0, CV_8UC3);
+    }
+    return cv::Mat::zeros(0, 0, CV_8UC3);
+}
+
+
+
+int WriteFile(string path , GrifFileMeta grifFileInfo, cv::Mat src, int compression) {
+    ofstream outFile(path, ios::out | ios::binary);
+
+    GrifFileHeader fileHeader;
+    fileHeader.Version = 0;
+    int a = sizeof(GrifFileHeader);
+    int b = sizeof(GrifFileMeta);
+
+    GrifFileMeta grif;
+    //strncpy(grif.Name, "海拉11");
+    grif.rows = src.rows;
+    grif.cols = src.cols;
+    grif.depth = src.depth();
+
+    fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(grif);
+    outFile.write((char*)&fileHeader, sizeof(GrifFileHeader));
+
+    outFile.write((char*)&grif, sizeof(GrifFileMeta));
+    int i = WriteMat(&outFile, src, compression);
+    if (i != 0)
+        return i;
     outFile.close();
     return 0;
-
 }
+
+int WriteFile(string path, GrifFileMeta grifFileInfo, cv::Mat src, cv::Mat src1, int compression) {
+
+    ofstream outFile(path, ios::out | ios::binary);
+    GrifFileHeader fileHeader;
+    fileHeader.Version = 0;
+    int a = sizeof(GrifFileHeader);
+    int b = sizeof(GrifFileMeta);
+
+    GrifFileMeta grif;
+
+    grif.rows = src.rows;
+    grif.cols = src.cols;
+    grif.depth = src.depth();
+
+    fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(grif);
+    outFile.write((char*)&fileHeader, sizeof(GrifFileHeader));
+
+    outFile.write((char*)&grif, sizeof(GrifFileMeta));
+    int i = WriteMat(&outFile, src, compression);
+    i = WriteMat(&outFile, src1, 1);
+    outFile.close();
+    return 0;
+}
+
+
 
 int WriteFile(string path, cv::Mat src, int compression) {
     GrifFileMeta gridFile{};
     return WriteFile(path, gridFile, src, compression);
+}
+int WriteFile(string path, cv::Mat src, cv::Mat src1, int compression) {
+    GrifFileMeta gridFile{};
+    return WriteFile(path, gridFile, src, src1, compression);
 }
 
 cv::Mat ReadFile(string path) {
@@ -134,31 +205,7 @@ cv::Mat ReadFile(string path) {
     {
         return cv::Mat::zeros(0, 0, CV_8UC3);
     }
-    inFile.seekg(grifheader.Matoffset, ios::beg);
-    GrifMatFile grifMat;
-    inFile.read((char*)&grifMat, sizeof(GrifMatFile));
-    if (grifMat.compression == 1)
-    {
-        char* i2stream = new char[grifMat.destLen];
-        // Read the pixels from the stringstream
-        inFile.read(i2stream, grifMat.destLen);
-
-        char* o2stream = (char*)malloc(grifMat.srcLen);
-        uLongf destLen2 = (uLongf)grifMat.destLen;
-        uLongf srcLen = (uLongf)grifMat.srcLen;
-
-        int des = uncompress((Bytef*)o2stream, &srcLen, (Bytef*)i2stream, destLen2);
-        return cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, o2stream);
-    }
-    else if (grifMat.compression == 0)
-    {
-        char* data = new char[grifMat.srcLen];
-        // Read the pixels from the stringstream
-        inFile.read(data, grifMat.srcLen);
-        cv::Mat mat1 = cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, data);
-        return mat1;
-    }
-    return cv::Mat::zeros(0, 0, CV_8UC3);
+    return ReadMat(&inFile, grifheader.Matoffset);
 }
 
 GrifFileMeta ReadFileHeader(string path) {

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using ThemeManager.Controls;
+using Tool;
 using XSolution;
 
 
@@ -31,12 +32,21 @@ namespace Solution
             seriesProjectManager.ExportChildren.Insert(Indexof, new SeriesProjectExportLine());
             Indexof--;
         }
+
         int Indexof = 0;
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof];
-            seriesProjectManager.ExportChildren.Remove(baseObject);
-            seriesProjectManager.ExportChildren.Insert(0, baseObject);
+            if (Indexof < 0 || Indexof >= seriesProjectManager.ExportChildren.Count)
+                return;
+            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            {
+                seriesProjectManager.ExportChildren.Remove(grifFile);
+                seriesProjectManager.ExportChildren.Insert(0, grifFile);
+                grifFile.IsSelected = true;
+            }
+
+
+
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -130,6 +140,8 @@ namespace Solution
                 baseObject1 = baseObject;
                 Indexof1 = seriesProjectManager.ExportChildren.IndexOf(baseObject);
             }
+
+
         }
 
 

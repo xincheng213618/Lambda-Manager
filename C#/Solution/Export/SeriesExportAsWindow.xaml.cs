@@ -90,18 +90,6 @@ namespace Solution
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             List<string> Mode = new();
-            //if (checkbox51.IsChecked == true)
-            //    Mode.Add("bright-field");
-            //if (checkbox52.IsChecked == true)
-            //    Mode.Add("dark-field");
-            //if (checkbox53.IsChecked == true)
-            //    Mode.Add("rheinberg");
-            //if (checkbox54.IsChecked == true)
-            //    Mode.Add("relief-contrast");
-            //if (checkbox55.IsChecked == true)
-            //    Mode.Add("quantitative-phase");
-            //if (checkbox56.IsChecked == true)
-            //    Mode.Add("phase-contrast");
 
             ProjectExportAs.Mode = Mode;
             foreach (var item in seriesProjectManager.ExportChildren)

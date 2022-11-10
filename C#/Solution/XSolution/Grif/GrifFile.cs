@@ -40,6 +40,19 @@ namespace XSolution
             get { return isCheck; }
             set { isCheck = value;  NotifyPropertyChanged(); }
         }
+        private bool isExpanded = false;
+        public bool IsExpanded
+        {
+            get { return isExpanded; }
+            set { isExpanded = value; NotifyPropertyChanged(); }
+        }
+        private bool isSelected = false;
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set { isSelected = value; NotifyPropertyChanged(); }
+        }
+
 
 
         private void ExportAsBMP(object value)

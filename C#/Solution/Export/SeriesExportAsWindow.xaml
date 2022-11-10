@@ -56,8 +56,10 @@
                                     <StackPanel>
                                         <CheckBox Content="导出视图" IsChecked="{Binding Path=ExportView}"  Margin="0,2"/>
                                         <CheckBox Content="导出兴趣区域（ROI）"  IsChecked="{Binding Path=ExportViewROI}" Margin="0,2"/>
-                                        <CheckBox Content="导出全部图像" IsChecked="{Binding Path=ExportAllImages}" Margin="0,2"/>
-                                        <Button Content="高级导出设置" Click="CheckBox_Click"/>
+                                        <DockPanel>
+                                            <Button Content="高级导出设置" Click="CheckBox_Click"/>
+                                        </DockPanel>
+                                        <CheckBox Content="导出全部图像" IsChecked="{Binding Path=ExportAllImages}" Visibility="Hidden" Margin="0,2"/>
                                     </StackPanel>
                                 </UniformGrid>
 

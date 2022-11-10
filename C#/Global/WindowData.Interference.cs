@@ -45,15 +45,28 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
+            MessageBoxResult messageBoxResult = MessageBoxResult.Yes;
             Application.Current.Dispatcher.Invoke(delegate
             {
                 string messageBoxText = eventData.GetString("messageBoxText");
                 string caption = eventData.GetString("caption");
+                string buttonstring = eventData.GetString("button");
                 if (String.IsNullOrEmpty(caption))
                     caption = "Grid";
-                MessageBox1.Show(messageBoxText, caption);
+                MessageBoxButton button = MessageBoxButton.OK;  
+                switch (buttonstring)
+                {
+                    case "YesNo":
+                        button = MessageBoxButton.YesNo;
+                        break;
+                    default:
+                        button = MessageBoxButton.OK;
+                        break;
+                }
+                messageBoxResult = MessageBox1.Show(messageBoxText, caption, button);
+
             });
-            return true;
+            return messageBoxResult == MessageBoxResult.Yes;
         }
 
 

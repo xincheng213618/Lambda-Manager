@@ -287,7 +287,8 @@ Mat Fusion(vector<Mat> imgs,int STEP) {
 			double* ptr1 = S.ptr<double>(row);
 			for (int col = 0; col < N; col++)
 			{
-				ptr[col] = 0.5 * (1 + tanh(0.2 * (ptr1[col] - 13))) / 0.2;
+				//sth 13->11  BestValue
+				ptr[col] = 0.5 * (1 + tanh(0.2 * (ptr1[col] - 11))) / 0.2;
 			}
 		}
 		S.release();

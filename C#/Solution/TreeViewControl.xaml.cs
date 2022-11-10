@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.Windows.Data;
 using System.Runtime.InteropServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Solution
 {
@@ -428,6 +429,7 @@ namespace Solution
 
         private  void Button_Click_5(object sender, RoutedEventArgs e)
         {
+            MessageBox1.Show("22222222", "grif111",MessageBoxButton.YesNo);
         }
 
 

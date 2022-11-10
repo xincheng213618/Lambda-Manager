@@ -1,4 +1,4 @@
-﻿#pragma warning(disable:26812 26495 26451 6294 6201)
+#pragma warning(disable:26812 26495 26451 6294 6201)
 
 #include "pch.h"
 #include "UITest.h"
@@ -598,10 +598,7 @@ int VideoTest() {
 	//OsWrite << std::endl;
 	//OsWrite.close();
 
-	//json j1;
-	//j1["messageBoxText"] = "显示一个MessageBox";
-	//j1["caption"] = "Grid1";
-	//Event::Trigger("MessageBox", &j1);
+
 
 	//cv::Mat Input = cv::imread("11");
 
@@ -610,8 +607,16 @@ int VideoTest() {
 
 	//cv::cvtColor(Input, input1, CV_RGB2GRAY);
 	//input1.convertTo(input2, CV_32FC1, 1.0 / 255.0);
+	// 
+	//json j1;
+	//j1["messageBoxText"] = "显示一个MessageBox";
+	//j1["caption"] = "Grid1";
+	//j1["button"] = "YesNo";
+	//Event::Trigger("MessageBox", &j1);
 
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
+
+
 	return 0;
 }
 int StageSettingReset() {
