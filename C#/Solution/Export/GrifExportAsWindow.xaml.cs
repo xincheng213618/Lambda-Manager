@@ -7,6 +7,8 @@ using Microsoft.Win32;
 using Lambda;
 using System;
 using System.Linq;
+using System.IO;
+using Global.Common;
 
 namespace Solution
 {
@@ -52,6 +54,15 @@ namespace Solution
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+            if (File.Exists(grifExportAs.ExportFullName))
+            {
+                if (MessageBox1.Show("此目标已经存在该文件，是否覆盖", "Grid", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+
             LambdaControl.Trigger("GrifExportAs", this, grifExportAs.ToJson());
             this.Close();
         }

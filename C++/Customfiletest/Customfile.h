@@ -40,7 +40,7 @@ typedef struct GrifFileHeader
 //    int Matoffset; //直接读取Mat数据的偏移量 int 限制了2G大小，如果需要更多，则需要float or double 但是这回让内存对齐比较麻烦
 //}GrifFileHeader;
 
-
+int compressToGzip(const char* input, int inputSize, char* output, int outputSize);
 
 int WriteFile(std::string path, cv::Mat src, int compression = 1);
 int WriteFile(std::string path, cv::Mat src, cv::Mat src1, int compression = 1);
@@ -51,10 +51,9 @@ GrifFileMeta ReadFileHeader(std::string path);
 cv::Mat ReadFile(std::string FileName);
 int GrifToMat(std::string path, cv::Mat& src);
 int WriteGrifFile(std::string path, std::string name, cv::Mat src, int x, int y, int z);
-int GrifToMatGz(std::string path, cv::Mat& src);
-int WriteGrifFileGz(std::string path, std::string name, cv::Mat src, int x, int y, int z);
-void OsWrite(std::string path, cv::Mat src);
-void OsWrite1(std::string path, cv::Mat src);
+//int GrifToMatGz(std::string path, cv::Mat& src);
+//int WriteGrifFileGz(std::string path, std::string name, cv::Mat src, int x, int y, int z);
+//void OsWrite(std::string path, cv::Mat src);
+//void OsWrite1(std::string path, cv::Mat src);
 int WriteFileCache(std::string path, GrifFileMeta grifFileInfo, cv::Mat src);
 int WriteFileCache(std::string path, cv::Mat src);
-

@@ -16,7 +16,7 @@
 
         <Border  Grid.Row="1" CornerRadius="10,10,0,0" Background="#2D333A">
             <StackPanel Margin="10,0">
-                <Label Content="Xin" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"  FontSize="20"/>
+                <Label Content="Grid" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"  FontSize="20"/>
                 <Label x:Name="labelVersion" Content="Version 1.3.8" HorizontalAlignment="Left" Foreground="White"  />
             </StackPanel>
         </Border>

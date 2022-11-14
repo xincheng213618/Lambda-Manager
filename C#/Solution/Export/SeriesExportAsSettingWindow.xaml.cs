@@ -4,9 +4,9 @@ using System.Windows.Input;
 using ThemeManager.Controls;
 using Tool;
 using XSolution;
-
-
-
+using System;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace Solution
 {
@@ -16,7 +16,7 @@ namespace Solution
     public partial class SeriesExportAsSettingWindow : BaseWindow
     {
         public SeriesProjectManager seriesProjectManager;
-
+        AdornerLayer mAdornerLayer = null;
         public SeriesExportAsSettingWindow(SeriesProjectManager seriesProjectManager)
         {
             this.seriesProjectManager = seriesProjectManager;
@@ -25,7 +25,76 @@ namespace Solution
             SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
             SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
         }
+        private void BaseWindow_Initialied(object sender, EventArgs e)
+        {
+            SeriesExportTreeView2.PreviewMouseMove += SeriesExportTreeView2_PreviewMouseMove;
+            SeriesExportTreeView2.QueryContinueDrag += SeriesExportTreeView2_QueryContinueDrag;
 
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem = new MenuItem() { Header ="点"};
+            for (int i = 0; i < 3; i++)
+            {
+                MenuItem menuItem3 =  new MenuItem() { Header = $"{i}" };
+                menuItem3.Click += (s, e) =>
+                {
+                    FilterButton.Content = FilterButton.Content.ToString()+menuItem3.Header.ToString();
+                };
+                menuItem.Items.Add(menuItem3);
+
+            }
+            MenuItem menuItem1 = new MenuItem() { Header = "Z" };
+            for (int i = 0; i < 5; i++)
+            {
+                menuItem1.Items.Add(new MenuItem() { Header = $"{i}" });
+            }
+            MenuItem menuItem2 = new MenuItem() { Header = "T" };
+            for (int i = 0; i < 10; i++)
+            {
+                menuItem2.Items.Add(new MenuItem() { Header = $"{i}" });
+            }
+
+            contextMenu.Items.Add(menuItem);
+            contextMenu.Items.Add(menuItem1);
+            contextMenu.Items.Add(menuItem2);
+
+            FilterButton.ContextMenu = contextMenu ;
+        }
+
+        private void SeriesExportTreeView2_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton != MouseButtonState.Pressed)
+                return;
+
+            Point pos = e.GetPosition(SeriesExportTreeView2);
+            HitTestResult result = VisualTreeHelper.HitTest(SeriesExportTreeView2, pos);
+            if (result == null)
+                return;
+
+            TreeViewItem listBoxItem = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit); // Find your actual visual you want to drag
+            if (listBoxItem == null)
+                return;
+
+            DragDropAdorner adorner = new DragDropAdorner(listBoxItem);
+            mAdornerLayer = AdornerLayer.GetAdornerLayer(RootGrid); // Window class do not have AdornerLayer
+            mAdornerLayer.Add(adorner);
+
+            GrifFile dataItem = listBoxItem.DataContext as GrifFile;
+            DataObject dataObject = new DataObject(dataItem);
+
+            System.Windows.DragDrop.DoDragDrop(SeriesExportTreeView2, dataObject, DragDropEffects.Copy);
+
+            //mAdornerLayer.Remove(adorner);
+            //mAdornerLayer = null;
+
+        }
+        private void SeriesExportTreeView2_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            if (mAdornerLayer != null)
+            {
+                mAdornerLayer.Update();
+                //UpdateTreeViewExpandingState();
+            }
+        }
 
         private void Button_Click_0(object sender, RoutedEventArgs e)
         {
@@ -43,6 +112,7 @@ namespace Solution
                 seriesProjectManager.ExportChildren.Remove(grifFile);
                 seriesProjectManager.ExportChildren.Insert(0, grifFile);
                 grifFile.IsSelected = true;
+                Indexof= 0;
             }
 
 
@@ -51,37 +121,70 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (Indexof <= 0)
+            if (Indexof < 1 || Indexof > seriesProjectManager.ExportChildren.Count)
                 return;
 
-            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof - 1];
-            seriesProjectManager.ExportChildren.Remove(baseObject);
-            seriesProjectManager.ExportChildren.Insert(Indexof, baseObject);
-            Indexof--;
 
+            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            {
+                seriesProjectManager.ExportChildren.Remove(grifFile);
+                seriesProjectManager.ExportChildren.Insert(Indexof-1, grifFile);
+                grifFile.IsSelected = true;
+                Indexof--;
+            }
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (Indexof + 1 >= seriesProjectManager.ExportChildren.Count)
+
+            if (Indexof < 0 || Indexof > seriesProjectManager.ExportChildren.Count-2)
                 return;
-            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof + 1];
-            seriesProjectManager.ExportChildren.Remove(baseObject);
-            seriesProjectManager.ExportChildren.Insert(Indexof, baseObject);
-            Indexof++;
+
+
+            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            {
+                seriesProjectManager.ExportChildren.Remove(grifFile);
+                seriesProjectManager.ExportChildren.Insert(Indexof + 1, grifFile);
+                grifFile.IsSelected = true;
+                Indexof++;
+            }
+
         }
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            BaseObject baseObject = seriesProjectManager.ExportChildren[Indexof];
-            seriesProjectManager.ExportChildren.Remove(baseObject);
-            seriesProjectManager.ExportChildren.Add(baseObject);
+            if (Indexof < 0 || Indexof > seriesProjectManager.ExportChildren.Count-1)
+                return;
+
+            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            {
+                seriesProjectManager.ExportChildren.Remove(grifFile);
+                seriesProjectManager.ExportChildren.Insert(seriesProjectManager.ExportChildren.Count, grifFile);
+                grifFile.IsSelected = true;
+                Indexof = seriesProjectManager.ExportChildren.Count;
+            }
         }
 
         private void StackPanel_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             StackPanel stackPanel = sender as StackPanel;
-            if (stackPanel.Tag is BaseObject baseObject)
-                Indexof = seriesProjectManager.ExportChildren.IndexOf(baseObject);
+            if (stackPanel.Tag is GrifFile grifFile)
+                Indexof = seriesProjectManager.ExportChildren.IndexOf(grifFile);
+            else if (stackPanel.Tag is SeriesProjectExportLine seriesProjectExportLine)
+            {
+                Indexof = seriesProjectManager.ExportChildren.IndexOf(seriesProjectExportLine);
+                if (Indexof > 0)
+                {
+                    if (seriesProjectManager.ExportChildren[Indexof-1] is GrifFile grifFile1)
+                    {
+                        Indexof = Indexof - 1;
+                        grifFile1.IsSelected = true;
+                    }
+                    else
+                    {
+                        seriesProjectManager.ExportChildren.Remove(seriesProjectExportLine);
+                    }
+                }
+            }
         }
 
 
@@ -201,6 +304,17 @@ namespace Solution
                 CheckEend(projectFolder, projectFolder.IsCheck);
 
             }
+        }
+
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            button.ContextMenu.IsOpen = true;
+        }
+
+        private void SeriesExportTreeView2_DragEnter(object sender, DragEventArgs e)
+        {
+
         }
     }
 

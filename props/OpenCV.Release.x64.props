@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>opencv_core455.lib;opencv_highgui455.lib;opencv_imgproc455.lib;opencv_imgcodecs455.lib;opencv_videoio455.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core455.lib;opencv_highgui455.lib;opencv_imgproc455.lib;opencv_imgcodecs455.lib;opencv_videoio455.lib;opencv_objdetect455.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

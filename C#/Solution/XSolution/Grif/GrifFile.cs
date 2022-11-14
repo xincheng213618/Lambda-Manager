@@ -87,7 +87,7 @@ namespace XSolution
             if (value is GrifFile grifFile1)
             {
                 grifFile = grifFile1.GrifFileMeta;
-                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}", "grif");
+                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}", "GRIF");
             }
         }
 

@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-         Height="450" Width="800" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen">
+         Height="450" Width="800" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialied">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,7 +17,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="RootGrid">
         <TextBlock Text="高级导出设置" FontSize="15"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <DockPanel  >
             <UniformGrid Columns="1" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10">
@@ -38,7 +38,10 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="TextBock1" Text="导出系列文件名称:" Margin="0,0,0,5"/>
+                    <DockPanel >
+                        <TextBlock x:Name="TextBock1" Text="导出系列文件名称:" Margin="0,0,0,5"/>
+                        <Button x:Name="FilterButton" Click="FilterButton_Click" HorizontalAlignment="Center" Content="过滤"/>
+                    </DockPanel>
                     <Border BorderThickness="1"  Grid.Row="1" CornerRadius="3" >
                         <Border.BorderBrush>
                             <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
@@ -111,7 +114,7 @@
                                 </DrawingBrush.Drawing>
                             </DrawingBrush>
                         </Border.BorderBrush>
-                        <TreeView x:Name="SeriesExportTreeView2" Margin="2">
+                        <TreeView x:Name="SeriesExportTreeView2"  AllowDrop="True"  Margin="2">
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">
                                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>

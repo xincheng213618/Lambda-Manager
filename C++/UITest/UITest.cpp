@@ -263,7 +263,7 @@ int PlayFilm(std::string fileName) {
 
 	Event::Trigger("PREVIEW_CLOSE");
 
-	auto writer = cv::VideoWriter("C:\\Users\\Chen\\Desktop\\output2_8.mp4", VideoWriter::fourcc('H', '2', '6', '5'), 25, Size((int)cap.get(CAP_PROP_FRAME_WIDTH), (int)cap.get(CAP_PROP_FRAME_HEIGHT)));
+	//auto writer = cv::VideoWriter("C:\\Users\\Chen\\Desktop\\output2_8.mp4", VideoWriter::fourcc('H', '2', '6', '5'), 25, Size((int)cap.get(CAP_PROP_FRAME_WIDTH), (int)cap.get(CAP_PROP_FRAME_HEIGHT)));
 
 
 	for (;;)
@@ -282,7 +282,7 @@ int PlayFilm(std::string fileName) {
 			break;
 		}
 		pView->Show(frame);
-		writer.write(frame);
+		//writer.write(frame);
 
 		//for (size_t i = 0; i < 20; i++)
 		//{
@@ -608,11 +608,7 @@ int VideoTest() {
 	//cv::cvtColor(Input, input1, CV_RGB2GRAY);
 	//input1.convertTo(input2, CV_32FC1, 1.0 / 255.0);
 	// 
-	//json j1;
-	//j1["messageBoxText"] = "显示一个MessageBox";
-	//j1["caption"] = "Grid1";
-	//j1["button"] = "YesNo";
-	//Event::Trigger("MessageBox", &j1);
+
 
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");
 

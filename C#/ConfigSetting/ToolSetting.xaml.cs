@@ -59,7 +59,6 @@ namespace ConfigSetting
 
                 CheckBox1.DataContext = SolutionConfig.treeViewSetting;
 
-
                 stackPanel1.Children.Remove(this);
                 if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition)
                 {

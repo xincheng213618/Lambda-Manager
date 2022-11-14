@@ -13,6 +13,8 @@ using System.Windows.Documents;
 using System;
 using System.Linq;
 using System.Windows.Shell;
+using System.IO;
+using Global.Common;
 
 namespace Solution
 {
@@ -89,6 +91,15 @@ namespace Solution
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+
+            if (File.Exists(ProjectExportAs.ExportFullName))
+            {
+                if (MessageBox1.Show("此目标已经存在该文件，是否覆盖", "Grid", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
             List<string> Mode = new();
 
             ProjectExportAs.Mode = Mode;
@@ -97,6 +108,7 @@ namespace Solution
                 if (item is GrifFile grifFile)
                     ProjectExportAs.FrameList.Add(grifFile.FullName);
             }
+
 
             LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
             this.Close();
@@ -180,8 +192,6 @@ namespace Solution
                 ProjectExportAs.ExportFullName = dialog.FileName;
             };
         }
-
-
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {

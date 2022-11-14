@@ -47,6 +47,7 @@ namespace ThemeManager
     /// </summary>
     public static class ThemeManagers
     {
+        private static bool IsRegister = false ;
         private static Theme _CurrentUITheme = Reg.ReadValue("Software\\Grid", "CurrentUITheme");
 
         public static Theme CurrentUITheme
@@ -67,8 +68,14 @@ namespace ThemeManager
 
         public static void ApplyTheme(this Application app, Theme theme)
         {
-            CurrentUITheme = theme;
-
+            if (IsRegister && CurrentUITheme == theme)
+            {
+                return;
+            }
+            if (!IsRegister)
+            {
+                IsRegister = true;
+            }
             List<string> ResourceDictionary = new();
             if (theme == Theme.Dark)
             {
@@ -86,6 +93,7 @@ namespace ThemeManager
                 ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
                 app.Resources.MergedDictionaries.Add(dictionary);
             }
+            CurrentUITheme = theme;
         }
 
 

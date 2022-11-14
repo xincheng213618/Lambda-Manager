@@ -126,8 +126,8 @@ int main()
     WriteFile("C:\\Users\\Chen\\Desktop\\GrifTest\\ZeroTest0.grif", ZeroTest, 0);
     WriteGrifFile("C:\\Users\\Chen\\Desktop\\GrifTest\\", "ZeroTest2.grif", ZeroTest, 1, 1, 1);
     WriteGrifFile("C:\\Users\\Chen\\Desktop\\GrifTest\\", "ZeroTest.grif.gz", ZeroTest, 1, 1, 1);
-    OsWrite("C:\\Users\\Chen\\Desktop\\GrifTest\\ZeroTest3.grif", ZeroTest);
-    OsWrite1("C:\\Users\\Chen\\Desktop\\GrifTest\\ZeroTest4.grif", ZeroTest);
+    //OsWrite("C:\\Users\\Chen\\Desktop\\GrifTest\\ZeroTest3.grif", ZeroTest);
+    //OsWrite1("C:\\Users\\Chen\\Desktop\\GrifTest\\ZeroTest4.grif", ZeroTest);
 
 
     start = clock();

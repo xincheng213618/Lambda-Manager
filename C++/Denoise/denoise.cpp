@@ -39,9 +39,8 @@ float a, b, c;
 
 
 
-LambdaView* pView;
-LambdaView* pView1;
-LambdaView* pView2;
+LambdaView *pView,*pView1,*pView2,*pView3;
+
 void LambdaViewShow(cv::Mat mat) {
 	if (pView == nullptr) {
 		pView = LambdaView::GetIdleOrNew();
@@ -64,12 +63,20 @@ void LambdaViewShow2(cv::Mat mat) {
 	pView2->Show(mat);
 }
 
+void LambdaViewShow3(cv::Mat mat) {
+	if (pView3 == nullptr) {
+		pView3 = LambdaView::GetRegistered(-1);
+	}
+	pView3->SetState(OCCUPIED);
+	pView3->Show(mat);
+}
+
 
 int Read_img(char* s)
 {
 	std::string filename = StringUtils::Multi2Utf8(s);
 	img_o=cv::imread(filename);
-
+	LambdaViewShow3(img_o);
 	LambdaViewShow(img_o);
 	return 0;
 }

@@ -56,7 +56,7 @@ int compressToGzip(const char* input, int inputSize, char* output, int outputSiz
     return zs.total_out;
 }
 
-int WriteMat(ofstream* oswrite,cv::Mat src, int compression) {
+int WriteMat(fstream* oswrite,cv::Mat src, int compression) {
     GrifMatFile grifMat;
     grifMat.rows = src.rows;
     grifMat.cols = src.cols;
@@ -135,7 +135,8 @@ cv::Mat ReadMat(ifstream* inFile,int Matoffset) {
 
 
 int WriteFile(string path , GrifFileMeta grifFileInfo, cv::Mat src, int compression) {
-    ofstream outFile(path, ios::out | ios::binary);
+    fstream outFile(path, ios_base::in | ios_base::out | ios::binary);
+    outFile.seekp(ios::beg);
 
     GrifFileHeader fileHeader;
     fileHeader.Version = 0;
@@ -151,24 +152,29 @@ int WriteFile(string path , GrifFileMeta grifFileInfo, cv::Mat src, int compress
     fileHeader.Matoffset = sizeof(GrifFileHeader) + sizeof(grif);
     outFile.write((char*)&fileHeader, sizeof(GrifFileHeader));
 
-    outFile.write((char*)&grif, sizeof(GrifFileMeta));
+    outFile.seekp(sizeof(GrifFileHeader) + sizeof(grif), ios::beg);
     int i = WriteMat(&outFile, src, compression);
-    if (i != 0)
-        return i;
+
+    grif.MatCalloutoff = outFile.tellp();
+
+    outFile.seekp(sizeof(GrifFileHeader),ios::beg);
+    outFile.write((char*)&grif, sizeof(GrifFileMeta));
+
     outFile.close();
     return 0;
 }
 
 int WriteFile(string path, GrifFileMeta grifFileInfo, cv::Mat src, cv::Mat src1, int compression) {
 
-    ofstream outFile(path, ios::out | ios::binary);
+    fstream outFile(path, ios_base::in | ios_base::out | ios::binary);
+    outFile.seekp(ios::beg);
+
     GrifFileHeader fileHeader;
     fileHeader.Version = 0;
     int a = sizeof(GrifFileHeader);
     int b = sizeof(GrifFileMeta);
 
     GrifFileMeta grif;
-
     grif.rows = src.rows;
     grif.cols = src.cols;
     grif.depth = src.depth();
@@ -201,6 +207,9 @@ cv::Mat ReadFile(string path) {
     }
     GrifFileHeader grifheader;
     inFile.read((char*)&grifheader, sizeof(GrifFileHeader));
+    GrifFileMeta gridFile{};
+
+    inFile.read((char*)&gridFile, sizeof(gridFile));
     if (std::string("grif").compare(grifheader.Name))
     {
         return cv::Mat::zeros(0, 0, CV_8UC3);
@@ -223,14 +232,13 @@ GrifFileMeta ReadFileHeader(string path) {
         return gridFile;
     }
     inFile.read((char*)&gridFile, sizeof(gridFile));
+
     return gridFile;
 }
 
 
 int GrifToMat(std::string path, cv::Mat& src)
 {
-
-
     cv::FileStorage hFs;
     //打开需要读取的路径和文件，将data写入到Mat中
     if (hFs.open(path, cv::FileStorage::READ))
@@ -283,6 +291,7 @@ void OsWrite(std::string path, cv::Mat src) {
     outFile1.write((char*)src.data, src.total() * src.elemSize());
     outFile1.close();
 }
+
 void OsWrite1(std::string path, cv::Mat src) {
     ofstream outFile1(path, ios::out | ios::binary);
     outFile1 << src;
