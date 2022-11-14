@@ -7,6 +7,7 @@ using XSolution;
 using System;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Automation.Peers;
 
 namespace Solution
 {
@@ -25,10 +26,15 @@ namespace Solution
             SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
             SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
         }
+
+        ScrollViewer SeriesExportTreeView2scrollViewer = null;
+
         private void BaseWindow_Initialied(object sender, EventArgs e)
         {
-            SeriesExportTreeView2.PreviewMouseMove += SeriesExportTreeView2_PreviewMouseMove;
-            SeriesExportTreeView2.QueryContinueDrag += SeriesExportTreeView2_QueryContinueDrag;
+            SeriesExportTreeView2scrollViewer = ViewHelper.FindVisualChild<ScrollViewer>(SeriesExportTreeView2);
+
+            //SeriesExportTreeView2.PreviewMouseMove += SeriesExportTreeView2_PreviewMouseMove;
+            //SeriesExportTreeView2.QueryContinueDrag += SeriesExportTreeView2_QueryContinueDrag;
 
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem = new MenuItem() { Header ="点"};
@@ -113,15 +119,15 @@ namespace Solution
                 seriesProjectManager.ExportChildren.Insert(0, grifFile);
                 grifFile.IsSelected = true;
                 Indexof= 0;
+
+
+
             }
-
-
-
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (Indexof < 1 || Indexof > seriesProjectManager.ExportChildren.Count)
+            if (Indexof < 1 || Indexof > seriesProjectManager.ExportChildren.Count-1)
                 return;
 
 
@@ -160,7 +166,7 @@ namespace Solution
                 seriesProjectManager.ExportChildren.Remove(grifFile);
                 seriesProjectManager.ExportChildren.Insert(seriesProjectManager.ExportChildren.Count, grifFile);
                 grifFile.IsSelected = true;
-                Indexof = seriesProjectManager.ExportChildren.Count;
+                Indexof = seriesProjectManager.ExportChildren.Count-1;
             }
         }
 
@@ -312,8 +318,11 @@ namespace Solution
             button.ContextMenu.IsOpen = true;
         }
 
-        private void SeriesExportTreeView2_DragEnter(object sender, DragEventArgs e)
+
+        private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
+            TreeViewItem treeViewItem = sender as TreeViewItem;
+            treeViewItem.BringIntoView();
 
         }
     }

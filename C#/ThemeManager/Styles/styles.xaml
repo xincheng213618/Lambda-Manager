@@ -3,11 +3,14 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:darkBlendTheme="clr-namespace:DarkBlendTheme11"
+                    xmlns:Converter ="clr-namespace:ThemeManager.Converter"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
     <!--#region Converters-->
     <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
+    <Converter:BoolToVisibilityConverter x:Key="bool2VisibilityConverter1" Reverse="True"/>
+
     <!--#endregion-->
 
     <!--#region Brushes-->
