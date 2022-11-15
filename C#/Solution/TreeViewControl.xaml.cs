@@ -100,6 +100,7 @@ namespace Solution
         protected async override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
+            
 
             SelectPoint = e.GetPosition(SolutionTreeView);
             HitTestResult result = VisualTreeHelper.HitTest(SolutionTreeView, SelectPoint);

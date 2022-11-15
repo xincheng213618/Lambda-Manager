@@ -36,12 +36,29 @@ namespace Solution
 
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem = new MenuItem() { Header ="点"};
-            foreach (var item in seriesProjectManager.seriesProjectMeta.Points)
+            foreach (var item in seriesProjectManager.seriesProjectMeta.Points.Keys)
             {
                 MenuItem menuItem3 = new MenuItem() { Header = $"{item.X}  {item.Y}" };
                 menuItem3.Click += (s, e) =>
                 {
+                    menuItem3.IsChecked = !menuItem3.IsChecked;
                     FilterButton.Content = FilterButton.Content.ToString() + menuItem3.Header.ToString();
+                    foreach (var item in seriesProjectManager.seriesProjectMeta.Points[item])
+                    {
+                        if (menuItem3.IsChecked)
+                        {
+                            item.Visibility =Visibility.Hidden; 
+                        }
+                        else
+                        {
+                            item.Visibility = Visibility.Visible;
+                        }
+
+                    }
+
+
+
+
                 };
                 menuItem.Items.Add(menuItem3);
             }
@@ -198,14 +215,14 @@ namespace Solution
 
         private void Button_Click_01(object sender, RoutedEventArgs e)
         {
-            CheckEend(seriesProjectManager);
+            CheckEendControl(seriesProjectManager);
         }
 
-        public void CheckEend(BaseObject baseObject,bool IsCheckNot =true,bool Add = true)
+        public void CheckEendControl(BaseObject baseObject,bool? IsCheckNot =true,bool Add = true)
         {
             foreach (var item in baseObject.VisualChildren)
             {
-                if (item is GrifFile grifFile && (IsCheckNot || grifFile.IsCheck))
+                if (item is GrifFile grifFile && (IsCheckNot ==true || grifFile.IsCheck))
                 {
                     if (Add)
                     {
@@ -221,7 +238,7 @@ namespace Solution
                 }
                 else if (item is ProjectFolder projectFolder1)
                 {
-                    CheckEend(projectFolder1, IsCheckNot,Add);
+                    CheckEendControl(projectFolder1, IsCheckNot,Add);
                 }
             }
         }
@@ -229,12 +246,12 @@ namespace Solution
 
         private void Button_Click_02(object sender, RoutedEventArgs e)
         {
-            CheckEend(seriesProjectManager, false);
+            CheckEendControl(seriesProjectManager, false);
         }
 
         private void Button_Click_03(object sender, RoutedEventArgs e)
         {
-            CheckEend(seriesProjectManager, false,false);
+            CheckEendControl(seriesProjectManager, false,false);
         }
         private void Button_Click_04(object sender, RoutedEventArgs e)
         {
@@ -249,8 +266,6 @@ namespace Solution
             {
                 Indexof1 = seriesProjectManager.ExportChildren.IndexOf(baseObject);
             }
-
-
         }
 
 
@@ -273,6 +288,8 @@ namespace Solution
             CheckBox checkBox = sender as CheckBox;
             if (checkBox.Tag is ProjectFolder projectFolder)
             {
+                if (projectFolder.Parent is ProjectFolder projectFolder1 && projectFolder1.IsCheck ==false)
+                    projectFolder1.IsCheck=null;
                 CheckEend(projectFolder, true);
             }
         }
@@ -287,6 +304,7 @@ namespace Solution
                 }
                 else if (item is ProjectFolder projectFolder1)
                 {
+                    projectFolder1.IsCheck = IsCheck;
                     CheckEend(projectFolder1, IsCheck);
                 }
             }
@@ -304,10 +322,81 @@ namespace Solution
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
+            if (checkBox.IsChecked == null)
+                checkBox.IsChecked = false;
             if (checkBox.Tag is ProjectFolder projectFolder)
             {
-                CheckEend(projectFolder, projectFolder.IsCheck);
+                if (projectFolder.Parent is ProjectFolder projectFolder1 && projectFolder.IsCheck != projectFolder1.IsCheck)
+                {
+                    projectFolder1.IsCheck = null;
 
+                    bool? result = null;
+                    foreach (var item in projectFolder1.VisualChildren)
+                    {
+                        if (item is ProjectFolder projectFolder2)
+                        {
+                            if (projectFolder.IsCheck != projectFolder2.IsCheck)
+                            {
+                                result = projectFolder2.IsCheck;
+                                break;
+                            }
+                        }
+                    }
+                    if (result == null)
+                        projectFolder1.IsCheck = projectFolder.IsCheck;
+                }
+
+                if (projectFolder.IsCheck == true)
+                {
+                    CheckEend(projectFolder, true);
+                }
+                else if (projectFolder.IsCheck == false)
+                {
+                    CheckEend(projectFolder, false);
+                }
+
+
+
+            }
+        }
+
+        private void GrifFileCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            if (checkBox.Tag is GrifFile grifFile)
+            {
+                if (grifFile.Parent is ProjectFolder projectFolder)
+                {
+                    if (projectFolder.IsCheck ==true&& grifFile.IsCheck == false)
+                    {
+                        projectFolder.IsCheck = null;
+                    }
+                    else if (projectFolder.IsCheck == false && grifFile.IsCheck == true)
+                    {
+                        projectFolder.IsCheck = null;
+                    }
+
+                    if (projectFolder.IsCheck == null)
+                    {
+                        bool? result = null;
+                        foreach (var item in projectFolder.VisualChildren)
+                        {
+                            if (item is GrifFile grifFile1)
+                            {
+                                if (grifFile.IsCheck != grifFile1.IsCheck)
+                                {
+                                    result = grifFile.IsCheck;
+                                    break;
+                                }
+                            }
+                        }
+                        if (result == null)
+                            projectFolder.IsCheck = grifFile.IsCheck;
+                    }
+
+
+
+                }
             }
         }
 
@@ -324,6 +413,8 @@ namespace Solution
             treeViewItem.BringIntoView();
 
         }
+
+
     }
 
 

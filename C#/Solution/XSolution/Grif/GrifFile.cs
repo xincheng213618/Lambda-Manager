@@ -1,20 +1,64 @@
 ﻿using Global.Common;
 using Solution;
+using System.IO;
 
 namespace XSolution
 {
+    /// <summary>
+    /// GRIF模态
+    /// </summary>
+    public enum GrifFileOperatingMode
+    {
+        /// <summary>
+        /// 明场
+        /// </summary>
+        BF,
+        /// <summary>
+        /// 暗场
+        /// </summary>
+        DF,
+        /// <summary>
+        /// 差分相衬
+        /// </summary>
+        DP,
+        /// <summary>
+        /// 莱茵伯格
+        /// </summary>
+        RI,
+        /// <summary>
+        /// 定量相位
+        /// </summary>
+        QP,
+        /// <summary>
+        /// 相差
+        /// </summary>
+        PC,
+        /// <summary>
+        /// 荧光
+        /// </summary>
+        FL,
+        /// <summary>
+        /// 未定模态
+        /// </summary>
+        NULL
+    }
 
     public class GrifFile : ProjectFile, IProjectFile
     {
+        
         public new string[] SupportExtensions()
         {
             return new string[] { ".grif" };
         }
+        
+        /// <summary>
+        /// 拍摄模态
+        /// </summary>
+        public GrifFileOperatingMode GrifFileOperatingMode { get; set; }
 
         public GrifFileMeta GrifFileMeta { get; private set; }
 
         public RelayCommand GrifExportAsCommand { get; set; }
-
 
         public RelayCommand ExportAsTiffCommand { get; set; }
         public RelayCommand ExportAsJPEGCommand { get; set; }
@@ -31,6 +75,38 @@ namespace XSolution
             ExportAsJPEGCommand = new RelayCommand(ExportAsJPEG, (object value) => { return true; });
             ExportAsPNGCommand = new RelayCommand(ExportAsPNG, (object value) => { return true; });
             ExportAsBMPCommand = new RelayCommand(ExportAsBMP, (object value) => { return true; });
+
+            var OperatingMode = Path.GetFileNameWithoutExtension(FullName).Split('-');
+            if (OperatingMode.Length>1&& OperatingMode[0] is string str)
+            {
+                switch (str.ToUpper())
+                {
+                    case "BF":
+                        GrifFileOperatingMode = GrifFileOperatingMode.BF;
+                        break;
+                    case "DF":
+                        GrifFileOperatingMode = GrifFileOperatingMode.DF;
+                        break;
+                    case "DP":
+                        GrifFileOperatingMode = GrifFileOperatingMode.DP;
+                        break;
+                    case "RI":
+                        GrifFileOperatingMode = GrifFileOperatingMode.RI;
+                        break;
+                    case "QP":
+                        GrifFileOperatingMode = GrifFileOperatingMode.QP;
+                        break;
+                    case "PC":
+                        GrifFileOperatingMode = GrifFileOperatingMode.PC;
+                        break;
+                    case "FL":
+                        GrifFileOperatingMode = GrifFileOperatingMode.FL;
+                        break;
+                    default:
+                        GrifFileOperatingMode = GrifFileOperatingMode.NULL;
+                        break;
+                }
+            }
         }
 
 

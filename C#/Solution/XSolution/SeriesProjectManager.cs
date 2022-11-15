@@ -40,6 +40,8 @@ namespace XSolution
 
         public ObservableCollection<BaseObject> ExportChildren { get; set; }
 
+        public ObservableCollection<GrifFile> AllGrifChildren { get; set; }
+
 
         /// <summary>
         /// 导出为
@@ -118,7 +120,7 @@ namespace XSolution
                 AddChild(baseObject);
             }
             ExportChildren = new ObservableCollection<BaseObject>();
-
+            AllGrifChildren = new ObservableCollection<GrifFile>();
 
             seriesProjectMeta = new SeriesProjectMeta();
 
@@ -128,15 +130,24 @@ namespace XSolution
                 var point = FullName.Split('_');
                 int X = int.Parse(point[0]);
                 int Y = int.Parse(point[1]);
-                seriesProjectMeta.Points.Add(new Point() { X = X,Y= Y});
+                Point point1 = new Point(X, Y); 
+                seriesProjectMeta.Points.Add(point1, new List<GrifFile>());
 
                 foreach (var zitem in item.VisualChildren)
                 {
                     int Zstep = int.Parse(zitem.Name);
                     if (!seriesProjectMeta.ZStep.Contains(Zstep))
                         seriesProjectMeta.ZStep.Add(Zstep);
-                }
 
+                    foreach (var image in zitem.VisualChildren)
+                    {
+                        if (image is GrifFile grifFile)
+                        {
+                            AllGrifChildren.Add(grifFile);
+                            seriesProjectMeta.Points[point1].Add(grifFile);
+                        }
+                    }
+                }
             }
 
             //GetAllExportGrif(this);
@@ -146,8 +157,18 @@ namespace XSolution
         {
             foreach (var directoryInfo in root.GetDirectories())
             {
-                ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
-                baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
+                if (directoryInfo.Name == "Image")
+                {
+                    foreach (var direc in directoryInfo.GetFiles())
+                    {
+                        baseObject.AddChild(SolutionGlobal.GetInstance().GetProjectFile(direc.FullName));
+                    }
+                }
+                else
+                {
+                    ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
+                    baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
+                }
             }
             foreach (var directoryInfo in root.GetFiles())
             {

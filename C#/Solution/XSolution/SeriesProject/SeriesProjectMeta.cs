@@ -6,7 +6,9 @@ namespace XSolution.SeriesProject
 {
     public class SeriesProjectMeta:ViewModelBase
     {
-        public List<Point> Points { get; set; } = new List<Point>();
+
+        public Dictionary<Point, List<GrifFile>> Points = new Dictionary<Point, List<GrifFile>>();
+
 
         public List<int> ZStep { get; set; } = new List<int> { };
 

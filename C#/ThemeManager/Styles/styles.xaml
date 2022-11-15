@@ -1695,26 +1695,25 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
                         <BulletDecorator.Bullet>
-                            <Border x:Name="CheckBoxBorder"
-                                        Height="12"
+                            <Border x:Name="CheckBoxBorder"  Height="12"
 										Width="12"
 										BorderBrush="{TemplateBinding BorderBrush}" 
 										BorderThickness="1"
 										Background="{TemplateBinding Background}">
-                                <Path x:Name="CheckMark"  
-                                            Data="{StaticResource CheckBoxCheckmark}" 
-											Height="Auto" 
-											Width="Auto" 
-											Stretch="Fill" 
-											Fill="{StaticResource ButtonForeground}"
-											Margin="1,1.007,1,1"/>
+                                <Grid x:Name="markGrid">
+                                    <Path x:Name="optionMark" Data="M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z" Stretch="Uniform" Margin="2,1,1,1" Opacity="0" Fill="{TemplateBinding TextElement.Foreground}" />
+                                    <Rectangle x:Name="indeterminateMark" Margin="2" Opacity="0" Fill="{TemplateBinding TextElement.Foreground}" />
+                                </Grid>
                             </Border>
                         </BulletDecorator.Bullet>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-												Margin="{TemplateBinding Padding}" 
-												RecognizesAccessKey="True" 
-												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ContentPresenter x:Name="contentPresenter" 
+                            RecognizesAccessKey="True" 
+                            Grid.Column="1" 
+                            Margin="{TemplateBinding Padding}" 
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                            Focusable="False"/>
                     </BulletDecorator>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true">
@@ -1728,8 +1727,13 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="BorderBrush" TargetName="CheckBoxBorder" Value="{StaticResource CheckBoxMouseOverStroke}"/>
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="false">
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Opacity" Value="1" TargetName="optionMark" />
+                            <Setter Property="Opacity" Value="0" TargetName="indeterminateMark" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter Property="Opacity" Value="0" TargetName="optionMark" />
+                            <Setter Property="Opacity" Value="0.56" TargetName="indeterminateMark" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -58,7 +58,7 @@
                                         <CheckBox Content="导出兴趣区域（ROI）"  IsChecked="{Binding Path=ExportViewROI}" Margin="0,2"/>
                                         <DockPanel>
                                             <CheckBox  x:Name="CheckBoxExportAll" Content="导出全部图像" IsChecked="{Binding Path=ExportAllImages}" Margin="0,2"/>
-                                            <Button Content="定制…" Visibility="{Binding ElementName=CheckBoxExportAll, Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" HorizontalAlignment="Center" Click="CheckBox_Click"/>
+                                            <Button Content="定制…" Width="50" Margin="2" Visibility="{Binding ElementName=CheckBoxExportAll, Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" HorizontalAlignment="Center" Click="CheckBox_Click"/>
                                         </DockPanel>
                                     </StackPanel>
                                 </UniformGrid>

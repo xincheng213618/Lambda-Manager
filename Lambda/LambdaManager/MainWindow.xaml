@@ -174,11 +174,11 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}" >
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RadiusBorder}"  >
                                 <Border.Background>
                                     <SolidColorBrush Color="{DynamicResource DarkBackgroundColor}" />
                                 </Border.Background>
-                                <WrapPanel Name="topToolbar" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <WrapPanel Name="topToolbar" Orientation="Horizontal" HorizontalAlignment="Center" Margin="4">
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}" Margin="3,0,0,0">
                                         <Image Source="/Resources/Icons/top-select.png" Stretch="Fill" />
                                     </ToggleButton>

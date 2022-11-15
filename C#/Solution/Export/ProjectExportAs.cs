@@ -26,7 +26,6 @@ namespace Solution
             get { return kinds; }
             set
             {
-
                 if (value != kinds)
                     kinds = value; NotifyPropertyChanged();
             }
@@ -34,7 +33,6 @@ namespace Solution
 
         public List<string> Mode { get; set; } = new List<string>();
         public List<string> FrameList { get; set; } = new List<string>();
-
 
 
         private bool outputoverlayimage = false;

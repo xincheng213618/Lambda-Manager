@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="400" Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
+             d:DesignHeight="1000" d:DesignWidth="400" Initialized="UserControl_Initialized"   Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
                 <ResourceDictionary Source="/Solution;component/themes/Button.xaml"/>
@@ -18,6 +22,7 @@
             <WrapPanel  Height="50"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"  >
                 <Border CornerRadius="4" BorderBrush="black" BorderThickness="1" VerticalAlignment="Top" Margin="0,8,0,0"  >
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" >
+
                         <Button Click="Button_Click_2"  Padding="0,0,0,0" Margin="0" Width="48" Height="34" BorderThickness="0" Style="{StaticResource ButtonStyle}">
                             <ContentControl Template="{StaticResource new1 }"   ></ContentControl>
                         </Button>
@@ -47,8 +52,8 @@
                     </StackPanel>
                 </Border>
             </WrapPanel>
-            <Border BorderBrush="#131323" BorderThickness="0" Width="384" CornerRadius="4" Margin="0,8,0,0" Padding="0" Height="auto">
-                <TreeView x:Name="SolutionTreeView" BorderBrush="black" BorderThickness="0"/>
+            <Border BorderThickness="0" Width="384" CornerRadius="4" Margin="0,8,0,0" Padding="0" Height="auto">
+                <TreeView x:Name="SolutionTreeView"  BorderThickness="0"/>
             </Border>
         </StackPanel>
         <Grid x:Name="testt22" Visibility="Collapsed" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">

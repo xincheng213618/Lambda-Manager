@@ -46,8 +46,8 @@ namespace XSolution
             watcher.EnableRaisingEvents = true;
         }
 
-        private bool isCheck = false;
-        public bool IsCheck
+        private bool? isCheck = false;
+        public bool? IsCheck
         {
             get { return isCheck; }
             set { isCheck = value; NotifyPropertyChanged(); }

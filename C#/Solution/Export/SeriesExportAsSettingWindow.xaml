@@ -63,14 +63,14 @@
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
                                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}"  >
-                                        <CheckBox Margin="5,0" Tag="{Binding .}" IsChecked="{Binding IsCheck}"  Click="CheckBox_Click" />
+                                        <CheckBox Margin="5,0" Tag="{Binding .}" IsThreeState="True" IsChecked="{Binding Path=IsCheck}"   Click="CheckBox_Click" />
                                         <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
                                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
-                                        <CheckBox  Tag="{Binding .}" IsChecked="{Binding Path=IsCheck}"  Checked="CheckBox_Checked"/>
-                                        <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
+                                        <CheckBox  Tag="{Binding .}"  IsChecked="{Binding Path=IsCheck}"  Click="GrifFileCheckBoxClick"/>
+                                        <TextBlock Text="{Binding Path=GrifFileOperatingMode}" />
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
@@ -124,7 +124,6 @@
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
                                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                                     <Setter Property="Padding" Value="2,4,2,3"/>
-
                                     <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
                                     <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}"/>
                                     <EventSetter Event="Selected" Handler="TreeViewItem_Selected"/>
@@ -189,7 +188,10 @@
                                 
                                 <HierarchicalDataTemplate  DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
                                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown" Tag="{Binding .}" >
-                                        <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" />
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" />
+                                            <Border Background="Red" Opacity="0.5" Visibility="{Binding IsCheck,Converter={StaticResource bool2VisibilityConverter}}" />
+                                        </Grid>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}"  ItemsSource="{Binding VisualChildren}" >
