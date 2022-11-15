@@ -1449,7 +1449,6 @@ namespace Global
                 }
 
                 WrapPanel bottomToolBar1 = (WrapPanel)mainwin.FindName("bottomToolbar");
-                MessageBox.Show("2");
                 galleryView = new gallery();
 
                 Border imagingView = (Border)mainwin.FindName("imagingView");
