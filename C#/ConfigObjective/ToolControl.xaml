@@ -23,7 +23,6 @@
                     </TextBlock.Resources>
                 </TextBlock>
             </DataTemplate>
-            <Inverse:BoolToVisibilityConverter x:Key="InversetoBoolean"></Inverse:BoolToVisibilityConverter>
             <Inverse:ValueClassToLayerConverter  x:Key="InversetoLayer"></Inverse:ValueClassToLayerConverter>
             <Inverse:ValueClassToUmConverter  x:Key="InversetoUm"></Inverse:ValueClassToUmConverter>
             <Inverse:ValueClassToInfinityConverter  x:Key="InversetoInfinity"></Inverse:ValueClassToInfinityConverter>
@@ -41,7 +40,7 @@
             </Grid.ColumnDefinitions>
             <ToggleButton  Grid.Column="0" x:Name="ToggleButton1"  Style="{StaticResource ButtonPageControl11}"  Content="物镜设置" FontSize="16" Foreground="White" IsChecked="True" Margin="0,5,0,0"/>
             
-            <Border Grid.Column="1" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="Transparent" Padding="5" Margin="5,5,0,0">
+            <Border Grid.Column="1" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Background="Transparent" Padding="5" Margin="5,5,0,0">
                 <StackPanel x:Name="ObjectiveSettingStackPanel1" Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0"  Foreground="#6EA646">
                     <Run Text="物镜:"/>
@@ -51,7 +50,7 @@
             </Border>
 
         </Grid>
-        <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#333333" Padding="5" Margin="5,0">
+        <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#333333" Padding="5" Margin="5,0">
             <StackPanel x:Name="ObjectiveSettingStackPanel" Orientation="Horizontal">
                 <!--物镜部分-->
             </StackPanel>
@@ -69,7 +68,7 @@
             <DockPanel Grid.Column="2" HorizontalAlignment="Right">
                 <Button x:Name="Button201" Content="重置"   Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,3" Click="Button201_Click"/>
             </DockPanel>
-            <Border Grid.Column="1"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="Transparent" Padding="5" Margin="5,5,0,0">
+            <Border Grid.Column="1"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Background="Transparent" Padding="5" Margin="5,5,0,0">
                 <StackPanel>
                     <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis">
                                     <Run Text="曝光:" />
@@ -82,7 +81,7 @@
                 </StackPanel>
             </Border>
         </Grid>
-        <Border  x:Name="Border2" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#333333" Padding="5" Margin="5,0">
+        <Border  x:Name="Border2" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#333333" Padding="5" Margin="5,0">
             <StackPanel>
                 <DockPanel>
                     <TextBlock Width="50" Text="白平衡" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -138,9 +137,9 @@
                 <Button x:Name="Button302"  Content="关闭光源" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Click="Button302_Click" Margin="0,0,5,3" />
                 <Button x:Name="Button301"  Content="重置"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Width="50" Click="Button301_Click" Margin="0,0,0,3"/>
             </DockPanel>
-            <Border Grid.Column="1" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="Transparent" Margin="5,5,0,0">
+            <Border Grid.Column="1" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Background="Transparent" Margin="5,5,0,0">
                 <StackPanel>
-                    <StackPanel Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <StackPanel Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                         <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis">
                         <Run  Text="明场:孔径:"/>
                         <Run Text="{Binding ElementName=Slider311,Path=Value,StringFormat=\{0:0.#######\}}"/>
@@ -150,7 +149,7 @@
                         <Run Text="{Binding ElementName=Slider312,Path=Value,StringFormat=\{0:0.#######\}}"/>
                         </TextBlock>
                     </StackPanel>
-                    <StackPanel Visibility="{Binding ElementName=Button32 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <StackPanel Visibility="{Binding ElementName=Button32 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                         <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" >
                         <Run Text="暗场:"/>
                         <Run Text="颜色:"/>
@@ -159,12 +158,12 @@
                         <Run Text="{Binding ElementName=Slider324,Path=Value,StringFormat=\{0:0.#####\}}"/>
                         </TextBlock>
                     </StackPanel>
-                    <StackPanel Visibility="{Binding ElementName=Button33 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <StackPanel Visibility="{Binding ElementName=Button33 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                         <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis">
                         <Run  Text="莱茵："/>
                         </TextBlock>
                     </StackPanel>
-                    <StackPanel Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <StackPanel Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                         <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" >
                         <Run  Text="差分:衬度增益:"/>
                         <Run Text="{Binding ElementName=Slider342,Path=Value,StringFormat=\{0:0.#######\}}"/>
@@ -174,7 +173,7 @@
                     </StackPanel>
 
 
-                    <StackPanel Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <StackPanel Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                         <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" >
                         <Run  Text="相位:Reg："/>
                         <Run Text="{Binding ElementName=Slider351,Path=Value,StringFormat=\{0:0.#######\}}"/>
@@ -186,7 +185,7 @@
                         <Run Text="{Binding ElementName=Slider352,Path=Value,StringFormat=\{0:0.#######\}}"/>
                         </TextBlock>
                     </StackPanel>
-                    <StackPanel Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <StackPanel Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                         <TextBlock Foreground="#6EA646"  TextTrimming="CharacterEllipsis">
                         <Run  Text="相差:相差切趾:"/>
                         <Run Text="{Binding ElementName=Slider361,Path=Value,StringFormat=\{0:0.#######\}}"/>
@@ -202,7 +201,7 @@
         </Grid>
        
 
-        <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Focusable="True" Background="#333333"  Padding="5" Margin="5,0,5,0">
+        <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton3 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Focusable="True" Background="#333333"  Padding="5" Margin="5,0,5,0">
             <StackPanel>
                 <UniformGrid Columns="6" >
                     <RadioButton Name="Button31"  Tag="0" Style="{StaticResource ToggleButtonStyle1}" Content="明场" Margin="5,0"  Checked="ViewMode_Checked" />
@@ -212,7 +211,7 @@
                     <RadioButton Name="Button35"   Tag="4" Style="{StaticResource ToggleButtonStyle1}" Content="相位" Margin="5,0"   Checked="ViewMode_Checked" Unchecked="Button35_Unchecked"  />
                     <RadioButton Name="Button36"   Tag="5" Style="{StaticResource ToggleButtonStyle1}" Content="相差"  Margin="5,0"  Checked="ViewMode_Checked" />
                 </UniformGrid>
-                <Border x:Name="Border31"  Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <Border x:Name="Border31"  Visibility="{Binding ElementName=Button31 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                     <StackPanel>
                         <DockPanel>
                             <TextBlock Text="孔径" Width="69"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White" />
@@ -225,7 +224,7 @@
                         </DockPanel>
                     </StackPanel>
                 </Border>
-                <Border  x:Name="Border32"  Visibility="{Binding ElementName=Button32 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5" >
+                <Border  x:Name="Border32"  Visibility="{Binding ElementName=Button32 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5" >
                     <StackPanel>
                         <DockPanel Visibility="Collapsed">
                             <TextBlock Text="内径" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -255,7 +254,7 @@
 
                     </StackPanel>
                 </Border>
-                <Border  x:Name="Border33"  Visibility="{Binding ElementName=Button33 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <Border  x:Name="Border33"  Visibility="{Binding ElementName=Button33 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                     <StackPanel >
                         <DockPanel>
                             <TextBlock Width="80" Text="背景抑制" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -338,7 +337,7 @@
                     </StackPanel>
                 </Border>
                 <!--差分-->
-                <Border  x:Name="Border34"  Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <Border  x:Name="Border34"  Visibility="{Binding ElementName=Button34 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                     <StackPanel>
                         <DockPanel Visibility="Collapsed">
                             <TextBlock Text="对比度"  VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -379,7 +378,7 @@
                     </StackPanel>
                 </Border>
                 <!--相位-->
-                <Border  x:Name="Border35"  Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <Border  x:Name="Border35"  Visibility="{Binding ElementName=Button35 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                     <StackPanel>
                         <DockPanel>
                             <TextBlock Text="背景抑制" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Width="70" Padding="5,0" Foreground="White"/>
@@ -407,7 +406,7 @@
                     </StackPanel>
                 </Border>
                 <!--相差-->
-                <Border x:Name="Border36"  Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <Border x:Name="Border36"  Visibility="{Binding ElementName=Button36 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                     <StackPanel>
                         <DockPanel>
                             <TextBlock Text="相差切趾" FontSize="14" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -454,7 +453,7 @@
                 <!--<Button x:Name="FullImage"   Content="全图" Width="50"   Margin="0,0,0,3"  Click="FullImage_Click" VerticalAlignment="Bottom"/>-->
                 <Button x:Name="Button401"  Content="复位" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,3" Click="Stage_Reset_Click"/>
             </DockPanel>
-            <Border x:Name="Border41" Grid.Column="1"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Background="Transparent" Padding="5" Margin="5,0">
+            <Border x:Name="Border41" Grid.Column="1"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Background="Transparent" Padding="5" Margin="5,0">
                 <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis">
                                     <Run Text="X:"/>
                                     <Run Text="{Binding Path=StageX}"/>
@@ -464,19 +463,19 @@
                                     <Run Text="{Binding Path=StageZ}"/>
                 </TextBlock>
             </Border>
-            <Border x:Name="Border411" Grid.Column="1"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="Transparent" Padding="5" Margin="5,0">
+            <Border x:Name="Border411" Grid.Column="1"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="Transparent" Padding="5" Margin="5,0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=Button41 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=Button41 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                                     <Run Text="25x25 玻片"/>
                                     <Run Text="{Binding Path=StageX}"/>
                                   
                     </TextBlock>
-                    <StackPanel Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
-                        <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=_35mm ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                    <StackPanel Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
+                        <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=_35mm ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                                     <Run Text="35mm 培养皿"/>
 
                         </TextBlock>
-                        <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=_45mm ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                        <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=_45mm ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                                     <Run Text="45mm 培养皿"/>
 
                         </TextBlock>
@@ -489,7 +488,7 @@
        
 
 
-        <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#333333" Padding="5" Margin="5,0">
+        <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton4 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#333333" Padding="5" Margin="5,0">
             <StackPanel Name="MulCollectionStack" >
                 <UniformGrid Columns="5" >
                     <RadioButton Name="Button42" IsChecked="True"  Style="{StaticResource ToggleButtonStyle1}"   Content="培养皿" Margin="5,0"   Checked="Button42_Checked" Click="Button42_Click"   >
@@ -516,7 +515,7 @@
                     </Border>
                 </Popup>
 
-                <Border Margin="5"  Height="310" Visibility="{Binding ElementName=Button41, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter1}}">
+                <Border Margin="5"  Height="310" Visibility="{Binding ElementName=Button41, Path=IsChecked, Converter={StaticResource bool2VisibilityConverter}}">
                     <Canvas x:Name="Canvas0"  Visibility="Visible" Height="300" Width="400" HorizontalAlignment="Center" VerticalAlignment="Center"   >
                         <Rectangle Height="250" Width="390" Margin="5,25" Fill="#404040" Stroke="#787878" StrokeThickness="2" VerticalAlignment="Center"/>
                         <Rectangle Height="246" Width="390" Margin="5,27" Fill="#404040" Stroke="#787878" StrokeThickness="0" VerticalAlignment="Center"/>
@@ -524,7 +523,7 @@
                         <!--<Rectangle Height="200" Width="200" Margin="100,50" Fill="#7f7f7f" Stroke="#787878" StrokeThickness="2"/>-->
                     </Canvas>
                 </Border>
-                <Border Margin="5" Height="310"  Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Margin="5" Height="310"  Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid >
                         <userControls:MapCanvas  HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Map" >
                           
@@ -535,7 +534,7 @@
 
                 <ToggleButton x:Name="ToggleButton41" IsChecked="True" Style="{StaticResource ButtonPageControl11}" Content="XYZ 位移控制" FontSize="13" Foreground="White" />
 
-                <Border  Visibility="{Binding ElementName=ToggleButton41 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <Border  Visibility="{Binding ElementName=ToggleButton41 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -596,18 +595,18 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,15,5,5" >
             <ToggleButton x:Name="ToggleButton5"  Style="{StaticResource ButtonPageControl11}" Content="采集模式" FontSize="16" Foreground="White" IsChecked="True" Margin="0,5,0,0"/>
-            <StackPanel Margin="10,2" VerticalAlignment="Bottom" Orientation="Horizontal" Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}" >
-                <TextBlock Text="{Binding ElementName=ToggleButton501,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton501 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
-                <TextBlock Text="{Binding ElementName=ToggleButton502,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton502 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
-                <TextBlock Text="{Binding ElementName=ToggleButton503,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton503 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
-                <TextBlock Text="{Binding ElementName=ToggleButton504,Path=Content}" Foreground="#6EA646"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
-                <TextBlock Text="{Binding ElementName=ToggleButton505,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton505 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
-                <TextBlock Text="{Binding ElementName=ToggleButton506,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"/>
+            <StackPanel Margin="10,2" VerticalAlignment="Bottom" Orientation="Horizontal" Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" >
+                <TextBlock Text="{Binding ElementName=ToggleButton501,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton501 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"/>
+                <TextBlock Text="{Binding ElementName=ToggleButton502,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton502 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"/>
+                <TextBlock Text="{Binding ElementName=ToggleButton503,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton503 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"/>
+                <TextBlock Text="{Binding ElementName=ToggleButton504,Path=Content}" Foreground="#6EA646"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"/>
+                <TextBlock Text="{Binding ElementName=ToggleButton505,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton505 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"/>
+                <TextBlock Text="{Binding ElementName=ToggleButton506,Path=Content}" Foreground="#6EA646" Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"/>
 
             </StackPanel>
         </StackPanel>
 
-        <Border x:Name="Border5" CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#333333" Padding="5" Margin="5,0">
+        <Border x:Name="Border5" CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton5 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#333333" Padding="5" Margin="5,0">
 
            
            
@@ -622,7 +621,7 @@
                         <ToggleButton x:Name="ToggleButton506"  Style="{StaticResource ToggleButtonStyle1}" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding PWiseChecked}" />
                         <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}" IsEnabled="False" Content="M"  DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding MWiseChecked}" />
                     </UniformGrid>
-                    <UniformGrid  Name="CollectionMode" Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"   DataContext="{Binding FocusImageMod}" >
+                    <UniformGrid  Name="CollectionMode" Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"   DataContext="{Binding FocusImageMod}" >
                         <CheckBox x:Name="checkbox51" IsChecked="{Binding Bright,Mode=TwoWay}"  Content="明场" FontSize="14" />
                         <CheckBox x:Name="checkbox52" IsChecked="{Binding Dark,Mode=TwoWay}" Content="暗场" FontSize="14" />
                         <CheckBox x:Name="checkbox53" IsChecked="{Binding Rheinberg,Mode=TwoWay}" Content="莱茵" FontSize="14" />
@@ -634,38 +633,38 @@
 
                     <Border Margin="10,5,5,5">
                         <StackPanel x:Name="StackPanelMul" Orientation="Horizontal" >
-                            <StackPanel x:Name="ZwisePanel" Visibility="{Binding ElementName=ToggleButton503,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter1}}" >
+                            <StackPanel x:Name="ZwisePanel" Visibility="{Binding ElementName=ToggleButton503,Path=IsChecked,Converter={ StaticResource bool2VisibilityConverter}}" >
                                 <DockPanel Margin="0,2">
                                     <TextBlock Text="Z-绝对坐标" FontSize="14" x:Name="ZAbsolute"  Width="70" Margin="0,0,3,0" VerticalAlignment="Center" Foreground="White" />
                                     <ToggleButton  x:Name="ToggleButton5221" Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  Width="50" Margin="2" Checked="ToggleButton5221_Checked" Unchecked="ToggleButton5221_Unchecked"/>
                                     <TextBlock Text="{Binding ElementName=ToggleButton5221,Path=IsChecked}"  FontSize="14" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
-                                    <ToggleButton  Name="AF"  Content="AF" Width="40" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Margin="10,0,0,0"></ToggleButton>
+                                    <ToggleButton  Name="AF"  Content="AF" Width="40" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Margin="10,0,0,0"></ToggleButton>
 
                                 </DockPanel>
-                                <StackPanel Orientation="Vertical"  Visibility="{Binding ElementName=AF,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter2}}" >
+                                <StackPanel Orientation="Vertical"  Visibility="{Binding ElementName=AF,Path=IsChecked,Converter={ StaticResource bool2VisibilityConverter1}}" >
                                     <DockPanel Margin="0,2">
-                                        <TextBlock Text="Z-向上距离" FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Width="70" VerticalAlignment="Center" Foreground="White" />
-                                        <TextBlock Text="Z-起始位置" FontSize="14" Width="70" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}" VerticalAlignment="Center" Foreground="White" />
-                                        <TextBox x:Name="TextBoxZstart" ToolTip="0-10000"   ToolTipService.Placement="MousePoint" FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  Style="{StaticResource TextBoxStyle}"   Text="{Binding Path=ZStart,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                        <TextBox x:Name="TextBoxZstartRe"  FontSize="14"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Style="{StaticResource TextBoxStyle}"   Text="{Binding Path=ZStart,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                        <TextBlock Text="Z-向上距离" FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Width="70" VerticalAlignment="Center" Foreground="White" />
+                                        <TextBlock Text="Z-起始位置" FontSize="14" Width="70" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" VerticalAlignment="Center" Foreground="White" />
+                                        <TextBox x:Name="TextBoxZstart" ToolTip="0-10000"   ToolTipService.Placement="MousePoint" FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Style="{StaticResource TextBoxStyle}"   Text="{Binding Path=ZStart,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                        <TextBox x:Name="TextBoxZstartRe"  FontSize="14"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Style="{StaticResource TextBoxStyle}"   Text="{Binding Path=ZStart,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                         <Button DockPanel.Dock="Right" Padding="5,0"  Content="设置" Click="UpdateMulZstart_Click"/>
                                     </DockPanel>
                                     <DockPanel Margin="0,2">
-                                        <TextBlock Text="Z-向下距离" FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Width="70" VerticalAlignment="Center" Foreground="White" />
-                                        <TextBlock Text="Z-停止位置"   FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}" Width="70" VerticalAlignment="Center"  Foreground="White"/>
-                                        <TextBox  x:Name="TextBoxZend" ToolTip="0-10000"   ToolTipService.Placement="MousePoint"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}" FontSize="14" Style="{StaticResource TextBoxStyle}"  PreviewKeyDown="NumberValidationTextBoxNegative" Text="{Binding Path=ZEnd,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                        <TextBox  x:Name="TextBoxZendRe"  FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Style="{StaticResource TextBoxStyle}"  PreviewKeyDown="NumberValidationTextBoxNegative" Text="{Binding Path=ZEnd,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                        <TextBlock Text="Z-向下距离" FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Width="70" VerticalAlignment="Center" Foreground="White" />
+                                        <TextBlock Text="Z-停止位置"   FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" Width="70" VerticalAlignment="Center"  Foreground="White"/>
+                                        <TextBox  x:Name="TextBoxZend" ToolTip="0-10000"   ToolTipService.Placement="MousePoint"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" FontSize="14" Style="{StaticResource TextBoxStyle}"  PreviewKeyDown="NumberValidationTextBoxNegative" Text="{Binding Path=ZEnd,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                        <TextBox  x:Name="TextBoxZendRe"  FontSize="14" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Style="{StaticResource TextBoxStyle}"  PreviewKeyDown="NumberValidationTextBoxNegative" Text="{Binding Path=ZEnd,Mode=TwoWay}"   HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                         <Button DockPanel.Dock="Right"  Content="设置" Padding="5,0" Click="UpdateMulZend_Click"/>
                                     </DockPanel>
                                     <DockPanel Margin="0,2">
-                                        <TextBlock Text="z-层间距" FontSize="14"  Width="70" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" VerticalAlignment="Center" Foreground="White" />
-                                        <TextBlock Text="z-移动步长" FontSize="14"  Width="70"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  VerticalAlignment="Center" Foreground="White" />
-                                        <TextBox  x:Name="TextBoxZStep" FontSize="14"  ToolTip="0-10000"  ToolTipService.Placement="MousePoint"  PreviewKeyDown="NumberValidationTextBox"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}" Text="{Binding Path=Zstep}" Style="{StaticResource TextBoxStyle}"  HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
-                                        <TextBox  x:Name="TextBoxZStepRe" FontSize="14" PreviewKeyDown="NumberValidationTextBox"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Text="{Binding Path=Zstep}" Style="{StaticResource TextBoxStyle}"  HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                        <TextBlock Text="z-层间距" FontSize="14"  Width="70" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" VerticalAlignment="Center" Foreground="White" />
+                                        <TextBlock Text="z-移动步长" FontSize="14"  Width="70"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  VerticalAlignment="Center" Foreground="White" />
+                                        <TextBox  x:Name="TextBoxZStep" FontSize="14"  ToolTip="0-10000"  ToolTipService.Placement="MousePoint"  PreviewKeyDown="NumberValidationTextBox"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" Text="{Binding Path=Zstep}" Style="{StaticResource TextBoxStyle}"  HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
+                                        <TextBox  x:Name="TextBoxZStepRe" FontSize="14" PreviewKeyDown="NumberValidationTextBox"  Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Text="{Binding Path=Zstep}" Style="{StaticResource TextBoxStyle}"  HorizontalContentAlignment="Center" Foreground="White" Width="55" Margin="5,0"/>
                                         <Button DockPanel.Dock="Right"  Padding="5,0" Content="自动" Click="UpdateMulZStep_Click"/>
                                     </DockPanel>
                                 </StackPanel>
-                                <StackPanel Name="AFStack" Visibility="{Binding ElementName=AF,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                                <StackPanel Name="AFStack" Visibility="{Binding ElementName=AF,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                                     <DockPanel Margin="0,2">
                                         <TextBlock Text="层数"  FontSize="14" Width="65"  VerticalAlignment="Center" TextAlignment="Left" Foreground="White" />
                                         <TextBox  FontSize="14"  Style="{StaticResource TextBoxStyle}" HorizontalContentAlignment="Center" Text="{Binding AFSlices}"  Foreground="White" Width="55" Margin="5,0" HorizontalAlignment="Left"></TextBox>
@@ -677,7 +676,7 @@
                                 </StackPanel>
 
                             </StackPanel>
-                            <StackPanel  Visibility="{Binding ElementName=ToggleButton504,Path=IsChecked,Converter={ StaticResource BooleanToVisibilityConverter1}}"  Margin="5,0,2,0" HorizontalAlignment="Right" >
+                            <StackPanel  Visibility="{Binding ElementName=ToggleButton504,Path=IsChecked,Converter={ StaticResource bool2VisibilityConverter}}"  Margin="5,0,2,0" HorizontalAlignment="Right" >
                                 <DockPanel Margin="0,2">
                                     <TextBlock Text="T-循环次数"  Width="70" FontSize="14" VerticalAlignment="Center"  Foreground="White"/>
                                     <TextBox  Style="{StaticResource TextBoxStyle}" Text="{Binding Path=TNumber,Converter={StaticResource InversetoInfinity}}" FontSize="14" PreviewKeyDown="NumberValidationTextBox" HorizontalContentAlignment="Center" IsEnabled="{Binding ElementName=ToggleButton221, Path=IsChecked,Converter={StaticResource InverseBooleanConverter}}" Foreground="White" Width="50" Margin="3,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -705,23 +704,23 @@
                         <ToggleButton x:Name="ToggleButton52" IsChecked="True" Style="{StaticResource ButtonPageControl11}" Content="自动聚焦" FontSize="13" Foreground="White"  />
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,2" >
 
-                            <StackPanel Margin="10,0,0,0" Orientation="Horizontal"  Visibility="{Binding ElementName=ToggleButton52,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}" >
-                                <TextBlock Text="自定义"  Foreground="#6EA646" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2 }}"  VerticalAlignment="Center" ></TextBlock>
-                                <TextBlock Text="自动优化" Foreground="#6EA646" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  VerticalAlignment="Center"  ></TextBlock>
-                                <!--<TextBlock Text="自定义"  Foreground="White" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter2}}"  VerticalAlignment="Center"></TextBlock>-->
+                            <StackPanel Margin="10,0,0,0" Orientation="Horizontal"  Visibility="{Binding ElementName=ToggleButton52,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" >
+                                <TextBlock Text="自定义"  Foreground="#6EA646" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1 }}"  VerticalAlignment="Center" ></TextBlock>
+                                <TextBlock Text="自动优化" Foreground="#6EA646" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  VerticalAlignment="Center"  ></TextBlock>
+                                <!--<TextBlock Text="自定义"  Foreground="White" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  VerticalAlignment="Center"></TextBlock>-->
                             </StackPanel>
 
                         </StackPanel>
                     </StackPanel>
 
 
-                    <Border Visibility="{Binding ElementName=ToggleButton52 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="3" Margin="2" Padding="5">
+                    <Border Visibility="{Binding ElementName=ToggleButton52 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="3" Margin="2" Padding="5">
                    
 
                     
                     <StackPanel Name="focusModePanel">
                         <CheckBox Content="自动优化" Name="Optimized" IsChecked="{Binding OptimizedSel}" FontSize="14" HorizontalAlignment="Right" Margin="0,0,10,0" ></CheckBox>
-                        <Border x:Name="Border521"  Visibility="{Binding ElementName=Button521 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                        <Border x:Name="Border521"  Visibility="{Binding ElementName=Button521 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                             <StackPanel IsEnabled="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource InverseBooleanConverter}}" DataContext="{Binding UserDefined}" >
                                 
                                     <UniformGrid Columns="2" Rows="2" >
@@ -744,7 +743,7 @@
 
 
                         </Border>
-                        <Border x:Name="Border522"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" BorderBrush="#333333" >
+                        <Border x:Name="Border522"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" BorderBrush="#333333" >
                             <DockPanel>
                                 <Label Content="T" Foreground="White"></Label>
                                 <ComboBox  HorizontalAlignment="Right"  Style="{StaticResource ComboBox2}" Width="150" Margin="2,0,0,0" >
@@ -753,14 +752,14 @@
                                     <ComboBoxItem Content="每次循环聚焦一次" IsSelected="{Binding TEvery}"></ComboBoxItem>
                                     <ComboBoxItem  Content="每N次循环聚焦一次" IsSelected="{Binding TN}" Name="tWiseN"></ComboBoxItem>
                                 </ComboBox>
-                             <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="{Binding ElementName=tWiseN,Path=IsSelected,Converter={StaticResource BooleanToVisibilityConverter1}}" Value="{Binding TWiseN}"  Height="25" Width="150" HorizontalAlignment="Right" Margin="5,0,18,0"  ></Slider> 
+                             <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="{Binding ElementName=tWiseN,Path=IsSelected,Converter={StaticResource bool2VisibilityConverter}}" Value="{Binding TWiseN}"  Height="25" Width="150" HorizontalAlignment="Right" Margin="5,0,18,0"  ></Slider> 
                                
                              <!--  <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="Visible" Value="{Binding TWiseN}"  Height="25" Width="70" HorizontalAlignment="Left" Margin="5,0,0,0"  ></Slider> -->
                                
 
                             </DockPanel>
                         </Border>
-                        <Border x:Name="Border523" Margin="0,10,0,5" BorderBrush="#333333"  Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" >
+                        <Border x:Name="Border523" Margin="0,10,0,5" BorderBrush="#333333"  Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" >
                             <DockPanel>
                                 <Label Content="P" Foreground="White"></Label>
                                 <ComboBox HorizontalAlignment="Right" Width="150" Style="{StaticResource ComboBox2}" Margin="2,0,0,0" >
@@ -769,7 +768,7 @@
                                     <ComboBoxItem Content="每个采集点聚焦一次" IsSelected="{Binding PEvery}"></ComboBoxItem>
                                     <ComboBoxItem Name="pWiseN" Content="每N个采集点聚焦一次" IsSelected="{Binding PN}" ></ComboBoxItem>
                                 </ComboBox>
-                                <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Value="{Binding PWiseN}"  Width="150" Visibility="{Binding ElementName=pWiseN,Path=IsSelected,Converter={StaticResource BooleanToVisibilityConverter1}}"  Height="25"  HorizontalAlignment="Right" Margin="0,0,18,0"  ></Slider>
+                                <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Value="{Binding PWiseN}"  Width="150" Visibility="{Binding ElementName=pWiseN,Path=IsSelected,Converter={StaticResource bool2VisibilityConverter}}"  Height="25"  HorizontalAlignment="Right" Margin="0,0,18,0"  ></Slider>
                             </DockPanel>
                         </Border>
                             <Border Margin="5,5,0,0"  Name="ImageModeSelBorder" Visibility="{Binding ModeSelecteShow,Converter={StaticResource boolToVisConverter}}" DataContext="{Binding FocusImageMod}">
@@ -788,7 +787,7 @@
                 </StackPanel>
 
                 <ToggleButton x:Name="ToggleButton51"  Style="{StaticResource ButtonPageControl11}" Content="采集摘要" FontSize="13" Foreground="White" IsChecked="True" />
-                <Border  Visibility="{Binding ElementName=ToggleButton51 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Padding="5">
+                <Border  Visibility="{Binding ElementName=ToggleButton51 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
                     <UniformGrid Columns="2" x:Name="MulSummaryUniformGrid" >
                         <StackPanel >
                             <TextBlock FontSize="14"  Foreground="White">
@@ -846,7 +845,7 @@
         </Border>
 
         <ToggleButton  Visibility="Collapsed" x:Name="ToggleButton6"  Style="{StaticResource ButtonPageControl11}" Content="其他设置" FontSize="16" Foreground="White" IsChecked="False" Margin="0,15,5,5"/>
-        <Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton6 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+        <Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton6 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel Orientation="Horizontal">
                 <Border  Width="400" Height="20" Background="Transparent"/>
             </StackPanel>

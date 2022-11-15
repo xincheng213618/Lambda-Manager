@@ -5,8 +5,6 @@
 
     <localConverter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
-    <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
-    <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>
     <localConverter:BooleanToVisibilityConverter x:Key="boolToVisConverter"/>
     <localConverter:ValueClassToUmConverter x:Key="ConverterToUm"/>
     <Style TargetType="{x:Type ToolTip}">

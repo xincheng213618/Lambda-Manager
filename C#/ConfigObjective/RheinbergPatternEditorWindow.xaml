@@ -8,10 +8,8 @@
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
          Background="#3A3A3A" MinHeight="200" BorderBrush="White"  ResizeMode="NoResize" Closed="Window_Closed" Initialized="Window_Initialized" Height="300" Width="400"  >
-    
+
     <Window.Resources>
-        <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter1"/>
-        <localConverter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter2" Reverse="True"/>
         <Style x:Key="ButtonPageControl11" TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -97,7 +95,7 @@
 
                         </UniformGrid>
                         <TextBlock Foreground="White"    Text="自定义图案：" Margin="0,5,0,0" />
-                        <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}" Margin="0,5,0,0">
+                        <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Margin="0,5,0,0">
                             <DockPanel>
                                 <TextBlock Foreground="White" Text="内径："/>
                                 <local:ColorPicker x:Name="ColorPciker10" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -107,7 +105,7 @@
                                 <local:ColorPicker x:Name="ColorPciker11" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>
-                        <StackPanel Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                        <StackPanel Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                             <DockPanel>
                                 <TextBlock Foreground="White" Text="内径："/>
                                 <local:ColorPicker x:Name="ColorPciker20" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -122,7 +120,7 @@
                             </DockPanel>
                         </StackPanel>
 
-                        <StackPanel Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}">
+                        <StackPanel Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                             <DockPanel>
                                 <TextBlock Foreground="White" Text="内径："/>
                                 <local:ColorPicker x:Name="ColorPciker30" SelectColor="Black" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
