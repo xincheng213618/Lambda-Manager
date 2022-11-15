@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Eraser.cur" />
+    <None Remove="Resources\hold.cur" />
+    <None Remove="Resources\Ruler.cur" />
+    <None Remove="Resources\zoomIn.cur" />
+    <None Remove="Resources\zoomOut.cur" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lambda\Lambda.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ColorPickerLib">
+      <HintPath>..\DLL\ColorPickerLib.dll</HintPath>
+    </Reference>
+    <Reference Include="RangeSlider">
+      <HintPath>..\DLL\RangeSlider.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\zoomOut.cur" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Eraser.cur" />
+    <Resource Include="Resources\hold.cur" />
+    <Resource Include="Resources\Ruler.cur" />
+    <Resource Include="Resources\zoomIn.cur" />
+  </ItemGroup>
+
+</Project>

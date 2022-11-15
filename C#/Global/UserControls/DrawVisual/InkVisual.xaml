@@ -72,8 +72,9 @@
 
     <Grid>
         <!--<Canvas Background="Black" Name="backCanvas"  Width="{Binding ElementName=inkCanvas,Path=ActualWidth}"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" Visibility="Hidden"></Canvas>-->
+        <Border BorderBrush="Transparent" BorderThickness="1" x:Name="Border" Margin="-1"></Border>
         <InkCanvas
-            EditingMode="None"    Background="Transparent"  x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave" MouseRightButtonDown="inkCanvas_MouseRightButtonDown" SelectionChanged="inkCanvas_SelectionChanged" LayoutUpdated="inkCanvas_LayoutUpdated" SelectionMoved="inkCanvas_SelectionMoved" SelectionResized="inkCanvas_SelectionResized" SelectionChanging="inkCanvas_SelectionChanging" ActiveEditingModeChanged="inkCanvas_ActiveEditingModeChanged" EditingModeChanged="inkCanvas_EditingModeChanged" MouseDown="inkCanvas_MouseDown" PreviewMouseDown="inkCanvas_PreviewMouseDown" Loaded="inkCanvas_Loaded" >
+            EditingMode="None"    Background="Transparent"  x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave" MouseRightButtonDown="inkCanvas_MouseRightButtonDown" SelectionChanged="inkCanvas_SelectionChanged"  SelectionMoved="inkCanvas_SelectionMoved" SelectionResized="inkCanvas_SelectionResized" SelectionChanging="inkCanvas_SelectionChanging" ActiveEditingModeChanged="inkCanvas_ActiveEditingModeChanged" EditingModeChanged="inkCanvas_EditingModeChanged" MouseDown="inkCanvas_MouseDown" PreviewMouseDown="inkCanvas_PreviewMouseDown" Loaded="inkCanvas_Loaded" >
             <InkCanvas.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="切换成像模式">

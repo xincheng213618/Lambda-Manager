@@ -496,7 +496,7 @@
                     </RadioButton>
                     <RadioButton Name="Button41" Style="{StaticResource ToggleButtonStyle1}"  Content="玻片" Margin="5,0" Click="Button41_Click"   >
                     </RadioButton>
-                    <RadioButton Name="Button43" Style="{StaticResource ToggleButtonStyle1}" Content="六孔板" Margin="5,0" IsEnabled="False" />
+                    <RadioButton Name="Button43" Style="{StaticResource ToggleButtonStyle1}"  Content="六孔板" Margin="5,0" IsEnabled="False" />
                     <RadioButton Name="Button44" Style="{StaticResource ToggleButtonStyle1}" Content="多孔板" Margin="5,0" IsEnabled="False"   />
                     <RadioButton Name="Button45" Style="{StaticResource ToggleButtonStyle1}" Content="自定义" Margin="5,0" IsEnabled="False" />
                 </UniformGrid>
@@ -845,10 +845,10 @@
            
         </Border>
 
-        <ToggleButton  x:Name="ToggleButton6"  Style="{StaticResource ButtonPageControl11}" Content="其他设置" FontSize="16" Foreground="White" IsChecked="False" Margin="0,15,5,5"/>
-        <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton6 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
+        <ToggleButton  Visibility="Collapsed" x:Name="ToggleButton6"  Style="{StaticResource ButtonPageControl11}" Content="其他设置" FontSize="16" Foreground="White" IsChecked="False" Margin="0,15,5,5"/>
+        <Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton6 ,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter1}}"  Background="#595959" Padding="5" Margin="5,0">
             <StackPanel Orientation="Horizontal">
-                <Border  Width="400" Height="100" Background="Transparent"/>
+                <Border  Width="400" Height="20" Background="Transparent"/>
             </StackPanel>
         </Border>
     </StackPanel>

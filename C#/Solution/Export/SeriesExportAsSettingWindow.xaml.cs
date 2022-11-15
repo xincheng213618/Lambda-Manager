@@ -7,6 +7,7 @@ using XSolution;
 using System;
 using System.Windows.Documents;
 using System.Windows.Media;
+using XSolution.SeriesProject;
 
 namespace Solution
 {

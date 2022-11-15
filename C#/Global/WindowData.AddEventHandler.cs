@@ -208,8 +208,6 @@ namespace Global
             ALIVE = false;
             PlayerDisable();
             return true;
-          
-
 
         }
         private bool Mul_ZStep(object sender, EventArgs e)

@@ -87,7 +87,7 @@
                         </Grid>
                     </Canvas>
                     <!--otherMode-->
-                        <Canvas Width="12" Name="rightCanvas"   Cursor="SizeWE"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="rightCanvas_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvas_MouseLeftButtonUp" MouseMove="rightCanvas_MouseMove"  Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
+                    <Canvas Width="12" Name="rightCanvas"   Cursor="SizeWE"  Height="{Binding ElementName=inkCanvas,Path=ActualHeight}" InkCanvas.Left="14.5" Background="Transparent" InkCanvas.Top="0" MouseLeftButtonDown="rightCanvas_MouseLeftButtonDown" MouseLeftButtonUp="rightCanvas_MouseLeftButtonUp" MouseMove="rightCanvas_MouseMove"  Visibility="{Binding Phase,Converter={StaticResource Visb}}" >
                         <Line X1="6" Y1="0" X2="6" StrokeDashArray="5 1" Y2="{Binding ElementName=HistogramImage, Path=ActualHeight}" Stroke="White" StrokeThickness="1"></Line>
                         <TextBlock  Width="25"  TextAlignment="Center"  Background="Transparent" Height="15" Margin="-12,0,-12,0"  Text="{Binding ElementName=RangeSlider,Path=HigherValue,StringFormat=N0}" VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Canvas.Bottom="0" Canvas.Left="6"></TextBlock>
                         <Grid x:Name="rightEllipse" Visibility="Collapsed" Canvas.Left="2"  >

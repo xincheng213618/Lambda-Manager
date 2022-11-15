@@ -326,6 +326,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" TargetName="border" Value="#333333"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="#767171"/>
+                            <Setter Property="Foreground"  Value="#AAAAAA"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

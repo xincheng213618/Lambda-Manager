@@ -34,12 +34,12 @@ namespace Global.UserControls.DrawVisual
     public partial class InkVisual : UserControl
     {
 
-        public InkVisual(int index1,Image image1, ImageViewState.ToolTop ToolTop, DrawInkMethod inkMethod)
+        public InkVisual(int index1,Image image1, ImageViewState.ToolTop ToolTop)
         
             {
             InitializeComponent();
             this.ToolTop = ToolTop;
-            this.inkMethod = inkMethod;
+            //this.inkMethod = inkMethod;
             topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
             this.image = image1;
             this.index=index1;
@@ -120,7 +120,7 @@ namespace Global.UserControls.DrawVisual
                     double length = DrawInkMethod.defdimenViewModel.Length;
                     Color color = DrawInkMethod.defdimenViewModel.SelectedAccentColor;
                     Color TextColor = DrawInkMethod.defdimenViewModel.TextSelectedAccentColor;
-                    if (index == ActiveWindow)
+                    if (index == ActiveViews.ActiveWin)
                     {
                         drawDefaultDim(position, length, color, ratio, TextColor);
                     }
@@ -145,6 +145,13 @@ namespace Global.UserControls.DrawVisual
             {
                 DrawInkMethod.ActiveInk = this.inkCanvas;
             }
+            else
+            {
+
+                DrawInkMethod.ActiveViews.ActiveWin = 0;
+                Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
+                InkAll[0].Border.BorderBrush = new SolidColorBrush(color);
+            }
 
 
         }
@@ -159,7 +166,7 @@ namespace Global.UserControls.DrawVisual
 
         public RatioClass ratio1 = new RatioClass();
         public ProfileModel profileModel;
-        DrawInkMethod inkMethod;
+       // DrawInkMethod inkMethod;
         bool isMouseDown = false;
         Point iniP = new Point(0, 0);
         public Stroke lastTempStroke = null;
@@ -509,7 +516,7 @@ namespace Global.UserControls.DrawVisual
                     double dist = GetDistance(endP, iniP);
                     if (dist < 5)
                         return;
-                    stroke = inkMethod.GenerateRulerStroke(iniP, endP);
+                    stroke = DrawInkMethod.InkCanvasMethod.GenerateRulerStroke(iniP, endP);
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -1310,7 +1317,7 @@ namespace Global.UserControls.DrawVisual
                     }
                     //  ZoomInOut++;
                     inkCanvas.Strokes.Transform(matrix, false);
-                    if (index == DrawInkMethod.ActiveWindow)
+                    if (index == DrawInkMethod.ActiveViews.ActiveWin)
                     {
                         DrawInkMethod.StrokesCollection.Clear();
                         FilterStroke(1);
@@ -1366,7 +1373,7 @@ namespace Global.UserControls.DrawVisual
 
                 inkCanvas.Strokes.Transform(matrix, false);
              
-                if (index == DrawInkMethod.ActiveWindow)
+                if (index == DrawInkMethod.ActiveViews.ActiveWin)
                 {
                     DrawInkMethod.StrokesCollection.Clear();
                     FilterStroke(1);
@@ -1613,12 +1620,12 @@ namespace Global.UserControls.DrawVisual
        
         private void inkCanvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (DrawInkMethod.ActiveWindow != this.index)
+            if (DrawInkMethod.ActiveViews.ActiveWin != this.index)
             {
-                DrawInkMethod.ActiveWindow = this.index;
-               DrawInkMethod.StrokesCollection.Clear();
-              FilterStroke(1);
-              FilterStroke1(1, RegisterStroke);
+                DrawInkMethod.ActiveViews.ActiveWin = this.index;
+                DrawInkMethod.StrokesCollection.Clear();
+                FilterStroke(1);
+                FilterStroke1(1, RegisterStroke);
                 //FilterStroke1(1, RegisterStroke);
 
 
@@ -1630,6 +1637,7 @@ namespace Global.UserControls.DrawVisual
         {
            
             InkAll = WindowData.GetInstance().inkVisuals;
+           
         }
     }
 }

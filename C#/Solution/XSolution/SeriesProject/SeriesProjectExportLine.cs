@@ -1,6 +1,6 @@
 ﻿using XSolution;
 
-namespace Solution.XSolution.SeriesProject
+namespace XSolution
 {
     public class SeriesProjectExportLine : BaseObject
     {

@@ -694,7 +694,7 @@
             <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemStyle}"/>
         </Style.Resources>
         <Setter Property="SnapsToDevicePixels"  Value="true" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="False" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />

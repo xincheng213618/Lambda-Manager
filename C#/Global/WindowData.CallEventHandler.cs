@@ -33,8 +33,7 @@ namespace Global
 
         public void AddImageConfident(Image image1, int viewindex)
         {
-            DrawInkMethod inkMethod = new DrawInkMethod();
-            InkVisual inkVisual = new InkVisual(viewindex, image1, ImageViewState.toolTop, inkMethod);
+            InkVisual inkVisual = new InkVisual(viewindex, image1, ImageViewState.toolTop);
             if (image1.Parent is Grid grid0)
             {
                 try
@@ -128,7 +127,7 @@ namespace Global
                             Button ScaleButton = (Button)topToolbar.Children[6];
                             ToggleButtonZoomOut.Click += delegate
                             {
-                                if (inkVisual.index == DrawInkMethod.ActiveWindow)
+                                if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                                 {
                                     if (inkVisual.ratio1.Ratio < 2.5)
                                     {
@@ -160,7 +159,7 @@ namespace Global
                             };
                             ToggleButtonZoomIn.Click += delegate
                             {
-                                if (inkVisual.index == DrawInkMethod.ActiveWindow)
+                                if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                                 {
                                     if (inkVisual.ratio1.Ratio >= 1)
                                     {

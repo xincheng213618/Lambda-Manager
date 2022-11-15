@@ -23,7 +23,7 @@ namespace Global
         public CustomStroke(StylusPointCollection points) : base(points)
         {
             StylusPoints = points.Clone();
-           
+
         }
         public int Dash { get; set; }
         public int LineWidth { get; set; }
@@ -32,7 +32,7 @@ namespace Global
         public Color ColorBru { get; set; }
         public Point CenterPoint { get; set; }
         public Point SizePoint { get; set; }
-        public FormattedText customTextInput{ get; set; }
+        public FormattedText customTextInput { get; set; }
 
         public int Fontsize { get; set; }
         public FontFamily FontFamily { get; set; }
@@ -41,7 +41,7 @@ namespace Global
         public bool UnderLine { get; set; }
         public bool showLabel { get; set; }
         public RatioClass ratio { get; set; }
-       
+
         public Color textColor { get; set; }
         public string LabPos { get; set; }
 
@@ -51,7 +51,33 @@ namespace Global
 
 
     }
-  
+
+
+    public class ActiveView : ViewModelBase1
+    {
+        private int activeWin = 0;
+        public int ActiveWin
+        {
+            get
+            {
+                return activeWin;
+            }
+            set
+            {
+                if (activeWin != value)
+                {
+                    activeWin = value;
+                    RaisePropertyChanged(nameof(ActiveWin));
+                }
+
+            }
+
+        }
+
+
+    }
+
+
 
     public class DrawInkMethod: ViewModelBase1
     {
@@ -60,7 +86,7 @@ namespace Global
         {
             defdimenViewModel.LineProEnable = false;
             defdimenViewModel.LabelPosShow = false;
-           
+            ActiveViewChanged();
         }
 
         public DrawingAttributes drawingAttributes = new DrawingAttributes()
@@ -96,25 +122,61 @@ namespace Global
         public double distance;
         public static bool rulerOver = false;
         public static bool ZoomWard = false;
-        public static int activeWindow = 0;
+        //public static int activeWindow = 0;
         public static InkCanvas ActiveInk = new InkCanvas();
         public static InkVisual[]  InkAll = new InkVisual[6];
+        public static ActiveView ActiveViews = new ActiveView();
+        private int viewCount = 0;
         //public static event EventHandler propertyChanged;
-        public static int ActiveWindow
-        {
-            get { return activeWindow; }
-            set
-            {
+        //public static int ActiveWindow
+        //{
+        //    get { return activeWindow; }
+        //    set
+        //    {
                
-                    if (activeWindow != value)
+        //            if (activeWindow != value)
+        //            {
+        //            activeWindow = value;
+        //            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(ActiveWindow)));
+        //        }
+
+        //    }
+        //}
+        private  void ActiveViewChanged()
+        {
+           
+            ActiveViews.PropertyChanged += (s, e) =>
+            {
+                viewCount = 0;
+                Window mainwin = System.Windows.Application.Current.MainWindow;
+                Grid grid = (Grid)mainwin.FindName("grid0");
+                Grid grid1= grid.Parent as Grid;
+                foreach(var item in grid1.Children)
+                {
+                    if (item is Grid)
                     {
-                    activeWindow = value;
-                    StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(ActiveWindow)));
+                        Color color = (Color)ColorConverter.ConvertFromString("Transparent");
+                        InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
+                         viewCount++;
+
+                    }
+                }
+                if (viewCount > 1)
+                {
+                    Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
+                    InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
+
                 }
 
-            }
-        }
 
+
+
+
+            };
+
+
+
+        }
        
     public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
 
@@ -664,7 +726,16 @@ namespace Global
                 };
                 return attributes;
             }
-
+            public static DrawingAttributes drawingAttributes = new DrawingAttributes()
+            { //Color = Colors.Red,
+                Color = dimenViewModel.SelectedAccentColor,
+                Width = 2,
+                Height = 2,
+                StylusTip = StylusTip.Ellipse,
+                FitToCurve = false,
+                IsHighlighter = false,
+                IgnorePressure = false,
+            };
             public static DrawingAttributes SetInkAttributes1(Color color, int lineWidth)
             {
                 DrawingAttributes attributes = new DrawingAttributes
@@ -1160,6 +1231,39 @@ namespace Global
                 SquareStroke stroke = new SquareStroke(point, color, lineWidth, dash)
                 {
                     DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+            public static Stroke GenerateRulerStroke(System.Windows.Point st, System.Windows.Point ed)
+            {
+                List<System.Windows.Point> pointList = new List<System.Windows.Point>();
+                StylusPointCollection point;
+                Stroke stroke;
+
+                // double w = 20, h = 7;
+                double theta = Math.Atan2(st.Y - ed.Y, st.X - ed.X);
+                //double sint = Math.Sin(theta);
+                //double cost = Math.Cos(theta);
+
+                double theta1 = Math.Atan2(ed.Y - st.Y, ed.X - st.X);
+                double sint1 = Math.Sin(theta1);
+                double cost1 = Math.Cos(theta1);
+
+                pointList = new List<System.Windows.Point>
+            {
+                new System.Windows.Point(st.X, st.Y),
+                new System.Windows.Point (st.X-10*Math.Cos(theta1+Math.PI / 2),st.Y-10*Math.Sin(theta1+Math.PI / 2)),
+                new System.Windows.Point (st.X-10*Math.Cos(theta1-Math.PI / 2),st.Y-10*Math.Sin(theta1-Math.PI / 2)),
+                new System.Windows.Point(st.X, st.Y),
+                new System.Windows.Point(ed.X , ed.Y),
+                new System.Windows.Point (ed.X-10*Math.Cos(theta+Math.PI / 2),ed.Y-10*Math.Sin(theta+Math.PI / 2)),
+                new System.Windows.Point (ed.X-10*Math.Cos(theta-Math.PI / 2),ed.Y-10*Math.Sin(theta-Math.PI / 2)),
+
+            };
+                point = new StylusPointCollection(pointList);
+                stroke = new Stroke(point)
+                {
+                    DrawingAttributes = drawingAttributes.Clone()
                 };
                 return stroke;
             }

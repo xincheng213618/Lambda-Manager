@@ -28,7 +28,7 @@ namespace Global
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
-                InkVisual inkVisual = new InkVisual(0,image,ImageViewState.toolTop, inkMethod);
+                InkVisual inkVisual = new InkVisual(0,image,ImageViewState.toolTop);
                 inkVisual.profileModel = profileModel;
 
                 inkVisuals[0] = inkVisual; // First InkCanvas
@@ -71,7 +71,7 @@ namespace Global
                     {
                       if (!DrawInkMethod.ZoomWard)
                         {
-                            ReRatio = inkVisuals[DrawInkMethod.ActiveWindow].ratio1.Ratio;
+                            ReRatio = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio;
                             double ratio = updateStatus.Ratio / 100.0;
                             Matrix matrix = new Matrix();
                             double centerX = inkVisuals[0].inkCanvas.ActualWidth / 2.0;
@@ -79,15 +79,15 @@ namespace Global
 
                             //  ReRatio =1/ReRatio * ratio;
                             matrix.ScaleAt(ratio/ReRatio, ratio/ReRatio, centerX, centerY);
-                            inkVisuals[DrawInkMethod.ActiveWindow].inkCanvas.Strokes.Transform(matrix, false);
-                            inkVisuals[DrawInkMethod.ActiveWindow].ratio1.Ratio = ratio;
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes.Transform(matrix, false);
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio = ratio;
 
 
                             InkDimViewModel inkDimViewModel = new InkDimViewModel();
-                            inkDimViewModel = inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel;
-                            inkVisuals[DrawInkMethod.ActiveWindow].drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
+                            inkDimViewModel = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel;
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
                             DrawInkMethod.StrokesCollection.Clear();
-                            inkVisuals[DrawInkMethod.ActiveWindow].FilterStroke(1);
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].FilterStroke(1);
 
                         }
                       
@@ -100,23 +100,7 @@ namespace Global
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
                    
-                    if (e.PropertyName == "FocusChecked")
-                    {
-                        if (ImageViewState.toolTop.FocusChecked)
-                        {
-                           
-                          
-
-                        }
-                        else
-                        {
-                          
-                        }
-
-
-                    }
-
-                    else if (e.PropertyName == "EraserChecked")
+                   if (e.PropertyName == "EraserChecked")
                     {
                         if (ImageViewState.toolTop.EraserChecked == true)
                         {
@@ -166,11 +150,7 @@ namespace Global
                     {
                         inkVisual.inkCanvas.Cursor = Cursors.Arrow;
                     };
-                    if (e.PropertyName == "DimensionChecked")
-                    {
-                        
-
-                    };
+                   
                     if (e.PropertyName == "SelectChecked")
                     {
                        
@@ -217,7 +197,7 @@ namespace Global
               
                 ToggleButtonZoomOut.Click += delegate
                 {
-                    if (inkVisual.index == DrawInkMethod.ActiveWindow)
+                    if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                     {
                         if (inkVisual.ratio1.Ratio < 2.5)
                         {
@@ -249,7 +229,7 @@ namespace Global
                 };
                 ToggleButtonZoomIn.Click += delegate
                 {
-                    if (inkVisual.index == DrawInkMethod.ActiveWindow)
+                    if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                     {
                        
                         if (inkVisual.ratio1.Ratio >= 1)
@@ -283,28 +263,8 @@ namespace Global
               };
                 ScaleButton.Click += delegate
                 {
-                    //register markerDrawing
-
-                    //if (!inkVisual.saveTempStroke)
-                    //{
-                    //    if (inkVisual.inkCanvas.Strokes.Contains(inkMethod.Dimstroke))
-                    //    {
-                    //        inkVisual.tempStroke.Add(inkMethod.Dimstroke);
-                    //    }
-
-                    //    inkVisual.inkCanvas.Strokes.Clear();
-                    //    if (inkVisual.tempStroke != null)
-                    //    {
-                    //        inkVisual.inkCanvas.Strokes.Add(inkVisual.tempStroke);
-                    //    }
-                    //    inkVisual.tempStroke = null;
-                    //    inkVisual.saveTempStroke = true;
-                    //   // inkVisual.ZoomInOut = 0;
-                    //    inkVisual.ratio1.Ratio = 1;
-
-
-
-                    //}
+                   
+                  
                     WindowData.GetInstance().updateStatus.Ratio = 100;
 
                 };
@@ -363,7 +323,7 @@ namespace Global
                 };
                 DrawInkMethod.StaticPropertyChanged += delegate
                 {
-                    DrawInkMethod.ActiveInk = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkCanvas;
+                    DrawInkMethod.ActiveInk = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
                     foreach(InkVisual k in WindowData.GetInstance().inkVisuals)
                     {
                         if (k != null)
@@ -381,12 +341,12 @@ namespace Global
                         }
                     }
                     DrawInkMethod.defdimenViewModel.DefDimReadOnly = false;
-                    WindowData.GetInstance().updateStatus.Ratio =(int)(Math.Round( WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].ratio1.Ratio,2)*100);
+                    WindowData.GetInstance().updateStatus.Ratio =(int)(Math.Round( WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio,2)*100);
                   
-                    DrawInkMethod.defdimenViewModel.DimPos = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.DimPos;
-                    DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.DimColor;
-                    DrawInkMethod.defdimenViewModel.Length = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.DimLength;
-                    DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkDimViewModel.TextColor;
+                    DrawInkMethod.defdimenViewModel.DimPos = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimPos;
+                    DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimColor;
+                    DrawInkMethod.defdimenViewModel.Length = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimLength;
+                    DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.TextColor;
                     DrawInkMethod.defdimenViewModel.DefDimReadOnly = true;
 
 

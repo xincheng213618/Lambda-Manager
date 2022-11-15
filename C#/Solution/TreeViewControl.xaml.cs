@@ -109,7 +109,7 @@ namespace Solution
                 if (item == null)
                     return;
 
-                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is XSolution.BaseObject viewModeBase)
+                if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is BaseObject viewModeBase)
                 {
                     viewModeBase.IsEditMode = false;
                 }

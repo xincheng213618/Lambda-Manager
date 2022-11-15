@@ -14,6 +14,11 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ThemeManager;
+using GalleryView;
+using WpfApp5;
+using Global.UserControls.gallery;
+
 namespace Global
 {
 
@@ -35,7 +40,8 @@ namespace Global
         public TabControl tabControl;
         private ToggleButton histogramTogg;
         public List<ToggleButton> DrawingModeList;
-
+         gallery galleryView;
+        GalleryTool galleryTool;
         private void AddInjection()
         {
 
@@ -61,13 +67,12 @@ namespace Global
             }
 
 
-
-
-
-
             try
-            {   
+            {
                 // Add Histogram
+                
+               //MessageBox.Show("1111111");
+
                 Histogram histogram = new Histogram();
                 StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
                 Grid grid1 =(Grid)stackPanel.Parent;
@@ -263,7 +268,13 @@ namespace Global
            
             // right toolBar
             try
-            {             
+            {
+                Border imagingView = (Border)mainwin.FindName("imagingView");
+                StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
+
+                
+                Grid stackPanelParent = (Grid)stackPanel.Parent;
+                
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
                 //检测如果找不到rightToolbar 直接退出
                 if (WrapPanel1 == null)
@@ -280,18 +291,21 @@ namespace Global
                 ToggleButton _3DTogg =    (ToggleButton)WrapPanel1.Children[8];
                 ToggleButton CubeTogg =   (ToggleButton)WrapPanel1.Children[9];
                 ToggleButton RepoTogg =   (ToggleButton)WrapPanel1.Children[10];
+                TextBlock textBlock = (TextBlock)WrapPanel1.Children[11];
+                textBlock.Text = "切片";
+                textBlock.TextAlignment = TextAlignment.Center;
                 // add margin
-                QuaterTogg.Margin = new Thickness(0, 2, 0, 2);
-                DualTogg.Margin=new Thickness(0, 2, 0, 2);
-                BFTogg.Margin= new Thickness(0, 2, 0, 2);
-                DFTogg.Margin = new Thickness(0, 2, 0, 2);
-                RITogg.Margin = new Thickness(0, 2, 0, 2);
-                DPTogg.Margin = new Thickness(0, 2, 0, 2);
-                QpiTogg.Margin = new Thickness(0, 2, 0, 2);
-                PCTogg.Margin = new Thickness(0, 2, 0, 2);
-                _3DTogg.Margin = new Thickness(0, 2, 0, 2);
-                CubeTogg.Margin = new Thickness(0, 2, 0, 2);
-                RepoTogg.Margin = new Thickness(0, 2, 0, 2);
+                QuaterTogg.Margin = new Thickness(0, 3, 0, 3);
+                DualTogg.Margin=new Thickness(0, 3, 0, 3);
+                BFTogg.Margin= new Thickness(0, 3, 0, 3);
+                DFTogg.Margin = new Thickness(0, 3, 0, 3);
+                RITogg.Margin = new Thickness(0, 3, 0, 3);
+                DPTogg.Margin = new Thickness(0, 3, 0, 3);
+                QpiTogg.Margin = new Thickness(0, 3, 0, 3);
+                PCTogg.Margin = new Thickness(0, 3, 0, 3);
+                _3DTogg.Margin = new Thickness(0, 3, 0, 3);
+                CubeTogg.Margin = new Thickness(0, 3, 0, 3);
+                RepoTogg.Margin = new Thickness(0, 3, 0, 3);
 
                 QuaterTogg.Padding = new Thickness(-1, -1, 0, 0);
                 DualTogg.Padding = new Thickness(-1, -1, 0, 0);
@@ -331,7 +345,7 @@ namespace Global
                 BindingOperations.SetBinding(QpiTogg, ToggleButton.IsCheckedProperty, b51);
                 Binding b61 = new Binding("PCCheckEnable");
                 BindingOperations.SetBinding(PCTogg, ToggleButton.IsCheckedProperty, b61);
-                WrapPanel1.DataContext = updateStatus;
+               // WrapPanel1.DataContext = updateStatus;
 
                 ContentControl quarter = new ContentControl();
                 quarter.Template = (ControlTemplate)resourceDictionary["quarter"];
@@ -356,10 +370,10 @@ namespace Global
                 DP.Template = (ControlTemplate)resourceDictionary["DP"];
                 DPTogg.Content = DP;
                 ContentControl PHI = new ContentControl();
-                PHI.Template = (ControlTemplate)resourceDictionary["PHI"];
+                PHI.Template = (ControlTemplate)resourceDictionary["QP"];
                 QpiTogg.Content = PHI;
                 ContentControl FL = new ContentControl();
-                FL.Template = (ControlTemplate)resourceDictionary["FL"];
+                FL.Template = (ControlTemplate)resourceDictionary["PC"];
                 PCTogg.Content = FL;
 
                  ContentControl _3D = new ContentControl();
@@ -369,16 +383,31 @@ namespace Global
                 cube.Template = (ControlTemplate)resourceDictionary["cube"];
                 CubeTogg.Content = cube;
 
+                WrapPanel1.DataContext = updateStatus;
                 ContentControl repo = new ContentControl();
                 repo.Template = (ControlTemplate)resourceDictionary["repo"];
                 RepoTogg.Content = repo;
 
 
 
+                RepoTogg.Checked += (s, e) =>
+                {
+                    stackPanelParent.RowDefinitions[2].Height = new GridLength(210, GridUnitType.Pixel);
+
+                    galleryView.Visibility = Visibility.Visible; 
+                    galleryTool.Visibility = Visibility.Visible;
+                };
+
+                RepoTogg.Unchecked += (s, e) =>
+                {
+                   stackPanelParent.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
+                    galleryView.Visibility = Visibility.Collapsed;
+                    galleryTool.Visibility = Visibility.Collapsed;
+
+                };
 
 
-
-                List<ToggleButton> RightTools2 = new List<ToggleButton>() {  BFTogg, DFTogg, RITogg, DPTogg, QpiTogg, PCTogg, _3DTogg, CubeTogg, RepoTogg };
+                List <ToggleButton> RightTools2 = new List<ToggleButton>() {  BFTogg, DFTogg, RITogg, DPTogg, QpiTogg, PCTogg, _3DTogg, CubeTogg, RepoTogg };
 
                 foreach (var item in RightTools2)
                 {
@@ -415,6 +444,7 @@ namespace Global
                     };
 
                 }
+
 
                 Popup popup = new Popup();
                 popup.AllowsTransparency = true;
@@ -612,11 +642,11 @@ namespace Global
                 ToggleButton divtogg = (ToggleButton)leftToolBarChild.Children[2];
                 ToggleButton histogg = (ToggleButton)leftToolBarChild.Children[3];
                 ToggleButton rangetogg = (ToggleButton)leftToolBarChild.Children[4];
-                colorbarTogg.Margin = new Thickness(1, 2, 0, 2);
-                monoTogg.Margin = new Thickness(1, 2, 0, 2);
-                divtogg.Margin = new Thickness(1, 2, 0, 2);
-                histogg.Margin = new Thickness(1, 2, 0, 2);
-                rangetogg.Margin = new Thickness(1, 2, 0, 2);
+                colorbarTogg.Margin = new Thickness(1, 3, 0, 3);
+                monoTogg.Margin = new Thickness(1, 3, 0, 3);
+                divtogg.Margin = new Thickness(1, 3, 0, 3);
+                histogg.Margin = new Thickness(1, 3, 0, 3);
+                rangetogg.Margin = new Thickness(1, 3, 0, 3);
                 colorbarTogg.Padding = new Thickness(-1, -1, 0, 0);
                 monoTogg.Padding = new Thickness(-1, -1, 0, 0);
                 divtogg.Padding = new Thickness(-1, -1, 0, 0);
@@ -636,7 +666,9 @@ namespace Global
                 ContentControl histogram = new ContentControl();
                 histogram.Template = (ControlTemplate)resourceDictionary["histogram"];
                 histogg.Content = histogram;
-
+                ContentControl range = new ContentControl();
+                range.Template = (ControlTemplate)resourceDictionary["range"];
+                rangetogg.Content = range;
 
 
 
@@ -752,39 +784,60 @@ namespace Global
             }
 
 
-            try
+            try   //bottomBar
             {
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
 
-                
-
+              
                 Button startButton =(Button) bottomToolbar.Children[0];
                 Binding startEnable = new Binding("StartEnable");
                 startEnable.Source = updateStatus;
                 startButton.SetBinding(Button.IsEnabledProperty, startEnable);
-
+                ContentControl start = new ContentControl();
+                start.Template = (ControlTemplate)resourceDictionary["start"];
+                startButton.Content = start;
+                startButton.Padding = new Thickness(-1.5, -1, 0, 0);
+                startButton.Margin = new Thickness(0,0,0,0);
                 Button stopButton = (Button)bottomToolbar.Children[1];
                 Binding stopEnable = new Binding("StopEnable");
                 stopEnable.Source = updateStatus;
                 stopButton.SetBinding(Button.IsEnabledProperty, stopEnable);
-
+                ContentControl stop = new ContentControl();
+                stop.Template = (ControlTemplate)resourceDictionary["stop"];
+                stopButton.Content = stop;
+                stopButton.Padding = new Thickness(-1.5, -1, 0, 0);
+                stopButton.Margin = new Thickness(0,0,0,0);
                 Button forwardButton = (Button)bottomToolbar.Children[2];
                 Binding forwardEnbale = new Binding("ForwardEnbale");
                 forwardEnbale.Source = updateStatus;
                 forwardButton.SetBinding(Button.IsEnabledProperty, forwardEnbale);
+                ContentControl forward = new ContentControl();
+                forward.Template = (ControlTemplate)resourceDictionary["forward"];
+                forwardButton.Content = forward;
+                forwardButton.Padding = new Thickness(-1.5, -1, 0, 0);
+                forwardButton.Margin = new Thickness(0,0,0,0);
+
+
+
+
+
+
 
                 Button backwardButton = (Button)bottomToolbar.Children[3];
                 Binding backwardEnbale = new Binding("BackwardEnbale");
                 backwardEnbale.Source = updateStatus;
                 backwardButton.SetBinding(Button.IsEnabledProperty, backwardEnbale);
-
-
+                ContentControl backward = new ContentControl();
+                backward.Template = (ControlTemplate)resourceDictionary["backward"];
+                backwardButton.Content = backward;
+                backwardButton.Padding = new Thickness(-1.5, -1, 0, 0);
+                backwardButton.Margin = new Thickness(0,0,3,0);
 
                 Slider Slider1 = (Slider)bottomToolbar.Children[6];
 
                 StackPanel StackPanel = (StackPanel)bottomToolbar.Children[7];
                 TextBlock textBlock = (TextBlock) StackPanel.Children[0];
-                textBlock.Text = "Batch";
+                textBlock.Text = "批次";
                
                 Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
                
@@ -873,14 +926,19 @@ namespace Global
 
                 totalSlice.SetBinding(TextBlock.TextProperty, TotalSlice);
 
+                Button bottomPlace = (Button)bottomToolbar.Children[bottomToolbar.Children.Count - 1];
 
+                ContentControl Place = new ContentControl();
+                Place.Template = (ControlTemplate)resourceDictionary["place"];
+                bottomPlace.Content = Place;
+                bottomPlace.Padding = new Thickness(-1.5, -1, 0, 0);
+                bottomPlace.Margin = new Thickness(5, 0, 0, 0);
 
                 WrapPanel rightToolbar = (WrapPanel)mainwin.FindName("rightToolbar");
 
               
                 Slider SliderZ = (Slider)rightToolbar.Children[13];
 
-                int beforeZ = 0;
              
                 rightToolbar.Children.Remove(SliderZ);
               
@@ -947,12 +1005,12 @@ namespace Global
    
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
                 topToolbar.DataContext = ImageViewState.toolTop;
-
+               
 
                 Binding binding0 = new Binding("SelectChecked");
                 ToggleButton ToggleButtonSelect = ((ToggleButton)topToolbar.Children[0]);
                 ToggleButtonSelect.SetBinding(ToggleButton.IsCheckedProperty, binding0);
-                ToggleButtonSelect.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonSelect.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonSelect.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl select = new ContentControl();
                 select.Template = (ControlTemplate)resourceDictionary["select"];
@@ -962,7 +1020,7 @@ namespace Global
                 Binding binding1 = new Binding("InlineChecked");
                 ToggleButton ToggleButtonInline = ((ToggleButton)topToolbar.Children[1]);
                 ToggleButtonInline.SetBinding(ToggleButton.IsCheckedProperty, binding1);
-                ToggleButtonInline.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonInline.Margin = new Thickness(3, 0, 3, 0);
 
                 ToggleButtonInline.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl inCline = new ContentControl();
@@ -974,7 +1032,7 @@ namespace Global
                 Binding binding2 = new Binding("MoveChecked");
                 ToggleButton ToggleButtonMove = ((ToggleButton)topToolbar.Children[2]);
                 ToggleButtonMove.SetBinding(ToggleButton.IsCheckedProperty, binding2);
-                ToggleButtonMove.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonMove.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonMove.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl move = new ContentControl();
                 move.Template = (ControlTemplate)resourceDictionary["move"];
@@ -986,24 +1044,18 @@ namespace Global
                 // Binding binding3 = new Binding("SearchChecked");
                 Button ToggleButtonSearch = ((Button)topToolbar.Children[3]);
                 // ToggleButtonSearch.SetBinding(Button.IsCheckedProperty, binding3);
-                ToggleButtonSearch.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonSearch.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonSearch.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl search = new ContentControl();
                 search.Template = (ControlTemplate)resourceDictionary["serach"];
                 ToggleButtonSearch.Content = search;
-               
+                ToggleButtonSearch.IsEnabled = false;
 
-
-
-                //ToggleButtonSearch.Click += delegate
-                //{
-                //    updateStatus.Ratio++;
-                //};
 
                 Binding binding4 = new Binding("ZoomOutChecked");
                 ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
                 ToggleButtonZoomOut.SetBinding(ToggleButton.IsCheckedProperty, binding4);
-                ToggleButtonZoomOut.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonZoomOut.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonZoomOut.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl ZomOut = new ContentControl();
                 ZomOut.Template = (ControlTemplate)resourceDictionary["zoomOut"];
@@ -1012,7 +1064,7 @@ namespace Global
                 Binding binding5 = new Binding("ZoomInChecked");
                 ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
                 ToggleButtonZoomIn.SetBinding(ToggleButton.IsCheckedProperty, binding5);
-                ToggleButtonZoomIn.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonZoomIn.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonZoomIn.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl zoomIn = new ContentControl();
                 zoomIn.Template = (ControlTemplate)resourceDictionary["zoomIn"];
@@ -1022,7 +1074,7 @@ namespace Global
 
                 //Binding binding6 = new Binding("ScaleInChecked");
                 Button  ToggleButtonScale = ((Button)topToolbar.Children[6]);
-                ToggleButtonScale.Margin = new Thickness(2, 0, 4, 0);
+                ToggleButtonScale.Margin = new Thickness(3, 0, 6, 0);
                 ToggleButtonScale.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl sacle = new ContentControl();
                 sacle.Template = (ControlTemplate)resourceDictionary["scale"];
@@ -1035,7 +1087,7 @@ namespace Global
                 Binding binding9 = new Binding("DimensionChecked");
                 ToggleButton ToggleButtonDimen = ((ToggleButton)topToolbar.Children[9]);
                 ToggleButtonDimen.SetBinding(ToggleButton.IsCheckedProperty, binding9);
-                ToggleButtonDimen.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonDimen.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonDimen.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl dimension = new ContentControl();
                 dimension.Template = (ControlTemplate)resourceDictionary["dimension"];
@@ -1047,15 +1099,11 @@ namespace Global
                 Binding binding10 = new Binding("FocusChecked");
                 ToggleButton ToggleButtonFocus = ((ToggleButton)topToolbar.Children[10]);
                 ToggleButtonFocus.SetBinding(ToggleButton.IsCheckedProperty, binding10);
-                ToggleButtonFocus.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonFocus.Margin = new Thickness(3, 0,3, 0);
                 ToggleButtonFocus.Padding = new Thickness(-1, -1, 0, 0);
-                //ContentControl focus = new ContentControl();
-                //focus.Template = (ControlTemplate)resourceDictionary["focus"];
-
-                Grid grid = (Grid)resourceDictionary["grid1111"];
-                grid.SetBinding(Grid.BackgroundProperty, new Binding() { Source = ToggleButtonFocus, Path = new PropertyPath("Background") });
-                ToggleButtonFocus.Content = grid;
-
+                ContentControl focus = new ContentControl();
+                focus.Template = (ControlTemplate)resourceDictionary["focus"];
+                ToggleButtonFocus.Content = focus;
 
 
 
@@ -1064,7 +1112,7 @@ namespace Global
                 Binding binding11 = new Binding("RulerChecked");
                 ToggleButton ToggleButtonRuler = ((ToggleButton)topToolbar.Children[11]);
                 ToggleButtonRuler.SetBinding(ToggleButton.IsCheckedProperty, binding11);
-                ToggleButtonRuler.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonRuler.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonRuler.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl ruler = new ContentControl();
                 ruler.Template = (ControlTemplate)resourceDictionary["ruler"];
@@ -1075,7 +1123,7 @@ namespace Global
 
                 ToggleButton ToggleButtonProfile = ((ToggleButton)topToolbar.Children[12]);
                 ToggleButtonProfile.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ProfileChecked"));
-                ToggleButtonProfile.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonProfile.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonProfile.Padding = new Thickness(-1, -1, 0, 0);
 
                 ContentControl profile = new ContentControl();
@@ -1115,13 +1163,14 @@ namespace Global
 
                     mainGrid.Children[0].Visibility = Visibility.Collapsed;
 
+                   
                     statusBar.Visibility = Visibility.Collapsed;
                     stageAcquisition.Children[0].Visibility = Visibility.Collapsed;
                     stageAcquisition.Children[1].Visibility = Visibility.Collapsed;
                     stageAcquisition.Children[2].Visibility = Visibility.Collapsed;
-                    stageAcquisition.Children[3].Visibility = Visibility.Collapsed;
-                    stageAcquisition.Children[4].Visibility = Visibility.Collapsed;
-                    stageAcquisition.Children[5].Visibility = Visibility.Collapsed;
+                   // stageAcquisition.Children[3].Visibility = Visibility.Collapsed;
+                    //stageAcquisition.Children[4].Visibility = Visibility.Collapsed;
+                    //stageAcquisition.Children[5].Visibility = Visibility.Collapsed;
                     System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
                     mainwin.WindowStyle = WindowStyle.None;
                     resizeMode = mainwin.ResizeMode;
@@ -1171,9 +1220,9 @@ namespace Global
                     stageAcquisition.Children[0].Visibility = Visibility.Visible;
                     stageAcquisition.Children[1].Visibility = Visibility.Visible;
                     stageAcquisition.Children[2].Visibility = Visibility.Visible;
-                    stageAcquisition.Children[3].Visibility = Visibility.Visible;
-                    stageAcquisition.Children[4].Visibility = Visibility.Visible;
-                    stageAcquisition.Children[5].Visibility = Visibility.Visible;
+                    //stageAcquisition.Children[3].Visibility = Visibility.Visible;
+                   // stageAcquisition.Children[4].Visibility = Visibility.Visible;
+                   // stageAcquisition.Children[5].Visibility = Visibility.Visible;
                     statusBar.Visibility = Visibility.Visible;
                     stageAcquisition.Visibility = Visibility.Visible;
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;
@@ -1201,14 +1250,9 @@ namespace Global
                
 
 
-
-
-
-
-
                 ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[14]);
                 ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
-                ToggleButtonEraser.Margin = new Thickness(2,0,2,0);
+                ToggleButtonEraser.Margin = new Thickness(3,0,3,0);
 
                 ToggleButtonEraser.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl eraser = new ContentControl();
@@ -1217,14 +1261,9 @@ namespace Global
 
 
 
-
-
-
-
-
                 ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[15]);
                 ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, new Binding("TextChecked"));
-                ToggleButtonText.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonText.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonText.Padding = new Thickness(-1,-1,0, 0);
                  ContentControl text = new ContentControl();
                 text.Template = (ControlTemplate)resourceDictionary["text"];
@@ -1237,7 +1276,7 @@ namespace Global
                 ToggleButtonArrow.Visibility = Visibility.Collapsed; //     delete Arrow
                 ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[17]);
                 ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, new Binding("LineChecked"));
-                ToggleButtonLine.Margin = new Thickness(2,0,2,0);
+                ToggleButtonLine.Margin = new Thickness(3,0,3,0);
 
                 ToggleButtonLine.Padding = new Thickness(-1,-1,0,0);
                 ContentControl line = new ContentControl();
@@ -1247,7 +1286,7 @@ namespace Global
 
                 ToggleButton ToggleButtonCurve = ((ToggleButton)topToolbar.Children[18]);
                 ToggleButtonCurve.SetBinding(ToggleButton.IsCheckedProperty, new Binding("CurveChecked"));
-                ToggleButtonCurve.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonCurve.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonCurve.Padding = new Thickness(-1,-1,0, 0);
                 ContentControl curve = new ContentControl();
                 curve.Template = (ControlTemplate)resourceDictionary["curve"];
@@ -1260,7 +1299,7 @@ namespace Global
 
                 ToggleButton ToggleButtonCircle = ((ToggleButton)topToolbar.Children[19]);
                 ToggleButtonCircle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("CircleChecked"));
-                ToggleButtonCircle.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonCircle.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonCircle.Padding = new Thickness(-1,-1,0, 0);
                 ContentControl circle = new ContentControl();
                 circle.Template = (ControlTemplate)resourceDictionary["circle"];
@@ -1270,7 +1309,7 @@ namespace Global
                 ToggleButtonRectangle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("RectangleChecked"));
 
 
-                ToggleButtonRectangle.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonRectangle.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonRectangle.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl rectangle = new ContentControl();
                 rectangle.Template = (ControlTemplate)resourceDictionary["rectangle"];
@@ -1280,7 +1319,7 @@ namespace Global
 
                 ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[21]);
                 ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, new Binding("PolygonChecked"));
-                ToggleButtonPolygon.Margin = new Thickness(2, 0, 2, 0);
+                ToggleButtonPolygon.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonPolygon.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl polygon = new ContentControl();
                 polygon.Template = (ControlTemplate)resourceDictionary["polygon"];
@@ -1292,6 +1331,8 @@ namespace Global
 
                 foreach (var item in Tools)
                 {
+
+                  
                     item.Checked += delegate (object sender, RoutedEventArgs e)
                     {
 
@@ -1308,6 +1349,134 @@ namespace Global
                     };
 
                 }
+
+
+                //Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
+                foreach (var item in topToolbar.Children)
+                {
+                    if (item is ToggleButton toggleButton1)
+                    {
+                        toggleButton1.Style = (Style)resourceDictionary["ToggleButtonStyle222"];
+                       // toggleButton1.Style = (Style)Application.Current.FindResource("ToggleButtonStyle222");
+                      
+                    }
+
+                    if (item is Button button)
+                    {
+                        button.Style = (Style)resourceDictionary["ButtonStyle222"];
+                       // button.Style = (Style)Application.Current.FindResource("ButtonStyle222");
+                       
+                    }
+
+
+
+                }
+                DockPanel leftToolbar = (DockPanel)mainwin.FindName("leftToolbar");
+                WrapPanel leftToolbar1 = (WrapPanel)leftToolbar.Children[0];
+                foreach (var item in leftToolbar1.Children)
+                {
+                    if (item is ToggleButton toggleButton1)
+                    {
+                        toggleButton1.Style = (Style)resourceDictionary["ToggleButtonStyle222"];
+                       // toggleButton1.Style = (Style)Application.Current.FindResource("ToggleButtonStyle222");
+                       
+                        toggleButton1.Margin = new Thickness(3, 3, 3, 3);
+                    }
+                }
+                ToggleButton rangetogg = (ToggleButton)leftToolbar1.Children[4];
+                rangetogg.Style = (Style)resourceDictionary["ToggleButtonStyle223"];
+               // rangetogg.Style = (Style)Application.Current.FindResource("ToggleButtonStyle223");
+
+                WrapPanel righttToolbar = (WrapPanel)mainwin.FindName("rightToolbar");
+                foreach (var item in righttToolbar.Children)
+                {
+                    if (item is ToggleButton toggleButton1)
+                    {
+                        toggleButton1.Style = (Style)resourceDictionary["ToggleButtonStyle222"];
+                       // toggleButton1.Style = (Style)Application.Current.FindResource("ToggleButtonStyle222");
+                       
+                    }
+                }
+
+                try     // custom button style
+                {
+                    WrapPanel bottomToolBar = (WrapPanel)mainwin.FindName("bottomToolbar");
+                    Button startButton = (Button)bottomToolBar.Children[0];
+                    startButton.Style = (Style)resourceDictionary["ButtonStyle122"];
+                   // startButton.Style = (Style)Application.Current.FindResource("ButtonStyle122");
+                    Button stopButton = (Button)bottomToolBar.Children[1];
+                    Button forWardButton = (Button)bottomToolBar.Children[2];
+                    stopButton.Style = (Style)resourceDictionary["ButtonStyle212"];
+                    // stopButton.Style = (Style)Application.Current.FindResource("ButtonStyle212");
+                    forWardButton.Style = (Style)resourceDictionary["ButtonStyle212"];
+                   // forWardButton.Style = (Style)Application.Current.FindResource("ButtonStyle212");
+                    Button backWardButton = (Button)bottomToolBar.Children[3];
+                    backWardButton.Style = (Style)resourceDictionary["ButtonStyle221"];
+                    //backWardButton.Style = (Style)Application.Current.FindResource("ButtonStyle221");
+                    Button placeButton = (Button)bottomToolBar.Children[bottomToolBar.Children.Count - 1];
+                    //placeButton.Style = (Style)Application.Current.FindResource("ButtonStyle222");
+                    placeButton.Style = (Style)resourceDictionary["ButtonStyle222"];
+
+                }
+                catch
+                {
+
+                }
+
+
+                // hidden Global ratio slider
+                if (Application.Current.MainWindow.Content is Grid mainGrid && mainGrid.Children[0] is Grid grid2 && grid2.Children[1] is StackPanel stackPanelMode)
+                {
+                    if (grid2.Children[0] is StackPanel stackPanel && stackPanel.Children[1] is Slider sliderRatio)
+                    {
+                        sliderRatio.Visibility = Visibility.Hidden;
+                    }
+
+                }
+                try
+                {
+                    GridSplitter gridSplitter = (GridSplitter)mainwin.FindName("MiddleSplitter");
+                    Grid grid = (Grid)gridSplitter.Parent;
+
+                    grid.Children.Remove(grid.Children[3]);
+                    grid.Children.Remove(grid.Children[3]);
+                    grid.Children.Remove(grid.Children[3]);
+                }
+                // remove  middle gridSplitter
+                catch
+                {
+
+                }
+
+                WrapPanel bottomToolBar1 = (WrapPanel)mainwin.FindName("bottomToolbar");
+                MessageBox.Show("2");
+                galleryView = new gallery();
+
+                Border imagingView = (Border)mainwin.FindName("imagingView");
+                StackPanel stackPanel1 = (StackPanel)mainwin.FindName("bottomView");
+                
+
+                stackPanel1.Children.Add(galleryView);
+                galleryView.Visibility = Visibility.Visible;
+                Binding widthBingding = new Binding();
+                widthBingding.Source = imagingView;
+                widthBingding.Path = new PropertyPath("ActualWidth");
+                galleryView.SetBinding(UserControl.WidthProperty, widthBingding);
+
+                galleryTool = new GalleryTool();
+                galleryTool.HorizontalAlignment = HorizontalAlignment.Right;
+                galleryTool.Margin = new Thickness(0,0,10,0);
+                galleryTool.Visibility = Visibility.Collapsed;
+                //bottomToolBar1.Children.Add(gallyTool);
+
+                Grid grid1 = new Grid();
+                
+
+                Border border = (Border)bottomToolBar1.Parent;
+                border.Child = grid1;
+                grid1.Children.Add(bottomToolBar1);
+                grid1.Children.Add(galleryTool);
+
 
 
 
