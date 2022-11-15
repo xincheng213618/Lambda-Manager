@@ -13,9 +13,7 @@ using Solution.RecentFile;
 using Global.Common;
 using System.Threading.Tasks;
 using Microsoft.Win32;
-using System.Windows.Data;
-using System.Runtime.InteropServices;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+
 
 namespace Solution
 {

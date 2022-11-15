@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:Solution"
         xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="450" Width="400" Background="{DynamicResource GlobalBackgroundBrush}"   WindowStartupLocation="CenterScreen"   Initialized="BaseWindow_Initialized" >
+        Height="450"  Width="400" Background="{DynamicResource GlobalBackgroundBrush}"   WindowStartupLocation="CenterScreen"   Initialized="BaseWindow_Initialized" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" WindowChrome.IsHitTestVisibleInChrome="True">
-            <TextBlock  Text="导出" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Margin="10,-20,0,0" FontSize="15" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock x:Name="WindowTitleText" Text="导出" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Margin="10,-20,0,0" FontSize="15" HorizontalAlignment="Left"></TextBlock>
         </Grid>
         <Grid>
             <DockPanel >
@@ -31,7 +31,7 @@
                                     <TextBlock Text="保存目录: " Width="55" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <TextBox Style="{DynamicResource TextBoxStyle1}"  CaretBrush="White" Foreground="White" Text="{Binding ExportFullName}"  HorizontalAlignment="Stretch"  Margin="0,0,5,0" />
                                 </DockPanel>
-                                <DockPanel Margin="2" >
+                                <DockPanel Margin="2" x:Name="DockKind">
                                     <TextBlock Text="格式: " Width="55"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <ComboBox x:Name="combobox" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  SelectionChanged="ComboBox_SelectionChanged"/>
                                 </DockPanel>
@@ -48,7 +48,6 @@
                                 <StackPanel>
                                     <CheckBox Content="导出视图" IsChecked="{Binding Path=ExportView}"  Margin="0,2"/>
                                     <CheckBox Content="导出兴趣区域（ROI）"  IsChecked="{Binding Path=ExportViewROI}" Margin="0,2"/>
-                                    <CheckBox Content="导出全部图像" IsChecked="{Binding Path=ExportAllImages}" Margin="0,2"/>
                                 </StackPanel>
                             </UniformGrid>
 

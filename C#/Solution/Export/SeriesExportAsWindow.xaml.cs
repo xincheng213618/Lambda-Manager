@@ -46,7 +46,8 @@ namespace Solution
             ProjectExportAs = new ProjectExportAs() { Kinds = seriesExportKinds, FullName = seriesProjectManager.FullName, PhotoTime = false };
             this.DataContext = ProjectExportAs;
             InitializeComponent();
-            
+            DockKind.Visibility = Visibility.Collapsed;
+            WindowTitleText.Text += Enum.GetName(seriesExportKinds);
         }
         bool IsIni = false;
         private void BaseWindow_Initialized(object sender, EventArgs e)
@@ -103,6 +104,11 @@ namespace Solution
             List<string> Mode = new();
 
             ProjectExportAs.Mode = Mode;
+            if (ProjectExportAs.ExportAllImages)
+            {
+                seriesProjectManager.GetAllExportGrif(seriesProjectManager);
+            }
+            
             foreach (var item in seriesProjectManager.ExportChildren)
             {
                 if (item is GrifFile grifFile)

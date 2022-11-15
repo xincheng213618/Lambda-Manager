@@ -12,22 +12,15 @@ using System.Windows;
 using Tool;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Animation;
+using XSolution.SeriesProject;
 
 namespace XSolution
 {
 
-    public class SeriesProjectExportLine : BaseObject
-    {
-        public SeriesProjectExportLine(): base("Line") 
-        {
-
-        }
-    }
-
 
     public class SeriesProjectManager : BaseObject
     {
-
+        public SeriesProjectMeta seriesProjectMeta;
         public FileSystemWatcher watcher;
 
         private string fileSize;
@@ -125,6 +118,27 @@ namespace XSolution
                 AddChild(baseObject);
             }
             ExportChildren = new ObservableCollection<BaseObject>();
+
+
+            seriesProjectMeta = new SeriesProjectMeta();
+
+            foreach (var item in VisualChildren)
+            {
+                string FullName = item.Name;
+                var point = FullName.Split('_');
+                int X = int.Parse(point[0]);
+                int Y = int.Parse(point[1]);
+                seriesProjectMeta.Points.Add(new Point() { X = X,Y= Y});
+
+                foreach (var zitem in item.VisualChildren)
+                {
+                    int Zstep = int.Parse(zitem.Name);
+                    if (!seriesProjectMeta.ZStep.Contains(Zstep))
+                        seriesProjectMeta.ZStep.Add(Zstep);
+                }
+
+            }
+
             //GetAllExportGrif(this);
         }
 
@@ -132,18 +146,8 @@ namespace XSolution
         {
             foreach (var directoryInfo in root.GetDirectories())
             {
-                if (directoryInfo.Name == "Image")
-                {
-                    foreach (var direc in directoryInfo.GetFiles())
-                    {
-                        baseObject.AddChild(SolutionGlobal.GetInstance().GetProjectFile(direc.FullName));
-                    }
-                }
-                else
-                {
-                    ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
-                    baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
-                }
+                ProjectFolder projectFolder = new ProjectFolder(directoryInfo.FullName);
+                baseObject.AddChild(FromDirectories(projectFolder, directoryInfo));
             }
             foreach (var directoryInfo in root.GetFiles())
             {
@@ -153,7 +157,7 @@ namespace XSolution
         }
 
 
-        private void GetAllExportGrif(BaseObject baseObject)
+        public void GetAllExportGrif(BaseObject baseObject)
         {
             foreach (var item in baseObject.VisualChildren)
             {

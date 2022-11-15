@@ -32,7 +32,8 @@ namespace Solution
             this.BaseObject = BaseObject;
             grifExportAs = new GrifExportAs() { FullName = BaseObject.FullName, Kinds = grifExportKinds };
             InitializeComponent();
-
+            DockKind.Visibility = Visibility.Collapsed;
+            WindowTitleText.Text += Enum.GetName(grifExportKinds) ;
         }
 
         private void BaseWindow_Initialized(object sender, EventArgs e)
