@@ -70,7 +70,7 @@
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
                                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
                                         <CheckBox  Tag="{Binding .}"  IsChecked="{Binding Path=IsCheck}"  Click="GrifFileCheckBoxClick"/>
-                                        <TextBlock Text="{Binding Path=GrifFileOperatingMode}" />
+                                        <TextBlock Text="{Binding Path=OperatingMode}" />
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
@@ -185,18 +185,16 @@
                                 </Style>
                             </TreeView.ItemContainerStyle>
                             <TreeView.Resources>
-                                
+                               
                                 <HierarchicalDataTemplate  DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown" Tag="{Binding .}" >
-                                        <Grid>
-                                            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" />
-                                            <Border Background="Red" Opacity="0.5" Visibility="{Binding IsCheck,Converter={StaticResource bool2VisibilityConverter}}" />
-                                        </Grid>
-                                    </StackPanel>
+                                    <Grid MouseDown="Grid_MouseRightButtonDown" Tag="{Binding .}">
+                                        <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" />
+                                        <Border Background="Red" Opacity="0.5" Visibility="{Binding IsCheck,Converter={StaticResource bool2VisibilityConverter}}" />
+                                    </Grid>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}"  ItemsSource="{Binding VisualChildren}" >
-                                    <StackPanel x:Name="temp" Background="AliceBlue" Height="5" Style="{StaticResource style_treeViewItem_panel}" MouseDown="StackPanel_MouseRightButtonDown"  Tag="{Binding .}" >
-                                    </StackPanel>
+                                    <Grid x:Name="temp" Background="AliceBlue" Height="5" Style="{StaticResource style_treeViewItem_panel}" MouseDown="Grid_MouseRightButtonDown"  Tag="{Binding .}" >
+                                    </Grid>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
                         </TreeView>

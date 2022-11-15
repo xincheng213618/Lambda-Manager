@@ -54,7 +54,7 @@ namespace XSolution
         /// <summary>
         /// 拍摄模态
         /// </summary>
-        public GrifFileOperatingMode GrifFileOperatingMode { get; set; }
+        public GrifFileOperatingMode OperatingMode { get; set; }
 
         public GrifFileMeta GrifFileMeta { get; private set; }
 
@@ -82,33 +82,32 @@ namespace XSolution
                 switch (str.ToUpper())
                 {
                     case "BF":
-                        GrifFileOperatingMode = GrifFileOperatingMode.BF;
+                        this.OperatingMode = GrifFileOperatingMode.BF;
                         break;
                     case "DF":
-                        GrifFileOperatingMode = GrifFileOperatingMode.DF;
+                        this.OperatingMode = GrifFileOperatingMode.DF;
                         break;
                     case "DP":
-                        GrifFileOperatingMode = GrifFileOperatingMode.DP;
+                        this.OperatingMode = GrifFileOperatingMode.DP;
                         break;
                     case "RI":
-                        GrifFileOperatingMode = GrifFileOperatingMode.RI;
+                        this.OperatingMode = GrifFileOperatingMode.RI;
                         break;
                     case "QP":
-                        GrifFileOperatingMode = GrifFileOperatingMode.QP;
+                        this.OperatingMode = GrifFileOperatingMode.QP;
                         break;
                     case "PC":
-                        GrifFileOperatingMode = GrifFileOperatingMode.PC;
+                        this.OperatingMode = GrifFileOperatingMode.PC;
                         break;
                     case "FL":
-                        GrifFileOperatingMode = GrifFileOperatingMode.FL;
+                        this.OperatingMode = GrifFileOperatingMode.FL;
                         break;
                     default:
-                        GrifFileOperatingMode = GrifFileOperatingMode.NULL;
+                        this.OperatingMode = GrifFileOperatingMode.NULL;
                         break;
                 }
             }
         }
-
 
         private bool isCheck = false;
         public bool IsCheck

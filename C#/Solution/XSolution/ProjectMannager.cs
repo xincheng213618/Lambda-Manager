@@ -12,6 +12,7 @@ namespace XSolution
 {
     public class ProjectManager : ProjectFolder
     {
+        public override bool IsFolder { get; set; } = false;
 
         public ProjectManager(string ProjectPath):base(ProjectPath)
         {

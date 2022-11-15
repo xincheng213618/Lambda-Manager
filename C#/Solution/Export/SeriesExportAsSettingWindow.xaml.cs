@@ -8,6 +8,8 @@ using System;
 using System.Windows.Documents;
 using System.Windows.Media;
 using XSolution.SeriesProject;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Solution
 {
@@ -16,16 +18,16 @@ namespace Solution
     /// </summary>
     public partial class SeriesExportAsSettingWindow : BaseWindow
     {
-        public SeriesProjectManager seriesProjectManager;
+        public SeriesProjectManager SeriesProject;
 
         AdornerLayer mAdornerLayer = null;
         public SeriesExportAsSettingWindow(SeriesProjectManager seriesProjectManager)
         {
-            this.seriesProjectManager = seriesProjectManager;
+            this.SeriesProject = seriesProjectManager;
             InitializeComponent();
             TextBock1.Text = seriesProjectManager.Name;
-            SeriesExportTreeView1.ItemsSource = this.seriesProjectManager.VisualChildren;
-            SeriesExportTreeView2.ItemsSource = this.seriesProjectManager.ExportChildren;
+            SeriesExportTreeView1.ItemsSource = this.SeriesProject.VisualChildren;
+            SeriesExportTreeView2.ItemsSource = this.SeriesProject.ExportChildren;
         }
 
 
@@ -36,14 +38,13 @@ namespace Solution
 
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem = new MenuItem() { Header ="点"};
-            foreach (var item in seriesProjectManager.seriesProjectMeta.Points.Keys)
+            foreach (var item in SeriesProject.Meta.DicPoints.Keys)
             {
                 MenuItem menuItem3 = new MenuItem() { Header = $"{item.X}  {item.Y}" };
                 menuItem3.Click += (s, e) =>
                 {
                     menuItem3.IsChecked = !menuItem3.IsChecked;
-                    FilterButton.Content = FilterButton.Content.ToString() + menuItem3.Header.ToString();
-                    foreach (var item in seriesProjectManager.seriesProjectMeta.Points[item])
+                    foreach (var item in SeriesProject.Meta.DicPoints[item])
                     {
                         if (menuItem3.IsChecked)
                         {
@@ -53,35 +54,56 @@ namespace Solution
                         {
                             item.Visibility = Visibility.Visible;
                         }
-
                     }
-
-
-
-
                 };
                 menuItem.Items.Add(menuItem3);
             }
-            MenuItem menuItem1 = new MenuItem() { Header = "Z" };
-            foreach (var item in seriesProjectManager.seriesProjectMeta.ZStep)
+            MenuItem menuItem1 = new MenuItem() { Header = "聚焦层面" };
+            foreach (var item in SeriesProject.Meta.DicZ.Keys)
             {
-                MenuItem menuItem3 = new MenuItem() { Header = $"{item}" };
+                MenuItem menuItem3 = new MenuItem() { Header = $"{item}层" };
                 menuItem3.Click += (s, e) =>
                 {
-                    FilterButton.Content = FilterButton.Content.ToString() + menuItem3.Header.ToString();
+                    menuItem3.IsChecked = !menuItem3.IsChecked;
+                    foreach (var item in SeriesProject.Meta.DicZ[item])
+                    {
+                        if (menuItem3.IsChecked)
+                        {
+                            item.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            item.Visibility = Visibility.Visible;
+                        }
+                    }
                 };
                 menuItem1.Items.Add(menuItem3);
             }
 
-            MenuItem menuItem2 = new MenuItem() { Header = "T" };
-            for (int i = 0; i < 10; i++)
+            MenuItem menuItem2 = new MenuItem() { Header = "拍摄模式" };
+            foreach (var item in SeriesProject.Meta.DicOM.Keys)
             {
-                menuItem2.Items.Add(new MenuItem() { Header = $"{i}" });
+                MenuItem menuItem3 = new MenuItem() { Header = $"{item}层" };
+                menuItem3.Click += (s, e) =>
+                {
+                    menuItem3.IsChecked = !menuItem3.IsChecked;
+                    foreach (var item in SeriesProject.Meta.DicOM[item])
+                    {
+                        if (menuItem3.IsChecked)
+                        {
+                            item.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            item.Visibility = Visibility.Visible;
+                        }
+                    }
+                };
+                menuItem2.Items.Add(menuItem3);
             }
             contextMenu.Items.Add(menuItem);
             contextMenu.Items.Add(menuItem1);
             contextMenu.Items.Add(menuItem2);
-
             FilterButton.ContextMenu = contextMenu ;
         }
 
@@ -123,19 +145,19 @@ namespace Solution
 
         private void Button_Click_0(object sender, RoutedEventArgs e)
         {
-            seriesProjectManager.ExportChildren.Insert(Indexof, new SeriesProjectExportLine());
+            SeriesProject.ExportChildren.Insert(Indexof, new SeriesProjectExportLine());
             Indexof--;
         }
 
         int Indexof = 0;
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (Indexof < 0 || Indexof >= seriesProjectManager.ExportChildren.Count)
+            if (Indexof < 0 || Indexof >= SeriesProject.ExportChildren.Count)
                 return;
-            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            if (SeriesProject.ExportChildren[Indexof] is GrifFile grifFile)
             {
-                seriesProjectManager.ExportChildren.Remove(grifFile);
-                seriesProjectManager.ExportChildren.Insert(0, grifFile);
+                SeriesProject.ExportChildren.Remove(grifFile);
+                SeriesProject.ExportChildren.Insert(0, grifFile);
                 grifFile.IsSelected = true;
                 Indexof= 0;
 
@@ -146,14 +168,14 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (Indexof < 1 || Indexof > seriesProjectManager.ExportChildren.Count-1)
+            if (Indexof < 1 || Indexof > SeriesProject.ExportChildren.Count-1)
                 return;
 
 
-            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            if (SeriesProject.ExportChildren[Indexof] is GrifFile grifFile)
             {
-                seriesProjectManager.ExportChildren.Remove(grifFile);
-                seriesProjectManager.ExportChildren.Insert(Indexof-1, grifFile);
+                SeriesProject.ExportChildren.Remove(grifFile);
+                SeriesProject.ExportChildren.Insert(Indexof-1, grifFile);
                 grifFile.IsSelected = true;
                 Indexof--;
             }
@@ -162,14 +184,14 @@ namespace Solution
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
 
-            if (Indexof < 0 || Indexof > seriesProjectManager.ExportChildren.Count-2)
+            if (Indexof < 0 || Indexof > SeriesProject.ExportChildren.Count-2)
                 return;
 
 
-            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            if (SeriesProject.ExportChildren[Indexof] is GrifFile grifFile)
             {
-                seriesProjectManager.ExportChildren.Remove(grifFile);
-                seriesProjectManager.ExportChildren.Insert(Indexof + 1, grifFile);
+                SeriesProject.ExportChildren.Remove(grifFile);
+                SeriesProject.ExportChildren.Insert(Indexof + 1, grifFile);
                 grifFile.IsSelected = true;
                 Indexof++;
             }
@@ -177,36 +199,36 @@ namespace Solution
         }
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            if (Indexof < 0 || Indexof > seriesProjectManager.ExportChildren.Count-1)
+            if (Indexof < 0 || Indexof > SeriesProject.ExportChildren.Count-1)
                 return;
 
-            if (seriesProjectManager.ExportChildren[Indexof] is GrifFile grifFile)
+            if (SeriesProject.ExportChildren[Indexof] is GrifFile grifFile)
             {
-                seriesProjectManager.ExportChildren.Remove(grifFile);
-                seriesProjectManager.ExportChildren.Insert(seriesProjectManager.ExportChildren.Count, grifFile);
+                SeriesProject.ExportChildren.Remove(grifFile);
+                SeriesProject.ExportChildren.Insert(SeriesProject.ExportChildren.Count, grifFile);
                 grifFile.IsSelected = true;
-                Indexof = seriesProjectManager.ExportChildren.Count-1;
+                Indexof = SeriesProject.ExportChildren.Count-1;
             }
         }
 
-        private void StackPanel_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            StackPanel stackPanel = sender as StackPanel;
+            Grid stackPanel = sender as Grid;
             if (stackPanel.Tag is GrifFile grifFile)
-                Indexof = seriesProjectManager.ExportChildren.IndexOf(grifFile);
+                Indexof = SeriesProject.ExportChildren.IndexOf(grifFile);
             else if (stackPanel.Tag is SeriesProjectExportLine seriesProjectExportLine)
             {
-                Indexof = seriesProjectManager.ExportChildren.IndexOf(seriesProjectExportLine);
+                Indexof = SeriesProject.ExportChildren.IndexOf(seriesProjectExportLine);
                 if (Indexof > 0)
                 {
-                    if (seriesProjectManager.ExportChildren[Indexof-1] is GrifFile grifFile1)
+                    if (SeriesProject.ExportChildren[Indexof-1] is GrifFile grifFile1)
                     {
                         Indexof = Indexof - 1;
                         grifFile1.IsSelected = true;
                     }
                     else
                     {
-                        seriesProjectManager.ExportChildren.Remove(seriesProjectExportLine);
+                        SeriesProject.ExportChildren.Remove(seriesProjectExportLine);
                     }
                 }
             }
@@ -215,7 +237,7 @@ namespace Solution
 
         private void Button_Click_01(object sender, RoutedEventArgs e)
         {
-            CheckEendControl(seriesProjectManager);
+            CheckEendControl(SeriesProject);
         }
 
         public void CheckEendControl(BaseObject baseObject,bool? IsCheckNot =true,bool Add = true)
@@ -226,13 +248,13 @@ namespace Solution
                 {
                     if (Add)
                     {
-                        if (!seriesProjectManager.ExportChildren.Contains(grifFile))
-                            seriesProjectManager.ExportChildren.Add(grifFile);
+                        if (!SeriesProject.ExportChildren.Contains(grifFile))
+                            SeriesProject.ExportChildren.Add(grifFile);
                     }
                     else
                     {
-                        if (seriesProjectManager.ExportChildren.Contains(grifFile))
-                            seriesProjectManager.ExportChildren.Remove(grifFile);
+                        if (SeriesProject.ExportChildren.Contains(grifFile))
+                            SeriesProject.ExportChildren.Remove(grifFile);
                     }
 
                 }
@@ -246,17 +268,24 @@ namespace Solution
 
         private void Button_Click_02(object sender, RoutedEventArgs e)
         {
-            CheckEendControl(seriesProjectManager, false);
+            CheckEendControl(SeriesProject, false);
         }
 
         private void Button_Click_03(object sender, RoutedEventArgs e)
         {
-            CheckEendControl(seriesProjectManager, false,false);
+            foreach (var item in SeriesProject.ExportChildren.ToList())
+            {
+                if (item is GrifFile grifFile && grifFile.IsCheck)
+                {
+                    SeriesProject.ExportChildren.Remove(item);
+                }
+            }
         }
         private void Button_Click_04(object sender, RoutedEventArgs e)
         {
-            seriesProjectManager.ExportChildren.Clear();
+            SeriesProject.ExportChildren.Clear();
         }
+
 
         int Indexof1 = 0;
         private void StackPanel1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -264,7 +293,7 @@ namespace Solution
             StackPanel stackPanel = sender as StackPanel;
             if (stackPanel.Tag is BaseObject baseObject)
             {
-                Indexof1 = seriesProjectManager.ExportChildren.IndexOf(baseObject);
+                Indexof1 = SeriesProject.ExportChildren.IndexOf(baseObject);
             }
         }
 
@@ -279,7 +308,7 @@ namespace Solution
             CheckBox checkBox = sender as CheckBox;
             if (checkBox.Tag is GrifFile grifFile)
             {
-                Indexof = seriesProjectManager.VisualChildren.IndexOf(grifFile);
+                Indexof = SeriesProject.VisualChildren.IndexOf(grifFile);
             }
         }
 

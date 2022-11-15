@@ -6,11 +6,20 @@ namespace XSolution.SeriesProject
 {
     public class SeriesProjectMeta:ViewModelBase
     {
+        /// <summary>
+        /// Points的List
+        /// </summary>
+        public Dictionary<Point, List<GrifFile>> DicPoints = new Dictionary<Point, List<GrifFile>>();
 
-        public Dictionary<Point, List<GrifFile>> Points = new Dictionary<Point, List<GrifFile>>();
+        /// <summary>
+        /// Z的Dic
+        /// </summary>
+        public Dictionary<int, List<GrifFile>> DicZ = new Dictionary<int, List<GrifFile>>();
 
-
-        public List<int> ZStep { get; set; } = new List<int> { };
+        /// <summary>
+        /// peratingMode 的Dic
+        /// </summary>
+        public Dictionary<GrifFileOperatingMode, List<GrifFile>> DicOM = new Dictionary<GrifFileOperatingMode, List<GrifFile>>();
 
 
   }

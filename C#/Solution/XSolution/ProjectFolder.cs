@@ -2,6 +2,7 @@
 using Global.Common.Helper;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -15,8 +16,9 @@ namespace XSolution
 {
     public class ProjectFolder : BaseObject
     {
-        private SolutionExplorer solutionExplorer = null;
+        public virtual bool IsFolder { get; set; } = true;
 
+        private SolutionExplorer solutionExplorer = null;
 
         public ImageSource Icon { get; set; }
 
@@ -34,6 +36,20 @@ namespace XSolution
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
             VisualChildren = new ObservableCollection<BaseObject>();
+            if (IsFolder)
+            {
+                VisualChildren.CollectionChanged += (s, e) =>
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Remove && VisualChildren.Count == 0)
+                    {
+                        Visibility = Visibility.Hidden;
+                    }
+                    else if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        Visibility = Visibility.Visible;
+                    }
+                };
+            }
             Icon = FileIcon.GetDirectoryIcon().ToImageSource();
             watcher = new FileSystemWatcher(FolderPath)
             {
@@ -196,6 +212,20 @@ namespace XSolution
             VisualChildren.Remove(baseObject);
             base.RemoveChild(baseObject);
 
+        }
+        public override int CompareTo(object obj)
+        {
+            if (obj == null) return -1;
+            if (obj == this) return 0;
+            if (obj is ProjectFolder projectFolder)
+            {
+                return Name.CompareTo(projectFolder.Name);
+            }
+            if (obj is BaseObject baseObject)
+            {
+                return -1;
+            }
+            return 0;
         }
 
     }

@@ -41,8 +41,6 @@ namespace XSolution
         public RelayCommand AttributesCommand { get; set; }
 
 
-
-
         protected FileInfo FileInfo;
         public ProjectFile(string FullName) :base(FullName)
         {

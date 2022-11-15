@@ -18,10 +18,13 @@ namespace XSolution
 {
 
 
-    public class SeriesProjectManager : BaseObject
+    public class SeriesProjectManager : ProjectFolder
     {
-        public SeriesProjectMeta seriesProjectMeta;
-        public FileSystemWatcher watcher;
+        /// <summary>
+        /// 系列的统计数据
+        /// </summary>
+        public SeriesProjectMeta Meta;
+
 
         private string fileSize;
         public string FileSize
@@ -41,7 +44,6 @@ namespace XSolution
         public ObservableCollection<BaseObject> ExportChildren { get; set; }
 
         public ObservableCollection<GrifFile> AllGrifChildren { get; set; }
-
 
         /// <summary>
         /// 导出为
@@ -122,7 +124,7 @@ namespace XSolution
             ExportChildren = new ObservableCollection<BaseObject>();
             AllGrifChildren = new ObservableCollection<GrifFile>();
 
-            seriesProjectMeta = new SeriesProjectMeta();
+            Meta = new SeriesProjectMeta();
 
             foreach (var item in VisualChildren)
             {
@@ -131,26 +133,30 @@ namespace XSolution
                 int X = int.Parse(point[0]);
                 int Y = int.Parse(point[1]);
                 Point point1 = new Point(X, Y); 
-                seriesProjectMeta.Points.Add(point1, new List<GrifFile>());
+                if (!Meta.DicPoints.ContainsKey(point1))
+                    Meta.DicPoints.Add(point1, new List<GrifFile>());
 
                 foreach (var zitem in item.VisualChildren)
                 {
                     int Zstep = int.Parse(zitem.Name);
-                    if (!seriesProjectMeta.ZStep.Contains(Zstep))
-                        seriesProjectMeta.ZStep.Add(Zstep);
+                    if (!Meta.DicZ.ContainsKey(Zstep))
+                        Meta.DicZ.Add(Zstep, new List<GrifFile>());
 
                     foreach (var image in zitem.VisualChildren)
                     {
                         if (image is GrifFile grifFile)
                         {
                             AllGrifChildren.Add(grifFile);
-                            seriesProjectMeta.Points[point1].Add(grifFile);
+                            Meta.DicPoints[point1].Add(grifFile);
+                            Meta.DicZ[Zstep].Add(grifFile);
+
+                            if (!Meta.DicOM.ContainsKey(grifFile.OperatingMode))
+                                Meta.DicOM.Add(grifFile.OperatingMode, new List<GrifFile>());
+                            Meta.DicOM[grifFile.OperatingMode].Add(grifFile);   
                         }
                     }
                 }
             }
-
-            //GetAllExportGrif(this);
         }
 
         public static BaseObject FromDirectories(BaseObject baseObject, DirectoryInfo root)

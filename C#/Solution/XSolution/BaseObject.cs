@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Xml.Linq;
@@ -15,7 +16,7 @@ namespace XSolution
     /// 工程文件的基础Object
     /// 继承自ViewModeBase的
     /// </summary>
-    public class BaseObject : DependencyObject, INotifyPropertyChanged, IDisposable
+    public class BaseObject : DependencyObject, INotifyPropertyChanged, IDisposable, IComparable
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -35,12 +36,13 @@ namespace XSolution
         /// <summary>
         /// 显示的子集
         /// </summary>
-        public ObservableCollection<BaseObject> VisualChildren { get; set; }
+        public virtual ObservableCollection<BaseObject> VisualChildren { get; set; }
 
         /// <summary>
         /// 被隐藏的子集
         /// </summary>
         public ObservableCollection<BaseObject> VisualChildrenHidden { get; set; }
+
 
 
         protected Visibility _visibility = Visibility.Visible;
@@ -57,19 +59,13 @@ namespace XSolution
                     {
                         if (_visibility == Visibility.Visible)
                         {
-                            if (baseObject.VisualChildrenHidden.Contains(this))
-                            {
-                                baseObject.VisualChildrenHidden.Remove(this);
-                                baseObject.VisualChildren.SortedAdd(this);
-                            }
+                            baseObject.VisualChildrenHidden.Remove(this);
+                            baseObject.VisualChildren.SortedAdd(this);
                         }
                         else
                         {
-                            if (baseObject.VisualChildren.Contains(this))
-                            {
-                                baseObject.VisualChildren.Remove(this);
-                                baseObject.VisualChildrenHidden.SortedAdd(this);
-                            }
+                            baseObject.VisualChildren.Remove(this);
+                            baseObject.VisualChildrenHidden.SortedAdd(this);
                         }
                     }
                     NotifyPropertyChanged();
@@ -106,9 +102,9 @@ namespace XSolution
             }, (object value) => { return true; });
             VisibilityUnHidden = new RelayCommand(delegate
             {
-                foreach (var item in VisualChildrenHidden)
+                foreach (var item in VisualChildrenHidden.ToList())
                 {
-                    VisualChildren.SortedAdd(item);
+                    item.Visibility =Visibility;
                 }
                 VisualChildrenHidden.Clear();
             }, (object value) => { return true; });
@@ -257,6 +253,16 @@ namespace XSolution
             return this.Parent.GetAncestor(type);
         }
 
+        public virtual int CompareTo(object obj)
+        {
+            if (obj == null) return -1;
+            if (obj == this) return 0;
+            if (obj is BaseObject baseObject)
+            {
+                return Name.CompareTo(baseObject.Name);
+            }
+            return 0;
+        }
     }
 
 }
