@@ -4,29 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="400" Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
+             d:DesignHeight="1000" d:DesignWidth="400" Initialized="UserControl_Initialized"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
+                <ResourceDictionary Source="/Solution;component/themes/Button.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid >
-        <StackPanel x:Name="HeaderStackPanel"  Width="400" >
-            <UniformGrid Columns="8" >
-                <Button Content="新建" Click="Button_Click_2"/>
-                <Button Content="打开" Click="Button_Click"/>
-                <Button Content="关闭" Click="Close_Click"/>
-                <Button Content="保存" Click="Save_Click"/>
-                <Button Content="应用" Click="Config_Set_Click"/>
-                <Button Content="查找" Click="Button_Click_5" />
-                <Button Content="导出" Click="Button_Click_1"/>
-                <Button Content="导入" Click="Button_Click_4"/>
-            </UniformGrid>
-            <TreeView x:Name="SolutionTreeView"/>
-        </StackPanel>
+        <StackPanel x:Name="HeaderStackPanel"  Width="400"  >
+            <WrapPanel  Height="50"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"  >
+                <Border CornerRadius="4" BorderBrush="black" BorderThickness="1" VerticalAlignment="Top" Margin="0,8,0,0"  >
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" >
+                        <Button Click="Button_Click_2"  Padding="0,0,0,0" Margin="0" Width="48" Height="34" BorderThickness="0" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource new1 }"   ></ContentControl>
+                        </Button>
+                        <Button  Click="Button_Click" Padding="0,0,0,0"  Width="48" Margin="0" Height="34" BorderThickness="0" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource open1 }"   ></ContentControl>
+                        </Button>
 
+                        <Button  Click="Close_Click" Padding="0,0,0,0"  Margin="0" BorderThickness="0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource close1 }"></ContentControl>
+                        </Button>
+                        <Button  Click="Save_Click" HorizontalAlignment="Stretch" Margin="0" Padding="0,0,0,0"   Width="48" Height="34" BorderThickness="0" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource save1 }"></ContentControl>
+                        </Button>
+
+                        <Button  Click="Config_Set_Click"  Padding="0,0,0,0"  Margin="0" BorderThickness="0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource apply1 }"></ContentControl>
+                        </Button>
+                        <Button  Click="Button_Click_5" HorizontalAlignment="Stretch" Margin="0" BorderThickness="0 " Padding="0,0,0,0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource search1 }"></ContentControl>
+                        </Button>
+                        <Button  Click="Button_Click_1" BorderThickness="0 " Margin="0" Padding="0,0,0,0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource export1 }"></ContentControl>
+                        </Button>
+                        <Button  Click="Button_Click_4"  Padding="0,0,0,0" Margin="0" BorderThickness="0 "  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
+                            <ContentControl Template="{StaticResource import1 }"></ContentControl>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+            <Border BorderBrush="#131323" BorderThickness="0" Width="384" CornerRadius="4" Margin="0,8,0,0" Padding="0" Height="auto">
+                <TreeView x:Name="SolutionTreeView" BorderBrush="black" BorderThickness="0"/>
+            </Border>
+        </StackPanel>
         <Grid x:Name="testt22" Visibility="Collapsed" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
             
         </Grid>

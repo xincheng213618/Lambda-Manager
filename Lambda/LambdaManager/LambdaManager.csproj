@@ -128,8 +128,8 @@
     <ProjectReference Include="$(SolutionDir)C#\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="$(SolutionDir)C#\ConfigSetting\ConfigSetting.csproj" />
     <ProjectReference Include="$(SolutionDir)C#\Global.Common\Global.Common.csproj" />
+    <ProjectReference Include="..\..\C#\Register\Register.csproj" />
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
-    <ProjectReference Include="$(SolutionDir)C#\Register\Register.csproj" />
     <ProjectReference Include="$(SolutionDir)C#\Solution\Solution.csproj" />
     <ProjectReference Include="$(SolutionDir)C#\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>

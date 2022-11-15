@@ -427,7 +427,6 @@ namespace Solution
 
         private  void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            MessageBox1.Show("22222222", "grif111",MessageBoxButton.YesNo);
         }
 
 
