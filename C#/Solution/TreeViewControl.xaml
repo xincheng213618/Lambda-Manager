@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="400" Initialized="UserControl_Initialized"   Loaded="UserControl_Loaded">
+             d:DesignWidth="400" Initialized="UserControl_Initialized"   Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type TextBlock}">
@@ -17,42 +17,37 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid >
-        <StackPanel x:Name="HeaderStackPanel"  Width="400"  >
-            <WrapPanel  Height="50"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"  >
-                <Border CornerRadius="4" BorderBrush="black" BorderThickness="1" VerticalAlignment="Top" Margin="0,8,0,0"  >
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" >
+    <Grid  Width="400">
+        <StackPanel x:Name="HeaderStackPanel">
+            <UniformGrid  Columns="8" >
+                <Button Click="Button_Click_2"  Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource new1 }" ></ContentControl>
+                </Button>
+                <Button  Click="Button_Click"  Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource open1 }"   ></ContentControl>
+                </Button>
+                <Button  Click="Close_Click" Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource close1 }"></ContentControl>
+                </Button>
+                <Button  Click="Save_Click"  Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource save1 }"></ContentControl>
+                </Button>
 
-                        <Button Click="Button_Click_2"  Padding="0,0,0,0" Margin="0" Width="48" Height="34" BorderThickness="0" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource new1 }"   ></ContentControl>
-                        </Button>
-                        <Button  Click="Button_Click" Padding="0,0,0,0"  Width="48" Margin="0" Height="34" BorderThickness="0" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource open1 }"   ></ContentControl>
-                        </Button>
+                <Button  Click="Config_Set_Click"  Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource apply1 }"></ContentControl>
+                </Button>
+                <Button  Click="Button_Click_5"  Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource search1 }"></ContentControl>
+                </Button>
+                <Button  Click="Button_Click_1" Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource export1 }"></ContentControl>
+                </Button>
+                <Button  Click="Button_Click_4"   Style="{StaticResource ButtonStyle}">
+                    <ContentControl Template="{StaticResource import1 }"></ContentControl>
+                </Button>
+            </UniformGrid>
 
-                        <Button  Click="Close_Click" Padding="0,0,0,0"  Margin="0" BorderThickness="0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource close1 }"></ContentControl>
-                        </Button>
-                        <Button  Click="Save_Click" HorizontalAlignment="Stretch" Margin="0" Padding="0,0,0,0"   Width="48" Height="34" BorderThickness="0" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource save1 }"></ContentControl>
-                        </Button>
-
-                        <Button  Click="Config_Set_Click"  Padding="0,0,0,0"  Margin="0" BorderThickness="0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource apply1 }"></ContentControl>
-                        </Button>
-                        <Button  Click="Button_Click_5" HorizontalAlignment="Stretch" Margin="0" BorderThickness="0 " Padding="0,0,0,0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource search1 }"></ContentControl>
-                        </Button>
-                        <Button  Click="Button_Click_1" BorderThickness="0 " Margin="0" Padding="0,0,0,0"  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource export1 }"></ContentControl>
-                        </Button>
-                        <Button  Click="Button_Click_4"  Padding="0,0,0,0" Margin="0" BorderThickness="0 "  Width="48" Height="34" Style="{StaticResource ButtonStyle}">
-                            <ContentControl Template="{StaticResource import1 }"></ContentControl>
-                        </Button>
-                    </StackPanel>
-                </Border>
-            </WrapPanel>
-            <Border BorderThickness="0" Width="384" CornerRadius="4" Margin="0,8,0,0" Padding="0" Height="auto">
+            <Border BorderThickness="0"  CornerRadius="4"  Padding="0" Height="auto">
                 <TreeView x:Name="SolutionTreeView"  BorderThickness="0"/>
             </Border>
         </StackPanel>

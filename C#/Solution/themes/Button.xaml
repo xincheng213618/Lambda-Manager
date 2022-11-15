@@ -624,11 +624,9 @@
     <SolidColorBrush x:Key="EnableBack1" Color="#FFF" />
     <SolidColorBrush x:Key="EnableFore" Color="#fff" />
 
-
     <LinearGradientBrush x:Key="EnableBack" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-
                 <GradientStop Color="#999" Offset="0"/>
                 <GradientStop Color="#777" Offset="0.1"/>
                 <GradientStop Color="#333" Offset="0.9"/>
@@ -666,38 +664,24 @@
 
 
 
-
-
-
     <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="OverridesDefaultStyle"
-          Value="true" />
-        <Setter Property="Height" Value="24"/>
-        <Setter Property="Width" Value="28"/>
+        <Setter Property="OverridesDefaultStyle"  Value="true" />
+        <Setter Property="Height" Value="34"/>
+        <Setter Property="Width" Value="48"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="{StaticResource EnableBack}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource EnableFore}"/>
-        <Setter Property="Margin" Value="2"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
 
-                    <Border x:Name="border" Background="{StaticResource EnableBack}" BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" SnapsToDevicePixels="true">
+                    <Border x:Name="border" Background="#595959" BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" SnapsToDevicePixels="true">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <!--<MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="true"/>
-                                <Condition Property="IsMouseOver" Value="true"/>
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource CheckedBack}"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
-                        </MultiTrigger>-->
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{StaticResource mouseOverBack}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
