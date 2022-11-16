@@ -79,7 +79,7 @@
         </Border.Effect>-->
         <DockPanel DockPanel.Dock="Right"  Visibility ="Visible" >
             <StackPanel Width="16"  DockPanel.Dock="Left" Orientation="Horizontal" Margin="-1,0,-1,-1" Visibility="Visible" >
-                <Border Background="#1e1e1e" Margin="0,0,-1,1 " CornerRadius="2,0,0,2" >
+                <Border Background="#1e1e1e" Margin="1,0,0,1 " CornerRadius="2,0,0,2" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>

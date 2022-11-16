@@ -211,11 +211,61 @@ namespace Solution
             }
         }
 
+
+        GrifFile grifFileLastcheck = null;
         private void Grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Grid stackPanel = sender as Grid;
             if (stackPanel.Tag is GrifFile grifFile)
+            {
                 Indexof = SeriesProject.ExportChildren.IndexOf(grifFile);
+                if (Keyboard.IsKeyDown(Key.LeftCtrl)|| Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    grifFile.IsCheck = !grifFile.IsCheck;
+                }
+                else if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                {
+                    if (grifFileLastcheck == null)
+                    {
+                        grifFileLastcheck = grifFile;
+                        return;
+                    }
+                    if (grifFileLastcheck != grifFile)
+                    {
+                        int a = Indexof;
+                        int b = SeriesProject.ExportChildren.IndexOf(grifFileLastcheck);
+
+
+                        if (b == a)
+                            return;
+                        if (b < a)
+                        {
+                            a = a ^ b;
+                            b = a ^ b;
+                            a = a ^ b;
+                        }
+                        for (int i = a; i <= b; i++)
+                        {
+                            if (SeriesProject.ExportChildren[i] is GrifFile grifFile6)
+                                grifFile6.IsCheck = true;
+                        }
+                        return;
+                        
+                    }
+
+
+                }
+                else
+                {
+                    foreach (var item in SeriesProject.ExportChildren)
+                    {
+                        if (item is  GrifFile grifFile1)
+                            grifFile1.IsCheck = false;
+                    }
+                    grifFile.IsCheck = true;
+                }
+                grifFileLastcheck = grifFile;
+            }
             else if (stackPanel.Tag is SeriesProjectExportLine seriesProjectExportLine)
             {
                 Indexof = SeriesProject.ExportChildren.IndexOf(seriesProjectExportLine);

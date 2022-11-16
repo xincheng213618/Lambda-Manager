@@ -24,13 +24,13 @@ namespace Solution
     /// </summary>
     public partial class SeriesExportAsWindow : BaseWindow
     {
-        public SeriesProjectManager seriesProjectManager;
+        public SeriesProjectManager SeriesProject;
 
         public ProjectExportAs ProjectExportAs;
         public SeriesExportAsWindow(SeriesProjectManager seriesProjectManager)
         {
-            this.seriesProjectManager = new SeriesProjectManager(seriesProjectManager.FullName);
-            this.seriesProjectManager.ExportIni();
+            this.SeriesProject = new SeriesProjectManager(seriesProjectManager.FullName);
+            this.SeriesProject.ExportIni();
 
             ProjectExportAs = new ProjectExportAs() { Kinds = SeriesExportKinds.mp4, FullName = seriesProjectManager.FullName, PhotoTime = false };
             this.DataContext = ProjectExportAs;
@@ -40,8 +40,8 @@ namespace Solution
         }
         public SeriesExportAsWindow(SeriesProjectManager seriesProjectManager,SeriesExportKinds seriesExportKinds)
         {
-            this.seriesProjectManager = new SeriesProjectManager(seriesProjectManager.FullName);
-            this.seriesProjectManager.ExportIni();
+            this.SeriesProject = new SeriesProjectManager(seriesProjectManager.FullName);
+            this.SeriesProject.ExportIni();
 
             ProjectExportAs = new ProjectExportAs() { Kinds = seriesExportKinds, FullName = seriesProjectManager.FullName, PhotoTime = false };
             this.DataContext = ProjectExportAs;
@@ -74,7 +74,7 @@ namespace Solution
                     break;
             }
 
-            ProjectExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + seriesProjectManager.Name + "." + kinds;
+            ProjectExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + SeriesProject.Name + "." + kinds;
 
             combobox.ItemsSource = Enum.GetValues(typeof(SeriesExportKinds)).Cast<SeriesExportKinds>();
             for (int i = 0; i < combobox.Items.Count; i++)
@@ -85,6 +85,28 @@ namespace Solution
                     combobox.SelectedIndex = i;
                     break;
                 }
+            }
+
+            foreach (var item in SeriesProject.Meta.DicPoints.Keys)
+            {
+                CheckBox checkBox = new CheckBox() { Content = $"{item.X}  {item.Y}" };
+                checkBox.Click += (s, e) =>
+                {
+                    foreach (var item in SeriesProject.Meta.DicPoints[item])
+                    {
+                        if (checkBox.IsChecked ==true)
+                        {
+                            SeriesProject.ExportChildren.Add(item);
+                        }
+                        else
+                        {
+                            SeriesProject.ExportChildren.Remove(item);
+                        }
+                    }
+
+
+                };
+                StackPanelPoint.Children.Add(checkBox); 
             }
 
         }
@@ -106,10 +128,10 @@ namespace Solution
             ProjectExportAs.Mode = Mode;
             if (ProjectExportAs.ExportAllImages)
             {
-                seriesProjectManager.GetAllExportGrif(seriesProjectManager);
+                SeriesProject.GetAllExportGrif(SeriesProject);
             }
             
-            foreach (var item in seriesProjectManager.ExportChildren)
+            foreach (var item in SeriesProject.ExportChildren)
             {
                 if (item is GrifFile grifFile)
                     ProjectExportAs.FrameList.Add(grifFile.FullName);
@@ -149,7 +171,7 @@ namespace Solution
                         break;
                 }
 
-                ProjectExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + seriesProjectManager.Name + "." + kinds;
+                ProjectExportAs.ExportFullName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + SeriesProject.Name + "." + kinds;
 
             }
 
@@ -201,7 +223,7 @@ namespace Solution
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            SeriesExportAsSettingWindow baseWindow = new SeriesExportAsSettingWindow(seriesProjectManager);
+            SeriesExportAsSettingWindow baseWindow = new SeriesExportAsSettingWindow(SeriesProject);
             baseWindow.ShowDialog();
         }
 

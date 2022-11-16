@@ -40,7 +40,7 @@
                     </Grid.RowDefinitions>
                     <DockPanel >
                         <TextBlock x:Name="TextBock1" Text="导出系列文件名称:" Margin="0,0,0,5"/>
-                        <Button x:Name="FilterButton" Click="FilterButton_Click" HorizontalAlignment="Center" Content="过滤"/>
+                        <Button x:Name="FilterButton"  Click="FilterButton_Click" HorizontalAlignment="Center" Content="过滤"/>
                     </DockPanel>
                     <Border BorderThickness="1"  Grid.Row="1" CornerRadius="3" >
                         <Border.BorderBrush>
@@ -78,13 +78,8 @@
 
                     </Border>
                 </Grid>
-
-
-
-
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <Button Content=">>" Click="Button_Click_01" Margin="0,10"/>
-
                     <Button Content=">" Click="Button_Click_02" Margin="0,10"/>
                     <Button Content="&lt;" Click="Button_Click_03"  Margin="0,10"/>
                     <Button Content="&lt;&lt;" Click="Button_Click_04"  Margin="0,10"/>
@@ -185,9 +180,8 @@
                                 </Style>
                             </TreeView.ItemContainerStyle>
                             <TreeView.Resources>
-                               
                                 <HierarchicalDataTemplate  DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                    <Grid MouseDown="Grid_MouseRightButtonDown" Tag="{Binding .}">
+                                    <Grid MouseDown="Grid_MouseRightButtonDown" Background="#333333" Tag="{Binding .}">
                                         <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0" />
                                         <Border Background="Red" Opacity="0.5" Visibility="{Binding IsCheck,Converter={StaticResource bool2VisibilityConverter}}" />
                                     </Grid>
