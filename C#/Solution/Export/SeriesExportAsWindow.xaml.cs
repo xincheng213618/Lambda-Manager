@@ -15,6 +15,8 @@ using System.Linq;
 using System.Windows.Shell;
 using System.IO;
 using Global.Common;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Solution
 {
@@ -116,10 +118,34 @@ namespace Solution
                     ProjectExportAs.FrameList.Add(grifFile.FullName);
             }
 
-
-            LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
-            this.Close();
+            WaitGrid.Visibility = Visibility.Visible;
+            this.Cursor = Cursors.Wait;
+            Thread thread = new Thread(Load);
+            thread.Start();
+            Thread thread1 = new(()=> Load1(ProjectExportAs.FrameList.Count));
+            thread1.Start();
         }
+
+        public void Load1(int millisecondsTimeout)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                Thread.Sleep(millisecondsTimeout);
+                Dispatcher.BeginInvoke(new Action(() => ProgressBar.Value += 1));
+            }
+        }
+
+
+        public async void Load()
+        {
+            Thread.Sleep(ProjectExportAs.FrameList.Count*100);
+            LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
+            await Dispatcher.BeginInvoke(new Action(() => ProgressBar.Value = 100));
+            await Task.Delay(100);
+            _ = Dispatcher.BeginInvoke(new Action(() => this.Close()));
+        }
+
+
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

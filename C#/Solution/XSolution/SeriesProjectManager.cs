@@ -41,7 +41,7 @@ namespace XSolution
             FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullName, "derives"));
         }
 
-        public ObservableCollection<BaseObject> ExportChildren { get; set; }
+        public ObservableCollection<GrifFile> ExportChildren { get; set; }
 
         public ObservableCollection<GrifFile> AllGrifChildren { get; set; }
 
@@ -121,7 +121,7 @@ namespace XSolution
                 BaseObject baseObject = FromDirectories(new ProjectFolder(item.FullName), item);
                 AddChild(baseObject);
             }
-            ExportChildren = new ObservableCollection<BaseObject>();
+            ExportChildren = new ObservableCollection<GrifFile>();
             AllGrifChildren = new ObservableCollection<GrifFile>();
 
             Meta = new SeriesProjectMeta();
@@ -190,8 +190,8 @@ namespace XSolution
             {
                 if (item is ProjectFolder)
                     GetAllExportGrif(item);
-                if (item is GrifFile)
-                    ExportChildren.Add(item);
+                if (item is GrifFile grifFile)
+                    ExportChildren.Add(grifFile);
             }
         }
 

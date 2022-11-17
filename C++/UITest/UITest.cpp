@@ -312,7 +312,7 @@ int PlayFilm(std::string fileName) {
 
 		if (pView->IsState(ViewState::CLOSED)) {
 			delete pView;
-			writer.release();
+			//writer.release();
 			break;
 		} 
 	}

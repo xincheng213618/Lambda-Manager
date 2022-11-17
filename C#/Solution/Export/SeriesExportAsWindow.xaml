@@ -18,7 +18,7 @@
         <Grid Grid.Row="0" x:Name="WindowTitleGrid" WindowChrome.IsHitTestVisibleInChrome="True">
             <TextBlock  x:Name="WindowTitleText" Text="系列导出" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Margin="10,-20,0,0" FontSize="15" HorizontalAlignment="Left"></TextBlock>
         </Grid>
-        <Grid>
+        <Grid Grid.Row="0">
             <DockPanel  >
                 <UniformGrid Columns="2" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10">
                     <Button Content="取消" Height="20" Width="75" Margin="5,0" Click="Cancel_Click"/>
@@ -85,7 +85,12 @@
 
                 </Border>
             </DockPanel>
-
+        </Grid>
+        <Grid x:Name="WaitGrid" Visibility="Collapsed"  Grid.Row="0"   Margin="0,10,0,0">
+            <Border Opacity="0.7" CornerRadius="0,0,10,10" Background="#373B41"/>
+            <Border  Opacity="0.9" Margin="10" CornerRadius="4">
+                <ProgressBar x:Name="ProgressBar" IsIndeterminate="False" Height="10" Value="0" Foreground="#6EA646" Background="#242627" BorderThickness="0" Margin="5" VerticalAlignment="Center" />
+            </Border>
         </Grid>
 
     </Grid>

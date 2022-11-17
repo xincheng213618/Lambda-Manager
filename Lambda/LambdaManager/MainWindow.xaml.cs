@@ -1,26 +1,19 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Lambda;
 using LambdaCore;
-using LambdaManager.Config;
 using LambdaManager.Core;
 using LambdaManager.Features;
 using LambdaManager.Mode;
 using LambdaManager.Properties;
 using LambdaManager.Utils;
-using Global.Mode;
 using ThemeManager;
 using ThemeManager.Controls;
 

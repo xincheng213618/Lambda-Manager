@@ -720,7 +720,7 @@
                     
                     <StackPanel Name="focusModePanel">
                         <CheckBox Content="自动优化" Name="Optimized" IsChecked="{Binding OptimizedSel}" FontSize="14" HorizontalAlignment="Right" Margin="0,0,10,0" ></CheckBox>
-                        <Border x:Name="Border521"  Visibility="{Binding ElementName=Button521 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
+                        <Border x:Name="Border521"  Visibility="Visible" Padding="5">
                             <StackPanel IsEnabled="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource InverseBooleanConverter}}" DataContext="{Binding UserDefined}" >
                                 
                                     <UniformGrid Columns="2" Rows="2" >

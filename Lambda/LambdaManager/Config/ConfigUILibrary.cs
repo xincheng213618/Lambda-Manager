@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using LambdaManager.Core;
 using LambdaManager.DataType;
-using Quartz;
 
 namespace LambdaManager.Config;
 

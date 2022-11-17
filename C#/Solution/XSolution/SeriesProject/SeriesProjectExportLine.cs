@@ -2,9 +2,9 @@
 
 namespace XSolution
 {
-    public class SeriesProjectExportLine : BaseObject
+    public class SeriesProjectExportLine : GrifFile
     {
-        public SeriesProjectExportLine() : base("Line")
+        public SeriesProjectExportLine(string FullPath ="Line") : base(FullPath)
         {
 
         }
