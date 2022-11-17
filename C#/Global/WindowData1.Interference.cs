@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Global
 {
-    public partial class WindowData
+    public partial class WindowData1
     {
         public void Interference()
         {

@@ -22,13 +22,13 @@ namespace Global
     /// <summary>
     /// 监听CallEventHandler事件
     /// </summary>
-    public partial class WindowData
+    public partial class WindowData1
     {
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;
         public DrawInkMethod inkMethod = new DrawInkMethod();
         Window mainwin = Application.Current.MainWindow;
-        public  InkVisual[] inkVisuals = new InkVisual[6];
+        public InkVisual[] inkVisuals = new InkVisual[6];
        
 
         public void AddImageConfident(Image image1, int viewindex)

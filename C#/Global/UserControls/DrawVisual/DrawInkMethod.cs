@@ -144,41 +144,30 @@ namespace Global
         //}
         private  void ActiveViewChanged()
         {
-           
+
             ActiveViews.PropertyChanged += (s, e) =>
             {
                 viewCount = 0;
-                Window mainwin = System.Windows.Application.Current.MainWindow;
-                Grid grid = (Grid)mainwin.FindName("grid0");
-                Grid grid1= grid.Parent as Grid;
-                foreach(var item in grid1.Children)
-                {
-                    if (item is Grid)
+                if (Application.Current.MainWindow.FindName("grid0") is Grid grid && grid.Parent is Grid grid1){
+                    foreach (var item in grid1.Children)
                     {
-                        Color color = (Color)ColorConverter.ConvertFromString("Transparent");
-                        InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
-                         viewCount++;
+                        if (item is Grid)
+                        {
+                            Color color = (Color)ColorConverter.ConvertFromString("Transparent");
+                            InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
+                            viewCount++;
 
+                        }
+                    }
+                    if (viewCount > 1)
+                    {
+                        Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
+                        InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
                     }
                 }
-                if (viewCount > 1)
-                {
-                    Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
-                    InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
-
-                }
-
-
-
-
-
             };
-
-
-
         }
-       
-    public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
+        public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
 
         public Stroke GenerateLineStroke(System.Windows.Point st, System.Windows.Point ed)
         {

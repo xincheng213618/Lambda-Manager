@@ -12,6 +12,43 @@ using Global.Setting;
 namespace Global
 {
 
+    public partial class WindowData1
+    {
+        private static WindowData1 _instance;
+        private static readonly object _locker = new();
+
+        public static WindowData1 GetInstance()
+        {
+            lock (_locker) { _instance ??= new WindowData1(); }
+            return _instance;
+        }
+
+        public MulDimensional MulDimensional = WindowData.GetInstance().MulDimensional;
+
+        public Stage Stage = WindowData.GetInstance().Stage;
+
+        public OperatingMode OperatingMode = WindowData.GetInstance().OperatingMode;
+
+
+        public SolutionConfig SolutionConfig = WindowData.GetInstance().SolutionConfig;
+        public MulSummary mulSummary = WindowData.GetInstance().mulSummary;
+        public UpdateStatus updateStatus = WindowData.GetInstance().updateStatus;
+        public ImageViewState ImageViewState = WindowData.GetInstance().ImageViewState;
+
+        public MapModel mapModel = WindowData.GetInstance().mapModel;
+
+        private WindowData1()
+        {
+            Interference();
+            AddEventHandler();
+            AddInjection();
+            AddInjection1();
+        }
+    }
+
+
+
+
     public partial class WindowData
     {
         private static WindowData _instance;
@@ -33,11 +70,7 @@ namespace Global
             Common.Config.ConfigReadEvent += ReadConfig;
             Common.Config.ConfigSetEvent += SetValue;
             Common.Config.ConfigWriteEvent += SaveConfig;
-            Interference();
             Hardware_Initialized();
-            AddEventHandler();
-            AddInjection();
-            AddInjection1();
         }
 
         public string FilePath;
@@ -50,6 +83,8 @@ namespace Global
         
 
         public SolutionConfig SolutionConfig = new();
+        public MulSummary mulSummary = new();
+        public UpdateStatus updateStatus = new();
 
 
         public void SetValue()
@@ -94,6 +129,7 @@ namespace Global
         /// <returns></returns>
         public int ReadConfig(string ConfigFullName)
         {
+
             if (!File.Exists(ConfigFullName))
             {
                 MessageBox.Show("找不到工程文件。");

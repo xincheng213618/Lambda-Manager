@@ -22,6 +22,8 @@ namespace ConfigObjective
         public ToolControl()
         {
             windowData = WindowData.GetInstance();
+            WindowData1.GetInstance();
+
             Update.UpdateEvent += UpdateGlobal;
             InitializeComponent();
             InitCheckList();

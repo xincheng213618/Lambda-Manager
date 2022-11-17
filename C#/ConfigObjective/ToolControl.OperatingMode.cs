@@ -268,9 +268,9 @@ namespace ConfigObjective
                 if (OperatingMode.SelectViewMode == 4)
                 {
                     Border2.DataContext = OperatingMode.QuantitativePhase.CameraSetting;
-                    windowData.histogramModel.Phase = true;
-                    windowData.histogramModel.XAxisMin = -10;
-                    windowData.histogramModel.XAxisMax = 10;
+                    WindowData1.GetInstance().histogramModel.Phase = true;
+                    WindowData1.GetInstance().histogramModel.XAxisMin = -10;
+                    WindowData1.GetInstance().histogramModel.XAxisMax = 10;
                   
 
                 }
@@ -288,9 +288,9 @@ namespace ConfigObjective
 
         private void Button35_Unchecked(object sender, RoutedEventArgs e)
         {
-            windowData.histogramModel.Phase = false;
-            windowData.histogramModel.XAxisMin = 0;
-            windowData.histogramModel.XAxisMax = 255;
+            WindowData1.GetInstance().histogramModel.Phase = false;
+            WindowData1.GetInstance().histogramModel.XAxisMin = 0;
+            WindowData1.GetInstance().histogramModel.XAxisMax = 255;
            
         }
 

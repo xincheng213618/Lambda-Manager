@@ -15,7 +15,7 @@ using System.Windows.Resources;
 
 namespace Global
 {
-    public partial class WindowData
+    public partial class WindowData1
     {
        
         private void AddInjection1()
@@ -323,8 +323,8 @@ namespace Global
                 };
                 DrawInkMethod.StaticPropertyChanged += delegate
                 {
-                    DrawInkMethod.ActiveInk = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
-                    foreach(InkVisual k in WindowData.GetInstance().inkVisuals)
+                    DrawInkMethod.ActiveInk = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
+                    foreach(InkVisual k in WindowData1.GetInstance().inkVisuals)
                     {
                         if (k != null)
                         {
@@ -341,12 +341,12 @@ namespace Global
                         }
                     }
                     DrawInkMethod.defdimenViewModel.DefDimReadOnly = false;
-                    WindowData.GetInstance().updateStatus.Ratio =(int)(Math.Round( WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio,2)*100);
+                    WindowData.GetInstance().updateStatus.Ratio =(int)(Math.Round( WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio,2)*100);
                   
-                    DrawInkMethod.defdimenViewModel.DimPos = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimPos;
-                    DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimColor;
-                    DrawInkMethod.defdimenViewModel.Length = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimLength;
-                    DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.TextColor;
+                    DrawInkMethod.defdimenViewModel.DimPos = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimPos;
+                    DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimColor;
+                    DrawInkMethod.defdimenViewModel.Length = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimLength;
+                    DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.TextColor;
                     DrawInkMethod.defdimenViewModel.DefDimReadOnly = true;
 
 

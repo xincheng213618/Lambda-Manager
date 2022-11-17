@@ -34,7 +34,7 @@ namespace Global
     /// <summary>
     /// 监听AddInjection事件
     /// </summary>
-    public partial class WindowData
+    public partial class WindowData1
     {
         public TabItem propertySetItem;
         public TabControl tabControl;
@@ -563,7 +563,7 @@ namespace Global
                                 menuItem.Click += delegate
                                 {
 
-                                    WindowData.ExportAs("bmp");
+                                    WindowData1.ExportAs("bmp");
                                 };
                                 contextMenu.Items.Add(menuItem);
                                 inkVisuals[0].inkCanvas.ContextMenu = contextMenu;

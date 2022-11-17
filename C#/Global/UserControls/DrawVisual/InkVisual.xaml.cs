@@ -35,8 +35,7 @@ namespace Global.UserControls.DrawVisual
     {
 
         public InkVisual(int index1,Image image1, ImageViewState.ToolTop ToolTop)
-        
-            {
+        {
             InitializeComponent();
             this.ToolTop = ToolTop;
             //this.inkMethod = inkMethod;
@@ -150,7 +149,7 @@ namespace Global.UserControls.DrawVisual
 
                 DrawInkMethod.ActiveViews.ActiveWin = 0;
                 Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
-                InkAll[0].Border.BorderBrush = new SolidColorBrush(color);
+                WindowData1.GetInstance().inkVisuals[0].Border.BorderBrush = new SolidColorBrush(color);
             }
 
 
@@ -1610,7 +1609,7 @@ namespace Global.UserControls.DrawVisual
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            WindowData.ExportAs("bmp");
+            WindowData1.ExportAs("bmp");
         }
 
         private void inkCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -1636,7 +1635,7 @@ namespace Global.UserControls.DrawVisual
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
            
-            InkAll = WindowData.GetInstance().inkVisuals;
+            InkAll = WindowData1.GetInstance().inkVisuals;
            
         }
     }
