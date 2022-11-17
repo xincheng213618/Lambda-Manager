@@ -972,7 +972,7 @@ namespace ThemeManager.Rangeslider
         }
 
         public static readonly RoutedEvent DragEvent = EventManager.RegisterRoutedEvent("DragEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(RangeSlider));
-        public event RoutedEventHandler DragOver
+        public new event RoutedEventHandler DragOver
         {
             add
             {

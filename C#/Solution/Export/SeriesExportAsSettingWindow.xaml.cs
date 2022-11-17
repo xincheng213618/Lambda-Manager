@@ -10,6 +10,7 @@ using System.Windows.Media;
 using XSolution.SeriesProject;
 using System.Collections.Generic;
 using System.Linq;
+using Global.Common.Extensions;
 
 namespace Solution
 {
@@ -35,18 +36,17 @@ namespace Solution
         {
             //SeriesExportTreeView2.PreviewMouseMove += SeriesExportTreeView2_PreviewMouseMove;
             //SeriesExportTreeView2.QueryContinueDrag += SeriesExportTreeView2_QueryContinueDrag;
-
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem = new MenuItem() { Header ="点"};
             foreach (var item in SeriesProject.Meta.DicPoints.Keys)
             {
-                MenuItem menuItem3 = new MenuItem() { Header = $"{item.X}  {item.Y}" };
+                MenuItem menuItem3 = new MenuItem() { Header = $"{item.X}  {item.Y}", IsChecked = true };
                 menuItem3.Click += (s, e) =>
                 {
                     menuItem3.IsChecked = !menuItem3.IsChecked;
                     foreach (var item in SeriesProject.Meta.DicPoints[item])
                     {
-                        if (menuItem3.IsChecked)
+                        if (!menuItem3.IsChecked)
                         {
                             item.Visibility =Visibility.Hidden; 
                         }
@@ -61,18 +61,24 @@ namespace Solution
             MenuItem menuItem1 = new MenuItem() { Header = "聚焦层面" };
             foreach (var item in SeriesProject.Meta.DicZ.Keys)
             {
-                MenuItem menuItem3 = new MenuItem() { Header = $"{item}层" };
+                MenuItem menuItem3 = new MenuItem() { Header = $"{item}层" ,IsChecked =true };
                 menuItem3.Click += (s, e) =>
                 {
                     menuItem3.IsChecked = !menuItem3.IsChecked;
                     foreach (var item in SeriesProject.Meta.DicZ[item])
                     {
-                        if (menuItem3.IsChecked)
+                        if (!menuItem3.IsChecked)
                         {
                             item.Visibility = Visibility.Hidden;
                         }
                         else
                         {
+                            foreach (var item2 in menuItem.Items)
+                            {
+                                if (item2 is MenuItem menuItem5)
+                                    menuItem5.IsChecked = true;
+                            }
+
                             item.Visibility = Visibility.Visible;
                         }
                     }
@@ -83,18 +89,29 @@ namespace Solution
             MenuItem menuItem2 = new MenuItem() { Header = "拍摄模式" };
             foreach (var item in SeriesProject.Meta.DicOM.Keys)
             {
-                MenuItem menuItem3 = new MenuItem() { Header = $"{item}层" };
+                MenuItem menuItem3 = new MenuItem() { Header = $"{item}层", IsChecked = true };
                 menuItem3.Click += (s, e) =>
                 {
                     menuItem3.IsChecked = !menuItem3.IsChecked;
                     foreach (var item in SeriesProject.Meta.DicOM[item])
                     {
-                        if (menuItem3.IsChecked)
+                        if (!menuItem3.IsChecked)
                         {
                             item.Visibility = Visibility.Hidden;
                         }
                         else
                         {
+                            foreach (var item2 in menuItem.Items)
+                            {
+                                if (item2 is MenuItem menuItem5)
+                                    menuItem5.IsChecked = true;
+                            }
+                            foreach (var item2 in menuItem1.Items)
+                            {
+                                if (item2 is MenuItem menuItem5)
+                                    menuItem5.IsChecked = true;
+                            }
+
                             item.Visibility = Visibility.Visible;
                         }
                     }
@@ -323,21 +340,15 @@ namespace Solution
 
         private void Button_Click_03(object sender, RoutedEventArgs e)
         {
-            foreach (var item in SeriesProject.ExportChildren.ToList())
-            {
-                if (item is GrifFile grifFile && grifFile.IsCheck)
-                {
-                    SeriesProject.ExportChildren.Remove(item);
-                }
-            }
+            SeriesProject.ExportChildren.RemoveAll(x => x is GrifFile girf && girf.IsCheck);
         }
+
         private void Button_Click_04(object sender, RoutedEventArgs e)
         {
             SeriesProject.ExportChildren.Clear();
         }
 
-
-        int Indexof1 = 0;
+        public int Indexof1 = 0;
         private void StackPanel1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             StackPanel stackPanel = sender as StackPanel;
@@ -490,10 +501,7 @@ namespace Solution
         {
             TreeViewItem treeViewItem = sender as TreeViewItem;
             treeViewItem.BringIntoView();
-
         }
-
-
     }
 
 

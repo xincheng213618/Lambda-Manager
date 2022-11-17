@@ -11,20 +11,20 @@ namespace Global.Common.Extensions
     /// </summary>
     public static class DictionaryExtensions
     {
-        public static string GetString(this Dictionary<string, object>? keyValuePairs, string key)
+        public static string GetString(this Dictionary<string, object>? This, string key)
         {
-            if (keyValuePairs.ContainsKey(key)&& keyValuePairs[key] is string value)
+            if (This.ContainsKey(key)&& This[key] is string value)
             {
                 return value;
             }
             return string.Empty;
         }
 
-        public static object GetValue(this Dictionary<string, object>? keyValuePairs, string key)
+        public static object GetValue(this Dictionary<string, object>? This, string key)
         {
-            if (keyValuePairs.ContainsKey(key))
+            if (This.ContainsKey(key))
             {
-                return keyValuePairs[key];
+                return This[key];
             }
             return null;
         }

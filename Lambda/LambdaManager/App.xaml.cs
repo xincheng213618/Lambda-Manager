@@ -52,11 +52,8 @@ partial class App : Application
     {
         //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
         Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-Hans");
-
-
         StartWindow startWindow = new StartWindow();
         startWindow.Show();
-
     }
 
     /// <summary>

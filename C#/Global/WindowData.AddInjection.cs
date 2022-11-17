@@ -42,6 +42,7 @@ namespace Global
         public List<ToggleButton> DrawingModeList;
          gallery galleryView;
         GalleryTool galleryTool;
+
         private void AddInjection()
         {
 

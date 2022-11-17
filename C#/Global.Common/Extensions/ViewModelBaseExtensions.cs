@@ -11,32 +11,24 @@ namespace Global.Common.Extensions
         /// <summary>
         /// 导出json
         /// </summary>
-        public static string ToJson(this ViewModelBase viewModeBase)
+        public static string ToJson(this ViewModelBase This)
         {
-            if (viewModeBase == null)   
-                throw new ArgumentNullException(nameof(viewModeBase));
-            return JsonHelper.ToJson(viewModeBase);
+            return JsonHelper.ToJson(This);
         }
 
-        public static int ToJsonFile(this ViewModelBase viewModeBase, string filePath)
+        public static int ToJsonFile(this ViewModelBase This, string filePath)
         {
-            if (viewModeBase == null)
-                throw new ArgumentNullException(nameof(viewModeBase));
-            return JsonHelper.ToJsonFile(viewModeBase, filePath, false);
+            return JsonHelper.ToJsonFile(This, filePath, false);
         }
 
-        public static string ToXML(this ViewModelBase viewModeBase)
+        public static string ToXML(this ViewModelBase This)
         {
-            if (viewModeBase == null)
-                throw new ArgumentNullException(nameof(viewModeBase));
-            return viewModeBase.SerializeXml();
+            return This.SerializeXml();
         }
 
-        public static int ToXMLFile(this ViewModelBase viewModeBase, string filePath)
+        public static int ToXMLFile(this ViewModelBase This, string filePath)
         {
-            if (viewModeBase == null)
-                throw new ArgumentNullException(nameof(viewModeBase));
-            return XMLHelpr.ToXMLFile(viewModeBase, filePath);
+            return XMLHelpr.ToXMLFile(This, filePath);
         }
     }
 }

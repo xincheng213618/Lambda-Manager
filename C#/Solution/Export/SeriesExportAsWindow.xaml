@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="550" Width="500" Background="{DynamicResource GlobalBackgroundBrush}" SizeToContent="Height"  WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
+        Height="450" Width="500" Background="{DynamicResource GlobalBackgroundBrush}"  WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -63,18 +63,6 @@
                                     </StackPanel>
                                 </UniformGrid>
 
-                            </GroupBox>
-
-                            <GroupBox Header="选择导出图像" BorderThickness="1" BorderBrush="#454545" Visibility="{Binding ElementName=CheckBoxExportAll, Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" Padding="5" Margin="0,10">
-                                <UniformGrid Columns="2">
-                                    <StackPanel x:Name="StackPanelPoint">
-                                        
-
-                                    </StackPanel>
-                                    <StackPanel>
-                                        
-                                    </StackPanel>
-                                </UniformGrid>
                             </GroupBox>
 
                             <GroupBox Header="临时添加标注" BorderThickness="2" BorderBrush="#454545" Padding="5"  Margin="0,10">

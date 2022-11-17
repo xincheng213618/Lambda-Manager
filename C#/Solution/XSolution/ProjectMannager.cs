@@ -57,7 +57,7 @@ namespace XSolution
             base.AddChild(baseObject);
             //添加到主窗口中
             if (FullName.Contains("Image")|| FullName.Contains("Video"))
-                GetAncestor(typeof(SolutionExplorer))?.AddChild(baseObject);
+                this.GetAncestor<SolutionExplorer>()?.AddChild(baseObject);
        }
     }
 }

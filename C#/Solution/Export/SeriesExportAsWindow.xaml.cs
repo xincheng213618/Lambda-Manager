@@ -87,27 +87,6 @@ namespace Solution
                 }
             }
 
-            foreach (var item in SeriesProject.Meta.DicPoints.Keys)
-            {
-                CheckBox checkBox = new CheckBox() { Content = $"{item.X}  {item.Y}" };
-                checkBox.Click += (s, e) =>
-                {
-                    foreach (var item in SeriesProject.Meta.DicPoints[item])
-                    {
-                        if (checkBox.IsChecked ==true)
-                        {
-                            SeriesProject.ExportChildren.Add(item);
-                        }
-                        else
-                        {
-                            SeriesProject.ExportChildren.Remove(item);
-                        }
-                    }
-
-
-                };
-                StackPanelPoint.Children.Add(checkBox); 
-            }
 
         }
 

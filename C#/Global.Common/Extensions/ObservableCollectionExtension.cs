@@ -5,13 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XSolution
+namespace Global.Common.Extensions
 {
     /// <summary>
     /// ObservableCollection 类的一些扩展函数。
     /// </summary>
     public static class ObservableCollectionExtension
     {
+        /// <summary>
+        /// RemoveAll for ObservableCollections
+        /// </summary>
+        /// https://stackoverflow.com/questions/5118513/removeall-for-observablecollections
+        public static int RemoveAll<T>(this ObservableCollection<T> This, Func<T, bool> condition)
+        {
+            var itemsToRemove = This.Where(condition).ToList();
+
+            foreach (var itemToRemove in itemsToRemove)
+            {
+                This.Remove(itemToRemove);
+            }
+
+            return itemsToRemove.Count;
+        }
+
         /// <summary>
         /// 对集合进行升序排序。
         /// </summary>

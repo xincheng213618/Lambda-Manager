@@ -18,15 +18,13 @@ namespace XSolution
     {
         public virtual bool IsFolder { get; set; } = true;
 
-        private SolutionExplorer solutionExplorer = null;
-
         public ImageSource Icon { get; set; }
 
         public SolutionExplorer SolutionExplorer
         { 
             get 
             {
-                return solutionExplorer ??= (SolutionExplorer)GetAncestor(typeof(SolutionExplorer));
+                return this.GetAncestor<SolutionExplorer>();
             } 
             protected set { }
         }
