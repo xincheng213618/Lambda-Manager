@@ -1,8 +1,11 @@
-## [1.3.11] 2022-11-17
+## [1.3.11] 2022-11-18
 
 - 重构 GetAncestor  ->  BaseObjectExtensions  ,并且泛型化✔
 - 导出模块的一些小的BUG修改与重构✔
 - 添加重构 RemoveAll -> ObservableCollectionExtension✔
+- Fix merge huanghuang 引起的BUG ✔
+- 拆分Global✔
+- 重构图标✔
 
 ## [1.3.10] 2022-11-15
 
