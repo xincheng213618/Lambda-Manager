@@ -24,28 +24,12 @@ namespace WpfApp5
         public gallery()
         {
             InitializeComponent();
-            products.Add(product1);
-            products.Add(product2);
-            products.Add(product3);
-            products.Add(product4);
-            products.Add(product5);
-            products.Add(product6);
-            products.Add(product7);
-            products.Add(product8);
 
             Lis.ItemsSource = products;
         }
 
       public static  ObservableCollection<Product> products = new ObservableCollection<Product>();
 
-        Product product1 = new Product("1", "1.png");
-        Product product2 = new Product("2", "2.png");
-        Product product3 = new Product("3", "3.png");
-        Product product4 = new Product("4", "4.png");
-        Product product5 = new Product("5", "5.png");
-        Product product6 = new Product("6", "6.png");
-        Product product7 = new Product("7", "7.png");
-        Product product8 = new Product("8", "8.png");
 
         private void StackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

@@ -17,53 +17,57 @@
 
     <Grid >
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="关于多模态显微镜" FontSize="15" Margin="10,-20,0,0"/>
-        <Grid Margin="20,10,0,10">
+        <Grid Margin="20,10,10,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Width="400" HorizontalAlignment="Left" >
-                <DockPanel Margin="0,0,0,5" >
-                    <TextBlock Text="用户名：" />
-                    <TextBlock x:Name="H5a1" Text="{Binding UserName}"/>
-                </DockPanel>
-                <StackPanel Margin="0,0,0,5">
-                    <TextBlock Text="已安装的模块："  Width="100" HorizontalAlignment="Left"/>
-                    <ListView x:Name="ListView1" Height="150" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListView1_SelectionChanged">
-                        <ListView.View>
-                            <GridView >
-                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
-                                    <GridViewColumn.CellTemplate  >
-                                        <DataTemplate >
-                                            <Border  Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
-                                                <Grid Margin="0,2,30,2" >
- 
-                                                    <TextBlock TextTrimming = "CharacterEllipsis">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" Width="75" Height="100" Margin="0,-100,0,0">
+                    <Button Content="复制信息" Margin="0,5"/>
+                    <Button Content="系统信息" Click="Button1_Click" Margin="0,5"/>
+                    <Button Content="DxDiag" Click="Button2_Click" Margin="0,5"/>
+                </StackPanel>
+                <StackPanel>
+                    <BulletDecorator >
+                        <BulletDecorator.Bullet>
+                            <TextBlock Text="用户名：" />
+                        </BulletDecorator.Bullet>
+                        <TextBlock x:Name="H5a1" Text="{Binding UserName}"/>
+                    </BulletDecorator>
+                    <StackPanel Margin="0,0,0,5">
+                        <TextBlock Text="已安装的模块："  Width="100" HorizontalAlignment="Left"/>
+                        <ListView x:Name="ListView1" Height="150" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListView1_SelectionChanged">
+                            <ListView.View>
+                                <GridView >
+                                    <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
+                                        <GridViewColumn.CellTemplate  >
+                                            <DataTemplate >
+                                                <Border  Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
+                                                    <Grid Margin="0,2,30,2" >
+
+                                                        <TextBlock TextTrimming = "CharacterEllipsis">
                                                         <Run Text="{Binding Path=Name}"/>
                                                         <Run Text="+"/>
                                                         <Run Text="{Binding Path=Version}"/>
-                                                    </TextBlock>
-  
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </StackPanel>
-                <StackPanel Margin="0,0,0,5">
-                    <TextBlock Text="详细信息：" />
-                    <TextBlock x:Name="TextBlock1" Text="{Binding Path=Description}" Margin="5,10"/>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Right" Width="75" Height="100" Margin="0,-100,0,0">
-                <Button Content="复制信息" Margin="0,5"/>
-                <Button Content="系统信息" Click="Button1_Click" Margin="0,5"/>
-                <Button Content="DxDiag" Click="Button2_Click" Margin="0,5"/>
+                                                        </TextBlock>
 
-            </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,5">
+                        <TextBlock Text="详细信息：" />
+                        <TextBlock x:Name="TextBlock1" Text="{Binding Path=Description}" Margin="5,10"/>
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+
             
             
             <StackPanel Grid.Row="1" VerticalAlignment="Bottom" >

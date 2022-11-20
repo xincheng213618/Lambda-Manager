@@ -58,7 +58,7 @@ namespace XSolution
             string Extension = Path.GetExtension(FullName);
             foreach (var item in ProjectFileDic)
             {
-                if (item.Key.Contains(Extension))
+                if (item.Key.Contains(Extension)|| item.Key.Contains(".*"))
                 {
                     return (BaseObject)Activator.CreateInstance(item.Value, FullName);
                 }

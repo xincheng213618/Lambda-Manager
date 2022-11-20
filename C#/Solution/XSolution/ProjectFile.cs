@@ -55,7 +55,7 @@ namespace XSolution
             Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
 
             OpenFileCommand = new RelayCommand(OpenFile, (object value) => { return true; });
-            AttributesCommand = new RelayCommand(OpenFile, (object value) => { return false; });
+            AttributesCommand = new RelayCommand(delegate { FileProperties.ShowFileProperties(FullName); }, (object value) => { return true; });
 
             Task.Run(CalculSize);
         }
@@ -164,7 +164,7 @@ namespace XSolution
         }
         public string[] SupportExtensions()
         {
-            return new string[] { ".png", ".jpg", ".tiff", ".bmp", ".txt" };
+            return new string[] { ".png", ".jpg", ".tiff", ".bmp", ".txt" ,".*" };
         }
     }
 }

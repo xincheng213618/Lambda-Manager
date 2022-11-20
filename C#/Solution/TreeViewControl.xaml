@@ -6,7 +6,9 @@
              mc:Ignorable="d" 
              d:DesignWidth="400" Initialized="UserControl_Initialized"   Loaded="UserControl_Loaded">
     <UserControl.Resources>
+        
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
                 <ResourceDictionary Source="/Solution;component/themes/Button.xaml"/>

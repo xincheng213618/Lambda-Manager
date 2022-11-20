@@ -12,6 +12,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ThemeManager;component/Styles/Dark.xaml"/>
+                <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />
                 <ResourceDictionary Source="/ConfigObjective;component/themes/Base.xaml"/>
                 <ResourceDictionary Source="/ConfigObjective;component/themes/buttonstyle.xaml"/>
                 <ResourceDictionary Source="/ConfigObjective;component/themes/Slider.xaml"/>

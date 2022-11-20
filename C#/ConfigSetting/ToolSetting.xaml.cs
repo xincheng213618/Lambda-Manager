@@ -161,6 +161,10 @@ namespace ConfigSetting
         {
             LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 }});
         }
+        private void Button_Click_31(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 1 } });
+        }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
@@ -199,5 +203,7 @@ namespace ConfigSetting
                 MessageBox.Show(firmwareUpdate.UpdateUrl);
             }
         }
+
+
     }
 }
