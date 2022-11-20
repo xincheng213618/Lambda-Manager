@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace Global.Common.Util
 {
-    public static class XMLHelpr
+    public static class XML
     {
         /// <summary>
         /// 对象序列化成XML文件

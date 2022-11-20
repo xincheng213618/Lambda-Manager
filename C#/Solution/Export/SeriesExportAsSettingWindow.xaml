@@ -40,12 +40,10 @@
                     </Grid.RowDefinitions>
                     <DockPanel >
                         <TextBlock x:Name="TextBock1" Text="导出系列文件名称:" Margin="0,0,0,5"/>
-                        <Button x:Name="FilterButton"  Background="Transparent" ToolTip="筛选" Click="FilterButton_Click" HorizontalAlignment="Right">
-                            <Button.Content>
-                                <Viewbox Height="15" >
-                                    <Path  Fill="AliceBlue" Data="M128 192a64 64 0 0 1 64-64h640a64 64 0 0 1 64 64v114.304l-272 160V896h-224V466.304L128 306.304V192z m704 0H192v77.696l272 160V832h96V429.696l272-160V192z"/>
-                                </Viewbox>
-                            </Button.Content>
+                        <Button x:Name="FilterButton" Width="100"  Height="20" HorizontalContentAlignment="Right"  Background="Transparent" ToolTip="筛选" Click="FilterButton_Click" HorizontalAlignment="Right">
+                            <Viewbox>
+                                <Path  Stretch="Fill" Fill="AliceBlue" Data="M128 192a64 64 0 0 1 64-64h640a64 64 0 0 1 64 64v114.304l-272 160V896h-224V466.304L128 306.304V192z m704 0H192v77.696l272 160V832h96V429.696l272-160V192z"/>
+                            </Viewbox>
                         </Button>
                     </DockPanel>
                     <Border BorderThickness="1"  Grid.Row="1" CornerRadius="3" >
@@ -128,6 +126,7 @@
                                         <Setter Property="Padding" Value="2,4,2,3"/>
                                         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
                                         <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}"/>
+                                        <EventSetter Event="Selected" Handler="TreeViewItem_Selected"/>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -187,8 +186,8 @@
                                 </TreeView.ItemContainerStyle>
                                 <TreeView.Resources>
                                     <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectExportLine}"  ItemsSource="{Binding VisualChildren}" >
-                                        <Grid x:Name="temp" Background="AliceBlue" Height="5" Style="{StaticResource style_treeViewItem_panel}" MouseDown="Grid_MouseRightButtonDown"  Tag="{Binding .}" >
-                                        </Grid>
+                                        <StackPanel x:Name="temp" Background="AliceBlue" Height="5" Style="{StaticResource style_treeViewItem_panel}" MouseDown="Grid_MouseRightButtonDown"  Tag="{Binding .}" >
+                                        </StackPanel>
                                     </HierarchicalDataTemplate>
                                     <HierarchicalDataTemplate  DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
                                         <Grid MouseDown="Grid_MouseRightButtonDown"  MouseEnter="Grid_MouseEnter" Background="#333333" Tag="{Binding .}">

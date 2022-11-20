@@ -89,7 +89,11 @@
         <Grid x:Name="WaitGrid" Visibility="Collapsed"  Grid.Row="0"   Margin="0,10,0,0">
             <Border Opacity="0.7" CornerRadius="0,0,10,10" Background="#373B41"/>
             <Border  Opacity="0.9" Margin="10" CornerRadius="4">
-                <ProgressBar x:Name="ProgressBar" IsIndeterminate="False" Height="10" Value="0" Foreground="#6EA646" Background="#242627" BorderThickness="0" Margin="5" VerticalAlignment="Center" />
+                <Grid>
+                    <ProgressBar x:Name="ProgressBar" IsIndeterminate="False"  Height="10" Value="0" Foreground="#6EA646" Background="#242627" BorderThickness="0" Margin="5" VerticalAlignment="Center" >
+                    </ProgressBar>
+                    <TextBlock x:Name="ProgressBarText" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=ProgressBar,Path=Value,Mode=OneWay}"/>
+                </Grid>
             </Border>
         </Grid>
 

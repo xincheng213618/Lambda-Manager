@@ -11,7 +11,7 @@ namespace Global.Common.Util
     /// <summary>
     /// Json辅助类
     /// </summary>
-    public static class JsonHelper
+    public static class Json
     {
         /// <summary>
         /// 序列化成Json

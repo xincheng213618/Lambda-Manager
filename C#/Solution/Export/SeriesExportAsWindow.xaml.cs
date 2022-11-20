@@ -122,23 +122,23 @@ namespace Solution
             this.Cursor = Cursors.Wait;
             Thread thread = new Thread(Load);
             thread.Start();
-            Thread thread1 = new(()=> Load1(ProjectExportAs.FrameList.Count));
+            Thread thread1 = new(()=> Load1((int)ProjectExportAs.FrameList.Count/4));
             thread1.Start();
         }
 
         public void Load1(int millisecondsTimeout)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 99; i++)
             {
                 Thread.Sleep(millisecondsTimeout);
                 Dispatcher.BeginInvoke(new Action(() => ProgressBar.Value += 1));
             }
+             Dispatcher.BeginInvoke(new Action(() => ProgressBarText.Text = "正在压缩"));
         }
 
 
         public async void Load()
         {
-            Thread.Sleep(ProjectExportAs.FrameList.Count*100);
             LambdaControl.Trigger("SeriesProjectExportAs", this, ProjectExportAs.ToJson());
             await Dispatcher.BeginInvoke(new Action(() => ProgressBar.Value = 100));
             await Task.Delay(100);

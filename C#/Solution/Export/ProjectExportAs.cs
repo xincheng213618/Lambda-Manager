@@ -160,6 +160,18 @@ namespace Solution
             }
         }
 
+        private int compression = 0;
+        //压缩，默认store 0
+        public int Compression
+        {
+            get { return compression; }
+            set
+            {
+                if (value != compression)
+                    compression = value; NotifyPropertyChanged();
+            }
+        }
+
 
     }
 }

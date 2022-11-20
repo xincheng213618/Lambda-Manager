@@ -41,7 +41,7 @@ namespace XSolution
             FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullName, "derives"));
         }
 
-        public ObservableCollection<GrifFile> ExportChildren { get; set; }
+        public ObservableCollection<BaseObject> ExportChildren { get; set; }
 
         public ObservableCollection<GrifFile> AllGrifChildren { get; set; }
 
@@ -121,7 +121,7 @@ namespace XSolution
                 BaseObject baseObject = FromDirectories(new ProjectFolder(item.FullName), item);
                 AddChild(baseObject);
             }
-            ExportChildren = new ObservableCollection<GrifFile>();
+            ExportChildren = new ObservableCollection<BaseObject>();
             AllGrifChildren = new ObservableCollection<GrifFile>();
 
             Meta = new SeriesProjectMeta();
@@ -310,14 +310,14 @@ namespace XSolution
                 if (!isEditMode)
                 {
                     string oldpath = FullName;
-                    string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + name;
+                    string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + Name;
                     if (newpath != FullName)
                     {
                         try
                         {
                             Directory.Move(oldpath, newpath);
                             FullName = newpath;
-                            tempname = name;
+                            tempname = Name;
                         }
                         catch (Exception ex)
                         {
@@ -329,7 +329,7 @@ namespace XSolution
                 }
                 else
                 {
-                    tempname = name;
+                    tempname = Name;
                 }
                 NotifyPropertyChanged();
             }

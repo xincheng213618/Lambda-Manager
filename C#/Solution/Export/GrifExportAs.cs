@@ -158,6 +158,8 @@ namespace Solution
                     dimensionInformation = value; NotifyPropertyChanged();
             }
         }
+
+
     }
 
 

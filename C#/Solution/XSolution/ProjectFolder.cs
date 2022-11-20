@@ -67,7 +67,7 @@ namespace XSolution
             set { isCheck = value; NotifyPropertyChanged(); }
         }
 
-        private string tempname;
+        private string tempname  =string.Empty;
 
         public override bool IsEditMode
         {
@@ -78,14 +78,14 @@ namespace XSolution
                 if (!isEditMode)
                 {
                     string oldpath = FullName;
-                    string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + name;
+                    string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + Name;
                     if (newpath != FullName)
                     {
                         try
                         {
                             Directory.Move(oldpath, newpath);
                             FullName = newpath;
-                            tempname = name;
+                            tempname = Name;
                         }
                         catch (Exception ex)
                         {
@@ -97,7 +97,7 @@ namespace XSolution
                 }
                 else
                 {
-                    tempname = name;
+                    tempname = Name;
                 }
                 NotifyPropertyChanged();
             }

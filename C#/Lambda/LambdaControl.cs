@@ -200,6 +200,7 @@ namespace Lambda
         /// </summary>
         public static void Trigger(string type, object sender, Array? array)
         {
+            Log(new Message { Severity = Severity.INFO, Text = type  });
             CallEventHandler?.Invoke(type, sender, new LambdaArgs
             {
                 Data = array

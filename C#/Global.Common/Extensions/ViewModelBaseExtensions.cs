@@ -13,12 +13,12 @@ namespace Global.Common.Extensions
         /// </summary>
         public static string ToJson(this ViewModelBase This)
         {
-            return JsonHelper.ToJson(This);
+            return Json.ToJson(This);
         }
 
         public static int ToJsonFile(this ViewModelBase This, string filePath)
         {
-            return JsonHelper.ToJsonFile(This, filePath, false);
+            return Json.ToJsonFile(This, filePath, false);
         }
 
         public static string ToXML(this ViewModelBase This)
@@ -28,7 +28,7 @@ namespace Global.Common.Extensions
 
         public static int ToXMLFile(this ViewModelBase This, string filePath)
         {
-            return XMLHelpr.ToXMLFile(This, filePath);
+            return XML.ToXMLFile(This, filePath);
         }
     }
 }

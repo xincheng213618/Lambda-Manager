@@ -334,6 +334,7 @@ namespace Solution
                         SolutionFullName = FullName;
 
                         TreeViewInitialized(FullName);
+                        SolutionExplorers[0].IsExpanded = true;
                     }
                     else
                     {

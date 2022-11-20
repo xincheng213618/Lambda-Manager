@@ -28,6 +28,10 @@ namespace XSolution
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             this.Parent = null;
@@ -74,9 +78,24 @@ namespace XSolution
             }
         }
 
+        private bool isExpanded = false;
+        public bool IsExpanded
+        {
+            get { return isExpanded; }
+            set { isExpanded = value; NotifyPropertyChanged(); }
+        }
+
+        private bool isSelected = false;
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set { isSelected = value; NotifyPropertyChanged(); }
+        }
+
 
         public RelayCommand AddChildren { get; set; }
         public RelayCommand RemoveChildren { get; set; }
+
 
         /// <summary>
         /// 隐藏取消
@@ -143,6 +162,12 @@ namespace XSolution
             }
         }
 
+        public T GetParen<T>()where T : BaseObject 
+        {
+            if (Parent is T t)
+                return t;
+            return null;
+        }
         /// <summary>
         /// 添加对象的时候的触发的触发事件
         /// </summary>

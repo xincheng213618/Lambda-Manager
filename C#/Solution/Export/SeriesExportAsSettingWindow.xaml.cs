@@ -39,7 +39,7 @@ namespace Solution
             //SeriesExportTreeView2.PreviewMouseMove += SeriesExportTreeView2_PreviewMouseMove;
             //SeriesExportTreeView2.QueryContinueDrag += SeriesExportTreeView2_QueryContinueDrag;
             ContextMenu contextMenu = new ContextMenu();
-            MenuItem menuItem = new MenuItem() { Header ="点"};
+            MenuItem menuItem = new MenuItem() { Header ="采集点"};
             foreach (var item in SeriesProject.Meta.DicPoints.Keys)
             {
                 MenuItem menuItem3 = new MenuItem() { Header = $"{item.X}  {item.Y}", IsChecked = true };
@@ -61,6 +61,25 @@ namespace Solution
                 menuItem.Items.Add(menuItem3);
             }
             MenuItem menuItem1 = new MenuItem() { Header = "聚焦层面" };
+
+            MenuItem menuItem11= new MenuItem() { Header = $"全选" };
+            menuItem11.Click += (s, e) =>
+            {
+                foreach (MenuItem item in menuItem1.Items)
+                {
+                    item.IsChecked =true;
+                }
+            };
+            MenuItem menuItem12 = new MenuItem() { Header = $"全不选" };
+            menuItem12.Click += (s, e) =>
+            {
+                foreach (MenuItem item in menuItem1.Items)
+                {
+                    item.IsChecked = false;
+                }
+            };
+            menuItem1.Items.Add(menuItem11);
+            menuItem1.Items.Add(menuItem12);
             foreach (var item in SeriesProject.Meta.DicZ.Keys)
             {
                 MenuItem menuItem3 = new MenuItem() { Header = $"{item}层" ,IsChecked =true };
@@ -126,6 +145,8 @@ namespace Solution
             FilterButton.ContextMenu = contextMenu ;
         }
 
+        List<GrifFile> SelectGrifList = new List<GrifFile>();
+
         private void SeriesExportTreeView2_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (Mouse.LeftButton != MouseButtonState.Pressed)
@@ -164,13 +185,38 @@ namespace Solution
 
         private void Button_Click_0(object sender, RoutedEventArgs e)
         {
-            SeriesProject.ExportChildren.Insert(Indexof, new GrifFile("1"));
-            Indexof--;
+            SeriesProject.ExportChildren.Insert(Indexof, new SeriesProjectExportLine("-------------------"));
+            Indexof++;
         }
 
         int Indexof = 0;
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            SelectGrifList.Clear();
+            foreach (GrifFile item in SeriesProject.ExportChildren.Cast<GrifFile>())
+            {
+                if (item.IsCheck)
+                    SelectGrifList.Add(item);
+            }
+            if (SelectGrifList.Count > 1)
+            {
+                int index = SeriesProject.ExportChildren.IndexOf(SelectGrifList[0]);
+                if (index <= 0)
+                    return;
+
+                foreach (var item in SelectGrifList)
+                {
+                    SeriesProject.ExportChildren.Remove(item);
+                }
+                for (int i = 0; i < SelectGrifList.Count; i++)
+                {
+                    SeriesProject.ExportChildren.Insert(i, SelectGrifList[i]);
+                }
+                return;
+            }
+
+
+
             if (Indexof < 0 || Indexof >= SeriesProject.ExportChildren.Count || !IsOneExportCheck())
                 return;
             if (SeriesProject.ExportChildren[Indexof] is GrifFile grifFile)
@@ -184,7 +230,7 @@ namespace Solution
         public bool IsOneExportCheck()
         {
             bool IsOne = false;
-            foreach (var item in SeriesProject.ExportChildren)
+            foreach (GrifFile item in SeriesProject.ExportChildren)
             {
                 if (item.IsCheck&&IsOne)
                     return false;
@@ -198,6 +244,29 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            SelectGrifList.Clear();
+            foreach (GrifFile item in SeriesProject.ExportChildren)
+            {
+                if (item.IsCheck)
+                    SelectGrifList.Add(item);
+            }
+            if (SelectGrifList.Count > 1)
+            {
+                int index = SeriesProject.ExportChildren.IndexOf(SelectGrifList[0]);
+                if (index <= 0)
+                    return;
+
+                foreach (var item in SelectGrifList)
+                {
+                    SeriesProject.ExportChildren.Remove(item);
+                }
+                for (int i = 0; i < SelectGrifList.Count; i++)
+                {
+                    SeriesProject.ExportChildren.Insert(index - 1 +i, SelectGrifList[i]);
+                }
+                return;
+            }
+
             if (Indexof < 1 || Indexof > SeriesProject.ExportChildren.Count-1|| !IsOneExportCheck())
                 return;
 
@@ -212,6 +281,30 @@ namespace Solution
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
+            SelectGrifList.Clear();
+            foreach (GrifFile item in SeriesProject.ExportChildren.Cast<GrifFile>())
+            {
+                if (item.IsCheck)
+                    SelectGrifList.Add(item);
+            }
+            if (SelectGrifList.Count > 1)
+            {
+                int index = SeriesProject.ExportChildren.IndexOf(SelectGrifList[0]);
+                if (index > SeriesProject.ExportChildren.Count - SelectGrifList.Count - 1)
+                    return;
+
+                foreach (var item in SelectGrifList)
+                {
+                    SeriesProject.ExportChildren.Remove(item);
+                }
+                for (int i = 0; i < SelectGrifList.Count; i++)
+                {
+                    SeriesProject.ExportChildren.Insert(index + 1 + i, SelectGrifList[i]);
+                }
+                return;
+            }
+
+
 
             if (Indexof < 0 || Indexof > SeriesProject.ExportChildren.Count-2 || !IsOneExportCheck())
                 return;
@@ -228,6 +321,30 @@ namespace Solution
         }
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            SelectGrifList.Clear();
+            foreach (GrifFile item in SeriesProject.ExportChildren.Cast<GrifFile>())
+            {
+                if (item.IsCheck)
+                    SelectGrifList.Add(item);
+            }
+            if (SelectGrifList.Count > 1)
+            {
+                int index = SeriesProject.ExportChildren.IndexOf(SelectGrifList[0]);
+                if (index > SeriesProject.ExportChildren.Count - SelectGrifList.Count - 1)
+                    return;
+
+                foreach (var item in SelectGrifList)
+                {
+                    SeriesProject.ExportChildren.Remove(item);
+                }
+                for (int i = 0; i < SelectGrifList.Count; i++)
+                {
+                    SeriesProject.ExportChildren.Add(SelectGrifList[i]);
+                }
+                return;
+            }
+
+
             if (Indexof < 0 || Indexof > SeriesProject.ExportChildren.Count-1 || !IsOneExportCheck())
                 return;
 
@@ -244,7 +361,7 @@ namespace Solution
         GrifFile grifFileLastcheck = null;
         private void Grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Grid stackPanel = sender as Grid;
+            FrameworkElement stackPanel = sender as FrameworkElement;
             if (stackPanel.Tag is SeriesProjectExportLine seriesProjectExportLine)
             {
                 Indexof = SeriesProject.ExportChildren.IndexOf(seriesProjectExportLine);
@@ -255,10 +372,10 @@ namespace Solution
                         SeriesProject.ExportChildren.Remove(seriesProjectExportLine);
 
                     }
-                    else
+                    else if (SeriesProject.ExportChildren[Indexof - 1] is GrifFile grifFile)
                     {
                         Indexof--;
-                        SeriesProject.ExportChildren[Indexof - 1].IsSelected = true;
+                        grifFile.IsSelected = true;
                     }
                 }
             }
@@ -292,7 +409,11 @@ namespace Solution
                         }
                         for (int i = a; i <= b; i++)
                         {
-                            SeriesProject.ExportChildren[i].IsCheck = true;
+                            if (SeriesProject.ExportChildren[i] is GrifFile grifFile1)
+                            {
+                                grifFile1.IsCheck = true;
+
+                            }
                         }
                         return;
 
@@ -300,7 +421,7 @@ namespace Solution
                 }
                 else
                 {
-                    foreach (var item in SeriesProject.ExportChildren)
+                    foreach (GrifFile item in SeriesProject.ExportChildren)
                     {
                         item.IsCheck = false;
                     }
@@ -349,7 +470,7 @@ namespace Solution
 
         private void Button_Click_03(object sender, RoutedEventArgs e)
         {
-            SeriesProject.ExportChildren.RemoveAll(x => x.IsCheck);
+            SeriesProject.ExportChildren.RemoveAll(x => x is GrifFile grifFile && grifFile.IsCheck);
         }
 
         private void Button_Click_04(object sender, RoutedEventArgs e)
@@ -531,6 +652,12 @@ namespace Solution
                 TreeView2Rect.Margin = new Thickness(PointM.X - PointS.X < 0 ? PointM.X : PointS.X, PointM.Y - PointS.Y < 0 ? PointM.Y : PointS.Y, 0, 0);
                 TreeView2Rect.Height =  Math.Abs(PointM.Y - PointS.Y);
                 TreeView2Rect.Width = Math.Abs(PointM.X - PointS.X);
+            }
+            else
+            {
+                Grid grid = sender as Grid;
+                if (TreeView2Rect!=null)
+                    grid.Children.Remove(TreeView2Rect);
             }
         }
 
