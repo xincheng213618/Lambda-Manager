@@ -42,6 +42,11 @@ namespace XSolution
 
 
         protected FileInfo FileInfo;
+        public ProjectFile()
+        {
+
+        }
+
         public ProjectFile(string FullName) :base(FullName)
         {
             ProjectFiles.Add(this);

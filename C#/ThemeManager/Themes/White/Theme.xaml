@@ -36,7 +36,7 @@
 
     <!--MenuItem-->
     <SolidColorBrush x:Key="MenuBrushKey"   Color="{DynamicResource GlobalBackgroundColor}"/>
-    <SolidColorBrush x:Key="MenuHighBrushKey"   Color="#C9DEF5"/>
+    <SolidColorBrush x:Key="MenuHighBrushKey"   Color="#F6F6F6"/>
     <SolidColorBrush x:Key="SubMenuBrushKey"   Color="#F6F6F6"/>
     <SolidColorBrush x:Key="SubMenuBorderBrushKey"   Color="#CCCEDB"/>
 
@@ -68,9 +68,9 @@
     <SolidColorBrush x:Key="EnvironmentCommandBarHoverOverSelectedIcon" Color="#FFFFFCF4" />
     <SolidColorBrush x:Key="EnvironmentCommandBarMenuItemMouseOver" Color="#FFFDF4BF" />
 
-    <SolidColorBrush x:Key="ContextMenuBackground" Color="#EAF0FF" />
-    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#9BA7B7" />
-    <SolidColorBrush x:Key="ContextMenuRectangleFill" Color="#F2F4FE" />
+    <SolidColorBrush x:Key="ContextMenuBackground" Color="#F6F6F6" />
+    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#CCCEDB" />
+    <SolidColorBrush x:Key="ContextMenuRectangleFill" Color="#F6F6F6" />
 
 
 

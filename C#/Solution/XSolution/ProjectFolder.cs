@@ -29,6 +29,11 @@ namespace XSolution
             protected set { }
         }
 
+        public ProjectFolder()
+        {
+
+        }
+
         public FileSystemWatcher watcher;
 
         public ProjectFolder(string FolderPath) :base(FolderPath)

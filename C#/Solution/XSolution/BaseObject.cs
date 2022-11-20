@@ -110,6 +110,13 @@ namespace XSolution
         public RelayCommand DeleteCommand { get; set; }
 
 
+        /// <summary>
+        /// 允许空构造
+        /// </summary>
+        public BaseObject()
+        {
+        }
+
         public BaseObject(string FullName)
         {
             this.FullName = FullName;

@@ -48,6 +48,8 @@
                 </Grid>
                 <Menu  DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" />
 
+
+
             </StackPanel>
             
             

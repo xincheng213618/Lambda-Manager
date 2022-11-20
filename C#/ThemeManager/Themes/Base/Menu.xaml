@@ -4,6 +4,7 @@
 
 
     <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter"/>
+    
     <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>
     <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>
     <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
@@ -182,22 +183,27 @@
     <ControlTemplate  x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border Name="Border">
             <Grid>
-                <Border x:Name="TopLevelContentBorder" Margin="1,2,1,0" >
-                    <ContentPresenter  Margin="6,2,6,2"  ContentSource="Header" RecognizesAccessKey="True"  />
+                <Border x:Name="TopLevelContentBorder" Padding="1,2,2,1" >
+                    <Border x:Name="TopLevelContentBorder11">
+                        <ContentPresenter  Margin="6,2,6,2"  ContentSource="Header" RecognizesAccessKey="True"  />
+                    </Border>
                 </Border>
                 <Popup x:Name="PART_Popup" AllowsTransparency="true" Placement="Bottom" VerticalOffset="0" HorizontalOffset="0" IsOpen="{Binding Path=IsSubmenuOpen,RelativeSource={RelativeSource TemplatedParent}}" Focusable="false" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                     <theme:SystemDropShadowChrome Name="Shdw"  Color="Transparent">
-                        <Border Name="SubMenuBorder" Background="{DynamicResource ContextMenuBackground}" BorderBrush="{DynamicResource ContextMenuBorderBrush}" BorderThickness="1">
-                            <ScrollViewer Name="SubMenuScrollViewer" Margin="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
-                                <Grid RenderOptions.ClearTypeHint="Enabled">
-                                    <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                        <Rectangle Name="OpaqueRect" Height="{Binding ElementName=SubMenuBorder,Path=ActualHeight}" Width="{Binding ElementName=SubMenuBorder,Path=ActualWidth}" Fill="{DynamicResource ContextMenuBackground}" />
-                                    </Canvas>
-                                    <Rectangle Fill="{DynamicResource ContextMenuRectangleFill}" HorizontalAlignment="Left" Width="27" Margin="0" RadiusX="0" RadiusY="0"/>
-                                    <ItemsPresenter Name="ItemsPresenter" KeyboardNavigation.TabNavigation="Cycle"  KeyboardNavigation.DirectionalNavigation="Cycle" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="true"/>
-                                </Grid>
-                            </ScrollViewer>
-                        </Border>
+                        <Grid>
+                            <Border Name="SubMenuBorder" Background="{DynamicResource ContextMenuBackground}" BorderBrush="{DynamicResource ContextMenuBorderBrush}" BorderThickness="1">
+                                <ScrollViewer Name="SubMenuScrollViewer" Margin="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
+                                    <Grid RenderOptions.ClearTypeHint="Enabled">
+                                        <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Rectangle Name="OpaqueRect" Height="{Binding ElementName=SubMenuBorder,Path=ActualHeight}" Width="{Binding ElementName=SubMenuBorder,Path=ActualWidth}" Fill="{DynamicResource ContextMenuBackground}" />
+                                        </Canvas>
+                                        <Rectangle Fill="{DynamicResource ContextMenuRectangleFill}" HorizontalAlignment="Left" Width="27" Margin="0" RadiusX="0" RadiusY="0"/>
+                                        <ItemsPresenter Name="ItemsPresenter" KeyboardNavigation.TabNavigation="Cycle"  KeyboardNavigation.DirectionalNavigation="Cycle" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="true"/>
+                                    </Grid>
+                                </ScrollViewer>
+                            </Border>
+                            <Rectangle Height="2" VerticalAlignment="Top" Margin="1,0,0,0" HorizontalAlignment="Left" Width="{Binding ElementName=TopLevelContentBorder11,Path=ActualWidth}" Fill="{DynamicResource ContextMenuBackground}"/>
+                        </Grid>
                     </theme:SystemDropShadowChrome>
                 </Popup>
             </Grid>
@@ -208,13 +214,15 @@
                 <Setter TargetName="PART_Popup" Property="PopupAnimation" Value="None"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="TopLevelContentBorder" Property="Background" Value="{StaticResource MenuHighBrushKey}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+                <Setter TargetName="TopLevelContentBorder" Property="Background" Value="{StaticResource SubMenuBrushKey}"/>
+                <Setter TargetName="TopLevelContentBorder" Property="BorderBrush" Value="{StaticResource SubMenuBorderBrushKey}"/>
+                <Setter TargetName="TopLevelContentBorder" Property="Padding" Value="0,1,0,0"/>
+                <Setter TargetName="TopLevelContentBorder" Property="BorderThickness" Value="1,1,1,1"/>
             </Trigger>
             <Trigger  Property="IsSubmenuOpen" Value="true">
                 <Setter TargetName="TopLevelContentBorder" Property="Background" Value="{StaticResource SubMenuBrushKey}"/>
                 <Setter TargetName="TopLevelContentBorder" Property="BorderBrush" Value="{StaticResource SubMenuBorderBrushKey}"/>
-                <Setter TargetName="TopLevelContentBorder" Property="Margin" Value="0,1,0,0"/>
+                <Setter TargetName="TopLevelContentBorder" Property="Padding" Value="0,1,0,1"/>
                 <Setter TargetName="TopLevelContentBorder" Property="BorderThickness" Value="1,1,1,0"/>
 
             </Trigger>
@@ -225,6 +233,8 @@
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="#888888"/>
             </Trigger>
+
+
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -256,7 +266,7 @@
 
 
 
-    <!--<Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
+    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
         <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Background" Value="{Binding Path=Background,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -265,7 +275,7 @@
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=SubmenuItemTemplateKey}}"/>
         <Style.Triggers>
-            --><!-- TODO: Uncomment when needed. We don't need these styles now. --><!--
+             <!--TODO: Uncomment when needed. We don't need these styles now.--> 
             <Trigger Property="Role" Value="TopLevelHeader">
                 <Setter Property="Padding" Value="7,2,8,3"/>
                 <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=TopLevelHeaderTemplateKey}}"/>
@@ -283,7 +293,7 @@
                 <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=SubmenuItemTemplateKey}}"/>
             </Trigger>
         </Style.Triggers>
-    </Style>-->
+    </Style>
 
 
 
