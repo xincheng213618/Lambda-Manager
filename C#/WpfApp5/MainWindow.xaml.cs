@@ -28,6 +28,9 @@ namespace WpfApp5
           
         }
 
-       
+        private void TextBox_Initialized(object sender, EventArgs e)
+        {
+
+        }
     }
 }

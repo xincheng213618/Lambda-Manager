@@ -3,14 +3,12 @@
     <Color x:Key="ThemeColor">White</Color>
     <Color x:Key="ForegroundColor">black</Color>
 
-    <Color x:Key="WindowBackgroundColor">#EEEEF2</Color>
-    <Color x:Key="DarkBackgroundColor">#EEEEF2</Color>
+    <Color x:Key="WindowBackgroundColor">#FBFBFB</Color>
+    <Color x:Key="DarkBackgroundColor">#FBFBFB</Color>
     <Color x:Key="LightBackgroundColor">#DDDDDD</Color>
     <Color x:Key="BackgroundColor">#C2C2C2</Color>
     <Color x:Key="DisabledBackgroundColor">#BDBDBD</Color>
-    <Color x:Key="LightDisabledBackgroundColor">#999999</Color>
-
-
-    <Color x:Key="HighlightColor">#C2C2C2</Color>
+    <Color x:Key="LightDisabledBackgroundColor">#F3F9FF</Color>
+    <Color x:Key="HighlightColor">#776ae860</Color>
     <Color x:Key="HotColor">#ADADAD</Color>
 </ResourceDictionary>

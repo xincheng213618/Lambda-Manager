@@ -7,10 +7,6 @@
              d:DesignWidth="400" Initialized="UserControl_Initialized"   Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
-                <Setter Property="FontSize" Value="20"/>
-            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Solution;component/themes/TreeView.xaml"/>
                 <ResourceDictionary Source="/Solution;component/themes/Button.xaml"/>
@@ -151,7 +147,7 @@
                                                 <Setter TargetName="PART_Header" Property="MinHeight" Value="21"/>
                                             </MultiTrigger>
                                             <Trigger Property="IsSelected" Value="true">
-                                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SelectedListItem}"/>
+                                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectedListItem}"/>
                                                 <!--<Setter Property="Foreground" Value="{StaticResource SelectedListItemForeground}"/>-->
                                                 <Setter Property="Style" TargetName="Expander" Value="{DynamicResource TreeViewSelectedToggleButtonStyle}"/>
                                             </Trigger>
@@ -160,10 +156,10 @@
                                                     <Condition Property="IsMouseOver" SourceName="Bd" Value="true"/>
                                                     <Condition Property="IsSelected" Value="false"/>
                                                 </MultiTrigger.Conditions>
-                                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource MouseOverListItem}"/>
+                                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MouseOverListItem}"/>
                                             </MultiTrigger>
                                             <Trigger Property="IsEnabled" Value="false">
-                                                <Setter Property="Foreground" Value="{StaticResource TreeViewDisabledForeground}"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource TreeViewDisabledForeground}"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>

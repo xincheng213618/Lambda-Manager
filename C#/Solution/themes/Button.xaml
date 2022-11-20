@@ -597,15 +597,9 @@
             <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="48" Height="34" RadiusX="3" RadiusY="3" ></Rectangle>
             <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="48" Height="34" RadiusX="3" RadiusY="3" Stroke="#000"  StrokeThickness="0.6" ></Rectangle>
             <Canvas  Canvas.Left="3" Canvas.Top="-1" >
-
-
                 <Path  Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M29.8121,20.1254C30.1883,20.1254,30.4386,20.363300000000002,30.4386,20.7211L30.4386,21.5564C30.9408,21.796,31.3171,22.0339,31.6933,22.273600000000002L32.5701,21.796C32.8221,21.6762,33.1983,21.796,33.3226,22.0339L34.2011,23.4666C34.3271,23.7046,34.2011,24.0623,33.9508,24.1821L33.1983,24.6597C33.3226,24.8976,33.3226,25.1356,33.3226,25.3752C33.3226,25.6131,33.1983,25.8528,33.1983,26.0907L33.9508,26.4484C34.2011,26.5682,34.3271,26.926,34.0751,27.2837L33.1983,28.7164C33.0723,29.0742,32.6961,29.0742,32.4458,28.9544L31.6933,28.4768C31.3171,28.8346,30.9408,29.0742,30.4386,29.194L30.4386,30.0276C30.4386,30.3871,30.1883,30.625,29.8121,30.625L28.1828,30.625C27.8066,30.625,27.5546,30.3871,27.5546,30.0276L27.5546,29.194C27.0541,29.0742,26.6778,28.7164,26.3016,28.4768L25.5491,28.9544C25.2988,29.0725,24.9226,28.9544,24.796599999999998,28.7164L23.919800000000002,27.2837C23.793799999999997,27.0458,23.919800000000002,26.6881,24.170099999999998,26.5682L24.9226,26.0907C24.796599999999998,25.8528,24.796599999999998,25.6131,24.796599999999998,25.3752C24.796599999999998,25.1356,24.9226,24.8976,24.9226,24.6597L24.170099999999998,24.1821C23.793799999999997,24.064,23.793799999999997,23.7046,23.919800000000002,23.4666L24.796599999999998,22.0339C24.9226,21.6762,25.2988,21.6762,25.5491,21.796L26.3016,22.273600000000002C26.6778,21.914099999999998,27.0541,21.6762,27.5546,21.5564L27.5546,20.7211C27.5546,20.363300000000002,27.8066,20.1254,28.1828,20.1254L29.8121,20.1254ZM17.62507,28.9375C18.10831,28.9375,18.500059999999998,29.3153,18.500059999999998,29.7812C18.500059999999998,30.2472,18.10831,30.625,17.62507,30.625L10.625065,30.625C10.141816,30.625,9.7500648797,30.2472,9.7500648797,29.7812C9.7500648797,29.3153,10.141816,28.9375,10.625065,28.9375L17.62507,28.9375ZM17.62507,25.5625C18.10831,25.5625,18.500059999999998,25.9403,18.500059999999998,26.4062C18.500059999999998,26.8722,18.10831,27.25,17.62507,27.25L10.625065,27.25C10.141816,27.25,9.7500648797,26.8722,9.7500648797,26.4062C9.7500648797,25.9403,10.141816,25.5625,10.625065,25.5625L17.62507,25.5625ZM29.0596,23.7046C28.0568,23.7046,27.3043,24.4201,27.3043,25.3752C27.3043,26.3303,28.0568,27.0458,29.0596,27.0458C30.0623,27.0458,30.8148,26.3303,30.8148,25.3752C30.8148,24.4201,30.0623,23.7046,29.0596,23.7046ZM19.655070000000002,7C20.2833,7,20.659599999999998,7.477563,20.659599999999998,7.955125L20.659599999999998,9.38613C21.412100000000002,9.62575,22.038600000000002,9.9835,22.665100000000002,10.46106L23.919800000000002,9.74388C24.420299999999997,9.505939999999999,25.046799999999998,9.62575,25.2988,10.10163L26.6778,12.36963C26.9281,12.847190000000001,26.8021,13.442879999999999,26.3016,13.682500000000001L25.046799999999998,14.398C25.172800000000002,14.755749999999999,25.172800000000002,15.1135,25.172800000000002,15.47125C25.172800000000002,15.829,25.172800000000002,16.18675,25.046799999999998,16.54619L26.3016,17.261699999999998C26.8021,17.4996,26.9281,18.097,26.6778,18.5746L25.2988,20.840899999999998C24.9226,21.3184,24.420299999999997,21.438299999999998,23.919800000000002,21.1986L22.665100000000002,20.4831C22.1628,20.9607,21.412100000000002,21.3184,20.659599999999998,21.5564L20.659599999999998,22.9891C20.659599999999998,23.4666,20.1573,23.9425,19.655070000000002,24.0623L16.89707,24.0623C16.34323,24.0738,15.88925,23.6413,15.89432,23.1072L15.89432,21.6762C15.18228,21.35,14.50922,20.9499,13.88707,20.4831L12.63407,21.1986C12.13182,21.438299999999998,11.50532,21.3167,11.25507,20.840899999999998L9.876065,18.5746C9.624065,18.097,9.7500652969,17.4996,10.252315,17.261699999999998L11.50532,16.54619C11.37932,16.18675,11.37932,15.829,11.37932,15.47125C11.37932,15.1135,11.50532,14.755749999999999,11.50532,14.398L10.252315,13.682500000000001C9.7500648797,13.32306,9.624065,12.847190000000001,9.876065,12.36963L11.25506,10.10163C11.50531,9.62575,12.13182,9.505939999999999,12.63407,9.74388L13.88706,10.46106C14.48326,9.98869,15.16334,9.62448,15.89432,9.38613L15.89432,7.955125C15.89432,7.477563,16.39481,7.000000402331,16.89707,7.000000402331L19.655070000000002,7ZM18.27606,12.72738C16.646819999999998,12.72738,15.39207,13.92044,15.39207,15.47125C15.39207,17.0238,16.646819999999998,18.2151,18.27606,18.2151C19.9071,18.2151,21.1601,17.022100000000002,21.1601,15.47125C21.1601,13.92044,19.9071,12.72738,18.27606,12.72738Z"  >
-
                 </Path>
-             </Canvas>
-
-
-
+            </Canvas>
         </Canvas>
     </ControlTemplate>
 
@@ -635,14 +629,6 @@
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="CheckedBack" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#6EA646" Offset="0.0"/>
-                <GradientStop Color="#6EA646" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="mouseOverBack" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
@@ -672,27 +658,19 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-
                     <Border x:Name="border" Background="{DynamicResource ButtonBackground}" BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" SnapsToDevicePixels="true">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Grid>
+                            <Border x:Name="Bds"  Background="#6ae860" CornerRadius="3"  Opacity="0.5" Visibility="Collapsed"/>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
                     </Border>
-
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource mouseOverBack}"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter  TargetName="border" Property="Background" Value="{StaticResource DisableBackground}"/>
-                            <Setter  TargetName="border" Property="BorderBrush" Value="{StaticResource DisableForeground}"/>
-                        </Trigger>
-
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource CheckedBack}"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
+                            <Setter TargetName="Bds" Property="Visibility" Value="Visible"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -80,7 +80,7 @@
     <SolidColorBrush x:Key="ListBackground" Color="{StaticResource DarkBackgroundColor}"/>
     <SolidColorBrush x:Key="SelectedListItem" Color="{StaticResource HighlightColor}"/>
     <SolidColorBrush x:Key="SelectedListItemForeground" Color="{StaticResource DarkBackgroundColor}"/>
-    <SolidColorBrush x:Key="MouseOverListItem" Color="#4A4A4A"/>
+    <SolidColorBrush x:Key="MouseOverListItem" Color="{StaticResource HighlightColor}"/>
 
     <SolidColorBrush x:Key="TreeViewBackground" Color="{StaticResource DarkBackgroundColor}"/>
     <SolidColorBrush x:Key="TreeViewDisabledForeground" Color="{StaticResource LightDisabledBackgroundColor}"/>
@@ -1688,7 +1688,7 @@
     <Style TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"></Setter>
         <Setter Property="Background" Value="{StaticResource CheckBoxFillNormal}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource CheckBoxStroke}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ForegroundBrush}"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource EmptyCheckBoxFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>

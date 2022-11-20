@@ -67,14 +67,12 @@
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFolder}" ItemsSource="{Binding VisualChildren}" >
                                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}"  >
-                                        <CheckBox Margin="5,0" Tag="{Binding .}" IsThreeState="True" IsChecked="{Binding Path=IsCheck}"   Click="CheckBox_Click" />
-                                        <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
+                                        <CheckBox Margin="5,0" Tag="{Binding .}" Content="{Binding Name}" IsThreeState="True" IsChecked="{Binding Path=IsCheck}"   Click="CheckBox_Click" />
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
                                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
-                                        <CheckBox  Tag="{Binding .}"  IsChecked="{Binding Path=IsCheck}"  Click="GrifFileCheckBoxClick"/>
-                                        <TextBlock Text="{Binding Path=OperatingMode}" />
+                                        <CheckBox  Tag="{Binding .}" Content="{Binding Path=OperatingMode}" IsChecked="{Binding Path=IsCheck}"  Click="GrifFileCheckBoxClick"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
@@ -190,7 +188,7 @@
                                         </StackPanel>
                                     </HierarchicalDataTemplate>
                                     <HierarchicalDataTemplate  DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-                                        <Grid MouseDown="Grid_MouseRightButtonDown"  MouseEnter="Grid_MouseEnter" Background="#333333" Tag="{Binding .}">
+                                        <Grid MouseDown="Grid_MouseRightButtonDown"  MouseEnter="Grid_MouseEnter" Background="Transparent" Tag="{Binding .}">
                                             <Border Background="#6EA646" Opacity="0.5" Visibility="{Binding IsCheck,Converter={StaticResource bool2VisibilityConverter}}" />
                                             <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Padding="0"/>
                                         </Grid>
