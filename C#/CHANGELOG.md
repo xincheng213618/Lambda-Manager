@@ -1,3 +1,41 @@
+## [1.3.12] 2022-11-21
+
+- 调整黑白样式的相关代码✔
+- 调整文件结构✔  Global.common ->Global.setting✔
+- Remove  projectfile  kinds limit✔
+- 添加打开系统文件，添加打开属性文件夹✔
+- 代码去耦合✔
+- 调整页面代码✔
+
+## [1.3.11] 2022-11-18
+
+- 重构 GetAncestor  ->  BaseObjectExtensions  ,并且泛型化✔
+- 导出模块的一些小的BUG修改与重构✔
+- 添加重构 RemoveAll -> ObservableCollectionExtension✔
+- Fix merge huanghuang 引起的BUG ✔
+- 拆分Global✔
+- 重构图标✔
+
+## [1.3.10] 2022-11-15
+
+- merge huanghuang  独立窗口模块✔
+- 修改导出模块✔
+
+## [1.3.9] -2022-11-10
+
+- 修复因为调整BaseWindow结构引起的最大化坐标被覆盖的BUG ✔
+- 调整导出模块的代码位置 ✔
+
+## [1.3.8] -2022-11-8
+
+- 对导出模块的重构✔
+
+- 调整BaseWindow的结构和相关补充✔
+
+  https://www.cnblogs.com/dino623/p/CustomWindowStyle.html?spm=a2c6h.12873639.article-detail.6.64ff2fa4FJC0lK
+
+## 
+
 ## [1.3.7] -2022-11-2
 
 - 拆分 Global  添加 Global .Setting✔

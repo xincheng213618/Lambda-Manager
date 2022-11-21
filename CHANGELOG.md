@@ -1,3 +1,12 @@
+## [1.3.12] 2022-11-21
+
+- 调整黑白样式的相关代码✔
+- 调整文件结构✔  Global.common ->Global.setting✔
+- Remove  projectfile  kinds limit✔
+- 添加打开系统文件，添加打开属性文件夹✔
+- 代码去耦合✔
+- 调整页面代码✔
+
 ## [1.3.11] 2022-11-18
 
 - 重构 GetAncestor  ->  BaseObjectExtensions  ,并且泛型化✔
@@ -35,8 +44,6 @@
 
 - 调整Solution的文件封装，样式分离✔
 - 添加图标✔
-
-
 
 ## [1.3.5] -2022-10-31
 
