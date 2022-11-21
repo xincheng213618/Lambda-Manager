@@ -37,21 +37,10 @@
 
 
     <HierarchicalDataTemplate  DataType="{x:Type XSolution:SolutionExplorer}"   ItemsSource="{Binding VisualChildren}">
-        <StackPanel Style="{StaticResource style_treeViewItem_panel}"  >
+        <StackPanel Style="{StaticResource style_treeViewItem_panel}" ContextMenu="{Binding ContextMenu}" >
             <TextBlock Text="'"/>
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock Text="'"/>
-            <StackPanel.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="重命名(_M)"  Command="{x:Static  XSolution:Commands.ReName}"  CommandParameter="{Binding .}"/>
-                    <Separator/>
-                    <MenuItem Header="取消隐藏" Command="{Binding VisibilityUnHidden}"  CommandParameter="{Binding .}"/>
-                    <Separator/>
-                    <MenuItem Header="在文件资源管理器中打开(_x)" Command="{Binding OpenExplorer}"  CommandParameter="{Binding .}"/>
-                    <MenuItem Header="打开日志(_x)" Command="{Binding OpenLog}"  CommandParameter="{Binding .}"/>
-                    <MenuItem Header="属性(_R)"  />
-                </ContextMenu>
-            </StackPanel.ContextMenu>
         </StackPanel>
     </HierarchicalDataTemplate>
 

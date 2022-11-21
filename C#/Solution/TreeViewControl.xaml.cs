@@ -192,6 +192,8 @@ namespace Solution
                     {
                         if (SolutionExplorers[i].FullName == FullName)
                         {
+                            SolutionExplorers[i].IsExpanded = true;
+                            SolutionExplorers[i].IsSelected = true;
                             return;
                         }
                     }
@@ -201,6 +203,7 @@ namespace Solution
                         SolutionFullName = FullName;
                         recentFileList.InsertFile(FullName);
                         TreeViewInitialized(FullName, false);
+                        SolutionExplorers[^1].IsExpanded = true;
                     }
                 }
                 else
@@ -211,6 +214,7 @@ namespace Solution
                         SolutionFullName = FullName;
                         recentFileList.InsertFile(FullName);
                         TreeViewInitialized(FullName);
+                        SolutionExplorers[0].IsExpanded = true;
                     }
                 }
 
@@ -413,20 +417,19 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dialog = new()
-            {
-                Multiselect = false,//该值确定是否可以选择多个文件
-                Title = "请选择文件",
-                RestoreDirectory = true,
-            };
-            if (dialog.ShowDialog() == true)
-            {
-                string Filename = dialog.FileName;
-                LambdaControl.Dispatch("LFOCMOpenVideo", this, Filename);
-            }
+            //OpenFileDialog dialog = new()
+            //{
+            //    Multiselect = false,//该值确定是否可以选择多个文件
+            //    Title = "请选择文件",
+            //    RestoreDirectory = true,
+            //};
+            //if (dialog.ShowDialog() == true)
+            //{
+            //    string Filename = dialog.FileName;
+            //    LambdaControl.Dispatch("LFOCMOpenVideo", this, Filename);
+            //}
         }
 
-        private static Dictionary<string, object> timers = new Dictionary<string, object>();
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {

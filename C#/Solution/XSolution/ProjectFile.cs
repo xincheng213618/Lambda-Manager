@@ -164,7 +164,9 @@ namespace XSolution
         }
         public string[] SupportExtensions()
         {
-            return new string[] { ".png", ".jpg", ".tiff", ".bmp", ".txt" ,".*" };
+            //return new string[] { ".png", ".jpg", ".tiff", ".bmp", ".txt" ,".*" };
+            return new string[] { ".png", ".jpg", ".tiff", ".bmp", ".txt"};
+
         }
     }
 }

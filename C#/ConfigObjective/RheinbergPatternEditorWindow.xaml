@@ -97,40 +97,40 @@
                         <TextBlock Foreground="White"    Text="自定义图案：" Margin="0,5,0,0" />
                         <StackPanel Visibility="{Binding ElementName=RadioButton1,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Margin="0,5,0,0">
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="内径："/>
+                                <TextBlock Width="40" Foreground="White" Text="内径："/>
                                 <local:ColorPicker x:Name="ColorPciker10" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="外径："/>
+                                <TextBlock Width="40" Foreground="White" Text="外径："/>
                                 <local:ColorPicker x:Name="ColorPciker11" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>
                         <StackPanel Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="内径："/>
+                                <TextBlock Width="40" Foreground="White" Text="内径："/>
                                 <local:ColorPicker x:Name="ColorPciker20" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="外径1："/>
+                                <TextBlock Width="40" Foreground="White" Text="外径1："/>
                                 <local:ColorPicker x:Name="ColorPciker21" SelectColor="Red" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="外径2："/>
+                                <TextBlock Width="40" Foreground="White" Text="外径2："/>
                                 <local:ColorPicker x:Name="ColorPciker22" SelectColor="Lime" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>
 
                         <StackPanel Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="内径："/>
+                                <TextBlock Width="40" Foreground="White" Text="内径："/>
                                 <local:ColorPicker x:Name="ColorPciker30" SelectColor="Black" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="外径1："/>
+                                <TextBlock Width="40" Foreground="White" Text="外径1："/>
                                 <local:ColorPicker x:Name="ColorPciker31" SelectColor="Yellow" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                             <DockPanel>
-                                <TextBlock Foreground="White" Text="外径2："/>
+                                <TextBlock Width="40" Foreground="White" Text="外径2："/>
                                 <local:ColorPicker x:Name="ColorPciker32" SelectColor="Blue" Height="20" Width="200" Basic="True"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DockPanel>
                         </StackPanel>

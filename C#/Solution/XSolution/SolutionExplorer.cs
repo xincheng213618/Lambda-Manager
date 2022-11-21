@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace XSolution
@@ -17,8 +18,17 @@ namespace XSolution
         public RelayCommand AddNewProject { get; set; }
         public RelayCommand OpenExplorer { get; set; }
         public RelayCommand AddExistingProject { get; set; }
-        public RelayCommand OpenLog { get; set; }
 
+        /// <summary>
+        /// 打开日志
+        /// </summary>
+        public RelayCommand OpenLog { get; set; }
+        /// <summary>
+        /// 打开日志文件夹
+        /// </summary>
+        public RelayCommand OpenLogExplorer { get; set; }
+
+        public ContextMenu ContextMenu { get; set; }
 
         public SolutionExplorer(string FullPath):base(FullPath)
         {
@@ -36,17 +46,27 @@ namespace XSolution
             watcher.EnableRaisingEvents = true;
 
             AddNewProject = new RelayCommand(OnAddNewProject, (object value) => { return true; });
-            OpenExplorer = new RelayCommand(OpenFolder, (object value) => { return true; });
-            OpenLog = new RelayCommand(OpenLogFile, (object value) => { return true; });
-        }
-        private void OpenLogFile(object value)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", @"C:\Users\Chen\AppData\Local\LambdaManager\lambda.log");
-        }
+            OpenExplorer = new RelayCommand((object value) => {
+                System.Diagnostics.Process.Start("explorer.exe", Rootpath);
+            }, (object value) => { return true; });
+            OpenLog = new RelayCommand((object value) => {
+                System.Diagnostics.Process.Start("explorer.exe", $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LambdaManager\\lambda.log");
+            },(object value) => { return true; });
+            OpenLogExplorer = new RelayCommand((object value) => {
+                System.Diagnostics.Process.Start("explorer.exe", $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LambdaManager");
+            },(object value) => { return true; });
 
-        private void OpenFolder(object value)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", Rootpath);
+            ContextMenu = new ContextMenu();
+            ContextMenu.Items.Add(new MenuItem() { Header = "重命名(_M)", Command = Commands.ReName, CommandParameter = this });
+            ContextMenu.Items.Add(new Separator()); 
+            ContextMenu.Items.Add(new MenuItem() { Header = "取消隐藏", Command = VisibilityUnHidden, CommandParameter = this });
+            ContextMenu.Items.Add(new Separator());
+            ContextMenu.Items.Add(new MenuItem() { Header = "在文件资源管理器中打开(_X)", Command = OpenExplorer, CommandParameter = this });
+            ContextMenu.Items.Add(new MenuItem() { Header = "打开日志(_L)", Command = OpenLog, CommandParameter = this });
+            ContextMenu.Items.Add(new MenuItem() { Header = "打开日志文件夹(_D)", Command = OpenLogExplorer, CommandParameter = this });
+            ContextMenu.Items.Add(new MenuItem() { Header = "属性(_R)"});
+
+
         }
 
 
