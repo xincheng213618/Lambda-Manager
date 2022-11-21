@@ -5,8 +5,6 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-
-
 namespace GalleryView
 {
     public class TileView : ViewBase
@@ -18,14 +16,17 @@ namespace GalleryView
             set { itemTemplate = value; }
         }
 
-        private Brush selectedBackground = Brushes.Transparent;
+        private Brush selectedBackground;
         public Brush SelectedBackground
         {
             get { return selectedBackground; }
             set { selectedBackground = value; }
         }
 
-        private Brush selectedBorderBrush = Brushes.Black;
+
+
+
+        private Brush selectedBorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
         public Brush SelectedBorderBrush
         {
             get { return selectedBorderBrush; }

@@ -9,7 +9,7 @@ namespace Global.Mode
 {
     public class MulSummary:ViewModelBase
     {
-        private string collectionTimes = "0";
+        private string collectionTimes = "";
         /// <summary>
         /// 采集次数
         /// </summary>
@@ -20,7 +20,7 @@ namespace Global.Mode
                     collectionTimes = value; NotifyPropertyChanged(); }
         }
 
-        private string collectionLayers = "0";
+        private string collectionLayers = "";
         /// <summary>
         /// 采集层数
         /// </summary>
@@ -31,7 +31,7 @@ namespace Global.Mode
                     collectionLayers = value; NotifyPropertyChanged(); }
         }
 
-        private string collectionPoints = "0";
+        private string collectionPoints = "";
         /// <summary>
         /// 采集点个数
         /// </summary>
@@ -42,7 +42,7 @@ namespace Global.Mode
                     collectionPoints = value; NotifyPropertyChanged(); }
         }
 
-        private string viewModeCounts = "0";
+        private string viewModeCounts = "";
         /// <summary>
         /// 成像模式数
         /// </summary>
@@ -53,7 +53,7 @@ namespace Global.Mode
                     viewModeCounts = value; NotifyPropertyChanged(); }
         }
 
-        private string fluorescenceChannels = "0";
+        private string fluorescenceChannels = "";
         /// <summary>
         /// 荧光通道数
         /// </summary>

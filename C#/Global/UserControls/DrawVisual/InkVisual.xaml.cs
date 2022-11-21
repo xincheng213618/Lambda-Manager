@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,15 +37,15 @@ namespace Global.UserControls.DrawVisual
     {
 
         public InkVisual(int index1,Image image1, ImageViewState.ToolTop ToolTop)
-        {
+        
+            {
             InitializeComponent();
             this.ToolTop = ToolTop;
             //this.inkMethod = inkMethod;
             topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
             this.image = image1;
             this.index=index1;
-
-          
+           
             ToolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
             {
 
@@ -188,15 +190,28 @@ namespace Global.UserControls.DrawVisual
 
         List<System.Windows.Point> pointList1 = new List<Point>();
         StylusPointCollection point1;
-
+        public Point RecTopLeft = new Point(0, 0);
+        public Point RecBottomRight = new Point(0, 0);
         Stroke stroke1;
         Point PointSt;
+        int[] lastTempArray = new int[4];
+        int[] CurrentArray = new int[4];
 
-
+        public ObservableCollection<VisualAttritube> drawVisuals = new ObservableCollection<VisualAttritube>();
         public void FilterStroke( int i)
           {
 
-           
+            drawVisuals.Clear();
+            VisualAttritube view = new VisualAttritube();
+            view.ActiveWin = this.index;
+            view.ratio = this.ratio1.Ratio;
+            view.acWidth = this.ActualWidth;
+            view.acHeight = this.ActualHeight;
+            view.ratio = this.ratio1.Ratio;
+            view.acWidth = this.ActualWidth;
+            view.acHeight = this.ActualHeight;
+            drawVisuals.Add(view);
+
             foreach (var item in inkCanvas.Strokes)
             {
 
@@ -211,14 +226,19 @@ namespace Global.UserControls.DrawVisual
                 {
                     ellipse.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(ellipse);
-                   
+                    VisualAttritube visual = new VisualAttritube();
+                    visual = EllipseTrans(visual, ellipse, ratio1.Ratio, this.ActualWidth, this.ActualHeight, 1280, 960);
+
+                    drawVisuals.Add(visual);
                 }
 
                 if (item is RectangleStroke rectangle)
                 {
                     rectangle.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(rectangle);
-                   
+                    VisualAttritube visual = new VisualAttritube();
+                    visual = RectangleTrans(visual, rectangle, ratio1.Ratio, this.ActualWidth, this.ActualHeight, 1280, 960);
+                    drawVisuals.Add(visual);
                 }
                 if (item is CircleStroke circleStroke)
                 {
@@ -237,6 +257,9 @@ namespace Global.UserControls.DrawVisual
                     line.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(line);
                    
+                    VisualAttritube visual = new VisualAttritube();
+                    visual= LineTrans(visual, line, ratio1.Ratio, this.ActualWidth, this.ActualHeight, 1280, 960);
+                    drawVisuals.Add(visual);
                 }
                 if (item is ArrowStroke arrow)
                 {
@@ -287,8 +310,10 @@ namespace Global.UserControls.DrawVisual
               
 
                 }
-
+               
             }
+            string JSON = JsonSerializer.Serialize(drawVisuals, new JsonSerializerOptions());
+         //   LambdaControl.Trigger("DRAWING_VISUAL", this, JSON);
         }
         public void FilterStroke1(int i,StrokeCollection strokes)
         {
@@ -704,7 +729,7 @@ namespace Global.UserControls.DrawVisual
                             {"flag",(int)1 }
 
                                  };
-                LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+              //  LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
 
 
                 if (ratio1.Ratio != 1)
@@ -715,7 +740,14 @@ namespace Global.UserControls.DrawVisual
                     matrixMove1.Translate(endP.X - movePoint.X, endP.Y - movePoint.Y);
                     inkCanvas.Strokes.Transform(matrixMove1, false);
 
-                   
+                    RecTopLeft = RecTopLeft * matrixMove1;
+                    RecBottomRight = RecBottomRight * matrixMove1;
+
+                    ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes);
+
+
+
+
 
                 }
                 var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
@@ -1291,9 +1323,14 @@ namespace Global.UserControls.DrawVisual
                             {
                                 matrixE.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
                                 ink.ratio1.Ratio = r1;
+
+
                             }
 
                             ink.inkCanvas.Strokes.Transform(matrixE, false);
+                            ink.RecTopLeft = ink.RecTopLeft * matrixE;
+                            ink.RecBottomRight = ink.RecBottomRight * matrixE;
+
                             ink.drawDefaultDim(ink.inkDimViewModel.DimPos, ink.inkDimViewModel.DimLength, ink.inkDimViewModel.DimColor, ink.ratio1.Ratio, ink.inkDimViewModel.TextColor);
 
                         }
@@ -1315,7 +1352,10 @@ namespace Global.UserControls.DrawVisual
                         matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
                     }
                     //  ZoomInOut++;
+
                     inkCanvas.Strokes.Transform(matrix, false);
+                    RecTopLeft = RecTopLeft * matrix;
+                    RecBottomRight = RecBottomRight * matrix;
                     if (index == DrawInkMethod.ActiveViews.ActiveWin)
                     {
                         DrawInkMethod.StrokesCollection.Clear();
@@ -1336,7 +1376,14 @@ namespace Global.UserControls.DrawVisual
                             {"flag",(int)1024 }
 
                             };
-                    LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+                   // LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+
+                    // new zoomInOut 
+
+                    ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes);
+
+
+
                     StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
                     inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
                     await Task.Delay(500);
@@ -1371,7 +1418,8 @@ namespace Global.UserControls.DrawVisual
                 //ZoomInOut--;
 
                 inkCanvas.Strokes.Transform(matrix, false);
-             
+                RecTopLeft = RecTopLeft * matrix;
+                RecBottomRight = RecBottomRight * matrix;
                 if (index == DrawInkMethod.ActiveViews.ActiveWin)
                 {
                     DrawInkMethod.StrokesCollection.Clear();
@@ -1404,6 +1452,8 @@ namespace Global.UserControls.DrawVisual
                             }
 
                             ink.inkCanvas.Strokes.Transform(matrix1, false);
+                            ink.RecBottomRight = ink.RecBottomRight * matrix1;
+                            ink.RecTopLeft = ink.RecTopLeft * matrix1;
                             ink.drawDefaultDim(ink.inkDimViewModel.DimPos, ink.inkDimViewModel.DimLength, ink.inkDimViewModel.DimColor, ink.ratio1.Ratio, ink.inkDimViewModel.TextColor);
 
                         }
@@ -1412,9 +1462,7 @@ namespace Global.UserControls.DrawVisual
 
                 }
 
-
-
-
+                ZoomParTransform(ratio1.Ratio,inkCanvas.Strokes);
                 double x = curPoint.X / ActualWidth * 1280;
                 double y = curPoint.Y / ActualHeight * 960;
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -1424,7 +1472,7 @@ namespace Global.UserControls.DrawVisual
                             {"y",(int)y },
                             {"flag",(int)-1024 }
                             };
-                LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+              //  LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
                 StreamResourceInfo ZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(ZoomIn.Stream);
                 await Task.Delay(500);
@@ -1454,10 +1502,17 @@ namespace Global.UserControls.DrawVisual
             Matrix matrix = new Matrix();
             matrix.ScaleAt(wRatio, hRatio, beforePoint.X / 2 , beforePoint.Y / 2 );
             inkCanvas.Strokes.Transform(matrix, false);
+            // rectangle transform
+            RecBottomRight = RecBottomRight * matrix;
+            RecTopLeft = RecTopLeft * matrix;
+
             Matrix matrixMove1 = new Matrix();
            
             matrixMove1.Translate((R.ActualWidth - width) / 2, (R.ActualHeight - height) / 2 );
             inkCanvas.Strokes.Transform(matrixMove1, false);
+            RecBottomRight = RecBottomRight * matrixMove1;
+            RecTopLeft = RecTopLeft * matrixMove1;
+
             width = R.ActualWidth;
             height = R.ActualHeight;
          
@@ -1609,7 +1664,7 @@ namespace Global.UserControls.DrawVisual
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            WindowData1.ExportAs("bmp");
+            //WindowData.ExportAs("bmp");
         }
 
         private void inkCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -1624,7 +1679,7 @@ namespace Global.UserControls.DrawVisual
                 DrawInkMethod.ActiveViews.ActiveWin = this.index;
                 DrawInkMethod.StrokesCollection.Clear();
                 FilterStroke(1);
-                FilterStroke1(1, RegisterStroke);
+               // FilterStroke1(1, RegisterStroke);
                 //FilterStroke1(1, RegisterStroke);
 
 
@@ -1636,8 +1691,144 @@ namespace Global.UserControls.DrawVisual
         {
            
             InkAll = WindowData1.GetInstance().inkVisuals;
-           
+           // MessageBox.Show("2");
+            RecBottomRight.X = this.ActualWidth;
+            RecBottomRight.Y = this.ActualHeight;
+
+            RecTopLeft.X = 0;
+            RecTopLeft.Y = 0;
         }
+
+        public void ZoomParTransform( double ratio, StrokeCollection strokes)
+        {
+            
+            if (RecTopLeft.X > 0)
+            {
+                Matrix matrixMove1 = new Matrix();
+                matrixMove1.Translate(-RecTopLeft.X, 0);
+                RecTopLeft = RecTopLeft * matrixMove1;
+                RecBottomRight = RecBottomRight * matrixMove1;
+                strokes.Transform(matrixMove1, false);
+
+            }
+            if (RecTopLeft.Y > 0)
+            {
+                Matrix matrixMove2 = new Matrix();
+                matrixMove2.Translate(0, -RecTopLeft.Y);
+                RecTopLeft = RecTopLeft * matrixMove2;
+                RecBottomRight = RecBottomRight * matrixMove2;
+                strokes.Transform(matrixMove2, false);
+
+            }
+            if (RecBottomRight.X<this.ActualWidth)
+            {
+                Matrix matrixMove3 = new Matrix();
+                matrixMove3.Translate(this.ActualWidth - RecBottomRight.X, 0);
+                RecTopLeft = RecTopLeft * matrixMove3;
+                RecBottomRight = RecBottomRight * matrixMove3;
+                strokes.Transform(matrixMove3, false);
+
+            }
+            if (RecBottomRight.Y < this.ActualHeight)
+            {
+                Matrix matrixMove4 = new Matrix();
+                matrixMove4.Translate(0, this.ActualHeight - RecBottomRight.Y);
+                RecTopLeft = RecTopLeft * matrixMove4;
+                RecBottomRight = RecBottomRight * matrixMove4;
+                strokes.Transform(matrixMove4, false);
+
+            }
+
+            double Width = RecBottomRight.X - RecTopLeft.X;
+            double Height = RecBottomRight.Y - RecTopLeft.Y;
+
+            double x = -(RecTopLeft.X) * 1280 / Width;
+            double y = -(RecTopLeft.Y) * 960 / Height;
+            int m = (int)x;
+            int n = (int)y;
+            //double RecWid = 1280 / ratio;
+            //double RecHei = 960 / ratio;
+
+            int RecWid = (int)(1280 / ratio);
+            int RecHei = (int)(960 / ratio);
+            CurrentArray = new int[4] { m, n, RecWid, RecHei };
+             if (!Enumerable.SequenceEqual(CurrentArray, lastTempArray))
+            {
+                //MessageBox.Show(m.ToString() + "," + n.ToString() + "," + RecWid.ToString() + "," + RecHei.ToString());
+               
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>()
+                            { 
+                            { "window",index},
+                            { "x",(int)m},
+                            {"y",(int)n},
+                            {"width",(int)RecWid },
+                            {"height",(int)RecHei}
+                            };
+                LambdaControl.Trigger("IMAGEING_VIEW_MATRIX", null, parameters);
+                Array.Copy(CurrentArray, lastTempArray, 4);
+
+            }
+          
+         
+
+
+        }
+
+
+        private VisualAttritube LineTrans(VisualAttritube visual, LineStroke line, double ratio ,double actualWidth,double actualHeight,double oriWidth,double oriHeight)
+        {
+
+            double ratioW = actualWidth / oriWidth;
+            double ratioMultiply = ratioW * ratio;
+            visual.Type = "Line";
+            visual.Color = line.ColorBru;
+            visual.LineWidth = line.LineWidth;
+            visual.LineType = line.Dash;
+
+            visual.Point1 = new Point(line.point1.X/ ratioMultiply, line.point1.Y/ ratioMultiply) ;
+            visual.Point2 = new Point(line.point2.X / ratioMultiply, line.point2.Y / ratioMultiply);
+
+            return visual;
+
+        }
+        private VisualAttritube EllipseTrans(VisualAttritube visual, EllipseStroke ellipse, double ratio, double actualWidth, double actualHeight, double oriWidth, double oriHeight)
+        {
+
+            double ratioW = actualWidth / oriWidth;
+            double ratioMultiply = ratioW * ratio;
+            visual.Type = "Line";
+            visual.Color = ellipse.ColorBru;
+            visual.LineWidth = ellipse.LineWidth;
+            visual.LineType = ellipse.Dash;
+
+            visual.Point1 = new Point(ellipse.point1.X / ratioMultiply, ellipse.point1.Y / ratioMultiply);
+            visual.Point2 = new Point(ellipse.point2.X / ratioMultiply, ellipse.point2.Y / ratioMultiply);
+
+            return visual;
+
+        }
+
+        private VisualAttritube RectangleTrans(VisualAttritube visual, RectangleStroke rectangle, double ratio, double actualWidth, double actualHeight, double oriWidth, double oriHeight)
+        {
+
+            double ratioW = actualWidth / oriWidth;
+            double ratioMultiply = ratioW * 1;
+            visual.Type = "Line";
+            visual.Color = rectangle.ColorBru;
+            visual.LineWidth = rectangle.LineWidth;
+            visual.LineType = rectangle.Dash;
+
+            visual.Point1 = new Point(rectangle.Point1.X / ratioMultiply, rectangle.Point1.Y / ratioMultiply);
+            visual.Point2 = new Point(rectangle.Point2.X / ratioMultiply, rectangle.Point2.Y / ratioMultiply);
+
+            return visual;
+
+        }
+
+
+
+
     }
 }
 

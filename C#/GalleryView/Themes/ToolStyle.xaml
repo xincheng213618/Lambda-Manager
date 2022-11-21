@@ -1,0 +1,268 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <Style x:Key="SliderThumbStyle1" TargetType="Thumb">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="false"/>
+        <Setter Property="Height" Value="14"/>
+        <Setter Property="Width" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border x:Name="Border1"  Background="Transparent"  CornerRadius="0" 
+                        >
+                        <Grid>
+                            <Ellipse x:Name="ellipse1" StrokeThickness="0" Stroke="#FF000000" Width="14" Height="14" Opacity="1" SnapsToDevicePixels="false" >
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush GradientOrigin="0.5,0.5">
+                                        <GradientStop Color="Transparent" Offset="0"/>
+                                        <GradientStop Color="Transparent" Offset="0.5"/>
+                                        <GradientStop Color="#FF4A5B4D" Offset="0.5"/>
+                                        <GradientStop Color="#555555" Offset="0.9"/>
+                                        <GradientStop Color="#666666" Offset="1"/>
+                                    </RadialGradientBrush>
+
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse x:Name="ellipse2" StrokeThickness="0.2" Stroke="#FF000000" Width="8" Height="8" Opacity="1" SnapsToDevicePixels="false" Fill="#6EA646" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ellipse2"  Property="Fill" Value="Orange"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="ellipse1" Property="Fill" Value="Gray"/>
+                            <Setter TargetName="ellipse2" Property="Fill" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SliderRepeatButton2" TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Height" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border  Background="#1e1e1e" BorderBrush="#111111"  BorderThickness="2"  Height="{TemplateBinding Height}"  CornerRadius="0,4,4,0" Margin="-3,0,0,0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SliderRepeatButton3" TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Height" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border SnapsToDevicePixels="True" Background="#6EA646" BorderBrush="#111111"  BorderThickness="2"  Height="{TemplateBinding Height}" CornerRadius="4,0,0,4" Margin="0,0,-3,0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="Slider1"  TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Track Grid.Row="1" Grid.Column="1" x:Name="PART_Track" ToolTip="{Binding  ElementName=PART_Track,Path=Value,StringFormat=N2}" >
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton3}"  Command="Slider.DecreaseLarge" />
+                </Track.DecreaseRepeatButton>
+
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton2}" Command="Slider.IncreaseLarge" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumbStyle1}"  />
+                </Track.Thumb>
+            </Track>
+
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="sliderSty" TargetType="Slider">
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TickFrequency" Value="0.00001"/>
+        <Setter Property="LargeChange" Value="0.0001"/>
+        <Setter Property="SmallChange" Value="0.00001"/>
+        <Setter Property="IsSnapToTickEnabled" Value="True"/>
+
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="MinHeight" Value="10" />
+                <Setter Property="MinWidth" Value="70" />
+                <Setter Property="Template" Value="{StaticResource Slider1}"/>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <ControlTemplate x:Key="save">
+        <Canvas Width="23"  Height="22" >
+            <Border Width="24" Canvas.Left="-2" Canvas.Top="-2" Height="22" CornerRadius="3" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Border>
+            <Viewbox Height="15" Width="15"  Canvas.Left="2" Canvas.Top="2"  >
+                <Canvas Width="1024" Height="1024">
+                    <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M547.4 65.9h124.4v203.7H547.4z"></Path>
+                    <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M218.7 589.9h597v29.5h-597zM218.7 728h597v29.5h-597zM218.7 870.3h597v29.5h-597z"></Path>
+                    <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M999.3 210.6L816.9 23.9c-8.5-8.7-18.9-15.4-30.3-19.5C770-1.6 752.4 0.3 735.2 0.3h-661c-39.6 0-72 32.4-72 72v878.5c0 39.6 32.4 72 72 72h876c39.6 0 72-32.4 72-72V277.1c0-12.6 0.2-24-3.9-36.1-4.1-11.4-10.5-21.8-19-30.4z m-682-183H729.7V325H317.3V27.6z m580.4 964H132.4V504.7H897.7v486.9z m93-114.2h-59.6v-50.8h59.6v50.8z"></Path>
+                </Canvas>
+            </Viewbox>
+        </Canvas>
+    </ControlTemplate>
+
+    <ControlTemplate  x:Key="del">
+        <Canvas Width="24"  Height="22"  >
+            <Border Width="24" Canvas.Left="-2" Canvas.Top="-2" Height="22" CornerRadius="3" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Border>
+
+            <Viewbox Width="15" Height="15" Canvas.Left="2.5" Canvas.Top="2" >
+                <Canvas Width="1024" Height="1024">
+                    <!--<Path Canvas.Left="-2" Canvas.Top="-1" Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M10,16.18289438796997C10,16.98378438796997,10.894433,17.459684387969972,11.55866,17.01228438796997L17,13.34713438796997L17,16.59998438796997C17,16.82088438796997,17.179090000000002,16.99998438796997,17.4,16.99998438796997L18.6,16.99998438796997C18.82092,16.99998438796997,19,16.82088438796997,19,16.59998438796997L19,7.399985387969971C19,7.17907138796997,18.82092,6.9999853879699705,18.6,6.9999853879699705L17.4,6.9999853879699705C17.179090000000002,6.9999853879699705,17,7.17907138796997,17,7.399985387969971L17,10.652834387969971L11.55866,6.98768238796997C10.894434,6.540275387969971,10,7.016222387969971,10,7.817074387969971L10,16.18289438796997Z"></Path>-->
+                    <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M928.16 144H736V64a32 32 0 0 0-32-32H320a32 32 0 0 0-32 32v80H95.84a32 32 0 0 0 0 64H129.6l77.92 698.656A96 96 0 0 0 302.912 992h418.144a96.032 96.032 0 0 0 95.424-85.344L894.4 208h33.728a32 32 0 0 0 0.032-64zM352 96h320v48H352V96z m400.896 803.552a32 32 0 0 1-31.808 28.448H302.912a32 32 0 0 1-31.808-28.448L193.984 208h636.032l-77.12 691.552z">
+
+                    </Path>
+                    <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M608 820.928a32 32 0 0 0 32-32V319.104a32 32 0 0 0-64 0v469.824a32 32 0 0 0 32 32zM432 820.928a32 32 0 0 0 32-32V319.104a32 32 0 0 0-64 0v469.824a32 32 0 0 0 32 32z">
+
+                    </Path>
+                </Canvas>
+            </Viewbox>
+
+        </Canvas>
+    </ControlTemplate>
+
+    <SolidColorBrush x:Key="DisableBackground" Color="#595959" />
+    <SolidColorBrush x:Key="DisableForeground" Color="#fff" />
+    <SolidColorBrush x:Key="CheckedBack1" Color="#6EA646" />
+    <SolidColorBrush x:Key="CheckedFore" Color="#fff" />
+    <SolidColorBrush x:Key="EnableBack1" Color="#FFF" />
+    <SolidColorBrush x:Key="EnableFore" Color="#000" />
+
+
+    <LinearGradientBrush x:Key="EnableBack" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+
+                <GradientStop Color="#FFF" Offset="0"/>
+                <GradientStop Color="#888" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="CheckedBack" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#6EA646" Offset="0.0"/>
+                <GradientStop Color="#6EA646" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="mouseOverBack" StartPoint="0,0" EndPoint="1,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#CCC" Offset="0.0"/>
+                <GradientStop Color="#555" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="mouseOverFore" StartPoint="0,0" EndPoint="1,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#FF15EF40" Offset="0.0"/>
+                <GradientStop Color="#FF15EF40" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="rangeBack" StartPoint="0,0" EndPoint="1,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#FF15EF40" Offset="0.0"/>
+                <GradientStop Color="#FF15EF40" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="rangeFore" StartPoint="0,0" EndPoint="1,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#ffffff" Offset="1"/>
+                <GradientStop Color="#aaaaaa" Offset="0.66"/>
+                <GradientStop Color="#555555" Offset="0.5"/>
+                <GradientStop Color="#222222" Offset="0.33"/>
+                <GradientStop Color="#000000" Offset="0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+
+    <Style x:Key="ButtonStyle222" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22"/>
+        <Setter Property="Width" Value="23.5"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource EnableBack}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource EnableFore}"/>
+        <!--<Setter Property="Margin" Value="1.5"/>-->
+        <Setter Property="BorderThickness" Value="1"/>
+        <!--<Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />-->
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Border x:Name="border" Background="{StaticResource EnableBack}" BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" SnapsToDevicePixels="true">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="true"/>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource CheckedBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
+                        </MultiTrigger>-->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource mouseOverBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource mouseOverFore}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter  TargetName="border" Property="Background" Value="{StaticResource DisableBackground}"/>
+                            <Setter  TargetName="border" Property="BorderBrush" Value="{StaticResource DisableForeground}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource CheckedBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+</ResourceDictionary>

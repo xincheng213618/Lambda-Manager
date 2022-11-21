@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Global.Common.Extensions;
+using Lambda;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,29 +28,144 @@ namespace GalleryView
         public Gallery()
         {
             InitializeComponent();
+            List = Lis;
+            Lis.ItemsSource = products;
+        }
 
-            product11.Add(product1);
-            product11.Add(product2);
-            product11.Add(product3);
-            product11.Add(product4);
-            product11.Add(product5);
-            product11.Add(product6);
-            product11.Add(product7);
-            product11.Add(product8);
+        public class Thumbnail
+        {
+            private string thumbnailAdd;
+            public string ThumbnailAdd
+            {
+                get { return thumbnailAdd; }
+                set { thumbnailAdd = value; }
+            } 
+            private string describe;
+            public string Describe
+            {
+                get { return describe; }
+                set { describe = value; }
+            }
+            private string status;
+            public string Status
+            {
+                get { return status; }
+                set { status = value; }
+            }
+        }
 
-            list.ItemsSource = product11;
+        public class GalleryPath
+        {
+            public List<string> Paths { get; set; } = new List<string>();
+        }
+
+
+        public static ObservableCollection<Product> products = new ObservableCollection<Product>();
+        public static ObservableCollection<Thumbnail> ThumbnailList = new ObservableCollection<Thumbnail>();
+
+        public static ListView List = new ListView();
+        private List<string> SlicePaths = new List<string>();
+        int index = 0;
+       
+        private void HandleDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem listViewItem = (ListViewItem)sender;
+            Product product = (Product)listViewItem.DataContext;
+            string path = product.ProductImagePath;
+            LambdaControl.Trigger("ZSTACK_GALLERY_CURRENT", this, path);
+
+            
+        }
+
+        private void UserControl_Initialized(object sender, EventArgs e)
+        {
+            LambdaControl.AddLambdaEventHandler("ZSTACK_GALLERY_BACK", GalleryImageAddress, false);
+            LambdaControl.AddLambdaEventHandler("ZSTACK_GALLERY_PATH", GalleryPathConverter, false);
+            products.CollectionChanged += delegate
+            {
+
+
+            };
+            
+        }
+
+        private bool GalleryPathConverter(object sender, EventArgs e)     // receive current mode All slice paths
+        {
+
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            string multiSliceJson = eventData.GetString("Slice");
+           // MessageBox.Show(multiSliceJson.ToString());
+            GalleryPath galleryPath = JsonSerializer.Deserialize<GalleryPath>(multiSliceJson);
+            if (galleryPath != null)
+            {
+                SlicePaths = galleryPath.Paths;
+            }
+           
+            products.Clear();
+            index = 0;
+            foreach (string path in SlicePaths)
+            {
+                LambdaControl.Trigger("ZSTACK_GALLERY_SLICE", this, path);
+            }
+
+
+            return true;
 
         }
-      public static  ObservableCollection<Product> product11 = new ObservableCollection<Product>();
+        private bool GalleryImageAddress(object sender, EventArgs e)
+        {
 
-        Product product1 = new Product("1", "1.png");
-        Product product2 = new Product("2", "2.png");
-        Product product3 = new Product("3", "3.png");
-        Product product4 = new Product("4", "4.png");
-        Product product5 = new Product("5", "5.png");
-        Product product6 = new Product("6", "6.png");
-        Product product7 = new Product("7", "7.png");
-        Product product8 = new Product("8", "8.png");
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+            WriteableBitmap writeable = GetWriteableBitmap(eventData);
+            string fullPath = SlicePaths[index];
+            string path1 = fullPath.Substring(fullPath.Length-21);
+            string path2 = path1.Substring(0,15);
+            Product product = new Product(index,path2, fullPath,writeable);
+            products.Add(product);
+            index++;
+            return true;
+
+        }
+
+
+
+
+
+        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
+        public static extern void RtlMoveMemory(IntPtr Destination, IntPtr Source, uint Length);
+        private WriteableBitmap GetWriteableBitmap(Dictionary<string, object> eventData)
+        {
+            int size = (int)eventData["size"];
+
+            IntPtr intPtr = (IntPtr)eventData["data"];
+
+            WriteableBitmap writeableBitmap = new WriteableBitmap(320, 240, 96.0, 96.0, PixelFormats.Bgr24, null);
+            RtlMoveMemory(writeableBitmap.BackBuffer, intPtr, (uint)size);
+            writeableBitmap.Lock();
+            writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight));
+            writeableBitmap.Unlock();
+            return writeableBitmap;
+
+
+        }
+
+
+     
+
+
+       
+
+
+
+
+
+
+
+
 
     }
 }

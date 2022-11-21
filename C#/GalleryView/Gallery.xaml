@@ -4,45 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalleryView"
-             xmlns:cov="clr-namespace:GalleryView.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Initialized="UserControl_Initialized" >
     <UserControl.Resources>
-        <ResourceDictionary>
-            <cov:ImagePathConverter x:Key="ImagePathConverter"></cov:ImagePathConverter>
-            <cov:SizeConverter x:Key="SizeConverter"></cov:SizeConverter>
 
-            <local:TileView x:Key="ImageView1">
-                <local:TileView.ItemTemplate>
-                    <DataTemplate>
+       
+        <local:SizeConverter x:Key="SizeConverter"></local:SizeConverter>
+        <local:TileView x:Key="ImageView1">
+            <local:TileView.ItemTemplate>
+                <DataTemplate>
 
-                        <StackPanel  Width="{Binding Path=SizeLevel,Converter={StaticResource SizeConverter }}"  VerticalAlignment="Top"  >
-                            <Image Source="{Binding Path=ProductImagePath, Converter={StaticResource ImagePathConverter}}" ></Image>
-                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Foreground="white" Text="{Binding Path=ModelName}" ></TextBlock>
-                        </StackPanel>
+                    <StackPanel  Width="{Binding Path=SizeLevel,Converter={StaticResource SizeConverter }}"  VerticalAlignment="Top"  >
+                        <Image Source="{Binding Path=WRiteableBitmap}" ></Image>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Foreground="white" Text="{Binding Path=ModelName}" ></TextBlock>
+                    </StackPanel>
 
-                    </DataTemplate>
-                </local:TileView.ItemTemplate>
-            </local:TileView>
-            
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/GalleryView;component/Dictionary1.xaml"></ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
-           
-        </ResourceDictionary>
+                </DataTemplate>
+            </local:TileView.ItemTemplate>
+        </local:TileView>
     </UserControl.Resources>
-
     <Grid>
-        <ListView  x:Name="list"  View="{StaticResource ImageView1}"  >
+        <ListView  Margin="10"   x:Name="Lis" View="{StaticResource ImageView1}"  >
             <ListView.ItemContainerStyle>
                 <Style  TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
                     <Setter Property="Padding" Value="3"/>
                     <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
                     <Setter Property="ContentTemplate" Value="{Binding Path=View.ItemTemplate,  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"></Setter>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border   Name="Border22222" BorderThickness="1" CornerRadius="3"  >
+                                <Border   Name="Border22222" BorderThickness="1" CornerRadius="0"  >
                                     <ContentPresenter />
                                 </Border>
                                 <ControlTemplate.Triggers>
@@ -54,16 +46,14 @@
               Value="{Binding Path=View.SelectedBackground,
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"></Setter>
                                     </Trigger>
+
+
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-
                 </Style>
-
             </ListView.ItemContainerStyle>
-
-
         </ListView>
     </Grid>
 </UserControl>

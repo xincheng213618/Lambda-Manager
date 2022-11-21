@@ -144,30 +144,41 @@ namespace Global
         //}
         private  void ActiveViewChanged()
         {
-
+           
             ActiveViews.PropertyChanged += (s, e) =>
             {
                 viewCount = 0;
-                if (Application.Current.MainWindow.FindName("grid0") is Grid grid && grid.Parent is Grid grid1){
-                    foreach (var item in grid1.Children)
+                Window mainwin = System.Windows.Application.Current.MainWindow;
+                Grid grid = (Grid)mainwin.FindName("grid0");
+                Grid grid1= grid.Parent as Grid;
+                foreach(var item in grid1.Children)
+                {
+                    if (item is Grid)
                     {
-                        if (item is Grid)
-                        {
-                            Color color = (Color)ColorConverter.ConvertFromString("Transparent");
-                            InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
-                            viewCount++;
+                        Color color = (Color)ColorConverter.ConvertFromString("Transparent");
+                        InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
+                         viewCount++;
 
-                        }
-                    }
-                    if (viewCount > 1)
-                    {
-                        Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
-                        InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
                     }
                 }
+                if (viewCount > 1)
+                {
+                    Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
+                    InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
+
+                }
+
+
+
+
+
             };
+
+
+
         }
-        public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
+       
+    public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
 
         public Stroke GenerateLineStroke(System.Windows.Point st, System.Windows.Point ed)
         {
@@ -1583,6 +1594,9 @@ namespace Global
           
             List<double> listX;
             List<double> listY;
+            public Point point1 { get; set; }
+            public Point point2 { get; set; }
+
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
 
@@ -1590,6 +1604,9 @@ namespace Global
                 double y0 = StylusPoints[0].Y;
                 double x1 = StylusPoints[2].X;
                 double y1 = StylusPoints[2].Y;
+                point1 = new Point(x0, y0);
+                point2 = new Point(x1, y1);
+
                 listX = new List<double> { x0, x1 };
                 listY = new List<double> { y0, y1 };
                 double xLeft = listX.Min();
@@ -1728,19 +1745,21 @@ namespace Global
             //int Dash;
             //public int Index { get; set; }
             //public string Type { get; set; } = "直线";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
+            public Point point1 { get; set; }
+            public Point point2 { get; set; }
             List<double> listX;
             List<double> listY;
+           
 
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
-
+               
                 double x0 = StylusPoints[0].X;
                 double y0 = StylusPoints[0].Y;
                 double x1 = StylusPoints[1].X;
                 double y1 = StylusPoints[1].Y;
-
+                point1 = new Point(x0, y0);
+                point2 = new Point(x1, y1);
                 listX = new List<double> { x0, x1 };
                 listY = new List<double> { y0, y1 };
                 double xLeft = listX.Min();
@@ -2168,13 +2187,13 @@ namespace Global
                 Type  = "矩形";
             }
             //public Color ColorBru { get; set; }
-           
+
             //int LineWidth;
             //int Dash;
             //public int Index { get; set; }
             //public string Type { get; set; } = "矩形";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
+            public Point Point1 { get; set; }
+            public Point Point2 { get; set; }
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -2190,8 +2209,9 @@ namespace Global
                 double y3 = StylusPoints[3].Y;
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
-                
-                 listX = new List<double> { x0, x1, x2, x3, x4 };
+                Point1 =new Point( x0, y0);
+                Point2 = new Point(x2, y2);
+                listX = new List<double> { x0, x1, x2, x3, x4 };
                  listY = new List<double> { y0, y1, y2, y3, y4 };
                  double xLeft = listX.Min();
                  double xRight = listX.Max();

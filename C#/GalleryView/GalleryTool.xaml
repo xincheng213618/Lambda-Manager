@@ -1,27 +1,27 @@
-﻿<UserControl x:Class="Global.UserControls.gallery.GalleryTool"
+﻿<UserControl x:Class="GalleryView.GalleryTool"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Global.UserControls.gallery"
+             xmlns:local="clr-namespace:GalleryView"
              mc:Ignorable="d" 
              >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Global;component/Themes/style.xaml"/>
+                <ResourceDictionary Source="/GalleryView;component/Themes/ToolStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <WrapPanel Background="#333333">
-            <Button  Margin="2" Width="24" Height="22"   Style="{StaticResource ButtonStyle222}" >
-                <ContentControl  Template="{StaticResource save}"></ContentControl>  
+            <Button  Margin="2" Width="24" Height="22"   Style="{StaticResource ButtonStyle222}" Click="Button_Click_1"   >
+                <ContentControl  Template="{StaticResource save}"></ContentControl>
             </Button>
-            <Button  Margin="2" Width="24"  Height="22" Style="{StaticResource ButtonStyle222}">
+            <Button  Margin="2" Width="24"  Height="22" Style="{StaticResource ButtonStyle222}" Click="Button_Click">
                 <ContentControl Template="{StaticResource del}"></ContentControl>
             </Button>
             <Slider Width="100" Style="{StaticResource sliderSty}" Value="5" Name="sizeSlider" Margin="5,0" Minimum="1" Maximum="10" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged"  />
-        </WrapPanel>   
+        </WrapPanel>
     </Grid>
 </UserControl>

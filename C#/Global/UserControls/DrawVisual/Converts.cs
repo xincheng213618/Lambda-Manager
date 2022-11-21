@@ -134,7 +134,28 @@ namespace Global
         #endregion
     }
 
+    public class ValueToEnableConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
 
+            if ((double)value > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
 
 
     public class BoolToBoldConverter : IValueConverter
@@ -220,6 +241,10 @@ namespace Global
             return false;
         }
     }
+
+
+
+
     public sealed class BooleanToVisibilityConverter1 : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

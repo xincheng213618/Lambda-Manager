@@ -132,12 +132,13 @@ namespace Solution
                         }
                     }
                 }
-
                 if (e.ClickCount == 2)
                 {
+                    //这里因为考虑到和lambda接轨，所以暂时不拆出来，合并类和基类的扩展中
                     if (item.DataContext is ProjectFile projectFile1)
                     {
                         LambdaControl.Trigger("projectFile", this, projectFile1.FullName);
+                        LambdaControl.Trigger("projectFile1", null);
                     }
                     if (item.DataContext is ProjectFolder projectFolder1)
                     {
@@ -153,6 +154,7 @@ namespace Solution
                         await Task.Delay(300);
                         LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName);
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
+                        LambdaControl.Trigger("projectFile1", null);
                     }
                 }
 

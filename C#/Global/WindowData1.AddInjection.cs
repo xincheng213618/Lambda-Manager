@@ -17,7 +17,6 @@ using System.Windows.Media.Imaging;
 using ThemeManager;
 using GalleryView;
 using WpfApp5;
-using Global.UserControls.gallery;
 
 namespace Global
 {

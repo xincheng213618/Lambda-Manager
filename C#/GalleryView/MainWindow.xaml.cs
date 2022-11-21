@@ -12,28 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp5;
 
-namespace Global.UserControls.gallery
+namespace GalleryView
 {
     /// <summary>
-    /// GallyTool.xaml 的交互逻辑
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class GalleryTool : UserControl
+    public partial class MainWindow : Window
     {
-        public GalleryTool()
+        public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
-            foreach(Product item in WpfApp5.gallery.products)
-            {
-                item.SizeLevel = (int)sizeSlider.Value;
-
-            }
         }
     }
 }
