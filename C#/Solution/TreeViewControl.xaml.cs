@@ -13,7 +13,7 @@ using Solution.RecentFile;
 using Global.Common;
 using System.Threading.Tasks;
 using Microsoft.Win32;
-
+using HotKey;
 
 namespace Solution
 {
@@ -43,9 +43,14 @@ namespace Solution
                 stackPanel.Margin = new Thickness(2, 2, 2, 0);
                 viewbox.Width = double.NaN;
 
+               
                 //追加在显示的时候显示触发
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
+
+                //添加热键
+                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "打开", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), hotKeyHandler = OpenSolution });
+                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "新建", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), hotKeyHandler = NewCreat });
             }
         }
 
@@ -182,7 +187,12 @@ namespace Solution
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            OpenSolution();
+        }
+
+
+        private void OpenSolution()
+        {
             OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
             openSolutionWindow.Closed += (s, e) =>
             {
@@ -223,7 +233,8 @@ namespace Solution
             };
             openSolutionWindow.ShowDialog();
         }
-        
+
+
 
         SolutionExplorer solutionExplorer;
 
@@ -365,6 +376,11 @@ namespace Solution
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            NewCreat();
+        }
+
+        private void NewCreat()
+        {
             NewCreatWindow newCreatWindow = new NewCreatWindow();
             newCreatWindow.Closed += delegate
             {
@@ -378,11 +394,10 @@ namespace Solution
 
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
-                    TreeViewInitialized(SolutionFullName,!SolutionConfig.treeViewSetting.IsSupportMultiProject);
+                    TreeViewInitialized(SolutionFullName, !SolutionConfig.treeViewSetting.IsSupportMultiProject);
                 }
             };
             newCreatWindow.ShowDialog();
-
 
         }
 

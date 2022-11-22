@@ -10,10 +10,29 @@ using System.Windows;
 
 namespace HotKey
 {
+
+    public static class HotKeyExtensions
+    {
+        public static void AddHotKeys(this Window This, HotKeys hotKeys)
+        {
+            HotKeyHelper.GetInstance().AddHotKeys(This, hotKeys);
+            if (hotKeys.Kinds == HotKeyKinds.Global)
+            {
+                GlobalHotKeyManager.GetInstance(This).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
+            }
+            else
+            {
+
+                WindowHotKeyManager.GetInstance(This).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
+            }       
+        }
+    }
+
+
     public class HotKeyHelper
     {
         private static HotKeyHelper instance;  
-        private static readonly object locker = new object();
+        private static readonly object locker = new();
 
         public static HotKeyHelper GetInstance()
         {

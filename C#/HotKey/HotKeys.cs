@@ -7,7 +7,7 @@ namespace HotKey
     [Serializable]
     public class HotKeys :INotifyPropertyChanged
     {
-        public string FunctionName;
+        public string FunctionName { get; set; }
         public HotKeyCallBackHanlder hotKeyHandler;
         public Hotkey Hotkey;
         public HotKeyKinds Kinds;

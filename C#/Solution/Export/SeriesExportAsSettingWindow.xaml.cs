@@ -60,8 +60,8 @@ namespace Solution
                 };
                 menuItem.Items.Add(menuItem3);
             }
-            MenuItem menuItem1 = new MenuItem() { Header = "聚焦层面" };
 
+            MenuItem menuItem1 = new MenuItem() { Header = "聚焦层面" };
             MenuItem menuItem11= new MenuItem() { Header = $"全选" };
             menuItem11.Click += (s, e) =>
             {
@@ -80,33 +80,32 @@ namespace Solution
             };
             menuItem1.Items.Add(menuItem11);
             menuItem1.Items.Add(menuItem12);
-            foreach (var item in SeriesProject.Meta.DicZ.Keys)
+            if (SeriesProject.Meta.DicZ.Keys.Count / 20 > 1)
             {
-                MenuItem menuItem3 = new MenuItem() { Header = $"{item}层" ,IsChecked =true };
-                menuItem3.Click += (s, e) =>
+                int i = 0;
+                int j = 1;
+                MenuItem menuItem31 = new MenuItem() { Header = $"1组", IsChecked = true };
+                menuItem1.Items.Add(menuItem31);
+                foreach (var item in SeriesProject.Meta.DicZ.Keys)
                 {
-                    menuItem3.IsChecked = !menuItem3.IsChecked;
-                    foreach (var item in SeriesProject.Meta.DicZ[item])
+                    i++;
+                    if (i > 20)
                     {
-                        if (!menuItem3.IsChecked)
-                        {
-                            item.Visibility = Visibility.Hidden;
-                        }
-                        else
-                        {
-                            foreach (var item2 in menuItem.Items)
-                            {
-                                if (item2 is MenuItem menuItem5)
-                                    menuItem5.IsChecked = true;
-                            }
-
-                            item.Visibility = Visibility.Visible;
-                        }
+                        i = 0;
+                        j++;
+                        menuItem31 = new MenuItem() { Header = $"{j}组", IsChecked = true };
+                        menuItem1.Items.Add(menuItem31);
                     }
-                };
-                menuItem1.Items.Add(menuItem3);
+                    SeriesProjectMetaDicZAbb(menuItem31, item);
+                }
             }
-
+            else
+            {
+                foreach (var item in SeriesProject.Meta.DicZ.Keys)
+                {
+                    SeriesProjectMetaDicZAbb(menuItem1,item);
+                }
+            }
             MenuItem menuItem2 = new MenuItem() { Header = "拍摄模式" };
             foreach (var item in SeriesProject.Meta.DicOM.Keys)
             {
@@ -144,6 +143,37 @@ namespace Solution
             contextMenu.Items.Add(menuItem2);
             FilterButton.ContextMenu = contextMenu ;
         }
+        private void SeriesProjectMetaDicZAbb(MenuItem menuItem,int Key)
+        {
+            MenuItem menuItem3 = new MenuItem() { Header = $"{Key}层", IsChecked = true };
+            menuItem3.Click += (s, e) =>
+            {
+                menuItem3.IsChecked = !menuItem3.IsChecked;
+                foreach (var item in SeriesProject.Meta.DicZ[Key])
+                {
+                    if (!menuItem3.IsChecked)
+                    {
+                        item.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        foreach (var item2 in menuItem.Items)
+                        {
+                            if (item2 is MenuItem menuItem5)
+                                menuItem5.IsChecked = true;
+                        }
+
+                        item.Visibility = Visibility.Visible;
+                    }
+                }
+            };
+            menuItem.Items.Add(menuItem3);
+        }
+
+
+
+        
+
 
         List<GrifFile> SelectGrifList = new List<GrifFile>();
 
@@ -437,7 +467,7 @@ namespace Solution
             CheckEendControl(SeriesProject);
         }
 
-        public void CheckEendControl(BaseObject baseObject,bool? IsCheckNot =true,bool Add = true)
+        public void CheckEendControl(BaseObject baseObject,bool? IsCheckNot = true,bool Add = true,bool AllowRepeat = false)
         {
             foreach (var item in baseObject.VisualChildren)
             {
@@ -447,6 +477,12 @@ namespace Solution
                     {
                         if (!SeriesProject.ExportChildren.Contains(grifFile))
                             SeriesProject.ExportChildren.Add(grifFile);
+                        else if (AllowRepeat)
+                        {
+                            SeriesProject.ExportChildren.Insert(SeriesProject.ExportChildren.IndexOf(grifFile), new GrifFile(grifFile.FullName));
+                            SeriesProject.ExportChildren.Remove(grifFile);
+                            SeriesProject.ExportChildren.Add(grifFile);
+                        }
                     }
                     else
                     {
@@ -465,7 +501,7 @@ namespace Solution
 
         private void Button_Click_02(object sender, RoutedEventArgs e)
         {
-            CheckEendControl(SeriesProject, false);
+            CheckEendControl(SeriesProject, false,true,true);
         }
 
         private void Button_Click_03(object sender, RoutedEventArgs e)
