@@ -72,7 +72,7 @@
     <ProjectReference Include="..\ConfigBottomView\ConfigBottomView.csproj" />
     <ProjectReference Include="..\GalleryView\GalleryView.csproj" />
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
-    <ProjectReference Include="..\Global.Setting\Global.SettingUp.csproj" />
+    <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
     <ProjectReference Include="..\WpfApp5\WpfApp5.csproj" />

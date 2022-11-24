@@ -9,24 +9,8 @@
 	 <Platforms>AnyCPU;x64</Platforms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>  
-
-  <ItemGroup>
-    <Compile Remove="3333\**" />
-    <Compile Remove="Mode\**" />
-    <EmbeddedResource Remove="3333\**" />
-    <EmbeddedResource Remove="Mode\**" />
-    <None Remove="3333\**" />
-    <None Remove="Mode\**" />
-    <Page Remove="3333\**" />
-    <Page Remove="Mode\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="filer.png" />
-    <None Remove="images\grif.png" />
-    <None Remove="图片2.png" />
-    <None Remove="图片3.png" />
-  </ItemGroup>
+  
+  
 
   <ItemGroup>
     <Resource Include="images\grif.png" />
@@ -36,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
-    <ProjectReference Include="..\Global.Setting\Global.SettingUp.csproj" />
+    <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\HotKey\HotKey.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
