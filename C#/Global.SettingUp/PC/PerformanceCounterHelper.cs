@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 
-namespace LambdaManager.Mode
+namespace Global.SettingUp.PC
 {
     public class PerformanceCounterHelper
     {
@@ -49,7 +49,7 @@ namespace LambdaManager.Mode
         public PerformanceCounter CPU;
         public PerformanceCounter ProcessThis;
 
-        public double RAMAL = 64;
+        public double RAMAL =  (double)Global.Common.Win32.PerformanceInfo.GetTotalMemoryInMiB()/1024;
         public PerformanceCounter RAM;
         public PerformanceCounter DiskUse;
 

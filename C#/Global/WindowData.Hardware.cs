@@ -1,5 +1,5 @@
 ﻿using Global.Hardware;
-using Global.Setting;
+using Global.SettingUp;
 using System.Collections.Generic;
 using System.Linq;
 

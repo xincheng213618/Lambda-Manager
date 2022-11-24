@@ -4,7 +4,7 @@
 	<singlecompoent path ="lib\application.xml"/>
 	
 	<!--<singlecompoent path ="lib1\application.xml"/>-->
-	<singlecompoent path ="lib2\application.xml"/>
+	<!--<singlecompoent path ="lib2\application.xml"/>-->
 	
 
 

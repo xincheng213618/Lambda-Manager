@@ -22,9 +22,7 @@ namespace Global.Mode
 
         [JsonPropertyName("lambda-manager")]
         public LambdaManager LambdaManager { get; set; }
-        
-        [JsonPropertyName("firmware")]
-        public Firmware FirmwareSetting { get; set; }
+       
 
         [JsonPropertyName("config-stage")]
         public Stage Stage { get; set; } = new();
@@ -39,8 +37,6 @@ namespace Global.Mode
 
         public ImageViewState ImageViewState = new ImageViewState();
 
-        [JsonPropertyName("log-file")]
-        public string? LogFile { get; set; }
     }
 
 

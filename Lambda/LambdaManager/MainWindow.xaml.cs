@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using Global.SettingUp.PC;
 using Lambda;
 using LambdaCore;
 using LambdaManager.Core;

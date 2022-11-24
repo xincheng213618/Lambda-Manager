@@ -1,5 +1,5 @@
 ﻿
-namespace Global.Setting
+namespace Global.SettingUp
 {
     public delegate void UpdateEventHandler();
 
