@@ -36,17 +36,8 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
- 
+
         }
-
-
-
-
-
-
-        /// <summary>
-
-
         // START ALIVE
         private bool STOP_ALIVE(object sender, EventArgs e)
         {
@@ -69,34 +60,11 @@ namespace Global
 
         }
 
-
-
-
-
         private bool START_ACQUIRE(object sender, EventArgs e)
         {
             ACQUIRE = false;
             return true;
           
         }
-
-
-
-
-
-
-
-
-       
-
-        
-
-
-
-
-
-
-
-  
     }
 }

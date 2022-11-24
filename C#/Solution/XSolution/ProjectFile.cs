@@ -11,7 +11,7 @@ using System.Diagnostics;
 using Global.Common.Extensions;
 using Solution;
 using System.Drawing;
-using Global.Common.Helper;
+using Global.Common.Win32;
 using System.Windows.Media;
 
 namespace XSolution

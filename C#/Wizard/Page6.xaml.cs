@@ -1,4 +1,5 @@
-﻿using Lambda;
+﻿using Global.Common;
+using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +40,9 @@ namespace Wizard
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Window.Close();
+            SolutionConfig.HardwareSetting.IsIniWizard = true;
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "关闭配置向导" });
+            Window.Close();
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)

@@ -31,7 +31,7 @@ namespace Solution
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
-            this.DataContext = SolutionConfig.treeViewSetting;
+            this.DataContext = SolutionConfig.SolutionSetting;
         }
 
         bool IsFirstLoad = true;
@@ -91,7 +91,7 @@ namespace Solution
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (SolutionConfig.treeViewSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
+            if (SolutionConfig.SolutionSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
             {
                 MessageBox1.Show(Application.Current.MainWindow,"多工程情况下参数自动保存");
             }
@@ -143,7 +143,7 @@ namespace Solution
                     if (item.DataContext is ProjectFile projectFile1)
                     {
                         LambdaControl.Trigger("projectFile", this, projectFile1.FullName);
-                        LambdaControl.Trigger("projectFile1", null);
+                        LambdaControl.Trigger("projectFile1", this, new Dictionary<string, object>() { });
                     }
                     if (item.DataContext is ProjectFolder projectFolder1)
                     {
@@ -159,7 +159,7 @@ namespace Solution
                         await Task.Delay(300);
                         LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName);
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
-                        LambdaControl.Trigger("projectFile1", null);
+                        LambdaControl.Trigger("projectFile1", new Dictionary<string, object>() { });
                     }
                 }
 
@@ -196,7 +196,7 @@ namespace Solution
             OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
             openSolutionWindow.Closed += (s, e) =>
             {
-                if (SolutionConfig.treeViewSetting.IsSupportMultiProject)
+                if (SolutionConfig.SolutionSetting.IsSupportMultiProject)
                 {
                     string FullName = openSolutionWindow.FullName;
 
@@ -394,7 +394,7 @@ namespace Solution
 
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
-                    TreeViewInitialized(SolutionFullName, !SolutionConfig.treeViewSetting.IsSupportMultiProject);
+                    TreeViewInitialized(SolutionFullName, !SolutionConfig.SolutionSetting.IsSupportMultiProject);
                 }
             };
             newCreatWindow.ShowDialog();
@@ -402,12 +402,10 @@ namespace Solution
         }
 
 
-
-
         private void Close_Click(object sender, RoutedEventArgs e)
         {
 
-            if (SolutionConfig.treeViewSetting.IsSupportMultiProject && LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
+            if (SolutionConfig.SolutionSetting.IsSupportMultiProject && LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
             {
                 SolutionExplorers.Remove(solutionExplorer);
             }
@@ -450,7 +448,6 @@ namespace Solution
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-
         }
 
 

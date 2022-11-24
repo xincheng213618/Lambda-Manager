@@ -39,7 +39,7 @@ namespace Solution
             //SeriesExportTreeView2.PreviewMouseMove += SeriesExportTreeView2_PreviewMouseMove;
             //SeriesExportTreeView2.QueryContinueDrag += SeriesExportTreeView2_QueryContinueDrag;
             ContextMenu contextMenu = new ContextMenu();
-            MenuItem menuItem = new MenuItem() { Header ="采集点"};
+            MenuItem menuItem = new MenuItem() { Header ="采集位点"};
             foreach (var item in SeriesProject.Meta.DicPoints.Keys)
             {
                 MenuItem menuItem3 = new MenuItem() { Header = $"{item.X}  {item.Y}", IsChecked = true };
@@ -62,30 +62,15 @@ namespace Solution
             }
 
             MenuItem menuItem1 = new MenuItem() { Header = "聚焦层面" };
-            MenuItem menuItem11= new MenuItem() { Header = $"全选" };
-            menuItem11.Click += (s, e) =>
-            {
-                foreach (MenuItem item in menuItem1.Items)
-                {
-                    item.IsChecked =true;
-                }
-            };
-            MenuItem menuItem12 = new MenuItem() { Header = $"全不选" };
-            menuItem12.Click += (s, e) =>
-            {
-                foreach (MenuItem item in menuItem1.Items)
-                {
-                    item.IsChecked = false;
-                }
-            };
-            menuItem1.Items.Add(menuItem11);
-            menuItem1.Items.Add(menuItem12);
+
             if (SeriesProject.Meta.DicZ.Keys.Count / 20 > 1)
             {
                 int i = 0;
                 int j = 1;
-                MenuItem menuItem31 = new MenuItem() { Header = $"1组", IsChecked = true };
+                MenuItem menuItem31 = new MenuItem() { Header = $"1组", };
                 menuItem1.Items.Add(menuItem31);
+                SeriesProjectMetaDicZAbb(menuItem31);
+
                 foreach (var item in SeriesProject.Meta.DicZ.Keys)
                 {
                     i++;
@@ -93,7 +78,8 @@ namespace Solution
                     {
                         i = 0;
                         j++;
-                        menuItem31 = new MenuItem() { Header = $"{j}组", IsChecked = true };
+                        menuItem31 = new MenuItem() { Header = $"{j}组"};
+                        SeriesProjectMetaDicZAbb(menuItem31);
                         menuItem1.Items.Add(menuItem31);
                     }
                     SeriesProjectMetaDicZAbb(menuItem31, item);
@@ -101,6 +87,7 @@ namespace Solution
             }
             else
             {
+                SeriesProjectMetaDicZAbb(menuItem1);
                 foreach (var item in SeriesProject.Meta.DicZ.Keys)
                 {
                     SeriesProjectMetaDicZAbb(menuItem1,item);
@@ -143,28 +130,61 @@ namespace Solution
             contextMenu.Items.Add(menuItem2);
             FilterButton.ContextMenu = contextMenu ;
         }
+
+        private void SeriesProjectMetaDicZAbb(MenuItem menuItem)
+        {
+            MenuItem menuItem1 = new MenuItem() { Header = $"全选" };
+            MenuItem menuItem2 = new MenuItem() { Header = $"全不选" };
+            menuItem1.Click += (s, e) =>
+            {
+                if (menuItem1.Parent is MenuItem menuItem3)
+                {
+                    foreach (MenuItem item in menuItem3.Items)
+                    {
+                        if (item!= menuItem1&&item!= menuItem2)
+                            item.IsChecked = true;
+                    }
+                }
+            };
+            menuItem2.Click += (s, e) =>
+            {
+                if (menuItem1.Parent is MenuItem menuItem3)
+                {
+                    foreach (MenuItem item in menuItem3.Items)
+                    {
+                        if (item != menuItem1 && item != menuItem2)
+                            item.IsChecked = false;
+                    }
+                }
+            };
+            menuItem.Items.Add(menuItem1);
+            menuItem.Items.Add(menuItem2);
+        }
+
         private void SeriesProjectMetaDicZAbb(MenuItem menuItem,int Key)
         {
             MenuItem menuItem3 = new MenuItem() { Header = $"{Key}层", IsChecked = true };
             menuItem3.Click += (s, e) =>
             {
                 menuItem3.IsChecked = !menuItem3.IsChecked;
+            };
+            menuItem3.Checked += (s, e) =>
+            {
                 foreach (var item in SeriesProject.Meta.DicZ[Key])
                 {
-                    if (!menuItem3.IsChecked)
+                    foreach (var item2 in menuItem.Items)
                     {
-                        item.Visibility = Visibility.Hidden;
+                        if (item2 is MenuItem menuItem5)
+                            menuItem5.IsChecked = true;
                     }
-                    else
-                    {
-                        foreach (var item2 in menuItem.Items)
-                        {
-                            if (item2 is MenuItem menuItem5)
-                                menuItem5.IsChecked = true;
-                        }
-
-                        item.Visibility = Visibility.Visible;
-                    }
+                    item.Visibility = Visibility.Visible;
+                }
+            };
+            menuItem3.Unchecked += (s, e) =>
+            {
+                foreach (var item in SeriesProject.Meta.DicZ[Key])
+                {
+                    item.Visibility = Visibility.Hidden;
                 }
             };
             menuItem.Items.Add(menuItem3);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConfigSetting"
         mc:Ignorable="d"
-        Initialized="UserControl_Initialized" d:Height="720" d:Width="1280"  Loaded="UserControl_Loaded">
+        Initialized="UserControl_Initialized" d:Height="720" d:Width="1280"   Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style x:Key="SettingButton" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -109,7 +109,7 @@
                         <GroupBox x:Name="GroupBox1"  Style="{DynamicResource GroupBoxStyle1}" Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel>
                                 
-                                <GroupBox Style="{DynamicResource GroupBoxStyle2}" Header="工程管理模式">
+                                <GroupBox Style="{DynamicResource GroupBoxStyle2}" Header="管理">
                                     <StackPanel Margin="10,5"  >
                                         <BulletDecorator>
                                             <BulletDecorator.Bullet>
@@ -118,6 +118,26 @@
                                             <ComboBox Name="ComboBox1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged"   />
                                         </BulletDecorator>
                                         <CheckBox x:Name="CheckBox1" Content="支持多个工程" IsChecked="{Binding IsSupportMultiProject}"/>
+                                        <StackPanel x:Name="HardwareSettingConnectionStackPanel">
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <TextBlock Text="相机:"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock Text="{Binding Path=IsCameraConnection}"/>
+                                            </BulletDecorator>
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <TextBlock Text="位移台:"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock Text="{Binding Path=IsStageConnection}"/>
+                                            </BulletDecorator>
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <TextBlock Text="灯光模块:"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock Text="{Binding Path=IsLightConnection}"/>
+                                            </BulletDecorator>
+                                        </StackPanel>
       
                                     </StackPanel>
 
@@ -129,6 +149,7 @@
                                     <Button Margin="20"  Content="自动校准"  Click="Button_Click_2"/>
                                     <Button Margin="20"  Content="装饰灯关"  Click="Button_Click_3"/>
                                     <Button Margin="20"  Content="装饰灯开"  Click="Button_Click_31"/>
+                                    <Button Margin="20"  Content="清除初始化"  Click="ClearIniWizard"/>
                                     <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
                                     <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
                                     <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>

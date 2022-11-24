@@ -1,4 +1,5 @@
-﻿using Lambda;
+﻿using Global.Common;
+using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,14 @@ namespace Wizard
         {
             Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1(this))));
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "启动配置向导" });
+        }
+
+        private void BaseWindow_Closed(object sender, EventArgs e)
+        {
+            if (!SolutionConfig.HardwareSetting.IsIniWizard)
+            {
+                Environment.Exit(0);
+            }
         }
     }
 }

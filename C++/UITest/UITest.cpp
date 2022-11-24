@@ -565,8 +565,18 @@ CAMERA_API int GrifExportAs(char* GrifExportAsJson)
 	return 0;
 }
 
-
+bool IsCameraConnection = false;
+bool IsStageConnection = true;
+bool IsLightConnection = false;
 int VideoTest() {
+	IsCameraConnection = !IsCameraConnection;
+	IsStageConnection = !IsStageConnection;
+	json j3;
+	j3["IsCameraConnection"] = IsCameraConnection;
+	j3["IsStageConnection"] = IsStageConnection;
+	j3["IsLightConnection"] = IsLightConnection;
+	Event::Trigger("LambdaNotifyPropertyChanged",&j3);
+	//Event::Trigger("STAGE_INI_CLOSE");
 
 
 	//PlayFilm("C:\\Users\\Chen\\Desktop\\2.webm");

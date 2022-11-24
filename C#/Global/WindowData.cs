@@ -71,6 +71,7 @@ namespace Global
             Common.Config.ConfigSetEvent += SetValue;
             Common.Config.ConfigWriteEvent += SaveConfig;
             Hardware_Initialized();
+            AddEventHandler();
         }
 
         public string FilePath;
@@ -83,7 +84,9 @@ namespace Global
         
 
         public SolutionConfig SolutionConfig = new();
+
         public MulSummary mulSummary = new();
+
         public UpdateStatus updateStatus = new();
 
 

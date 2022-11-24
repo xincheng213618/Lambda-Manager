@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace ConfigSetting.Configure
 {
+    /// <summary>
+    /// 灯光参数
+    /// </summary>
     public class LightSource :ViewModelBase
     {
-       
+       public string _model { get; set; }
 
 
     }
+
+
 }

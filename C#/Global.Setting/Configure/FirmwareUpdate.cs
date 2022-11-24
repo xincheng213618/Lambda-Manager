@@ -1,13 +1,11 @@
 ﻿using Global.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ConfigSetting.Configure
+namespace Global.SettingUp.Configure
 {
-    public class FirmwareUpdate :ViewModelBase
+    /// <summary>
+    /// DLL更新
+    /// </summary>
+    public class FirmwareUpdate : ViewModelBase
     {
         /// <summary>
         /// 名称
@@ -34,4 +32,5 @@ namespace ConfigSetting.Configure
 
 
     }
+
 }

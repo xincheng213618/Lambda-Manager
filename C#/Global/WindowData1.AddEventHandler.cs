@@ -72,8 +72,17 @@ namespace Global
             // ProfilePointsReback
             LambdaControl.AddLambdaEventHandler("PROFILE_COLLECTION_POINT",ProfileCollectionP, false);
             LambdaControl.AddLambdaEventHandler("PROFILE_COLLECTION_POINT1", ReProfileCollectionP, false);
-          
 
+            LambdaControl.AddLambdaEventHandler("projectFile1", StaheIniClose1, false);
+        }
+
+        private bool StaheIniClose1(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                WaitContorl.GetInstance().Hidden();
+            });
+            return true;
         }
 
         private bool StaheIniClose(object sender, EventArgs e)

@@ -1,16 +1,14 @@
-﻿using ConfigSetting.Configure;
-using Global.Common;
+﻿using Global.Common;
+using Global.SettingUp.Configure;
 using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Policy;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
@@ -30,11 +28,25 @@ namespace ConfigSetting
         public ObservableCollection<FirmwareUpdate> firmwareUpdates;
 
         bool IsFirstLoad = true;
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
                 IsFirstLoad = false;
+                if (!SolutionConfig.HardwareSetting.IsIniWizard)
+                {
+                    //这里让窗口最小化
+                    await Task.Delay(100);
+                    SystemCommands.MinimizeWindow(Application.Current.MainWindow);
+                    await Task.Delay(50);
+                    Wizard.MainWindow mainWindow = new Wizard.MainWindow("1");
+                    mainWindow.ShowDialog();
+
+                    if (SolutionConfig.HardwareSetting.IsIniWizard)
+                    {
+                        SystemCommands.RestoreWindow(Application.Current.MainWindow);
+                    }
+                }
 
                 var array = Enum.GetValues(typeof(Theme)).Cast<Theme>();
                 ComboBox1.ItemsSource = array;
@@ -57,7 +69,7 @@ namespace ConfigSetting
                         };
                 ListView1.ItemsSource = firmwareUpdates;
 
-                CheckBox1.DataContext = SolutionConfig.treeViewSetting;
+                CheckBox1.DataContext = SolutionConfig.SolutionSetting;
 
                 stackPanel1.Children.Remove(this);
                 if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition)
@@ -109,6 +121,8 @@ namespace ConfigSetting
                 }
 
 
+
+
             }
         }
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -134,6 +148,7 @@ namespace ConfigSetting
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
+            HardwareSettingConnectionStackPanel.DataContext = SolutionConfig.HardwareSetting;
 
         }
 
@@ -204,6 +219,9 @@ namespace ConfigSetting
             }
         }
 
-
+        private void ClearIniWizard(object sender, RoutedEventArgs e)
+        {
+            SolutionConfig.HardwareSetting.IsIniWizard = false;
+        }
     }
 }

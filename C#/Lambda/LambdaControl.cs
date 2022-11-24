@@ -113,7 +113,7 @@ namespace Lambda
         {
             AddEventTimer(type, millis, delegate
             {
-                timers.Remove(type);
+                lock (_locker) { timers.Remove(type); }
                 CallEventHandler?.Invoke(type, this, new LambdaArgs
                 {
                     Data = json
@@ -140,14 +140,12 @@ namespace Lambda
 
         public void Dispatch(string type, string? json, int millis)
         {
-            string type2 = type;
-            string json2 = json;
-            AddEventTimer(type2, millis, delegate
+            AddEventTimer(type, millis, delegate
             {
-                timers.Remove(type2);
-                CallEventHandler?.Invoke(type2, this, new LambdaArgs
+                lock (_locker) { timers.Remove(type); }
+                CallEventHandler?.Invoke(type, this, new LambdaArgs
                 {
-                    Data = json2
+                    Data = json
                 });
             });
         }
@@ -167,12 +165,11 @@ namespace Lambda
         }
         public void Dispatch(string type, EventArgs e, int millis)
         {
-            string type2 = type;
-            EventArgs e3 = e;
-            AddEventTimer(type2, millis, delegate
+
+            AddEventTimer(type, millis, delegate
             {
-                timers.Remove(type2);
-                CallEventHandler?.Invoke(type2, this, e3);
+                lock (_locker) { timers.Remove(type); }
+                CallEventHandler?.Invoke(type, this, e);
             });
         }
 
@@ -206,11 +203,13 @@ namespace Lambda
                 Data = array
             });
         }
-        public void Dispatch(string type, object sender, Array? array, int millis)
+        private static readonly object _locker = new();
+
+        public static void Dispatch(string type, object sender, Array? array, int millis)
         {
             AddEventTimer(type, millis, delegate
             {
-                timers.Remove(type);
+                lock (_locker) {  timers.Remove(type);  }
                 Trigger(type, sender, array);
             });
         }
@@ -229,7 +228,7 @@ namespace Lambda
         {
             AddEventTimer(type, millis, delegate
             {
-                timers.Remove(type);
+                lock (_locker) { timers.Remove(type); }
                 Trigger(type, sender, json);
             });
         }
@@ -275,7 +274,7 @@ namespace Lambda
         {
             AddEventTimer(type, millis, delegate
             {
-                timers.Remove(type);
+                lock (_locker) { timers.Remove(type); }
                 Trigger(type, sender, e);
             });
         }

@@ -104,7 +104,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhaseAlgorithm", "C++\Phase
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "denoise", "C++\Denoise\denoise.vcxproj", "{3C955DE6-99CA-46BD-9C69-20B24CED3B85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Global.Setting", "C#\Global.Setting\Global.Setting.csproj", "{4B50C4EB-BE87-4545-BAD6-C98131444AD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Global.SettingUp", "C#\Global.Setting\Global.SettingUp.csproj", "{4B50C4EB-BE87-4545-BAD6-C98131444AD5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp5", "C#\WpfApp5\WpfApp5.csproj", "{408F9AF0-6A1C-4DCF-866C-C93330B89831}"
 EndProject
