@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConfigSetting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,15 +26,18 @@ namespace Wizard
         {
             InitializeComponent();
             Window = window;
+
         }
         private void Pages()
         {
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
-        private void Page_Initialized(object sender, EventArgs e)
+        private async void Page_Initialized(object sender, EventArgs e)
         {
-
+            await Task.Delay(200);
+            CalibrationWindow calibrationWindow = new CalibrationWindow() { WindowStartupLocation =WindowStartupLocation.CenterScreen};
+            calibrationWindow.ShowDialog();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -44,7 +48,7 @@ namespace Wizard
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            Content = new Page4(Window);
+            Content = new Page3(Window);
             Pages();
         }
     }

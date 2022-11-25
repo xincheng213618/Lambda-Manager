@@ -3,4 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Wizard"
              StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ThemeManager;component/Styles/Dark.xaml"/>
+                <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/Themes/Base/Slider.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/Themes/Base/ButtonStyle.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/themes/Dark/Theme.xaml" />
+                <ResourceDictionary Source="/ThemeManager;component/themes/Base/Menu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

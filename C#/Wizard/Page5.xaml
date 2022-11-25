@@ -15,7 +15,6 @@
             <TextBlock Text="自动校准您的系统" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,180,0,0"/>
             <TextBlock Text="请按提示进行操作，主要为了校准LED半径，默认曝光等参数" HorizontalAlignment="Center" FontSize="12"   VerticalAlignment="Top" Margin="0,240,0,0"/>
 
-
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >
                 <Button Margin="5,0" Padding="10,5"  Content="上一步"  Click="Button1_Click" />
 

@@ -14,7 +14,7 @@
             <TextBlock Text="选择你的物镜型号" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,150,0,0"/>
             <TextBlock Text="如果你不确定你的物镜型号，请查找您的用户配置手册，或查看您的仪器后侧的标签" HorizontalAlignment="Center" FontSize="12"   VerticalAlignment="Top" Margin="0,180,0,0"/>
 
-            <Image Source="/Images/图片2.png" Height="100"  VerticalAlignment="Top" Margin="0,240,0,0"/>
+            <Image Source="/Wizard;component/Images/图片2.png" Height="100"  VerticalAlignment="Top" Margin="0,240,0,0"/>
 
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >
 

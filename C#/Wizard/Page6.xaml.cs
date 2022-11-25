@@ -33,9 +33,12 @@ namespace Wizard
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
-        private void Page_Initialized(object sender, EventArgs e)
+        private async  void Page_Initialized(object sender, EventArgs e)
         {
-
+            await Task.Delay(1000);
+            SolutionConfig.HardwareSetting.IsIniWizard = true;
+            LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "关闭配置向导" });
+            Window.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

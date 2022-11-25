@@ -30,6 +30,7 @@ namespace LambdaManager
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
+        TextBlock CUDAInfoTextBlock;
         private readonly string dllAce = "ACE.dll";
         private void Window_Initialized(object sender, EventArgs e)
         {
@@ -47,6 +48,7 @@ namespace LambdaManager
                 thread.Start();
                 _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
             }
+
         }
 
         public static string GetExpireDate()

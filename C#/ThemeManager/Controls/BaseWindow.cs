@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Shell;
 
 namespace ThemeManager.Controls
 {
+    public class WindowNotifications
+    {
+        /// <summary>
+        /// Sent to a window when its nonclient area needs to be changed to indicate an active or inactive state.
+        /// </summary>
+        public const int WM_NCACTIVATE = 0x0086;
+    }
+
     public partial class BaseWindow:Window
     {
         private static Style? GetDefautlStyle()
@@ -42,6 +51,8 @@ namespace ThemeManager.Controls
             Command_Initialized();
         }
 
+
+
         #region 快捷键
         public static RoutedCommand WindowTopMost = new RoutedUICommand("WindowTopMost", "Full", typeof(BaseWindow), new InputGestureCollection(new InputGesture[] { }));
         #endregion
@@ -65,7 +76,11 @@ namespace ThemeManager.Controls
             {
                 InvalidateMeasure();
             }
+            //IntPtr handle = new WindowInteropHelper(this).Handle;
+            //HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
         }
+
+
 
         //拖动 暂时禁用掉
         //protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

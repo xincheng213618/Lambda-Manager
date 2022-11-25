@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
+using Wizard;
 
 namespace ConfigSetting
 {
@@ -47,7 +48,11 @@ namespace ConfigSetting
                         SystemCommands.RestoreWindow(Application.Current.MainWindow);
                     }
                 }
-
+                if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
+                {
+                    combobox.Visibility = SolutionConfig.SolutionSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
+                    UniformGridSetting.DataContext = SolutionConfig.SolutionSetting;
+                }
                 var array = Enum.GetValues(typeof(Theme)).Cast<Theme>();
                 ComboBox1.ItemsSource = array;
                 ComboBox1.SelectedItem = ThemeManagers.CurrentUITheme;
@@ -150,6 +155,22 @@ namespace ConfigSetting
         {
             HardwareSettingConnectionStackPanel.DataContext = SolutionConfig.HardwareSetting;
 
+            //ManagementObjectSearcher objvide = new ManagementObjectSearcher("select * from Win32_VideoController");
+
+            //foreach (ManagementObject obj in objvide.Get())
+            //{
+            //    CUDAInfoTextBlock.Text += "Name - " + obj["Name"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "DeviceID - " + obj["DeviceID"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "AdapterRAM - " + obj["AdapterRAM"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "AdapterDACType - " + obj["AdapterDACType"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "Monochrome - " + obj["Monochrome"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "InstalledDisplayDrivers - " + obj["InstalledDisplayDrivers"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "DriverVersion - " + obj["DriverVersion"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "VideoProcessor - " + obj["VideoProcessor"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "VideoArchitecture - " + obj["VideoArchitecture"] + "</br>";
+            //    CUDAInfoTextBlock.Text += "VideoMemoryType - " + obj["VideoMemoryType"] + "</br>";
+            //}
+
         }
 
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
@@ -222,6 +243,16 @@ namespace ConfigSetting
         private void ClearIniWizard(object sender, RoutedEventArgs e)
         {
             SolutionConfig.HardwareSetting.IsIniWizard = false;
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            SolutionConfig.SolutionSetting.IsShowLog = !SolutionConfig.SolutionSetting.IsShowLog;
+            if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
+            {
+                combobox.Visibility =SolutionConfig.SolutionSetting.IsShowLog? Visibility.Visible:Visibility.Hidden;
+            }
+            
         }
     }
 }

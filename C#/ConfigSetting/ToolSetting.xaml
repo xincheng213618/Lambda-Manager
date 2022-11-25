@@ -137,14 +137,15 @@
                                                 </BulletDecorator.Bullet>
                                                 <TextBlock Text="{Binding Path=IsLightConnection}"/>
                                             </BulletDecorator>
+                                            <TextBlock x:Name="CUDAInfoTextBlock" />
                                         </StackPanel>
       
                                     </StackPanel>
 
                                 </GroupBox>
-                                
-                                <UniformGrid Margin="10,5" Height="150"  Columns="5"  Rows="2" >
-  
+
+                                <UniformGrid x:Name="UniformGridSetting" Margin="10,5" Height="150"  Columns="5"  Rows="2" >
+ 
                                     <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
                                     <Button Margin="20"  Content="自动校准"  Click="Button_Click_2"/>
                                     <Button Margin="20"  Content="装饰灯关"  Click="Button_Click_3"/>
@@ -153,6 +154,13 @@
                                     <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
                                     <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
                                     <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>
+                                    <Button  Margin="20" Click="Button_Click_7">
+                                        <TextBlock>
+                                            <Run Text="日志显示"/>
+                                            <Run Text="{Binding Path=IsShowLog}"/>
+                                        </TextBlock>
+                                    </Button>
+
                                 </UniformGrid>
 
                             </StackPanel>

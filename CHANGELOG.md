@@ -1,7 +1,3 @@
-## [1.3.15] 2022-11-24
-
-- Helper ->Win32
-
 ## [1.3.13] 2022-11-24
 
 - Global.Setting ->Global.SettingUp✔

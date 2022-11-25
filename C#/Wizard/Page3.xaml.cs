@@ -38,7 +38,7 @@ namespace Wizard
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Content = new Page4(Window);
+            Content = new Page5(Window);
             Pages();
         }
 

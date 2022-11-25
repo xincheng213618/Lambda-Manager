@@ -92,7 +92,7 @@
                     <Grid >
                         <Border x:Name="RootBorder" Padding="0 29 0 0"   Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid x:Name="RootGrid">
-                                <Grid Background="{TemplateBinding Background}" VerticalAlignment="Top" Height="30" Margin="0 -29 0 0" >
+                                <Grid Background="{TemplateBinding Background}" Height="30"  VerticalAlignment="Top"  Margin="0 -29 0 0" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="auto" />
@@ -137,7 +137,7 @@
                         </Trigger>
                         <Trigger Property="IsActive" Value="True">
                             <Setter TargetName="RootBorderActive" Property="BorderBrush" Value="#191919" />
-                            <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="0.5"/>
+                            <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="1"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="RootGrid" Property="Margin" Value="6" />
