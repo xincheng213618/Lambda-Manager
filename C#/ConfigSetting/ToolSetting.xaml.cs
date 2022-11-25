@@ -1,18 +1,21 @@
 ﻿using Global.Common;
 using Global.SettingUp.Configure;
+using Global.SettingUp.PC;
 using Lambda;
+using NvAPIWrapper.GPU;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
-using Wizard;
+
 
 namespace ConfigSetting
 {
@@ -34,6 +37,44 @@ namespace ConfigSetting
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
                 IsFirstLoad = false;
+
+
+                //这种方式更简单，但是没有考虑掉64位DLL的存在;
+                //try
+                //{
+                //    NativeLibrary.Load("nvapi64.dll");
+                //    NativeLibrary.Load("nvapi.dll");
+                //    LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", true} });
+                //}
+                //catch (Exception ex)
+                //{
+                //    LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", false } });
+                //}
+
+
+                //找不到DLL极为不存在
+                //GPU信息
+                PhysicalGPU[] physicalGPUs;
+                try
+                {
+                    NativeLibrary.Load("nvapi.dll");
+                    physicalGPUs = PhysicalGPU.GetPhysicalGPUs();
+                }
+                catch(Exception ex)
+                {
+                    physicalGPUs = new PhysicalGPU[0];
+                }
+                GPUInfo GPUInfo = SolutionConfig.HardwareSetting.GPUInfo;
+                GPUInfoStackPanel.DataContext = GPUInfo;
+                if (physicalGPUs.Count() > 0)
+                {
+                    GPUInfo.IsGPUCapable = true;
+                    GPUInfo.GPUName = physicalGPUs[0].FullName;
+                    GPUInfo.GPUaccessibleRAM = physicalGPUs[0].MemoryInformation.AvailableDedicatedVideoMemoryInkB;
+                }
+                LambdaControl.Trigger("IsGPUCapable", this,new Dictionary<string, object>() { { "Value", GPUInfo.IsGPUCapable } });
+
+
                 if (!SolutionConfig.HardwareSetting.IsIniWizard)
                 {
                     //这里让窗口最小化

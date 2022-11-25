@@ -1,5 +1,6 @@
 ﻿using Global.Common.Extensions;
 using Global.Common.Util;
+using Global.SettingUp.PC;
 using Lambda;
 
 namespace Global.Common
@@ -38,6 +39,7 @@ namespace Global.Common
             return true;
         }
 
+        public GPUInfo GPUInfo = new GPUInfo();
 
         public static string RegPath = "Software\\Grid";
 

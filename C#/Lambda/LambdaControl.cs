@@ -92,13 +92,6 @@ namespace Lambda
             LogHandler2?.Invoke(message);
         }
 
-        public static void Trigger(string type, Dictionary<string, object>? json)
-        {
-            CallEventHandler?.Invoke(type,null, new LambdaArgs
-            {
-                Data = json
-            });
-        }
 
         public static async void Dispatch(string type, Dictionary<string, object>? json)
         {

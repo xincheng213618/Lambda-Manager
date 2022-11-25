@@ -140,18 +140,14 @@ namespace Solution
                 if (e.ClickCount == 2)
                 {
                     //这里因为考虑到和lambda接轨，所以暂时不拆出来，合并类和基类的扩展中
-                    if (item.DataContext is ProjectFile projectFile1)
+                    if (item.DataContext is GrifFile grifFile)
                     {
-                        LambdaControl.Trigger("projectFile", this, projectFile1.FullName);
+                        LambdaControl.Trigger("SolutionGrifFileOpen", this, grifFile.FullName);
                         LambdaControl.Trigger("projectFile1", this, new Dictionary<string, object>() { });
                     }
-                    if (item.DataContext is ProjectFolder projectFolder1)
+                    else if (item.DataContext is ProjectFile projectFile1)
                     {
-                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName);
-                    }
-                    if (item.DataContext is ProjectManager projectMannager1)
-                    {
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName);
+                        LambdaControl.Trigger("SolutionpProjectFileOpen", this, projectFile1.FullName);
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
@@ -159,8 +155,17 @@ namespace Solution
                         await Task.Delay(300);
                         LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName);
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
-                        LambdaControl.Trigger("projectFile1", new Dictionary<string, object>() { });
+                        LambdaControl.Trigger("projectFile1", this, new Dictionary<string, object>() { });
                     }
+                    else if (item.DataContext is ProjectManager projectMannager1)
+                    {
+                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName);
+                    }
+                    else if (item.DataContext is ProjectFolder projectFolder1)
+                    {
+                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName);
+                    }
+
                 }
 
             }

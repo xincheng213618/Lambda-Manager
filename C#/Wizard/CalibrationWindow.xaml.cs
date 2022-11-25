@@ -56,7 +56,7 @@ namespace ConfigSetting
         {
             Button button = sender as Button;
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = (string)button.Content });
-            LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[int.Parse(button.Tag.ToString())]);
+            LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[int.Parse(button.Tag.ToString()??"0")]);
 
             if (button.Tag.ToString() == "30")
                 this.Close();

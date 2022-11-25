@@ -137,9 +137,31 @@
                                                 </BulletDecorator.Bullet>
                                                 <TextBlock Text="{Binding Path=IsLightConnection}"/>
                                             </BulletDecorator>
-                                            <TextBlock x:Name="CUDAInfoTextBlock" />
                                         </StackPanel>
-      
+
+                                        <StackPanel x:Name="GPUInfoStackPanel">
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <TextBlock Text="是否支持CUDA:"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock Text="{Binding Path=IsGPUCapable}"/>
+                                            </BulletDecorator>
+                                            <BulletDecorator Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}">
+                                                <BulletDecorator.Bullet>
+                                                    <TextBlock Text="GPUName:"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock Text="{Binding Path=GPUName}"/>
+                                            </BulletDecorator>
+                                            <BulletDecorator Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}">
+                                                <BulletDecorator.Bullet>
+                                                    <TextBlock Text="GPUaccessibleRAM:"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock >
+                                                    <Run Text="{Binding Path=GPUaccessibleRAM}"/>
+                                                     <Run Text="KB"/>
+                                                </TextBlock>
+                                            </BulletDecorator>
+                                        </StackPanel>
                                     </StackPanel>
 
                                 </GroupBox>
