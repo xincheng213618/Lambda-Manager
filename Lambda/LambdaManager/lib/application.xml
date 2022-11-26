@@ -7,6 +7,13 @@
 				<input name="GrifExportAsJson" type="#string" />
 			</action>
 		</procedure>
+		
+		<procedure name="HardwareCalibration" event="HardwareCalibration" arg ="json" >
+			<action name="HardwareCalibration">
+				<input name="json" type="#string" />
+			</action>
+		</procedure>
+			
 		<procedure name="CameraSettingExposur" event="CAMERA_SETTING_EXPOSURE" key="mode,exposure">
 			<action name="CameraSettingExposure">
 				<input name="mode" type="int"/>

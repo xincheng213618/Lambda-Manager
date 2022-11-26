@@ -57,7 +57,6 @@ namespace ConfigSetting
                 PhysicalGPU[] physicalGPUs;
                 try
                 {
-                    NativeLibrary.Load("nvapi.dll");
                     physicalGPUs = PhysicalGPU.GetPhysicalGPUs();
                 }
                 catch(Exception ex)

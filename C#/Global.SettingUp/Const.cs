@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Global.SettingUp
 {
-    public static class GlobalConst
+    public static class Const
     {
 
 

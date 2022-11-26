@@ -4,7 +4,9 @@
 - Fix Dispatch Remove 造成的，Dictionary 多线程异常抛出✔
 - 初始化✔
 - 硬件连接 ,添加C++测试实例✔
-- Helper ->Win32
+- Helper ->Win32✔
+- 移除工程配置中的硬件部分，独立出来✔
+- 添加CUDA检测✔
 
 ## [1.3.12] 2022-11-21
 

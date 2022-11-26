@@ -40,6 +40,7 @@ extern "C" CAMERA_API  int ViewWindow(int type, int window, int mode1, int mode2
 extern "C" CAMERA_API int StageSettingReset();
 extern "C" CAMERA_API  GrifFile ReadFileInfo(char* FilePath);
 extern "C" CAMERA_API  int GrifExportAs(char* GrifExportAsJson);
+extern "C" CAMERA_API int HardwareCalibration(char* json);
 
 
 

@@ -509,6 +509,14 @@ int OpenSerial(char* FullPath)
 	return  0;
 }
 
+int HardwareCalibration(char* jsonchar) {
+	json j1  = json::parse(StringUtils::Multi2Utf8(jsonchar));
+	string Hardware = j1["Hardware"];
+	string Type = j1["Type"];
+
+	return 0;
+}
+
 CAMERA_API int Read_img(char* FilePath)
 {
 	Logger::Log1(Severity::INFO, FilePath);

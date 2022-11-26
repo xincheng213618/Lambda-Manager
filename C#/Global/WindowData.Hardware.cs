@@ -20,15 +20,15 @@ namespace Global
                         new ObjectiveSetting() { ID = 3, Name = "奥林巴斯", Magnitude = "40X", NA = 0.65, IsEnabled = false },
                         new ObjectiveSetting() { ID = 4, Name = "奥林巴斯", Magnitude = "100X", NA = 0.65, IsEnabled = false },
                     },
-                CameraResolution = GlobalConst.CameraResolution
+                CameraResolution = Const.CameraResolution
             };
 
             List<string> strings = new List<string>();
-            for (int i = 0; i < GlobalConst.expose.Count; i++)
+            for (int i = 0; i < Const.expose.Count; i++)
             {
-                ExposureViewMode.ExposureInfos.Add(new ExposureInfo() { ExposureShow = $"1/{GlobalConst.expose[i]:0.######}",Exposure = 1 / GlobalConst.expose[i] });
+                ExposureViewMode.ExposureInfos.Add(new ExposureInfo() { ExposureShow = $"1/{Const.expose[i]:0.######}",Exposure = 1 / Const.expose[i] });
             }
-            foreach (var item in GlobalConst.expose1)
+            foreach (var item in Const.expose1)
             {
                 ExposureViewMode.ExposureInfos.Add(new ExposureInfo() { ExposureShow = item.ToString("0.######"), Exposure = item });
             }

@@ -21,7 +21,7 @@ namespace Global.Common
         public HardwareSetting()
         {
             LambdaControl.AddLambdaEventHandler("LambdaNotifyPropertyChanged", LambdaNotifyPropertyChanged, false);
-            Lambda.LambdaControl.Trigger("SeachHardwareSettingConnection ", this, new Dictionary<string, object>());
+            LambdaControl.Trigger("SeachHardwareSettingConnection ", this, new Dictionary<string, object>());
         }
         public bool LambdaNotifyPropertyChanged(object sender, EventArgs e)
         {
