@@ -75,7 +75,6 @@
     <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
-    <ProjectReference Include="..\WpfApp5\WpfApp5.csproj" />
   </ItemGroup>
 
   <ItemGroup>

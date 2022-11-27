@@ -166,8 +166,6 @@ namespace Global.UserControls.DrawVisual
             {
               
                 ink1.Select(StrokeCollect);
-              
-
 
             }
 
@@ -404,15 +402,6 @@ namespace Global.UserControls.DrawVisual
                 ReDrawVisual(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.LineWidth, DrawInkMethod.dimenViewModel.DashSelectedIndex);
             }
         }
-
-       
-
-
-
-
-
-
-
 
 
 

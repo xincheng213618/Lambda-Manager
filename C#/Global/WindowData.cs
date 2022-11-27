@@ -1,14 +1,13 @@
-﻿using Global.Common;
-using Global.Common.Converter.Json;
+﻿using Global.Common.Converter.Json;
 using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
-using Global.SettingUp;
 using System;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using Global.SettingUp;
 
 namespace Global
 {
@@ -44,6 +43,7 @@ namespace Global
             AddEventHandler();
             AddInjection();
             AddInjection1();
+            GalleryInk.GalleryInking();
         }
     }
 
@@ -72,7 +72,6 @@ namespace Global
             SettingUp.Config.ConfigSetEvent += SetValue;
             SettingUp.Config.ConfigWriteEvent += SaveConfig;
             Hardware_Initialized();
-            AddEventHandler();
         }
 
         public string FilePath;
@@ -85,9 +84,7 @@ namespace Global
         
 
         public SolutionConfig SolutionConfig = new();
-
         public MulSummary mulSummary = new();
-
         public UpdateStatus updateStatus = new();
 
 

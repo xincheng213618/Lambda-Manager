@@ -29,6 +29,7 @@ namespace Global
         public int LineWidth { get; set; }
         public int Index { get; set; }
         public string Type { get; set; }
+        public string Type1 { get; set; }
         public Color ColorBru { get; set; }
         public Point CenterPoint { get; set; }
         public Point SizePoint { get; set; }
@@ -48,6 +49,13 @@ namespace Global
         public double length { get; set; }
         public double angle { get; set; }
         public int dimSelectIndex { get; set; }
+
+        //public Point Point1 { get; set; }
+        //public Point Point2 { get; set; }
+        //public Point Point3 { get; set; } = new Point(0,0);
+        //public Point Point4 { get; set; } = new Point(0, 0);
+
+        public List<Point> PointList { get; set; } = new List<Point>();
 
 
     }
@@ -84,6 +92,8 @@ namespace Global
 
         public DrawInkMethod()
         {
+
+
             defdimenViewModel.LineProEnable = false;
             defdimenViewModel.LabelPosShow = false;
             ActiveViewChanged();
@@ -148,30 +158,25 @@ namespace Global
             ActiveViews.PropertyChanged += (s, e) =>
             {
                 viewCount = 0;
-                Window mainwin = System.Windows.Application.Current.MainWindow;
-                Grid grid = (Grid)mainwin.FindName("grid0");
-                Grid grid1= grid.Parent as Grid;
-                foreach(var item in grid1.Children)
-                {
-                    if (item is Grid)
-                    {
-                        Color color = (Color)ColorConverter.ConvertFromString("Transparent");
-                        InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
-                         viewCount++;
 
+                if (Application.Current.MainWindow.FindName("grid0") is Grid grid && grid.Parent is  Grid grid1)
+                {
+                    foreach (var item in grid1.Children)
+                    {
+                        if (item is Grid)
+                        {
+                            Color color = (Color)ColorConverter.ConvertFromString("Transparent");
+                            InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
+                            viewCount++;
+
+                        }
+                    }
+                    if (viewCount > 1)
+                    {
+                        Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
+                        InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
                     }
                 }
-                if (viewCount > 1)
-                {
-                    Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
-                    InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
-
-                }
-
-
-
-
-
             };
 
 
@@ -1590,12 +1595,12 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "椭圆";
+                Type1 = "Ellipse";
             }
           
             List<double> listX;
             List<double> listY;
-            public Point point1 { get; set; }
-            public Point point2 { get; set; }
+         
 
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
@@ -1604,9 +1609,7 @@ namespace Global
                 double y0 = StylusPoints[0].Y;
                 double x1 = StylusPoints[2].X;
                 double y1 = StylusPoints[2].Y;
-                point1 = new Point(x0, y0);
-                point2 = new Point(x1, y1);
-
+                PointList = new List<Point>() { new Point(x0, y0), new Point(x1, y1) };
                 listX = new List<double> { x0, x1 };
                 listY = new List<double> { y0, y1 };
                 double xLeft = listX.Min();
@@ -1633,6 +1636,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "圆";
+                Type1 = "Circle";
             }
            
             //int LineWidth;
@@ -1658,7 +1662,7 @@ namespace Global
                 double xRight = listX.Max();
                 double yUp = listY.Max();
                 double yDown = listY.Min();
-
+                PointList = new List<Point>() { new Point(x0, y0), new Point(x1, y1) };
                 double Xcenter = (int)(xLeft + xRight) / 2;
                 double Ycenter = (int)(yUp + yDown) / 2;
                 CenterPoint = new Point(Xcenter, Ycenter);
@@ -1683,20 +1687,16 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "多边形";
+                Type1 = "Polygon";
             }
-            //int LineWidth;
-            //int Dash;
-            //public Color ColorBru { get; set; }
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "多边形";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
+            
             List<double> listX = new List<double>();
             List<double> listY = new List<double>();
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
             {
                 listX.Clear();
                 listY.Clear();
+                PointList = new List<Point>();
                 for (int i = 0; i < StylusPoints.Count-1; i++)
                 {
                     double x0 = StylusPoints[i].X;
@@ -1706,8 +1706,8 @@ namespace Global
                     drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
                     listX.Add(x0);
                     listY.Add(y0);
-
-
+                   
+                    PointList.Add(new Point(StylusPoints[i].X, StylusPoints[i].Y));
                 }
 
                 double xLeft = listX.Min();
@@ -1739,14 +1739,9 @@ namespace Global
                 Dash = dash;
                 Type = "直线";
                 dimSelectIndex = 0;
+                Type1 = "Line";
             }
-            //public Color ColorBru { get; set; }
-            //int LineWidth;
-            //int Dash;
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "直线";
-            public Point point1 { get; set; }
-            public Point point2 { get; set; }
+     
             List<double> listX;
             List<double> listY;
            
@@ -1758,8 +1753,8 @@ namespace Global
                 double y0 = StylusPoints[0].Y;
                 double x1 = StylusPoints[1].X;
                 double y1 = StylusPoints[1].Y;
-                point1 = new Point(x0, y0);
-                point2 = new Point(x1, y1);
+                PointList = new List<Point>() { new Point(x0, y0), new Point(x1, y1) };
+
                 listX = new List<double> { x0, x1 };
                 listY = new List<double> { y0, y1 };
                 double xLeft = listX.Min();
@@ -1786,6 +1781,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "箭头";
+                Type1 = "Arrow";
                 dimSelectIndex = 1;
             }
             //public Color ColorBru { get; set; }
@@ -1808,6 +1804,14 @@ namespace Global
                 double y2 = StylusPoints[2].Y;
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
+
+                PointList = new List<Point>();
+                foreach (var item in StylusPoints)
+                {
+                    Point p = new Point(item.X, item.Y);
+                    PointList.Add(p);
+                }
+
 
                 listX = new List<double> { x0, x1, x2, x4 };
                 listY = new List<double> { y0, y1, y2, y4 };
@@ -1839,6 +1843,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "标尺 A";
+                Type1 = "DimA";
                 Italic = italic;
                 Bold = bold;
                 UnderLine = underLine;
@@ -1891,6 +1896,12 @@ namespace Global
                 double dist = GetDistance(new Point(x0, y0), new Point(x3, y3));
                 length= (double)dist /ratio.actualwidth * 1689.12 / ratio.Ratio;
 
+                PointList = new List<Point>();
+                foreach (var item in StylusPoints)
+                {
+                    Point p = new Point(item.X, item.Y);
+                    PointList.Add(p);
+                }
 
 
                 // DrawInkMethod.dimenViewModel.Length = (double)dist / ratio1.actualwidth * 1689.12 / ratio1.Ratio;
@@ -1918,7 +1929,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "标尺 B";
-
+                Type1 = "DimB";
                 Italic = italic;
                 Bold = bold;
                 UnderLine = underLine;
@@ -1973,7 +1984,12 @@ namespace Global
                 double dist = GetDistance(new Point(x0, y0), new Point(x4, y4));
                 length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
 
-
+                PointList = new List<Point>();
+                foreach (var item in StylusPoints)
+                {
+                    Point p = new Point(item.X, item.Y);
+                    PointList.Add(p);
+                }
 
 
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
@@ -2004,7 +2020,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type= "标尺 C";
-
+                Type1 = "DimC";
                 Italic = italic;
                 Bold = bold;
                 UnderLine = underLine;
@@ -2061,7 +2077,12 @@ namespace Global
                 double Ycenter = (int)(yUp + yDown) / 2;
                 CenterPoint = new Point(Xcenter, Ycenter);
                 SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
-
+                PointList = new List<Point>();
+                foreach (var item in StylusPoints)
+                {
+                    Point p = new Point(item.X, item.Y);
+                    PointList.Add(p);
+                }
 
                 double theta = Math.Atan2(y5 - y0, x5 - x0);
                 angle = theta / Math.PI * 180;
@@ -2097,7 +2118,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "标尺 D";
-
+                Type1 = "DimD";
                 Italic = italic;
                 Bold = bold;
                 UnderLine = underLine;
@@ -2106,16 +2127,7 @@ namespace Global
                 LabPos = labPos;
                 dimSelectIndex = 5;
             }
-            //int LineWidth;
-            //int Dash;
-            //public Color ColorBru { get; set; }
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "标尺 A";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
-            //RatioClass ratio;
-            //bool showLabel;
-            //Color textColor;
+          
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -2145,13 +2157,18 @@ namespace Global
                 double Ycenter = (int)(yUp + yDown) / 2;
                 CenterPoint = new Point(Xcenter, Ycenter);
                 SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
-
+                
                 double theta = Math.Atan2(y5 - y0, x5 - x0);
                 angle = theta / Math.PI * 180;
                 double dist = GetDistance(new Point(x0, y0), new Point(x5, y5));
                 length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
 
-
+                PointList = new List<Point>();
+                foreach(var item in StylusPoints)
+                {
+                    Point p = new Point(item.X, item.Y);
+                    PointList.Add(p);
+                }
 
 
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
@@ -2185,15 +2202,10 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type  = "矩形";
+                Type1 = "Rectangle";
             }
-            //public Color ColorBru { get; set; }
-
-            //int LineWidth;
-            //int Dash;
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "矩形";
-            public Point Point1 { get; set; }
-            public Point Point2 { get; set; }
+           
+          
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -2209,8 +2221,7 @@ namespace Global
                 double y3 = StylusPoints[3].Y;
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
-                Point1 =new Point( x0, y0);
-                Point2 = new Point(x2, y2);
+                PointList = new List<Point>() { new Point(x0, y0), new Point(x2, y2) };
                 listX = new List<double> { x0, x1, x2, x3, x4 };
                  listY = new List<double> { y0, y1, y2, y3, y4 };
                  double xLeft = listX.Min();
@@ -2242,6 +2253,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "正方形";
+                Type1 = "Square";
             }
             //public Color ColorBru { get; set; }
             //int LineWidth;
@@ -2266,7 +2278,7 @@ namespace Global
                 double y3 = StylusPoints[3].Y;
                 double x4 = StylusPoints[4].X;
                 double y4 = StylusPoints[4].Y;
-
+                PointList = new List<Point>() { new Point(x0, y0), new Point(x1, y1) };
                 listX = new List<double> { x0, x1, x2, x3, x4 };
                 listY = new List<double> { y0, y1, y2, y3, y4 };
                 double xLeft = listX.Min();
@@ -2304,6 +2316,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "曲线";
+                Type1 = "Curve";
             }
             //public Color ColorBru { get; set; }
             //int LineWidth;
@@ -2334,7 +2347,7 @@ namespace Global
                 double xRight = listX.Max();
                 double yUp = listY.Max();
                 double yDown = listY.Min();
-
+                PointList = new List<Point>() { new Point(x0, y0), new Point(x1, y1) ,new Point(x2,y2),new Point(x3,y3)};
                 double Xcenter = (int)(xLeft + xRight) / 2;
                 double Ycenter = (int)(yUp + yDown) / 2;
                 CenterPoint = new Point(Xcenter, Ycenter);
@@ -2368,6 +2381,7 @@ namespace Global
                 LineWidth = lineWidth;
                 Dash = dash;
                 Type = "曲线1";
+                Type1 = "Curve1";
 
             }
             //public Color ColorBru { get; set; }
@@ -2401,11 +2415,7 @@ namespace Global
                 double Ycenter = (int)(yUp + yDown) / 2;
                 CenterPoint = new Point(Xcenter, Ycenter);
                 SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
-
-
-
-
-
+                PointList = new List<Point>() { new Point(x0, y0), new Point(x1, y1), new Point(x2, y2) };
                 PathGeometry geometry = new PathGeometry();
                 PathFigure figure = new PathFigure
                 {
@@ -2484,7 +2494,8 @@ namespace Global
                 this.textColor = brush;
                 Index = 1;
                 Type = "文本";
-                UnderLine= underLine;
+                Type1 = "Text";
+                UnderLine = underLine;
                 Italic = italic;
                 Bold = bold;
                 Fontsize = fontSize;
@@ -2519,7 +2530,7 @@ namespace Global
                 double xRight = listX.Max();
                 double yUp = listY.Max();
                 double yDown = listY.Min();
-
+                PointList = new List<Point>() { new Point(x1, y1) };
                 double Xcenter = (int)(xLeft + xRight) / 2;
                 double Ycenter = (int)(yUp + yDown) / 2;
                 CenterPoint = new Point(Xcenter, Ycenter);

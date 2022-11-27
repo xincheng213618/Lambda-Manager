@@ -61,9 +61,10 @@ namespace GalleryView
 
 
         public static ObservableCollection<Product> products = new ObservableCollection<Product>();
-        public static ObservableCollection<Thumbnail> ThumbnailList = new ObservableCollection<Thumbnail>();
+       // public static ObservableCollection<Thumbnail> ThumbnailList = new ObservableCollection<Thumbnail>();
 
         public static ListView List = new ListView();
+        public static GalleryTool galleryTool = new GalleryTool();
         private List<string> SlicePaths = new List<string>();
         int index = 0;
        
@@ -109,7 +110,8 @@ namespace GalleryView
             {
                 LambdaControl.Trigger("ZSTACK_GALLERY_SLICE", this, path);
             }
-
+            
+            galleryTool.sizeSlider.Value = 5;
 
             return true;
 

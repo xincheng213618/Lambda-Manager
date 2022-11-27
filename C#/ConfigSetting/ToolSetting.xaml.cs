@@ -37,21 +37,6 @@ namespace ConfigSetting
             {
                 IsFirstLoad = false;
 
-
-                //这种方式更简单，但是没有考虑掉64位DLL的存在;
-                //try
-                //{
-                //    NativeLibrary.Load("nvapi64.dll");
-                //    NativeLibrary.Load("nvapi.dll");
-                //    LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", true} });
-                //}
-                //catch (Exception ex)
-                //{
-                //    LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", false } });
-                //}
-
-
-                //找不到DLL极为不存在
                 //GPU信息
                 PhysicalGPU[] physicalGPUs;
                 try

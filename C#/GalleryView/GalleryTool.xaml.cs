@@ -44,7 +44,8 @@ namespace GalleryView
           
             if (Gallery.List.SelectedItems.Count == 1)
             {
-                Gallery.products.Remove((Product)Gallery.List.SelectedItem);
+                deleteItem();
+                //Gallery.products.Remove((Product)Gallery.List.SelectedItem);
 
             }
             if (Gallery.List.SelectedItems.Count > 1)
@@ -59,14 +60,35 @@ namespace GalleryView
 
         private void deleteItems()
         {
-            MessageBoxResult result = MessageBox.Show("是否删除原始图片", "信息提示", MessageBoxButton.YesNoCancel,MessageBoxImage.Question);
+            int selectedCount = Gallery.List.SelectedItems.Count;
+            string label="";
+            for (int i = 0; i < selectedCount; i++)
+            {
+                if (i < 7)
+                {
+                    Product product = Gallery.List.SelectedItems[i] as Product;
+                    label += product.ModelName;
+                    label += ", ";
+                }
+                
+            }
+            if(selectedCount>=7)
+            {
+                label += ". . .  ";
+            }
+
+
+            MessageBoxResult result = MessageBox.Show("是否删除原始图片" + " " + label, "信息提示", MessageBoxButton.YesNoCancel,MessageBoxImage.Question);
             switch (result)
             {
                 case MessageBoxResult.Yes:
-
+                    for (int i = 0; i < selectedCount; i++)
+                    {
+                        Gallery.products.Remove((Product)Gallery.List.SelectedItems[0]);
+                    }
                     break;
                 case MessageBoxResult.No:
-                    int selectedCount = Gallery.List.SelectedItems.Count;
+                    
                     for (int i = 0; i < selectedCount; i++)
                     {
                      Gallery.products.Remove((Product)Gallery.List.SelectedItems[0]);
@@ -78,7 +100,28 @@ namespace GalleryView
                     break;
             }
         }
+        private void deleteItem()
+        {
+          
+           
+            Product product = Gallery.List.SelectedItem as Product;
+            string label = product.ModelName.ToString();
+            MessageBoxResult result = MessageBox.Show("是否删除原始图片 "+" "+ label, "信息提示", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    Gallery.products.Remove((Product)Gallery.List.SelectedItem);
+                    break;
+                case MessageBoxResult.No:
 
+                    Gallery.products.Remove((Product)Gallery.List.SelectedItem);
+
+                    break;
+                case MessageBoxResult.Cancel:
+
+                    break;
+            }
+        }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Gallery.products.Remove(Gallery.products[0]);

@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Global.SettingUp
 {
+    /// <summary>
+    /// 静态变量
+    /// </summary>
     public static class Const
     {
+        private const string AESKey = "U2FsdGVkX1+uzVdQ9o3dBluy9j7zRI0Gx3knpsLMmEY=";
 
 
 

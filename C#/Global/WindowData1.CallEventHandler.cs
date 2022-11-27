@@ -28,7 +28,7 @@ namespace Global
         public bool ALIVE { get; set; } = false;
         public DrawInkMethod inkMethod = new DrawInkMethod();
         Window mainwin = Application.Current.MainWindow;
-        public InkVisual[] inkVisuals = new InkVisual[6];
+        public  InkVisual[] inkVisuals = new InkVisual[6];
        
 
         public void AddImageConfident(Image image1, int viewindex)
@@ -112,8 +112,9 @@ namespace Global
                         };
                         if (!(bool)ImageViewState.toolTop.DimensionChecked)
                         {
-                           
-                         inkVisual.defaultDim.Visibility = Visibility.Hidden;
+                           // MessageBox.Show("1111");
+
+                            inkVisual.defaultDim.Visibility = Visibility.Hidden;
                         
                         };
 

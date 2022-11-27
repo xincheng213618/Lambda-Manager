@@ -17,7 +17,7 @@ namespace Global
 {
     public partial class WindowData1
     {
-       
+
         private void AddInjection1()
         {
             Window mainwin = System.Windows.Application.Current.MainWindow;
@@ -28,7 +28,7 @@ namespace Global
                 Grid grid = (Grid)mainwin.FindName("grid0");
                 if (grid == null) return;
                 Image image = (Image)grid.Children[0];
-                InkVisual inkVisual = new InkVisual(0,image,ImageViewState.toolTop);
+                InkVisual inkVisual = new InkVisual(0, image, ImageViewState.toolTop);
                 inkVisual.profileModel = profileModel;
 
                 inkVisuals[0] = inkVisual; // First InkCanvas
@@ -43,33 +43,44 @@ namespace Global
                 inkVisual.SetBinding(InkVisual.HeightProperty, bindingH);
                 grid.Children.Add(inkVisual);
                 Grid.SetRow(inkVisual, 0);
-              
-                //TextBox ratioTextBox = (TextBox) mainwin.FindName("ratio");
-                //Binding bindingRatio = new Binding();
-                //bindingRatio.Source = updateStatus;
 
-                //ratioTextBox.SetBinding(TextBox.TextProperty, bindingRatio);
+
 
                 TextBox ratioTextBox = (TextBox)mainwin.FindName("ratio");
                 //ratioTextBox.Background = Brushes.Black;
                 Binding bindingRatio = new Binding("Ratio")
                 {
-                   Mode = BindingMode.TwoWay
+                    Mode = BindingMode.TwoWay,
+                    // UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 };
-                
+
+
                 bindingRatio.Source = updateStatus;
                 bindingRatio.Converter = new ValueClassTodPercentonverter();
                 ratioTextBox.SetBinding(TextBox.TextProperty, bindingRatio);
+                ratioTextBox.PreviewKeyDown += (s, e) =>
+                {
+
+                    if (e.Key == Key.Enter)
+                    {
+                        var traversalRequest = new TraversalRequest(FocusNavigationDirection.Down);
+                        ratioTextBox.MoveFocus(traversalRequest);
 
 
-            
+
+                    }
+
+                };
+
+
+
                 double ReRatio = 1;
 
                 updateStatus.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
                     if (e.PropertyName == "Ratio")
                     {
-                      if (!DrawInkMethod.ZoomWard)
+                        if (!DrawInkMethod.ZoomWard)
                         {
                             ReRatio = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio;
                             double ratio = updateStatus.Ratio / 100.0;
@@ -78,11 +89,12 @@ namespace Global
                             double centerY = inkVisuals[0].inkCanvas.ActualHeight / 2.0;
 
                             //  ReRatio =1/ReRatio * ratio;
-                            matrix.ScaleAt(ratio/ReRatio, ratio/ReRatio, centerX, centerY);
+                            matrix.ScaleAt(ratio / ReRatio, ratio / ReRatio, centerX, centerY);
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes.Transform(matrix, false);
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio = ratio;
-
-
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft * matrix;
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight * matrix;
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ZoomParTransform(inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes);
                             InkDimViewModel inkDimViewModel = new InkDimViewModel();
                             inkDimViewModel = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel;
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
@@ -90,7 +102,7 @@ namespace Global
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].FilterStroke(1);
 
                         }
-                      
+
 
 
 
@@ -99,8 +111,8 @@ namespace Global
 
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
-                   
-                   if (e.PropertyName == "EraserChecked")
+
+                    if (e.PropertyName == "EraserChecked")
                     {
                         if (ImageViewState.toolTop.EraserChecked == true)
                         {
@@ -122,7 +134,7 @@ namespace Global
 
                         if (ImageViewState.toolTop.RulerChecked == true)
                         {
-                            
+
                             inkVisual.inkCanvas.UseCustomCursor = true;
                             StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
                             inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
@@ -131,11 +143,11 @@ namespace Global
                         else
                         {
                             inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-                           
+
                         }
                     }
 
-                    else if ( (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
+                    else if ((bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
                     {
                         inkVisual.inkCanvas.Cursor = Cursors.Cross;
                         // drawing Mode
@@ -150,30 +162,30 @@ namespace Global
                     {
                         inkVisual.inkCanvas.Cursor = Cursors.Arrow;
                     };
-                   
+
                     if (e.PropertyName == "SelectChecked")
                     {
-                       
-                            if ((bool)ImageViewState.toolTop.SelectChecked)
-                            {
-                                inkVisual.Visibility = Visibility.Visible;
-                               
-                            }
-                            else
-                            {
-                             inkVisual.Visibility = Visibility.Visible;
 
-                            }
+                        if ((bool)ImageViewState.toolTop.SelectChecked)
+                        {
+                            inkVisual.Visibility = Visibility.Visible;
 
-                     
+                        }
+                        else
+                        {
+                            inkVisual.Visibility = Visibility.Visible;
+
+                        }
+
+
                     }
-                    
+
 
                 };
 
                 inkVisual.inkCanvas.EditingModeChanged += (s, e) =>
                 {
-                   
+
                     if (inkVisual.inkCanvas.EditingMode == InkCanvasEditingMode.Select)
                     {
                         foreach (var item in DrawingModeList)
@@ -194,7 +206,7 @@ namespace Global
                 ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
                 ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
                 Button ScaleButton = (Button)topToolbar.Children[6];
-              
+
                 ToggleButtonZoomOut.Click += delegate
                 {
                     if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
@@ -215,6 +227,11 @@ namespace Global
                             }
                             //  ZoomInOut++;
                             inkVisual.inkCanvas.Strokes.Transform(matrix, false);
+
+                            inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
+                            inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
+
+                            inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes);
                             DrawInkMethod.StrokesCollection.Clear();
                             inkVisual.FilterStroke(1);
                             //  RepaintDim();
@@ -224,14 +241,14 @@ namespace Global
 
                         };
                     }
-   
+
 
                 };
                 ToggleButtonZoomIn.Click += delegate
                 {
                     if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                     {
-                       
+
                         if (inkVisual.ratio1.Ratio >= 1)
                         {
 
@@ -248,9 +265,10 @@ namespace Global
                             {
                                 matrix.ScaleAt(1 / 1.2, 1 / 1.2, curPoint.X, curPoint.Y);
                             }
-
-
                             inkVisual.inkCanvas.Strokes.Transform(matrix, false);
+                            inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
+                            inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
+                            inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes);
                             DrawInkMethod.StrokesCollection.Clear();
                             inkVisual.FilterStroke(1);
                             double ratio = inkVisual.ratio1.Ratio;
@@ -258,41 +276,41 @@ namespace Global
                             inkVisual.drawDefaultDim(inkVisual.inkDimViewModel.DimPos, inkVisual.inkDimViewModel.DimLength, inkVisual.inkDimViewModel.DimColor, inkVisual.ratio1.Ratio, inkVisual.inkDimViewModel.TextColor);
 
                         };
-                      
+
                     }
-              };
+                };
                 ScaleButton.Click += delegate
                 {
-                   
-                  
+
+
                     WindowData.GetInstance().updateStatus.Ratio = 100;
 
                 };
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");  // multiPoint position show 
                 int count = bottomToolbar.Children.Count;
                 Button bottomPlace = (Button)bottomToolbar.Children[count - 1];
-               
+
                 bottomPlace.Click += delegate
                 {
-                    
+
                     bool isMapWindowshow = false;
                     foreach (Window w in Application.Current.Windows)
                     {
                         if (w is MapWindow)
                         {
-                          
+
                             isMapWindowshow = true;
                             w.Activate();
                         };
-                          
+
                     }
                     if (!isMapWindowshow)
                     {
-                       // MessageBox.Show(MapWindow.SeriesPoints.Count.ToString());
+                        // MessageBox.Show(MapWindow.SeriesPoints.Count.ToString());
                         if (MapWindow.SeriesPoints.Count == 0)
                             return;
                         MapWindow mapWindow = new MapWindow();
-                        Point point= bottomPlace.PointToScreen(new Point(0, 0));
+                        Point point = bottomPlace.PointToScreen(new Point(0, 0));
                         //Point point = bottomPlace.TransformToAncestor(mainwin).Transform(new Point(0, 0));
                         mapWindow.Show();
                         mapWindow.Topmost = true;
@@ -303,8 +321,8 @@ namespace Global
                         var dpiY = (int)dpiYProperty.GetValue(null, null);
                         double dpixRatio = (double)dpiX / 96;
                         double dpiyRatio = (double)dpiX / 96;
-                        double x = point.X/ dpixRatio + bottomPlace.ActualWidth - mapWindow.ActualWidth;
-                        double y = point.Y/ dpiyRatio - mapWindow.ActualHeight - 3;
+                        double x = point.X / dpixRatio + bottomPlace.ActualWidth - mapWindow.ActualWidth;
+                        double y = point.Y / dpiyRatio - mapWindow.ActualHeight - 3;
                         mapWindow.Left = x;
                         mapWindow.Top = y;
                         mapWindow.DrawPointRec(MapWindow.SeriesPoints);
@@ -316,15 +334,15 @@ namespace Global
 
 
 
-                      
+
                     }
-                   
+
 
                 };
                 DrawInkMethod.StaticPropertyChanged += delegate
                 {
                     DrawInkMethod.ActiveInk = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
-                    foreach(InkVisual k in WindowData1.GetInstance().inkVisuals)
+                    foreach (InkVisual k in WindowData1.GetInstance().inkVisuals)
                     {
                         if (k != null)
                         {
@@ -337,12 +355,12 @@ namespace Global
                                 k.inkCanvas.EditingMode = InkCanvasEditingMode.None;
                             }
 
-                         
+
                         }
                     }
                     DrawInkMethod.defdimenViewModel.DefDimReadOnly = false;
-                    WindowData.GetInstance().updateStatus.Ratio =(int)(Math.Round( WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio,2)*100);
-                  
+                    WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, 2) * 100);
+
                     DrawInkMethod.defdimenViewModel.DimPos = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimPos;
                     DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimColor;
                     DrawInkMethod.defdimenViewModel.Length = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimLength;
@@ -360,10 +378,10 @@ namespace Global
             {
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
             }
-          
+
 
 
 
         }
     }
-    }
+}

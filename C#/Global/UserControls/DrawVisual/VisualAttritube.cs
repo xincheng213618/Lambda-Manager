@@ -15,77 +15,40 @@ namespace Global.UserControls.DrawVisual
         public int LineType { get; set; }
         public Color Color { get; set; }
 
-        public Point Point1 { get; set; }
-        public Point Point2 { get; set; }
-        public Point Point3 { get; set; }
-        public Point Point4 { get; set; }
-        public int ActiveWin { get; set; }  
+        //public Point Point2 { get; set; }
+        //public Point Point3 { get; set; }
+        //public Point Point4 { get; set; }
+
+        public WinProperty winProperty { get; set; } = new WinProperty();
+        public List<Point> PointList { get; set; }= new List<Point>(){new Point(0,0) };
+
+        public Text TexT { get; set; } = new Text();
+    }
+    public class WinProperty
+    {
+        public int ActiveWin { get; set; }
 
         public double ratio { get; set; }
         public double acWidth { get; set; }
         public double acHeight { get; set; }
+    
+
     }
 
-    public class LineVisual : VisualAttritube
-
+    public class Text
     {
 
-        //public Point Point1 { get; set; }
-        //public Point Point2 { get; set; }
+        public Color TextColor { get; set; }
+        public int Fontsize { get; set; }
+        public string FontFamily { get; set; }
+        public bool Bold { get; set; }
+        public bool Italic { get; set; }
+        public bool UnderLine { get; set; }
+        public Point Point1 { get; set; } = new Point(0,0);
+
+
 
     }
-
-    public class EllipseVisual : VisualAttritube
-
-    {
-
-        //public Point Point3 { get; set; }
-        //public Point Point4 { get; set; }
-
-    }
-
-
-    public class DrawingVisual
-
-    {
-
-        private LineVisual lineVisual = new LineVisual();
-        public LineVisual LineVis
-
-        {
-            get { return lineVisual; }
-            set
-            {
-                if (lineVisual != value)
-                {
-                    lineVisual = value;
-
-                }
-            }
-        }
-
-        private EllipseVisual ellipse = new EllipseVisual();
-        public EllipseVisual EllipseVis
-
-        {
-            get { return ellipse; }
-            set
-            {
-                if (ellipse != value)
-                {
-                    ellipse = value;
-
-                }
-            }
-        }
-
-    }
-
-
-
-
-
-
 
 
 
