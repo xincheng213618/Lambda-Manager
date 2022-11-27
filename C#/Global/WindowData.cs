@@ -1,13 +1,14 @@
-﻿using Global.Common.Converter.Json;
+﻿using Global.Common;
+using Global.Common.Converter.Json;
 using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
+using Global.SettingUp;
 using System;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
-using Global.SettingUp;
 
 namespace Global
 {
@@ -67,9 +68,9 @@ namespace Global
 
         private WindowData()
         {
-            Common.Config.ConfigReadEvent += ReadConfig;
-            Common.Config.ConfigSetEvent += SetValue;
-            Common.Config.ConfigWriteEvent += SaveConfig;
+            SettingUp.Config.ConfigReadEvent += ReadConfig;
+            SettingUp.Config.ConfigSetEvent += SetValue;
+            SettingUp.Config.ConfigWriteEvent += SaveConfig;
             Hardware_Initialized();
             AddEventHandler();
         }

@@ -1,5 +1,4 @@
-﻿
-namespace Global.SettingUp
+﻿namespace Global.SettingUp
 {
     public delegate void UpdateEventHandler();
 
@@ -15,5 +14,5 @@ namespace Global.SettingUp
             UpdateEvent?.Invoke();
         }
 
-    } 
+    }
 }

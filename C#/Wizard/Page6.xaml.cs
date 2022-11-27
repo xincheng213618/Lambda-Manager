@@ -1,4 +1,5 @@
 ﻿using Global.Common;
+using Global.SettingUp;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -36,14 +37,14 @@ namespace Wizard
         private async  void Page_Initialized(object sender, EventArgs e)
         {
             await Task.Delay(1000);
-            SolutionConfig.HardwareSetting.IsIniWizard = true;
+            SoftwareConfig.HardwareSetting.IsIniWizard = true;
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "关闭配置向导" });
             Window.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SolutionConfig.HardwareSetting.IsIniWizard = true;
+            SoftwareConfig.HardwareSetting.IsIniWizard = true;
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "关闭配置向导" });
             Window.Close();
         }

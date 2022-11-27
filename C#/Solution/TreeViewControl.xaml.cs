@@ -14,6 +14,7 @@ using Global.Common;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using HotKey;
+using Global.SettingUp;
 
 namespace Solution
 {
@@ -31,7 +32,7 @@ namespace Solution
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
-            this.DataContext = SolutionConfig.SolutionSetting;
+            this.DataContext = SoftwareConfig.SolutionSetting;
         }
 
         bool IsFirstLoad = true;
@@ -91,7 +92,7 @@ namespace Solution
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (SolutionConfig.SolutionSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
+            if (SoftwareConfig.SolutionSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
             {
                 MessageBox1.Show(Application.Current.MainWindow,"多工程情况下参数自动保存");
             }
@@ -201,7 +202,7 @@ namespace Solution
             OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
             openSolutionWindow.Closed += (s, e) =>
             {
-                if (SolutionConfig.SolutionSetting.IsSupportMultiProject)
+                if (SoftwareConfig.SolutionSetting.IsSupportMultiProject)
                 {
                     string FullName = openSolutionWindow.FullName;
 
@@ -399,7 +400,7 @@ namespace Solution
 
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
-                    TreeViewInitialized(SolutionFullName, !SolutionConfig.SolutionSetting.IsSupportMultiProject);
+                    TreeViewInitialized(SolutionFullName, !SoftwareConfig.SolutionSetting.IsSupportMultiProject);
                 }
             };
             newCreatWindow.ShowDialog();
@@ -410,7 +411,7 @@ namespace Solution
         private void Close_Click(object sender, RoutedEventArgs e)
         {
 
-            if (SolutionConfig.SolutionSetting.IsSupportMultiProject && LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
+            if (SoftwareConfig.SolutionSetting.IsSupportMultiProject && LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
             {
                 SolutionExplorers.Remove(solutionExplorer);
             }

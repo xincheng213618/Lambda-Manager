@@ -1,4 +1,5 @@
 ﻿using Global.Common;
+using Global.SettingUp;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace Wizard
 
         private void BaseWindow_Closed(object sender, EventArgs e)
         {
-            if (!SolutionConfig.HardwareSetting.IsIniWizard)
+            if (!SoftwareConfig.HardwareSetting.IsIniWizard)
             {
                 Environment.Exit(0);
             }

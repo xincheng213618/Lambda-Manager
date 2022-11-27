@@ -1,4 +1,4 @@
-﻿using Global.Common;
+﻿using Global.SettingUp;
 using Global.SettingUp.Configure;
 using Global.SettingUp.PC;
 using Lambda;
@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -63,7 +62,7 @@ namespace ConfigSetting
                 {
                     physicalGPUs = new PhysicalGPU[0];
                 }
-                GPUInfo GPUInfo = SolutionConfig.HardwareSetting.GPUInfo;
+                GPUInfo GPUInfo = SoftwareConfig.HardwareSetting.GPUInfo;
                 GPUInfoStackPanel.DataContext = GPUInfo;
                 if (physicalGPUs.Count() > 0)
                 {
@@ -74,7 +73,7 @@ namespace ConfigSetting
                 LambdaControl.Trigger("IsGPUCapable", this,new Dictionary<string, object>() { { "Value", GPUInfo.IsGPUCapable } });
 
 
-                if (!SolutionConfig.HardwareSetting.IsIniWizard)
+                if (!SoftwareConfig.HardwareSetting.IsIniWizard)
                 {
                     //这里让窗口最小化
                     await Task.Delay(100);
@@ -83,15 +82,15 @@ namespace ConfigSetting
                     Wizard.MainWindow mainWindow = new Wizard.MainWindow("1");
                     mainWindow.ShowDialog();
 
-                    if (SolutionConfig.HardwareSetting.IsIniWizard)
+                    if (SoftwareConfig.HardwareSetting.IsIniWizard)
                     {
                         SystemCommands.RestoreWindow(Application.Current.MainWindow);
                     }
                 }
                 if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
                 {
-                    combobox.Visibility = SolutionConfig.SolutionSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
-                    UniformGridSetting.DataContext = SolutionConfig.SolutionSetting;
+                    combobox.Visibility = SoftwareConfig.SolutionSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
+                    UniformGridSetting.DataContext = SoftwareConfig.SolutionSetting;
                 }
                 var array = Enum.GetValues(typeof(Theme)).Cast<Theme>();
                 ComboBox1.ItemsSource = array;
@@ -114,7 +113,7 @@ namespace ConfigSetting
                         };
                 ListView1.ItemsSource = firmwareUpdates;
 
-                CheckBox1.DataContext = SolutionConfig.SolutionSetting;
+                CheckBox1.DataContext = SoftwareConfig.SolutionSetting;
 
                 stackPanel1.Children.Remove(this);
                 if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition)
@@ -193,7 +192,7 @@ namespace ConfigSetting
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            HardwareSettingConnectionStackPanel.DataContext = SolutionConfig.HardwareSetting;
+            HardwareSettingConnectionStackPanel.DataContext = SoftwareConfig.HardwareSetting;
 
             //ManagementObjectSearcher objvide = new ManagementObjectSearcher("select * from Win32_VideoController");
 
@@ -282,15 +281,15 @@ namespace ConfigSetting
 
         private void ClearIniWizard(object sender, RoutedEventArgs e)
         {
-            SolutionConfig.HardwareSetting.IsIniWizard = false;
+            SoftwareConfig.HardwareSetting.IsIniWizard = false;
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            SolutionConfig.SolutionSetting.IsShowLog = !SolutionConfig.SolutionSetting.IsShowLog;
+            SoftwareConfig.SolutionSetting.IsShowLog = !SoftwareConfig.SolutionSetting.IsShowLog;
             if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
             {
-                combobox.Visibility =SolutionConfig.SolutionSetting.IsShowLog? Visibility.Visible:Visibility.Hidden;
+                combobox.Visibility =SoftwareConfig.SolutionSetting.IsShowLog? Visibility.Visible:Visibility.Hidden;
             }
             
         }

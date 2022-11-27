@@ -1,20 +1,11 @@
-﻿using Global.Common.Extensions;
+﻿using Global.Common;
+using Global.Common.Extensions;
 using Global.Common.Util;
 using Global.SettingUp.PC;
 using Lambda;
 
-namespace Global.Common
+namespace Global.SettingUp.Hardware
 {
-    /// <summary>
-    /// 先放这里后面再拆
-    /// </summary>
-    public static class SolutionConfig
-    {
-        public static SolutionSetting SolutionSetting = new SolutionSetting();
-        public static HardwareSetting HardwareSetting = new HardwareSetting();   
-    }
-
-
 
     public class HardwareSetting : ViewModelBase
     {
@@ -25,17 +16,36 @@ namespace Global.Common
         }
         public bool LambdaNotifyPropertyChanged(object sender, EventArgs e)
         {
-            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            Dictionary<string, object> eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
             if (eventData.GetValue("IsCameraConnection") is bool value)
+            {
                 IsCameraConnection = value;
+            }
+            else if (eventData.GetValue("IsCameraConnection") is int CameraConnection)
+            {
+                CameraStatus = (CameraStatus)CameraConnection;
+                IsCameraConnection = CameraStatus == CameraStatus.Ok;
+            }
             if (eventData.GetValue("IsStageConnection") is bool value1)
+            {
                 IsStageConnection = value1;
+            }
+            else if (eventData.GetValue("IsStageConnection") is int StageConnection)
+            {
+                StageStatus = (StageStatus)StageConnection;
+                IsStageConnection = StageStatus == StageStatus.Ok;
+            }
             if (eventData.GetValue("IsLightConnection") is bool value2)
+            {
                 IsLightConnection = value2;
-            
-
+            }
+            else if (eventData.GetValue("IsLightConnection") is int LightConnection)
+            {
+                LightStatus = (LightStatus)LightConnection;
+                IsLightConnection = LightStatus == LightStatus.Ok;
+            }
             return true;
         }
 
@@ -58,6 +68,18 @@ namespace Global.Common
             }
         }
 
+        private CameraStatus cameraStatus;
+        public CameraStatus CameraStatus
+        {
+            get { return cameraStatus; }
+            set
+            {
+                cameraStatus = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         public bool isCameraConnection = false;
 
         public bool IsCameraConnection
@@ -73,6 +95,18 @@ namespace Global.Common
             }
         }
 
+        private StageStatus stageStatus;
+        public StageStatus StageStatus
+        {
+            get { return stageStatus; }
+            set
+            {
+                stageStatus = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         public bool isStageConnection = false;
 
         public bool IsStageConnection
@@ -87,6 +121,18 @@ namespace Global.Common
                 }
             }
         }
+
+        private LightStatus lightStatus;
+        public LightStatus LightStatus
+        {
+            get { return lightStatus; }
+            set
+            {
+                lightStatus = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         public bool isLightConnection = false;
 
@@ -105,42 +151,5 @@ namespace Global.Common
 
 
 
-    }
-
-    /// <summary>
-    /// Solution环境
-    /// </summary>
-    public class SolutionSetting : ViewModelBase
-    {
-        public static string RegPath = "Software\\Grid";
-
-        private bool isSupportMultiProject = Reg.ReadValue(RegPath, nameof(IsSupportMultiProject), false);
-        public bool IsSupportMultiProject
-        {
-            get { return isSupportMultiProject; }
-            set
-            {
-                if (isSupportMultiProject!=value) {
-                    isSupportMultiProject = value;
-                    Reg.WriteValue(RegPath, nameof(IsSupportMultiProject), isSupportMultiProject);
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private bool isShowLog = Reg.ReadValue(RegPath, nameof(isShowLog), false);
-        public bool IsShowLog
-        {
-            get { return isShowLog; }
-            set
-            {
-                if (isShowLog != value)
-                {
-                    isShowLog = value;
-                    Reg.WriteValue(RegPath, nameof(isShowLog), isShowLog);
-                    NotifyPropertyChanged();
-                }
-            }
-        }
     }
 }
