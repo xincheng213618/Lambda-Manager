@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.Utils;
+using Quartz;
 
 namespace LambdaManager.Core
 {
@@ -174,14 +175,14 @@ namespace LambdaManager.Core
                 }
                 if (times == 1)
                 {
-                    CollectionUtils.Insert(Exports, export.Value, value);
+                    Exports.Insert1(export.Value, value);
                     continue;
                 }
                 if (Times == 0)
                 {
                     object[] values = new object[times];
                     values[0] = value;
-                    CollectionUtils.Insert(Exports, export.Value, values);
+                    Exports.Insert1(export.Value, values);
                 }
                 else if (Exports![export.Value] is object[] values2)
                 {
@@ -195,7 +196,7 @@ namespace LambdaManager.Core
                         typeInfo = TypesInterop.GetPointerTypeInfo();
                     }
                     value = T86.ToArrayPtr(typeInfo, values3);
-                    CollectionUtils.Insert(Exports, export.Value, value);
+                    Exports.Insert1(export.Value, value);
                 }
             }
         }

@@ -39,14 +39,11 @@ namespace LambdaManager.DataType
             {
                 Values = new List<object>();
             }
-            object oldValue = CollectionUtils.Insert(Values, index, this);
+            object oldValue = Values.Insert1(index, this);
             if (oldValue != null)
             {
-                if (DefaultValues == null)
-                {
-                    DefaultValues = new List<object>();
-                }
-                CollectionUtils.Insert(DefaultValues, index, oldValue);
+                DefaultValues ??= new List<object>();
+                DefaultValues.Insert1(index, oldValue);
             }
         }
 

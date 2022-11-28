@@ -3,6 +3,7 @@ using Global.Common.Extensions;
 using Global.Common.Util;
 using Global.SettingUp.PC;
 using Lambda;
+using System.Windows;
 
 namespace Global.SettingUp.Hardware
 {
@@ -19,32 +20,21 @@ namespace Global.SettingUp.Hardware
             Dictionary<string, object> eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-            if (eventData.GetValue("IsCameraConnection") is bool value)
-            {
-                IsCameraConnection = value;
-            }
-            else if (eventData.GetValue("IsCameraConnection") is int CameraConnection)
+
+            if (eventData.GetValue("IsCameraConnection") is int CameraConnection)
             {
                 CameraStatus = (CameraStatus)CameraConnection;
                 IsCameraConnection = CameraStatus == CameraStatus.Ok;
             }
-            if (eventData.GetValue("IsStageConnection") is bool value1)
+            if (eventData.GetValue("IsStageConnection") is int StageConnection)
             {
-                IsStageConnection = value1;
+                StageStatus = (SerialPortStatus)StageConnection;
+                IsStageConnection = StageStatus == SerialPortStatus.NoError;
             }
-            else if (eventData.GetValue("IsStageConnection") is int StageConnection)
+            if (eventData.GetValue("IsLightConnection") is int LightConnection)
             {
-                StageStatus = (StageStatus)StageConnection;
-                IsStageConnection = StageStatus == StageStatus.Ok;
-            }
-            if (eventData.GetValue("IsLightConnection") is bool value2)
-            {
-                IsLightConnection = value2;
-            }
-            else if (eventData.GetValue("IsLightConnection") is int LightConnection)
-            {
-                LightStatus = (LightStatus)LightConnection;
-                IsLightConnection = LightStatus == LightStatus.Ok;
+                LightStatus = (SerialPortStatus)LightConnection;
+                IsLightConnection = LightStatus == SerialPortStatus.NoError;
             }
             return true;
         }
@@ -95,8 +85,8 @@ namespace Global.SettingUp.Hardware
             }
         }
 
-        private StageStatus stageStatus;
-        public StageStatus StageStatus
+        private SerialPortStatus stageStatus;
+        public SerialPortStatus StageStatus
         {
             get { return stageStatus; }
             set
@@ -122,8 +112,8 @@ namespace Global.SettingUp.Hardware
             }
         }
 
-        private LightStatus lightStatus;
-        public LightStatus LightStatus
+        private SerialPortStatus lightStatus;
+        public SerialPortStatus LightStatus
         {
             get { return lightStatus; }
             set

@@ -1,6 +1,12 @@
+## [1.3.14] 2022 -11-28
+
+- Fix   MessageBox1 多线程情况下 SAT报错  ✔
+- Refactor  Global.SettingUp  ✔
+- Add  CameraStatus 等硬件状态信息，并在主界面添加相对应的提示 ✔
+
 ## [1.3.13] 2022-11-24
 
-- Global.Setting ->Global.SettingUp✔
+- Global.Setting ->Global.SettingUp ✔
 - Fix Dispatch Remove 造成的，Dictionary 多线程异常抛出✔
 - 初始化✔
 - 硬件连接 ,添加C++测试实例✔

@@ -1,4 +1,6 @@
-﻿namespace Global.SettingUp.Hardware
+﻿using System.ComponentModel;
+
+namespace Global.SettingUp.Hardware
 {
     /// <summary>
     /// 相机状态
@@ -16,32 +18,62 @@
     }
 
     /// <summary>
-    /// 位移台状态
+    /// 串口状态
     /// </summary>
-    public enum StageStatus
+    public enum SerialPortStatus
     {
         /// <summary>
-        /// 正常连接
+        /// system error (如空指针、内存访问异常等)
         /// </summary>
-        Ok,
+        SystemError = -1,
         /// <summary>
-        /// 未连接
+        ///  No error occurred 没有错误
         /// </summary>
-        DisConnection = -1,
-    }
-
-    /// <summary>
-    /// 灯光状态
-    /// </summary>
-    public enum LightStatus
-    {
+        [Description("No error occurred 没有错误")]
+        NoError = 0,
         /// <summary>
-        /// 正常连接
+        /// device not found 未找到设备
         /// </summary>
-        Ok,
+        DeviceNotFoundError,
         /// <summary>
-        /// 未连接
+        /// permission error 权限错误
         /// </summary>
-        DisConnection = -1,
+        PermissionError,
+        /// <summary>
+        /// open error 打开串口错误
+        /// </summary>
+        OpenError,
+        /// <summary>
+        /// parity error 校验位错误
+        /// </summary>
+        ParityError,
+        FramingError,
+        BreakConditionError,
+        /// <summary>
+        /// write error 写数据错误
+        /// </summary>
+        WriteError,
+        /// <summary>
+        ///  read error 读数据错误
+        /// </summary>
+        ReadError, 
+        ResourceError, 
+        UnsupportedOperationError,
+        /// <summary>
+        /// unknown error 未知错误
+        /// </summary>
+        UnknownError,
+        /// <summary>
+        /// time out error 超时
+        /// </summary>
+        TimeoutError,
+        /// <summary>
+        /// not open serial port error 串口未打开
+        /// </summary>
+        NotOpenError,
+        /// <summary>
+        ///  invalid parameter error 无效的参数
+        /// </summary>
+        InvalidParameterError
     }
 }

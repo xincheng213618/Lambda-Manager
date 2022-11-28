@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Global.Common
@@ -13,9 +14,14 @@ namespace Global.Common
 
         private static MessageBoxResult Initialize(string messageBoxText, string caption ="提示", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None)
         {
-            Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText, caption, button, icon, defaultResult);
-            messageBox1.ShowDialog();
-            return messageBox1.MessageBoxResult;
+            MessageBoxResult MessageBoxResult = MessageBoxResult.None;
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText, caption, button, icon, defaultResult);
+                messageBox1.ShowDialog();
+                MessageBoxResult = messageBox1.MessageBoxResult;
+            });
+            return MessageBoxResult;
         }
 
         public static MessageBoxResult Show(string messageBoxText)

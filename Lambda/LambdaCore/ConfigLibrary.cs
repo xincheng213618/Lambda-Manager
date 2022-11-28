@@ -1724,7 +1724,7 @@ namespace LambdaManager
                         {
                             values = (function.Values = new List<object>());
                         }
-                        CollectionUtils.Insert(values, index, entry.FuncAddr);
+                        values.Insert1(index, entry.FuncAddr);
                     }
                 }
             }

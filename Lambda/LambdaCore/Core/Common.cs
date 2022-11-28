@@ -421,7 +421,7 @@ namespace LambdaManager.Core
             foreach (KeyValuePair<string, int> pair in dataMap)
             {
                 eventObject.TryGetValue(pair.Key, out var value);
-                CollectionUtils.Insert(args, pair.Value, value);
+                args.Insert1(pair.Value, value);
             }
             return args;
         }

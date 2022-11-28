@@ -3,39 +3,25 @@ using LambdaManager.DataType;
 
 namespace LambdaManager.Utils
 {
-    public static class CollectionUtils
+    public static class CollectionExtensions
     {
-        public static object? Insert<T>(List<T?> list, int index, T? value)
+        public static object? Insert1<T>(this List<T?> This, int index, T? value)
         {
             object oldValue = null;
-            if (index < list.Count)
+            if (index < This.Count)
             {
-                oldValue = list[index];
-                list[index] = value;
+                oldValue = This[index];
+                This[index] = value;
             }
             else
             {
-                for (int i = list.Count; i < index; i++)
+                for (int i = This.Count; i < index; i++)
                 {
-                    list.Add(default(T));
+                    This.Add(default);
                 }
-                list.Add(value);
+                This.Add(value);
             }
             return oldValue;
-        }
-
-        public static void Insert2(List<KeyValuePair<Actions, int>?> list, int index, KeyValuePair<Actions, int> value)
-        {
-            if (index < list.Count)
-            {
-                list[index] = value;
-                return;
-            }
-            for (int i = list.Count; i < index; i++)
-            {
-                list.Add(null);
-            }
-            list.Add(value);
         }
     }
 

@@ -580,8 +580,8 @@ int VideoTest() {
 	IsCameraConnection = !IsCameraConnection;
 	IsStageConnection = !IsStageConnection;
 	json j3;
-	j3["IsCameraConnection"] = IsCameraConnection;
-	j3["IsStageConnection"] = IsStageConnection;
+	j3["IsCameraConnection"] = 0;
+	j3["IsStageConnection"] = -1;
 	j3["IsLightConnection"] = IsLightConnection;
 	Event::Trigger("LambdaNotifyPropertyChanged",&j3);
 	//Event::Trigger("STAGE_INI_CLOSE");
