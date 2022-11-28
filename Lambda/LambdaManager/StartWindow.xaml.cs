@@ -30,7 +30,6 @@ namespace LambdaManager
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
-        TextBlock CUDAInfoTextBlock;
         private readonly string dllAce = "ACE.dll";
         private void Window_Initialized(object sender, EventArgs e)
         {
