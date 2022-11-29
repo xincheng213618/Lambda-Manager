@@ -431,23 +431,7 @@
             <StatusBar Name="statusBar" Background="Transparent" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                        </Grid>
+                        <DockPanel/>
                     </ItemsPanelTemplate>
                 </StatusBar.ItemsPanel>
                 <StatusBarItem>
@@ -468,31 +452,15 @@
                 <StatusBarItem Grid.Column="8">
                     <TextBlock Name="imageFocus" Text="{Binding Path=ImageFocus}" />
                 </StatusBarItem>
-                <StatusBarItem Grid.Column="10">
+                <StatusBarItem Grid.Column="10" >
                     <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" />
                 </StatusBarItem>
-                <Separator Grid.Column="11" />
-                <StatusBarItem Grid.Column="12" >
-                    <DockPanel  Name="performDock">
-                        <TextBlock  VerticalAlignment="Center" Margin="5,0,5,0">
-                    <Run Text="ToolDiskUse" />
-                    <Run Text=":" />
-                    <Run Text="{Binding DiskUse}" />
-                        </TextBlock>
-                        <TextBlock  VerticalAlignment="Center" Margin="5,0,5,0">
-                    <Run Text="ToolRAM" />
-                    <Run Text=":" />
-                    <Run Text="{Binding MemoryAvailable}" />
-                        </TextBlock>
-                        <TextBlock  VerticalAlignment="Center" Margin="5,0,10,0" >
-                    <Run Text="ToolCPU" />
-                    <Run Text=":" />
-                    <Run Text="{Binding ProcessorTotal}" />
-                        </TextBlock>
-                    </DockPanel>
-                </StatusBarItem>
+
+                <Separator Grid.Column="11"  />
+
+
             </StatusBar>
-            <ComboBox Name="msgList"  Visibility="Visible" Grid.Column="4" Grid.Row="2" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Width="400" Height="30">
+            <ComboBox Name="msgList"  Visibility="Collapsed" Grid.Column="4" Grid.Row="2" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Width="400" Height="30">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Path=Text}"/>

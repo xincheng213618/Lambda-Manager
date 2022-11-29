@@ -11,6 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
@@ -149,6 +152,37 @@ namespace ConfigSetting
 
                 }
 
+                if (Application.Current.MainWindow.FindName("statusBar") is StatusBar statusBar)
+                {
+                    string xaml = @"<ItemsPanelTemplate   xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'>
+                        <DockPanel/>
+                    </ItemsPanelTemplate>";
+                    statusBar.ItemsPanel = XamlReader.Parse(xaml) as ItemsPanelTemplate;
+
+                    Dictionary<string, string> properties = new Dictionary<string, string>() 
+                    {
+                        { "相机:","IsCameraConnection"},
+                        { "位移台:","IsStageConnection"},
+                        { "灯光模块:","IsLightConnection"},
+                    };
+
+                    DockPanel dockPanel = new DockPanel();
+                    foreach (var property in properties) 
+                    {
+                        BulletDecorator bulletDecorator = new BulletDecorator() { Bullet = new TextBlock() { Text = property.Key} ,Margin = new Thickness(2,0,2,0)};
+                        TextBlock textBlock = new TextBlock() { DataContext = SoftwareConfig.HardwareSetting };
+                        textBlock.SetBinding(TextBlock.TextProperty, new Binding() { Path = new PropertyPath(property.Value) });
+                        bulletDecorator.Child = textBlock;
+                        dockPanel.Children.Add(bulletDecorator);
+                    }
+                    StatusBarItem statusBarItem = new StatusBarItem() { Content = dockPanel };
+                    DockPanel.SetDock(statusBarItem, Dock.Right);
+
+                    statusBar.Items.Add(statusBarItem);
+
+
+                    statusBar.Items.Add(new StatusBarItem());
+                }
 
 
 

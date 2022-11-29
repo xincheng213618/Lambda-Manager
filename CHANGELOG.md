@@ -6,6 +6,7 @@
 - Wizard -> DLL✔
 - RecentFile ->Global.Common✔
 - Grid 启动器样式修改✔
+- 工具栏状态附加测试 ✔  https://stackoverflow.com/questions/8398000/how-to-set-itemspaneltemplate-to-a-dynamically-created-grid-in-code-behind
 
 ## [1.3.13] 2022-11-24
 

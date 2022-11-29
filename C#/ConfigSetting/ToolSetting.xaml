@@ -119,13 +119,13 @@
                                         </BulletDecorator>
                                         <CheckBox x:Name="CheckBox1" Content="支持多个工程" IsChecked="{Binding IsSupportMultiProject}"/>
                                         <StackPanel x:Name="HardwareSettingConnectionStackPanel">
-                                            <BulletDecorator>
+                                            <BulletDecorator >
                                                 <BulletDecorator.Bullet>
                                                     <TextBlock Text="相机:"/>
                                                 </BulletDecorator.Bullet>
                                                 <TextBlock Text="{Binding Path=IsCameraConnection}"/>
                                             </BulletDecorator>
-                                            <Viewbox Margin="5"  Height="25"  HorizontalAlignment="Left">
+                                            <Viewbox Margin="5"  Height="25"  HorizontalAlignment="Left" Visibility="Collapsed">
                                                 <Grid Height="200" Width="214" >
                                                     <Path x:Name="CameraPath" Stretch="Fill" Fill="#6EA646" Data="M548.571429 384q68 0 116.285714 48.285714t48.285714 116.285714-48.285714 116.285714-116.285714 48.285714-116.285714-48.285714-48.285714-116.285714 48.285714-116.285714 116.285714-48.285714zm402.285714-237.714286q60.571429 0 103.428571 42.857143t42.857143 103.428571l0 512q0 60.571429-42.857143 103.428571t-103.428571 42.857143l-804.571429 0q-60.571429 0-103.428571-42.857143t-42.857143-103.428571l0-512q0-60.571429 42.857143-103.428571t103.428571-42.857143l128 0 29.142857-77.714286q10.857143-28 39.714286-48.285714t59.142857-20.285714l292.571429 0q30.285714 0 59.142857 20.285714t39.714286 48.285714l29.142857 77.714286 128 0zm-402.285714 658.285714q105.714286 0 180.857143-75.142857t75.142857-180.857143-75.142857-180.857143-180.857143-75.142857-180.857143 75.142857-75.142857 180.857143 75.142857 180.857143 180.857143 75.142857z" ></Path>
                                                 </Grid>
@@ -171,24 +171,6 @@
 
                                 </GroupBox>
 
-                                <UniformGrid x:Name="UniformGridSetting" Margin="10,5" Height="150"  Columns="5"  Rows="2" >
- 
-                                    <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
-                                    <Button Margin="20"  Content="自动校准"  Click="Button_Click_2"/>
-                                    <Button Margin="20"  Content="装饰灯关"  Click="Button_Click_3"/>
-                                    <Button Margin="20"  Content="装饰灯开"  Click="Button_Click_31"/>
-                                    <Button Margin="20"  Content="清除初始化"  Click="ClearIniWizard"/>
-                                    <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
-                                    <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
-                                    <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>
-                                    <Button  Margin="20" Click="Button_Click_7">
-                                        <TextBlock>
-                                            <Run Text="日志显示"/>
-                                            <Run Text="{Binding Path=IsShowLog}"/>
-                                        </TextBlock>
-                                    </Button>
-
-                                </UniformGrid>
 
                             </StackPanel>
 
@@ -316,7 +298,23 @@
 
                         <GroupBox x:Name="GroupBox5"  Style="{DynamicResource GroupBoxStyle1}" Header="自动校准" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel Margin="10,5"  Height="500" >
-      
+                                <UniformGrid x:Name="UniformGridSetting" Margin="10,5" Height="150"  Columns="5"  Rows="2" >
+                                    <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
+                                    <Button Margin="20"  Content="自动校准"  Click="Button_Click_2"/>
+                                    <Button Margin="20"  Content="装饰灯关"  Click="Button_Click_3"/>
+                                    <Button Margin="20"  Content="装饰灯开"  Click="Button_Click_31"/>
+                                    <Button Margin="20"  Content="清除初始化"  Click="ClearIniWizard"/>
+                                    <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
+                                    <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
+                                    <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>
+                                    <Button  Margin="20" Click="Button_Click_7">
+                                        <TextBlock>
+                                            <Run Text="日志显示"/>
+                                            <Run Text="{Binding Path=IsShowLog}"/>
+                                        </TextBlock>
+                                    </Button>
+                                </UniformGrid>
+
                             </StackPanel>
                         </GroupBox>
 

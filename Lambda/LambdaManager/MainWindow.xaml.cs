@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Markup;
 using Global.SettingUp.PC;
 using Lambda;
 using LambdaCore;
@@ -70,7 +71,7 @@ namespace LambdaManager
 
 
             Log.LogWrite += AddMessage;
-            performDock.DataContext = statusBarGlobal;
+            //performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
 
@@ -111,6 +112,9 @@ namespace LambdaManager
                 };
                 MenuThemes.Items.Add(menu);
             }
+
+
+
             MenuItem Toolmenu = new MenuItem() { Header = Properties.Resources._Tool };
             Toolmenu.Items.Add(MenuThemes);
             MenuItem Filemenu = new MenuItem() { Header = Properties.Resources._File };

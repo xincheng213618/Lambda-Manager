@@ -34,6 +34,8 @@ namespace ConfigSetting
     public partial class CalibrationWindow : BaseWindow
     {
 
+        Dictionary<int, HardwareCalibration> HardwareCalibrationDic = new Dictionary<int, HardwareCalibration>();
+        Dictionary<int, string> HardwareCalibrationDicString = new Dictionary<int, string>();
 
         public CalibrationWindow()
         {
@@ -119,8 +121,7 @@ namespace ConfigSetting
         }
 
 
-        Dictionary<int, HardwareCalibration> HardwareCalibrationDic = new Dictionary<int, HardwareCalibration>();
-        Dictionary<int, string> HardwareCalibrationDicString = new Dictionary<int, string>();
+
 
 
 

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Wizard"
+      xmlns:Controls="clr-namespace:Global.Common.Controls;assembly=Global.Common" 
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="700"
       Title="Page2" Initialized="Page_Initialized">
@@ -12,14 +13,19 @@
         <Grid Margin="10">
             <TextBlock Text="软件向导"  FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <TextBlock Text="Step5" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,80,0,0"/>
-            <TextBlock Text="自动校准您的系统" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,180,0,0"/>
-            <TextBlock Text="请按提示进行操作，主要为了校准LED半径，默认曝光等参数" HorizontalAlignment="Center" FontSize="12"   VerticalAlignment="Top" Margin="0,240,0,0"/>
+            <TextBlock Text="硬件自检中" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,140,0,0"/>
+            <Border Background="#484d4f"  Height="200"  VerticalAlignment="Top"  CornerRadius="4" Margin="100,180,100,0" >
+                <Grid Background="#333333" Margin="5,5,5,5">
+                    <StackPanel x:Name="ShowStackPanel" Margin="5">
+                    </StackPanel>
+                </Grid>
+            </Border>
 
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >
-                <Button Margin="5,0" Padding="10,5"  Content="上一步"  Click="Button1_Click" />
+                <!--<Button Margin="5,0" Padding="10,5"  Content="上一步"  Click="Button1_Click" />-->
 
 
-                <Button Margin="5,0" Padding="10,5"   Content="下一步"  Click="Button_Click"/>
+                <!--<Button Margin="5,0" Padding="10,5"   Content="下一步"  Click="Button_Click"/>-->
 
 
             </DockPanel>
