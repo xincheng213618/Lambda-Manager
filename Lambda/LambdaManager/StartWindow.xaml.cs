@@ -42,7 +42,7 @@ namespace LambdaManager
             }
             else
             {
-                labelVersion.Content = string.Format("V8.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
+                labelVersion.Content = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
                 Thread thread = new Thread(Load);
                 thread.Start();
                 _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));

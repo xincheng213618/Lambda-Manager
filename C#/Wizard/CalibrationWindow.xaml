@@ -6,18 +6,22 @@
         xmlns:local="clr-namespace:ConfigSetting"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"   
         mc:Ignorable="d"
-        Height="450" Width="200" Background="{DynamicResource WindowBackgroundBrush}"  Topmost="True" WindowStyle="ToolWindow" Initialized="BaseWindow_Initialized" >
+        Height="450" Width="250" Background="#373B41"  Topmost="True" WindowStyle="ToolWindow" Initialized="BaseWindow_Initialized" >
     <Grid>
+        <DockPanel HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0">
+            <TextBlock Text="硬件自检中" FontSize="20"  />
+            <!--<Controls:ProgressRing Height="15" Width="15"/>-->
+        </DockPanel>
 
 
         <Border CornerRadius="0,0,10,10" Background="#373B41" Margin="0,10,0,0">
             <Border Background="#484d4f"  Margin="10" CornerRadius="4">
                 <Grid Background="#333333" Margin="5,5,5,20">
-                    <StackPanel x:Name="ShowStackPanel">
+                    <StackPanel x:Name="ShowStackPanel" Margin="5">
                         
                     </StackPanel>
                     
-                    <StackPanel Width="125" Visibility="Visible" VerticalAlignment="Bottom">
+                    <!--<StackPanel Width="125" Visibility="Visible" VerticalAlignment="Bottom">
                         <DockPanel>
                             <Button Content="相机触发校准"  Click="Button_Click" Tag="0" />
                         </DockPanel>
@@ -30,7 +34,7 @@
                         <Button Content="白平衡校准" Click="Button_Click" Tag="22"/>
                         <Button Content="光源明场暗场半径校准" Click="Button_Click" Tag="23"/>
                         <Button Content="背景矫正" Click="Button_Click" Tag="30"/>
-                    </StackPanel>
+                    </StackPanel>-->
 
                 </Grid>
             </Border>

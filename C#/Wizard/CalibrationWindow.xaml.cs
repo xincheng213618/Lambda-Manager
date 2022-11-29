@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using ThemeManager.Controls;
 using Global.Common.Extensions;
 using Global.Common.Controls;
+using System.Windows.Markup;
 
 namespace ConfigSetting
 {
@@ -89,7 +90,6 @@ namespace ConfigSetting
         {
             foreach (var item in HardwareCalibrationDicString.Keys)
             {
-                await Task.Delay(5000);
                 DockPanel dockPanel = new DockPanel();
                 TextBlock textBlock = new TextBlock() { Text = HardwareCalibrationDicString[item] };
                 dockPanel.Children.Add(textBlock);
@@ -97,9 +97,14 @@ namespace ConfigSetting
                 if (ShowStackPanel.Children.Count>0&& ShowStackPanel.Children[ShowStackPanel.Children.Count -1] is DockPanel dockPanel1 && dockPanel1.Children[1] is ProgressRing progressRing)
                 {
                     dockPanel1.Children.Remove(progressRing);
+                    Path path = new Path() { Data =  Geometry.Parse("M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z") , Stretch  =Stretch.Uniform, Fill  =Brushes.Green, Margin = new Thickness(2,1,1,1) };
+                    dockPanel1.Children.Add(path);
                 }
                 ShowStackPanel.Children.Add(dockPanel);
+                LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[item].ToJson());
+                await Task.Delay(5000);
             }
+            this.Close();
         }
 
 
@@ -125,6 +130,7 @@ namespace ConfigSetting
             Button button = sender as Button;
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = (string)button.Content });
             LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[int.Parse(button.Tag.ToString()??"0")].ToJson());
+
 
             if (button.Tag.ToString() == "30")
                 this.Close();

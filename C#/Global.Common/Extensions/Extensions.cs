@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows;
 using System.IO;
 using System.Text.Json;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace Global.Common.Extensions
 {
@@ -31,6 +33,22 @@ namespace Global.Common.Extensions
                 BitmapSizeOptions.FromEmptyOptions());
 
             return imageSource;
+        }
+
+
+        public static string Description(object obj)
+        {
+            System.Type type = obj.GetType();
+            MemberInfo[] infos = type.GetMember(obj.ToString() ?? "");
+            if (infos != null && infos.Length != 0)
+            {
+                object[] attrs = infos[0].GetCustomAttributes(typeof(DescriptionAttribute), inherit: false);
+                if (attrs != null && attrs.Length != 0)
+                {
+                    return ((DescriptionAttribute)attrs[0]).Description;
+                }
+            }
+            return type.ToString();
         }
     }
 }

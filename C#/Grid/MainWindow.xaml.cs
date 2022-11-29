@@ -85,6 +85,7 @@ namespace Grid
                 TextBox2.Text = recentFileList.RecentFiles[0];
             }
             CheckBox1.IsChecked = Reg.ReadValue(StatusBarRegPath, "InitializeStage");
+            labelVersion.Text = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
