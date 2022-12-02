@@ -50,8 +50,9 @@ namespace Solution
                 Config.ConfigSet();
 
                 //添加热键
-                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "打开", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), hotKeyHandler = OpenSolution });
-                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "新建", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), hotKeyHandler = NewCreat });
+                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "打开当前工程", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), hotKeyHandler = OpenSolution });
+                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "新建工程", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), hotKeyHandler = NewCreat });
+                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), hotKeyHandler = SolutionClose });
             }
         }
 
@@ -242,14 +243,11 @@ namespace Solution
 
 
 
-        SolutionExplorer solutionExplorer;
 
         private void TreeViewInitialized(string FilePath, bool init = true)
         {
-            solutionExplorer = new SolutionExplorer(FilePath)
-            {
-                SolutionName = Path.GetFileNameWithoutExtension(FilePath),
-            };
+            SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath);
+            solutionExplorer.SolutionName = Path.GetFileNameWithoutExtension(FilePath);
             SolutionDir = Path.GetDirectoryName(FilePath);
 
             DirectoryInfo root = new DirectoryInfo(SolutionDir);
@@ -286,6 +284,7 @@ namespace Solution
                 SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
             SolutionTreeView.ItemsSource = SolutionExplorers;
+
         }
 
 
@@ -410,8 +409,11 @@ namespace Solution
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-
-            if (SoftwareConfig.SolutionSetting.IsSupportMultiProject && LastSelectedTreeViewItem != null&& LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
+            SolutionClose();
+        }
+        private void SolutionClose()
+        {
+            if (SoftwareConfig.SolutionSetting.IsSupportMultiProject && LastSelectedTreeViewItem != null && LastSelectedTreeViewItem.DataContext is SolutionExplorer solutionExplorer)
             {
                 SolutionExplorers.Remove(solutionExplorer);
             }
@@ -425,7 +427,10 @@ namespace Solution
                 SolutionExplorers.Clear();
                 SolutionTreeView.ItemsSource = null;
             }
+
         }
+
+
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {

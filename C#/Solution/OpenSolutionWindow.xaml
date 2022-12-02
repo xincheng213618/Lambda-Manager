@@ -74,10 +74,10 @@
                     <ListView  x:Name="ListView1"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ScrollViewer.VerticalScrollBarVisibility="Auto" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
                         <ListView.View>
                             <GridView   >
-                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}" >
+                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}">
                                     <GridViewColumn.CellTemplate  >
                                         <DataTemplate >
-                                            <Border  Height="45" Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}"  >
+                                            <Border x:Name="border1"  Height="45" Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}"   >
                                                 <Grid Margin="0,2,30,2" >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="30"/>
@@ -88,6 +88,7 @@
                                                         <TextBlock  Text="{Binding Path = Name}" TextTrimming = "CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Top"/>
                                                         <TextBlock Text="{Binding Path = FullName}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Bottom"/>
                                                         <TextBlock Text="{Binding Path = CreationTime}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Click="Button_Click_1" Visibility="{Binding ElementName=border1,Path=IsMouseOver,Converter={StaticResource bool2VisibilityConverter}}" Tag="{Binding .}" />
                                                     </Grid>
                                                 </Grid>
 

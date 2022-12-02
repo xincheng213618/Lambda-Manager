@@ -1,4 +1,5 @@
 ﻿using Global.Common;
+using Global.Common.Extensions;
 using Global.SettingUp;
 using Lambda;
 using System;
@@ -48,6 +49,11 @@ namespace Wizard
             {
                 Environment.Exit(0);
             }
+            else
+            {
+                SoftwareConfig.HardwareConfig.ToJsonFile("HardwareConfig");
+            }
+
         }
     }
 }

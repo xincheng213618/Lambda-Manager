@@ -12,6 +12,12 @@ namespace ThemeManager.Controls
         /// Sent to a window when its nonclient area needs to be changed to indicate an active or inactive state.
         /// </summary>
         public const int WM_NCACTIVATE = 0x0086;
+        public const uint MF_BYCOMMAND = 0x00000000;
+        public const uint MF_GRAYED = 0x00000001;
+        public const uint MF_ENABLED = 0x00000000;
+        public const uint SC_CLOSE = 0xF060;
+        public const int WM_SHOWWINDOW = 0x00000018;
+        public const int WM_CLOSE = 0x10;
     }
 
     public partial class BaseWindow:Window
@@ -76,10 +82,31 @@ namespace ThemeManager.Controls
             {
                 InvalidateMeasure();
             }
-            //IntPtr handle = new WindowInteropHelper(this).Handle;
-            //HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
         }
 
+        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            //if (msg == WM_SHOWWINDOW)
+            //{
+            //    IntPtr hMenu = GetSystemMenu(hwnd, false);
+            //    if (hMenu != IntPtr.Zero)
+            //    {
+            //        EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+            //    }
+            //}
+            if (msg == WindowNotifications.WM_CLOSE)
+            {
+                if (!BaseClosed)
+                {
+                    this.BaseClose();
+                    handled = !BaseClosed;
+                }
+
+            }
+            return IntPtr.Zero;
+        }
 
 
         //拖动 暂时禁用掉
@@ -89,7 +116,7 @@ namespace ThemeManager.Controls
         //    if (e.ButtonState == MouseButtonState.Pressed)
         //        DragMove();
         //}
-
+        s
         public virtual void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -107,8 +134,20 @@ namespace ThemeManager.Controls
 
         private void CloseWindow(object sender, ExecutedRoutedEventArgs e)
         {
+            BaseClose();
+        }
+
+        public bool BaseClosed = false;
+        /// <summary>
+        /// 封装一层，允许在关闭窗口之前增加一些操作
+        /// </summary>
+        public virtual void BaseClose()
+        {
+            BaseClosed = true;
             this.Close();
         }
+
+
 
         private void MaximizeWindow(object sender, ExecutedRoutedEventArgs e)
         {

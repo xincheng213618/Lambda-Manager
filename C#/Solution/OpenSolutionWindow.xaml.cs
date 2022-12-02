@@ -72,6 +72,14 @@ namespace Solution
             }
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button&& button.Tag is SoulutionInfo soulutioninfo)
+            {
+                SoulutionInfos.Remove(soulutioninfo);
+                recentFileList.RemoveFile(soulutioninfo.FullName);
+            }
+        }
     }
 
     public class SoulutionInfo

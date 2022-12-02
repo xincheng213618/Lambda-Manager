@@ -25,7 +25,7 @@ namespace ConfigObjective
                     IsChecked = item.IsChecked,
                     IsEnabled = item.IsEnabled, FontSize = 14
                 };
-                radioButton.Click += delegate
+                radioButton.Checked += delegate
                 {
                     Dictionary<string, object> values = new Dictionary<string, object>()
                     {

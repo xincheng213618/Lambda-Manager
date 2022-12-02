@@ -43,7 +43,7 @@ namespace Wizard
 
             //回城校准
             HardwareCalibrationDic.Add(12, new HardwareCalibration() { Hardware = "Stage", Type = "Backhaul" });
-            HardwareCalibrationDicString.Add(12, "回城校准");
+            HardwareCalibrationDicString.Add(12, "回程校准");
 
             //零点
             HardwareCalibrationDic.Add(13, new HardwareCalibration() { Hardware = "Stage", Type = "Zero" });
@@ -69,8 +69,9 @@ namespace Wizard
 
             // 背景校正
             HardwareCalibrationDic.Add(30, new HardwareCalibration() { Hardware = "Initialize", Type = "BackgroundCorrection" });
-            HardwareCalibrationDicString.Add(30, "背景矫正");
-
+            HardwareCalibrationDicString.Add(30, "初始化背景矫正");
+            HardwareCalibrationDic.Add(31, new HardwareCalibration() { Hardware = "Initialize", Type = "TransferFunction" });
+            HardwareCalibrationDicString.Add(31, "初始化传递函数");
 
 
             InitializeComponent();
@@ -83,31 +84,43 @@ namespace Wizard
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
+        private void AdddHardwareCalibration(string Text)
+        {
+            DockPanel dockPanel = new DockPanel();
+            TextBlock textBlock = new TextBlock() { Text = Text, FontSize = 15 };
+            dockPanel.Children.Add(textBlock);
+            ProgressRing progressRing1 = new ProgressRing() { Height = 16, Width = 16, HorizontalAlignment = HorizontalAlignment.Right };
+            dockPanel.Children.Add(progressRing1);
+            if (ShowStackPanel.Children.Count > 0 && ShowStackPanel.Children[ShowStackPanel.Children.Count - 1] is DockPanel dockPanel1 && dockPanel1.Children[1] is ProgressRing progressRing)
+            {
+                dockPanel1.Children.Remove(progressRing);
+                Path path = new Path() { HorizontalAlignment = HorizontalAlignment.Right, Data = Geometry.Parse("M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z"), Stretch = Stretch.Uniform, Fill = Brushes.Green, Margin = new Thickness(0) };
+                dockPanel1.Children.Add(path);
+            }
+            ShowStackPanel.Children.Add(dockPanel);
+            ScrollViewer1.ScrollToEnd();
+        }
+
+
         private async void Page_Initialized(object sender, EventArgs e)
         {
             await Task.Delay(100);
+            AdddHardwareCalibration("正在准备校准环境");
+            await Task.Delay(2000);
+            ProgressBar.Maximum = HardwareCalibrationDicString.Keys.Count;
+            ProgressBar.Value = 0;
             int i = 0;
             foreach (var item in HardwareCalibrationDicString.Keys)
             {
                 i++;
-                DockPanel dockPanel = new DockPanel();
-                TextBlock textBlock = new TextBlock() { Text =$"({i}/{HardwareCalibrationDicString.Keys.Count}){ HardwareCalibrationDicString[item]}" ,FontSize= 15 };
-                dockPanel.Children.Add(textBlock);
-                ProgressRing progressRing1 = new ProgressRing() { Height = 16, Width = 16 , HorizontalAlignment = HorizontalAlignment.Right};
-                dockPanel.Children.Add(progressRing1);
-                if (ShowStackPanel.Children.Count > 0 && ShowStackPanel.Children[ShowStackPanel.Children.Count - 1] is DockPanel dockPanel1 && dockPanel1.Children[1] is ProgressRing progressRing)
-                {
-                    dockPanel1.Children.Remove(progressRing);
-                    Path path = new Path() { HorizontalAlignment = HorizontalAlignment.Right, Data = Geometry.Parse("M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z"), Stretch = Stretch.Uniform, Fill = Brushes.Green, Margin = new Thickness(0) };
-                    dockPanel1.Children.Add(path);
-                }
-                ShowStackPanel.Children.Add(dockPanel);
+                AdddHardwareCalibration($"({i}/{HardwareCalibrationDicString.Keys.Count}){HardwareCalibrationDicString[item]}");
                 LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[item].ToJson());
-                await Task.Delay(5000);
+                await Task.Delay(2000);
+                ProgressBar.Value = i;
             }
+            AdddHardwareCalibration("正在还原默认工作环境");
+            await Task.Delay(2000);
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(new Page6(Window))));
-
-
         }
 
         public bool HardwareCalibrationState(object sender, EventArgs e)

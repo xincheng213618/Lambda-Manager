@@ -9,5 +9,6 @@ namespace Global.SettingUp
     {
         public static SolutionSetting SolutionSetting = new SolutionSetting();
         public static HardwareSetting HardwareSetting = new HardwareSetting();   
+        public static HardwareConfig HardwareConfig = new HardwareConfig();
     }
 }

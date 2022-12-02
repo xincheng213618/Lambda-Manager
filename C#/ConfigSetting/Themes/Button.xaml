@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+
+
+    <ControlTemplate x:Key="LightSourceControlTemplate" TargetType="{x:Type Button}">
+        <Viewbox>
+            <Grid Height="1024" Width="1024" Background="{TemplateBinding Background}">
+                <Path x:Name="Path1" Fill="White" Data="M512 192c179.2 0 320 140.8 320 320s-140.8 320-320 320-320-140.8-320-320S332.8 192 512 192M512 128C300.8 128 128 300.8 128 512s172.8 384 384 384 384-172.8 384-384S723.2 128 512 128L512 128z"/>
+                <Path x:Name="Path2" Fill="White" Data="M544 416l236.8 0C774.4 403.2 768 384 761.6 371.2L544 371.2 544 416z"/>
+                <Path x:Name="Path3" Fill="White" Data="M544 608l0 44.8 217.6 0c6.4-12.8 12.8-32 19.2-44.8L544 608z"/>
+                <Path x:Name="Path4" Fill="White" Data="M544 723.2 544 768 640 768c25.6-12.8 44.8-25.6 64-44.8L544 723.2z"/>
+                <Path x:Name="Path5" Fill="White" Data="M800 492.8l-256 0 0 44.8 256 0c0-6.4 0-12.8 0-25.6S800 499.2 800 492.8z"/>
+                <Path x:Name="Path6" Fill="White" Data="M544 300.8 704 300.8c-19.2-19.2-38.4-32-64-44.8L544 256 544 300.8z"/>
+            </Grid>
+        </Viewbox>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="True" >
+                <Setter  TargetName="Path1" Property="Fill" Value="#6EA646"/>
+                <Setter  TargetName="Path2" Property="Fill" Value="#6EA646"/>
+                <Setter  TargetName="Path3" Property="Fill" Value="#6EA646"/>
+                <Setter  TargetName="Path4" Property="Fill" Value="#6EA646"/>
+                <Setter  TargetName="Path5" Property="Fill" Value="#6EA646"/>
+                <Setter  TargetName="Path6" Property="Fill" Value="#6EA646"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CameraControlTemplate" TargetType="{x:Type Button}">
+        <Viewbox>
+            <Grid Height="1024" Width="1100" Background="{TemplateBinding Background}">
+                <Path x:Name="Path1" Stretch="None" Fill="White" Data="M548.571429 384q68 0 116.285714 48.285714t48.285714 116.285714-48.285714 116.285714-116.285714 48.285714-116.285714-48.285714-48.285714-116.285714 48.285714-116.285714 116.285714-48.285714zm402.285714-237.714286q60.571429 0 103.428571 42.857143t42.857143 103.428571l0 512q0 60.571429-42.857143 103.428571t-103.428571 42.857143l-804.571429 0q-60.571429 0-103.428571-42.857143t-42.857143-103.428571l0-512q0-60.571429 42.857143-103.428571t103.428571-42.857143l128 0 29.142857-77.714286q10.857143-28 39.714286-48.285714t59.142857-20.285714l292.571429 0q30.285714 0 59.142857 20.285714t39.714286 48.285714l29.142857 77.714286 128 0zm-402.285714 658.285714q105.714286 0 180.857143-75.142857t75.142857-180.857143-75.142857-180.857143-180.857143-75.142857-180.857143 75.142857-75.142857 180.857143 75.142857 180.857143 180.857143 75.142857z" ></Path>
+            </Grid>
+        </Viewbox>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames  Storyboard.TargetName="Path1" Storyboard.TargetProperty ="Fill.(Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="#6EA646"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="White"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#6EA646"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="White"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.4" Value="#6EA646"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames  Storyboard.TargetName="Path1" Storyboard.TargetProperty ="Fill.(Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="White"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#6EA646"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="White"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#6EA646"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.4" Value="White"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+    <ControlTemplate x:Key="StageControlTemplate" TargetType="{x:Type Button}">
+        <Viewbox>
+            <Grid Height="1024" Width="1024" Background="{TemplateBinding Background}">
+                <Path x:Name="Path1" Stretch="None" Fill="White"  Data ="M511.890095 1023.660073c-282.279354 0-511.890024-229.61067-511.890024-511.770049s229.61067-511.890024 511.890024-511.890024c282.279354 0 511.890024 229.61067 511.890023 511.890024 0 282.279354-229.600672 511.770049-511.890023 511.770049z m0-952.005468c-242.747847 0-440.235418 197.477573-440.235419 440.235419s197.477573 440.235418 440.235419 440.235418S952.125513 754.637871 952.125513 511.890024 754.64794 71.654605 511.890095 71.654605z m0 21.435395"/>
+                <Path x:Name="Path2" Stretch="None" Fill="White"  Data ="M511.890095 191.90877l133.671281 133.671281h-267.342563l133.671282-133.671281z m0 639.95251l133.671281-133.671282h-267.342563l133.671282 133.671282zM191.918838 511.890024l133.671282-133.671282v267.342563l-133.671282-133.671281z m639.952511 0l-133.671282-133.671282v267.342563l133.671282-133.671281z m0 0"/>
+            </Grid>
+        </Viewbox>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter  TargetName="Path1" Property="Fill" Value="#6EA646"/>
+                <Setter  TargetName="Path2" Property="Fill" Value="#6EA646"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+</ResourceDictionary>

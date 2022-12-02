@@ -1,6 +1,10 @@
-﻿using Global.SettingUp;
+﻿using Global.Common;
+using Global.Mode;
+using Global.Mode.Config;
+using Global.SettingUp;
 using Global.SettingUp.Configure;
 using Global.SettingUp.PC;
+using HotKey;
 using Lambda;
 using NvAPIWrapper.GPU;
 using System;
@@ -36,9 +40,12 @@ namespace ConfigSetting
         bool IsFirstLoad = true;
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
                 IsFirstLoad = false;
+
+
 
                 //GPU信息
                 PhysicalGPU[] physicalGPUs;
@@ -87,18 +94,7 @@ namespace ConfigSetting
                 {
                     ComboBox1.SelectedItem = ThemeManagers.CurrentUITheme;
                 };
-                firmwareUpdates = new ObservableCollection<FirmwareUpdate>
-                        {
-                            new FirmwareUpdate() { Name = "stageModule", Version = "5.00", UpdateSize = "55 MB", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618" },
-                            new FirmwareUpdate() { Name = "CamerModudle", Version = "1.00", UpdateSize = "155 MB", UpdateTime = "20220509" ,UpdateUrl ="https://github.com/2222222" },
-                            new FirmwareUpdate() { Name = "Serial port Mode", Version = "2.10", UpdateSize = "255 MB", UpdateTime = "20220109" ,UpdateUrl ="https://github.com/xincheng213618222222" },
-                            new FirmwareUpdate() { Name = "Led", Version = "1.45", UpdateSize = "124 KB", UpdateTime = "20220909" ,UpdateUrl ="https://github.com/xincheng213618888888888888" },
-                            new FirmwareUpdate() { Name = "差分算法", Version = "3.20", UpdateSize = "1.5 GB", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618" },
-                            new FirmwareUpdate() { Name = "相位算法", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/2222222" },
-                            new FirmwareUpdate() { Name = "等差算法", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618222222" },
-                            new FirmwareUpdate() { Name = "采集", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618888888888888" },
-                            new FirmwareUpdate() { Name = "多模态", Version = "0.00", UpdateSize = "22222", UpdateTime = "20220809" ,UpdateUrl ="https://github.com/xincheng213618" },
-                        };
+                firmwareUpdates = new ObservableCollection<FirmwareUpdate> {  };
                 ListView1.ItemsSource = firmwareUpdates;
 
                 CheckBox1.DataContext = SoftwareConfig.SolutionSetting;
@@ -159,30 +155,63 @@ namespace ConfigSetting
                     </ItemsPanelTemplate>";
                     statusBar.ItemsPanel = XamlReader.Parse(xaml) as ItemsPanelTemplate;
 
-                    Dictionary<string, string> properties = new Dictionary<string, string>() 
+
+                    Dictionary<string, string> properties1 = new Dictionary<string, string>()
                     {
-                        { "相机:","IsCameraConnection"},
-                        { "位移台:","IsStageConnection"},
-                        { "灯光模块:","IsLightConnection"},
+                        { "IsCameraConnection","CameraControlTemplate"},
+                        { "IsStageConnection","StageControlTemplate"},
+                        { "IsLightConnection","LightSourceControlTemplate"},
+                    };
+                    Dictionary<string, string> propertiesTag = new Dictionary<string, string>()
+                    {
+                        { "IsCameraConnection","相机连接情况"},
+                        { "IsStageConnection","位移台连接情况"},
+                        { "IsLightConnection","光源连接情况"},
+                    };
+                    Dictionary<string, double> propertiesHeight = new Dictionary<string, double>()
+                    {
+                        { "IsCameraConnection",15},
+                        { "IsStageConnection",15},
+                        { "IsLightConnection",18},
                     };
 
+                    ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("/ConfigSetting;component/themes/Button.xaml", UriKind.Relative)};
                     DockPanel dockPanel = new DockPanel();
-                    foreach (var property in properties) 
+                    foreach (var property in properties1) 
                     {
-                        BulletDecorator bulletDecorator = new BulletDecorator() { Bullet = new TextBlock() { Text = property.Key} ,Margin = new Thickness(2,0,2,0)};
-                        TextBlock textBlock = new TextBlock() { DataContext = SoftwareConfig.HardwareSetting };
-                        textBlock.SetBinding(TextBlock.TextProperty, new Binding() { Path = new PropertyPath(property.Value) });
-                        bulletDecorator.Child = textBlock;
-                        dockPanel.Children.Add(bulletDecorator);
+                        Button button = new Button() { Height = propertiesHeight[property.Key], Width = propertiesHeight[property.Key], Background = Brushes.Transparent,DataContext = SoftwareConfig.HardwareSetting ,Tag = propertiesTag[property.Key] ,Margin= new Thickness(4,0,2,0)} ;
+                        if (resourceDictionary.Contains(property.Value) && resourceDictionary[property.Value] is ControlTemplate controlTemplate)
+                        {
+                            button.Template = controlTemplate;
+                            button.SetBinding(Button.IsEnabledProperty, new Binding() { Path = new PropertyPath(property.Key) });
+                        }
+                        button.Click += (s, e) =>
+                        {
+                            MessageBox.Show(property.Key + button.IsEnabled.ToString());
+                        };
+                        dockPanel.Children.Add(button);
                     }
                     StatusBarItem statusBarItem = new StatusBarItem() { Content = dockPanel };
                     DockPanel.SetDock(statusBarItem, Dock.Right);
-
                     statusBar.Items.Add(statusBarItem);
-
-
                     statusBar.Items.Add(new StatusBarItem());
                 }
+
+
+                foreach (var item in HotKeyHelper.HotKeysList)
+                {
+
+                    TextBlock textBlock = new TextBlock() { Text =item.Value.FunctionName};
+                    TextBlock textBlock1 = new TextBlock() { Text = item.Value.Hotkey.ToString() };
+
+                    DockPanel dockPanel = new DockPanel();
+
+                    dockPanel.Children.Add(textBlock);
+                    dockPanel.Children.Add(textBlock1);
+                    UniformGrifHotKey.Children.Add(dockPanel);
+                }
+
+
 
 
 
@@ -205,8 +234,7 @@ namespace ConfigSetting
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            CalibrationWindow calibrationWindow = new CalibrationWindow();
-            calibrationWindow.ShowDialog();
+
         }
 
         private void UserControl_Initialized(object sender, EventArgs e)
@@ -311,6 +339,81 @@ namespace ConfigSetting
                 combobox.Visibility =SoftwareConfig.SolutionSetting.IsShowLog? Visibility.Visible:Visibility.Hidden;
             }
             
+        }
+
+        private void Calibration_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string value)
+            {
+                Dictionary<int, HardwareCalibration> HardwareCalibrationDic = new Dictionary<int, HardwareCalibration>();
+                Dictionary<int, string> HardwareCalibrationDicString = new Dictionary<int, string>();
+                //硬触发
+                HardwareCalibrationDic.Add(0, new HardwareCalibration() { Hardware = "Camera", Type = "HardTrigger" });
+                HardwareCalibrationDicString.Add(0, "相机触发校准");
+                //位移台移动完整性
+                HardwareCalibrationDic.Add(10, new HardwareCalibration() { Hardware = "Stage", Type = "Integrity" });
+                HardwareCalibrationDicString.Add(10, "位移台移动完整性");
+                //放大倍数
+                HardwareCalibrationDic.Add(11, new HardwareCalibration() { Hardware = "Stage", Type = "Magnification" });
+                HardwareCalibrationDicString.Add(11, "放大倍数");
+
+                //回城校准
+                HardwareCalibrationDic.Add(12, new HardwareCalibration() { Hardware = "Stage", Type = "Backhaul" });
+                HardwareCalibrationDicString.Add(12, "回程校准");
+
+                //零点
+                HardwareCalibrationDic.Add(13, new HardwareCalibration() { Hardware = "Stage", Type = "Zero" });
+                HardwareCalibrationDicString.Add(13, "零点校准");
+
+
+                //中心点
+                HardwareCalibrationDic.Add(20, new HardwareCalibration() { Hardware = "Light", Type = "CenterPoint" });
+                HardwareCalibrationDicString.Add(20, "灯光中心点校准");
+
+                //光源完整性
+                HardwareCalibrationDic.Add(21, new HardwareCalibration() { Hardware = "Light", Type = "Integrity" });
+                HardwareCalibrationDicString.Add(21, "光源完整性校准");
+
+                //白平衡
+                HardwareCalibrationDic.Add(22, new HardwareCalibration() { Hardware = "Light", Type = "WhiteBalance" });
+                HardwareCalibrationDicString.Add(22, "白平衡校准");
+
+                //光源明场暗场半径
+                HardwareCalibrationDic.Add(23, new HardwareCalibration() { Hardware = "Light", Type = "RadiusOfLightSource" });
+                HardwareCalibrationDicString.Add(23, "光源明场暗场半径校准");
+
+
+                // 背景校正
+                HardwareCalibrationDic.Add(30, new HardwareCalibration() { Hardware = "Initialize", Type = "BackgroundCorrection" });
+                HardwareCalibrationDicString.Add(30, "初始化背景矫正");
+                HardwareCalibrationDic.Add(31, new HardwareCalibration() { Hardware = "Initialize", Type = "TransferFunction" });
+                HardwareCalibrationDicString.Add(31, "初始化传递函数");
+
+                switch (value)
+                {
+                    case "All":
+                        break;
+                    default:
+                        List<int> list = new List<int>();
+                        foreach (var item in HardwareCalibrationDic)
+                        {
+                            if (item.Value.Hardware != value)
+                            {
+                                list.Add(item.Key);
+                            }
+                        }
+                        foreach (var item in list)
+                        {
+                            HardwareCalibrationDic.Remove(item);
+                            HardwareCalibrationDicString.Remove(item);
+                        }
+                        break;
+                }
+                CalibrationWindow calibrationWindow = new CalibrationWindow(HardwareCalibrationDic, HardwareCalibrationDicString);
+                calibrationWindow.ShowDialog();
+
+
+            }
         }
     }
 }

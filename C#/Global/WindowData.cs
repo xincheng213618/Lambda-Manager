@@ -57,8 +57,7 @@ namespace Global
 
         public static WindowData GetInstance()
         {
-            lock (_locker) { _instance ??= new WindowData(); }
-            return _instance;
+            lock (_locker) { return _instance ??= new WindowData(); }
         }
 
         public DeviceInformation deviceInformation = new DeviceInformation();

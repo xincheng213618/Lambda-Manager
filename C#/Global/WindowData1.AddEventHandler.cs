@@ -105,9 +105,7 @@ namespace Global
                             toggleButton.Content = "开始采集";
                         }
                     }
-
                 }
-
                 ACQUIRE = false;
 
             });

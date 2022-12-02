@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Global.Hardware;
+using Global.SettingUp;
+using Global.SettingUp.Hardware;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +23,8 @@ namespace Wizard
     /// </summary>
     public partial class Page3 : Page
     {
+        ObjectiveConfig objectiveConfig = SoftwareConfig.HardwareConfig.ObjectiveConfig;
+
         MainWindow Window;
         public Page3(MainWindow window)
         {
@@ -33,11 +38,16 @@ namespace Wizard
 
         private void Page_Initialized(object sender, EventArgs e)
         {
-
+            objectiveConfig.AvailableObjectives.Add(new ObjectiveConfigBase(4, 0.1) { MagnitudeName = "4X" });
+            objectiveConfig.AvailableObjectives.Add(new ObjectiveConfigBase(10,0.25) {MagnitudeName="10X"});
+            objectiveConfig.AvailableObjectives.Add(new ObjectiveConfigBase(20, 0.4) { MagnitudeName = "20X" });
+            objectiveConfig.AvailableObjectives.Add(new ObjectiveConfigBase(40, 0.65) { MagnitudeName = "40X" });
+            objectiveConfig.AvailableObjectives.Add(new ObjectiveConfigBase(100, 0.65) { MagnitudeName = "100X" });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            objectiveConfig.SelectObjective = objectiveConfig.AvailableObjectives[1];
             Content = new Page5(Window);
             Pages();
         }

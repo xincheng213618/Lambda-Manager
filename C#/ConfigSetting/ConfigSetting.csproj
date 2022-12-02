@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
+    <ProjectReference Include="..\HotKey\HotKey.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
     <ProjectReference Include="..\Wizard\Wizard.csproj" />
@@ -26,6 +27,10 @@
 
   <ItemGroup>
     <Resource Include="Image\application-logo-3.0.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configure\" />
   </ItemGroup>
 
 </Project>

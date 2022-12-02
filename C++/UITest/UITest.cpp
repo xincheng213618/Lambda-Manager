@@ -489,8 +489,8 @@ string UTF8ToGB(const char* str)
 	WideCharToMultiByte(CP_ACP, 0, strSrc, -1, szRes, i, NULL, NULL);
 
 	result = szRes;
-	delete[]strSrc;
-	delete[]szRes;
+	delete[] strSrc;
+	delete[] szRes;
 	return result;
 }
 
@@ -499,12 +499,12 @@ string UTF8ToGB(const char* str)
 int OpenSerial(char* FullPath)	
 {
 	//std::wstring fp = StringUtils::string2wstring(FullPath);
-	std::wstring fp = StringUtils::Multi2WideByte(FullPath);
+	//std::wstring fp = StringUtils::Multi2WideByte(FullPath);
 
-	Logger::Log1(Severity::INFO, FullPath);
-	std::string str = UTF8ToGB(FullPath);
-	const char* bbb = str.c_str();
-	Logger::Log1(Severity::INFO, str);
+	//Logger::Log1(Severity::INFO, FullPath);
+	//std::string str = UTF8ToGB(FullPath);
+	//const char* bbb = str.c_str();
+	//Logger::Log1(Severity::INFO, str);
 
 	return  0;
 }
@@ -579,9 +579,10 @@ bool IsLightConnection = false;
 int VideoTest() {
 	IsCameraConnection = !IsCameraConnection;
 	IsStageConnection = !IsStageConnection;
+	IsLightConnection = !IsLightConnection;
 	json j3;
-	j3["IsCameraConnection"] = 0;
-	j3["IsStageConnection"] = -1;
+	j3["IsCameraConnection"] = (int)IsCameraConnection;
+	j3["IsStageConnection"] = (int)IsStageConnection;
 	j3["IsLightConnection"] = IsLightConnection;
 	Event::Trigger("LambdaNotifyPropertyChanged",&j3);
 	//Event::Trigger("STAGE_INI_CLOSE");

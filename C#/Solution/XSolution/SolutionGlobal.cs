@@ -22,7 +22,6 @@ namespace XSolution
         }
     }
 
-    //单例 + 反射 + 迭代 + Linq
     public class SolutionGlobal
     {
         private static SolutionGlobal _instance;
@@ -31,12 +30,10 @@ namespace XSolution
         Dictionary<string[], Type> ProjectFileDic = new Dictionary<string[], Type>() { };
 
         List<Type> ProjectFileTypeList = new List<Type>();
-        List<string[]> ProjectFileSupportExList = new List<string[]>();
 
         public static SolutionGlobal GetInstance()
         {
-            lock (_locker) { _instance ??= new SolutionGlobal(); }
-            return _instance;
+            lock (_locker) { return _instance ??= new SolutionGlobal(); }
         }
 
         private SolutionGlobal()

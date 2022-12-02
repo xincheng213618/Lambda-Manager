@@ -26,7 +26,7 @@ namespace Solution
         public NewCreatViewMode newCreatViewMode;
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             recentFileList = new RecentFileList();
             string regiserkey = "Software\\" + System.Windows.Forms.Application.CompanyName + "\\" + System.Windows.Forms.Application.ProductName + "\\" + "RecentNewCreatCache";
             recentFileList.Persister = new RegistryPersister(regiserkey);

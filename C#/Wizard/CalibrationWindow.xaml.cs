@@ -2,21 +2,15 @@
 using Lambda;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ThemeManager.Controls;
 using Global.Common.Extensions;
 using Global.Common.Controls;
-using System.Windows.Markup;
+
 
 namespace ConfigSetting
 {
@@ -33,9 +27,10 @@ namespace ConfigSetting
     /// </summary>
     public partial class CalibrationWindow : BaseWindow
     {
-
+        public static bool IsRegister = false;
         Dictionary<int, HardwareCalibration> HardwareCalibrationDic = new Dictionary<int, HardwareCalibration>();
         Dictionary<int, string> HardwareCalibrationDicString = new Dictionary<int, string>();
+
 
         public CalibrationWindow()
         {
@@ -56,7 +51,6 @@ namespace ConfigSetting
             //零点
             HardwareCalibrationDic.Add(13, new HardwareCalibration() { Hardware = "Stage", Type = "Zero" });
             HardwareCalibrationDicString.Add(13, "零点校准");
-
 
             //中心点
             HardwareCalibrationDic.Add(20, new HardwareCalibration() { Hardware = "Light", Type = "CenterPoint" });
@@ -80,37 +74,64 @@ namespace ConfigSetting
             HardwareCalibrationDicString.Add(30, "背景矫正");
 
             InitializeComponent();
-
-
-
-
-            LambdaControl.AddLambdaEventHandler("HardwareCalibrationState", HardwareCalibrationState, false);
+            if (!IsRegister)
+            {
+                IsRegister = true;
+                LambdaControl.AddLambdaEventHandler("HardwareCalibrationState", HardwareCalibrationState, false);
+            }
         }
 
+        public CalibrationWindow(Dictionary<int, HardwareCalibration> HardwareCalibrationDic , Dictionary<int, string> HardwareCalibrationDicString)
+        {
+            this.HardwareCalibrationDic = HardwareCalibrationDic;
+            this.HardwareCalibrationDicString = HardwareCalibrationDicString;
+            InitializeComponent();
+            if (!IsRegister)
+            {
+                IsRegister = true;
+                LambdaControl.AddLambdaEventHandler("HardwareCalibrationState", HardwareCalibrationState, false);
+            }
+        }
+
+
+        private void AdddHardwareCalibration(string Text)
+        {
+            DockPanel dockPanel = new DockPanel();
+            TextBlock textBlock = new TextBlock() { Text = Text, FontSize = 15 };
+            dockPanel.Children.Add(textBlock);
+            ProgressRing progressRing1 = new ProgressRing() { Height = 16, Width = 16, HorizontalAlignment = HorizontalAlignment.Right };
+            dockPanel.Children.Add(progressRing1);
+            if (ShowStackPanel.Children.Count > 0 && ShowStackPanel.Children[ShowStackPanel.Children.Count - 1] is DockPanel dockPanel1 && dockPanel1.Children[1] is ProgressRing progressRing)
+            {
+                dockPanel1.Children.Remove(progressRing);
+                Path path = new Path() { HorizontalAlignment = HorizontalAlignment.Right, Data = Geometry.Parse("M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z"), Stretch = Stretch.Uniform, Fill = Brushes.Green, Margin = new Thickness(0) };
+                dockPanel1.Children.Add(path);
+            }
+            ShowStackPanel.Children.Add(dockPanel);
+            ScrollViewer1.ScrollToEnd();
+        }
 
         private async void BaseWindow_Initialized(object sender, EventArgs e)
         {
+            AdddHardwareCalibration("正在准备校准环境");
+            await Task.Delay(2000);
+            ProgressBar.Maximum = HardwareCalibrationDicString.Keys.Count;
+            ProgressBar.Value = 0;
+            int i = 0;
             foreach (var item in HardwareCalibrationDicString.Keys)
             {
-                DockPanel dockPanel = new DockPanel();
-                TextBlock textBlock = new TextBlock() { Text = HardwareCalibrationDicString[item] };
-                dockPanel.Children.Add(textBlock);
-                dockPanel.Children.Add(new ProgressRing() { Height=15,Width=15});
-                if (ShowStackPanel.Children.Count>0&& ShowStackPanel.Children[ShowStackPanel.Children.Count -1] is DockPanel dockPanel1 && dockPanel1.Children[1] is ProgressRing progressRing)
-                {
-                    dockPanel1.Children.Remove(progressRing);
-                    Path path = new Path() { Data =  Geometry.Parse("M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z") , Stretch  =Stretch.Uniform, Fill  =Brushes.Green, Margin = new Thickness(2,1,1,1) };
-                    dockPanel1.Children.Add(path);
-                }
-                ShowStackPanel.Children.Add(dockPanel);
+                if (Closeing) break;
+                i++;
+                AdddHardwareCalibration($"({i}/{HardwareCalibrationDicString.Keys.Count}){HardwareCalibrationDicString[item]}");
                 LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[item].ToJson());
-                await Task.Delay(5000);
+                await Task.Delay(2000);
+                ProgressBar.Value = i;
             }
-            this.Close();
+            this.BaseClose();
         }
 
 
-        public bool HardwareCalibrationState(object sender, EventArgs e)
+        public static bool HardwareCalibrationState(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
@@ -122,21 +143,19 @@ namespace ConfigSetting
 
 
 
-
-
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        bool Closeing = false;
+        public override async void BaseClose()
         {
-            Button button = sender as Button;
-            LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = (string)button.Content });
-            LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[int.Parse(button.Tag.ToString()??"0")].ToJson());
-
-
-            if (button.Tag.ToString() == "30")
-                this.Close();
+            if (Closeing) return;
+            Closeing = true;
+            AdddHardwareCalibration("正在还原默认工作环境");
+            await Task.Delay(2000);
+            base.BaseClose();
         }
 
+        private void BaseWindow_Closed(object sender, EventArgs e)
+        {
 
+        }
     }
 }

@@ -66,8 +66,6 @@ std::string StringUtils::Multi2Utf8(const char* str)
 	delete[]strSrc;
 	delete[]szRes;
 	return result;
-
-	return std::string();
 }
 
 std::string StringUtils::Wide2Utf8(std::wstring& wide_string)

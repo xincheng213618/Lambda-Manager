@@ -9,8 +9,8 @@
       Title="Page2" Initialized="Page_Initialized">
     <Border Margin="10,10"  CornerRadius="10">
         <Grid Margin="10">
-            <TextBlock Text="软件向导"  FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            
+            <TextBlock Text="软件向导"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0"/>
+
             <TextBlock Text="设置完毕" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,200,0,0"/>
 
 
