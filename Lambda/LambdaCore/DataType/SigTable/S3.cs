@@ -1,3 +1,4 @@
+﻿//这个是生成代码
 using System;
 using System.Collections.Generic;
 
@@ -5,1466 +6,529 @@ namespace LambdaManager.DataType.SigTable
 {
     public class S3
     {
-        public static int Invoke(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[0] switch
-            {
-                '0' => Invoke0XX(code, p, args),
-                '1' => Invoke1XX(code, p, args),
-                '2' => Invoke2XX(code, p, args),
-                '6' => Invoke6XX(code, p, args),
-                '3' => Invoke3XX(code, p, args),
-                '5' => Invoke5XX(code, p, args),
-                '4' => Invoke4XX(code, p, args),
-                '7' => Invoke7XX(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke0XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke00X(code, p, args),
-                '1' => Invoke01X(code, p, args),
-                '2' => Invoke02X(code, p, args),
-                '6' => Invoke06X(code, p, args),
-                '3' => Invoke03X(code, p, args),
-                '4' => Invoke04X(code, p, args),
-                '5' => Invoke05X(code, p, args),
-                '7' => Invoke07X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke00X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, byte, byte, int>)(void*)p)((byte)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, byte, short, int>)(void*)p)((byte)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, byte, int, int>)(void*)p)((byte)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, byte, float, int>)(void*)p)((byte)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, byte, long, int>)(void*)p)((byte)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, byte, double, int>)(void*)p)((byte)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, byte, decimal, int>)(void*)p)((byte)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, byte, IntPtr, int>)(void*)p)((byte)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke01X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, short, byte, int>)(void*)p)((byte)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, short, short, int>)(void*)p)((byte)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, short, int, int>)(void*)p)((byte)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, short, float, int>)(void*)p)((byte)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, short, long, int>)(void*)p)((byte)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, short, double, int>)(void*)p)((byte)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, short, decimal, int>)(void*)p)((byte)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, short, IntPtr, int>)(void*)p)((byte)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke02X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, int, byte, int>)(void*)p)((byte)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, int, short, int>)(void*)p)((byte)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, int, int, int>)(void*)p)((byte)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, int, float, int>)(void*)p)((byte)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, int, long, int>)(void*)p)((byte)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, int, double, int>)(void*)p)((byte)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, int, decimal, int>)(void*)p)((byte)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, int, IntPtr, int>)(void*)p)((byte)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke06X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, float, byte, int>)(void*)p)((byte)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, float, short, int>)(void*)p)((byte)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, float, int, int>)(void*)p)((byte)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, float, float, int>)(void*)p)((byte)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, float, long, int>)(void*)p)((byte)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, float, double, int>)(void*)p)((byte)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, float, decimal, int>)(void*)p)((byte)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, float, IntPtr, int>)(void*)p)((byte)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke03X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, long, byte, int>)(void*)p)((byte)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, long, short, int>)(void*)p)((byte)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, long, int, int>)(void*)p)((byte)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, long, float, int>)(void*)p)((byte)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, long, long, int>)(void*)p)((byte)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, long, double, int>)(void*)p)((byte)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, long, decimal, int>)(void*)p)((byte)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, long, IntPtr, int>)(void*)p)((byte)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke05X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, double, byte, int>)(void*)p)((byte)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, double, short, int>)(void*)p)((byte)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, double, int, int>)(void*)p)((byte)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, double, float, int>)(void*)p)((byte)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, double, long, int>)(void*)p)((byte)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, double, double, int>)(void*)p)((byte)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, double, decimal, int>)(void*)p)((byte)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, double, IntPtr, int>)(void*)p)((byte)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke04X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, decimal, byte, int>)(void*)p)((byte)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, decimal, short, int>)(void*)p)((byte)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, decimal, int, int>)(void*)p)((byte)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, decimal, float, int>)(void*)p)((byte)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, decimal, long, int>)(void*)p)((byte)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, decimal, double, int>)(void*)p)((byte)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, decimal, decimal, int>)(void*)p)((byte)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, decimal, IntPtr, int>)(void*)p)((byte)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke07X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, byte, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, short, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, int, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, float, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, long, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, double, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, decimal, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<byte, IntPtr, IntPtr, int>)(void*)p)((byte)args![0], (IntPtr)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke1XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke10X(code, p, args),
-                '1' => Invoke11X(code, p, args),
-                '2' => Invoke12X(code, p, args),
-                '6' => Invoke16X(code, p, args),
-                '3' => Invoke13X(code, p, args),
-                '5' => Invoke15X(code, p, args),
-                '4' => Invoke14X(code, p, args),
-                '7' => Invoke17X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke10X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, byte, byte, int>)(void*)p)((short)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, byte, short, int>)(void*)p)((short)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, byte, int, int>)(void*)p)((short)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, byte, float, int>)(void*)p)((short)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, byte, long, int>)(void*)p)((short)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, byte, double, int>)(void*)p)((short)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, byte, decimal, int>)(void*)p)((short)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, byte, IntPtr, int>)(void*)p)((short)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke11X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, short, byte, int>)(void*)p)((short)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, short, short, int>)(void*)p)((short)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, short, int, int>)(void*)p)((short)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, short, float, int>)(void*)p)((short)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, short, long, int>)(void*)p)((short)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, short, double, int>)(void*)p)((short)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, short, decimal, int>)(void*)p)((short)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, short, IntPtr, int>)(void*)p)((short)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke12X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, int, byte, int>)(void*)p)((short)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, int, short, int>)(void*)p)((short)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, int, int, int>)(void*)p)((short)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, int, float, int>)(void*)p)((short)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, int, long, int>)(void*)p)((short)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, int, double, int>)(void*)p)((short)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, int, decimal, int>)(void*)p)((short)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, int, IntPtr, int>)(void*)p)((short)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke16X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, float, byte, int>)(void*)p)((short)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, float, short, int>)(void*)p)((short)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, float, int, int>)(void*)p)((short)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, float, float, int>)(void*)p)((short)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, float, long, int>)(void*)p)((short)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, float, double, int>)(void*)p)((short)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, float, decimal, int>)(void*)p)((short)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, float, IntPtr, int>)(void*)p)((short)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke13X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, long, byte, int>)(void*)p)((short)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, long, short, int>)(void*)p)((short)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, long, int, int>)(void*)p)((short)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, long, float, int>)(void*)p)((short)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, long, long, int>)(void*)p)((short)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, long, double, int>)(void*)p)((short)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, long, decimal, int>)(void*)p)((short)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, long, IntPtr, int>)(void*)p)((short)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke15X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, double, byte, int>)(void*)p)((short)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, double, short, int>)(void*)p)((short)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, double, int, int>)(void*)p)((short)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, double, float, int>)(void*)p)((short)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, double, long, int>)(void*)p)((short)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, double, double, int>)(void*)p)((short)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, double, decimal, int>)(void*)p)((short)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, double, IntPtr, int>)(void*)p)((short)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke14X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, decimal, byte, int>)(void*)p)((short)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, decimal, short, int>)(void*)p)((short)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, decimal, int, int>)(void*)p)((short)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, decimal, float, int>)(void*)p)((short)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, decimal, long, int>)(void*)p)((short)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, decimal, double, int>)(void*)p)((short)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, decimal, decimal, int>)(void*)p)((short)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, decimal, IntPtr, int>)(void*)p)((short)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke17X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<short, IntPtr, byte, int>)(void*)p)((short)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<short, IntPtr, short, int>)(void*)p)((short)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<short, IntPtr, int, int>)(void*)p)((short)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<short, IntPtr, float, int>)(void*)p)((short)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<short, IntPtr, long, int>)(void*)p)((short)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<short, IntPtr, double, int>)(void*)p)((short)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<short, IntPtr, decimal, int>)(void*)p)((short)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<short, IntPtr, IntPtr, int>)(void*)p)((short)args![0], (IntPtr)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke2XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke20X(code, p, args),
-                '1' => Invoke21X(code, p, args),
-                '2' => Invoke22X(code, p, args),
-                '6' => Invoke26X(code, p, args),
-                '3' => Invoke23X(code, p, args),
-                '5' => Invoke25X(code, p, args),
-                '4' => Invoke24X(code, p, args),
-                '7' => Invoke27X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke20X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, byte, byte, int>)(void*)p)((int)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, byte, short, int>)(void*)p)((int)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, byte, int, int>)(void*)p)((int)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, byte, float, int>)(void*)p)((int)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, byte, long, int>)(void*)p)((int)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, byte, double, int>)(void*)p)((int)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, byte, decimal, int>)(void*)p)((int)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, byte, IntPtr, int>)(void*)p)((int)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke21X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, short, byte, int>)(void*)p)((int)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, short, short, int>)(void*)p)((int)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, short, int, int>)(void*)p)((int)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, short, float, int>)(void*)p)((int)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, short, long, int>)(void*)p)((int)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, short, double, int>)(void*)p)((int)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, short, decimal, int>)(void*)p)((int)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, short, IntPtr, int>)(void*)p)((int)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke22X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, int, byte, int>)(void*)p)((int)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, int, short, int>)(void*)p)((int)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, int, int, int>)(void*)p)((int)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, int, float, int>)(void*)p)((int)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, int, long, int>)(void*)p)((int)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, int, double, int>)(void*)p)((int)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, int, decimal, int>)(void*)p)((int)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, int, IntPtr, int>)(void*)p)((int)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke26X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, float, byte, int>)(void*)p)((int)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, float, short, int>)(void*)p)((int)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, float, int, int>)(void*)p)((int)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, float, float, int>)(void*)p)((int)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, float, long, int>)(void*)p)((int)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, float, double, int>)(void*)p)((int)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, float, decimal, int>)(void*)p)((int)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, float, IntPtr, int>)(void*)p)((int)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke23X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, long, byte, int>)(void*)p)((int)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, long, short, int>)(void*)p)((int)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, long, int, int>)(void*)p)((int)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, long, float, int>)(void*)p)((int)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, long, long, int>)(void*)p)((int)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, long, double, int>)(void*)p)((int)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, long, decimal, int>)(void*)p)((int)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, long, IntPtr, int>)(void*)p)((int)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke25X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, double, byte, int>)(void*)p)((int)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, double, short, int>)(void*)p)((int)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, double, int, int>)(void*)p)((int)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, double, float, int>)(void*)p)((int)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, double, long, int>)(void*)p)((int)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, double, double, int>)(void*)p)((int)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, double, decimal, int>)(void*)p)((int)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, double, IntPtr, int>)(void*)p)((int)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke24X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, decimal, byte, int>)(void*)p)((int)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, decimal, short, int>)(void*)p)((int)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, decimal, int, int>)(void*)p)((int)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, decimal, float, int>)(void*)p)((int)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, decimal, long, int>)(void*)p)((int)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, decimal, double, int>)(void*)p)((int)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, decimal, decimal, int>)(void*)p)((int)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, decimal, IntPtr, int>)(void*)p)((int)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke27X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<int, IntPtr, byte, int>)(void*)p)((int)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<int, IntPtr, short, int>)(void*)p)((int)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<int, IntPtr, int, int>)(void*)p)((int)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<int, IntPtr, float, int>)(void*)p)((int)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<int, IntPtr, long, int>)(void*)p)((int)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<int, IntPtr, double, int>)(void*)p)((int)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<int, IntPtr, decimal, int>)(void*)p)((int)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<int, IntPtr, IntPtr, int>)(void*)p)((int)args![0], (IntPtr)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke6XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke60X(code, p, args),
-                '1' => Invoke61X(code, p, args),
-                '2' => Invoke62X(code, p, args),
-                '6' => Invoke66X(code, p, args),
-                '3' => Invoke63X(code, p, args),
-                '5' => Invoke65X(code, p, args),
-                '4' => Invoke64X(code, p, args),
-                '7' => Invoke67X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke60X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, byte, byte, int>)(void*)p)((float)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, byte, short, int>)(void*)p)((float)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, byte, int, int>)(void*)p)((float)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, byte, float, int>)(void*)p)((float)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, byte, long, int>)(void*)p)((float)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, byte, double, int>)(void*)p)((float)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, byte, decimal, int>)(void*)p)((float)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, byte, IntPtr, int>)(void*)p)((float)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke61X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, short, byte, int>)(void*)p)((float)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, short, short, int>)(void*)p)((float)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, short, int, int>)(void*)p)((float)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, short, float, int>)(void*)p)((float)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, short, long, int>)(void*)p)((float)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, short, double, int>)(void*)p)((float)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, short, decimal, int>)(void*)p)((float)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, short, IntPtr, int>)(void*)p)((float)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke62X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, int, byte, int>)(void*)p)((float)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, int, short, int>)(void*)p)((float)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, int, int, int>)(void*)p)((float)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, int, float, int>)(void*)p)((float)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, int, long, int>)(void*)p)((float)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, int, double, int>)(void*)p)((float)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, int, decimal, int>)(void*)p)((float)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, int, IntPtr, int>)(void*)p)((float)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke66X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, float, byte, int>)(void*)p)((float)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, float, short, int>)(void*)p)((float)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, float, int, int>)(void*)p)((float)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, float, float, int>)(void*)p)((float)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, float, long, int>)(void*)p)((float)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, float, double, int>)(void*)p)((float)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, float, decimal, int>)(void*)p)((float)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, float, IntPtr, int>)(void*)p)((float)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke63X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, long, byte, int>)(void*)p)((float)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, long, short, int>)(void*)p)((float)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, long, int, int>)(void*)p)((float)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, long, float, int>)(void*)p)((float)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, long, long, int>)(void*)p)((float)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, long, double, int>)(void*)p)((float)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, long, decimal, int>)(void*)p)((float)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, long, IntPtr, int>)(void*)p)((float)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke65X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, double, byte, int>)(void*)p)((float)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, double, short, int>)(void*)p)((float)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, double, int, int>)(void*)p)((float)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, double, float, int>)(void*)p)((float)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, double, long, int>)(void*)p)((float)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, double, double, int>)(void*)p)((float)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, double, decimal, int>)(void*)p)((float)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, double, IntPtr, int>)(void*)p)((float)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke64X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, decimal, byte, int>)(void*)p)((float)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, decimal, short, int>)(void*)p)((float)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, decimal, int, int>)(void*)p)((float)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, decimal, float, int>)(void*)p)((float)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, decimal, long, int>)(void*)p)((float)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, decimal, double, int>)(void*)p)((float)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, decimal, decimal, int>)(void*)p)((float)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, decimal, IntPtr, int>)(void*)p)((float)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke67X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<float, IntPtr, byte, int>)(void*)p)((float)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<float, IntPtr, short, int>)(void*)p)((float)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<float, IntPtr, int, int>)(void*)p)((float)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<float, IntPtr, float, int>)(void*)p)((float)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<float, IntPtr, long, int>)(void*)p)((float)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<float, IntPtr, double, int>)(void*)p)((float)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<float, IntPtr, decimal, int>)(void*)p)((float)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<float, IntPtr, IntPtr, int>)(void*)p)((float)args![0], (IntPtr)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke3XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke30X(code, p, args),
-                '1' => Invoke31X(code, p, args),
-                '2' => Invoke32X(code, p, args),
-                '6' => Invoke36X(code, p, args),
-                '3' => Invoke33X(code, p, args),
-                '5' => Invoke35X(code, p, args),
-                '4' => Invoke34X(code, p, args),
-                '7' => Invoke37X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke30X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, byte, byte, int>)(void*)p)((long)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, byte, short, int>)(void*)p)((long)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, byte, int, int>)(void*)p)((long)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, byte, float, int>)(void*)p)((long)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, byte, long, int>)(void*)p)((long)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, byte, double, int>)(void*)p)((long)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, byte, decimal, int>)(void*)p)((long)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, byte, IntPtr, int>)(void*)p)((long)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke31X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, short, byte, int>)(void*)p)((long)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, short, short, int>)(void*)p)((long)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, short, int, int>)(void*)p)((long)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, short, float, int>)(void*)p)((long)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, short, long, int>)(void*)p)((long)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, short, double, int>)(void*)p)((long)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, short, decimal, int>)(void*)p)((long)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, short, IntPtr, int>)(void*)p)((long)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke32X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, int, byte, int>)(void*)p)((long)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, int, short, int>)(void*)p)((long)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, int, int, int>)(void*)p)((long)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, int, float, int>)(void*)p)((long)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, int, long, int>)(void*)p)((long)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, int, double, int>)(void*)p)((long)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, int, decimal, int>)(void*)p)((long)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, int, IntPtr, int>)(void*)p)((long)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke36X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, float, byte, int>)(void*)p)((long)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, float, short, int>)(void*)p)((long)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, float, int, int>)(void*)p)((long)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, float, float, int>)(void*)p)((long)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, float, long, int>)(void*)p)((long)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, float, double, int>)(void*)p)((long)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, float, decimal, int>)(void*)p)((long)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, float, IntPtr, int>)(void*)p)((long)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke33X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, long, byte, int>)(void*)p)((long)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, long, short, int>)(void*)p)((long)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, long, int, int>)(void*)p)((long)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, long, float, int>)(void*)p)((long)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, long, long, int>)(void*)p)((long)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, long, double, int>)(void*)p)((long)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, long, decimal, int>)(void*)p)((long)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, long, IntPtr, int>)(void*)p)((long)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke35X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, double, byte, int>)(void*)p)((long)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, double, short, int>)(void*)p)((long)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, double, int, int>)(void*)p)((long)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, double, float, int>)(void*)p)((long)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, double, long, int>)(void*)p)((long)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, double, double, int>)(void*)p)((long)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, double, decimal, int>)(void*)p)((long)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, double, IntPtr, int>)(void*)p)((long)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke34X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, decimal, byte, int>)(void*)p)((long)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, decimal, short, int>)(void*)p)((long)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, decimal, int, int>)(void*)p)((long)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, decimal, float, int>)(void*)p)((long)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, decimal, long, int>)(void*)p)((long)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, decimal, double, int>)(void*)p)((long)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, decimal, decimal, int>)(void*)p)((long)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, decimal, IntPtr, int>)(void*)p)((long)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke37X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<long, IntPtr, byte, int>)(void*)p)((long)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<long, IntPtr, short, int>)(void*)p)((long)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<long, IntPtr, int, int>)(void*)p)((long)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<long, IntPtr, float, int>)(void*)p)((long)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<long, IntPtr, long, int>)(void*)p)((long)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<long, IntPtr, double, int>)(void*)p)((long)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<long, IntPtr, decimal, int>)(void*)p)((long)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<long, IntPtr, IntPtr, int>)(void*)p)((long)args![0], (IntPtr)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke5XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke50X(code, p, args),
-                '1' => Invoke51X(code, p, args),
-                '2' => Invoke52X(code, p, args),
-                '6' => Invoke56X(code, p, args),
-                '3' => Invoke53X(code, p, args),
-                '5' => Invoke55X(code, p, args),
-                '4' => Invoke54X(code, p, args),
-                '7' => Invoke57X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke50X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, byte, byte, int>)(void*)p)((double)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, byte, short, int>)(void*)p)((double)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, byte, int, int>)(void*)p)((double)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, byte, float, int>)(void*)p)((double)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, byte, long, int>)(void*)p)((double)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, byte, double, int>)(void*)p)((double)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, byte, decimal, int>)(void*)p)((double)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, byte, IntPtr, int>)(void*)p)((double)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke51X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, short, byte, int>)(void*)p)((double)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, short, short, int>)(void*)p)((double)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, short, int, int>)(void*)p)((double)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, short, float, int>)(void*)p)((double)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, short, long, int>)(void*)p)((double)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, short, double, int>)(void*)p)((double)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, short, decimal, int>)(void*)p)((double)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, short, IntPtr, int>)(void*)p)((double)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke52X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, int, byte, int>)(void*)p)((double)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, int, short, int>)(void*)p)((double)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, int, int, int>)(void*)p)((double)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, int, float, int>)(void*)p)((double)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, int, long, int>)(void*)p)((double)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, int, double, int>)(void*)p)((double)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, int, decimal, int>)(void*)p)((double)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, int, IntPtr, int>)(void*)p)((double)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke56X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, float, byte, int>)(void*)p)((double)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, float, short, int>)(void*)p)((double)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, float, int, int>)(void*)p)((double)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, float, float, int>)(void*)p)((double)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, float, long, int>)(void*)p)((double)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, float, double, int>)(void*)p)((double)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, float, decimal, int>)(void*)p)((double)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, float, IntPtr, int>)(void*)p)((double)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke53X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, long, byte, int>)(void*)p)((double)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, long, short, int>)(void*)p)((double)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, long, int, int>)(void*)p)((double)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, long, float, int>)(void*)p)((double)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, long, long, int>)(void*)p)((double)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, long, double, int>)(void*)p)((double)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, long, decimal, int>)(void*)p)((double)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, long, IntPtr, int>)(void*)p)((double)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke55X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, double, byte, int>)(void*)p)((double)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, double, short, int>)(void*)p)((double)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, double, int, int>)(void*)p)((double)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, double, float, int>)(void*)p)((double)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, double, long, int>)(void*)p)((double)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, double, double, int>)(void*)p)((double)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, double, decimal, int>)(void*)p)((double)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, double, IntPtr, int>)(void*)p)((double)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke54X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, decimal, byte, int>)(void*)p)((double)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, decimal, short, int>)(void*)p)((double)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, decimal, int, int>)(void*)p)((double)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, decimal, float, int>)(void*)p)((double)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, decimal, long, int>)(void*)p)((double)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, decimal, double, int>)(void*)p)((double)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, decimal, decimal, int>)(void*)p)((double)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, decimal, IntPtr, int>)(void*)p)((double)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke57X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<double, IntPtr, byte, int>)(void*)p)((double)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<double, IntPtr, short, int>)(void*)p)((double)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<double, IntPtr, int, int>)(void*)p)((double)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<double, IntPtr, float, int>)(void*)p)((double)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<double, IntPtr, long, int>)(void*)p)((double)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<double, IntPtr, double, int>)(void*)p)((double)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<double, IntPtr, decimal, int>)(void*)p)((double)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<double, IntPtr, IntPtr, int>)(void*)p)((double)args![0], (IntPtr)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke4XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke40X(code, p, args),
-                '1' => Invoke41X(code, p, args),
-                '2' => Invoke42X(code, p, args),
-                '6' => Invoke46X(code, p, args),
-                '3' => Invoke43X(code, p, args),
-                '5' => Invoke45X(code, p, args),
-                '4' => Invoke44X(code, p, args),
-                '7' => Invoke47X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke40X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, byte, byte, int>)(void*)p)((decimal)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, byte, short, int>)(void*)p)((decimal)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, byte, int, int>)(void*)p)((decimal)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, byte, float, int>)(void*)p)((decimal)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, byte, long, int>)(void*)p)((decimal)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, byte, double, int>)(void*)p)((decimal)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, byte, decimal, int>)(void*)p)((decimal)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, byte, IntPtr, int>)(void*)p)((decimal)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke41X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, short, byte, int>)(void*)p)((decimal)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, short, short, int>)(void*)p)((decimal)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, short, int, int>)(void*)p)((decimal)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, short, float, int>)(void*)p)((decimal)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, short, long, int>)(void*)p)((decimal)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, short, double, int>)(void*)p)((decimal)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, short, decimal, int>)(void*)p)((decimal)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, short, IntPtr, int>)(void*)p)((decimal)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke42X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, int, byte, int>)(void*)p)((decimal)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, int, short, int>)(void*)p)((decimal)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, int, int, int>)(void*)p)((decimal)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, int, float, int>)(void*)p)((decimal)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, int, long, int>)(void*)p)((decimal)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, int, double, int>)(void*)p)((decimal)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, int, decimal, int>)(void*)p)((decimal)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, int, IntPtr, int>)(void*)p)((decimal)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke46X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, float, byte, int>)(void*)p)((decimal)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, float, short, int>)(void*)p)((decimal)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, float, int, int>)(void*)p)((decimal)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, float, float, int>)(void*)p)((decimal)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, float, long, int>)(void*)p)((decimal)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, float, double, int>)(void*)p)((decimal)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, float, decimal, int>)(void*)p)((decimal)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, float, IntPtr, int>)(void*)p)((decimal)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke43X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, long, byte, int>)(void*)p)((decimal)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, long, short, int>)(void*)p)((decimal)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, long, int, int>)(void*)p)((decimal)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, long, float, int>)(void*)p)((decimal)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, long, long, int>)(void*)p)((decimal)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, long, double, int>)(void*)p)((decimal)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, long, decimal, int>)(void*)p)((decimal)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, long, IntPtr, int>)(void*)p)((decimal)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke45X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, double, byte, int>)(void*)p)((decimal)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, double, short, int>)(void*)p)((decimal)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, double, int, int>)(void*)p)((decimal)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, double, float, int>)(void*)p)((decimal)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, double, long, int>)(void*)p)((decimal)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, double, double, int>)(void*)p)((decimal)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, double, decimal, int>)(void*)p)((decimal)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, double, IntPtr, int>)(void*)p)((decimal)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke44X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, decimal, byte, int>)(void*)p)((decimal)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, decimal, short, int>)(void*)p)((decimal)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, decimal, int, int>)(void*)p)((decimal)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, decimal, float, int>)(void*)p)((decimal)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, decimal, long, int>)(void*)p)((decimal)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, decimal, double, int>)(void*)p)((decimal)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, decimal, decimal, int>)(void*)p)((decimal)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, decimal, IntPtr, int>)(void*)p)((decimal)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke47X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, byte, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, short, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, int, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, float, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, long, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, double, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, decimal, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<decimal, IntPtr, IntPtr, int>)(void*)p)((decimal)args![0], (IntPtr)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private static int Invoke7XX(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[1] switch
-            {
-                '0' => Invoke70X(code, p, args),
-                '1' => Invoke71X(code, p, args),
-                '2' => Invoke72X(code, p, args),
-                '6' => Invoke76X(code, p, args),
-                '3' => Invoke73X(code, p, args),
-                '5' => Invoke75X(code, p, args),
-                '4' => Invoke74X(code, p, args),
-                '7' => Invoke77X(code, p, args),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke70X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, byte, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, short, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, int, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, float, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, long, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, double, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, decimal, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, byte, IntPtr, int>)(void*)p)((IntPtr)args![0], (byte)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke71X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, short, byte, int>)(void*)p)((IntPtr)args![0], (short)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, short, short, int>)(void*)p)((IntPtr)args![0], (short)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, short, int, int>)(void*)p)((IntPtr)args![0], (short)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, short, float, int>)(void*)p)((IntPtr)args![0], (short)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, short, long, int>)(void*)p)((IntPtr)args![0], (short)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, short, double, int>)(void*)p)((IntPtr)args![0], (short)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, short, decimal, int>)(void*)p)((IntPtr)args![0], (short)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, short, IntPtr, int>)(void*)p)((IntPtr)args![0], (short)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke72X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, int, byte, int>)(void*)p)((IntPtr)args![0], (int)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, int, short, int>)(void*)p)((IntPtr)args![0], (int)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, int, int, int>)(void*)p)((IntPtr)args![0], (int)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, int, float, int>)(void*)p)((IntPtr)args![0], (int)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, int, long, int>)(void*)p)((IntPtr)args![0], (int)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, int, double, int>)(void*)p)((IntPtr)args![0], (int)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, int, decimal, int>)(void*)p)((IntPtr)args![0], (int)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, int>)(void*)p)((IntPtr)args![0], (int)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke76X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, float, byte, int>)(void*)p)((IntPtr)args![0], (float)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, float, short, int>)(void*)p)((IntPtr)args![0], (float)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, float, int, int>)(void*)p)((IntPtr)args![0], (float)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, float, float, int>)(void*)p)((IntPtr)args![0], (float)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, float, long, int>)(void*)p)((IntPtr)args![0], (float)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, float, double, int>)(void*)p)((IntPtr)args![0], (float)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, float, decimal, int>)(void*)p)((IntPtr)args![0], (float)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, float, IntPtr, int>)(void*)p)((IntPtr)args![0], (float)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke73X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, long, byte, int>)(void*)p)((IntPtr)args![0], (long)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, long, short, int>)(void*)p)((IntPtr)args![0], (long)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, long, int, int>)(void*)p)((IntPtr)args![0], (long)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, long, float, int>)(void*)p)((IntPtr)args![0], (long)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, long, long, int>)(void*)p)((IntPtr)args![0], (long)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, long, double, int>)(void*)p)((IntPtr)args![0], (long)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, long, decimal, int>)(void*)p)((IntPtr)args![0], (long)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, long, IntPtr, int>)(void*)p)((IntPtr)args![0], (long)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke75X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, double, byte, int>)(void*)p)((IntPtr)args![0], (double)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, double, short, int>)(void*)p)((IntPtr)args![0], (double)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, double, int, int>)(void*)p)((IntPtr)args![0], (double)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, double, float, int>)(void*)p)((IntPtr)args![0], (double)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, double, long, int>)(void*)p)((IntPtr)args![0], (double)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, double, double, int>)(void*)p)((IntPtr)args![0], (double)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, double, decimal, int>)(void*)p)((IntPtr)args![0], (double)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, double, IntPtr, int>)(void*)p)((IntPtr)args![0], (double)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke74X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, byte, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, short, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, int, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, float, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, long, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, double, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, decimal, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, decimal, IntPtr, int>)(void*)p)((IntPtr)args![0], (decimal)args![1], (IntPtr)args![2]),
-                _ => -1,
-            };
-        }
-
-        private unsafe static int Invoke77X(string code, IntPtr p, List<object?>? args)
-        {
-            if (args == null)
-            {
-                return -1;
-            }
-            return code[2] switch
-            {
-                '0' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, byte, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (byte)args![2]),
-                '1' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, short, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (short)args![2]),
-                '2' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (int)args![2]),
-                '6' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, float, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (float)args![2]),
-                '3' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, long, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (long)args![2]),
-                '5' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, double, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (double)args![2]),
-                '4' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, decimal, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (decimal)args![2]),
-                '7' => ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int>)(void*)p)((IntPtr)args![0], (IntPtr)args![1], (IntPtr)args![2]),
+        public unsafe static int Invoke(string code, IntPtr p, List<object?>? args)
+        {
+            if (args == null)
+            {
+                return -1;
+            }
+             return code switch
+             {        
+               "000"=> ((delegate* unmanaged[Cdecl]<byte, byte, byte, int>)(void*)p)((byte)args![0],(byte)args![1],(byte)args![2]),
+               "001"=> ((delegate* unmanaged[Cdecl]<byte, byte, short, int>)(void*)p)((byte)args![0],(byte)args![1],(short)args![2]),
+               "002"=> ((delegate* unmanaged[Cdecl]<byte, byte, int, int>)(void*)p)((byte)args![0],(byte)args![1],(int)args![2]),
+               "003"=> ((delegate* unmanaged[Cdecl]<byte, byte, long, int>)(void*)p)((byte)args![0],(byte)args![1],(long)args![2]),
+               "004"=> ((delegate* unmanaged[Cdecl]<byte, byte, decimal, int>)(void*)p)((byte)args![0],(byte)args![1],(decimal)args![2]),
+               "005"=> ((delegate* unmanaged[Cdecl]<byte, byte, double, int>)(void*)p)((byte)args![0],(byte)args![1],(double)args![2]),
+               "006"=> ((delegate* unmanaged[Cdecl]<byte, byte, float, int>)(void*)p)((byte)args![0],(byte)args![1],(float)args![2]),
+               "007"=> ((delegate* unmanaged[Cdecl]<byte, byte, IntPtr, int>)(void*)p)((byte)args![0],(byte)args![1],(IntPtr)args![2]),
+               "010"=> ((delegate* unmanaged[Cdecl]<byte, short, byte, int>)(void*)p)((byte)args![0],(short)args![1],(byte)args![2]),
+               "011"=> ((delegate* unmanaged[Cdecl]<byte, short, short, int>)(void*)p)((byte)args![0],(short)args![1],(short)args![2]),
+               "012"=> ((delegate* unmanaged[Cdecl]<byte, short, int, int>)(void*)p)((byte)args![0],(short)args![1],(int)args![2]),
+               "013"=> ((delegate* unmanaged[Cdecl]<byte, short, long, int>)(void*)p)((byte)args![0],(short)args![1],(long)args![2]),
+               "014"=> ((delegate* unmanaged[Cdecl]<byte, short, decimal, int>)(void*)p)((byte)args![0],(short)args![1],(decimal)args![2]),
+               "015"=> ((delegate* unmanaged[Cdecl]<byte, short, double, int>)(void*)p)((byte)args![0],(short)args![1],(double)args![2]),
+               "016"=> ((delegate* unmanaged[Cdecl]<byte, short, float, int>)(void*)p)((byte)args![0],(short)args![1],(float)args![2]),
+               "017"=> ((delegate* unmanaged[Cdecl]<byte, short, IntPtr, int>)(void*)p)((byte)args![0],(short)args![1],(IntPtr)args![2]),
+               "020"=> ((delegate* unmanaged[Cdecl]<byte, int, byte, int>)(void*)p)((byte)args![0],(int)args![1],(byte)args![2]),
+               "021"=> ((delegate* unmanaged[Cdecl]<byte, int, short, int>)(void*)p)((byte)args![0],(int)args![1],(short)args![2]),
+               "022"=> ((delegate* unmanaged[Cdecl]<byte, int, int, int>)(void*)p)((byte)args![0],(int)args![1],(int)args![2]),
+               "023"=> ((delegate* unmanaged[Cdecl]<byte, int, long, int>)(void*)p)((byte)args![0],(int)args![1],(long)args![2]),
+               "024"=> ((delegate* unmanaged[Cdecl]<byte, int, decimal, int>)(void*)p)((byte)args![0],(int)args![1],(decimal)args![2]),
+               "025"=> ((delegate* unmanaged[Cdecl]<byte, int, double, int>)(void*)p)((byte)args![0],(int)args![1],(double)args![2]),
+               "026"=> ((delegate* unmanaged[Cdecl]<byte, int, float, int>)(void*)p)((byte)args![0],(int)args![1],(float)args![2]),
+               "027"=> ((delegate* unmanaged[Cdecl]<byte, int, IntPtr, int>)(void*)p)((byte)args![0],(int)args![1],(IntPtr)args![2]),
+               "030"=> ((delegate* unmanaged[Cdecl]<byte, long, byte, int>)(void*)p)((byte)args![0],(long)args![1],(byte)args![2]),
+               "031"=> ((delegate* unmanaged[Cdecl]<byte, long, short, int>)(void*)p)((byte)args![0],(long)args![1],(short)args![2]),
+               "032"=> ((delegate* unmanaged[Cdecl]<byte, long, int, int>)(void*)p)((byte)args![0],(long)args![1],(int)args![2]),
+               "033"=> ((delegate* unmanaged[Cdecl]<byte, long, long, int>)(void*)p)((byte)args![0],(long)args![1],(long)args![2]),
+               "034"=> ((delegate* unmanaged[Cdecl]<byte, long, decimal, int>)(void*)p)((byte)args![0],(long)args![1],(decimal)args![2]),
+               "035"=> ((delegate* unmanaged[Cdecl]<byte, long, double, int>)(void*)p)((byte)args![0],(long)args![1],(double)args![2]),
+               "036"=> ((delegate* unmanaged[Cdecl]<byte, long, float, int>)(void*)p)((byte)args![0],(long)args![1],(float)args![2]),
+               "037"=> ((delegate* unmanaged[Cdecl]<byte, long, IntPtr, int>)(void*)p)((byte)args![0],(long)args![1],(IntPtr)args![2]),
+               "040"=> ((delegate* unmanaged[Cdecl]<byte, decimal, byte, int>)(void*)p)((byte)args![0],(decimal)args![1],(byte)args![2]),
+               "041"=> ((delegate* unmanaged[Cdecl]<byte, decimal, short, int>)(void*)p)((byte)args![0],(decimal)args![1],(short)args![2]),
+               "042"=> ((delegate* unmanaged[Cdecl]<byte, decimal, int, int>)(void*)p)((byte)args![0],(decimal)args![1],(int)args![2]),
+               "043"=> ((delegate* unmanaged[Cdecl]<byte, decimal, long, int>)(void*)p)((byte)args![0],(decimal)args![1],(long)args![2]),
+               "044"=> ((delegate* unmanaged[Cdecl]<byte, decimal, decimal, int>)(void*)p)((byte)args![0],(decimal)args![1],(decimal)args![2]),
+               "045"=> ((delegate* unmanaged[Cdecl]<byte, decimal, double, int>)(void*)p)((byte)args![0],(decimal)args![1],(double)args![2]),
+               "046"=> ((delegate* unmanaged[Cdecl]<byte, decimal, float, int>)(void*)p)((byte)args![0],(decimal)args![1],(float)args![2]),
+               "047"=> ((delegate* unmanaged[Cdecl]<byte, decimal, IntPtr, int>)(void*)p)((byte)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "050"=> ((delegate* unmanaged[Cdecl]<byte, double, byte, int>)(void*)p)((byte)args![0],(double)args![1],(byte)args![2]),
+               "051"=> ((delegate* unmanaged[Cdecl]<byte, double, short, int>)(void*)p)((byte)args![0],(double)args![1],(short)args![2]),
+               "052"=> ((delegate* unmanaged[Cdecl]<byte, double, int, int>)(void*)p)((byte)args![0],(double)args![1],(int)args![2]),
+               "053"=> ((delegate* unmanaged[Cdecl]<byte, double, long, int>)(void*)p)((byte)args![0],(double)args![1],(long)args![2]),
+               "054"=> ((delegate* unmanaged[Cdecl]<byte, double, decimal, int>)(void*)p)((byte)args![0],(double)args![1],(decimal)args![2]),
+               "055"=> ((delegate* unmanaged[Cdecl]<byte, double, double, int>)(void*)p)((byte)args![0],(double)args![1],(double)args![2]),
+               "056"=> ((delegate* unmanaged[Cdecl]<byte, double, float, int>)(void*)p)((byte)args![0],(double)args![1],(float)args![2]),
+               "057"=> ((delegate* unmanaged[Cdecl]<byte, double, IntPtr, int>)(void*)p)((byte)args![0],(double)args![1],(IntPtr)args![2]),
+               "060"=> ((delegate* unmanaged[Cdecl]<byte, float, byte, int>)(void*)p)((byte)args![0],(float)args![1],(byte)args![2]),
+               "061"=> ((delegate* unmanaged[Cdecl]<byte, float, short, int>)(void*)p)((byte)args![0],(float)args![1],(short)args![2]),
+               "062"=> ((delegate* unmanaged[Cdecl]<byte, float, int, int>)(void*)p)((byte)args![0],(float)args![1],(int)args![2]),
+               "063"=> ((delegate* unmanaged[Cdecl]<byte, float, long, int>)(void*)p)((byte)args![0],(float)args![1],(long)args![2]),
+               "064"=> ((delegate* unmanaged[Cdecl]<byte, float, decimal, int>)(void*)p)((byte)args![0],(float)args![1],(decimal)args![2]),
+               "065"=> ((delegate* unmanaged[Cdecl]<byte, float, double, int>)(void*)p)((byte)args![0],(float)args![1],(double)args![2]),
+               "066"=> ((delegate* unmanaged[Cdecl]<byte, float, float, int>)(void*)p)((byte)args![0],(float)args![1],(float)args![2]),
+               "067"=> ((delegate* unmanaged[Cdecl]<byte, float, IntPtr, int>)(void*)p)((byte)args![0],(float)args![1],(IntPtr)args![2]),
+               "070"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, byte, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(byte)args![2]),
+               "071"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, short, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(short)args![2]),
+               "072"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, int, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(int)args![2]),
+               "073"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, long, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(long)args![2]),
+               "074"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, decimal, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "075"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, double, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(double)args![2]),
+               "076"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, float, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(float)args![2]),
+               "077"=> ((delegate* unmanaged[Cdecl]<byte, IntPtr, IntPtr, int>)(void*)p)((byte)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+               "100"=> ((delegate* unmanaged[Cdecl]<short, byte, byte, int>)(void*)p)((short)args![0],(byte)args![1],(byte)args![2]),
+               "101"=> ((delegate* unmanaged[Cdecl]<short, byte, short, int>)(void*)p)((short)args![0],(byte)args![1],(short)args![2]),
+               "102"=> ((delegate* unmanaged[Cdecl]<short, byte, int, int>)(void*)p)((short)args![0],(byte)args![1],(int)args![2]),
+               "103"=> ((delegate* unmanaged[Cdecl]<short, byte, long, int>)(void*)p)((short)args![0],(byte)args![1],(long)args![2]),
+               "104"=> ((delegate* unmanaged[Cdecl]<short, byte, decimal, int>)(void*)p)((short)args![0],(byte)args![1],(decimal)args![2]),
+               "105"=> ((delegate* unmanaged[Cdecl]<short, byte, double, int>)(void*)p)((short)args![0],(byte)args![1],(double)args![2]),
+               "106"=> ((delegate* unmanaged[Cdecl]<short, byte, float, int>)(void*)p)((short)args![0],(byte)args![1],(float)args![2]),
+               "107"=> ((delegate* unmanaged[Cdecl]<short, byte, IntPtr, int>)(void*)p)((short)args![0],(byte)args![1],(IntPtr)args![2]),
+               "110"=> ((delegate* unmanaged[Cdecl]<short, short, byte, int>)(void*)p)((short)args![0],(short)args![1],(byte)args![2]),
+               "111"=> ((delegate* unmanaged[Cdecl]<short, short, short, int>)(void*)p)((short)args![0],(short)args![1],(short)args![2]),
+               "112"=> ((delegate* unmanaged[Cdecl]<short, short, int, int>)(void*)p)((short)args![0],(short)args![1],(int)args![2]),
+               "113"=> ((delegate* unmanaged[Cdecl]<short, short, long, int>)(void*)p)((short)args![0],(short)args![1],(long)args![2]),
+               "114"=> ((delegate* unmanaged[Cdecl]<short, short, decimal, int>)(void*)p)((short)args![0],(short)args![1],(decimal)args![2]),
+               "115"=> ((delegate* unmanaged[Cdecl]<short, short, double, int>)(void*)p)((short)args![0],(short)args![1],(double)args![2]),
+               "116"=> ((delegate* unmanaged[Cdecl]<short, short, float, int>)(void*)p)((short)args![0],(short)args![1],(float)args![2]),
+               "117"=> ((delegate* unmanaged[Cdecl]<short, short, IntPtr, int>)(void*)p)((short)args![0],(short)args![1],(IntPtr)args![2]),
+               "120"=> ((delegate* unmanaged[Cdecl]<short, int, byte, int>)(void*)p)((short)args![0],(int)args![1],(byte)args![2]),
+               "121"=> ((delegate* unmanaged[Cdecl]<short, int, short, int>)(void*)p)((short)args![0],(int)args![1],(short)args![2]),
+               "122"=> ((delegate* unmanaged[Cdecl]<short, int, int, int>)(void*)p)((short)args![0],(int)args![1],(int)args![2]),
+               "123"=> ((delegate* unmanaged[Cdecl]<short, int, long, int>)(void*)p)((short)args![0],(int)args![1],(long)args![2]),
+               "124"=> ((delegate* unmanaged[Cdecl]<short, int, decimal, int>)(void*)p)((short)args![0],(int)args![1],(decimal)args![2]),
+               "125"=> ((delegate* unmanaged[Cdecl]<short, int, double, int>)(void*)p)((short)args![0],(int)args![1],(double)args![2]),
+               "126"=> ((delegate* unmanaged[Cdecl]<short, int, float, int>)(void*)p)((short)args![0],(int)args![1],(float)args![2]),
+               "127"=> ((delegate* unmanaged[Cdecl]<short, int, IntPtr, int>)(void*)p)((short)args![0],(int)args![1],(IntPtr)args![2]),
+               "130"=> ((delegate* unmanaged[Cdecl]<short, long, byte, int>)(void*)p)((short)args![0],(long)args![1],(byte)args![2]),
+               "131"=> ((delegate* unmanaged[Cdecl]<short, long, short, int>)(void*)p)((short)args![0],(long)args![1],(short)args![2]),
+               "132"=> ((delegate* unmanaged[Cdecl]<short, long, int, int>)(void*)p)((short)args![0],(long)args![1],(int)args![2]),
+               "133"=> ((delegate* unmanaged[Cdecl]<short, long, long, int>)(void*)p)((short)args![0],(long)args![1],(long)args![2]),
+               "134"=> ((delegate* unmanaged[Cdecl]<short, long, decimal, int>)(void*)p)((short)args![0],(long)args![1],(decimal)args![2]),
+               "135"=> ((delegate* unmanaged[Cdecl]<short, long, double, int>)(void*)p)((short)args![0],(long)args![1],(double)args![2]),
+               "136"=> ((delegate* unmanaged[Cdecl]<short, long, float, int>)(void*)p)((short)args![0],(long)args![1],(float)args![2]),
+               "137"=> ((delegate* unmanaged[Cdecl]<short, long, IntPtr, int>)(void*)p)((short)args![0],(long)args![1],(IntPtr)args![2]),
+               "140"=> ((delegate* unmanaged[Cdecl]<short, decimal, byte, int>)(void*)p)((short)args![0],(decimal)args![1],(byte)args![2]),
+               "141"=> ((delegate* unmanaged[Cdecl]<short, decimal, short, int>)(void*)p)((short)args![0],(decimal)args![1],(short)args![2]),
+               "142"=> ((delegate* unmanaged[Cdecl]<short, decimal, int, int>)(void*)p)((short)args![0],(decimal)args![1],(int)args![2]),
+               "143"=> ((delegate* unmanaged[Cdecl]<short, decimal, long, int>)(void*)p)((short)args![0],(decimal)args![1],(long)args![2]),
+               "144"=> ((delegate* unmanaged[Cdecl]<short, decimal, decimal, int>)(void*)p)((short)args![0],(decimal)args![1],(decimal)args![2]),
+               "145"=> ((delegate* unmanaged[Cdecl]<short, decimal, double, int>)(void*)p)((short)args![0],(decimal)args![1],(double)args![2]),
+               "146"=> ((delegate* unmanaged[Cdecl]<short, decimal, float, int>)(void*)p)((short)args![0],(decimal)args![1],(float)args![2]),
+               "147"=> ((delegate* unmanaged[Cdecl]<short, decimal, IntPtr, int>)(void*)p)((short)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "150"=> ((delegate* unmanaged[Cdecl]<short, double, byte, int>)(void*)p)((short)args![0],(double)args![1],(byte)args![2]),
+               "151"=> ((delegate* unmanaged[Cdecl]<short, double, short, int>)(void*)p)((short)args![0],(double)args![1],(short)args![2]),
+               "152"=> ((delegate* unmanaged[Cdecl]<short, double, int, int>)(void*)p)((short)args![0],(double)args![1],(int)args![2]),
+               "153"=> ((delegate* unmanaged[Cdecl]<short, double, long, int>)(void*)p)((short)args![0],(double)args![1],(long)args![2]),
+               "154"=> ((delegate* unmanaged[Cdecl]<short, double, decimal, int>)(void*)p)((short)args![0],(double)args![1],(decimal)args![2]),
+               "155"=> ((delegate* unmanaged[Cdecl]<short, double, double, int>)(void*)p)((short)args![0],(double)args![1],(double)args![2]),
+               "156"=> ((delegate* unmanaged[Cdecl]<short, double, float, int>)(void*)p)((short)args![0],(double)args![1],(float)args![2]),
+               "157"=> ((delegate* unmanaged[Cdecl]<short, double, IntPtr, int>)(void*)p)((short)args![0],(double)args![1],(IntPtr)args![2]),
+               "160"=> ((delegate* unmanaged[Cdecl]<short, float, byte, int>)(void*)p)((short)args![0],(float)args![1],(byte)args![2]),
+               "161"=> ((delegate* unmanaged[Cdecl]<short, float, short, int>)(void*)p)((short)args![0],(float)args![1],(short)args![2]),
+               "162"=> ((delegate* unmanaged[Cdecl]<short, float, int, int>)(void*)p)((short)args![0],(float)args![1],(int)args![2]),
+               "163"=> ((delegate* unmanaged[Cdecl]<short, float, long, int>)(void*)p)((short)args![0],(float)args![1],(long)args![2]),
+               "164"=> ((delegate* unmanaged[Cdecl]<short, float, decimal, int>)(void*)p)((short)args![0],(float)args![1],(decimal)args![2]),
+               "165"=> ((delegate* unmanaged[Cdecl]<short, float, double, int>)(void*)p)((short)args![0],(float)args![1],(double)args![2]),
+               "166"=> ((delegate* unmanaged[Cdecl]<short, float, float, int>)(void*)p)((short)args![0],(float)args![1],(float)args![2]),
+               "167"=> ((delegate* unmanaged[Cdecl]<short, float, IntPtr, int>)(void*)p)((short)args![0],(float)args![1],(IntPtr)args![2]),
+               "170"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, byte, int>)(void*)p)((short)args![0],(IntPtr)args![1],(byte)args![2]),
+               "171"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, short, int>)(void*)p)((short)args![0],(IntPtr)args![1],(short)args![2]),
+               "172"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, int, int>)(void*)p)((short)args![0],(IntPtr)args![1],(int)args![2]),
+               "173"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, long, int>)(void*)p)((short)args![0],(IntPtr)args![1],(long)args![2]),
+               "174"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, decimal, int>)(void*)p)((short)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "175"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, double, int>)(void*)p)((short)args![0],(IntPtr)args![1],(double)args![2]),
+               "176"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, float, int>)(void*)p)((short)args![0],(IntPtr)args![1],(float)args![2]),
+               "177"=> ((delegate* unmanaged[Cdecl]<short, IntPtr, IntPtr, int>)(void*)p)((short)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+               "200"=> ((delegate* unmanaged[Cdecl]<int, byte, byte, int>)(void*)p)((int)args![0],(byte)args![1],(byte)args![2]),
+               "201"=> ((delegate* unmanaged[Cdecl]<int, byte, short, int>)(void*)p)((int)args![0],(byte)args![1],(short)args![2]),
+               "202"=> ((delegate* unmanaged[Cdecl]<int, byte, int, int>)(void*)p)((int)args![0],(byte)args![1],(int)args![2]),
+               "203"=> ((delegate* unmanaged[Cdecl]<int, byte, long, int>)(void*)p)((int)args![0],(byte)args![1],(long)args![2]),
+               "204"=> ((delegate* unmanaged[Cdecl]<int, byte, decimal, int>)(void*)p)((int)args![0],(byte)args![1],(decimal)args![2]),
+               "205"=> ((delegate* unmanaged[Cdecl]<int, byte, double, int>)(void*)p)((int)args![0],(byte)args![1],(double)args![2]),
+               "206"=> ((delegate* unmanaged[Cdecl]<int, byte, float, int>)(void*)p)((int)args![0],(byte)args![1],(float)args![2]),
+               "207"=> ((delegate* unmanaged[Cdecl]<int, byte, IntPtr, int>)(void*)p)((int)args![0],(byte)args![1],(IntPtr)args![2]),
+               "210"=> ((delegate* unmanaged[Cdecl]<int, short, byte, int>)(void*)p)((int)args![0],(short)args![1],(byte)args![2]),
+               "211"=> ((delegate* unmanaged[Cdecl]<int, short, short, int>)(void*)p)((int)args![0],(short)args![1],(short)args![2]),
+               "212"=> ((delegate* unmanaged[Cdecl]<int, short, int, int>)(void*)p)((int)args![0],(short)args![1],(int)args![2]),
+               "213"=> ((delegate* unmanaged[Cdecl]<int, short, long, int>)(void*)p)((int)args![0],(short)args![1],(long)args![2]),
+               "214"=> ((delegate* unmanaged[Cdecl]<int, short, decimal, int>)(void*)p)((int)args![0],(short)args![1],(decimal)args![2]),
+               "215"=> ((delegate* unmanaged[Cdecl]<int, short, double, int>)(void*)p)((int)args![0],(short)args![1],(double)args![2]),
+               "216"=> ((delegate* unmanaged[Cdecl]<int, short, float, int>)(void*)p)((int)args![0],(short)args![1],(float)args![2]),
+               "217"=> ((delegate* unmanaged[Cdecl]<int, short, IntPtr, int>)(void*)p)((int)args![0],(short)args![1],(IntPtr)args![2]),
+               "220"=> ((delegate* unmanaged[Cdecl]<int, int, byte, int>)(void*)p)((int)args![0],(int)args![1],(byte)args![2]),
+               "221"=> ((delegate* unmanaged[Cdecl]<int, int, short, int>)(void*)p)((int)args![0],(int)args![1],(short)args![2]),
+               "222"=> ((delegate* unmanaged[Cdecl]<int, int, int, int>)(void*)p)((int)args![0],(int)args![1],(int)args![2]),
+               "223"=> ((delegate* unmanaged[Cdecl]<int, int, long, int>)(void*)p)((int)args![0],(int)args![1],(long)args![2]),
+               "224"=> ((delegate* unmanaged[Cdecl]<int, int, decimal, int>)(void*)p)((int)args![0],(int)args![1],(decimal)args![2]),
+               "225"=> ((delegate* unmanaged[Cdecl]<int, int, double, int>)(void*)p)((int)args![0],(int)args![1],(double)args![2]),
+               "226"=> ((delegate* unmanaged[Cdecl]<int, int, float, int>)(void*)p)((int)args![0],(int)args![1],(float)args![2]),
+               "227"=> ((delegate* unmanaged[Cdecl]<int, int, IntPtr, int>)(void*)p)((int)args![0],(int)args![1],(IntPtr)args![2]),
+               "230"=> ((delegate* unmanaged[Cdecl]<int, long, byte, int>)(void*)p)((int)args![0],(long)args![1],(byte)args![2]),
+               "231"=> ((delegate* unmanaged[Cdecl]<int, long, short, int>)(void*)p)((int)args![0],(long)args![1],(short)args![2]),
+               "232"=> ((delegate* unmanaged[Cdecl]<int, long, int, int>)(void*)p)((int)args![0],(long)args![1],(int)args![2]),
+               "233"=> ((delegate* unmanaged[Cdecl]<int, long, long, int>)(void*)p)((int)args![0],(long)args![1],(long)args![2]),
+               "234"=> ((delegate* unmanaged[Cdecl]<int, long, decimal, int>)(void*)p)((int)args![0],(long)args![1],(decimal)args![2]),
+               "235"=> ((delegate* unmanaged[Cdecl]<int, long, double, int>)(void*)p)((int)args![0],(long)args![1],(double)args![2]),
+               "236"=> ((delegate* unmanaged[Cdecl]<int, long, float, int>)(void*)p)((int)args![0],(long)args![1],(float)args![2]),
+               "237"=> ((delegate* unmanaged[Cdecl]<int, long, IntPtr, int>)(void*)p)((int)args![0],(long)args![1],(IntPtr)args![2]),
+               "240"=> ((delegate* unmanaged[Cdecl]<int, decimal, byte, int>)(void*)p)((int)args![0],(decimal)args![1],(byte)args![2]),
+               "241"=> ((delegate* unmanaged[Cdecl]<int, decimal, short, int>)(void*)p)((int)args![0],(decimal)args![1],(short)args![2]),
+               "242"=> ((delegate* unmanaged[Cdecl]<int, decimal, int, int>)(void*)p)((int)args![0],(decimal)args![1],(int)args![2]),
+               "243"=> ((delegate* unmanaged[Cdecl]<int, decimal, long, int>)(void*)p)((int)args![0],(decimal)args![1],(long)args![2]),
+               "244"=> ((delegate* unmanaged[Cdecl]<int, decimal, decimal, int>)(void*)p)((int)args![0],(decimal)args![1],(decimal)args![2]),
+               "245"=> ((delegate* unmanaged[Cdecl]<int, decimal, double, int>)(void*)p)((int)args![0],(decimal)args![1],(double)args![2]),
+               "246"=> ((delegate* unmanaged[Cdecl]<int, decimal, float, int>)(void*)p)((int)args![0],(decimal)args![1],(float)args![2]),
+               "247"=> ((delegate* unmanaged[Cdecl]<int, decimal, IntPtr, int>)(void*)p)((int)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "250"=> ((delegate* unmanaged[Cdecl]<int, double, byte, int>)(void*)p)((int)args![0],(double)args![1],(byte)args![2]),
+               "251"=> ((delegate* unmanaged[Cdecl]<int, double, short, int>)(void*)p)((int)args![0],(double)args![1],(short)args![2]),
+               "252"=> ((delegate* unmanaged[Cdecl]<int, double, int, int>)(void*)p)((int)args![0],(double)args![1],(int)args![2]),
+               "253"=> ((delegate* unmanaged[Cdecl]<int, double, long, int>)(void*)p)((int)args![0],(double)args![1],(long)args![2]),
+               "254"=> ((delegate* unmanaged[Cdecl]<int, double, decimal, int>)(void*)p)((int)args![0],(double)args![1],(decimal)args![2]),
+               "255"=> ((delegate* unmanaged[Cdecl]<int, double, double, int>)(void*)p)((int)args![0],(double)args![1],(double)args![2]),
+               "256"=> ((delegate* unmanaged[Cdecl]<int, double, float, int>)(void*)p)((int)args![0],(double)args![1],(float)args![2]),
+               "257"=> ((delegate* unmanaged[Cdecl]<int, double, IntPtr, int>)(void*)p)((int)args![0],(double)args![1],(IntPtr)args![2]),
+               "260"=> ((delegate* unmanaged[Cdecl]<int, float, byte, int>)(void*)p)((int)args![0],(float)args![1],(byte)args![2]),
+               "261"=> ((delegate* unmanaged[Cdecl]<int, float, short, int>)(void*)p)((int)args![0],(float)args![1],(short)args![2]),
+               "262"=> ((delegate* unmanaged[Cdecl]<int, float, int, int>)(void*)p)((int)args![0],(float)args![1],(int)args![2]),
+               "263"=> ((delegate* unmanaged[Cdecl]<int, float, long, int>)(void*)p)((int)args![0],(float)args![1],(long)args![2]),
+               "264"=> ((delegate* unmanaged[Cdecl]<int, float, decimal, int>)(void*)p)((int)args![0],(float)args![1],(decimal)args![2]),
+               "265"=> ((delegate* unmanaged[Cdecl]<int, float, double, int>)(void*)p)((int)args![0],(float)args![1],(double)args![2]),
+               "266"=> ((delegate* unmanaged[Cdecl]<int, float, float, int>)(void*)p)((int)args![0],(float)args![1],(float)args![2]),
+               "267"=> ((delegate* unmanaged[Cdecl]<int, float, IntPtr, int>)(void*)p)((int)args![0],(float)args![1],(IntPtr)args![2]),
+               "270"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, byte, int>)(void*)p)((int)args![0],(IntPtr)args![1],(byte)args![2]),
+               "271"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, short, int>)(void*)p)((int)args![0],(IntPtr)args![1],(short)args![2]),
+               "272"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, int, int>)(void*)p)((int)args![0],(IntPtr)args![1],(int)args![2]),
+               "273"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, long, int>)(void*)p)((int)args![0],(IntPtr)args![1],(long)args![2]),
+               "274"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, decimal, int>)(void*)p)((int)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "275"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, double, int>)(void*)p)((int)args![0],(IntPtr)args![1],(double)args![2]),
+               "276"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, float, int>)(void*)p)((int)args![0],(IntPtr)args![1],(float)args![2]),
+               "277"=> ((delegate* unmanaged[Cdecl]<int, IntPtr, IntPtr, int>)(void*)p)((int)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+               "300"=> ((delegate* unmanaged[Cdecl]<long, byte, byte, int>)(void*)p)((long)args![0],(byte)args![1],(byte)args![2]),
+               "301"=> ((delegate* unmanaged[Cdecl]<long, byte, short, int>)(void*)p)((long)args![0],(byte)args![1],(short)args![2]),
+               "302"=> ((delegate* unmanaged[Cdecl]<long, byte, int, int>)(void*)p)((long)args![0],(byte)args![1],(int)args![2]),
+               "303"=> ((delegate* unmanaged[Cdecl]<long, byte, long, int>)(void*)p)((long)args![0],(byte)args![1],(long)args![2]),
+               "304"=> ((delegate* unmanaged[Cdecl]<long, byte, decimal, int>)(void*)p)((long)args![0],(byte)args![1],(decimal)args![2]),
+               "305"=> ((delegate* unmanaged[Cdecl]<long, byte, double, int>)(void*)p)((long)args![0],(byte)args![1],(double)args![2]),
+               "306"=> ((delegate* unmanaged[Cdecl]<long, byte, float, int>)(void*)p)((long)args![0],(byte)args![1],(float)args![2]),
+               "307"=> ((delegate* unmanaged[Cdecl]<long, byte, IntPtr, int>)(void*)p)((long)args![0],(byte)args![1],(IntPtr)args![2]),
+               "310"=> ((delegate* unmanaged[Cdecl]<long, short, byte, int>)(void*)p)((long)args![0],(short)args![1],(byte)args![2]),
+               "311"=> ((delegate* unmanaged[Cdecl]<long, short, short, int>)(void*)p)((long)args![0],(short)args![1],(short)args![2]),
+               "312"=> ((delegate* unmanaged[Cdecl]<long, short, int, int>)(void*)p)((long)args![0],(short)args![1],(int)args![2]),
+               "313"=> ((delegate* unmanaged[Cdecl]<long, short, long, int>)(void*)p)((long)args![0],(short)args![1],(long)args![2]),
+               "314"=> ((delegate* unmanaged[Cdecl]<long, short, decimal, int>)(void*)p)((long)args![0],(short)args![1],(decimal)args![2]),
+               "315"=> ((delegate* unmanaged[Cdecl]<long, short, double, int>)(void*)p)((long)args![0],(short)args![1],(double)args![2]),
+               "316"=> ((delegate* unmanaged[Cdecl]<long, short, float, int>)(void*)p)((long)args![0],(short)args![1],(float)args![2]),
+               "317"=> ((delegate* unmanaged[Cdecl]<long, short, IntPtr, int>)(void*)p)((long)args![0],(short)args![1],(IntPtr)args![2]),
+               "320"=> ((delegate* unmanaged[Cdecl]<long, int, byte, int>)(void*)p)((long)args![0],(int)args![1],(byte)args![2]),
+               "321"=> ((delegate* unmanaged[Cdecl]<long, int, short, int>)(void*)p)((long)args![0],(int)args![1],(short)args![2]),
+               "322"=> ((delegate* unmanaged[Cdecl]<long, int, int, int>)(void*)p)((long)args![0],(int)args![1],(int)args![2]),
+               "323"=> ((delegate* unmanaged[Cdecl]<long, int, long, int>)(void*)p)((long)args![0],(int)args![1],(long)args![2]),
+               "324"=> ((delegate* unmanaged[Cdecl]<long, int, decimal, int>)(void*)p)((long)args![0],(int)args![1],(decimal)args![2]),
+               "325"=> ((delegate* unmanaged[Cdecl]<long, int, double, int>)(void*)p)((long)args![0],(int)args![1],(double)args![2]),
+               "326"=> ((delegate* unmanaged[Cdecl]<long, int, float, int>)(void*)p)((long)args![0],(int)args![1],(float)args![2]),
+               "327"=> ((delegate* unmanaged[Cdecl]<long, int, IntPtr, int>)(void*)p)((long)args![0],(int)args![1],(IntPtr)args![2]),
+               "330"=> ((delegate* unmanaged[Cdecl]<long, long, byte, int>)(void*)p)((long)args![0],(long)args![1],(byte)args![2]),
+               "331"=> ((delegate* unmanaged[Cdecl]<long, long, short, int>)(void*)p)((long)args![0],(long)args![1],(short)args![2]),
+               "332"=> ((delegate* unmanaged[Cdecl]<long, long, int, int>)(void*)p)((long)args![0],(long)args![1],(int)args![2]),
+               "333"=> ((delegate* unmanaged[Cdecl]<long, long, long, int>)(void*)p)((long)args![0],(long)args![1],(long)args![2]),
+               "334"=> ((delegate* unmanaged[Cdecl]<long, long, decimal, int>)(void*)p)((long)args![0],(long)args![1],(decimal)args![2]),
+               "335"=> ((delegate* unmanaged[Cdecl]<long, long, double, int>)(void*)p)((long)args![0],(long)args![1],(double)args![2]),
+               "336"=> ((delegate* unmanaged[Cdecl]<long, long, float, int>)(void*)p)((long)args![0],(long)args![1],(float)args![2]),
+               "337"=> ((delegate* unmanaged[Cdecl]<long, long, IntPtr, int>)(void*)p)((long)args![0],(long)args![1],(IntPtr)args![2]),
+               "340"=> ((delegate* unmanaged[Cdecl]<long, decimal, byte, int>)(void*)p)((long)args![0],(decimal)args![1],(byte)args![2]),
+               "341"=> ((delegate* unmanaged[Cdecl]<long, decimal, short, int>)(void*)p)((long)args![0],(decimal)args![1],(short)args![2]),
+               "342"=> ((delegate* unmanaged[Cdecl]<long, decimal, int, int>)(void*)p)((long)args![0],(decimal)args![1],(int)args![2]),
+               "343"=> ((delegate* unmanaged[Cdecl]<long, decimal, long, int>)(void*)p)((long)args![0],(decimal)args![1],(long)args![2]),
+               "344"=> ((delegate* unmanaged[Cdecl]<long, decimal, decimal, int>)(void*)p)((long)args![0],(decimal)args![1],(decimal)args![2]),
+               "345"=> ((delegate* unmanaged[Cdecl]<long, decimal, double, int>)(void*)p)((long)args![0],(decimal)args![1],(double)args![2]),
+               "346"=> ((delegate* unmanaged[Cdecl]<long, decimal, float, int>)(void*)p)((long)args![0],(decimal)args![1],(float)args![2]),
+               "347"=> ((delegate* unmanaged[Cdecl]<long, decimal, IntPtr, int>)(void*)p)((long)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "350"=> ((delegate* unmanaged[Cdecl]<long, double, byte, int>)(void*)p)((long)args![0],(double)args![1],(byte)args![2]),
+               "351"=> ((delegate* unmanaged[Cdecl]<long, double, short, int>)(void*)p)((long)args![0],(double)args![1],(short)args![2]),
+               "352"=> ((delegate* unmanaged[Cdecl]<long, double, int, int>)(void*)p)((long)args![0],(double)args![1],(int)args![2]),
+               "353"=> ((delegate* unmanaged[Cdecl]<long, double, long, int>)(void*)p)((long)args![0],(double)args![1],(long)args![2]),
+               "354"=> ((delegate* unmanaged[Cdecl]<long, double, decimal, int>)(void*)p)((long)args![0],(double)args![1],(decimal)args![2]),
+               "355"=> ((delegate* unmanaged[Cdecl]<long, double, double, int>)(void*)p)((long)args![0],(double)args![1],(double)args![2]),
+               "356"=> ((delegate* unmanaged[Cdecl]<long, double, float, int>)(void*)p)((long)args![0],(double)args![1],(float)args![2]),
+               "357"=> ((delegate* unmanaged[Cdecl]<long, double, IntPtr, int>)(void*)p)((long)args![0],(double)args![1],(IntPtr)args![2]),
+               "360"=> ((delegate* unmanaged[Cdecl]<long, float, byte, int>)(void*)p)((long)args![0],(float)args![1],(byte)args![2]),
+               "361"=> ((delegate* unmanaged[Cdecl]<long, float, short, int>)(void*)p)((long)args![0],(float)args![1],(short)args![2]),
+               "362"=> ((delegate* unmanaged[Cdecl]<long, float, int, int>)(void*)p)((long)args![0],(float)args![1],(int)args![2]),
+               "363"=> ((delegate* unmanaged[Cdecl]<long, float, long, int>)(void*)p)((long)args![0],(float)args![1],(long)args![2]),
+               "364"=> ((delegate* unmanaged[Cdecl]<long, float, decimal, int>)(void*)p)((long)args![0],(float)args![1],(decimal)args![2]),
+               "365"=> ((delegate* unmanaged[Cdecl]<long, float, double, int>)(void*)p)((long)args![0],(float)args![1],(double)args![2]),
+               "366"=> ((delegate* unmanaged[Cdecl]<long, float, float, int>)(void*)p)((long)args![0],(float)args![1],(float)args![2]),
+               "367"=> ((delegate* unmanaged[Cdecl]<long, float, IntPtr, int>)(void*)p)((long)args![0],(float)args![1],(IntPtr)args![2]),
+               "370"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, byte, int>)(void*)p)((long)args![0],(IntPtr)args![1],(byte)args![2]),
+               "371"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, short, int>)(void*)p)((long)args![0],(IntPtr)args![1],(short)args![2]),
+               "372"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, int, int>)(void*)p)((long)args![0],(IntPtr)args![1],(int)args![2]),
+               "373"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, long, int>)(void*)p)((long)args![0],(IntPtr)args![1],(long)args![2]),
+               "374"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, decimal, int>)(void*)p)((long)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "375"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, double, int>)(void*)p)((long)args![0],(IntPtr)args![1],(double)args![2]),
+               "376"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, float, int>)(void*)p)((long)args![0],(IntPtr)args![1],(float)args![2]),
+               "377"=> ((delegate* unmanaged[Cdecl]<long, IntPtr, IntPtr, int>)(void*)p)((long)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+               "400"=> ((delegate* unmanaged[Cdecl]<decimal, byte, byte, int>)(void*)p)((decimal)args![0],(byte)args![1],(byte)args![2]),
+               "401"=> ((delegate* unmanaged[Cdecl]<decimal, byte, short, int>)(void*)p)((decimal)args![0],(byte)args![1],(short)args![2]),
+               "402"=> ((delegate* unmanaged[Cdecl]<decimal, byte, int, int>)(void*)p)((decimal)args![0],(byte)args![1],(int)args![2]),
+               "403"=> ((delegate* unmanaged[Cdecl]<decimal, byte, long, int>)(void*)p)((decimal)args![0],(byte)args![1],(long)args![2]),
+               "404"=> ((delegate* unmanaged[Cdecl]<decimal, byte, decimal, int>)(void*)p)((decimal)args![0],(byte)args![1],(decimal)args![2]),
+               "405"=> ((delegate* unmanaged[Cdecl]<decimal, byte, double, int>)(void*)p)((decimal)args![0],(byte)args![1],(double)args![2]),
+               "406"=> ((delegate* unmanaged[Cdecl]<decimal, byte, float, int>)(void*)p)((decimal)args![0],(byte)args![1],(float)args![2]),
+               "407"=> ((delegate* unmanaged[Cdecl]<decimal, byte, IntPtr, int>)(void*)p)((decimal)args![0],(byte)args![1],(IntPtr)args![2]),
+               "410"=> ((delegate* unmanaged[Cdecl]<decimal, short, byte, int>)(void*)p)((decimal)args![0],(short)args![1],(byte)args![2]),
+               "411"=> ((delegate* unmanaged[Cdecl]<decimal, short, short, int>)(void*)p)((decimal)args![0],(short)args![1],(short)args![2]),
+               "412"=> ((delegate* unmanaged[Cdecl]<decimal, short, int, int>)(void*)p)((decimal)args![0],(short)args![1],(int)args![2]),
+               "413"=> ((delegate* unmanaged[Cdecl]<decimal, short, long, int>)(void*)p)((decimal)args![0],(short)args![1],(long)args![2]),
+               "414"=> ((delegate* unmanaged[Cdecl]<decimal, short, decimal, int>)(void*)p)((decimal)args![0],(short)args![1],(decimal)args![2]),
+               "415"=> ((delegate* unmanaged[Cdecl]<decimal, short, double, int>)(void*)p)((decimal)args![0],(short)args![1],(double)args![2]),
+               "416"=> ((delegate* unmanaged[Cdecl]<decimal, short, float, int>)(void*)p)((decimal)args![0],(short)args![1],(float)args![2]),
+               "417"=> ((delegate* unmanaged[Cdecl]<decimal, short, IntPtr, int>)(void*)p)((decimal)args![0],(short)args![1],(IntPtr)args![2]),
+               "420"=> ((delegate* unmanaged[Cdecl]<decimal, int, byte, int>)(void*)p)((decimal)args![0],(int)args![1],(byte)args![2]),
+               "421"=> ((delegate* unmanaged[Cdecl]<decimal, int, short, int>)(void*)p)((decimal)args![0],(int)args![1],(short)args![2]),
+               "422"=> ((delegate* unmanaged[Cdecl]<decimal, int, int, int>)(void*)p)((decimal)args![0],(int)args![1],(int)args![2]),
+               "423"=> ((delegate* unmanaged[Cdecl]<decimal, int, long, int>)(void*)p)((decimal)args![0],(int)args![1],(long)args![2]),
+               "424"=> ((delegate* unmanaged[Cdecl]<decimal, int, decimal, int>)(void*)p)((decimal)args![0],(int)args![1],(decimal)args![2]),
+               "425"=> ((delegate* unmanaged[Cdecl]<decimal, int, double, int>)(void*)p)((decimal)args![0],(int)args![1],(double)args![2]),
+               "426"=> ((delegate* unmanaged[Cdecl]<decimal, int, float, int>)(void*)p)((decimal)args![0],(int)args![1],(float)args![2]),
+               "427"=> ((delegate* unmanaged[Cdecl]<decimal, int, IntPtr, int>)(void*)p)((decimal)args![0],(int)args![1],(IntPtr)args![2]),
+               "430"=> ((delegate* unmanaged[Cdecl]<decimal, long, byte, int>)(void*)p)((decimal)args![0],(long)args![1],(byte)args![2]),
+               "431"=> ((delegate* unmanaged[Cdecl]<decimal, long, short, int>)(void*)p)((decimal)args![0],(long)args![1],(short)args![2]),
+               "432"=> ((delegate* unmanaged[Cdecl]<decimal, long, int, int>)(void*)p)((decimal)args![0],(long)args![1],(int)args![2]),
+               "433"=> ((delegate* unmanaged[Cdecl]<decimal, long, long, int>)(void*)p)((decimal)args![0],(long)args![1],(long)args![2]),
+               "434"=> ((delegate* unmanaged[Cdecl]<decimal, long, decimal, int>)(void*)p)((decimal)args![0],(long)args![1],(decimal)args![2]),
+               "435"=> ((delegate* unmanaged[Cdecl]<decimal, long, double, int>)(void*)p)((decimal)args![0],(long)args![1],(double)args![2]),
+               "436"=> ((delegate* unmanaged[Cdecl]<decimal, long, float, int>)(void*)p)((decimal)args![0],(long)args![1],(float)args![2]),
+               "437"=> ((delegate* unmanaged[Cdecl]<decimal, long, IntPtr, int>)(void*)p)((decimal)args![0],(long)args![1],(IntPtr)args![2]),
+               "440"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, byte, int>)(void*)p)((decimal)args![0],(decimal)args![1],(byte)args![2]),
+               "441"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, short, int>)(void*)p)((decimal)args![0],(decimal)args![1],(short)args![2]),
+               "442"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, int, int>)(void*)p)((decimal)args![0],(decimal)args![1],(int)args![2]),
+               "443"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, long, int>)(void*)p)((decimal)args![0],(decimal)args![1],(long)args![2]),
+               "444"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, decimal, int>)(void*)p)((decimal)args![0],(decimal)args![1],(decimal)args![2]),
+               "445"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, double, int>)(void*)p)((decimal)args![0],(decimal)args![1],(double)args![2]),
+               "446"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, float, int>)(void*)p)((decimal)args![0],(decimal)args![1],(float)args![2]),
+               "447"=> ((delegate* unmanaged[Cdecl]<decimal, decimal, IntPtr, int>)(void*)p)((decimal)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "450"=> ((delegate* unmanaged[Cdecl]<decimal, double, byte, int>)(void*)p)((decimal)args![0],(double)args![1],(byte)args![2]),
+               "451"=> ((delegate* unmanaged[Cdecl]<decimal, double, short, int>)(void*)p)((decimal)args![0],(double)args![1],(short)args![2]),
+               "452"=> ((delegate* unmanaged[Cdecl]<decimal, double, int, int>)(void*)p)((decimal)args![0],(double)args![1],(int)args![2]),
+               "453"=> ((delegate* unmanaged[Cdecl]<decimal, double, long, int>)(void*)p)((decimal)args![0],(double)args![1],(long)args![2]),
+               "454"=> ((delegate* unmanaged[Cdecl]<decimal, double, decimal, int>)(void*)p)((decimal)args![0],(double)args![1],(decimal)args![2]),
+               "455"=> ((delegate* unmanaged[Cdecl]<decimal, double, double, int>)(void*)p)((decimal)args![0],(double)args![1],(double)args![2]),
+               "456"=> ((delegate* unmanaged[Cdecl]<decimal, double, float, int>)(void*)p)((decimal)args![0],(double)args![1],(float)args![2]),
+               "457"=> ((delegate* unmanaged[Cdecl]<decimal, double, IntPtr, int>)(void*)p)((decimal)args![0],(double)args![1],(IntPtr)args![2]),
+               "460"=> ((delegate* unmanaged[Cdecl]<decimal, float, byte, int>)(void*)p)((decimal)args![0],(float)args![1],(byte)args![2]),
+               "461"=> ((delegate* unmanaged[Cdecl]<decimal, float, short, int>)(void*)p)((decimal)args![0],(float)args![1],(short)args![2]),
+               "462"=> ((delegate* unmanaged[Cdecl]<decimal, float, int, int>)(void*)p)((decimal)args![0],(float)args![1],(int)args![2]),
+               "463"=> ((delegate* unmanaged[Cdecl]<decimal, float, long, int>)(void*)p)((decimal)args![0],(float)args![1],(long)args![2]),
+               "464"=> ((delegate* unmanaged[Cdecl]<decimal, float, decimal, int>)(void*)p)((decimal)args![0],(float)args![1],(decimal)args![2]),
+               "465"=> ((delegate* unmanaged[Cdecl]<decimal, float, double, int>)(void*)p)((decimal)args![0],(float)args![1],(double)args![2]),
+               "466"=> ((delegate* unmanaged[Cdecl]<decimal, float, float, int>)(void*)p)((decimal)args![0],(float)args![1],(float)args![2]),
+               "467"=> ((delegate* unmanaged[Cdecl]<decimal, float, IntPtr, int>)(void*)p)((decimal)args![0],(float)args![1],(IntPtr)args![2]),
+               "470"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, byte, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(byte)args![2]),
+               "471"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, short, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(short)args![2]),
+               "472"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, int, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(int)args![2]),
+               "473"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, long, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(long)args![2]),
+               "474"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, decimal, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "475"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, double, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(double)args![2]),
+               "476"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, float, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(float)args![2]),
+               "477"=> ((delegate* unmanaged[Cdecl]<decimal, IntPtr, IntPtr, int>)(void*)p)((decimal)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+               "500"=> ((delegate* unmanaged[Cdecl]<double, byte, byte, int>)(void*)p)((double)args![0],(byte)args![1],(byte)args![2]),
+               "501"=> ((delegate* unmanaged[Cdecl]<double, byte, short, int>)(void*)p)((double)args![0],(byte)args![1],(short)args![2]),
+               "502"=> ((delegate* unmanaged[Cdecl]<double, byte, int, int>)(void*)p)((double)args![0],(byte)args![1],(int)args![2]),
+               "503"=> ((delegate* unmanaged[Cdecl]<double, byte, long, int>)(void*)p)((double)args![0],(byte)args![1],(long)args![2]),
+               "504"=> ((delegate* unmanaged[Cdecl]<double, byte, decimal, int>)(void*)p)((double)args![0],(byte)args![1],(decimal)args![2]),
+               "505"=> ((delegate* unmanaged[Cdecl]<double, byte, double, int>)(void*)p)((double)args![0],(byte)args![1],(double)args![2]),
+               "506"=> ((delegate* unmanaged[Cdecl]<double, byte, float, int>)(void*)p)((double)args![0],(byte)args![1],(float)args![2]),
+               "507"=> ((delegate* unmanaged[Cdecl]<double, byte, IntPtr, int>)(void*)p)((double)args![0],(byte)args![1],(IntPtr)args![2]),
+               "510"=> ((delegate* unmanaged[Cdecl]<double, short, byte, int>)(void*)p)((double)args![0],(short)args![1],(byte)args![2]),
+               "511"=> ((delegate* unmanaged[Cdecl]<double, short, short, int>)(void*)p)((double)args![0],(short)args![1],(short)args![2]),
+               "512"=> ((delegate* unmanaged[Cdecl]<double, short, int, int>)(void*)p)((double)args![0],(short)args![1],(int)args![2]),
+               "513"=> ((delegate* unmanaged[Cdecl]<double, short, long, int>)(void*)p)((double)args![0],(short)args![1],(long)args![2]),
+               "514"=> ((delegate* unmanaged[Cdecl]<double, short, decimal, int>)(void*)p)((double)args![0],(short)args![1],(decimal)args![2]),
+               "515"=> ((delegate* unmanaged[Cdecl]<double, short, double, int>)(void*)p)((double)args![0],(short)args![1],(double)args![2]),
+               "516"=> ((delegate* unmanaged[Cdecl]<double, short, float, int>)(void*)p)((double)args![0],(short)args![1],(float)args![2]),
+               "517"=> ((delegate* unmanaged[Cdecl]<double, short, IntPtr, int>)(void*)p)((double)args![0],(short)args![1],(IntPtr)args![2]),
+               "520"=> ((delegate* unmanaged[Cdecl]<double, int, byte, int>)(void*)p)((double)args![0],(int)args![1],(byte)args![2]),
+               "521"=> ((delegate* unmanaged[Cdecl]<double, int, short, int>)(void*)p)((double)args![0],(int)args![1],(short)args![2]),
+               "522"=> ((delegate* unmanaged[Cdecl]<double, int, int, int>)(void*)p)((double)args![0],(int)args![1],(int)args![2]),
+               "523"=> ((delegate* unmanaged[Cdecl]<double, int, long, int>)(void*)p)((double)args![0],(int)args![1],(long)args![2]),
+               "524"=> ((delegate* unmanaged[Cdecl]<double, int, decimal, int>)(void*)p)((double)args![0],(int)args![1],(decimal)args![2]),
+               "525"=> ((delegate* unmanaged[Cdecl]<double, int, double, int>)(void*)p)((double)args![0],(int)args![1],(double)args![2]),
+               "526"=> ((delegate* unmanaged[Cdecl]<double, int, float, int>)(void*)p)((double)args![0],(int)args![1],(float)args![2]),
+               "527"=> ((delegate* unmanaged[Cdecl]<double, int, IntPtr, int>)(void*)p)((double)args![0],(int)args![1],(IntPtr)args![2]),
+               "530"=> ((delegate* unmanaged[Cdecl]<double, long, byte, int>)(void*)p)((double)args![0],(long)args![1],(byte)args![2]),
+               "531"=> ((delegate* unmanaged[Cdecl]<double, long, short, int>)(void*)p)((double)args![0],(long)args![1],(short)args![2]),
+               "532"=> ((delegate* unmanaged[Cdecl]<double, long, int, int>)(void*)p)((double)args![0],(long)args![1],(int)args![2]),
+               "533"=> ((delegate* unmanaged[Cdecl]<double, long, long, int>)(void*)p)((double)args![0],(long)args![1],(long)args![2]),
+               "534"=> ((delegate* unmanaged[Cdecl]<double, long, decimal, int>)(void*)p)((double)args![0],(long)args![1],(decimal)args![2]),
+               "535"=> ((delegate* unmanaged[Cdecl]<double, long, double, int>)(void*)p)((double)args![0],(long)args![1],(double)args![2]),
+               "536"=> ((delegate* unmanaged[Cdecl]<double, long, float, int>)(void*)p)((double)args![0],(long)args![1],(float)args![2]),
+               "537"=> ((delegate* unmanaged[Cdecl]<double, long, IntPtr, int>)(void*)p)((double)args![0],(long)args![1],(IntPtr)args![2]),
+               "540"=> ((delegate* unmanaged[Cdecl]<double, decimal, byte, int>)(void*)p)((double)args![0],(decimal)args![1],(byte)args![2]),
+               "541"=> ((delegate* unmanaged[Cdecl]<double, decimal, short, int>)(void*)p)((double)args![0],(decimal)args![1],(short)args![2]),
+               "542"=> ((delegate* unmanaged[Cdecl]<double, decimal, int, int>)(void*)p)((double)args![0],(decimal)args![1],(int)args![2]),
+               "543"=> ((delegate* unmanaged[Cdecl]<double, decimal, long, int>)(void*)p)((double)args![0],(decimal)args![1],(long)args![2]),
+               "544"=> ((delegate* unmanaged[Cdecl]<double, decimal, decimal, int>)(void*)p)((double)args![0],(decimal)args![1],(decimal)args![2]),
+               "545"=> ((delegate* unmanaged[Cdecl]<double, decimal, double, int>)(void*)p)((double)args![0],(decimal)args![1],(double)args![2]),
+               "546"=> ((delegate* unmanaged[Cdecl]<double, decimal, float, int>)(void*)p)((double)args![0],(decimal)args![1],(float)args![2]),
+               "547"=> ((delegate* unmanaged[Cdecl]<double, decimal, IntPtr, int>)(void*)p)((double)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "550"=> ((delegate* unmanaged[Cdecl]<double, double, byte, int>)(void*)p)((double)args![0],(double)args![1],(byte)args![2]),
+               "551"=> ((delegate* unmanaged[Cdecl]<double, double, short, int>)(void*)p)((double)args![0],(double)args![1],(short)args![2]),
+               "552"=> ((delegate* unmanaged[Cdecl]<double, double, int, int>)(void*)p)((double)args![0],(double)args![1],(int)args![2]),
+               "553"=> ((delegate* unmanaged[Cdecl]<double, double, long, int>)(void*)p)((double)args![0],(double)args![1],(long)args![2]),
+               "554"=> ((delegate* unmanaged[Cdecl]<double, double, decimal, int>)(void*)p)((double)args![0],(double)args![1],(decimal)args![2]),
+               "555"=> ((delegate* unmanaged[Cdecl]<double, double, double, int>)(void*)p)((double)args![0],(double)args![1],(double)args![2]),
+               "556"=> ((delegate* unmanaged[Cdecl]<double, double, float, int>)(void*)p)((double)args![0],(double)args![1],(float)args![2]),
+               "557"=> ((delegate* unmanaged[Cdecl]<double, double, IntPtr, int>)(void*)p)((double)args![0],(double)args![1],(IntPtr)args![2]),
+               "560"=> ((delegate* unmanaged[Cdecl]<double, float, byte, int>)(void*)p)((double)args![0],(float)args![1],(byte)args![2]),
+               "561"=> ((delegate* unmanaged[Cdecl]<double, float, short, int>)(void*)p)((double)args![0],(float)args![1],(short)args![2]),
+               "562"=> ((delegate* unmanaged[Cdecl]<double, float, int, int>)(void*)p)((double)args![0],(float)args![1],(int)args![2]),
+               "563"=> ((delegate* unmanaged[Cdecl]<double, float, long, int>)(void*)p)((double)args![0],(float)args![1],(long)args![2]),
+               "564"=> ((delegate* unmanaged[Cdecl]<double, float, decimal, int>)(void*)p)((double)args![0],(float)args![1],(decimal)args![2]),
+               "565"=> ((delegate* unmanaged[Cdecl]<double, float, double, int>)(void*)p)((double)args![0],(float)args![1],(double)args![2]),
+               "566"=> ((delegate* unmanaged[Cdecl]<double, float, float, int>)(void*)p)((double)args![0],(float)args![1],(float)args![2]),
+               "567"=> ((delegate* unmanaged[Cdecl]<double, float, IntPtr, int>)(void*)p)((double)args![0],(float)args![1],(IntPtr)args![2]),
+               "570"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, byte, int>)(void*)p)((double)args![0],(IntPtr)args![1],(byte)args![2]),
+               "571"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, short, int>)(void*)p)((double)args![0],(IntPtr)args![1],(short)args![2]),
+               "572"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, int, int>)(void*)p)((double)args![0],(IntPtr)args![1],(int)args![2]),
+               "573"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, long, int>)(void*)p)((double)args![0],(IntPtr)args![1],(long)args![2]),
+               "574"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, decimal, int>)(void*)p)((double)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "575"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, double, int>)(void*)p)((double)args![0],(IntPtr)args![1],(double)args![2]),
+               "576"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, float, int>)(void*)p)((double)args![0],(IntPtr)args![1],(float)args![2]),
+               "577"=> ((delegate* unmanaged[Cdecl]<double, IntPtr, IntPtr, int>)(void*)p)((double)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+               "600"=> ((delegate* unmanaged[Cdecl]<float, byte, byte, int>)(void*)p)((float)args![0],(byte)args![1],(byte)args![2]),
+               "601"=> ((delegate* unmanaged[Cdecl]<float, byte, short, int>)(void*)p)((float)args![0],(byte)args![1],(short)args![2]),
+               "602"=> ((delegate* unmanaged[Cdecl]<float, byte, int, int>)(void*)p)((float)args![0],(byte)args![1],(int)args![2]),
+               "603"=> ((delegate* unmanaged[Cdecl]<float, byte, long, int>)(void*)p)((float)args![0],(byte)args![1],(long)args![2]),
+               "604"=> ((delegate* unmanaged[Cdecl]<float, byte, decimal, int>)(void*)p)((float)args![0],(byte)args![1],(decimal)args![2]),
+               "605"=> ((delegate* unmanaged[Cdecl]<float, byte, double, int>)(void*)p)((float)args![0],(byte)args![1],(double)args![2]),
+               "606"=> ((delegate* unmanaged[Cdecl]<float, byte, float, int>)(void*)p)((float)args![0],(byte)args![1],(float)args![2]),
+               "607"=> ((delegate* unmanaged[Cdecl]<float, byte, IntPtr, int>)(void*)p)((float)args![0],(byte)args![1],(IntPtr)args![2]),
+               "610"=> ((delegate* unmanaged[Cdecl]<float, short, byte, int>)(void*)p)((float)args![0],(short)args![1],(byte)args![2]),
+               "611"=> ((delegate* unmanaged[Cdecl]<float, short, short, int>)(void*)p)((float)args![0],(short)args![1],(short)args![2]),
+               "612"=> ((delegate* unmanaged[Cdecl]<float, short, int, int>)(void*)p)((float)args![0],(short)args![1],(int)args![2]),
+               "613"=> ((delegate* unmanaged[Cdecl]<float, short, long, int>)(void*)p)((float)args![0],(short)args![1],(long)args![2]),
+               "614"=> ((delegate* unmanaged[Cdecl]<float, short, decimal, int>)(void*)p)((float)args![0],(short)args![1],(decimal)args![2]),
+               "615"=> ((delegate* unmanaged[Cdecl]<float, short, double, int>)(void*)p)((float)args![0],(short)args![1],(double)args![2]),
+               "616"=> ((delegate* unmanaged[Cdecl]<float, short, float, int>)(void*)p)((float)args![0],(short)args![1],(float)args![2]),
+               "617"=> ((delegate* unmanaged[Cdecl]<float, short, IntPtr, int>)(void*)p)((float)args![0],(short)args![1],(IntPtr)args![2]),
+               "620"=> ((delegate* unmanaged[Cdecl]<float, int, byte, int>)(void*)p)((float)args![0],(int)args![1],(byte)args![2]),
+               "621"=> ((delegate* unmanaged[Cdecl]<float, int, short, int>)(void*)p)((float)args![0],(int)args![1],(short)args![2]),
+               "622"=> ((delegate* unmanaged[Cdecl]<float, int, int, int>)(void*)p)((float)args![0],(int)args![1],(int)args![2]),
+               "623"=> ((delegate* unmanaged[Cdecl]<float, int, long, int>)(void*)p)((float)args![0],(int)args![1],(long)args![2]),
+               "624"=> ((delegate* unmanaged[Cdecl]<float, int, decimal, int>)(void*)p)((float)args![0],(int)args![1],(decimal)args![2]),
+               "625"=> ((delegate* unmanaged[Cdecl]<float, int, double, int>)(void*)p)((float)args![0],(int)args![1],(double)args![2]),
+               "626"=> ((delegate* unmanaged[Cdecl]<float, int, float, int>)(void*)p)((float)args![0],(int)args![1],(float)args![2]),
+               "627"=> ((delegate* unmanaged[Cdecl]<float, int, IntPtr, int>)(void*)p)((float)args![0],(int)args![1],(IntPtr)args![2]),
+               "630"=> ((delegate* unmanaged[Cdecl]<float, long, byte, int>)(void*)p)((float)args![0],(long)args![1],(byte)args![2]),
+               "631"=> ((delegate* unmanaged[Cdecl]<float, long, short, int>)(void*)p)((float)args![0],(long)args![1],(short)args![2]),
+               "632"=> ((delegate* unmanaged[Cdecl]<float, long, int, int>)(void*)p)((float)args![0],(long)args![1],(int)args![2]),
+               "633"=> ((delegate* unmanaged[Cdecl]<float, long, long, int>)(void*)p)((float)args![0],(long)args![1],(long)args![2]),
+               "634"=> ((delegate* unmanaged[Cdecl]<float, long, decimal, int>)(void*)p)((float)args![0],(long)args![1],(decimal)args![2]),
+               "635"=> ((delegate* unmanaged[Cdecl]<float, long, double, int>)(void*)p)((float)args![0],(long)args![1],(double)args![2]),
+               "636"=> ((delegate* unmanaged[Cdecl]<float, long, float, int>)(void*)p)((float)args![0],(long)args![1],(float)args![2]),
+               "637"=> ((delegate* unmanaged[Cdecl]<float, long, IntPtr, int>)(void*)p)((float)args![0],(long)args![1],(IntPtr)args![2]),
+               "640"=> ((delegate* unmanaged[Cdecl]<float, decimal, byte, int>)(void*)p)((float)args![0],(decimal)args![1],(byte)args![2]),
+               "641"=> ((delegate* unmanaged[Cdecl]<float, decimal, short, int>)(void*)p)((float)args![0],(decimal)args![1],(short)args![2]),
+               "642"=> ((delegate* unmanaged[Cdecl]<float, decimal, int, int>)(void*)p)((float)args![0],(decimal)args![1],(int)args![2]),
+               "643"=> ((delegate* unmanaged[Cdecl]<float, decimal, long, int>)(void*)p)((float)args![0],(decimal)args![1],(long)args![2]),
+               "644"=> ((delegate* unmanaged[Cdecl]<float, decimal, decimal, int>)(void*)p)((float)args![0],(decimal)args![1],(decimal)args![2]),
+               "645"=> ((delegate* unmanaged[Cdecl]<float, decimal, double, int>)(void*)p)((float)args![0],(decimal)args![1],(double)args![2]),
+               "646"=> ((delegate* unmanaged[Cdecl]<float, decimal, float, int>)(void*)p)((float)args![0],(decimal)args![1],(float)args![2]),
+               "647"=> ((delegate* unmanaged[Cdecl]<float, decimal, IntPtr, int>)(void*)p)((float)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "650"=> ((delegate* unmanaged[Cdecl]<float, double, byte, int>)(void*)p)((float)args![0],(double)args![1],(byte)args![2]),
+               "651"=> ((delegate* unmanaged[Cdecl]<float, double, short, int>)(void*)p)((float)args![0],(double)args![1],(short)args![2]),
+               "652"=> ((delegate* unmanaged[Cdecl]<float, double, int, int>)(void*)p)((float)args![0],(double)args![1],(int)args![2]),
+               "653"=> ((delegate* unmanaged[Cdecl]<float, double, long, int>)(void*)p)((float)args![0],(double)args![1],(long)args![2]),
+               "654"=> ((delegate* unmanaged[Cdecl]<float, double, decimal, int>)(void*)p)((float)args![0],(double)args![1],(decimal)args![2]),
+               "655"=> ((delegate* unmanaged[Cdecl]<float, double, double, int>)(void*)p)((float)args![0],(double)args![1],(double)args![2]),
+               "656"=> ((delegate* unmanaged[Cdecl]<float, double, float, int>)(void*)p)((float)args![0],(double)args![1],(float)args![2]),
+               "657"=> ((delegate* unmanaged[Cdecl]<float, double, IntPtr, int>)(void*)p)((float)args![0],(double)args![1],(IntPtr)args![2]),
+               "660"=> ((delegate* unmanaged[Cdecl]<float, float, byte, int>)(void*)p)((float)args![0],(float)args![1],(byte)args![2]),
+               "661"=> ((delegate* unmanaged[Cdecl]<float, float, short, int>)(void*)p)((float)args![0],(float)args![1],(short)args![2]),
+               "662"=> ((delegate* unmanaged[Cdecl]<float, float, int, int>)(void*)p)((float)args![0],(float)args![1],(int)args![2]),
+               "663"=> ((delegate* unmanaged[Cdecl]<float, float, long, int>)(void*)p)((float)args![0],(float)args![1],(long)args![2]),
+               "664"=> ((delegate* unmanaged[Cdecl]<float, float, decimal, int>)(void*)p)((float)args![0],(float)args![1],(decimal)args![2]),
+               "665"=> ((delegate* unmanaged[Cdecl]<float, float, double, int>)(void*)p)((float)args![0],(float)args![1],(double)args![2]),
+               "666"=> ((delegate* unmanaged[Cdecl]<float, float, float, int>)(void*)p)((float)args![0],(float)args![1],(float)args![2]),
+               "667"=> ((delegate* unmanaged[Cdecl]<float, float, IntPtr, int>)(void*)p)((float)args![0],(float)args![1],(IntPtr)args![2]),
+               "670"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, byte, int>)(void*)p)((float)args![0],(IntPtr)args![1],(byte)args![2]),
+               "671"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, short, int>)(void*)p)((float)args![0],(IntPtr)args![1],(short)args![2]),
+               "672"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, int, int>)(void*)p)((float)args![0],(IntPtr)args![1],(int)args![2]),
+               "673"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, long, int>)(void*)p)((float)args![0],(IntPtr)args![1],(long)args![2]),
+               "674"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, decimal, int>)(void*)p)((float)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "675"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, double, int>)(void*)p)((float)args![0],(IntPtr)args![1],(double)args![2]),
+               "676"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, float, int>)(void*)p)((float)args![0],(IntPtr)args![1],(float)args![2]),
+               "677"=> ((delegate* unmanaged[Cdecl]<float, IntPtr, IntPtr, int>)(void*)p)((float)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+               "700"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, byte, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(byte)args![2]),
+               "701"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, short, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(short)args![2]),
+               "702"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, int, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(int)args![2]),
+               "703"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, long, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(long)args![2]),
+               "704"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, decimal, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(decimal)args![2]),
+               "705"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, double, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(double)args![2]),
+               "706"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, float, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(float)args![2]),
+               "707"=> ((delegate* unmanaged[Cdecl]<IntPtr, byte, IntPtr, int>)(void*)p)((IntPtr)args![0],(byte)args![1],(IntPtr)args![2]),
+               "710"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, byte, int>)(void*)p)((IntPtr)args![0],(short)args![1],(byte)args![2]),
+               "711"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, short, int>)(void*)p)((IntPtr)args![0],(short)args![1],(short)args![2]),
+               "712"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, int, int>)(void*)p)((IntPtr)args![0],(short)args![1],(int)args![2]),
+               "713"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, long, int>)(void*)p)((IntPtr)args![0],(short)args![1],(long)args![2]),
+               "714"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, decimal, int>)(void*)p)((IntPtr)args![0],(short)args![1],(decimal)args![2]),
+               "715"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, double, int>)(void*)p)((IntPtr)args![0],(short)args![1],(double)args![2]),
+               "716"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, float, int>)(void*)p)((IntPtr)args![0],(short)args![1],(float)args![2]),
+               "717"=> ((delegate* unmanaged[Cdecl]<IntPtr, short, IntPtr, int>)(void*)p)((IntPtr)args![0],(short)args![1],(IntPtr)args![2]),
+               "720"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, byte, int>)(void*)p)((IntPtr)args![0],(int)args![1],(byte)args![2]),
+               "721"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, short, int>)(void*)p)((IntPtr)args![0],(int)args![1],(short)args![2]),
+               "722"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, int, int>)(void*)p)((IntPtr)args![0],(int)args![1],(int)args![2]),
+               "723"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, long, int>)(void*)p)((IntPtr)args![0],(int)args![1],(long)args![2]),
+               "724"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, decimal, int>)(void*)p)((IntPtr)args![0],(int)args![1],(decimal)args![2]),
+               "725"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, double, int>)(void*)p)((IntPtr)args![0],(int)args![1],(double)args![2]),
+               "726"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, float, int>)(void*)p)((IntPtr)args![0],(int)args![1],(float)args![2]),
+               "727"=> ((delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, int>)(void*)p)((IntPtr)args![0],(int)args![1],(IntPtr)args![2]),
+               "730"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, byte, int>)(void*)p)((IntPtr)args![0],(long)args![1],(byte)args![2]),
+               "731"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, short, int>)(void*)p)((IntPtr)args![0],(long)args![1],(short)args![2]),
+               "732"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, int, int>)(void*)p)((IntPtr)args![0],(long)args![1],(int)args![2]),
+               "733"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, long, int>)(void*)p)((IntPtr)args![0],(long)args![1],(long)args![2]),
+               "734"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, decimal, int>)(void*)p)((IntPtr)args![0],(long)args![1],(decimal)args![2]),
+               "735"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, double, int>)(void*)p)((IntPtr)args![0],(long)args![1],(double)args![2]),
+               "736"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, float, int>)(void*)p)((IntPtr)args![0],(long)args![1],(float)args![2]),
+               "737"=> ((delegate* unmanaged[Cdecl]<IntPtr, long, IntPtr, int>)(void*)p)((IntPtr)args![0],(long)args![1],(IntPtr)args![2]),
+               "740"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, byte, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(byte)args![2]),
+               "741"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, short, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(short)args![2]),
+               "742"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, int, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(int)args![2]),
+               "743"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, long, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(long)args![2]),
+               "744"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, decimal, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(decimal)args![2]),
+               "745"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, double, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(double)args![2]),
+               "746"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, float, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(float)args![2]),
+               "747"=> ((delegate* unmanaged[Cdecl]<IntPtr, decimal, IntPtr, int>)(void*)p)((IntPtr)args![0],(decimal)args![1],(IntPtr)args![2]),
+               "750"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, byte, int>)(void*)p)((IntPtr)args![0],(double)args![1],(byte)args![2]),
+               "751"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, short, int>)(void*)p)((IntPtr)args![0],(double)args![1],(short)args![2]),
+               "752"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, int, int>)(void*)p)((IntPtr)args![0],(double)args![1],(int)args![2]),
+               "753"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, long, int>)(void*)p)((IntPtr)args![0],(double)args![1],(long)args![2]),
+               "754"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, decimal, int>)(void*)p)((IntPtr)args![0],(double)args![1],(decimal)args![2]),
+               "755"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, double, int>)(void*)p)((IntPtr)args![0],(double)args![1],(double)args![2]),
+               "756"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, float, int>)(void*)p)((IntPtr)args![0],(double)args![1],(float)args![2]),
+               "757"=> ((delegate* unmanaged[Cdecl]<IntPtr, double, IntPtr, int>)(void*)p)((IntPtr)args![0],(double)args![1],(IntPtr)args![2]),
+               "760"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, byte, int>)(void*)p)((IntPtr)args![0],(float)args![1],(byte)args![2]),
+               "761"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, short, int>)(void*)p)((IntPtr)args![0],(float)args![1],(short)args![2]),
+               "762"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, int, int>)(void*)p)((IntPtr)args![0],(float)args![1],(int)args![2]),
+               "763"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, long, int>)(void*)p)((IntPtr)args![0],(float)args![1],(long)args![2]),
+               "764"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, decimal, int>)(void*)p)((IntPtr)args![0],(float)args![1],(decimal)args![2]),
+               "765"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, double, int>)(void*)p)((IntPtr)args![0],(float)args![1],(double)args![2]),
+               "766"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, float, int>)(void*)p)((IntPtr)args![0],(float)args![1],(float)args![2]),
+               "767"=> ((delegate* unmanaged[Cdecl]<IntPtr, float, IntPtr, int>)(void*)p)((IntPtr)args![0],(float)args![1],(IntPtr)args![2]),
+               "770"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, byte, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(byte)args![2]),
+               "771"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, short, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(short)args![2]),
+               "772"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(int)args![2]),
+               "773"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, long, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(long)args![2]),
+               "774"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, decimal, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(decimal)args![2]),
+               "775"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, double, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(double)args![2]),
+               "776"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, float, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(float)args![2]),
+               "777"=> ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int>)(void*)p)((IntPtr)args![0],(IntPtr)args![1],(IntPtr)args![2]),
+ 
                 _ => -1,
             };
         }
     }
-
 }
-

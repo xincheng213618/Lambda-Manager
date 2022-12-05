@@ -122,12 +122,7 @@
                                     <UniformGrid Columns="2">
                                         <StackPanel Margin="10,5">
                                             <StackPanel x:Name="HardwareSettingConnectionStackPanel">
-                                                <BulletDecorator >
-                                                    <BulletDecorator.Bullet>
-                                                        <TextBlock Text="相机:"/>
-                                                    </BulletDecorator.Bullet>
-                                                    <TextBlock Text="{Binding Path=IsCameraConnection}"/>
-                                                </BulletDecorator>
+
 
                                                 <BulletDecorator>
                                                     <BulletDecorator.Bullet>
@@ -217,6 +212,12 @@
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox24" Style="{DynamicResource GroupBoxStyle2}" Header="相机配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                                     <StackPanel Margin="10,5"   >
+                                        <BulletDecorator x:Name="BulletDecoratorCameraConnection">
+                                            <BulletDecorator.Bullet>
+                                                <TextBlock Text="是否连接:"/>
+                                            </BulletDecorator.Bullet>
+                                            <TextBlock Text="{Binding Path=IsCameraConnection}"/>
+                                        </BulletDecorator>
                                         <Button Content="校准相机" Click="Calibration_Click" Tag="Camera" Width="100" HorizontalAlignment="Left" Margin="20,0"/>
                                         <DockPanel  Margin="0,5" HorizontalAlignment="Left" >
                                             <TextBlock Text="相机型号" VerticalAlignment="Center"/>

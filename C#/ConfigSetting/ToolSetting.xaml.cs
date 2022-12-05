@@ -197,6 +197,9 @@ namespace ConfigSetting
                     statusBar.Items.Add(new StatusBarItem());
                 }
 
+                HardwareSettingConnectionStackPanel.DataContext = SoftwareConfig.HardwareSetting;
+
+
 
                 foreach (var item in HotKeyHelper.HotKeysList)
                 {
@@ -239,7 +242,6 @@ namespace ConfigSetting
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            HardwareSettingConnectionStackPanel.DataContext = SoftwareConfig.HardwareSetting;
 
             //ManagementObjectSearcher objvide = new ManagementObjectSearcher("select * from Win32_VideoController");
 

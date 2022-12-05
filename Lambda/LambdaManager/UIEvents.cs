@@ -37,14 +37,14 @@ public class UIEvents
         updateStatus.imageFocus = eventData.GetString("focus");
         updateStatus.CreateTime = eventData.GetString("createTime");
         string frameIndex = eventData.GetString("frameIndex");
-        if (frameIndex != null)
+        if (frameIndex != string.Empty)
         {
             updateStatus.FrameIndex = int.Parse(frameIndex);
 
         }
 
         string totalFrame = eventData.GetString("totalFrame");
-        if (totalFrame != null)
+        if (totalFrame != string.Empty)
         {
             try
             {
@@ -59,12 +59,12 @@ public class UIEvents
         updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
         updateStatus.TotalTime = eventData.GetString("totalTime");
         string sliceIndex = eventData.GetString("sliceIndex");
-        if (sliceIndex != null)
+        if (sliceIndex != string.Empty)
         {
             updateStatus.SliceIndex = int.Parse(sliceIndex);
         }
         string totalSlice = eventData.GetString("totalSlice");
-        if (totalSlice != null)
+        if (totalSlice != string.Empty)
         {
             updateStatus.TotalSlice = int.Parse(totalSlice);
         }

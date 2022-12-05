@@ -1,0 +1,41 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+//这个是生成代码
+using System;
+using System.Collections.Generic;
+
+namespace LambdaManager.DataType.SigTable
+{
+    public class S3
+    {
+        public unsafe static int Invoke(string code, IntPtr p, List<object?>? args)
+        {
+            if (args == null)
+            {
+                return -1;
+            }
+             return code switch
+             {        
+<#
+           List<string> value = new List<string>() { "byte", "short", "int", "long", "decimal", "double", "float", "IntPtr" };
+           for (int i = 0; i < value.Count; i++)
+           { 
+               for (int j = 0; j < value.Count; j++)
+               { 
+                    for (int j1 = 0; j1 < value.Count; j1++)
+                    { 
+#>               "<#=i#><#=j#><#=j1#>"=> ((delegate* unmanaged[Cdecl]<<#=value[i]#>, <#=value[j]#>, <#=value[j1]#>, int>)(void*)p)((<#=value[i]#>)args![0],(<#=value[j]#>)args![1],(<#=value[j1]#>)args![2]),
+<#
+}  
+}
+}
+ #> 
+                _ => -1,
+            };
+        }
+    }
+}

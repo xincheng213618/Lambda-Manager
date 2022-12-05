@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LambdaManager.DataType.SigTable;
 
-internal class S67
+public class S67
 {
 	public static int Invoke7(string code, IntPtr p, List<object?>? args)
 	{

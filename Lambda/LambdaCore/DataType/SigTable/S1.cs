@@ -21,7 +21,7 @@ namespace LambdaManager.DataType.SigTable
             {
                 '0' => ((delegate* unmanaged[Cdecl]<byte, int>)(void*)p)((byte)args![0]),
                 '1' => ((delegate* unmanaged[Cdecl]<short, int>)(void*)p)((short)args![0]),
-                '2' =>  ((delegate* unmanaged[Cdecl]<int, int>)(void*)p)((int)args![0]),
+                '2' => ((delegate* unmanaged[Cdecl]<int, int>)(void*)p)((int)args![0]),
                 '6' => ((delegate* unmanaged[Cdecl]<float, int>)(void*)p)((float)args![0]),
                 '3' => ((delegate* unmanaged[Cdecl]<long, int>)(void*)p)((long)args![0]),
                 '5' => ((delegate* unmanaged[Cdecl]<double, int>)(void*)p)((double)args![0]),

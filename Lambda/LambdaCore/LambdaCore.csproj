@@ -11,11 +11,89 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="DataType\SigTable\S2.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S2.tt</DependentUpon>
+    </None>
+    <None Include="DataType\SigTable\S3.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S3.tt</DependentUpon>
+    </None>
+    <None Include="DataType\SigTable\S4.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S4.tt</DependentUpon>
+    </None>
+    <None Include="DataType\SigTable\S5.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S5.tt</DependentUpon>
+    </None>
+    <None Include="DataType\SigTable\S7.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S7.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Quartz" Version="3.3.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)C#\Lambda\Lambda.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DataType\SigTable\S2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>S2.cs</LastGenOutput>
+    </None>
+    <None Update="DataType\SigTable\S3.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>S3.cs</LastGenOutput>
+    </None>
+    <None Update="DataType\SigTable\S4.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>S4.cs</LastGenOutput>
+    </None>
+    <None Update="DataType\SigTable\S5.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>S5.cs</LastGenOutput>
+    </None>
+    <None Update="DataType\SigTable\S7.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>S7.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DataType\SigTable\S2.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S2.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DataType\SigTable\S3.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S3.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DataType\SigTable\S4.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S4.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DataType\SigTable\S7.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S7.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
