@@ -116,7 +116,7 @@ namespace ThemeManager.Controls
         //    if (e.ButtonState == MouseButtonState.Pressed)
         //        DragMove();
         //}
-        s
+        
         public virtual void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;

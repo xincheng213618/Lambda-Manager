@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configure\**" />
+    <EmbeddedResource Remove="Configure\**" />
+    <None Remove="Configure\**" />
+    <Page Remove="Configure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Image\application-logo-3.0.png" />
   </ItemGroup>
 
@@ -27,10 +34,6 @@
 
   <ItemGroup>
     <Resource Include="Image\application-logo-3.0.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Configure\" />
   </ItemGroup>
 
 </Project>
