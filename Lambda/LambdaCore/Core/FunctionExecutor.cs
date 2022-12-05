@@ -368,9 +368,28 @@ namespace LambdaManager.Core
                 1 => S1.Invoke(code, fp, args),
                 2 => S2.Invoke(code, fp, args),
                 3 => S3.Invoke(code, fp, args),
-                4 => S4.Invoke(code, fp, args),
+                4 => code[0] switch
+                {
+                    '0' => S40.Invoke0(code, fp, args),
+                    '1' => S41.Invoke1(code, fp, args),
+                    '2' => S42.Invoke2(code, fp, args),
+                    '6' => S46.Invoke6(code, fp, args),
+                    '3' => S43.Invoke3(code, fp, args),
+                    '5' => S45.Invoke5(code, fp, args),
+                    '4' => S44.Invoke4(code, fp, args),
+                    '7' => S47.Invoke7(code, fp, args),
+                    _ => -1,
+                },
                 5 => S5.Invoke(code, fp, args),
-                6 => S6.Invoke(code, fp, args),
+                6 => code[0] switch
+                {
+                    '2' => S62.Invoke2(code, fp, args),
+                    '6' => S66.Invoke6(code, fp, args),
+                    '3' => S63.Invoke3(code, fp, args),
+                    '5' => S65.Invoke5(code, fp, args),
+                    '7' => S67.Invoke7(code, fp, args),
+                    _ => -1,
+                },
                 _ => -1,
             };
         }

@@ -12,7 +12,7 @@ namespace LambdaManager.Mode
             get { return imageX; }
             set
             {
-                if (value != string.Empty &&value!=imageX)
+                if (value != null&&value!=imageX)
                 {
                     imageX = value;
                     NotifyPropertyChanged();
@@ -29,7 +29,7 @@ namespace LambdaManager.Mode
             get { return imageY; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     imageY = value;
                     NotifyPropertyChanged();
@@ -44,7 +44,7 @@ namespace LambdaManager.Mode
             get { return imageZ; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     imageZ = value;
                     NotifyPropertyChanged();
@@ -60,7 +60,7 @@ namespace LambdaManager.Mode
             get { return imageSize; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     imageSize = value;
                     NotifyPropertyChanged();
@@ -76,7 +76,7 @@ namespace LambdaManager.Mode
             get { return imageFocus; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     imageFocus = value;
                     NotifyPropertyChanged();
@@ -90,7 +90,7 @@ namespace LambdaManager.Mode
             get { return createTime; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     createTime = value;
                     NotifyPropertyChanged();
@@ -131,7 +131,7 @@ namespace LambdaManager.Mode
             get { return timeElapsed; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     timeElapsed = value;
                     NotifyPropertyChanged();
@@ -146,7 +146,7 @@ namespace LambdaManager.Mode
             get { return totalTime; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     totalTime = value;
                     NotifyPropertyChanged();
@@ -182,7 +182,7 @@ namespace LambdaManager.Mode
             get { return zTop; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     zTop = value;
                     NotifyPropertyChanged();
@@ -196,7 +196,7 @@ namespace LambdaManager.Mode
             get { return zCurrent; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     zCurrent = value;
                     NotifyPropertyChanged();
@@ -209,7 +209,7 @@ namespace LambdaManager.Mode
             get { return zBottom; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     zBottom = value;
                     NotifyPropertyChanged();
@@ -223,7 +223,7 @@ namespace LambdaManager.Mode
             get { return ratio; }
             set
             {
-                if (value != string.Empty)
+                if (value != null)
                 {
                     ratio = value;
                     NotifyPropertyChanged();
