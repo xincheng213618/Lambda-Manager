@@ -370,15 +370,7 @@ namespace LambdaManager.Core
                 3 => S3.Invoke(code, fp, args),
                 4 => S4.Invoke(code, fp, args),
                 5 => S5.Invoke(code, fp, args),
-                6 => code[0] switch
-                {
-                    '2' => S62.Invoke2(code, fp, args),
-                    '6' => S66.Invoke6(code, fp, args),
-                    '3' => S63.Invoke3(code, fp, args),
-                    '5' => S65.Invoke5(code, fp, args),
-                    '7' => S67.Invoke7(code, fp, args),
-                    _ => -1,
-                },
+                6 => S6.Invoke(code, fp, args),
                 _ => -1,
             };
         }

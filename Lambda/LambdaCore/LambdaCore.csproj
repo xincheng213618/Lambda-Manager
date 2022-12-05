@@ -31,10 +31,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>S5.tt</DependentUpon>
     </None>
-    <None Include="DataType\SigTable\S7.cs">
+    <None Include="DataType\SigTable\S6.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>S7.tt</DependentUpon>
+      <DependentUpon>S6.tt</DependentUpon>
     </None>
   </ItemGroup>
 
@@ -63,9 +63,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>S5.cs</LastGenOutput>
     </None>
-    <None Update="DataType\SigTable\S7.tt">
+    <None Update="DataType\SigTable\S6.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>S7.cs</LastGenOutput>
+      <LastGenOutput>S6.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -89,10 +89,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>S4.tt</DependentUpon>
     </Compile>
-    <Compile Update="DataType\SigTable\S7.cs">
+    <Compile Update="DataType\SigTable\S5.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>S7.tt</DependentUpon>
+      <DependentUpon>S5.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DataType\SigTable\S6.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>S6.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
