@@ -4,12 +4,12 @@
                     xmlns:local="clr-namespace:ThemeManager.Controls"
                      >
 
-    <WindowChrome x:Key="DefaultWindowChrome" x:Shared="False"  CornerRadius="0" GlassFrameThickness="1 1 1 1"  UseAeroCaptionButtons="False"/>
+    <WindowChrome x:Key="DefaultWindowChrome" x:Shared="False"  CornerRadius="0" GlassFrameThickness="-1"  UseAeroCaptionButtons="False"/>
     <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonForeground">white</SolidColorBrush>
     <SolidColorBrush x:Key="WindowIsNotActiveForeground">#d7d7d7</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
-    <SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>
+    <!--<SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>-->
     <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
 
     
@@ -28,7 +28,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource CaptionButtonChoiceBackgrouundBrush}"/>
-                            <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource CaptionButtonChoiceBrush}"/>
+                            <!--<Setter TargetName="txt" Property="Foreground" Value="{DynamicResource CaptionButtonChoiceBrush}"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -112,7 +112,7 @@
                                         <Button x:Name="MinimizeButton" IsTabStop="False"  Style="{DynamicResource MinimizeButtonStyle}" Width="45"  Command="{x:Static SystemCommands.MinimizeWindowCommand}" />
                                         <Grid Margin="1,0,1,0">
                                             <Button x:Name="MaximizeButton" IsTabStop="False" Style="{DynamicResource MaximizeButtonStyle}" Width="45" Command="{x:Static SystemCommands.MaximizeWindowCommand}" />
-                                            <Button x:Name="RestoreButton" IsTabStop="False" Style ="{DynamicResource RestoreButtonStyle}" Width="45" Command="{x:Static SystemCommands.RestoreWindowCommand}"  Visibility="Hidden" />
+                                            <Button x:Name="RestoreButton" IsTabStop="False" Style ="{DynamicResource RestoreButtonStyle}" Width="45" Command="{x:Static SystemCommands.RestoreWindowCommand}"  Visibility="Collapsed" />
                                         </Grid>
                                         <Button x:Name="CloseButton" IsTabStop="False" Style="{DynamicResource CloseButtonStyle}"  Command="{x:Static SystemCommands.CloseWindowCommand}" Width="50" />
                                     </StackPanel>
@@ -160,10 +160,19 @@
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
+                                <Condition Property="ResizeMode"  Value="CanMinimize"/>
+                                <Condition Property="WindowStyle" Value="None" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ResizeGrip" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
                                 <Condition Property="ResizeMode"  Value="CanResizeWithGrip" />
                                 <Condition Property="WindowState" Value="Normal" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ResizeGrip" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="RootBorderActive" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="MaximizeButton" Property="Visibility"  Value="Collapsed" />
+                            <Setter TargetName="MinimizeButton" Property="Visibility" Value="Collapsed" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

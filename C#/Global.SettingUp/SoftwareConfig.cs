@@ -1,4 +1,5 @@
 ﻿using Global.SettingUp.Hardware;
+using Global.SettingUp.PC;
 
 namespace Global.SettingUp
 {
@@ -7,8 +8,25 @@ namespace Global.SettingUp
     /// </summary>
     public static class SoftwareConfig
     {
+
+        /// <summary>
+        ///工程配置
+        /// </summary>
         public static SolutionSetting SolutionSetting = new SolutionSetting();
-        public static HardwareSetting HardwareSetting = new HardwareSetting();   
+
+        /// <summary>
+        /// 硬件配置，在线获取
+        /// </summary>
+        public static HardwareSetting HardwareSetting = new HardwareSetting(); 
+
+        /// <summary>
+        /// 硬件配置参数，读取的
+        /// </summary>
         public static HardwareConfig HardwareConfig = new HardwareConfig();
+
+        /// <summary>
+        /// 性能配置
+        /// </summary>
+        public static PerformanceSetting PerformanceSetting = new PerformanceSetting();
     }
 }

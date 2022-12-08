@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Global.Common.Util;
+using Microsoft.Win32;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace Grid
 {
@@ -23,18 +26,36 @@ namespace Grid
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main(string[] args)
         {
-            App app;
 
             if (args.Length >= 1)
             {
-                app = new App(args[0]);
+                if (args[0] == "ini")
+                {
+                    Reg.WriteValue("Software\\Grid","IsIniWizard",false);
+
+                    Process process = new Process();
+                    process.StartInfo.FileName = @"LambdaManager.exe";
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.WorkingDirectory = System.Windows.Forms.Application.StartupPath;
+                    process.Start();
+                    
+                }
+                else
+                {
+                    App app;
+                    app = new App(args[0]);
+                    app.InitializeComponent();
+                    app.Run();
+                }
             }
             else
             {
+                App app;
                 app = new App();
+                app.InitializeComponent();
+                app.Run();
             }
-            app.InitializeComponent();
-            app.Run();
+
         }
         
 

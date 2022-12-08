@@ -10,6 +10,8 @@
         <ResourceDictionary>  
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ConfigSetting;component/themes/Button.xaml"/>
+                 <ResourceDictionary Source="/ThemeManager;component/Styles/Dark.xaml"/>
+                <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="SettingButton" TargetType="{x:Type Button}">
@@ -118,165 +120,285 @@
                     <StackPanel x:Name="StackPanelTreeView" Margin="0,0,20,0">
                         <GroupBox x:Name="GroupBox1"  Style="{DynamicResource GroupBoxStyle1}" Header="系统配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel>
-                                <GroupBox  x:Name="GroupBox11" Style="{DynamicResource GroupBoxStyle2}" Header="显卡">
-                                    <UniformGrid Columns="2">
-                                        <StackPanel Margin="10,5">
-                                            <StackPanel x:Name="HardwareSettingConnectionStackPanel">
+
+                                <GroupBox x:Name="GroupBox13" Style="{DynamicResource GroupBoxStyle2}" Header="主机" Margin="0,5,0,0">
+                                    <Grid  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>  
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="型号:"/>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Zircon-DPC-001"/>
+                                        <Button Grid.Row="0" Grid.Column="2" Content="自动校准"  Click="Calibration_Click" Tag="All" Width="100" HorizontalAlignment="Left" />
+
+                                    </Grid>
 
 
-                                                <BulletDecorator>
-                                                    <BulletDecorator.Bullet>
-                                                        <TextBlock Text="位移台:"/>
-                                                    </BulletDecorator.Bullet>
-                                                    <TextBlock Text="{Binding Path=IsStageConnection}"/>
-                                                </BulletDecorator>
-                                                <BulletDecorator>
-                                                    <BulletDecorator.Bullet>
-                                                        <TextBlock Text="灯光模块:"/>
-                                                    </BulletDecorator.Bullet>
-                                                    <TextBlock Text="{Binding Path=IsLightConnection}"/>
-                                                </BulletDecorator>
-                                            </StackPanel>
-
-                                            <StackPanel x:Name="GPUInfoStackPanel">
-                                                <BulletDecorator>
-                                                    <BulletDecorator.Bullet>
-                                                        <TextBlock Text="是否支持CUDA:"/>
-                                                    </BulletDecorator.Bullet>
-                                                    <TextBlock Text="{Binding Path=IsGPUCapable}"/>
-                                                </BulletDecorator>
-                                                <BulletDecorator Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}">
-                                                    <BulletDecorator.Bullet>
-                                                        <TextBlock Text="GPUName:"/>
-                                                    </BulletDecorator.Bullet>
-                                                    <TextBlock Text="{Binding Path=GPUName}"/>
-                                                </BulletDecorator>
-                                                <BulletDecorator Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}">
-                                                    <BulletDecorator.Bullet>
-                                                        <TextBlock Text="GPUaccessibleRAM:"/>
-                                                    </BulletDecorator.Bullet>
-                                                    <TextBlock >
-                                                    <Run Text="{Binding Path=GPUaccessibleRAM}"/>
-                                                     <Run Text="KB"/>
-                                                    </TextBlock>
-                                                </BulletDecorator>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Margin="10,5">
-                                            <BulletDecorator>
-                                                <BulletDecorator.Bullet>
-                                                    <TextBlock Text="主题:"/>
-                                                </BulletDecorator.Bullet>
-                                                <ComboBox Name="ComboBox1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged"   />
-                                            </BulletDecorator>
-                                            <CheckBox x:Name="CheckBox1" Content="支持多个工程" IsChecked="{Binding IsSupportMultiProject}"/>
-                                        </StackPanel>
-                                    </UniformGrid>
 
                                 </GroupBox>
-
                                 <GroupBox x:Name="GroupBox12" Style="{DynamicResource GroupBoxStyle2}" Header="系统">
-
-                                </GroupBox>
-
-                                <GroupBox x:Name="GroupBox13" Style="{DynamicResource GroupBoxStyle2}" Header="主机">
-                                    <StackPanel >
-                                        <DockPanel>
-                                            <BulletDecorator>
-                                                <BulletDecorator.Bullet >
-                                                    <TextBlock Text="型号:"/>
-                                                </BulletDecorator.Bullet>
-                                                <TextBlock Text="Zircon-DPC-001"/>
-                                            </BulletDecorator>
-                                            <Button Content="自动校准"  Click="Calibration_Click" Tag="All" Width="100" HorizontalAlignment="Left" Margin="20,0"/>
+                                    <Grid x:Name="SystemSettingGrid"  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+     
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="操作系统:"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path = OSInfo}"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="内存:"/>
+                                        <DockPanel  Grid.Row="1" Grid.Column="1">
+                                            <TextBlock Text="{Binding Path=MemorytThis}"/>
+                                            <Image x:Name="OutOfMemorySign" Height="12" Visibility="{Binding Path=IsMemoryLackWarning,Converter={StaticResource bool2VisibilityConverter}}" HorizontalAlignment="Left" Margin="10,0"/>
                                         </DockPanel>
-                                    </StackPanel>
 
-
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="缺省工程目录可用空间:"/>
+                                        <DockPanel  Grid.Row="2" Grid.Column="1">
+                                            <TextBlock Text="{Binding Path=DiskUse}"/>
+                                            <Image Source="{Binding ElementName=OutOfMemorySign,Path=Source}" Height="12" Visibility="{Binding Path=IsDiskLackWarning,Converter={StaticResource bool2VisibilityConverter}}" HorizontalAlignment="Left" Margin="10,0"/>
+                                        </DockPanel>
+                                    </Grid>
                                 </GroupBox>
 
 
+                                <GroupBox  x:Name="GroupBox11" Style="{DynamicResource GroupBoxStyle2}" Header="显卡">
+                                    <Grid x:Name="GPUGrid"  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="型号:"/>
+
+                                        <TextBlock x:Name="GPU1" Grid.Row="0" Grid.Column="1" Text="{Binding Path=GPUName}"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="显存:"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="1" >
+                                          <Run Text="{Binding Path=GPUaccessibleRAM}"/>
+                                            <Run Text="GB"/>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="CUDA支持:"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" >
+                                            <Run Text="{Binding Path=IsGPUCapable}"/>
+                                        </TextBlock>
+                                    </Grid>
+                                   
+                                </GroupBox>
+
+
+                                <GroupBox x:Name="GroupBox14" Style="{DynamicResource GroupBoxStyle2}" Header="工程">
+                                    <Grid x:Name="SolutionGrid" Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="支持多个工程:"/>
+                                        <CheckBox Grid.Row="0" Grid.Column="1" x:Name="CheckBox1" Content="" IsChecked="{Binding IsSupportMultiProject}"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="主题:"  Visibility="Collapsed"/>
+                                        <ComboBox Name="ComboBox1" Grid.Row="0" Grid.Column="1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged" Visibility="Collapsed" />
+                                    </Grid>
+                                </GroupBox>
+
+                                <GroupBox x:Name="GroupBox15" Style="{DynamicResource GroupBoxStyle2}" Header="其他">
+                                    <Grid x:Name="UniformGridSetting"  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock  Grid.Row="0" Grid.Column="0" Text="装饰灯"/>
+                                        <Button Grid.Row="0" Grid.Column="1" Content="关"  Click="Button_Click_3"/>
+                                        <TextBlock  Grid.Row="1" Grid.Column="0" Text="装饰灯"/>
+
+                                        <Button Grid.Row="1" Grid.Column="1"  Content="开"  Click="Button_Click_31"/>
+                                        <TextBlock  Grid.Row="2" Grid.Column="0" Text="日志显示"/>
+                                        <Button Grid.Row="2" Grid.Column="1" Click="Button_Click_7" Content="{Binding Path=IsShowLog}"/>
+
+                                    </Grid>
+                                </GroupBox>
 
                             </StackPanel>
                         </GroupBox>
                         <GroupBox x:Name="GroupBox2"  Style="{DynamicResource GroupBoxStyle1}" Header="硬件配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel>
-  
-                                <GroupBox x:Name="GroupBox23" Style="{DynamicResource GroupBoxStyle2}"  Header="物镜配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <TextBlock Margin="0,3" Text="放大倍数： 64"/>
-                                        <TextBlock Margin="0,3" Text="N.A（数值孔径）：  5nm"/>
-                                        <TextBlock Margin="0,3" Text="工作距离:  10cm"/>
-                                        <TextBlock Margin="0,3" Text="是否消色差:  10cm"/>
-                                    </StackPanel>
-                                </GroupBox>
+ 
                                 <GroupBox x:Name="GroupBox24" Style="{DynamicResource GroupBoxStyle2}" Header="相机配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5"   >
-                                        <BulletDecorator x:Name="BulletDecoratorCameraConnection">
-                                            <BulletDecorator.Bullet>
-                                                <TextBlock Text="是否连接:"/>
-                                            </BulletDecorator.Bullet>
-                                            <TextBlock Text="{Binding Path=IsCameraConnection}"/>
-                                        </BulletDecorator>
-                                        <Button Content="校准相机" Click="Calibration_Click" Tag="Camera" Width="100" HorizontalAlignment="Left" Margin="20,0"/>
-                                        <DockPanel  Margin="0,5" HorizontalAlignment="Left" >
-                                            <TextBlock Text="相机型号" VerticalAlignment="Center"/>
-                                            <ComboBox SelectedIndex="0"  Height="22" Margin="10,0">
-                                                <ComboBoxItem Content="DFK 22AUC03" />
-                                                <ComboBoxItem Content="DFK 33UX264"/>
-                                            </ComboBox>
-                                        </DockPanel>
-                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
-                                            <TextBlock Text="图像翻转" VerticalAlignment="Center"/>
-                                            <CheckBox Content="水平翻转" Margin="10,0"/>
-                                            <CheckBox Content="垂直翻转"/>
-                                        </DockPanel>
-                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
-                                            <TextBlock Text="相机靶面大小: 2222"/>
-                                        </DockPanel>
-                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
-                                            <TextBlock Text="动态范围: 222"/>
-                                        </DockPanel>
-                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
-                                            <TextBlock Text="最高帧率: 240"/>
-                                        </DockPanel>
-                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
-                                            <TextBlock Text="相机触发模式: 硬触发"/>
-                                        </DockPanel>
-                                        <DockPanel Margin="0,5" HorizontalAlignment="Left" >
-                                            <TextBlock Text="相机触发模式: 硬触发"/>
+                                    <Grid  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Text="是否连接:"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="CameraConnectionText" Text="{Binding Path=IsCameraConnection,Converter={StaticResource BoolToStringConverer}}"/>
+                                        <Button Grid.Row="0" Grid.Column="2" Content="校准相机" Click="Calibration_Click" Tag="Camera" Width="100" HorizontalAlignment="Left" />
+
+                                        <TextBlock Grid.Row="1" Margin="0,3" Text="相机型号:"/>
+                                        <TextBlock Grid.Row="1" Margin="0,3" Grid.Column="1"  Text="DFK 33UX264"/>
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,3" Text="图像翻转"/>
+
+                                        <DockPanel Grid.Row="2" Grid.Column="1" Margin="0,3" HorizontalAlignment="Left" >
+                                            <CheckBox Content="水平翻转"  Margin="0,0,20,0"/>
+                                            <CheckBox Content="垂直翻转"   Margin="0,0,20,0"/>
                                         </DockPanel>
 
-                                    </StackPanel>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Text="相机靶面大小:"/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text="2222"/>
+
+                                        <TextBlock Grid.Row="4" Margin="0,3" Text="动态范围:"/>
+                                        <TextBlock Grid.Row="4" Margin="0,3" Grid.Column="1"  Text="2222"/>
+
+                                        <TextBlock Grid.Row="5" Margin="0,3" Text="最高帧率:"/>
+                                        <TextBlock Grid.Row="5" Margin="0,3" Grid.Column="1"  Text="240"/>
+
+                                        <TextBlock Grid.Row="6" Margin="0,3" Text="相机触发模式:"/>
+                                        <TextBlock Grid.Row="6" Margin="0,3" Grid.Column="1"  Text="硬触发"/>
+                                    </Grid>
+
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox22" Style="{DynamicResource GroupBoxStyle2}" Header="载物台配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <UniformGrid Columns="2">
-                                        <StackPanel Margin="10,5">
-                                            <Button Content="校准载物台" Click="Calibration_Click" Tag="Stage" Width="100" HorizontalAlignment="Left" Margin="20,0"/>
-                                            <TextBlock Margin="0,3" Text="位移精度"/>
-                                            <TextBlock Margin="0,3" Text="量程"/>
-                                            <TextBlock Margin="0,3" Text="步进大小"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="10,5">
-                                            <TextBlock Margin="0,3" Text="位移精度"/>
-                                            <TextBlock Margin="0,3" Text="量程"/>
-                                            <TextBlock Margin="0,3" Text="步进大小"/>
-                                        </StackPanel>
-                                    </UniformGrid>
+
+                                    <Grid  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Text="是否连接:"/>
+                                        <TextBlock  x:Name="StageConnectionText" Grid.Row="0" Grid.Column="1" Text="{Binding Path=IsStageConnection,Converter={StaticResource BoolToStringConverer}}"/>
+
+                                        <Button Grid.Row="0" Grid.Column="2" Content="校准载物台" Click="Calibration_Click" Tag="Stage"  Width="100" HorizontalAlignment="Left" />
+
+                                        <TextBlock Grid.Row="1" Margin="0,3" Text="位移精度:"/>
+                                        <TextBlock Grid.Row="1" Margin="0,3" Grid.Column="1"  Text="X,Y: ±625nm  Z: ±31.25nm"/>
+                                        <TextBlock Grid.Row="2" Margin="0,3" Text="量程:"/>
+                                        <TextBlock Grid.Row="2" Margin="0,3" Grid.Column="1"  Text="X,Y: 50mm     Z: 10mm"/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Text="步进大小:"/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text=""/>
+                                    </Grid>
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox21"  Style="{DynamicResource GroupBoxStyle2}" Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                                    <StackPanel Margin="10,5" >
-                                        <Button Content="校准灯光" Click="Calibration_Click" Tag="Light" Width="100" HorizontalAlignment="Left" Margin="20,0"/>
-                                        <TextBlock Margin="0,3" Text="LED行列数： 64"/>
-                                        <TextBlock Margin="0,3" Text="LED间距：  5nm"/>
-                                        <TextBlock Margin="0,3" Text="LED高度:  10cm"/>
-                                        <TextBlock Margin="0,3" Text="LED颜色Bit数:  3"/>
-                                        <TextBlock Margin="0,3" Text="LED中心波长:  15um"/>
-                                        <TextBlock Margin="0,3" Text="照明模式最高刷新速率:  1MHZ"/>
-                                        <TextBlock Margin="0,3" Text="照明最大数值孔径:  30"/>
-                                        <TextBlock Margin="0,3" Text="照明亮度: 10cd"/>
-                                    </StackPanel>
+                                    <Grid  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Text="是否连接:"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="LightConnectionText" Text="{Binding Path=IsLightConnection,Converter={StaticResource BoolToStringConverer}}"/>
+                                        <Button Grid.Row="0" Grid.Column="2" Content="校准灯光" Click="Calibration_Click" Tag="Light"  Width="100" HorizontalAlignment="Left" />
+
+                                        <TextBlock Grid.Row="1" Margin="0,3" Text="LED行列数:"/>
+                                        <TextBlock Grid.Row="1" Margin="0,3" Grid.Column="1"  Text="64"/>
+                                        <TextBlock Grid.Row="2" Margin="0,3" Text="LED间距:"/>
+                                        <TextBlock Grid.Row="2" Margin="0,3" Grid.Column="1"  Text="2nm"/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Text="LED高度:"/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text="62mm"/>
+                                        <TextBlock Grid.Row="4" Margin="0,3" Text="LED颜色Bit数:"/>
+                                        <TextBlock Grid.Row="4" Margin="0,3" Grid.Column="1"  Text="4096"/>
+                                        <TextBlock Grid.Row="5" Margin="0,3" Text="LED中心波长:"/>
+                                        <TextBlock Grid.Row="5" Margin="0,3" Grid.Column="1"  Text="15um"/>
+                                        <TextBlock Grid.Row="6" Margin="0,3" Text="照明模式最高刷新速率:"/>
+                                        <TextBlock Grid.Row="6" Margin="0,3" Grid.Column="1"  Text="6ms(166fps)"/>
+                                        <TextBlock Grid.Row="7" Margin="0,3" Text="照明最大数值孔径:"/>
+                                        <TextBlock Grid.Row="7" Margin="0,3" Grid.Column="1"  Text="0.8"/>
+                                        <TextBlock Grid.Row="8" Margin="0,3" Text="照明亮度:"/>
+                                        <TextBlock Grid.Row="8" Margin="0,3" Grid.Column="1"  Text="10cd"/>
+                                    </Grid>
                                 </GroupBox>
+
+                                <GroupBox x:Name="GroupBox23" Style="{DynamicResource GroupBoxStyle2}"  Header="物镜配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
+                                    <Grid  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Margin="0,3"  Text="放大倍数："/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1"  Margin="0,3"  Text="10X:   5.5      20X:   11"/>
+
+                                        <TextBlock Grid.Row="1" Margin="0,3" Text="N.A（数值孔径）："/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1"  Text="10X:  0.25     20X： 0.4"/>
+
+                                        <TextBlock Grid.Row="2" Margin="0,3" Text="工作距离:"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1"  Text="10X:  10.6 mm    20X： 3.2mm"/>
+
+                                        <TextBlock Grid.Row="3" Margin="0,3" Text="是否消色差"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="1"  Text="否"/>
+
+                                    </Grid>
+
+                                </GroupBox>
+
                                 <GroupBox x:Name="GroupBox25" Style="{DynamicResource GroupBoxStyle2}"  Header="参数加载" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                                     <StackPanel Margin="10,5"  >
 
@@ -344,21 +466,6 @@
 
                         <GroupBox x:Name="GroupBox5"  Style="{DynamicResource GroupBoxStyle1}" Header="自动校准" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel Margin="10,5"  Height="500" >
-                                <UniformGrid x:Name="UniformGridSetting" Margin="10,5" Height="150"  Columns="5"  Rows="2" >
-                                    <Button Margin="20"  Content="向导"  Click="Button_Click_1"/>
-                                    <Button Margin="20"  Content="装饰灯关"  Click="Button_Click_3"/>
-                                    <Button Margin="20"  Content="装饰灯开"  Click="Button_Click_31"/>
-                                    <Button Margin="20"  Content="清除初始化"  Click="ClearIniWizard"/>
-                                    <Button Margin="20"  Content="清空历史记录" Click="Button_Click_4"/>
-                                    <Button Margin="20"  Content="切换采集模式"  ToolTip="在同一Z平面，连续按不同的成像模式拍照" Click="Button_Click_5"/>
-                                    <Button Margin="20"  Content="Dump设置、启动设置"  ToolTip="Dump设置" Click="Button_Click_6"/>
-                                    <Button  Margin="20" Click="Button_Click_7">
-                                        <TextBlock>
-                                            <Run Text="日志显示"/>
-                                            <Run Text="{Binding Path=IsShowLog}"/>
-                                        </TextBlock>
-                                    </Button>
-                                </UniformGrid>
                                 <UniformGrid x:Name="UniformGrifHotKey" Margin="10,5">
                                     
                                 </UniformGrid>

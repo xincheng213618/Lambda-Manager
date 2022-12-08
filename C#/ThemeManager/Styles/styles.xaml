@@ -10,7 +10,7 @@
     <!--#region Converters-->
     <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
     <Converter:BoolToVisibilityConverter x:Key="bool2VisibilityConverter1" Reverse="True"/>
-
+    <Converter:BoolToStringConverer x:Key="BoolToStringConverer" />
     <!--#endregion-->
 
     <!--#region Brushes-->

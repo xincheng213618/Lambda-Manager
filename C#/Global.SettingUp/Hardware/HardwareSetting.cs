@@ -40,6 +40,8 @@ namespace Global.SettingUp.Hardware
         }
 
         public GPUInfo GPUInfo = new GPUInfo();
+        public PerformanceSetting PerformanceSetting = new PerformanceSetting();
+
 
         public static string RegPath = "Software\\Grid";
 
@@ -58,7 +60,7 @@ namespace Global.SettingUp.Hardware
             }
         }
 
-        private CameraStatus cameraStatus;
+        private CameraStatus cameraStatus = CameraStatus.DisConnection;
         public CameraStatus CameraStatus
         {
             get { return cameraStatus; }
@@ -85,7 +87,7 @@ namespace Global.SettingUp.Hardware
             }
         }
 
-        private SerialPortStatus stageStatus;
+        private SerialPortStatus stageStatus = SerialPortStatus.UnknownError;
         public SerialPortStatus StageStatus
         {
             get { return stageStatus; }
@@ -97,7 +99,7 @@ namespace Global.SettingUp.Hardware
         }
 
 
-        public bool isStageConnection = false;
+        private bool isStageConnection = false;
 
         public bool IsStageConnection
         {
@@ -112,7 +114,7 @@ namespace Global.SettingUp.Hardware
             }
         }
 
-        private SerialPortStatus lightStatus;
+        private SerialPortStatus lightStatus = SerialPortStatus.UnknownError;
         public SerialPortStatus LightStatus
         {
             get { return lightStatus; }
@@ -124,7 +126,7 @@ namespace Global.SettingUp.Hardware
         }
 
 
-        public bool isLightConnection = false;
+        private bool isLightConnection = false;
 
         public bool IsLightConnection
         {

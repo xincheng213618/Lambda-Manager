@@ -57,7 +57,7 @@ namespace LambdaManager
             ChangeMiddleViewVisibility(false);
         }
 
-        StatusBarGlobal statusBarGlobal = new StatusBarGlobal();
+        PerformanceSetting statusBarGlobal = new PerformanceSetting();
         private void Window_Initialized(object sender, EventArgs e)
         {
             ViewManager.GetInstance().ViewChanged += ViewChanged;

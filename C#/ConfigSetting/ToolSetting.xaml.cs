@@ -1,4 +1,5 @@
 ﻿using Global.Common;
+using Global.Common.Extensions;
 using Global.Mode;
 using Global.Mode.Config;
 using Global.SettingUp;
@@ -12,6 +13,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
+using System.Net;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +25,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
-
+using System.IO;
 
 namespace ConfigSetting
 {
@@ -45,7 +49,8 @@ namespace ConfigSetting
             {
                 IsFirstLoad = false;
 
-
+                SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;
+                OutOfMemorySign.Source = System.Drawing.SystemIcons.Warning.ToImageSource();
 
                 //GPU信息
                 PhysicalGPU[] physicalGPUs;
@@ -58,18 +63,34 @@ namespace ConfigSetting
                     physicalGPUs = new PhysicalGPU[0];
                 }
                 GPUInfo GPUInfo = SoftwareConfig.HardwareSetting.GPUInfo;
-                GPUInfoStackPanel.DataContext = GPUInfo;
+                GPUGrid.DataContext = GPUInfo;
                 if (physicalGPUs.Count() > 0)
                 {
                     GPUInfo.IsGPUCapable = true;
                     GPUInfo.GPUName = physicalGPUs[0].FullName;
-                    GPUInfo.GPUaccessibleRAM = physicalGPUs[0].MemoryInformation.AvailableDedicatedVideoMemoryInkB;
+                    GPUInfo.GPUaccessibleRAM = physicalGPUs[0].MemoryInformation.AvailableDedicatedVideoMemoryInkB / 1024/1024;
                 }
                 LambdaControl.Trigger("IsGPUCapable", this,new Dictionary<string, object>() { { "Value", GPUInfo.IsGPUCapable } });
 
+                if (SoftwareConfig.HardwareSetting.CameraStatus != Global.SettingUp.Hardware.CameraStatus.Ok ||
+                    SoftwareConfig.HardwareSetting.LightStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError ||
+                    SoftwareConfig.HardwareSetting.StageStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError)
+                {
+                    if (!SoftwareConfig.HardwareSetting.IsIniWizard)
+                    {
+                        MessageBox1.Show($"硬件连接异常:\n\r相机状态:{SoftwareConfig.HardwareSetting.CameraStatus}\n\r光源状态:{SoftwareConfig.HardwareSetting.LightStatus}\n\r位移台状态:{SoftwareConfig.HardwareSetting.StageStatus}", "Grid");
+                        if (MessageBox1.Show("您是否要继续完成初始化\n\r ", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                        {
+                            Environment.Exit(0);
+                        }
+                    }
+                    }
 
                 if (!SoftwareConfig.HardwareSetting.IsIniWizard)
                 {
+
+
+
                     //这里让窗口最小化
                     await Task.Delay(100);
                     SystemCommands.MinimizeWindow(Application.Current.MainWindow);
@@ -82,11 +103,18 @@ namespace ConfigSetting
                         SystemCommands.RestoreWindow(Application.Current.MainWindow);
                     }
                 }
+
+                if (SoftwareConfig.PerformanceSetting.IsDiskLackWarning)
+                {
+                    MessageBox1.Show("硬件不足预警", "Grid", button: MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                }
+
                 if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
                 {
                     combobox.Visibility = SoftwareConfig.SolutionSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
                     UniformGridSetting.DataContext = SoftwareConfig.SolutionSetting;
                 }
+
                 var array = Enum.GetValues(typeof(Theme)).Cast<Theme>();
                 ComboBox1.ItemsSource = array;
                 ComboBox1.SelectedItem = ThemeManagers.CurrentUITheme;
@@ -97,8 +125,8 @@ namespace ConfigSetting
                 firmwareUpdates = new ObservableCollection<FirmwareUpdate> {  };
                 ListView1.ItemsSource = firmwareUpdates;
 
-                CheckBox1.DataContext = SoftwareConfig.SolutionSetting;
 
+                SolutionGrid.DataContext = SoftwareConfig.SolutionSetting;
                 stackPanel1.Children.Remove(this);
                 if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition)
                 {
@@ -197,10 +225,9 @@ namespace ConfigSetting
                     statusBar.Items.Add(new StatusBarItem());
                 }
 
-                HardwareSettingConnectionStackPanel.DataContext = SoftwareConfig.HardwareSetting;
-
-
-
+                StageConnectionText.DataContext = SoftwareConfig.HardwareSetting;
+                CameraConnectionText.DataContext = SoftwareConfig.HardwareSetting;
+                LightConnectionText.DataContext= SoftwareConfig.HardwareSetting;
                 foreach (var item in HotKeyHelper.HotKeysList)
                 {
 
@@ -214,10 +241,18 @@ namespace ConfigSetting
                     UniformGrifHotKey.Children.Add(dockPanel);
                 }
 
-
-
-
-
+                //一个针对主控不开放主窗口权限的解决方案 
+                if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
+                {
+                    int port = 52100;
+                    IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+                    Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                    try
+                    {
+                        sssss.Connect(localEndPoint);
+                    }
+                    catch { }
+                }
             }
         }
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -229,11 +264,7 @@ namespace ConfigSetting
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            Wizard.MainWindow mainWindow = new Wizard.MainWindow("1");
-            mainWindow.Show();
-        }
+
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
@@ -243,21 +274,6 @@ namespace ConfigSetting
         private void UserControl_Initialized(object sender, EventArgs e)
         {
 
-            //ManagementObjectSearcher objvide = new ManagementObjectSearcher("select * from Win32_VideoController");
-
-            //foreach (ManagementObject obj in objvide.Get())
-            //{
-            //    CUDAInfoTextBlock.Text += "Name - " + obj["Name"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "DeviceID - " + obj["DeviceID"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "AdapterRAM - " + obj["AdapterRAM"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "AdapterDACType - " + obj["AdapterDACType"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "Monochrome - " + obj["Monochrome"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "InstalledDisplayDrivers - " + obj["InstalledDisplayDrivers"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "DriverVersion - " + obj["DriverVersion"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "VideoProcessor - " + obj["VideoProcessor"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "VideoArchitecture - " + obj["VideoArchitecture"] + "</br>";
-            //    CUDAInfoTextBlock.Text += "VideoMemoryType - " + obj["VideoMemoryType"] + "</br>";
-            //}
 
         }
 
@@ -283,7 +299,10 @@ namespace ConfigSetting
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 }});
+            LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 } });
+
+
+
         }
         private void Button_Click_31(object sender, RoutedEventArgs e)
         {
@@ -326,11 +345,6 @@ namespace ConfigSetting
             {
                 MessageBox.Show(firmwareUpdate.UpdateUrl);
             }
-        }
-
-        private void ClearIniWizard(object sender, RoutedEventArgs e)
-        {
-            SoftwareConfig.HardwareSetting.IsIniWizard = false;
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)

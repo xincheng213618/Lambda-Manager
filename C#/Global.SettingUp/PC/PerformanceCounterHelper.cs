@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace Global.SettingUp.PC
 {
@@ -26,6 +27,8 @@ namespace Global.SettingUp.PC
             {
                 ProcessThis = new PerformanceCounter("Process", "% Processor Time", Process.GetCurrentProcess().ProcessName);
                 RAM = new PerformanceCounter("Memory", "Available MBytes");
+
+                RAMThis = new PerformanceCounter("Process", "Working Set - Private", Process.GetCurrentProcess().ProcessName);
                 DiskUse = new PerformanceCounter("PhysicalDisk", "% Idle Time", "_Total");
                 CPU = new PerformanceCounter("Processor", "% Processor Time", "_Total");
                 IsOpen = true;
@@ -46,6 +49,8 @@ namespace Global.SettingUp.PC
 
         public double RAMAL =  (double)Common.Win32.PerformanceInfo.GetTotalMemoryInMiB()/1024;
         public PerformanceCounter RAM;
+        public PerformanceCounter RAMThis;
+
         public PerformanceCounter DiskUse;
 
     }

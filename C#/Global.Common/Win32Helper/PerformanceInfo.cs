@@ -59,7 +59,5 @@ namespace Global.Common.Win32
             }
 
         }
-
-
     }
 }

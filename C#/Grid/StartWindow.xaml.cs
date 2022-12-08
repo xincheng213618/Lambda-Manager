@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +38,36 @@ namespace Grid
         {
             labelVersion.Content = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
             Dispatcher.BeginInvoke(new Action(async () => await DetectionhardwareAsync()));
+            Thread thread = new Thread(OpenSocket);
+            thread.Start();
         }
+
+        private void OpenSocket()
+        {
+            int port = 52100;
+            int MaxConnection = 10;
+
+            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+            Socket socketLister = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socketLister.Bind(localEndPoint);
+            try
+            {
+                socketLister.Listen(MaxConnection);
+                Console.WriteLine("服务器Socket监听已经打开...");
+                while (true)
+                {
+                    Socket clientSocket = socketLister.Accept();
+                    Environment.Exit(0);
+                }
+            }
+            catch 
+            {
+                Environment.Exit(0);
+            }
+        }
+
+
+
         private async Task DetectionhardwareAsync()
         {
             await Task.Delay(1);
@@ -57,7 +90,7 @@ namespace Grid
             {
                 MessageBox.Show(ex.Message);
             }
-            TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接";
+            TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接"; 
             await Task.Delay(500);
             TexoBoxMsg.Text += Environment.NewLine + "初始化配置信息";  
             await Task.Delay(300);
@@ -70,8 +103,8 @@ namespace Grid
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
 
 
+            await Task.Delay(60000);
             App.Current.MainWindow.Close();
-            await Task.Delay(500);
             Close();
         }
 

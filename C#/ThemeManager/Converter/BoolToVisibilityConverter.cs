@@ -64,9 +64,9 @@ namespace ThemeManager.Converter
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool flag = false;
-            if (value is bool)
+            if (value is bool boolean)
             {
-                flag = (bool)value;
+                flag = boolean;
             }
             else if (value is bool?)
             {
@@ -85,6 +85,19 @@ namespace ThemeManager.Converter
             }
 
             return false;
+        }
+    }
+
+    public sealed class BoolToStringConverer : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (value is bool boll)&&(boll)  ? "正常" : "未连接";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
