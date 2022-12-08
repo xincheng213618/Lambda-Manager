@@ -20,6 +20,7 @@ namespace ThemeManager.Controls
         public const int WM_CLOSE = 0x10;
     }
 
+
     public partial class BaseWindow:Window
     {
         private static Style? GetDefautlStyle()
@@ -55,6 +56,7 @@ namespace ThemeManager.Controls
         public BaseWindow()
         {
             Command_Initialized();
+            //WindowBlur.SetIsEnabled(this, true);
         }
 
 
