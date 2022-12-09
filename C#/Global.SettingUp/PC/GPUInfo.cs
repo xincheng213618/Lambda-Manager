@@ -18,7 +18,19 @@ namespace Global.SettingUp.PC
         public bool IsGPUCapable
         {
             get { return isGPUCapable; }
-            set { isGPUCapable = value; NotifyPropertyChanged(); }
+            set { isGPUCapable = value; NotifyPropertyChanged(); if (isGPUCapable) isOpenGPUAccelerate = IsGPUCapable; }
+        }
+
+        private bool isOpenGPUAccelerate = false;
+        public bool IsOpenGPUAccelerate
+        {
+            get { return isOpenGPUAccelerate; }
+            set {
+                 if (IsGPUCapable)
+                {
+                    isOpenGPUAccelerate = value; NotifyPropertyChanged();
+                }
+            }
         }
 
 

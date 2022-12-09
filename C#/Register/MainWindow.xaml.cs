@@ -40,6 +40,8 @@ namespace Register
 
         private void Window_Initialized(object sender, System.EventArgs e)
         {
+            IsWindowBlurEnabled = true;
+            
             if (!File.Exists("application.xml"))
             {
                 Button1.Content = "重新注册";

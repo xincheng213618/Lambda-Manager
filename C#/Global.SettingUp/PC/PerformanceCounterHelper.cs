@@ -47,7 +47,7 @@ namespace Global.SettingUp.PC
         public PerformanceCounter CPU;
         public PerformanceCounter ProcessThis;
 
-        public double RAMAL =  (double)Common.Win32.PerformanceInfo.GetTotalMemoryInMiB()/1024;
+        public double RAMAL =  (double)Common.NativeMethods.PerformanceInfo.GetTotalMemoryInMiB()/1024;
         public PerformanceCounter RAM;
         public PerformanceCounter RAMThis;
 

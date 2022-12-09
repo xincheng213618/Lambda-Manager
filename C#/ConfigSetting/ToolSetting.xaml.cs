@@ -70,7 +70,7 @@ namespace ConfigSetting
                     GPUInfo.GPUName = physicalGPUs[0].FullName;
                     GPUInfo.GPUaccessibleRAM = physicalGPUs[0].MemoryInformation.AvailableDedicatedVideoMemoryInkB / 1024/1024;
                 }
-                LambdaControl.Trigger("IsGPUCapable", this,new Dictionary<string, object>() { { "Value", GPUInfo.IsGPUCapable } });
+                LambdaControl.Trigger("IsGPUCapable", this,new Dictionary<string, object>() { { "Value", GPUInfo.IsOpenGPUAccelerate } });
 
                 if (SoftwareConfig.HardwareSetting.CameraStatus != Global.SettingUp.Hardware.CameraStatus.Ok ||
                     SoftwareConfig.HardwareSetting.LightStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError ||
@@ -430,6 +430,12 @@ namespace ConfigSetting
 
 
             }
+        }
+
+        private void GPU_Click(object sender, RoutedEventArgs e)
+        {
+            SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate = !SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate;
+            LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate } });
         }
     }
 }

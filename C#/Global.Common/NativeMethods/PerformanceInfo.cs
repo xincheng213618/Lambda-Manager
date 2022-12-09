@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Global.Common.Win32
+namespace Global.Common.NativeMethods
 {
     public class PerformanceInfo
     {

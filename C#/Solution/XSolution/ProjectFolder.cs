@@ -1,5 +1,5 @@
 ﻿using Global.Common.Extensions;
-using Global.Common.Win32;
+using Global.Common.NativeMethods;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

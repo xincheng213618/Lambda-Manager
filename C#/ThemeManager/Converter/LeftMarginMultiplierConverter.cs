@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace DarkBlendTheme11;
+namespace ThemeManager.Converter;
 
 public class LeftMarginMultiplierConverter : IValueConverter
 {

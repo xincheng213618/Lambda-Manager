@@ -92,7 +92,19 @@ namespace ThemeManager.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is bool boll)&&(boll)  ? "正常" : "未连接";
+            if (parameter is string str )
+            {
+                if (str == "1")
+                {
+                    return (value is bool boll1) && (boll1) ? "关闭" : "打开";
+                }
+                else if (str == "2")
+                {
+                    return (value is bool boll1) && (!boll1) ? "关闭" : "打开";
+                }
+            }
+            return (value is bool boll) && (boll) ? "正常" : "未连接";
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

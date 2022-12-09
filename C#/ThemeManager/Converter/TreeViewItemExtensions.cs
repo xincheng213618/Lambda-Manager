@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace DarkBlendTheme11;
+namespace ThemeManager.Converter;
 
 public static class TreeViewItemExtensions
 {

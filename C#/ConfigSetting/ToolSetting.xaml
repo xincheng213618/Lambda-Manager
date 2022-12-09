@@ -177,9 +177,10 @@
                                 <GroupBox  x:Name="GroupBox11" Style="{DynamicResource GroupBoxStyle2}" Header="显卡">
                                     <Grid x:Name="GPUGrid"  Margin="0,5,0,0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="20"/>
-                                            <RowDefinition Height="20"/>
-                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="200"/>
@@ -187,20 +188,35 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="型号:"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Text="型号:" Margin="0,2"/>
 
-                                        <TextBlock x:Name="GPU1" Grid.Row="0" Grid.Column="1" Text="{Binding Path=GPUName}"/>
+                                        <TextBlock x:Name="GPU1" Grid.Row="0" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="1" Text="{Binding Path=GPUName}"/>
 
-                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="显存:"/>
 
-                                        <TextBlock Grid.Row="1" Grid.Column="1" >
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Text="显存:" Margin="0,2"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" >
                                           <Run Text="{Binding Path=GPUaccessibleRAM}"/>
                                             <Run Text="GB"/>
                                         </TextBlock>
-                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="CUDA支持:"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="CUDA支持:" Margin="0,2"/>
                                         <TextBlock Grid.Row="2" Grid.Column="1" >
                                             <Run Text="{Binding Path=IsGPUCapable}"/>
                                         </TextBlock>
+                                        <TextBlock Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="0" Text="GPU加速:" Margin="0,2"/>
+      
+                                        <Button Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="1"  Click="GPU_Click"  Width="100" HorizontalAlignment="Left" >
+                                            <Button.ToolTip>
+                                                <TextBlock>
+                                                    <Run Text="当前GPU加速："/>
+                                                    <Run Text="{Binding Path=IsOpenGPUAccelerate,Converter={StaticResource BoolToStringConverer},ConverterParameter=2}"/>
+                                                </TextBlock>
+                                            </Button.ToolTip>
+                                            <TextBlock >
+                                                <Run Text="{Binding Path=IsOpenGPUAccelerate,Converter={StaticResource BoolToStringConverer},ConverterParameter=1}"/>
+                                            </TextBlock>
+                                        </Button>
                                     </Grid>
                                    
                                 </GroupBox>
@@ -237,12 +253,19 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock  Grid.Row="0" Grid.Column="0" Text="装饰灯"/>
-                                        <Button Grid.Row="0" Grid.Column="1" Content="关"  Click="Button_Click_3"/>
+                                        <Button Grid.Row="0" Grid.Column="1" Content="关"  Click="Button_Click_3" Width="100" HorizontalAlignment="Left"/>
                                         <TextBlock  Grid.Row="1" Grid.Column="0" Text="装饰灯"/>
 
-                                        <Button Grid.Row="1" Grid.Column="1"  Content="开"  Click="Button_Click_31"/>
+                                        <Button Grid.Row="1" Grid.Column="1"  Content="开"  Click="Button_Click_31" Width="100" HorizontalAlignment="Left"/>
                                         <TextBlock  Grid.Row="2" Grid.Column="0" Text="日志显示"/>
-                                        <Button Grid.Row="2" Grid.Column="1" Click="Button_Click_7" Content="{Binding Path=IsShowLog}"/>
+                                        <Button Grid.Row="2" Grid.Column="1" Click="Button_Click_7" Content="{Binding Path=IsShowLog ,Converter={StaticResource BoolToStringConverer},ConverterParameter=1}" Width="100" HorizontalAlignment="Left">
+                                            <Button.ToolTip>
+                                                <TextBlock>
+                                                    <Run Text="当前日志显示："/>
+                                                    <Run Text="{Binding Path=IsShowLog,Converter={StaticResource BoolToStringConverer},ConverterParameter=2}"/>
+                                                </TextBlock>
+                                            </Button.ToolTip>
+                                        </Button>
 
                                     </Grid>
                                 </GroupBox>
@@ -285,13 +308,13 @@
                                         </DockPanel>
 
                                         <TextBlock Grid.Row="3" Margin="0,3" Text="相机靶面大小:"/>
-                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text="2222"/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text="8.3mm*7.0mm"/>
 
                                         <TextBlock Grid.Row="4" Margin="0,3" Text="动态范围:"/>
-                                        <TextBlock Grid.Row="4" Margin="0,3" Grid.Column="1"  Text="2222"/>
+                                        <TextBlock Grid.Row="4" Margin="0,3" Grid.Column="1"  Text="12bit"/>
 
                                         <TextBlock Grid.Row="5" Margin="0,3" Text="最高帧率:"/>
-                                        <TextBlock Grid.Row="5" Margin="0,3" Grid.Column="1"  Text="240"/>
+                                        <TextBlock Grid.Row="5" Margin="0,3" Grid.Column="1"  Text="38"/>
 
                                         <TextBlock Grid.Row="6" Margin="0,3" Text="相机触发模式:"/>
                                         <TextBlock Grid.Row="6" Margin="0,3" Grid.Column="1"  Text="硬触发"/>
@@ -326,7 +349,7 @@
                                         <TextBlock Grid.Row="2" Margin="0,3" Text="量程:"/>
                                         <TextBlock Grid.Row="2" Margin="0,3" Grid.Column="1"  Text="X,Y: 50mm     Z: 10mm"/>
                                         <TextBlock Grid.Row="3" Margin="0,3" Text="步进大小:"/>
-                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text=""/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text="200"/>
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox x:Name="GroupBox21"  Style="{DynamicResource GroupBoxStyle2}" Header="光源配置" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">

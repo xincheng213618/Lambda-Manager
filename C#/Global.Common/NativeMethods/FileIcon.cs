@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
 
-namespace Global.Common.Win32
+namespace Global.Common.NativeMethods
 {
     public class FileIcon
     {

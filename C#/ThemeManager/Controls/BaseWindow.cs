@@ -2,7 +2,9 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Shell;
+using ThemeManager.Helpers;
 
 namespace ThemeManager.Controls
 {
@@ -56,8 +58,43 @@ namespace ThemeManager.Controls
         public BaseWindow()
         {
             Command_Initialized();
-            //WindowBlur.SetIsEnabled(this, true);
         }
+
+        public static readonly bool IsWin11 = Environment.OSVersion.Version >= new Version(10, 0, 21996);
+        public static readonly bool IsWin10 = !IsWin11 && Environment.OSVersion.Version >= new Version(10, 0);
+
+
+
+        public bool IsWindowBlurEnabled
+        {
+            get { return (bool)GetValue(IsWindowBlurEnabledProperty); }
+            set {
+                SetValue(IsWindowBlurEnabledProperty, value);
+                if (value == true)
+                {
+                    if (IsWin11)
+                    {
+                        if (Environment.OSVersion.Version >= new Version(10, 0, 22523))
+                        {
+                            WindowHelper.EnableBackdropMicaBlur(this, ThemeManagers.CurrentUITheme == Theme.Dark);
+                        }
+                        else
+                        {
+                            WindowHelper.EnableMicaBlur(this, ThemeManagers.CurrentUITheme == Theme.Dark);
+                        }
+                    }
+                    if (IsWin10)
+                        WindowHelper.EnableBlur(this);
+                }
+
+
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for IsWindowBlurEnabled.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsWindowBlurEnabledProperty =
+            DependencyProperty.Register("IsWindowBlurEnabled", typeof(bool), typeof(BaseWindow), new PropertyMetadata(false));
+
 
 
 
