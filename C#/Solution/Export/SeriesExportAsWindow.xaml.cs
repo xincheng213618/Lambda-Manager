@@ -98,7 +98,7 @@ namespace Solution
 
             if (File.Exists(ProjectExportAs.ExportFullName))
             {
-                if (MessageBox1.Show("此目标已经存在该文件，是否覆盖", "Grid", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                if (MessageBox1.Show("\n\r此目标已经存在该文件，是否覆盖\n\r", "Grid", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 {
                     return;
                 }

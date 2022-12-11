@@ -106,7 +106,7 @@ namespace ThemeManager.Helpers
             var accentStructSize = Marshal.SizeOf(accent);
             accent.AccentState = AccentState.AccentEnableBlurbehind;
             accent.AccentFlags = 2;
-            accent.GradientColor = 0x99FFFFFF;
+            accent.GradientColor = ThemeManagers.CurrentUITheme ==Theme.Dark? 0x99333333: 0x99FFFFFF;
 
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);

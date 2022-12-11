@@ -26,6 +26,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
 using System.IO;
+using Global.SettingUp.Mode.Hardware;
 
 namespace ConfigSetting
 {
@@ -36,6 +37,8 @@ namespace ConfigSetting
     {
         public ToolSetting()
         {
+            //最优先的部分
+            Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
             InitializeComponent();
         }
 
@@ -132,7 +135,6 @@ namespace ConfigSetting
                 {
                     stageConfig.Children.Add(this);
 
-                    Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
 
                     stageConfig.SetResourceReference(Grid.BackgroundProperty, "WindowBackgroundBrush");
                     
@@ -300,7 +302,8 @@ namespace ConfigSetting
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 } });
-
+            firmware firmware = new firmware();
+            firmware.ToJsonFile("11");
 
 
         }

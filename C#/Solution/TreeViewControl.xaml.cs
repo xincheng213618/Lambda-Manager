@@ -459,7 +459,17 @@ namespace Solution
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
+            MessageBox1.Show("此目标已经存在该文件，是否覆盖", "Grid", MessageBoxButton.YesNo);
+            MessageBox1.Show("此目标已经存在该文件，是否覆盖", "Grid", MessageBoxButton.OK);
+            MessageBox1.Show("此目标已经存在该文件，是否覆盖\n\r222222", "Grid", MessageBoxButton.YesNo);
+            MessageBox1.Show("此目标已经存在该文件，是否覆盖\n\r222222", "Grid", MessageBoxButton.OK);
+
+            MessageBox1.Show("此目标已经存在该文件，是否覆盖\n\r222222\n\r22222222", "Grid", MessageBoxButton.OK);
+            MessageBox1.Show("此目标已经存在该文件，是否覆盖\n\r222222\n\r22222222", "Grid", MessageBoxButton.YesNo);
+
+
         }
+
 
 
     }

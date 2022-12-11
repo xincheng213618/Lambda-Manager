@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" MinWidth="200" WindowStyle="ToolWindow" Background="{DynamicResource GlobalBackgroundBrush}">
-    <Grid>
+        WindowStartupLocation="CenterScreen"  MinWidth="200"  Background="Transparent" ResizeMode="NoResize" >
+    <Grid  x:Name="ContentGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
@@ -21,10 +21,10 @@
 
         <Grid Grid.Row="2"  HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="ButtonOK" Visibility="Collapsed" Grid.Column="0" Content="确认" FontSize="13" Padding="20,3"  Margin="18,10"  VerticalAlignment="Center"  Click="ButtonOK_Click" ></Button>
             <Button x:Name="ButtonYes"  Visibility="Collapsed"  Grid.Column="1" Content="是(_Y)"  Padding="20,3"   Margin="18,10" VerticalAlignment="Center"  Click="ButtonYes_Click" ></Button>

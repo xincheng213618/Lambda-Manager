@@ -1,6 +1,8 @@
 ﻿using Global.Common.Extensions;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shell;
 using ThemeManager.Controls;
 
 namespace Global.Common.Controls
@@ -17,6 +19,7 @@ namespace Global.Common.Controls
         private void Initialize(string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK , MessageBoxImage icon = MessageBoxImage.None ,MessageBoxResult defaultResult = MessageBoxResult.None)
         {
             InitializeComponent();
+            IsWindowBlurEnabled = true;
             this.messageBoxText.Text = messageBoxText;
             this.caption.Text = caption;
             switch (button)
@@ -40,7 +43,6 @@ namespace Global.Common.Controls
                 default:
                     break;
             }
-
             //MessageBoxImage 中存在重复项和重复样式，所以这几项就可以了
             switch (icon)
             {
@@ -63,8 +65,10 @@ namespace Global.Common.Controls
                     break;
             }
             MessageBoxResult = defaultResult;
-        }
 
+            Height = ContentGrid.DesiredSize.Height + WindowChrome.GetWindowChrome(this).CaptionHeight;
+            Width = ContentGrid.DesiredSize.Width;
+        }
 
 
         public MessageBox1(string messageBoxText)
@@ -122,5 +126,7 @@ namespace Global.Common.Controls
             MessageBoxResult = MessageBoxResult.OK;
             Close();
         }
+
+
     }
 }

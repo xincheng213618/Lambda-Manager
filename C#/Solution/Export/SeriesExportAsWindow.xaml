@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="450" Width="500" Background="{DynamicResource GlobalBackgroundBrush}"  WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
+        Height="450" Width="500" Background="{DynamicResource GlobalBackgroundBrush}"  WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
 
     <Grid>
         <Grid.RowDefinitions>

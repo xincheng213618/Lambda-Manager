@@ -27,9 +27,9 @@ namespace ThemeManager.Controls
     {
         private static Style? GetDefautlStyle()
         {
-            if (Application.Current.TryFindResource(typeof(BaseWindow))!=null)
+            if (Application.Current.TryFindResource(typeof(BaseWindow)) is Style style && style != null)
             {
-                return Application.Current.FindResource(typeof(BaseWindow)) as Style;
+                return style;
             }
             else
             {
@@ -48,8 +48,9 @@ namespace ThemeManager.Controls
 
                 return Application.Current.FindResource(typeof(BaseWindow)) as Style ?? null;
             }
-
         }
+
+
 
         static BaseWindow()
         {
@@ -58,6 +59,8 @@ namespace ThemeManager.Controls
         public BaseWindow()
         {
             Command_Initialized();
+            IntPtr handle = new WindowInteropHelper(this).EnsureHandle();
+            HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
         }
 
         public static readonly bool IsWin11 = Environment.OSVersion.Version >= new Version(10, 0, 21996);
@@ -97,6 +100,25 @@ namespace ThemeManager.Controls
 
 
 
+        public bool IsDragMoveEnabled
+        {
+            get { return (bool)GetValue(IsDragMoveEnabledProperty); }
+            set
+            {
+                SetValue(IsDragMoveEnabledProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty IsDragMoveEnabledProperty =
+            DependencyProperty.Register("IsDragMoveEnabled", typeof(bool), typeof(BaseWindow), new PropertyMetadata(false));
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            if (IsDragMoveEnabled &&e.ButtonState == MouseButtonState.Pressed)
+                DragMove();
+        }
+
 
         #region 快捷键
         public static RoutedCommand WindowTopMost = new RoutedUICommand("WindowTopMost", "Full", typeof(BaseWindow), new InputGestureCollection(new InputGesture[] { }));
@@ -121,8 +143,7 @@ namespace ThemeManager.Controls
             {
                 InvalidateMeasure();
             }
-            IntPtr handle = new WindowInteropHelper(this).Handle;
-            HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
+
         }
 
         IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -148,13 +169,7 @@ namespace ThemeManager.Controls
         }
 
 
-        //拖动 暂时禁用掉
-        //protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        //{
-        //    base.OnMouseLeftButtonDown(e);
-        //    if (e.ButtonState == MouseButtonState.Pressed)
-        //        DragMove();
-        //}
+
         
         public virtual void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {

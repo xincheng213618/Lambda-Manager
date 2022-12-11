@@ -29,7 +29,7 @@ namespace Global.SettingUp.PC
             timer = new Timer(TimeRun, null, 0, UpdateSpeed);
             CurrentDrive = System.IO.DriveInfo.GetDrives()[0];
             CurrentDiskTotalSize = (CurrentDrive.TotalSize / (1024 * 1024 * 1024)).ToString() + "GB";
-            OSInfo = Environment.OSVersion.Version.Build >= 22000? Environment.OSVersion.ToString().Replace("10.","11."): Environment.OSVersion.ToString() +" "+ (Environment.Is64BitOperatingSystem?"64-bit": "32-bit");
+            OSInfo = Environment.OSVersion.Version.Build >= 22000 ? Environment.OSVersion.ToString().Replace("10.", "11.") : Environment.OSVersion.ToString() + " " + (Environment.Is64BitOperatingSystem ? "64-bit" : "32-bit");
         }
 
         private void TimeRun(object state)

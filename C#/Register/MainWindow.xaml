@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Register"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="300" MinHeight="300" Width="330" MinWidth="330" Background="Transparent" ResizeMode="NoResize"  Foreground="White" Initialized="Window_Initialized" >
+        Height="280" MinHeight="300" Width="330" MinWidth="330" Background="Transparent" ResizeMode="NoResize"  Foreground="White" Initialized="Window_Initialized" >
     <Grid>
         <TextBlock Text="注册信息" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <StackPanel Margin="20,10">
@@ -34,10 +34,28 @@
                 <TextBlock Text="联系电话" Width="100"/>
                 <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"  TextChanged="H5a6_TextChanged"/>
             </DockPanel>
-            <DockPanel Margin="5">
-                <Button x:Name="Button1" Content="注册" Click="Button_Click"/>
-            </DockPanel>
-        </StackPanel>  
+        </StackPanel>
+
+        <Button x:Name="Button1" VerticalAlignment="Bottom" Margin="0,20" Content="注册" Width="150" Height="30" FontSize="15" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}" 	BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"	CornerRadius="3">
+                        <Grid>
+                            <Border x:Name="Bds"  Background="#6ae860" 	CornerRadius="3"  Opacity="0.5" Visibility="Collapsed"/>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"  RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 	VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Bds" Property="Visibility" Value="Visible"/>
+                            <Setter Property="Foreground" Value="{StaticResource MouseOverButtonForeground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+
+        </Button>
+
 
     </Grid>
 </Base:BaseWindow>
