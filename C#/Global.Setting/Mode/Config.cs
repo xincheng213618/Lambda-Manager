@@ -13,29 +13,33 @@ namespace Global.Mode
     public class SolutionConfig: ViewModelBase
     {
         [JsonPropertyName("version")]
-        public string? Version { get; set; }
-       
+        public string? Version { get; set; }  
         [JsonPropertyName("modules")]
         public Modules? Modules { get; set; }
         [JsonPropertyName("last-visit-time")]
         public string LastOpenTime { get; set; } = DateTime.Now.ToString("YYYY-MM-dd HH:mm:ss");
-
-        [JsonPropertyName("lambda-manager")]
-        public LambdaManager LambdaManager { get; set; }
-       
-
-        [JsonPropertyName("config-stage")]
+        [JsonPropertyName("lambda-manager")] 
+        public LambdaManager LambdaManager { get; set; }      
+        [JsonPropertyName("firmware")]  
+        public Firmware FirmwareSetting { get; set; }
+        [JsonPropertyName("config-stage")]   
         public Stage Stage { get; set; } = new();
-        [JsonPropertyName("config-spot")]
+        [JsonPropertyName("config-spot")]       
         public Spot Spot { get; set; } = new();
-
         [JsonPropertyName("config-imaging-mode")]
         public OperatingMode OperatingMode { get; set; } = new OperatingMode();
-
         [JsonPropertyName("config-multi-dimensional")]
         public Dimensional Dimensional { get; set; } = new();
-
         public ImageViewState ImageViewState = new ImageViewState();
+        [JsonPropertyName("log-file")]
+        public string? LogFile { get; set; }
+        [JsonIgnore]
+        public int CurrentObjective=1;
+        [JsonPropertyName("multiObj")]
+        public MultiObjective IsMultiObj { get; set; } = new MultiObjective();
+       
+
+
 
     }
 
@@ -138,7 +142,12 @@ namespace Global.Mode
         public double? Delay { set; get; }
 
     }
-
+    // 临时
+    public class MultiObjective
+    {
+        public bool? Enable { get; set; } = false;
+       
+    }
 
 
 

@@ -82,8 +82,35 @@ namespace ConfigBottomView
             throw new NotImplementedException();
         }
     }
+    public class StringValueToThousands : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double v = double.Parse((string)value) / 1000.0;
 
+            return Math.Round(v, 1).ToString() + "k";
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class ValueToThousands : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double v = (int)value / 1000.0;
+
+            return Math.Round(v, 1).ToString() + "k";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+   
     public sealed class BoolToVisibilityConverter : IValueConverter
     {
         /// <summary>

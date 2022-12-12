@@ -144,11 +144,12 @@ namespace InkManager.UserControls
                 {
                     if ((bool)DrawInkMethod.ViewTool.topTool.DimensionChecked)
                     {
-
+                      // MessageBox.Show("1111");
                         defaultDim.Visibility = Visibility.Visible;
                     }
                     else
                     {
+                       // MessageBox.Show("1111");
                         defaultDim.Visibility = Visibility.Hidden;
                     }
                 };
@@ -407,7 +408,7 @@ namespace InkManager.UserControls
         private void VisualProAdd()
         {
 
-            MessageBox.Show("111111");
+           // MessageBox.Show("111111");
             try
             {
 

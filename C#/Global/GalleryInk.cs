@@ -37,8 +37,10 @@ namespace Global
         // public ObservableCollection<VisualAttritube> drawVisuals = new ObservableCollection<VisualAttritube>();
         private static void addEvent()
         {
-            LambdaControl.AddLambdaEventHandler("GALLERY_INK_BACK", InkBackDeserialize, false);
+           
 
+                LambdaControl.AddLambdaEventHandler("GALLERY_INK_BACK", InkBackDeserialize, false);
+           
         }
 
         private static bool InkBackDeserialize(object sender, EventArgs e)
@@ -50,9 +52,25 @@ namespace Global
             eventData.TryGetValue("GALLERY_INK", out inkStack);
             if (inkStack != null)
             {
-                InkBack = JsonSerializer.Deserialize<List<VisualAttritube>>((string)inkStack);
+                if ((string)inkStack == "null")
+                {
+                    InkBack.Clear();
+                }
+                else
+                {
+                    InkBack = JsonSerializer.Deserialize<List<VisualAttritube>>((string)inkStack);
+
+                    for (int i = 1; i < InkBack.Count; i++)
+                    {
+
+                        InkBack[i].PointList = ZoomParList(InkBack[i].PointList);
+                    }
+                }
+                
             }
-            InkEcho();
+            Application.Current.Dispatcher.Invoke(delegate
+            { InkEcho(); });
+               
             return true;
         }
 
@@ -74,11 +92,7 @@ namespace Global
 
             }
 
-            //Matrix matrix = new Matrix();
-            //matrix.ScaleAt(DrawInkMethod.InkAll[0].ratio1.Ratio, DrawInkMethod.InkAll[0].ratio1.Ratio, DrawInkMethod.InkAll[0].inkCanvas.ActualWidth / 2, DrawInkMethod.InkAll[0].inkCanvas.ActualHeight / 2);
-            //DrawInkMethod.InkAll[0].RecTopLeft = DrawInkMethod.InkAll[0].RecTopLeft * matrix;
-            //DrawInkMethod.InkAll[0].RecBottomRight = DrawInkMethod.InkAll[0].RecBottomRight * matrix;
-            //DrawInkMethod.InkAll[0].inkcanva.Strokes.Transform(matrix, false);
+           
 
 
         }
@@ -89,9 +103,24 @@ namespace Global
         {
             if (visual.Type != "Window")
             {
-                CustomStroke stroke = ReCreateStroke(visual.Type, visual.PointList, visual.Color, visual.LineWidth, visual.LineType);
-                return stroke;
+                if (visual.Type == "DimA" || visual.Type == "DimB" || visual.Type == "DimC"|| visual.Type == "DimD"|| visual.Type == "Ruler")
+                {
+
+                    RatioClass ratioClass = new RatioClass() { Ratio = 1,actualwidth = DrawInkMethod.InkAll[0].inkcanva.ActualWidth };
+                    FontFamily fontFamily = new FontFamily(visual.TexT.FontFamily);   
+                    CustomStroke stroke = ReCreateDim(visual.Type, visual.PointList, visual.Color, ratioClass,visual.TexT.TextColor,visual.TexT.ShowText, visual.LineWidth,visual.LineType,visual.TexT.Italic,visual.TexT.Bold,visual.TexT.UnderLine,visual.TexT.Fontsize, fontFamily,visual.TexT.TextPos);
+                    return stroke;
+                }
+
+                else
+                {
+                    CustomStroke stroke = ReCreateStroke(visual.Type, visual.PointList, visual.Color, visual.LineWidth, visual.LineType);
+                    return stroke;
+                }
+               
+               
             }
+
             return null;
         }
          
@@ -118,6 +147,7 @@ namespace Global
                 case "Polygon":
                     stroke1 = DrawInkMethod.InkCanvasMethod.CreatePolygon(pointList, color, LineWidth, dash);
                     return stroke1;
+               
                 case "Line":
                     stroke1 = DrawInkMethod.InkCanvasMethod.CreateLineStroke(pointList[0], pointList[1], color, LineWidth, dash);
                     return stroke1;
@@ -150,20 +180,24 @@ namespace Global
             switch (type)
             {
 
+
+
                 case "DimA":
                     stroke1 = DrawInkMethod.InkCanvasMethod.CreateDim1Stroke(pointList[0], pointList[3], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
                     return stroke1;
 
                 case "DimB":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateDim2Stroke(pointList[0], pointList[3], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateDim2Stroke(pointList[0], pointList[4], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
                     return stroke1;
                 case "DimC":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateDim3Stroke(pointList[0], pointList[3], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateDim3Stroke(pointList[0], pointList[8], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
                     return stroke1;
                 case "DimD":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateDim4Stroke(pointList[0], pointList[3], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateDim4Stroke(pointList[0], pointList[8], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
                     return stroke1;
-
+                case "Ruler":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateRuler(pointList, color, ratio, textColor, lineWidth, dash, italic, bold, fonSize, fontFamily);
+                    return stroke1;
 
 
             }

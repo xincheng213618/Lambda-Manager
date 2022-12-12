@@ -66,7 +66,7 @@ namespace Global
                 messageBoxResult = MessageBox1.Show(messageBoxText, caption, button);
 
             });
-            LambdaControl.Trigger("MessageBoxResult", this,new Dictionary<string, object>() { { "MessageBoxResult", messageBoxResult.ToString() } });
+            LambdaControl.Trigger("MessageBoxResult",this, new Dictionary<string, object>() { { "MessageBoxResult", messageBoxResult.ToString() } });
             return messageBoxResult == MessageBoxResult.Yes;
         }
 

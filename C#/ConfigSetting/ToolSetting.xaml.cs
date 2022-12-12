@@ -1,7 +1,5 @@
 ﻿using Global.Common;
 using Global.Common.Extensions;
-using Global.Mode;
-using Global.Mode.Config;
 using Global.SettingUp;
 using Global.SettingUp.Configure;
 using Global.SettingUp.PC;
@@ -15,7 +13,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Net;
-using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,7 +23,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
 using System.IO;
-using Global.SettingUp.Mode.Hardware;
 
 namespace ConfigSetting
 {
@@ -302,10 +298,6 @@ namespace ConfigSetting
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 } });
-            firmware firmware = new firmware();
-            firmware.ToJsonFile("11");
-
-
         }
         private void Button_Click_31(object sender, RoutedEventArgs e)
         {

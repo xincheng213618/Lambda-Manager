@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Global;
+using Lambda;
 
 namespace Global.UserControls.DrawVisual
 {
@@ -35,8 +36,9 @@ namespace Global.UserControls.DrawVisual
         private StrokeCollection StrokeCollect= new StrokeCollection();
         private StrokeCollection TextStrokeCollect = new StrokeCollection();
         private bool isReadOnly = false;
-       
-
+        private List<CustomStroke> geometryList = new List<CustomStroke>();
+        private List<CustomStroke> textList = new List<CustomStroke>();
+        private List<CustomStroke> dimGeometryList = new List<CustomStroke>();
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
            
@@ -135,6 +137,9 @@ namespace Global.UserControls.DrawVisual
             }
             isReadOnly = true;
             ReReadStroke(DrawInkMethod.ActiveInk);
+
+
+
             isReadOnly = false;
         }
 
@@ -209,10 +214,7 @@ namespace Global.UserControls.DrawVisual
                     ink2.Strokes.Remove(stroke);
                     StrokeCollect.Add(stroke2);
                 }
-                else
-                {
-
-                }
+               
 
 
             }
@@ -237,13 +239,100 @@ namespace Global.UserControls.DrawVisual
         {
             StrokeCollect.Clear();
             StrokeCollection strokes2 = ink1.GetSelectedStrokes();
+            textList.Clear();
+            geometryList.Clear();
+            dimGeometryList.Clear();
+
 
             foreach (CustomStroke stroke in strokes2)
             {
                 ParReadBack(stroke);
             }
-           
+             
+            FilterDistinct(geometryList, textList, dimGeometryList);
         }
+
+
+        private void FilterDistinct(List<CustomStroke> geometryList, List<CustomStroke> textList, List<CustomStroke> dimGeometryList )
+        {
+            
+        
+            // text 
+            bool isTextColorDif = textList.Select(g => g.textColor).Distinct().Count() > 1;
+            if (isTextColorDif)
+            {
+                DrawInkMethod.dimenViewModel.TextSelectedAccentColor = Colors.Transparent;
+            }
+            bool isTextFamDif = textList.Select(g => g.FontFamily).Distinct().Count() > 1;
+            if (isTextFamDif)
+            {
+                DrawInkMethod.dimenViewModel.FontFam = new FontFamily("Arial"); ;
+            }
+            bool isTextSizeDif = textList.Select(g => g.textColor).Distinct().Count() > 1;
+            if (isTextSizeDif)
+            {
+                DrawInkMethod.dimenViewModel.FontSize = 16; 
+            }
+            bool isTextBoldDif = textList.Select(g => g.Bold).Distinct().Count() > 1;
+            if (isTextBoldDif)
+            {
+                DrawInkMethod.dimenViewModel.Bold = false;
+            }
+            bool isTextItaDif = textList.Select(g => g.Italic).Distinct().Count() > 1;
+            if (isTextItaDif)
+            {
+                DrawInkMethod.dimenViewModel.Italic = false;
+            }
+            bool isTextUnderDif = textList.Select(g => g.UnderLine).Distinct().Count() > 1;
+            if (isTextUnderDif)
+            {
+                DrawInkMethod.dimenViewModel.UnderLine = false;
+            }
+
+
+
+
+
+            // dim and line
+            bool islengthDif = dimGeometryList.Select(g => g.length).Distinct().Count() > 1;
+            if (islengthDif)
+            {
+                DrawInkMethod.dimenViewModel.Length = 0;
+            }
+            bool isAngleDif = dimGeometryList.Select(g => g.angle).Distinct().Count() > 1;
+            if (isAngleDif)
+            {
+                DrawInkMethod.dimenViewModel.Angle = 0;
+            }
+            bool isDimSelDif = dimGeometryList.Select(g => g.dimSelectIndex).Distinct().Count() > 1;
+            if (isDimSelDif)
+            {
+                DrawInkMethod.dimenViewModel.DimSelectedIndex = 0;
+            }
+
+            // geometry
+            bool isGeoLineWDif = geometryList.Select(g => g.LineWidth).Distinct().Count() > 1;
+            if (isGeoLineWDif)
+            {
+                DrawInkMethod.dimenViewModel.LineWidth = 2;
+            }
+            bool isGeoLineDDif = geometryList.Select(g => g.Dash).Distinct().Count() > 1;
+            if (isGeoLineDDif)
+            {
+                DrawInkMethod.dimenViewModel.DashSelectedIndex = 0;
+            }
+            bool isGeoColorDDif = geometryList.Select(g => g.ColorBru).Distinct().Count() > 1;
+            if (isGeoColorDDif)
+            {
+                DrawInkMethod.dimenViewModel.SelectedAccentColor = Colors.Transparent;
+            }
+          
+        }
+
+
+
+
+
 
 
 
@@ -309,7 +398,6 @@ namespace Global.UserControls.DrawVisual
                     return stroke1;
              
 
-
             }
 
             return null;
@@ -329,7 +417,7 @@ namespace Global.UserControls.DrawVisual
             if (stroke is DrawInkMethod.CustomTextInput textInput)
             {
                 TextReadBack(stroke);
-
+                textList.Add(stroke);
             }
             else
             {
@@ -341,15 +429,18 @@ namespace Global.UserControls.DrawVisual
                 {
                     TextReadBack(stroke);
                     DimOnlyReadBack(stroke);
-
+                    textList.Add(stroke);
+                    dimGeometryList.Add(stroke);
                 }
                if (stroke is DrawInkMethod.LineStroke || stroke is DrawInkMethod.ArrowStroke)
                 {
-                    DrawInkMethod.dimenViewModel.DimSelectedIndex = stroke.dimSelectIndex;
+                    DimOnlyReadBack(stroke);
+                    dimGeometryList.Add(stroke);
                 }
 
+                geometryList.Add(stroke);
             }
-
+           
 
         }
 
@@ -469,6 +560,26 @@ namespace Global.UserControls.DrawVisual
             {
                 ReWriteText( DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
             }
+        }
+
+        private void SnapInkSave_Checked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_SNAP_SAVE", this, new Dictionary<string, object>() { { "mode", 1 } });
+        }
+
+        private void SnapInkSave_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_SNAP_SAVE", this, new Dictionary<string, object>() { { "mode", 0 } });
+        }
+
+        private void AcquireInkSave_Checked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_ACQUIRE_SAVE", this, new Dictionary<string, object>() { { "mode", 1 } });
+        }
+
+        private void AcquireInkSave_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_ACQUIRE_SAVE", this, new Dictionary<string, object>() { { "mode", 0 } });
         }
     }
 }

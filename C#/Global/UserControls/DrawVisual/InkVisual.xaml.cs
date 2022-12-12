@@ -16,6 +16,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Resources;
+using System.Windows.Threading;
 using static Global.DrawInkMethod;
 
 namespace Global.UserControls.DrawVisual
@@ -28,8 +29,11 @@ namespace Global.UserControls.DrawVisual
 
     }
 
+    public enum Mode : int
+    {
+        BF=0,DF =1,RI=2,DP=3,QP=4,PC=5
 
-
+    }
     /// <summary>
     /// InkVisual.xaml 的交互逻辑
     /// </summary>
@@ -46,6 +50,7 @@ namespace Global.UserControls.DrawVisual
             this.image = image1;
             this.index = index1;
             this.inkcanva = inkCanvas;
+            this.ActiveMode = index1;
             //MessageBox.Show("2");
             ToolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
             {
@@ -77,7 +82,7 @@ namespace Global.UserControls.DrawVisual
                             inkCanvas.Strokes.Add(stroke1);
 
                             pointList1.Clear();
-                            StrokeTransforChange(1, drawVisuals);
+                            StrokeTransforChange(1, drawVisuals, this );
 
 
                         }
@@ -94,12 +99,12 @@ namespace Global.UserControls.DrawVisual
                 {
                     if ((bool)ToolTop.DimensionChecked)
                     {
-                        //MessageBox.Show("1111");
+                       
                         defaultDim.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                       // MessageBox.Show("1111");
+                     
                         defaultDim.Visibility = Visibility.Hidden;
                     }
                 };
@@ -115,9 +120,6 @@ namespace Global.UserControls.DrawVisual
                 };
 
             };
-
-
-
 
 
             defaultDim.DataContext = inkDimViewModel;  // default Dimension bingding ViewModel
@@ -162,8 +164,6 @@ namespace Global.UserControls.DrawVisual
                 WindowData1.GetInstance().inkVisuals[0].Border.BorderBrush = new SolidColorBrush(color);
             }
 
-
-
         }
 
         Window mainwin = Application.Current.MainWindow;
@@ -181,7 +181,7 @@ namespace Global.UserControls.DrawVisual
         Point iniP = new Point(0, 0);
         public Stroke lastTempStroke = null;
         public Stroke lastTempStroke0 = null;
-
+        public int ActiveMode ;
         public StrokeCollection tempStroke = new StrokeCollection();
         public StrokeCollection RegisterStroke = new StrokeCollection();
         //  public ObservableCollection<Stroke> StrokesTransfer  = new ObservableCollection<Stroke>();
@@ -199,117 +199,103 @@ namespace Global.UserControls.DrawVisual
         public Color defDimTextC = Colors.White;
 
         List<System.Windows.Point> pointList1 = new List<Point>();
+        List<System.Windows.Point> pointListRuler = new List<Point>();
         StylusPointCollection point1;
         public Point RecTopLeft = new Point(0, 0);
         public Point RecBottomRight = new Point(0, 0);
         Stroke stroke1;
         Point PointSt;
+        Point PointStRuler;
         int[] lastTempArray = new int[4];
         int[] CurrentArray = new int[4];
         Matrix InverseMatrix = new Matrix();
+        Matrix InverseMatrixDim = new Matrix();
         public ObservableCollection<VisualAttritube> drawVisuals = new ObservableCollection<VisualAttritube>();
         public List<VisualAttritube> drawVisualsCopy = new List<VisualAttritube>();
       
         public void FilterStroke(int i)
         {
-
-
             foreach (var item in inkCanvas.Strokes)
             {
-
-
                 if (item is CustomTextInput textInput)
                 {
                     textInput.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(item);
-
                 };
                 if (item is EllipseStroke ellipse)
                 {
                     ellipse.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(ellipse);
-
                 }
-
                 if (item is RectangleStroke rectangle)
                 {
                     rectangle.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(rectangle);
-
                 }
                 if (item is CircleStroke circleStroke)
                 {
                     circleStroke.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(circleStroke);
-
                 }
                 if (item is SquareStroke square)
                 {
                     square.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(square);
-
                 }
                 if (item is LineStroke line)
                 {
                     line.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(line);
-
                 }
                 if (item is ArrowStroke arrow)
                 {
                     arrow.Index = i++;
-                    DrawInkMethod.StrokesCollection.Add(arrow);
-
+                   DrawInkMethod.StrokesCollection.Add(arrow);
                 }
                 if (item is Dim1Stroke dim1)
                 {
                     dim1.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim1);
-
                 }
                 if (item is Dim2Stroke dim2)
                 {
                     dim2.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim2);
-
                 }
                 if (item is Dim3Stroke dim3)
                 {
                     dim3.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim3);
-
                 }
                 if (item is Dim4Stroke dim4)
                 {
                     dim4.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(dim4);
-
                 }
                 if (item is QuadraticBezierpath quadraticBezier)
                 {
                     quadraticBezier.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(quadraticBezier);
-
                 }
                 if (item is Bezierpath bezier)
                 {
                     bezier.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(bezier);
-
                 }
                 if (item is PolygonStroke polygon)
                 {
                     polygon.Index = i++;
                     DrawInkMethod.StrokesCollection.Add(polygon);
-
-
+                }
+                if (item is RulerStroke ruler)
+                {
+                    ruler.Index = i++;
+                    DrawInkMethod.StrokesCollection.Add(ruler);
                 }
 
             }
 
         }
-
-
 
         public void DrawProfile()
         {
@@ -417,63 +403,8 @@ namespace Global.UserControls.DrawVisual
                     StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
                     inkCanvas.Cursor = new Cursor(sri.Stream);
                 }
-                if (isMouseDown && ToolTop.RulerChecked)
-                {
-                    var isShiftDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-                    double deltaX = Math.Abs(iniP.X - endP.X);
-                    double deltaY = Math.Abs(iniP.Y - endP.Y);
-                    if (isShiftDown)
-                    {
-                        if (deltaX >= deltaY)
-                        {
-                            endP.Y = iniP.Y;
-                        }
-                        else
-                        {
-                            endP.X = iniP.X;
-                        }
-
-                    }
-
-                    double dist = GetDistance(endP, iniP);
-                    if (dist < 5)
-                        return;
-                    stroke = DrawInkMethod.InkCanvasMethod.GenerateRulerStroke(iniP, endP);
-                    try
-                    {
-                        inkCanvas.Strokes.Remove(lastTempStroke);
-                    }
-                    catch { }
-                    lastTempStroke = stroke;
-                    inkCanvas.Strokes.Add(stroke);
-                    double width = ActualWidth;
-                    stroke0 = DrawInkMethod.InkCanvasMethod.CreateRulerText(iniP, endP, ratio1);
-                    try
-                    {
-                        inkCanvas.Strokes.Remove(lastTempStroke0);
-                    }
-                    catch { }
-                    lastTempStroke0 = stroke0;
-                    inkCanvas.Strokes.Add(stroke0);
-                    double theta = Math.Atan2(endP.Y - iniP.Y, endP.X - iniP.X);
-                    DrawInkMethod.dimenViewModel.Length = (double)dist / ratio1.actualwidth * 1689.12 / ratio1.Ratio;
-
-                    if (theta / Math.PI * 180 == 0)
-                    {
-                        DrawInkMethod.dimenViewModel.Angle = 0;
-                    }
-                    else
-                    {
-                        DrawInkMethod.dimenViewModel.Angle = theta / Math.PI * 180;
-
-                    }
-                    Color color = DrawInkMethod.dimenViewModel.SelectedAccentColor;
-                    if (DrawInkMethod.dimenViewModel.DimSelectedIndex == 0 || DrawInkMethod.dimenViewModel.DimSelectedIndex == 1)
-                        return;
-
-
-                }
-
+                drawRulerPolygon2(sender, e);
+             
 
             }
             else if (isMouseDown && ToolTop.ProfileChecked)
@@ -619,18 +550,10 @@ namespace Global.UserControls.DrawVisual
                     StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
                     inkCanvas.Cursor = new Cursor(sri.Stream);
                 }
-                Dictionary<string, object> parameters = new Dictionary<string, object>()
-                            {
-                            { "event",(int)0},
-                            {"x",(int)endP.X },
-                            {"y",(int)endP.Y },
-                            {"flag",(int)1 }
+            
+                var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
-                                 };
-                //  LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-
-
-                if (ratio1.Ratio != 1)
+                if (ratio1.Ratio != 1&& !isCtrlDown)
                 {
 
 
@@ -641,20 +564,20 @@ namespace Global.UserControls.DrawVisual
                     RecTopLeft = RecTopLeft * matrixMove1;
                     RecBottomRight = RecBottomRight * matrixMove1;
 
-                    ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes);
+                    ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes, this );
 
 
 
 
 
                 }
-                var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+              
                 if (isCtrlDown)
                 {
                     foreach (InkVisual ink in InkAll)
                     {
 
-                        if (ink != null && ink.index != this.index)
+                        if (ink != null )
                         {
 
                             if (ink.ratio1.Ratio != 1)
@@ -663,6 +586,10 @@ namespace Global.UserControls.DrawVisual
                                 Matrix matrixMove2 = new Matrix();
                                 matrixMove2.Translate(endP.X - movePoint.X, endP.Y - movePoint.Y);
                                 ink.inkCanvas.Strokes.Transform(matrixMove2, false);
+                                ink.RecTopLeft = ink.RecTopLeft * matrixMove2;
+                                ink.RecBottomRight = ink.RecBottomRight * matrixMove2;
+
+                                ZoomParTransform(ink.ratio1.Ratio, ink.inkCanvas.Strokes,ink);
                             }
 
                         }
@@ -766,7 +693,7 @@ namespace Global.UserControls.DrawVisual
                     inkCanvas.Cursor = new Cursor(sri.Stream);
                 }
             }
-            if (ToolTop.ArrowChecked || ToolTop.DimensionChecked || ToolTop.LineChecked || ToolTop.PolygonChecked || ToolTop.RectangleChecked || ToolTop.TextChecked || ToolTop.CurveChecked)
+            if ( ToolTop.DimensionChecked || ToolTop.LineChecked || ToolTop.PolygonChecked || ToolTop.RectangleChecked || ToolTop.TextChecked || ToolTop.CurveChecked)
             {
                 if (inkCanvas.Cursor == Cursors.Arrow || inkCanvas.Cursor == null)
                 {
@@ -804,15 +731,11 @@ namespace Global.UserControls.DrawVisual
                 if (pointList1.Count > 0)
                 {
                     pointList1.Add(Point2);
-                    // point1 = new StylusPointCollection(pointList1);
                     Color color = dimenViewModel.SelectedAccentColor;
                     int lineWidth = dimenViewModel.LineWidth;
                     int dash = dimenViewModel.DashSelectedIndex;
                     stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth, dash);
-                    //stroke1 = new Stroke(point1)
-                    //{
-                    //    DrawingAttributes = inkMethod.drawingAttributes.Clone()
-                    //};
+                  
                     try
                     {
                         inkCanvas.Strokes.Remove(lastTempStroke);
@@ -824,7 +747,135 @@ namespace Global.UserControls.DrawVisual
                 }
 
             }
+
         }
+        private void drawRulerPolygon1(object sender, MouseButtonEventArgs e)
+        {
+            iniP = e.GetPosition(inkCanvas);
+            pointListRuler.Add(iniP);
+            // point1 = new StylusPointCollection(pointList1);
+
+            if (pointListRuler.Count > 1)
+            {
+                Color color = dimenViewModel.SelectedAccentColor;
+                int lineWidth = dimenViewModel.LineWidth;
+                int dash = dimenViewModel.DashSelectedIndex;
+                Color TextColor = dimenViewModel.TextSelectedAccentColor;
+
+                bool italic = dimenViewModel.Italic;
+                bool bold = dimenViewModel.Bold;
+                bool underline = dimenViewModel.UnderLine;
+                int fontSize = dimenViewModel.FontSize;
+                FontFamily font = dimenViewModel.FontFam;
+                stroke1 = InkCanvasMethod.CreateRuler(pointListRuler,color ,ratio1, TextColor, lineWidth, dash, italic, bold, fontSize, font);
+                try
+                {
+                    inkCanvas.Strokes.Remove(lastTempStroke);
+                }
+                catch { }
+                lastTempStroke = stroke1;
+                inkCanvas.Strokes.Add(stroke1);
+
+
+            }
+            
+
+
+        }
+
+        private void drawRulerPolygon2(object sender, MouseEventArgs e)
+        {
+            Point Point2 = e.GetPosition(inkCanvas);
+            if (pointListRuler.Count > 0)
+            {
+                pointListRuler.Add(Point2);
+                Color color = dimenViewModel.SelectedAccentColor;
+                int lineWidth = dimenViewModel.LineWidth;
+                int dash = dimenViewModel.DashSelectedIndex;
+                Color TextColor = dimenViewModel.TextSelectedAccentColor;
+
+                bool italic = dimenViewModel.Italic;
+                bool bold = dimenViewModel.Bold;
+                bool underline = dimenViewModel.UnderLine;
+                int fontSize = dimenViewModel.FontSize;
+                FontFamily font = dimenViewModel.FontFam;
+                stroke1 = InkCanvasMethod.CreateRuler(pointListRuler, color, ratio1, TextColor, lineWidth, dash, italic, bold, fontSize, font);
+                try
+                {
+                    inkCanvas.Strokes.Remove(lastTempStroke);
+                }
+                catch { }
+                lastTempStroke = stroke1;
+                inkCanvas.Strokes.Add(stroke1);
+                pointListRuler.Remove(Point2);
+            }
+
+
+        }
+
+        private void drawRulerPolygon3(object sender, KeyEventArgs e)
+        {
+            if (pointListRuler.Count > 1)
+            {
+
+                Color color = dimenViewModel.SelectedAccentColor;
+                int lineWidth = dimenViewModel.LineWidth;
+                int dash = dimenViewModel.DashSelectedIndex;
+                Color TextColor = dimenViewModel.TextSelectedAccentColor;
+
+                bool italic = dimenViewModel.Italic;
+                bool bold = dimenViewModel.Bold;
+                bool underline = dimenViewModel.UnderLine;
+                int fontSize = dimenViewModel.FontSize;
+                FontFamily font = dimenViewModel.FontFam;
+                stroke1 = InkCanvasMethod.CreateRuler(pointListRuler, color, ratio1, TextColor, lineWidth, dash, italic, bold, fontSize, font);
+                try
+                {
+                    inkCanvas.Strokes.Remove(lastTempStroke);
+                }
+                catch { }
+                lastTempStroke = null;
+                inkCanvas.Strokes.Add(stroke1);
+                pointListRuler.Clear();
+                StrokeTransforChange(1, drawVisuals, this);
+
+            }
+
+
+        }
+        private void drawRulerPolygon3()
+        {
+            if (pointListRuler.Count > 1)
+            {
+
+                Color color = dimenViewModel.SelectedAccentColor;
+                int lineWidth = dimenViewModel.LineWidth;
+                int dash = dimenViewModel.DashSelectedIndex;
+                Color TextColor = dimenViewModel.TextSelectedAccentColor;
+
+                bool italic = dimenViewModel.Italic;
+                bool bold = dimenViewModel.Bold;
+                bool underline = dimenViewModel.UnderLine;
+                int fontSize = dimenViewModel.FontSize;
+                FontFamily font = dimenViewModel.FontFam;
+                stroke1 = InkCanvasMethod.CreateRuler(pointListRuler, color, ratio1, TextColor, lineWidth, dash, italic, bold, fontSize, font);
+                try
+                {
+                    inkCanvas.Strokes.Remove(lastTempStroke);
+                }
+                catch { }
+                lastTempStroke = null;
+                inkCanvas.Strokes.Add(stroke1);
+                pointListRuler.Clear();
+                StrokeTransforChange(1, drawVisuals, this);
+
+            }
+
+
+        }
+
+
+
 
 
         private void inkCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -839,21 +890,20 @@ namespace Global.UserControls.DrawVisual
             {
                 StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(hold.Stream);
-
-                // CanMove = true;
-                Dictionary<string, object> parameters = new Dictionary<string, object>()
-                            {
-                            {"event",(int)1},
-                            {"x",(int)iniP.X },
-                            {"y",(int)iniP.Y },
-                            {"flag",(int)1 }
-
-                            };
-                LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
                 movePoint = iniP;
             };
 
+            if (ToolTop.RulerChecked)
+            {
 
+                drawRulerPolygon1(sender, e);
+
+                if (e.ClickCount == 2)
+                {
+                    drawRulerPolygon3();
+                }
+
+            }
             if (ToolTop.PolygonChecked == true)
             {
 
@@ -1010,7 +1060,7 @@ namespace Global.UserControls.DrawVisual
         private void inkCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point end = e.GetPosition(inkCanvas);
-            if (ToolTop.PolygonChecked)
+            if (ToolTop.PolygonChecked|| ToolTop.RulerChecked)
             {
 
             }
@@ -1072,7 +1122,7 @@ namespace Global.UserControls.DrawVisual
             }
 
 
-            StrokeTransforChange(1, drawVisuals);
+            StrokeTransforChange(1, drawVisuals,this);
 
 
         }
@@ -1087,26 +1137,35 @@ namespace Global.UserControls.DrawVisual
 
                 try
                 {
-                    if (pointList1.Count > 1)
+                    if (ToolTop.PolygonChecked)
                     {
-
-                        pointList1.Add(PointSt);
-                        Color color = dimenViewModel.SelectedAccentColor;
-                        int lineWidth = dimenViewModel.LineWidth;
-                        int dash = dimenViewModel.DashSelectedIndex;
-                        stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth, dash);
-                        try
+                        if (pointList1.Count > 1)
                         {
-                            inkCanvas.Strokes.Remove(lastTempStroke);
-                        }
-                        catch { }
-                        lastTempStroke = null;
-                        inkCanvas.Strokes.Add(stroke1);
 
-                        pointList1.Clear();
-                        StrokeTransforChange(1, drawVisuals);
+                            pointList1.Add(PointSt);
+                            Color color = dimenViewModel.SelectedAccentColor;
+                            int lineWidth = dimenViewModel.LineWidth;
+                            int dash = dimenViewModel.DashSelectedIndex;
+                            stroke1 = InkCanvasMethod.CreatePolygon(pointList1, color, lineWidth, dash);
+                            try
+                            {
+                                inkCanvas.Strokes.Remove(lastTempStroke);
+                            }
+                            catch { }
+                            lastTempStroke = null;
+                            inkCanvas.Strokes.Add(stroke1);
+
+                            pointList1.Clear();
+                            StrokeTransforChange(1, drawVisuals, this);
+
+                        }
+                    }
+                    if (ToolTop.RulerChecked)
+                    {
+                        drawRulerPolygon3(sender,e);
 
                     }
+                   
 
 
                 }
@@ -1189,13 +1248,7 @@ namespace Global.UserControls.DrawVisual
         {
 
             ZoomWard = true;
-            var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
-            if (saveTempStroke && inkCanvas.Strokes.Count > 0)
-            {
-                tempStroke = inkCanvas.Strokes.Clone();
-                saveTempStroke = false;
-
-            }
+            var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl); 
             Point curPoint = e.GetPosition(e.Device.Target);
             Matrix matrix = new Matrix();
             if (e.Delta > 0)
@@ -1204,7 +1257,7 @@ namespace Global.UserControls.DrawVisual
                 {
                     foreach (InkVisual ink in InkAll)
                     {
-                        if (ink != null && ink.index != this.index)
+                        if (ink != null)
                         {
                             Matrix matrixE = new Matrix();
                             double r1 = ink.ratio1.Ratio * 1.2;
@@ -1218,78 +1271,68 @@ namespace Global.UserControls.DrawVisual
                                 matrixE.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
                                 ink.ratio1.Ratio = r1;
 
-
                             }
 
                             ink.inkCanvas.Strokes.Transform(matrixE, false);
                             ink.RecTopLeft = ink.RecTopLeft * matrixE;
                             ink.RecBottomRight = ink.RecBottomRight * matrixE;
-
+                            ZoomParTransform(ink.ratio1.Ratio, ink.inkCanvas.Strokes,ink);
                             ink.drawDefaultDim(ink.inkDimViewModel.DimPos, ink.inkDimViewModel.DimLength, ink.inkDimViewModel.DimColor, ink.ratio1.Ratio, ink.inkDimViewModel.TextColor);
 
                         }
                     }
 
                 };
-
-                if (ratio1.Ratio < 2.5)
+                if (!isCtrlDown)
                 {
-                    ratio1.Ratio = ratio1.Ratio * 1.2;
-
-                    if (ratio1.Ratio >= 2.49)
+                    if (ratio1.Ratio < 2.5)
                     {
-                        matrix.ScaleAt(2.49 * 1.2 / ratio1.Ratio, 2.49 * 1.2 / ratio1.Ratio, curPoint.X, curPoint.Y);
-                        ratio1.Ratio = 2.49;
+                        ratio1.Ratio = ratio1.Ratio * 1.2;
+
+                        if (ratio1.Ratio >= 2.49)
+                        {
+                            matrix.ScaleAt(2.49 * 1.2 / ratio1.Ratio, 2.49 * 1.2 / ratio1.Ratio, curPoint.X, curPoint.Y);
+                            ratio1.Ratio = 2.49;
+                        }
+                        else
+                        {
+                            matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
+                        }
+                        //  ZoomInOut++;
+
+                        inkCanvas.Strokes.Transform(matrix, false);
+                        RecTopLeft = RecTopLeft * matrix;
+                        RecBottomRight = RecBottomRight * matrix;
+                        if (index == DrawInkMethod.ActiveViews.ActiveWin)
+                        {
+                            DrawInkMethod.StrokesCollection.Clear();
+                            FilterStroke(1);
+                        }
+
+                        //  RepaintDim();
+                        double ratio = ratio1.Ratio;
+                        WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
+                        drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
+
+                        ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes,this);
+
+
+
+                        StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
+                        inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
+                        await Task.Delay(500);
+
+                        if (ToolTop.MoveChecked)
+                        {
+                            inkCanvas.Cursor = Cursors.Hand;
+                        }
+                        else
+                        {
+                            inkCanvas.Cursor = Cursors.Arrow;
+                        }
+
                     }
-                    else
-                    {
-                        matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
-                    }
-                    //  ZoomInOut++;
 
-                    inkCanvas.Strokes.Transform(matrix, false);
-                    RecTopLeft = RecTopLeft * matrix;
-                    RecBottomRight = RecBottomRight * matrix;
-                    if (index == DrawInkMethod.ActiveViews.ActiveWin)
-                    {
-                        DrawInkMethod.StrokesCollection.Clear();
-                        FilterStroke(1);
-                    }
-
-                    //  RepaintDim();
-                    double ratio = ratio1.Ratio;
-                    WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
-                    drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
-                    double x = curPoint.X / ActualWidth * 1280;
-                    double y = curPoint.Y / ActualHeight * 960;
-                    Dictionary<string, object> parameters = new Dictionary<string, object>()
-                            {
-                            { "event",(int)10},
-                            {"x",(int)x},
-                            {"y",(int)y },
-                            {"flag",(int)1024 }
-
-                            };
-                    // LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
-
-                    // new zoomInOut 
-
-                    ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes);
-
-
-
-                    StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
-                    inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
-                    await Task.Delay(500);
-
-                    if (ToolTop.MoveChecked)
-                    {
-                        inkCanvas.Cursor = Cursors.Hand;
-                    }
-                    else
-                    {
-                        inkCanvas.Cursor = Cursors.Arrow;
-                    }
 
                 }
 
@@ -1319,7 +1362,7 @@ namespace Global.UserControls.DrawVisual
                     DrawInkMethod.StrokesCollection.Clear();
                     FilterStroke(1);
                 }
-
+                ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes,this);
                 double ratio = ratio1.Ratio;
                 WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
 
@@ -1349,24 +1392,16 @@ namespace Global.UserControls.DrawVisual
                             ink.RecBottomRight = ink.RecBottomRight * matrix1;
                             ink.RecTopLeft = ink.RecTopLeft * matrix1;
                             ink.drawDefaultDim(ink.inkDimViewModel.DimPos, ink.inkDimViewModel.DimLength, ink.inkDimViewModel.DimColor, ink.ratio1.Ratio, ink.inkDimViewModel.TextColor);
-
+                            ZoomParTransform(ink.ratio1.Ratio, ink.inkCanvas.Strokes,ink);
                         }
 
                     }
 
                 }
 
-                ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes);
-                double x = curPoint.X / ActualWidth * 1280;
-                double y = curPoint.Y / ActualHeight * 960;
-                Dictionary<string, object> parameters = new Dictionary<string, object>()
-                            {
-                            { "event",(int)10},
-                            {"x",(int)x},
-                            {"y",(int)y },
-                            {"flag",(int)-1024 }
-                            };
-                //  LambdaControl.Trigger("MOUSE_EVENT", null, parameters);
+
+
+
                 StreamResourceInfo ZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
                 inkCanvas.Cursor = new Cursor(ZoomIn.Stream);
                 await Task.Delay(500);
@@ -1558,7 +1593,7 @@ namespace Global.UserControls.DrawVisual
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            //WindowData.ExportAs("bmp");
+            Global.WindowData1.ImageExportAsPath(sender,e);
         }
 
         private void inkCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -1571,74 +1606,79 @@ namespace Global.UserControls.DrawVisual
             if (DrawInkMethod.ActiveViews.ActiveWin != this.index)
             {
                 DrawInkMethod.ActiveViews.ActiveWin = this.index;
+                double ratio =  ratio1.Ratio;
+                WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
                 DrawInkMethod.StrokesCollection.Clear();
                 FilterStroke(1);
-                // FilterStroke1(1, RegisterStroke);
-                //FilterStroke1(1, RegisterStroke);
-
-
+               
             }
 
         }
 
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-
+           
             InkAll = WindowData1.GetInstance().inkVisuals;
-            // MessageBox.Show("2");
+            
             RecBottomRight.X = this.ActualWidth;
             RecBottomRight.Y = this.ActualHeight;
 
             RecTopLeft.X = 0;
             RecTopLeft.Y = 0;
+            Dispatcher.Invoke(new Action(() =>
+            {
+                RecBottomRight.X = this.ActualWidth;
+                RecBottomRight.Y = this.ActualHeight;
+            }), DispatcherPriority.Loaded);
 
         }
 
-        public void ZoomParTransform(double ratio, StrokeCollection strokes)
+
+        public void ZoomParTransform(double ratio, StrokeCollection strokes,InkVisual inkVisual)
         {
 
-            if (RecTopLeft.X > 0)
+            if (inkVisual.RecTopLeft.X > 0)
             {
                 Matrix matrixMove1 = new Matrix();
-                matrixMove1.Translate(-RecTopLeft.X, 0);
-                RecTopLeft = RecTopLeft * matrixMove1;
-                RecBottomRight = RecBottomRight * matrixMove1;
+                matrixMove1.Translate(-inkVisual.RecTopLeft.X, 0);
+                inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrixMove1;
+                inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrixMove1;
                 strokes.Transform(matrixMove1, false);
 
             }
-            if (RecTopLeft.Y > 0)
+            if (inkVisual.RecTopLeft.Y > 0)
             {
                 Matrix matrixMove2 = new Matrix();
-                matrixMove2.Translate(0, -RecTopLeft.Y);
-                RecTopLeft = RecTopLeft * matrixMove2;
-                RecBottomRight = RecBottomRight * matrixMove2;
+                matrixMove2.Translate(0, -inkVisual.RecTopLeft.Y);
+                inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrixMove2;
+                inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrixMove2;
                 strokes.Transform(matrixMove2, false);
 
             }
-            if (RecBottomRight.X < this.ActualWidth)
+            if (inkVisual.RecBottomRight.X < inkVisual.ActualWidth)
             {
                 Matrix matrixMove3 = new Matrix();
-                matrixMove3.Translate(this.ActualWidth - RecBottomRight.X, 0);
-                RecTopLeft = RecTopLeft * matrixMove3;
-                RecBottomRight = RecBottomRight * matrixMove3;
+                matrixMove3.Translate(inkVisual.ActualWidth - inkVisual.RecBottomRight.X, 0);
+                inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrixMove3;
+                inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrixMove3;
                 strokes.Transform(matrixMove3, false);
 
             }
-            if (RecBottomRight.Y < this.ActualHeight)
+            if (inkVisual.RecBottomRight.Y < inkVisual.ActualHeight)
             {
                 Matrix matrixMove4 = new Matrix();
-                matrixMove4.Translate(0, this.ActualHeight - RecBottomRight.Y);
-                RecTopLeft = RecTopLeft * matrixMove4;
-                RecBottomRight = RecBottomRight * matrixMove4;
+                matrixMove4.Translate(0, inkVisual.ActualHeight - inkVisual.RecBottomRight.Y);
+                inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrixMove4;
+                inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrixMove4;
                 strokes.Transform(matrixMove4, false);
 
             }
 
-            double Width = RecBottomRight.X - RecTopLeft.X;
-            double Height = RecBottomRight.Y - RecTopLeft.Y;
+            double Width = inkVisual.RecBottomRight.X - inkVisual.RecTopLeft.X;
+            double Height = inkVisual.RecBottomRight.Y - inkVisual.RecTopLeft.Y;
 
-            double x = -(RecTopLeft.X) * 1280 / Width;
-            double y = -(RecTopLeft.Y) * 960 / Height;
+            double x = -(inkVisual.RecTopLeft.X) * 1280 / Width;
+            double y = -(inkVisual.RecTopLeft.Y) * 960 / Height;
             int m = (int)x;
             int n = (int)y;
             //double RecWid = 1280 / ratio;
@@ -1646,22 +1686,22 @@ namespace Global.UserControls.DrawVisual
 
             int RecWid = (int)(1280 / ratio);
             int RecHei = (int)(960 / ratio);
-            CurrentArray = new int[4] { m, n, RecWid, RecHei };
-            if (!Enumerable.SequenceEqual(CurrentArray, lastTempArray))
+            inkVisual.CurrentArray = new int[4] { m, n, RecWid, RecHei };
+            if (!Enumerable.SequenceEqual(inkVisual.CurrentArray, inkVisual.lastTempArray))
             {
                 //MessageBox.Show(m.ToString() + "," + n.ToString() + "," + RecWid.ToString() + "," + RecHei.ToString());
 
 
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
                             {
-                            { "window",index},
+                            { "window",inkVisual.index},
                             { "x",(int)m},
                             {"y",(int)n},
                             {"width",(int)RecWid },
                             {"height",(int)RecHei}
                             };
                 LambdaControl.Trigger("IMAGEING_VIEW_MATRIX", null, parameters);
-                Array.Copy(CurrentArray, lastTempArray, 4);
+                Array.Copy(inkVisual.CurrentArray, inkVisual.lastTempArray, 4);
 
             }
 
@@ -1670,43 +1710,83 @@ namespace Global.UserControls.DrawVisual
 
         }
 
-        private Point ZoomPar(Point point)
+        private Point ZoomPar(Point point,InkVisual inkVisual)
         {
-            double Width1 = RecBottomRight.X - RecTopLeft.X;
-            double Height1 = RecBottomRight.Y - RecTopLeft.Y;
+            double Width1 = inkVisual.RecBottomRight.X - inkVisual.RecTopLeft.X;
+            double Height1 = inkVisual.RecBottomRight.Y - inkVisual.RecTopLeft.Y;
             Matrix matrix = new Matrix();
-            matrix.Translate(-RecTopLeft.X, -RecTopLeft.Y);
+            matrix.Translate(-inkVisual.RecTopLeft.X, -inkVisual.RecTopLeft.Y);
             matrix.Scale(1280 / Width1, 960 / Height1);
-            InverseMatrix = matrix;
-            InverseMatrix.Invert();
+            inkVisual.InverseMatrix = matrix;
+            inkVisual.InverseMatrix.Invert();
             point = point * matrix;
             return point;
         }
-
-        private List<Point> ZoomParList(List<Point> points)
+        private Point DimZoomPar(Point point, InkVisual inkVisual)
+        {
+            double Width1 = inkVisual.ActualWidth;
+            double Height1 = inkVisual.ActualHeight;
+            double ratio = inkVisual.ratio1.Ratio;
+            Matrix matrix = new Matrix();
+            matrix.Scale(1280 / (Width1*ratio), 960 /(Height1 * ratio));
+            inkVisual.InverseMatrixDim = matrix;
+            inkVisual.InverseMatrix.Invert();
+            point = point * matrix;
+            return point;
+        }
+        private List<Point> ZoomParList(List<Point> points,InkVisual inkVisual)
         {
             for (int i = 0; i < points.Count; i++)
             {
 
-                points[i] = ZoomPar(points[i]);
+                points[i] = ZoomPar(points[i], inkVisual);
+            }
+
+            return points;
+        }
+        private List<Point> DimZoomParList(List<Point> points, InkVisual inkVisual)
+        {
+
+            for (int i = 0; i < points.Count; i++)
+            {
+
+                points[i] = DimZoomPar(points[i], inkVisual);
             }
 
             return points;
         }
 
-        private List<Point> ZoomInverseParList(List<Point> points)
+        private List<Point> ZoomInverseParList(List<Point> points, InkVisual inkVisual)
         {
             for (int i = 0; i < points.Count; i++)
             {
 
-                points[i] = points[i] * InverseMatrix;
+                points[i] = points[i] * inkVisual.InverseMatrix;
             }
 
             return points;
         }
 
+        private List<Point> DimZoomInverseParList(List<Point> points, InkVisual inkVisual)
+        {
+            for (int i = 0; i < points.Count; i++)
+            {
 
-        private void StrokeTransforChange(int i, ObservableCollection<VisualAttritube> drawVisuals)
+                points[i] = points[i] * inkVisual.InverseMatrixDim;
+            }
+
+            return points;
+        }
+        private Point ZoomInversePar(Point point,InkVisual inkVisual)
+        {
+           point = point* inkVisual.InverseMatrix;
+
+            return point;
+        }
+
+       
+
+        private void StrokeTransforChange(int i, ObservableCollection<VisualAttritube> drawVisuals,InkVisual inkVisual)
         {
 
 
@@ -1717,15 +1797,21 @@ namespace Global.UserControls.DrawVisual
             view.winProperty.ratio = this.ratio1.Ratio;
             view.winProperty.acWidth = this.ActualWidth;
             view.winProperty.acHeight = this.ActualHeight;
-           
+
+            if (defaultDim.Visibility == Visibility.Visible)
+            {
+                DimTrans(view, view.PointList);
+                view.PointList = DimZoomParList(view.PointList, inkVisual);
+
+            }
+
            drawVisuals.Add(view);
 
 
             foreach (CustomStroke item in DrawInkMethod.StrokesCollection)
             {
                 VisualAttritube visualAttritube = new VisualAttritube();
-                visualAttritube = VisualTransferChange(visualAttritube, item);
-                drawVisuals.Add(visualAttritube);
+               
                 if (item is CustomTextInput textInput)
                 {
                     visualAttritube.TexT.TextColor = textInput.textColor;
@@ -1734,36 +1820,93 @@ namespace Global.UserControls.DrawVisual
                     visualAttritube.TexT.Italic = textInput.Italic;
                     visualAttritube.TexT.Fontsize = textInput.Fontsize;
                     visualAttritube.TexT.UnderLine = textInput.UnderLine;
-
+                    visualAttritube.TexT.Content = textInput.customTextInput.Text;
 
                 };
+                if (item.Type1 =="DimA" || item.Type1 == "DimB"|| item.Type1 == "DimC"|| item.Type1 == "DimD")
+                {
+
+                    visualAttritube.TexT.TextColor = item.textColor;
+                    visualAttritube.TexT.ShowText = item.showLabel;
+                    visualAttritube.TexT.TextPos = item.LabPos;
+                    visualAttritube.TexT.FontFamily = item.FontFamily.ToString();
+                    visualAttritube.TexT.UnderLine = item.UnderLine;
+                    visualAttritube.TexT.Italic = item.Italic;
+                    visualAttritube.TexT.Bold = item.Bold;
+                    visualAttritube.TexT.Fontsize = item.Fontsize;
+                    visualAttritube.TexT.Point1 = item.Point1;
+                    visualAttritube.TexT.Content = item.Content;
+
+                }
+                visualAttritube = VisualTransferChange(visualAttritube, item,inkVisual);
+                drawVisuals.Add(visualAttritube);
+
             }
             string JSON = JsonSerializer.Serialize(drawVisuals, new JsonSerializerOptions());
             LambdaControl.Trigger("DRAWING_VISUAL", this, JSON);
-            drawVisualsCopy = JsonSerializer.Deserialize<List<VisualAttritube>>(JSON);
+            //drawVisualsCopy = JsonSerializer.Deserialize<List<VisualAttritube>>(JSON);
             foreach (CustomStroke item in DrawInkMethod.StrokesCollection)
             {
-                ZoomInverseParList(item.PointList);
+                ZoomInverseParList(item.PointList,inkVisual);
+                ZoomInversePar(item.Point1, inkVisual);
             }
+            // dim inverse
+            DimZoomInverseParList(view.PointList, inkVisual);
+
 
         }
 
 
-        private VisualAttritube VisualTransferChange(VisualAttritube visual, CustomStroke customStroke)
+        private VisualAttritube VisualTransferChange(VisualAttritube visual, CustomStroke customStroke,InkVisual inkVisual)
         {
 
             visual.Color = customStroke.ColorBru;
             visual.LineWidth = customStroke.LineWidth;
             visual.LineType = customStroke.Dash;
             visual.Type = customStroke.Type1;
-            visual.PointList = ZoomParList(customStroke.PointList);
+            visual.PointList = ZoomParList(customStroke.PointList, inkVisual);
+            visual.TexT.Point1 = ZoomPar(customStroke.Point1, inkVisual);
             return visual;
 
         }
 
+        private List<Point> DimTrans(VisualAttritube view,List<Point> pointList)
+        {
+            pointList.Clear();
+            view.Color = inkDimViewModel.DimColor;
+            view.TexT.TextColor = inkDimViewModel.TextColor;
+            view.TexT.TextPos = inkDimViewModel.DimPos;
 
+            view.TexT.ShowText = true;
+            view.TexT.Point1 = new Point(inkDimViewModel.DimLength, 0);
+            pathGeometry.ToString();
+            GeneralTransform generalTransform1 = defaultDim.TransformToVisual(this);
+            Point dimPoint = generalTransform1.Transform(new Point(0, 0));
 
+            Point point0 = new Point(pathGeometry.Bounds.X, pathGeometry.Bounds.Y);
+            double width = pathGeometry.Bounds.Width;
+            double height = pathGeometry.Bounds.Height;
 
+            Point point1 = new Point(dimPoint.X + point0.X, dimPoint.Y + point0.Y);
+
+            Point point2 = new Point(dimPoint.X + point0.X, dimPoint.Y + point0.Y + height);
+
+            Point point3 = new Point(dimPoint.X + point0.X + width, dimPoint.Y + point0.Y + height);
+
+            Point point4 = new Point(dimPoint.X + point0.X + width, dimPoint.Y + point0.Y);
+            pointList.Add(point1);
+
+            pointList.Add(point2);
+            pointList.Add(point3);
+            pointList.Add(point4);
+            return pointList;
+
+        }
+
+        private void RadioMenuItem_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
 
 
 

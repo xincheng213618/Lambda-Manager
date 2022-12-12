@@ -73,8 +73,6 @@ namespace Global
             {
                 // Add Histogram
 
-                //MessageBox.Show("1111111");
-
                 Histogram histogram = new Histogram();
                 StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
                 Grid grid1 = (Grid)stackPanel.Parent;
@@ -175,9 +173,9 @@ namespace Global
 
                     };
 
-                    if (e.PropertyName == "RulerChecked" || e.PropertyName == "CircleChecked" || e.PropertyName == "CurveChecked" || e.PropertyName == "LineChecked" || e.PropertyName == "PolygonChecked" || e.PropertyName == "RectangleChecked" || e.PropertyName == "TextChecked" || e.PropertyName == "EraserChecked")
+                    if (e.PropertyName == "RulerChecked" || e.PropertyName == "CircleChecked" || e.PropertyName == "CurveChecked" || e.PropertyName == "LineChecked" || e.PropertyName == "PolygonChecked" || e.PropertyName == "RectangleChecked" || e.PropertyName == "TextChecked" || e.PropertyName == "EraserChecked" || e.PropertyName == "InkSelected" || e.PropertyName == "InkAllSelected")
                     {
-                        if (ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked)
+                        if (ImageViewState.toolTop.RulerChecked || ImageViewState.toolTop.CircleChecked || ImageViewState.toolTop.CurveChecked || ImageViewState.toolTop.LineChecked || ImageViewState.toolTop.PolygonChecked || ImageViewState.toolTop.RectangleChecked || ImageViewState.toolTop.TextChecked || ImageViewState.toolTop.InkSelected || ImageViewState.toolTop.InkAllSelected)
                         {
 
                             propertySetItem.Visibility = Visibility.Visible;
@@ -393,6 +391,8 @@ namespace Global
 
 
 
+                
+
                 RepoTogg.Checked += (s, e) =>
                 {
                     if (histogramTogg.IsChecked == true)
@@ -577,22 +577,7 @@ namespace Global
                         {
                             histogramTogg.IsEnabled = true;
                         }
-                        if (inkVisuals[0] != null)
-                        {
-                            if (inkVisuals[0].inkCanvas.ContextMenu != null)
-                            {
-
-                                ContextMenu contextMenu = new ContextMenu();
-                                MenuItem menuItem = new MenuItem() { Header = "导出BMP..." };
-                                menuItem.Click += delegate
-                                {
-
-                                    WindowData1.ExportAs("bmp");
-                                };
-                                contextMenu.Items.Add(menuItem);
-                                inkVisuals[0].inkCanvas.ContextMenu = contextMenu;
-                            }
-                        }
+                       
                     }
                     else
                     {
@@ -612,24 +597,18 @@ namespace Global
                     {
                         if (inkVisuals[0].inkCanvas.ContextMenu != null)
                         {
-                            // inkVisuals[0].inkCanvas.ContextMenu = null;
+                            
                         }
-                        //MessageBox.Show("111");
                         inkVisuals[0].BorderBrush =new SolidColorBrush(Colors.Transparent);
                         WindowData1.GetInstance().inkVisuals[0].Border.BorderBrush = new SolidColorBrush(Colors.Transparent);
                     }
                 };
-                // fontsize change 
-                TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
-                TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
-                TextBlock zTop = (TextBlock)mainwin.FindName("zTop");
-                TextBlock zCurrent = (TextBlock)mainwin.FindName("zCurrent");
-                TextBlock zBottom = (TextBlock)mainwin.FindName("zBottom");
-                sliceIndex.FontSize = 10;
-                totalSlice.FontSize = 10;
-                zTop.FontSize = 10;
-                zCurrent.FontSize = 10;
-                zBottom.FontSize = 10;
+
+
+
+              
+
+
 
 
             }
@@ -858,12 +837,15 @@ namespace Global
                 backwardButton.Padding = new Thickness(-1.5, -1, 0, 0);
                 backwardButton.Margin = new Thickness(0, 0, 3, 0);
 
+                TextBlock textBlockFPS = (TextBlock)bottomToolbar.Children[4];
+                textBlockFPS.FontFamily = new FontFamily("Arial");
+
                 Slider Slider1 = (Slider)bottomToolbar.Children[6];
 
                 StackPanel StackPanel = (StackPanel)bottomToolbar.Children[7];
                 TextBlock textBlock = (TextBlock)StackPanel.Children[0];
                 textBlock.Text = "批次";
-
+                textBlock.FontFamily = new FontFamily("Arial");
                 Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EA646"));
 
                 bottomToolbar.Children.Remove(Slider1);
@@ -884,27 +866,29 @@ namespace Global
 
 
                 TextBlock frameIndex = (TextBlock)mainwin.FindName("frameIndex");
-
+                frameIndex.FontFamily = new FontFamily("Arial");
                 frameIndex.DataContext = updateStatus;
                 frameIndex.SetBinding(TextBlock.TextProperty, new Binding("FrameIndex"));
 
                 TextBlock totalFrame = (TextBlock)mainwin.FindName("totalFrame");
-
+                totalFrame.FontFamily = new FontFamily("Arial");
                 totalFrame.DataContext = updateStatus;
                 totalFrame.SetBinding(TextBlock.TextProperty, new Binding("TotalFrame"));
 
                 TextBlock timeElapsed = (TextBlock)mainwin.FindName("timeElapsed");
-
+                timeElapsed.FontFamily = new FontFamily("Arial");
                 timeElapsed.DataContext = updateStatus;
                 timeElapsed.SetBinding(TextBlock.TextProperty, new Binding("TimeElapsed"));
 
                 TextBlock totalTime = (TextBlock)mainwin.FindName("totalTime");
+                totalTime.FontFamily = new FontFamily("Arial");
                 Binding TotalTime = new Binding("TotalTime");
                 TotalTime.Source = updateStatus;
                 totalTime.SetBinding(TextBlock.TextProperty, TotalTime);
 
 
                 TextBox fpsState = (TextBox)mainwin.FindName("fpsState");
+                fpsState.FontFamily = new FontFamily("Arial");
                 Binding fpsEnable = new Binding("FpsEnable");
                 fpsEnable.Source = updateStatus;
                 fpsEnable.Converter = new BooleanToVisibilityConverter1();
@@ -912,12 +896,15 @@ namespace Global
                 //fpsState.Text = "100";
 
 
+
+
                 TextBlock zTop = (TextBlock)mainwin.FindName("zTop");
+                zTop.FontFamily = new FontFamily("Arial");
+                zTop.FontSize = 12;
                 StackPanel stackPanel = (StackPanel)zTop.Parent;
                 stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
                 Border border = (Border)stackPanel.Parent;
                 border.CornerRadius = new CornerRadius(4);
-
                 Binding ZTop = new Binding("ZTop");
                 ZTop.Source = updateStatus;
                 zTop.SetBinding(TextBlock.TextProperty, ZTop);
@@ -927,15 +914,19 @@ namespace Global
                 Binding ZCurrent = new Binding("ZCurrent");
                 ZCurrent.Source = updateStatus;
                 zCurrent.SetBinding(TextBlock.TextProperty, ZCurrent);
-
-
+                zCurrent.FontSize = 12;
+                zCurrent.FontFamily = new FontFamily("Arial");
                 TextBlock zBottom = (TextBlock)mainwin.FindName("zBottom");
                 Binding ZBottom = new Binding("ZBottom");
                 ZBottom.Source = updateStatus;
                 zBottom.SetBinding(TextBlock.TextProperty, ZBottom);
+                zBottom.FontSize = 12;
+
+                zBottom.FontFamily = new FontFamily("Arial");
 
                 TextBlock sliceIndex = (TextBlock)mainwin.FindName("sliceIndex");
-
+                sliceIndex.FontSize = 12;
+                sliceIndex.FontFamily = new FontFamily("Arial");
                 StackPanel stackPanel1 = (StackPanel)sliceIndex.Parent;
                 stackPanel1.HorizontalAlignment = HorizontalAlignment.Center;
                 Border border1 = (Border)stackPanel1.Parent;
@@ -946,6 +937,8 @@ namespace Global
                 sliceIndex.SetBinding(TextBlock.TextProperty, SliceIndex);
 
                 TextBlock totalSlice = (TextBlock)mainwin.FindName("totalSlice");
+                totalSlice.FontSize = 12;
+                totalSlice.FontFamily = new FontFamily("Arial");
                 Binding TotalSlice = new Binding("TotalSlice");
                 TotalSlice.Source = updateStatus;
 
@@ -1077,23 +1070,23 @@ namespace Global
                 ToggleButtonSearch.IsEnabled = false;
 
 
-                Binding binding4 = new Binding("ZoomOutChecked");
-                ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
-                ToggleButtonZoomOut.SetBinding(ToggleButton.IsCheckedProperty, binding4);
-                ToggleButtonZoomOut.Margin = new Thickness(3, 0, 3, 0);
-                ToggleButtonZoomOut.Padding = new Thickness(-1, -1, 0, 0);
+               // Binding binding4 = new Binding("ZoomOutChecked");
+                Button ButtonZoomOut = ((Button)topToolbar.Children[4]);
+               // ButtonZoomOut.SetBinding(Button.ClipProperty, binding4);
+                ButtonZoomOut.Margin = new Thickness(3, 0, 3, 0);
+                ButtonZoomOut.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl ZomOut = new ContentControl();
                 ZomOut.Template = (ControlTemplate)resourceDictionary["zoomOut"];
-                ToggleButtonZoomOut.Content = ZomOut;
+                ButtonZoomOut.Content = ZomOut;
 
-                Binding binding5 = new Binding("ZoomInChecked");
-                ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
-                ToggleButtonZoomIn.SetBinding(ToggleButton.IsCheckedProperty, binding5);
-                ToggleButtonZoomIn.Margin = new Thickness(3, 0, 3, 0);
-                ToggleButtonZoomIn.Padding = new Thickness(-1, -1, 0, 0);
+               // Binding binding5 = new Binding("ZoomInChecked");
+                Button ButtonZoomIn = ((Button)topToolbar.Children[5]);
+               // ButtonZoomIn.SetBinding(Button., binding5);
+                ButtonZoomIn.Margin = new Thickness(3, 0, 3, 0);
+                ButtonZoomIn.Padding = new Thickness(-1, -1, 0, 0);
                 ContentControl zoomIn = new ContentControl();
                 zoomIn.Template = (ControlTemplate)resourceDictionary["zoomIn"];
-                ToggleButtonZoomIn.Content = zoomIn;
+                ButtonZoomIn.Content = zoomIn;
 
 
 
@@ -1245,9 +1238,7 @@ namespace Global
                     stageAcquisition.Children[0].Visibility = Visibility.Visible;
                     stageAcquisition.Children[1].Visibility = Visibility.Visible;
                     stageAcquisition.Children[2].Visibility = Visibility.Visible;
-                    //stageAcquisition.Children[3].Visibility = Visibility.Visible;
-                    // stageAcquisition.Children[4].Visibility = Visibility.Visible;
-                    // stageAcquisition.Children[5].Visibility = Visibility.Visible;
+                   
                     statusBar.Visibility = Visibility.Visible;
                     stageAcquisition.Visibility = Visibility.Visible;
                     mainwin.WindowStyle = WindowStyle.SingleBorderWindow;
@@ -1275,18 +1266,28 @@ namespace Global
 
 
 
-                ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[14]);
-                ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
-                ToggleButtonEraser.Margin = new Thickness(3, 0, 3, 0);
+                //ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[21]);
+                //ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
+                //ToggleButtonEraser.Margin = new Thickness(3, 0, 3, 0);
 
-                ToggleButtonEraser.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl eraser = new ContentControl();
-                eraser.Template = (ControlTemplate)resourceDictionary["eraser"];
-                ToggleButtonEraser.Content = eraser;
+                //ToggleButtonEraser.Padding = new Thickness(-1, -1, 0, 0);
+                //ContentControl eraser = new ContentControl();
+                //eraser.Template = (ControlTemplate)resourceDictionary["eraser"];
+                //ToggleButtonEraser.Content = eraser;
+
+
+                ToggleButton selectAllTogg  = ((ToggleButton)topToolbar.Children[21]);
+                selectAllTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkAllSelected"));
+                selectAllTogg.Margin = new Thickness(3, 0, 3, 0);
+
+                selectAllTogg.Padding = new Thickness(-1, -1, 0, 0);
+                ContentControl selectedAll = new ContentControl();
+                selectedAll.Template = (ControlTemplate)resourceDictionary["allSelected"];
+                selectAllTogg.Content = selectedAll;
 
 
 
-                ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[15]);
+                ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[19]);
                 ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, new Binding("TextChecked"));
                 ToggleButtonText.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonText.Padding = new Thickness(-1, -1, 0, 0);
@@ -1296,10 +1297,24 @@ namespace Global
 
 
 
-                ToggleButton ToggleButtonArrow = ((ToggleButton)topToolbar.Children[16]);
-                ToggleButtonArrow.SetBinding(ToggleButton.IsCheckedProperty, new Binding("ArrowChecked"));
-                ToggleButtonArrow.Visibility = Visibility.Collapsed; //     delete Arrow
-                ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[17]);
+                ToggleButton selectTogg = ((ToggleButton)topToolbar.Children[20]);
+                selectTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkSelected"));
+                selectTogg.Visibility = Visibility.Visible; //
+                selectTogg.Margin = new Thickness(3, 0, 3, 0);
+
+                selectTogg.Padding = new Thickness(-1, -1, 0, 0);
+                ContentControl select1 = new ContentControl();
+                select1.Template = (ControlTemplate)resourceDictionary["singleSelected"];
+                selectTogg.Content = select1;
+
+
+
+
+
+                //
+                //
+                // delete Arrow
+                ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[14]);
                 ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, new Binding("LineChecked"));
                 ToggleButtonLine.Margin = new Thickness(3, 0, 3, 0);
 
@@ -1309,7 +1324,7 @@ namespace Global
                 ToggleButtonLine.Content = line;
 
 
-                ToggleButton ToggleButtonCurve = ((ToggleButton)topToolbar.Children[18]);
+                ToggleButton ToggleButtonCurve = ((ToggleButton)topToolbar.Children[15]);
                 ToggleButtonCurve.SetBinding(ToggleButton.IsCheckedProperty, new Binding("CurveChecked"));
                 ToggleButtonCurve.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonCurve.Padding = new Thickness(-1, -1, 0, 0);
@@ -1322,7 +1337,7 @@ namespace Global
 
 
 
-                ToggleButton ToggleButtonCircle = ((ToggleButton)topToolbar.Children[19]);
+                ToggleButton ToggleButtonCircle = ((ToggleButton)topToolbar.Children[16]);
                 ToggleButtonCircle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("CircleChecked"));
                 ToggleButtonCircle.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonCircle.Padding = new Thickness(-1, -1, 0, 0);
@@ -1330,7 +1345,7 @@ namespace Global
                 circle.Template = (ControlTemplate)resourceDictionary["circle"];
                 ToggleButtonCircle.Content = circle;
 
-                ToggleButton ToggleButtonRectangle = ((ToggleButton)topToolbar.Children[20]);
+                ToggleButton ToggleButtonRectangle = ((ToggleButton)topToolbar.Children[17]);
                 ToggleButtonRectangle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("RectangleChecked"));
 
 
@@ -1342,7 +1357,7 @@ namespace Global
 
 
 
-                ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[21]);
+                ToggleButton ToggleButtonPolygon = ((ToggleButton)topToolbar.Children[18]);
                 ToggleButtonPolygon.SetBinding(ToggleButton.IsCheckedProperty, new Binding("PolygonChecked"));
                 ToggleButtonPolygon.Margin = new Thickness(3, 0, 3, 0);
                 ToggleButtonPolygon.Padding = new Thickness(-1, -1, 0, 0);
@@ -1350,10 +1365,37 @@ namespace Global
                 polygon.Template = (ControlTemplate)resourceDictionary["polygon"];
                 ToggleButtonPolygon.Content = polygon;
 
-                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonZoomOut, ToggleButtonZoomIn, ToggleButtonFocus, ToggleButtonRuler, ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonArrow, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
+                ToggleButton toggleButtonE = new ToggleButton() { Width=24,Height=22};
+                Button button1 = new Button() { Width = 24, Height = 22 };
+                topToolbar.Children.Add(toggleButtonE);
+                topToolbar.Children.Add(button1);
+
+
+                ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[22]);
+                ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
+                ToggleButtonEraser.Margin = new Thickness(3, 0, 3, 0);
+
+                ToggleButtonEraser.Padding = new Thickness(-1, -1, 0, 0);
+                ContentControl eraser = new ContentControl();
+                eraser.Template = (ControlTemplate)resourceDictionary["eraser"];
+                ToggleButtonEraser.Content = eraser;
+
+                Button EraserAll = ((Button)topToolbar.Children[23]);
+               // EraserAll.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
+                EraserAll.Margin = new Thickness(3, 0, 3, 0);
+
+                EraserAll.Padding = new Thickness(-1, -1, 0, 0);
+                ContentControl eraserA = new ContentControl();
+                eraserA.Template = (ControlTemplate)resourceDictionary["eraserAll"];
+                EraserAll.Content = eraserA;
+
+
+
+
+
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonFocus, ToggleButtonRuler, ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, selectTogg, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon, selectAllTogg };
                 DrawingModeList = new List<ToggleButton>() { ToggleButtonRuler, ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
-
-
+              
                 foreach (var item in Tools)
                 {
 
@@ -1500,7 +1542,66 @@ namespace Global
                 border.Child = grid1;
                 grid1.Children.Add(bottomToolBar1);
                 grid1.Children.Add(galleryTool);
+                galleryView.mode.PropertyChanged += (s, e) =>
 
+                {
+
+                    if (e.PropertyName == "CurrentMode")
+                    {
+
+                       // MessageBox.Show("2");
+                        switch (galleryView.mode.CurrentMode)
+                        {
+                            case "BF":
+                                if (updateStatus.BFCheckEnable == false)
+                                {
+                                    updateStatus.BFCheckEnable= true;
+
+                                };
+                                break;
+                            case "DF":
+                                if (updateStatus.DFCheckEnable == false)
+                                {
+                                    updateStatus.DFCheckEnable = true;
+
+                                };
+                                break;
+                            case "DP":
+                                if (updateStatus.DPCheckEnable == false)
+                                {
+                                    updateStatus.DPCheckEnable = true;
+
+                                };
+                                break;
+                            case "RI":
+                                if (updateStatus.RICheckEnable == false)
+                                {
+                                    updateStatus.RICheckEnable = true;
+
+                                };
+                                break;
+                            case "QP":
+                                if (updateStatus.QPCheckEnable == false)
+                                {
+                                    updateStatus.QPCheckEnable = true;
+
+                                };
+                                break;
+                            case "PC":
+                                if (updateStatus.PCCheckEnable == false)
+                                {
+                                    updateStatus.PCCheckEnable = true;
+
+                                };
+                                break;
+
+
+                        }
+
+                    }
+
+
+                };
 
 
 

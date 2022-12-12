@@ -18,8 +18,17 @@
   <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
   <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
   <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
-    
-  <Style x:Key="PhaseButton" TargetType="{x:Type ToggleButton}">
+    <LinearGradientBrush x:Key="togBackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#999999" Offset="0"/>
+                <GradientStop Color="#4c4c4c" Offset="0.1"/>
+                <GradientStop Color="#212024" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <Style x:Key="PhaseButton" TargetType="{x:Type ToggleButton}">
     <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />
     <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
     <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
@@ -102,6 +111,7 @@
     <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
     <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#EEE" />
     <SolidColorBrush x:Key="DarkThemeBackground" Color="#000000" />
+    <SolidColorBrush x:Key="ToggleNormalBrush" Color="#222222" />
 
     <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
@@ -173,7 +183,121 @@
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
+    <!---->
+    <SolidColorBrush x:Key="PressFore" Color="#FFF" />
+    <SolidColorBrush x:Key="DefaultedForeground" Color="#FFF" />
+    <LinearGradientBrush x:Key="EnableBack" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
 
+                <GradientStop Color="#FFF" Offset="0"/>
+                <GradientStop Color="#888" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <!---->
+    <LinearGradientBrush x:Key="CheckedBack" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#6EA646" Offset="0.0"/>
+                <GradientStop Color="#6EA646" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <!---->
+    <LinearGradientBrush x:Key="mouseOverBack" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#6C6F70" Offset="0.0"/>
+                <GradientStop Color="#3F4243" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <!---->
+    <LinearGradientBrush x:Key="mouseOverFore" StartPoint="0,0" EndPoint="1,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#6EA646" Offset="0.0"/>
+                <GradientStop Color="#6EA646" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+
+
+    <!---->
+    <!---->
+    <LinearGradientBrush x:Key="DefaultedBackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#242424" Offset="0"/>
+                <GradientStop Color="#3d3d3d" Offset="1"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+
+
+    <ControlTemplate x:Key="right">
+        <Viewbox Width="20" Height="20">
+            <Canvas Width="15" Height="15" >
+                <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Canvas.Left="-5" Canvas.Top="-6" Data="M8.588541030883789,8.843097686767578L8.588541030883789,10.597327686767578L14.88053103088379,13.264647686767578L8.588541030883789,15.931967686767578L8.588541030883789,17.686197686767578L17.17708103088379,13.978517686767578L17.17708103088379,12.550777686767578L8.588541030883789,8.843097686767578Z"
+                  ></Path>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="left">
+        <Viewbox Width="20" Height="20">
+            <Canvas Width="15" Height="15" >
+                <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Canvas.Left="-5" Canvas.Top="-5" Data="M8.588541030883789,8.843097686767578L8.588541030883789,10.597327686767578L14.88053103088379,13.264647686767578L8.588541030883789,15.931967686767578L8.588541030883789,17.686197686767578L17.17708103088379,13.978517686767578L17.17708103088379,12.550777686767578L8.588541030883789,8.843097686767578Z"
+                  >
+                    <Path.RenderTransform>
+                        <MatrixTransform>
+                            <MatrixTransform.Matrix>
+                                <Matrix M11="-1" M12="0" M21="0" M22="-1" OffsetX="25" OffsetY="25"></Matrix>
+                            </MatrixTransform.Matrix>
+                        </MatrixTransform>
+                    </Path.RenderTransform>
+
+                </Path>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+    <ControlTemplate x:Key="up">
+        <Viewbox Width="20" Height="20">
+            <Canvas Width="15" Height="15" >
+                <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Canvas.Left="2" Canvas.Top="2" Data="M8.843097686767578,8.588541030883789L8.843097686767578,10.342771030883789L15.135087686767578,13.010091030883789L8.843097686767578,15.677411030883789L8.843097686767578,17.43164103088379L17.43163768676758,13.723961030883789L17.43163768676758,12.296221030883789L8.843097686767578,8.588541030883789Z"
+                  >
+                    <Path.RenderTransform>
+                        <MatrixTransform>
+                            <MatrixTransform.Matrix>
+                                <Matrix M11="0" M12="-1" M21="-1" M22="0" OffsetX="17.40" OffsetY="17.4"></Matrix>
+                            </MatrixTransform.Matrix>
+                        </MatrixTransform>
+                    </Path.RenderTransform>
+
+                </Path>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+    <ControlTemplate x:Key="down">
+        <Viewbox Width="20" Height="20">
+            <Canvas Width="15" Height="15" >
+                <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Canvas.Left="0" Canvas.Top="10" Data="M0,0L0,1.75423L6.29199,4.42155L0,7.08887L0,8.8431L8.58854,5.13542L8.58854,3.70768L0,0Z"
+                  >
+                    <Path.RenderTransform>
+                        <MatrixTransform>
+                            <MatrixTransform.Matrix>
+                                <Matrix M11="0" M12="1" M21="-1" M22="0" OffsetX="12" OffsetY="-7"></Matrix>
+                            </MatrixTransform.Matrix>
+                        </MatrixTransform>
+                    </Path.RenderTransform>
+
+                </Path>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
 
 
     <Style x:Key="BtnStyle"  TargetType="Button">
@@ -252,19 +376,18 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DefaultedBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="TextElement.Foreground">
-                                <Setter.Value>
-                                    <SolidColorBrush>#6EA646</SolidColorBrush>
-                                </Setter.Value>
+                            <Setter Property="TextElement.Foreground" Value="{StaticResource mouseOverFore}">
+                                
                             </Setter>
                             <!--<Setter Property="TextElement.FontWeight" Value="Bold">
                                 
                             </Setter>-->
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource OverBrush }" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBrush }" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource mouseOverBack }" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource  OverBrush}" />
+                            <Setter Property="TextElement.Foreground" Value="{StaticResource  PressFore}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource CheckedBack}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
@@ -277,9 +400,70 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+   
+
+    <Style x:Key="DirectionButton" TargetType="{x:Type Button}" >
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Button.Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="2" BlurRadius="3" Opacity="0.6" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border 
+        x:Name="Border"  
+        CornerRadius="3" 
+       
+      Background="{StaticResource DefaultedBackground}" BorderBrush="{StaticResource DefaultedForeground}" BorderThickness="0">
+                        <Border.Effect >
+                            <DropShadowEffect Color="#e1e1e1" Direction="90" ShadowDepth="1" BlurRadius="1" Opacity="1" ></DropShadowEffect>
+                        </Border.Effect>
+                        <ContentPresenter x:Name="Content"
+          Margin="{TemplateBinding Button.Padding}"
+          HorizontalAlignment="Center"                             
+          VerticalAlignment="Center"
+          RecognizesAccessKey="True"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DefaultedForeground }" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DefaultedBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource mouseOverBack}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource mouseOverFore}"/>
+
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource  PressFore}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource CheckedBack}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+
+            </Setter.Value>
+        </Setter>
+    </Style>
+   
     
     
    
+    
 
 
 </ResourceDictionary>

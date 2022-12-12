@@ -15,6 +15,8 @@
             <local:VisibilityConverter x:Key="Vis" ></local:VisibilityConverter>
             <local:VisibilityConverter1 x:Key="VisHid" ></local:VisibilityConverter1>
             <local:BoolToVisibilityConverter x:Key="Visb" Reverse="True"></local:BoolToVisibilityConverter>
+            <local:ValueToThousands x:Key="VThousands"></local:ValueToThousands>
+            <local:StringValueToThousands x:Key="SVThousands"></local:StringValueToThousands>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/generic.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -49,8 +51,8 @@
             <Grid Grid.Column="0">
                 <Grid >
                     <Label Content="0"  Foreground="white" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Margin="0,0,5,0"></Label>
-                    <Label Content="{Binding HalfMax}" Foreground="white" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,-5,0,0"  ></Label>
-                    <Label Content="{Binding Max}"   Foreground="white" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,0,30" ></Label>
+                    <Label Content="{Binding HalfMax,Converter={StaticResource VThousands}}" Foreground="white" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,-5,0,0"  ></Label>
+                    <Label Content="{Binding Max ,Converter={StaticResource SVThousands}}"   Foreground="white" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,0,30" ></Label>
                 </Grid>
 
             </Grid>
@@ -61,7 +63,7 @@
 
                         <Image Margin="0"   Name="HistogramImage" Source="/ConfigBottomView;component/Resources/Histogram.jpg" Stretch="Fill"  SizeChanged="HistogramImage_SizeChanged"></Image>
                     </Border>
-
+                 
                 </Border>
                    
                 <InkCanvas Name="inkCanvas"  Width="{Binding ElementName=ImageBorder, Path=ActualWidth}" Height="{Binding ElementName=ImageBorder, Path=ActualHeight}"    Background="Transparent" EditingMode="None"  Opacity="1"   >
@@ -172,9 +174,9 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Width="25" Margin="0,-10,8,0"  VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White"  Grid.Column="0" Text="0" FlowDirection="RightToLeft" ></TextBlock>
-                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin,Mode=TwoWay}" Step="1"  Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMax,Mode=TwoWay}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"    ></range:RangeSlider>
+                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMin,Mode=TwoWay}" Step="1"  Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMax,Mode=TwoWay}"  Name="RangeSlider"   Minimum="0" Maximum="255"  Orientation="Horizontal" SlidBackground="{StaticResource GRAY}" VerticalAlignment="Center" LowerValueChanged="RangeSlider_LowerValueChanged" HigherValueChanged="RangeSlider_HigherValueChanged"  ></range:RangeSlider>
                 <TextBlock Width="30"  Margin="0,-10,0,0" VerticalAlignment="Center" Foreground="White" Grid.Column="2" Text="255" ></TextBlock>
-                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMinP,Mode=TwoWay}" Step="1" Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMaxP,Mode=TwoWay}"  Name="RangeSliderP"   Minimum="{Binding SliderMinP}" Maximum="{Binding SliderMaxP}"  Orientation="Horizontal"  VerticalAlignment="Center" LowerValueChanged="RangeSliderP_LowerValueChanged" HigherValueChanged="RangeSliderP_HigherValueChanged"    ></range:RangeSlider>
+                <range:RangeSlider Grid.Column="1" LowerValue="{Binding RangeMinP,Mode=TwoWay}"  Step="1" Margin="-7,-10,3,0" Height="20" HigherValue="{Binding RangeMaxP,Mode=TwoWay}"  Name="RangeSliderP"   Minimum="{Binding SliderMinP}" Maximum="{Binding SliderMaxP}"  Orientation="Horizontal"  VerticalAlignment="Center" LowerValueChanged="RangeSliderP_LowerValueChanged" HigherValueChanged="RangeSliderP_HigherValueChanged"    ></range:RangeSlider>
                
             </Grid>
         </Border>

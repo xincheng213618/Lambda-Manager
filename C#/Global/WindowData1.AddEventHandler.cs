@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Drawing;
 using Microsoft.Win32;
 using System.Text;
+using ExportProcessing;
 
 namespace Global
 {
@@ -72,8 +73,10 @@ namespace Global
             // ProfilePointsReback
             LambdaControl.AddLambdaEventHandler("PROFILE_COLLECTION_POINT",ProfileCollectionP, false);
             LambdaControl.AddLambdaEventHandler("PROFILE_COLLECTION_POINT1", ReProfileCollectionP, false);
-          
 
+            // QUICK_EXPORT 
+            
+            LambdaControl.AddLambdaEventHandler("QUICK_EXPORT_PATHBACK", ImageExportAs, false);
         }
 
         private bool StaheIniClose(object sender, EventArgs e)
@@ -84,6 +87,51 @@ namespace Global
             });
             return true;
         }
+
+        private bool windowsMode(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+
+            if (eventData == null)
+                return false;
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+
+                if (!string.IsNullOrEmpty(eventData.GetString("Min")))
+                    progressBarModel.MiniMum = double.Parse(eventData.GetString("Min"));
+                if (!string.IsNullOrEmpty(eventData.GetString("Max")))
+                    progressBarModel.MaxMum = double.Parse(eventData.GetString("Max"));
+                if (!string.IsNullOrEmpty(eventData.GetString("Current")))
+                    progressBarModel.Current = double.Parse(eventData.GetString("Current"));
+                if (!string.IsNullOrEmpty(eventData.GetString("LoadingMax")))
+                    progressBarModel.LoadingMax = double.Parse(eventData.GetString("LoadingMax"));
+                if (!string.IsNullOrEmpty(eventData.GetString("MinZ")))
+                    progressBarModel.MiniMumZ = double.Parse(eventData.GetString("MinZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("MaxZ")))
+                    progressBarModel.MaxMumZ = double.Parse(eventData.GetString("MaxZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("CurrentZ")))
+                    progressBarModel.CurrentZ = double.Parse(eventData.GetString("CurrentZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("LoadingMaxZ")))
+                    progressBarModel.LoadingMaxZ = double.Parse(eventData.GetString("LoadingMaxZ"));
+                if (!string.IsNullOrEmpty(eventData.GetString("SliderValueH")))
+                    progressBarModel.SliderValueH = double.Parse(eventData.GetString("SliderValueH"));
+                if (!string.IsNullOrEmpty(eventData.GetString("SliderValueV")))
+                    progressBarModel.SliderValueV = double.Parse(eventData.GetString("SliderValueV"));
+
+            });
+
+            return true;
+
+
+        }
+
+
+
+
+
+
+
+
 
         private bool CollectionCompleted(object sender, EventArgs e)
         {
@@ -105,7 +153,9 @@ namespace Global
                             toggleButton.Content = "开始采集";
                         }
                     }
+
                 }
+
                 ACQUIRE = false;
 
             });
@@ -262,26 +312,9 @@ namespace Global
                 LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
             }
 
+           return true;
 
-
-            return true;
-
-
-            //var r = Global.UserControls.MessageBox1.ShowDialog(message);
-            //if (r.IsYes)
-            //{
-
-            //    MulDimensional.TInterval = ">>";
-            //    MulDimensional.TIntervalEnable = true;
-            //    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 1 } });
-
-            //}
-            //else
-            //{
-            //    LambdaControl.Trigger("MUL_TIME_INTERVAL_STATE", this, new Dictionary<string, object> { { "mode", 0 } });
-            //}
-            //return true;
-
+         
         }
 
 
@@ -370,7 +403,6 @@ namespace Global
         {
             ACQUIRE = false;
             return true;
-          
 
         }
 
@@ -844,48 +876,71 @@ namespace Global
             return true;
         }
 
-        public static void ExportAs(string kinds)
+       
+
+
+        private void intToMode(UpdateStatus update, int i)
         {
-            string Filter;
-            switch (kinds)
+
+            switch (i)
             {
-                case "png":
-                    Filter = "(*.png) | *.png";
+
+                case 0:
+                    update.BFCheckEnable = true;
                     break;
-                case "jpeg":
-                    Filter = "(*.jpeg) | *.jpeg";
+                case 1:
+                    update.DFCheckEnable = true;
                     break;
-                case "tiff":
-                    Filter = "(*.tiff) | *.tiff";
+                case 2:
+                    update.RICheckEnable = true;
                     break;
-                case "bmp":
-                    Filter = "(*.bmp) | *.bmp";
+
+                case 3:
+                    update.DPCheckEnable = true;
                     break;
-                default:
-                    return;
+                case 4:
+                    update.QPCheckEnable = true;
+                    break;
+                case 5:
+                    update.PCCheckEnable = true;
+                    break;
+
             }
-            SaveFileDialog dialog = new()
-            {
-                Title = "另存为",
-                RestoreDirectory = true,
-                Filter = Filter,
-            };
-            bool? result = dialog.ShowDialog();
-            if (result == true)
-            {
-                ImageExportAs imageExportAs = new ImageExportAs() {ExportFullName = dialog.FileName, Kinds = kinds };
-                LambdaControl.Trigger("IMAGE_SAVEAS", null, imageExportAs.ToString());
-            };
+
+
+
         }
 
-        public class ImageExportAs
+
+
+
+        private void WindowModeUpdate(string windowMode )
         {
-          
-            public string ExportFullName { get; set; }
-            public string Kinds { get; set; }
-            public override string ToString() => $"{{\"ExportFullName\":\"{ExportFullName.Replace("\\", "\\\\")}\",\"Kinds\":\"{Kinds.Replace("\\", "\\\\")}\"}}";
-        }
+           
+            foreach (var item in windowMode.Split(";"))
+            {
+                string[] views = item.Split(",");
+                if (views.Length == 2)
+                {
+                    int windowN = int.Parse(views[0]);
+                    int windowM = int.Parse(views[1]);
+                  
+                    if (int.TryParse(views[0], out int value))
+                    {
+                        if (inkVisuals[value] != null)
+                        {
+                            inkVisuals[value].ActiveMode = windowM;
+                        } 
+                    }
+                }
+            }
 
+            int m = DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].ActiveMode;
+
+            intToMode(updateStatus, m);
+
+
+        }
 
 
 
@@ -925,6 +980,7 @@ namespace Global
                         }
                     }
                 }
+                WindowModeUpdate(windowstatus);
             }
             catch (Exception ex)
             {
@@ -932,13 +988,59 @@ namespace Global
             }
             return true;
         }
+       public class ImageType
+        {
+         public string Type { get; set; }
+ 
+        }
+
+        public static ImageType ImageExportType = new ImageType();
+        public static void ImageExportAsPath(object sender, EventArgs e)
+        {
+            if (sender is MenuItem menuItem)
+            {
+                int i = DrawInkMethod.ActiveViews.ActiveWin;
+                ImageExportType.Type = menuItem.Header.ToString();
+
+
+                LambdaControl.Trigger("QUICK_EXPORT_FULLPATH", null, new Dictionary<string, object> { { "view", i } });
+
+            }
+            string PATH = "C:\\1\\LambdaManager\\test\\Image\\Image 3.grif";
+            string TYPE = "导出PNG...";
+            ExportAsWindow exportAsWindow = new ExportAsWindow(PATH, TYPE);
+            exportAsWindow.ShowDialog();
+
+
+        }
+        private  bool ImageExportAs(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+           
+            if (eventData == null)
+                return false;
+            string type = ImageExportType.Type;
+            if (!string.IsNullOrEmpty(eventData.GetString("path")))
+            {
+                string path = eventData.GetString("path");
+                ExportAsWindow exportAsWindow = new ExportAsWindow(path, type);
+                exportAsWindow.ShowDialog();
+                return true;
+
+            }
+
+            return false;
+
+
+        }
+
 
 
 
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
-        List<string> ImageExportAsString = new List<string>() { "导出Tiff...", "导出JPEG...", "导出QuickTime...", "导出AVL...", "导出MPEG-4...", "导出WMV...", "导出DICOM..." };
+        List<string> ImageExportAsString = new List<string>() { "导出PNG...", "导出BMP...",  "导出JPEG...", "导出TIFF..."};
         private void AddViewContentMenu(int view, List<int> ints)
         {
             if (view >= 0 && view <= inkVisuals.Length && inkVisuals[view] != null)
@@ -958,6 +1060,8 @@ namespace Global
                         if (ints.Count == 1)
                         {
                             LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
+                           // ModeMatch(mode);
+
                         }
                         else if (ints.Count == 2)
                         {
@@ -973,21 +1077,10 @@ namespace Global
                 for (int i = 0; i < ImageExportAsString.Count; i++)
                 {
                     MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i],FontSize=14 };
-
+                    menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
                     menuItem2.Items.Add(menuItem);
                 }
 
-
-
-
-                //Separator separator = new Separator();
-                //separator.Margin = new Thickness(0, 0, 0, 0);
-                // MenuItem menuItem = new MenuItem() { Header = "导出BMP..." };
-                //menuItem.Click += delegate {
-
-                //    ExportAs("bmp");
-                //};
-                //contextMenu.Items.Add(separator);
                 contextMenu.Items.Add(menuItem1);
                 contextMenu.Items.Add(menuItem2);
                 InkCanvas drawingInkCanvas = inkVisuals[view].inkCanvas;

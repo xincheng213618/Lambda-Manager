@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lambda;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -38,11 +39,8 @@ namespace GalleryView
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-
-       
-          
-            if (Gallery.List.SelectedItems.Count == 1)
+  
+           if (Gallery.List.SelectedItems.Count == 1)
             {
                 deleteItem();
                 //Gallery.products.Remove((Product)Gallery.List.SelectedItem);
@@ -84,14 +82,24 @@ namespace GalleryView
                 case MessageBoxResult.Yes:
                     for (int i = 0; i < selectedCount; i++)
                     {
+                        Product product = Gallery.List.SelectedItems[0] as Product;
+                        int Index = product.ModelNumber;
                         Gallery.products.Remove((Product)Gallery.List.SelectedItems[0]);
+
+                        LambdaControl.Trigger("ZSTACK_GALLERY_REMOVE_ORI", this, new Dictionary<string, object> { { "index", Index } });
+
                     }
                     break;
                 case MessageBoxResult.No:
                     
                     for (int i = 0; i < selectedCount; i++)
+
                     {
-                     Gallery.products.Remove((Product)Gallery.List.SelectedItems[0]);
+                        Product product = Gallery.List.SelectedItems[0] as Product;
+                        int Index = product.ModelNumber;
+                        Gallery.products.Remove((Product)Gallery.List.SelectedItems[0]);
+                        LambdaControl.Trigger("ZSTACK_GALLERY_REMOVE", this, new Dictionary<string, object> { { "index", Index } });
+
                     }
 
                     break;
@@ -106,16 +114,19 @@ namespace GalleryView
            
             Product product = Gallery.List.SelectedItem as Product;
             string label = product.ModelName.ToString();
+            int Index = product.ModelNumber;
             MessageBoxResult result = MessageBox.Show("是否删除原始图片 "+" "+ label, "信息提示", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             switch (result)
             {
                 case MessageBoxResult.Yes:
                     Gallery.products.Remove((Product)Gallery.List.SelectedItem);
+                    
+                    LambdaControl.Trigger("ZSTACK_GALLERY_REMOVE_ORI", this, new Dictionary<string, object> { { "index", Index} });
                     break;
                 case MessageBoxResult.No:
 
                     Gallery.products.Remove((Product)Gallery.List.SelectedItem);
-
+                    LambdaControl.Trigger("ZSTACK_GALLERY_REMOVE", this, new Dictionary<string, object> { { "index", Index } });
                     break;
                 case MessageBoxResult.Cancel:
 

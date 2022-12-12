@@ -1,5 +1,6 @@
 ﻿using Global.Mode;
 using Global.UserControls.DrawVisual;
+using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -56,6 +57,9 @@ namespace Global
         //public Point Point4 { get; set; } = new Point(0, 0);
 
         public List<Point> PointList { get; set; } = new List<Point>();
+        public Point Point1 { get; set; } = new Point(0, 0);
+
+        public string Content { get; set; } = "null";
 
 
     }
@@ -99,6 +103,11 @@ namespace Global
             ActiveViewChanged();
         }
 
+
+        public class PointClass
+        {
+            public Point Points { get; set; }
+        }
         public DrawingAttributes drawingAttributes = new DrawingAttributes()
         { //Color = Colors.Red,
             Color = dimenViewModel.SelectedAccentColor,
@@ -132,56 +141,135 @@ namespace Global
         public double distance;
         public static bool rulerOver = false;
         public static bool ZoomWard = false;
-        //public static int activeWindow = 0;
+       // public static int activeWindow = 0;
         public static InkCanvas ActiveInk = new InkCanvas();
         public static InkVisual[]  InkAll = new InkVisual[6];
         public static ActiveView ActiveViews = new ActiveView();
         private int viewCount = 0;
-        //public static event EventHandler propertyChanged;
+        public static event EventHandler propertyChanged;
         //public static int ActiveWindow
         //{
         //    get { return activeWindow; }
         //    set
         //    {
-               
-        //            if (activeWindow != value)
-        //            {
+
+        //        if (activeWindow != value)
+        //        {
         //            activeWindow = value;
         //            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(ActiveWindow)));
         //        }
 
         //    }
         //}
+        // active window Change
         private  void ActiveViewChanged()
         {
            
             ActiveViews.PropertyChanged += (s, e) =>
             {
                 viewCount = 0;
-
-                if (Application.Current.MainWindow.FindName("grid0") is Grid grid && grid.Parent is  Grid grid1)
+                Window mainwin = System.Windows.Application.Current.MainWindow;
+                Grid grid = (Grid)mainwin.FindName("grid0");
+                Grid grid1= grid.Parent as Grid;
+                foreach(var item in grid1.Children)
                 {
-                    foreach (var item in grid1.Children)
+                    if (item is Grid)
                     {
-                        if (item is Grid)
-                        {
-                            Color color = (Color)ColorConverter.ConvertFromString("Transparent");
-                            InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
-                            viewCount++;
+                        Color color = (Color)ColorConverter.ConvertFromString("Transparent");
+                        InkAll[viewCount].Border.BorderBrush = new SolidColorBrush(color);
+                         viewCount++;
 
-                        }
-                    }
-                    if (viewCount > 1)
-                    {
-                        Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
-                        InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
                     }
                 }
+                if (viewCount > 1)
+                {
+                    Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
+                    InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
+
+                    intToMode(WindowData1.GetInstance().updateStatus, InkAll[ActiveViews.ActiveWin].ActiveMode);
+                    LambdaControl.Trigger("ACTIVE_WINDOW_NUMBER", this, new Dictionary<string, object>() { { "window", ActiveViews.ActiveWin } });
+                   
+                    DrawInkMethod.ActiveInk = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
+                    DrawInkMethod.defdimenViewModel.DefDimReadOnly = false;
+                    WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, 2) * 100);
+
+                    DrawInkMethod.defdimenViewModel.DimPos = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimPos;
+                    DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimColor;
+                    DrawInkMethod.defdimenViewModel.Length = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimLength;
+                    DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.TextColor;
+                    DrawInkMethod.defdimenViewModel.DefDimReadOnly = true;
+                  if (WindowData1.GetInstance().ImageViewState.toolTop.InkSelected == true|| WindowData1.GetInstance().ImageViewState.toolTop.InkAllSelected == true)
+                    {
+                        WindowData1.GetInstance().ImageViewState.toolTop.InkSelected =false;
+                        WindowData1.GetInstance().ImageViewState.toolTop.InkAllSelected = false;
+                    }
+                    
+
+                }
+
             };
+
+        }
+
+        private void intToMode(UpdateStatus update,int i)
+        {
+
+            switch (i)
+            {
+
+                case 0:
+                    if (update.BFToggEnable)
+                    {
+                        update.BFCheckEnable = true;
+                    }
+                   
+                    break;
+                case 1:
+                    if (update.DFToggEnable)
+                    {
+                        update.DFCheckEnable = true;
+                    }  
+                    break;
+                case 2:
+                    if (update.RIToggEnable)
+                    {
+                        update.RICheckEnable = true;
+                    }
+                   
+                    break;
+
+                case 3:
+                    if (update.DPToggEnable)
+                    {
+                        update.DPCheckEnable = true;
+                    }
+                    break;
+                case 4:
+                    if (update.QPToggEnable)
+                    {
+                        update.QPCheckEnable = true;
+                    }
+                    
+                    break;
+                case 5:
+                    if (update.PCToggEnable)
+                    {
+                        update.PCCheckEnable = true;
+                    }
+                  
+                    break;
+
+            }
 
 
 
         }
+
+
+
+
+
+
        
     public List<System.Windows.Point> bezierPointList = new List<System.Windows.Point>();
 
@@ -831,6 +919,9 @@ namespace Global
                 };
                 return pen;
             }
+
+
+
             public static System.Windows.Media.Pen SetPenSolid3(int thickness = 4)
             {
                 System.Windows.Media.Pen pen = new System.Windows.Media.Pen
@@ -870,7 +961,19 @@ namespace Global
                 };
                 return pen;
             }
+            public static System.Windows.Media.Pen SetPenSolid6(Color color)
+            {
+                System.Windows.Media.Pen pen = new System.Windows.Media.Pen
+                {
+                    Brush = new SolidColorBrush(color),
+                    Thickness = 4,
+                    DashCap = PenLineCap.Round,
 
+                    LineJoin = PenLineJoin.Round,
+                    MiterLimit = 0.0
+                };
+                return pen;
+            }
 
 
             public static CustomText CreateText(System.Windows.Point point1, System.Windows.Point point2, RatioClass ratio, Color color)
@@ -887,6 +990,8 @@ namespace Global
                 };
                 return stroke;
             }
+
+
             public static CustomRulerText CreateRulerText(System.Windows.Point point1, System.Windows.Point point2, RatioClass ratio)
             {
                 StylusPointCollection points = new StylusPointCollection()
@@ -905,35 +1010,35 @@ namespace Global
                 return stroke;
             }
 
-            public static CustomText1 CreateText1(System.Windows.Point point1, System.Windows.Point point2)
-            {
-                StylusPointCollection points = new StylusPointCollection()
-                  {
-                new StylusPoint(point1.X, point1.Y),
-                new StylusPoint(point2.X, point2.Y),
+            //public static CustomText1 CreateText1(System.Windows.Point point1, System.Windows.Point point2)
+            //{
+            //    StylusPointCollection points = new StylusPointCollection()
+            //      {
+            //    new StylusPoint(point1.X, point1.Y),
+            //    new StylusPoint(point2.X, point2.Y),
 
 
-                    };
-                CustomText1 stroke = new CustomText1(new StylusPointCollection(points))
-                {
-                    DrawingAttributes = SetInkAttributes(),
-                };
-                return stroke;
-            }
-            public static CustomMarkerText CreateMarkerText(System.Windows.Point point1, System.Windows.Point point2)
-            {
-                StylusPointCollection points = new StylusPointCollection()
-                  {
-                new StylusPoint(point1.X, point1.Y),
-                new StylusPoint(point2.X, point2.Y),
+            //        };
+            //    CustomText1 stroke = new CustomText1(new StylusPointCollection(points))
+            //    {
+            //        DrawingAttributes = SetInkAttributes(),
+            //    };
+            //    return stroke;
+            //}
+            //public static CustomMarkerText CreateMarkerText(System.Windows.Point point1, System.Windows.Point point2)
+            //{
+            //    StylusPointCollection points = new StylusPointCollection()
+            //      {
+            //    new StylusPoint(point1.X, point1.Y),
+            //    new StylusPoint(point2.X, point2.Y),
 
-                    };
-                CustomMarkerText stroke = new CustomMarkerText(new StylusPointCollection(points))
-                {
-                    DrawingAttributes = SetInkAttributes(),
-                };
-                return stroke;
-            }
+            //        };
+            //    CustomMarkerText stroke = new CustomMarkerText(new StylusPointCollection(points))
+            //    {
+            //        DrawingAttributes = SetInkAttributes(),
+            //    };
+            //    return stroke;
+            //}
 
             public static CustomProfile CreateProfile(System.Windows.Point point1, System.Windows.Point point2, ProfileModel ratio, Color color)
             {
@@ -967,7 +1072,7 @@ namespace Global
                 };
                 return stroke;
             }
-
+           
             public static CustomTextInput ReCustomTextInput(System.Windows.Point point1, double height, double width ,FormattedText text, Color brush, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily)
             {
                 StylusPointCollection points = new StylusPointCollection()
@@ -1115,6 +1220,31 @@ namespace Global
                 };
                 return stroke;
             }
+
+
+            public static RulerStroke CreateRuler(List<System.Windows.Point> pointList, Color color, RatioClass ratio, Color textColor,  int lineWidth, int dash, bool italic, bool bold, int fonSize, FontFamily fontFamily)
+            {
+
+
+                StylusPointCollection point = new StylusPointCollection(pointList);
+
+                RulerStroke stroke = new RulerStroke(point, color, ratio, textColor, lineWidth, dash, italic, bold, fonSize, fontFamily)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+            public static RulerStroke ReCreateRuler(StylusPointCollection point, Color color, RatioClass ratio, Color textColor, int lineWidth, int dash, bool italic, bool bold, int fonSize, FontFamily fontFamily)
+            {
+
+                RulerStroke stroke = new RulerStroke(point, color, ratio, textColor, lineWidth, dash, italic, bold, fonSize, fontFamily)
+                {
+                    DrawingAttributes = SetInkAttributes1(color, lineWidth),
+                };
+                return stroke;
+            }
+
+
 
             public static PolygonStroke ReCreatePolygon(StylusPointCollection point, Color color, int lineWidth, int dash)
             {
@@ -1341,7 +1471,7 @@ namespace Global
                 return stroke;
             }
 
-
+          
 
 
             public static Dim2Stroke CreateDim2Stroke(System.Windows.Point st, System.Windows.Point ed, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string LabPos)
@@ -1638,14 +1768,6 @@ namespace Global
                 Type = "圆";
                 Type1 = "Circle";
             }
-           
-            //int LineWidth;
-            //int Dash;
-            //public Color ColorBru { get; set; }
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "圆";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -1723,11 +1845,77 @@ namespace Global
 
         }
 
+        public class RulerStroke : CustomStroke
+        {
+            public RulerStroke(StylusPointCollection points, Color color, RatioClass ratio, Color textColor, int lineWidth, int dash, bool italic, bool bold, int fontSize, FontFamily fontFamily) : base(points)
+            {
+
+                StylusPoints = points.Clone();
+                ColorBru = color;
+                this.ratio = ratio;
+                this.textColor = textColor;
+                LineWidth = lineWidth;
+                Dash = dash;
+                Type = "测量";
+                Type1 = "Ruler";
+                Italic = italic;
+                Bold = bold;
+                FontFamily = fontFamily;
+                Fontsize = fontSize;
+
+
+            }
+
+            List<double> listX = new List<double>();
+            List<double> listY = new List<double>();
+            protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+            {
+                listX.Clear();
+                listY.Clear();
+                PointList = new List<Point>();
+                List <Point> ListPoints = new List<Point >();
+             
+                for (int i = 0; i < StylusPoints.Count - 1; i++)
+                {
+                    double x0 = StylusPoints[i].X;
+                    double y0 = StylusPoints[i].Y;
+                    double x1 = StylusPoints[i + 1].X;
+                    double y1 = StylusPoints[i + 1].Y;
+                    ListPoints.Add(new Point(StylusPoints[i].X, StylusPoints[i].Y));
+
+                    drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
+                    drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid6(ColorBru), new System.Windows.Point(x0, y0), 1.5, 1.5);
+                    drawingContext.DrawEllipse(null, InkCanvasMethod.SetPenSolid6(ColorBru), new System.Windows.Point(x1, y1), 1.5, 1.5);
+                    customTextInput = WriteListText(ListPoints, ratio, textColor, Italic, Bold, false, Fontsize, FontFamily);
+                    drawingContext.DrawText(customTextInput, new System.Windows.Point(x0 + 5, y0 - customTextInput.Height / 2.0));
+                    listX.Add(x0);
+                    listY.Add(y0);
+
+                    PointList.Add(new Point(StylusPoints[i].X, StylusPoints[i].Y));
+                }
+                double x2 = StylusPoints[StylusPoints.Count - 1].X;
+                double y2 = StylusPoints[StylusPoints.Count - 1].Y;
+                ListPoints.Add(new Point(x2, y2));
+                customTextInput = WriteListText(ListPoints, ratio, textColor, Italic, Bold, false, Fontsize, FontFamily);
+                drawingContext.DrawText(customTextInput, new System.Windows.Point(x2 + 5, y2 - customTextInput.Height / 2.0));
+                double xLeft = listX.Min();
+                double xRight = listX.Max();
+                double yUp = listY.Max();
+                double yDown = listY.Min();
+                double Xcenter = (int)(xLeft + xRight) / 2;
+                double Ycenter = (int)(yUp + yDown) / 2;
+                CenterPoint = new Point(Xcenter, Ycenter);
+                SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
+
+            }
+
+        }
 
 
 
 
-       
+
+
 
         public class LineStroke : CustomStroke
         {
@@ -1849,22 +2037,14 @@ namespace Global
                 UnderLine = underLine;
                 FontFamily = fontFamily;
                 Fontsize = fontSize;
-
                 this.showLabel = showLabel;
                 LabPos = labPos;
                 dimSelectIndex = 2;
+                Fontsize = fontSize;
+
 
             }
-            //int LineWidth;
-            //int Dash;
-            //public Color ColorBru { get; set; }
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "标尺 A";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
-            //RatioClass ratio;
-            //bool showLabel;
-            //Color textColor;
+           
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -1884,12 +2064,11 @@ namespace Global
                 double xRight = listX.Max();
                 double yUp = listY.Max();
                 double yDown = listY.Min();
-
                 double Xcenter = (int)(xLeft + xRight) / 2;
                 double Ycenter = (int)(yUp + yDown) / 2;
                 CenterPoint = new Point(Xcenter, Ycenter);
                 SizePoint = new Point((int)(xRight - xLeft), (int)(yUp - yDown));
-
+               
 
                 double theta = Math.Atan2(y3 - y0, x3 - x0);
                 angle = theta / Math.PI * 180;
@@ -1902,18 +2081,16 @@ namespace Global
                     Point p = new Point(item.X, item.Y);
                     PointList.Add(p);
                 }
-
-
+                PointClass ContentPos = new PointClass() { Points = new Point(0,0)};
+                Content = Math.Round(length, 2).ToString() + " μm";
                 // DrawInkMethod.dimenViewModel.Length = (double)dist / ratio1.actualwidth * 1689.12 / ratio1.Ratio;
 
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x3, y3));
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
-
                 customTextInput= WriteText(new Point(x0, y0), new Point(x3, y3), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
-
-                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x3, y3), ratio, textColor, showLabel, UnderLine,LabPos);
-
+                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x3, y3), ratio, textColor, showLabel, UnderLine,LabPos, ContentPos);
+                Point1 = ContentPos.Points;
 
             }
         }
@@ -1937,17 +2114,9 @@ namespace Global
                 Fontsize = fontSize;
                 LabPos = labPos;
                 dimSelectIndex =3;
+                Fontsize = fontSize;
             }
-            //int LineWidth;
-            //int Dash;
-            //public Color ColorBru { get; set; }
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "标尺 A";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
-            //RatioClass ratio;
-            //bool showLabel;
-            //Color textColor;
+            
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -1983,14 +2152,14 @@ namespace Global
                 angle = theta / Math.PI * 180;
                 double dist = GetDistance(new Point(x0, y0), new Point(x4, y4));
                 length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
-
+                PointClass ContentPos = new PointClass() { Points = new Point(0, 0) };
                 PointList = new List<Point>();
                 foreach (var item in StylusPoints)
                 {
                     Point p = new Point(item.X, item.Y);
                     PointList.Add(p);
                 }
-
+                Content = Math.Round(length, 2).ToString() + " μm";
 
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
 
@@ -1998,11 +2167,8 @@ namespace Global
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x6, y6));
                 customTextInput = WriteText(new Point(x3, y3), new Point(x4, y4), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
-                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x4, y4), ratio, textColor, showLabel, UnderLine, LabPos);
-
-
-
-
+                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x4, y4), ratio, textColor, showLabel, UnderLine, LabPos, ContentPos);
+                Point1 = ContentPos.Points;
 
 
             }
@@ -2028,17 +2194,9 @@ namespace Global
                 Fontsize = fontSize;
                 LabPos = labPos;
                 dimSelectIndex = 4;
+                Fontsize = fontSize;
             }
-            //int LineWidth;
-            //int Dash;
-            //public Color ColorBru { get; set; }
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "标尺 A";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
-            //RatioClass ratio;
-            //bool showLabel;
-            //Color textColor;
+          
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -2088,8 +2246,8 @@ namespace Global
                 angle = theta / Math.PI * 180;
                 double dist = GetDistance(new Point(x0, y0), new Point(x5, y5));
                 length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
-
-
+                PointClass ContentPos = new PointClass() { Points = new Point(0, 0) };
+                Content = Math.Round(length, 2).ToString() + " μm";
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
 
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth,Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
@@ -2100,8 +2258,8 @@ namespace Global
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x5, y5), new System.Windows.Point(x7, y7));
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x8, y8), new System.Windows.Point(x9, y9));
                 customTextInput = WriteText(new Point(x0, y0), new Point(x5, y5), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
-                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x5, y5), ratio, textColor, showLabel, UnderLine, LabPos);
-
+                DrawText(drawingContext, customTextInput,new Point(x0, y0), new Point(x5, y5), ratio, textColor, showLabel, UnderLine, LabPos, ContentPos);
+                Point1 = ContentPos.Points;
 
             }
         }
@@ -2126,6 +2284,7 @@ namespace Global
                 Fontsize = fontSize;
                 LabPos = labPos;
                 dimSelectIndex = 5;
+                Fontsize = fontSize;
             }
           
             List<double> listX;
@@ -2162,6 +2321,8 @@ namespace Global
                 angle = theta / Math.PI * 180;
                 double dist = GetDistance(new Point(x0, y0), new Point(x5, y5));
                 length = (double)dist / ratio.actualwidth * 1689.12 / ratio.Ratio;
+                Content = Math.Round(length, 2).ToString() + " μm";
+
 
                 PointList = new List<Point>();
                 foreach(var item in StylusPoints)
@@ -2169,7 +2330,7 @@ namespace Global
                     Point p = new Point(item.X, item.Y);
                     PointList.Add(p);
                 }
-
+                PointClass ContentPos = new PointClass() { Points = new Point(0, 0) };
 
                 // drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(Color1), new System.Windows.Point(x4, y4), new System.Windows.Point(x5, y5));
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x1, y1));
@@ -2177,7 +2338,8 @@ namespace Global
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x3, y3), new System.Windows.Point(x4, y4));
                 drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), new System.Windows.Point(x0, y0), new System.Windows.Point(x5, y5));
                 customTextInput = WriteText(new Point(x0, y0), new Point(x5, y5), ratio, textColor, Italic, Bold, UnderLine, Fontsize, FontFamily);
-                DrawText(drawingContext, customTextInput, new Point(x0, y0), new Point(x5, y5), ratio,  textColor, showLabel, UnderLine, LabPos);
+                DrawText(drawingContext, customTextInput, new Point(x0, y0), new Point(x5, y5), ratio,  textColor, showLabel, UnderLine, LabPos, ContentPos);
+                Point1 = ContentPos.Points;
 
 
             }
@@ -2367,7 +2529,7 @@ namespace Global
                 geometry.Figures.Add(figure);
                 drawingContext.DrawGeometry(null, InkCanvasMethod.SetPenSolid(ColorBru, LineWidth, Dash), geometry);
 
-
+               
             }
         }
 
@@ -2384,13 +2546,7 @@ namespace Global
                 Type1 = "Curve1";
 
             }
-            //public Color ColorBru { get; set; }
-            //int LineWidth;
-            //int Dash;
-            //public int Index { get; set; }
-            //public string Type { get; set; } = "曲线1";
-            //public Point CenterPoint { get; set; }
-            //public Point SizePoint { get; set; }
+        
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -2503,12 +2659,7 @@ namespace Global
 
 
             }
-            //FormattedText customTextInput;
-            //public int Index { get; set; }
-            //public Color ColorBru { get; set; }
-            //public string Type { get; set; } = "文本";
-
-            //public Point CenterPoint { get; set; }
+       
             List<double> listX;
             List<double> listY;
             protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
@@ -2576,7 +2727,7 @@ namespace Global
                 System.Windows.Point labelPosition;
                 FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
 
-                                              FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25);
+                FlowDirection.LeftToRight, new Typeface("Microsoft YaHei UI"), 12, System.Windows.Media.Brushes.White, 1.25);
                 int textHeight = (int)formattedText.Height;
                 int textWidth = (int)formattedText.Width;
                 labelPosition = new System.Windows.Point((x1 + x2 - textWidth) / 2, (y1 + y2) / 2 - textHeight - 10);
@@ -2584,8 +2735,30 @@ namespace Global
 
             }
         }
+        public class CustomRulerInput : CustomStroke
+        {
+            public CustomRulerInput(StylusPointCollection points, FormattedText text) : base(points)
+            {
+                StylusPoints = points.Clone();
 
+                this.customTextInput = text;
 
+            }
+
+            protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+            {
+
+                double x1 = StylusPoints[0].X;
+                double y1 = StylusPoints[0].Y;
+                double x2 = StylusPoints[1].X;
+                double y2 = StylusPoints[1].Y;
+                double x3 = StylusPoints[2].X;
+                double y3 = StylusPoints[2].Y;
+                double x4 = StylusPoints[3].X;
+                double y4 = StylusPoints[3].Y;
+
+            }
+        }
 
 
         public class CustomText : Stroke
@@ -2893,13 +3066,61 @@ namespace Global
             FontStretch fontStretch = new FontStretch();
             if (italic) fontStyle = FontStyles.Italic;
             if (bold) fontWeight = FontWeights.Bold;
-            System.Windows.Point labelPosition;
             Brush textBrush = new SolidColorBrush(TextColor);
             FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
 
-                                          FlowDirection.LeftToRight, new Typeface(font, fontStyle, fontWeight, fontStretch), fontsize, textBrush, 1.25);
+            FlowDirection.LeftToRight, new Typeface(font, fontStyle, fontWeight, fontStretch), fontsize, textBrush, 1.25);
 
             return formattedText;
+        }
+       
+        
+        private static FormattedText WriteListText(List<Point> points, RatioClass ratio, Color TextColor, bool italic, bool bold, bool underline, int fontsize, FontFamily font)
+        {
+               double distance=0;
+             if (points.Count == 1)
+            {
+                string label = Math.Round(distance, 2).ToString() + " μm";
+                System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
+                FontWeight fontWeight = new FontWeight();
+                FontStretch fontStretch = new FontStretch();
+                if (italic) fontStyle = FontStyles.Italic;
+                if (bold) fontWeight = FontWeights.Bold;
+                Brush textBrush = new SolidColorBrush(TextColor);
+                FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight, new Typeface(font, fontStyle, fontWeight, fontStretch), fontsize, textBrush, 1.25);
+                return formattedText;
+
+            }
+            else
+            {
+
+                for (int i = 0; i < points.Count - 1; i++)
+                {
+                    double dist = GetDistance(points[i], points[i + 1]) / ratio.Ratio;
+                    distance += dist;
+                }
+
+                distance = (double)distance / ratio.actualwidth * 1689.12;
+                //dist= (double)dist / inkCanvas.ActualWidth * 1689.12 ;
+                string label = Math.Round(distance, 2).ToString() + " μm";
+
+                System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
+                FontWeight fontWeight = new FontWeight();
+                FontStretch fontStretch = new FontStretch();
+                if (italic) fontStyle = FontStyles.Italic;
+                if (bold) fontWeight = FontWeights.Bold;
+                Brush textBrush = new SolidColorBrush(TextColor);
+                FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
+
+                FlowDirection.LeftToRight, new Typeface(font, fontStyle, fontWeight, fontStretch), fontsize, textBrush, 1.25);
+
+                return formattedText;
+
+            }
+               
+
+           
         }
 
 
@@ -2909,8 +3130,7 @@ namespace Global
 
 
 
-
-        public static void DrawText(DrawingContext drawingContext, FormattedText  formattedText , Point p1, Point p2, RatioClass ratio, Color TextColor, bool showLabel,bool underline,string labpos)
+        public static void DrawText(DrawingContext drawingContext, FormattedText  formattedText , Point p1, Point p2, RatioClass ratio, Color TextColor, bool showLabel,bool underline,string labpos,PointClass ContentPos)
 
         {
             double x1 = p1.X;
@@ -2924,16 +3144,7 @@ namespace Global
             //dist= (double)dist / inkCanvas.ActualWidth * 1689.12 ;
             string label = Math.Round(dist, 2).ToString() + " μm";
 
-            //System.Windows.FontStyle fontStyle = new System.Windows.FontStyle();
-            //FontWeight fontWeight = new FontWeight();
-            //FontStretch fontStretch = new FontStretch();
-            //if (dimenViewModel.Italic) fontStyle = FontStyles.Italic;
-            //if (dimenViewModel.Bold) fontWeight = FontWeights.Bold;
-          
-            //Brush textBrush = new SolidColorBrush(TextColor);
-            //FormattedText formattedText = new FormattedText(label, CultureInfo.CurrentCulture,
-
-            //                              FlowDirection.LeftToRight, new Typeface(dimenViewModel.FontFam, fontStyle, fontWeight, fontStretch), dimenViewModel.FontSize, textBrush, 1.25);
+         
             System.Windows.Point labelPosition;
             int textHeight = (int)formattedText.Height;
             int textWidth = (int)formattedText.Width;
@@ -3071,6 +3282,8 @@ namespace Global
                 {
                     drawingContext.DrawLine(InkCanvasMethod.SetPenSolid(TextColor, 2, 0), new System.Windows.Point(labelPosition.X, labelPosition.Y + textHeight + 2), new System.Windows.Point(labelPosition.X + textWidth, labelPosition.Y + textHeight + 2));
                 }
+
+                ContentPos.Points = labelPosition;
             }
         }
 

@@ -10,7 +10,7 @@ namespace Global.UserControls.DrawVisual
 {
     public class VisualAttritube
     {
-        public string Type { get; set; }
+        public string Type { get; set; } = "null";
         public int LineWidth { get; set; }
         public int LineType { get; set; }
         public Color Color { get; set; }
@@ -37,16 +37,16 @@ namespace Global.UserControls.DrawVisual
 
     public class Text
     {
-
+        public string Content { get; set; } = "null";
         public Color TextColor { get; set; }
         public int Fontsize { get; set; }
-        public string FontFamily { get; set; }
+        public string FontFamily { get; set; } = "null";
         public bool Bold { get; set; }
         public bool Italic { get; set; }
         public bool UnderLine { get; set; }
         public Point Point1 { get; set; } = new Point(0,0);
-
-
+        public bool ShowText { get; set; }
+        public string TextPos { get; set; } = "null";
 
     }
 

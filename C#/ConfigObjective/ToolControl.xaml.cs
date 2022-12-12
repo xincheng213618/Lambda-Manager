@@ -11,7 +11,7 @@ using Global.Common.Util;
 using Global.Common;
 using System.Timers;
 using System.ComponentModel;
-using Global.SettingUp;
+using Global.Setting;
 
 namespace ConfigObjective
 {
@@ -521,6 +521,26 @@ namespace ConfigObjective
         private void Button41_Click(object sender, RoutedEventArgs e)
         {
             popUp41.IsOpen = true;
+        }
+
+        private void SnapInkSave_Checked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_SNAP_SAVE", this, new Dictionary<string, object>() { { "mode", 1 } });
+        }
+
+        private void SnapInkSave_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_SNAP_SAVE", this, new Dictionary<string, object>() { { "mode", 0 } });
+        }
+
+        private void AcquireInkSave_Checked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_ACQUIRE_SAVE", this, new Dictionary<string, object>() { { "mode", 1 } });
+        }
+
+        private void AcquireInkSave_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LambdaControl.Trigger("VISUAL_ACQUIRE_SAVE", this, new Dictionary<string, object>() { { "mode", 0 } });
         }
     }
 

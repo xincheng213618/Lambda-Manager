@@ -74,7 +74,7 @@ namespace Global
                                     inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
                                 }
                             }
-                            else if ((bool)ImageViewState.toolTop.ArrowChecked || (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
+                            else if ( (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
                             {
                                 inkVisual.inkCanvas.Cursor = Cursors.Cross;
                             }
@@ -123,10 +123,10 @@ namespace Global
                             WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
                             if (topToolbar == null)
                                 return;
-                            ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
-                            ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
+                            Button ButtonZoomOut = ((Button)topToolbar.Children[4]);
+                            Button ButtonZoomIn = ((Button)topToolbar.Children[5]);
                             Button ScaleButton = (Button)topToolbar.Children[6];
-                            ToggleButtonZoomOut.Click += delegate
+                            ButtonZoomOut.Click += delegate
                             {
                                 if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                                 {
@@ -146,6 +146,11 @@ namespace Global
                                         }
                                         //  ZoomInOut++;
                                         inkVisual.inkCanvas.Strokes.Transform(matrix, false);
+                                        inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
+                                        inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
+
+                                        inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes,inkVisual);
+
                                         DrawInkMethod.StrokesCollection.Clear();
                                         inkVisual.FilterStroke(1);
                                         //  RepaintDim();
@@ -158,7 +163,7 @@ namespace Global
 
 
                             };
-                            ToggleButtonZoomIn.Click += delegate
+                            ButtonZoomIn.Click += delegate
                             {
                                 if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                                 {
@@ -181,6 +186,9 @@ namespace Global
 
 
                                         inkVisual.inkCanvas.Strokes.Transform(matrix, false);
+                                        inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
+                                        inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
+                                        inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes,inkVisual);
                                         DrawInkMethod.StrokesCollection.Clear();
                                         inkVisual.FilterStroke(1);
                                         double ratio = inkVisual.ratio1.Ratio;
@@ -192,13 +200,7 @@ namespace Global
                             };
                             ScaleButton.Click += delegate
                             {
-                                // if (inkVisual.saveTempStroke)
-                                //     return;
-                                // inkVisual.inkCanvas.Strokes.Clear();
-                                // inkVisual.inkCanvas.Strokes.Add(inkVisual.tempStroke);
-                                // inkVisual.saveTempStroke = true;
-                                //// inkVisual.ZoomInOut = 0;
-                                // inkVisual.ratio1.Ratio = 1;
+                                
                                 WindowData.GetInstance().updateStatus.Ratio = 100;
 
                             };

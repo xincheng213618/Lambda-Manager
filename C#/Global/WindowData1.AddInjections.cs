@@ -18,6 +18,16 @@ namespace Global
     public partial class WindowData1
     {
 
+        StreamResourceInfo sriEraser = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Eraser.cur", UriKind.Relative));
+        StreamResourceInfo sriHold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
+        StreamResourceInfo sriRuler = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
+        StreamResourceInfo sriZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
+        StreamResourceInfo sriZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
+        Cursor eraserCursor;
+        Cursor holdCursor;
+        Cursor rulerCursor;
+        Cursor zoomOutCursor;
+        Cursor zoomInCursor;
         private void AddInjection1()
         {
             Window mainwin = System.Windows.Application.Current.MainWindow;
@@ -65,9 +75,6 @@ namespace Global
                     {
                         var traversalRequest = new TraversalRequest(FocusNavigationDirection.Down);
                         ratioTextBox.MoveFocus(traversalRequest);
-
-
-
                     }
 
                 };
@@ -94,7 +101,7 @@ namespace Global
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio = ratio;
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft * matrix;
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight * matrix;
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ZoomParTransform(inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes);
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ZoomParTransform(inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin]);
                             InkDimViewModel inkDimViewModel = new InkDimViewModel();
                             inkDimViewModel = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel;
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
@@ -103,11 +110,19 @@ namespace Global
 
                         }
 
+                    };
+      
 
+                    if (e.PropertyName =="BFCheckEnable"|| e.PropertyName == "DFCheckEnable"|| e.PropertyName == "RICheckEnable" || e.PropertyName == "DPCheckEnable" || e.PropertyName == "QPCheckEnable" || e.PropertyName == "PCCheckEnable")
+                    {
 
+                        ActiveModeMatch(e.PropertyName);
 
                     }
+
+
                 };
+
 
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
@@ -116,12 +131,11 @@ namespace Global
                     {
                         if (ImageViewState.toolTop.EraserChecked == true)
                         {
-                            inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-                            inkVisual.inkCanvas.UseCustomCursor = true;
+                           
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.UseCustomCursor = true;
                             StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
                             inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
-
-
                         }
                         else
                         {
@@ -201,13 +215,17 @@ namespace Global
 
 
 
-
+                //MessageBox.Show("1");
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
-                ToggleButton ToggleButtonZoomOut = ((ToggleButton)topToolbar.Children[4]);
-                ToggleButton ToggleButtonZoomIn = ((ToggleButton)topToolbar.Children[5]);
+                Button ButtonZoomOut = ((Button)topToolbar.Children[4]);
+                Button ButtonZoomIn = ((Button)topToolbar.Children[5]);
+                Button buttonEraseAll = ((Button)topToolbar.Children[23]);
                 Button ScaleButton = (Button)topToolbar.Children[6];
+                ToggleButton toggleButtonSelect = (ToggleButton)topToolbar.Children[20];
+                ToggleButton toggleButtonSelectAll = (ToggleButton)topToolbar.Children[21];
 
-                ToggleButtonZoomOut.Click += delegate
+
+                ButtonZoomOut.Click += delegate
                 {
                     if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                     {
@@ -231,7 +249,7 @@ namespace Global
                             inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
                             inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
 
-                            inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes);
+                            inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes, inkVisual);
                             DrawInkMethod.StrokesCollection.Clear();
                             inkVisual.FilterStroke(1);
                             //  RepaintDim();
@@ -244,7 +262,7 @@ namespace Global
 
 
                 };
-                ToggleButtonZoomIn.Click += delegate
+               ButtonZoomIn.Click += delegate
                 {
                     if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
                     {
@@ -268,7 +286,7 @@ namespace Global
                             inkVisual.inkCanvas.Strokes.Transform(matrix, false);
                             inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
                             inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
-                            inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes);
+                            inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes, inkVisual);
                             DrawInkMethod.StrokesCollection.Clear();
                             inkVisual.FilterStroke(1);
                             double ratio = inkVisual.ratio1.Ratio;
@@ -282,10 +300,28 @@ namespace Global
                 ScaleButton.Click += delegate
                 {
 
-
                     WindowData.GetInstance().updateStatus.Ratio = 100;
 
                 };
+                buttonEraseAll.Click += delegate
+                {
+
+
+                    int index = DrawInkMethod.ActiveViews.ActiveWin;
+                    MessageBoxResult result = MessageBox.Show("是否删除当前" + index.ToString()+ "窗口的所有绘制图形 ", "信息提示", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes.Clear();
+                            break;
+                        case MessageBoxResult.No:
+                            break;
+                       
+                    }
+                   
+
+                };
+
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");  // multiPoint position show 
                 int count = bottomToolbar.Children.Count;
                 Button bottomPlace = (Button)bottomToolbar.Children[count - 1];
@@ -339,6 +375,73 @@ namespace Global
 
 
                 };
+                toggleButtonSelect.Checked += delegate
+                {
+                    foreach (InkVisual item in DrawInkMethod.InkAll)
+                    {
+                        if (item != null)
+                        {
+                            item.inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                        }
+
+                    }
+                    inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+
+                };
+                toggleButtonSelect.Unchecked += delegate
+                {
+                    foreach(InkVisual item in DrawInkMethod.InkAll)
+                    {
+                        if (item != null)
+                        {
+                            item.inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                        }
+
+                    }
+                    if (WindowData1.GetInstance().ImageViewState.toolTop.EraserChecked)
+                    {
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
+                    }
+
+                };
+
+                toggleButtonSelectAll.Checked += delegate
+                     {
+                         foreach (InkVisual item in DrawInkMethod.InkAll)
+                         {
+                             if (item != null)
+                             {
+                                 item.inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                             }
+
+                         }
+                         inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+
+                         inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Select(inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes);
+
+
+                     };
+                toggleButtonSelectAll.Unchecked += delegate
+                {
+
+                    foreach (InkVisual item in DrawInkMethod.InkAll)
+                    {
+                        if (item != null)
+                        {
+                            item.inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                        }
+                       
+                    }
+                    if (WindowData1.GetInstance().ImageViewState.toolTop.EraserChecked)
+                    {
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
+                    }
+                  
+                };
+
+
+
+
                 DrawInkMethod.StaticPropertyChanged += delegate
                 {
                     DrawInkMethod.ActiveInk = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
@@ -367,9 +470,6 @@ namespace Global
                     DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.TextColor;
                     DrawInkMethod.defdimenViewModel.DefDimReadOnly = true;
 
-
-
-                    //MessageBox.Show(DrawInkMethod.ActiveWindow.ToString());
                 };
 
 
@@ -377,6 +477,82 @@ namespace Global
             catch (Exception ex)
             {
                 LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+            }
+
+
+
+
+        }
+        private void findWindowMode(int i)
+        {
+            bool isExist = false;
+            if (inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ActiveMode != i)
+            {
+                foreach (InkVisual ink in inkVisuals)
+                {
+                    if (ink != null && ink.ActiveMode == i)
+                    {
+                        DrawInkMethod.ActiveViews.ActiveWin = ink.index;
+                        isExist = true;
+                    }
+
+                }
+                if (!isExist)
+                {
+                    LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 }, { "window", DrawInkMethod.ActiveViews.ActiveWin }, { "mode1", i }, { "mode2", -1 } });
+                }
+
+            }
+
+
+
+        }
+
+
+
+
+
+
+        private void ActiveModeMatch(string mode)
+        {
+            switch (mode)
+            {
+                case "BFCheckEnable":
+                    if (updateStatus.BFCheckEnable)
+                        findWindowMode(0);
+                    break;
+                case "DFCheckEnable":
+                    if (updateStatus.DFCheckEnable)
+                    {
+                        findWindowMode(1);
+                    }
+                    break;
+                case "RICheckEnable":
+                    if (updateStatus.RICheckEnable)
+                    {
+                        findWindowMode(2);
+                    }
+                    break;
+                case "DPCheckEnable":
+                    if (updateStatus.DPCheckEnable)
+                    {
+                        findWindowMode(3);
+                    }
+                    break;
+                case "QPCheckEnable":
+                    if (updateStatus.QPCheckEnable)
+                    {
+                        findWindowMode(4);
+                    }
+                    break;
+                case "PCCheckEnable":
+                    if (updateStatus.PCCheckEnable)
+                    {
+                        findWindowMode(5);
+                    }
+                    break;
+                default:
+                    return;
             }
 
 

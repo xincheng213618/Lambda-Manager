@@ -190,8 +190,8 @@ namespace ConfigObjective
                 colorHelp1.ChangeBrightness(e.NewValue / 100);
                 ColorButton311.Background = colorHelp1.SolidColorBrush;
                 OperatingMode.BrightField.Color = new List<int> { colorHelp1.R, colorHelp1.G, colorHelp1.B };
-                
-                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this,new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
+
+                LambdaControl.Trigger("BRIGHT_FIELD_BRIGHTNESS", this, new int[] { colorHelp1.SolidColorBrush.Color.R, colorHelp1.SolidColorBrush.Color.G, colorHelp1.SolidColorBrush.Color.B });
             }
         }
 
@@ -226,9 +226,9 @@ namespace ConfigObjective
 
         private void Button362_Checked(object sender, RoutedEventArgs e)
         {
-            LambdaControl.Trigger("QUANTITATIVE_PHASE_PN", this, new Dictionary<string, object>() { { "pn",true } });
+            LambdaControl.Trigger("QUANTITATIVE_PHASE_PN", this, new Dictionary<string, object>() { { "pn", true } });
 
-            
+
         }
 
         private void Button362_Unchecked(object sender, RoutedEventArgs e)
@@ -237,46 +237,77 @@ namespace ConfigObjective
 
         }
 
-        
 
 
-        private  void ViewMode_Checked(object sender, RoutedEventArgs e)
+
+        private void ViewMode_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton radioButton = sender as RadioButton;
             string s = radioButton.Tag.ToString();
-
             if (s != null)
             {
                 OperatingMode.SelectViewMode = int.Parse(s);
                 if (OperatingMode.SelectViewMode == 0)
                 {
                     Border2.DataContext = OperatingMode.BrightField.CameraSetting;
+
+                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                    {
+                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                    }
+
+                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
                 }
                 if (OperatingMode.SelectViewMode == 1)
                 {
                     Border2.DataContext = OperatingMode.DarkField.CameraSetting;
+                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                    {
+                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                    }
+                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
                 }
                 if (OperatingMode.SelectViewMode == 2)
                 {
                     Border2.DataContext = OperatingMode.Reinberg.CameraSetting;
+                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                    {
+                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                    }
+                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
                 }
 
                 if (OperatingMode.SelectViewMode == 3)
                 {
                     Border2.DataContext = OperatingMode.ReliefContrast.CameraSetting;
+                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                    {
+                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                    }
+                    // updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
                 }
                 if (OperatingMode.SelectViewMode == 4)
                 {
                     Border2.DataContext = OperatingMode.QuantitativePhase.CameraSetting;
+                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                    {
+                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                    }
+                    // updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
                     WindowData1.GetInstance().histogramModel.Phase = true;
                     WindowData1.GetInstance().histogramModel.XAxisMin = -10;
                     WindowData1.GetInstance().histogramModel.XAxisMax = 10;
-                  
+
 
                 }
                 if (OperatingMode.SelectViewMode == 5)
                 {
                     Border2.DataContext = OperatingMode.PhaseContrast.CameraSetting;
+                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                    {
+                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                    }
+                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
                 }
 
                 CameraMode_Changed();
@@ -291,7 +322,7 @@ namespace ConfigObjective
             WindowData1.GetInstance().histogramModel.Phase = false;
             WindowData1.GetInstance().histogramModel.XAxisMin = 0;
             WindowData1.GetInstance().histogramModel.XAxisMax = 255;
-           
+
         }
 
 
@@ -301,16 +332,16 @@ namespace ConfigObjective
         {
             Slider slider = sender as Slider;
             Dictionary<string, object> data = new() { { "mode", 1 }, { "gamma", slider.Value + 1 } };
-            SliderAbbreviation(slider,e,"DARK_FIELD_GAMMA", data);
+            SliderAbbreviation(slider, e, "DARK_FIELD_GAMMA", data);
         }
         private void Slider335_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            Dictionary<string, object> data = new() { { "mode",2}, { "gamma", slider.Value + 1 } };
+            Dictionary<string, object> data = new() { { "mode", 2 }, { "gamma", slider.Value + 1 } };
             SliderAbbreviation(slider, e, "RHEIN_BERG_GAMMA", data);
         }
 
-        private void SliderAbbreviation(Slider slider, RoutedPropertyChangedEventArgs<double> e,string TriggerName, Dictionary<string, object> data)
+        private void SliderAbbreviation(Slider slider, RoutedPropertyChangedEventArgs<double> e, string TriggerName, Dictionary<string, object> data)
         {
             if (!windowData.ACQUIRE)
             {
@@ -348,14 +379,14 @@ namespace ConfigObjective
         private void Slider348_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            Dictionary<string, object> data = new() { { "rotationAngle", ((int)(slider.Value / 15))%12 } };
+            Dictionary<string, object> data = new() { { "rotationAngle", ((int)(slider.Value / 15)) % 12 } };
             SliderAbbreviation(slider, e, "RELIEF_Rotation_Angle", data);
         }
 
         private void Slider363_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            Dictionary<string, object> data = new() { { "gain", slider.Value  } };
+            Dictionary<string, object> data = new() { { "gain", slider.Value } };
             SliderAbbreviation(slider, e, "PHASE_CONTRAST_GAIN", data);
 
         }
@@ -376,7 +407,7 @@ namespace ConfigObjective
 
 
 
-        private  void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void Slider336_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if ((int)Slider336.Value == 360)
             {
@@ -418,7 +449,7 @@ namespace ConfigObjective
             }
             if (OperatingMode.Reinberg.RheinbergSelectMode == 3)
             {
-               darkness1 = -1;
+                darkness1 = -1;
                 darkness2 = -1;
                 bright = -1;
             }
@@ -429,14 +460,14 @@ namespace ConfigObjective
 
         public void Reinberg_RheinbergSelectMode_Changed()
         {
-            if (OperatingMode.Reinberg.RheinbergPatterns != null&& OperatingMode.Reinberg.RheinbergPatterns.Count>=3)
+            if (OperatingMode.Reinberg.RheinbergPatterns != null && OperatingMode.Reinberg.RheinbergPatterns.Count >= 3)
             {
                 Color330.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg0;
                 Color331.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg1;
                 Color332.Fill = OperatingMode.Reinberg.RheinbergPatterns[OperatingMode.Reinberg.rheinbergSelectMode].Rheinberg2;
             }
 
-            List<Canvas> canvass = new List<Canvas> { Canvas331,Canvas332, Canvas333,Canvas334 };
+            List<Canvas> canvass = new List<Canvas> { Canvas331, Canvas332, Canvas333, Canvas334 };
 
             for (int i = 0; i < canvass.Count; i++)
             {

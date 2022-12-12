@@ -30,9 +30,10 @@ namespace ConfigObjective
         private void Stage_Update()
         {
             MoveStep = Stage.MoveStep;
-
             ToggleButtonXYF.IsChecked = Stage.MoveStep.XStep == 200;
             ToggleButtonZF.IsChecked = Stage.MoveStep.ZStep == 200;
+
+
         }
 
 
@@ -46,6 +47,7 @@ namespace ConfigObjective
 
         private void ToggleButtonXYF_Checked(object sender, RoutedEventArgs e)
         {
+            ToggleButtonXYF.Content = "精调";
             MoveStep.XStep = 50;
             MoveStep.YStep = 50;
             LambdaControl.Trigger("SET_STAGE_MODE_X", this, new Dictionary<string, object> { { "mode", 0 }});
@@ -53,6 +55,7 @@ namespace ConfigObjective
 
         private void ToggleButtonXYF_Unchecked(object sender, RoutedEventArgs e)
         {
+            ToggleButtonXYF.Content = "粗调";
             MoveStep.XStep = 200;
             MoveStep.YStep = 200;
             LambdaControl.Trigger("SET_STAGE_MODE_X", this, new Dictionary<string, object> { { "mode", 1 } });
@@ -62,12 +65,14 @@ namespace ConfigObjective
         private void ToggleButtonZF_Checked(object sender, RoutedEventArgs e)
         {
             MoveStep.ZStep = 100;
+            ToggleButtonZF.Content = "精调";
             LambdaControl.Trigger("SET_STAGE_MODE_Z", this, new Dictionary<string, object> { { "mode", 0 } });
         }
 
         private void ToggleButtonZF_Unchecked(object sender, RoutedEventArgs e)
         {
             MoveStep.ZStep = 500;
+            ToggleButtonZF.Content = "粗调";
             LambdaControl.Trigger("SET_STAGE_MODE_Z", this, new Dictionary<string, object> { { "mode", 1 } });
 
         }

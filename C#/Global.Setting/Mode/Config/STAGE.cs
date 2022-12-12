@@ -59,12 +59,59 @@ namespace Global.Mode.Config
         }
 
     }
+    public class MultiStep : ViewModelBase
+    {
+
+        private int step1 = 200;
+        [JsonPropertyName("10x")]
+        public int Step1
+        {
+            get { return step1; }
+            set
+            {
+                step1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int step2 =100;
+        [JsonPropertyName("20x")]
+        public int Step2
+        {
+            get { return step2; }
+            set
+            {
+                step2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int step3 =50;
+        [JsonPropertyName("40x")]
+        public int Step3
+        {
+            get { return step3; }
+            set
+            {
+                step3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+      
+
+    }
+
+
+
+
 
     [Serializable]
     public class MoveStep : ViewModelBase
     {
         private int xstep = 200 ;
         [JsonPropertyName("x-step")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int XStep
         {
             get { return xstep; }
@@ -74,9 +121,25 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        MultiStep xStep_ = new MultiStep();
+        [JsonPropertyName("x-step_")]
+        public MultiStep XStep_ 
+        { 
+
+            get { return xStep_; }
+            set
+            {
+                xStep_ = value;
+                NotifyPropertyChanged();
+            }
+
+        }
+
+
 
         private int ystep = 200;
         [JsonPropertyName("y-step")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int YStep
         {
             get { return ystep; }
@@ -86,9 +149,27 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        MultiStep yStep_ = new MultiStep();
+        [JsonPropertyName("y-step_")]
+        public MultiStep YStep_
+        {
+
+            get { return yStep_; }
+            set
+            {
+                yStep_ = value;
+                NotifyPropertyChanged();
+            }
+
+        }
+
+
+
+
 
         private int zStep = 200;
         [JsonPropertyName("z-step")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int ZStep
         {
             get { return zStep; }
@@ -98,12 +179,29 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        MultiStep zStep_ = new MultiStep();
+        [JsonPropertyName("z-step_")]
 
+        public MultiStep ZStep_
+        {
+
+            get { return zStep_; }
+            set
+            {
+                zStep_ = value;
+                NotifyPropertyChanged();
+            }
+
+        }
         public void SetValue(MoveStep  moveStep)
         {
             this.XStep = moveStep.XStep;
             this.YStep = moveStep.YStep;
             this.ZStep = moveStep.ZStep;
+            this.XStep_ = moveStep.XStep_;
+            this.YStep_ = moveStep.YStep_;
+            this.ZStep_ = moveStep.ZStep_;
+
         }
 
 

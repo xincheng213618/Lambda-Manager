@@ -78,24 +78,21 @@
             <InkCanvas.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="切换成像模式">
-                        <rmenuitem:RadioMenuItem    Header="明场"></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="暗场"></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="莱茵伯格"></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="差分"></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="相位"></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="相差"></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="明场" Checked="RadioMenuItem_Checked" ></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="暗场" ></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="莱茵伯格" ></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="差分" ></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="相位" ></rmenuitem:RadioMenuItem>
+                        <rmenuitem:RadioMenuItem    Header="相差" ></rmenuitem:RadioMenuItem>
                     </MenuItem>
-                    <MenuItem Header="导出(_E)" FontSize="14">
-                        <MenuItem Header="导出Tiff..."  FontSize="14"  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"   />
-                        <MenuItem Header="导出JPEG..."  FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  Click="MenuItem_Click" />
-                        <MenuItem Header="导出QuickTime..." FontSize="14"  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}"  />
-                        <MenuItem Header="导出AVL..." FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
-                        <MenuItem Header="导出MPEG-4..." FontSize="14"  Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
-                        <MenuItem Header="导出WMV..."  FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
-                        <MenuItem Header="导出DICOM..."  FontSize="14" Command="{Binding PoejectExportAs}" CommandParameter="{Binding .}" />
-                    </MenuItem>
+                    <MenuItem Header="导出(_E)" FontSize="14" >  
+                        <MenuItem Header="导出PNG..."  FontSize="14"   Click="MenuItem_Click"  />
+                        <MenuItem Header="导出BMP..."  FontSize="14"  Click="MenuItem_Click" />
+                        <MenuItem Header="导出JPEG..." FontSize="14"   Click="MenuItem_Click" />
+                        <MenuItem Header="导出TIFF..." FontSize="14"    Click="MenuItem_Click" />
 
-                    <!--<MenuItem Header="导出BMP..." ></MenuItem>-->
+
+                    </MenuItem>
                 </ContextMenu>
             </InkCanvas.ContextMenu>
             <Canvas Width="auto" x:Name="defaultDim" Height="auto"  InkCanvas.Left="20" InkCanvas.Top="20" Visibility="Visible" Background="Transparent">

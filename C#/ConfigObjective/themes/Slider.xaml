@@ -327,7 +327,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" BorderBrush="#767676" BorderThickness="1"  Margin="2" CornerRadius="1" Padding="3,0">
                 <DockPanel>
-                    <TextBox Margin="-3,0,-2,0" Width="36" BorderThickness="0" Background="#1e1e1e" VerticalAlignment="Center" HorizontalContentAlignment="Right"   Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
+                    <TextBox Margin="-3,0,-2,0" Width="36" BorderThickness="0" Background="#1e1e1e" VerticalAlignment="Center" FontFamily="Arial" HorizontalContentAlignment="Right"   Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"  Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#\}}"/>
@@ -362,7 +362,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="1"  BorderThickness="1" BorderBrush="#767676" Padding="3,0">
                 <DockPanel>
-                    <TextBox Width="35"  BorderThickness="0" Margin="-3,0,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalAlignment="Right" />
+                    <TextBox Width="35"  BorderThickness="0" Margin="-3,0,0,0" VerticalAlignment="Center" FontFamily="Arial" HorizontalContentAlignment="Right" Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalAlignment="Right" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Padding="0,0,5,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#\}}"/>
@@ -398,7 +398,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="1" BorderThickness="1" BorderBrush="#767676" Padding="3,0">
                 <DockPanel>
-                    <TextBox FlowDirection="RightToLeft" BorderThickness="0" Margin="-3,0,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Center"  Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0#\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBox FlowDirection="RightToLeft" BorderThickness="0" Margin="-3,0,0,0" VerticalAlignment="Center" FontFamily="Arial" HorizontalContentAlignment="Center"  Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0#\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left"  Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.##\}}"/>
@@ -432,7 +432,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" Margin="2" CornerRadius="1" BorderThickness="1" BorderBrush="#767676" Padding="3,0">
                 <DockPanel>
-                    <TextBox FlowDirection="RightToLeft" Width="32" Margin="-3,0,0,0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Center"  Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0#\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                    <TextBox FlowDirection="RightToLeft" Width="32" Margin="-3,0,0,0" BorderThickness="0" VerticalAlignment="Center" FontFamily="Arial" HorizontalContentAlignment="Center"  Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.0#\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"  Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.##\}}"/>
@@ -466,7 +466,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="1" Grid.Column="2" Background="#333333" BorderBrush="#767676" Margin="2" CornerRadius="1" Padding="3,0" BorderThickness="1">
                 <DockPanel>
-                    <TextBox Margin="-3,0,0,0" Width="30" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.##\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalAlignment="Right" />
+                    <TextBox Margin="-3,0,0,0" Width="30" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" FontFamily="Arial" Background="#1e1e1e" CaretBrush="White" Foreground="White" PreviewKeyDown="NumberValidationTextBox" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:0.##\},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalAlignment="Right" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Padding="2,0">
                             <Run Text="/" />
                             <Run Text="{Binding  ElementName=PART_Track,Path=Maximum,StringFormat=\{0:0.#######\}}"/>

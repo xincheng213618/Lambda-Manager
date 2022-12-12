@@ -3,6 +3,7 @@ using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -60,6 +61,31 @@ namespace GalleryView
         }
 
 
+
+        public class Mode : INotifyPropertyChanged
+        {
+            private string currentMode = "";
+
+            public string CurrentMode
+            {
+                get { return currentMode; }
+                set { currentMode = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("CurrentMode"));
+                }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+            public void OnPropertyChanged(PropertyChangedEventArgs e)
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, e);
+            }
+        }
+
+
+        public  Mode mode = new Mode();
+
+
         public static ObservableCollection<Product> products = new ObservableCollection<Product>();
        // public static ObservableCollection<Thumbnail> ThumbnailList = new ObservableCollection<Thumbnail>();
 
@@ -82,11 +108,7 @@ namespace GalleryView
         {
             LambdaControl.AddLambdaEventHandler("ZSTACK_GALLERY_BACK", GalleryImageAddress, false);
             LambdaControl.AddLambdaEventHandler("ZSTACK_GALLERY_PATH", GalleryPathConverter, false);
-            products.CollectionChanged += delegate
-            {
-
-
-            };
+           
             
         }
 
@@ -106,11 +128,17 @@ namespace GalleryView
            
             products.Clear();
             index = 0;
+            int sliceIndex=0;
+            //foreach (string path in SlicePaths)
+            //{
+            //    LambdaControl.Trigger("ZSTACK_GALLERY_SLICE", this, path);
+            //}
             foreach (string path in SlicePaths)
             {
-                LambdaControl.Trigger("ZSTACK_GALLERY_SLICE", this, path);
+               
+                LambdaControl.Trigger("ZSTACK_GALLERY_SLICE", this, new Dictionary<string, object> { { "index", sliceIndex } });
+                sliceIndex++;
             }
-            
             galleryTool.sizeSlider.Value = 5;
 
             return true;
@@ -129,6 +157,12 @@ namespace GalleryView
             Product product = new Product(index,path2, fullPath,writeable);
             products.Add(product);
             index++;
+            if (mode.CurrentMode != product.Mode)
+            {
+                mode.CurrentMode = product.Mode;
+
+            }
+           
             return true;
 
         }
@@ -156,10 +190,10 @@ namespace GalleryView
         }
 
 
-     
+      
 
 
-       
+
 
 
 

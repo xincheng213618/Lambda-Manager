@@ -295,6 +295,24 @@ namespace Global.Mode.Config
                 get { return polygonChecked; }
                 set { polygonChecked = value; NotifyPropertyChanged(); }
             }
+            private bool inkSelected = false;
+           
+            public bool InkSelected
+            {
+                get { return inkSelected; }
+                set { inkSelected = value; NotifyPropertyChanged(); }
+            }
+
+            private bool inkAllSelected = false;
+
+            public bool InkAllSelected
+            {
+                get { return inkAllSelected; }
+                set { inkAllSelected = value; NotifyPropertyChanged(); }
+            }
+
+
+
 
 
             private object select = false;

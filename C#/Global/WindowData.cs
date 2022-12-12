@@ -7,7 +7,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
-using Global.SettingUp;
+using Global.Setting;
 
 namespace Global
 {
@@ -25,12 +25,12 @@ namespace Global
 
         public MulDimensional MulDimensional = WindowData.GetInstance().MulDimensional;
 
-        public Stage Stage = WindowData.GetInstance().Stage;
+       // public Stage Stage = WindowData.GetInstance().Stage;
 
         public OperatingMode OperatingMode = WindowData.GetInstance().OperatingMode;
 
 
-        public SolutionConfig SolutionConfig = WindowData.GetInstance().SolutionConfig;
+        //public SolutionConfig SolutionConfig = WindowData.GetInstance().SolutionConfig;
         public MulSummary mulSummary = WindowData.GetInstance().mulSummary;
         public UpdateStatus updateStatus = WindowData.GetInstance().updateStatus;
         public ImageViewState ImageViewState = WindowData.GetInstance().ImageViewState;
@@ -39,6 +39,7 @@ namespace Global
 
         private WindowData1()
         {
+            
             Interference();
             AddEventHandler();
             AddInjection();
@@ -57,7 +58,8 @@ namespace Global
 
         public static WindowData GetInstance()
         {
-            lock (_locker) { return _instance ??= new WindowData(); }
+            lock (_locker) { _instance ??= new WindowData(); }
+            return _instance;
         }
 
         public DeviceInformation deviceInformation = new DeviceInformation();
@@ -70,6 +72,9 @@ namespace Global
             SettingUp.Config.ConfigReadEvent += ReadConfig;
             SettingUp.Config.ConfigSetEvent += SetValue;
             SettingUp.Config.ConfigWriteEvent += SaveConfig;
+            //Common.Config.ConfigReadEvent += ReadConfig;
+            //Common.Config.ConfigSetEvent += SetValue;
+            //Common.Config.ConfigWriteEvent += SaveConfig;
             Hardware_Initialized();
         }
 
@@ -117,11 +122,17 @@ namespace Global
             SolutionConfig.OperatingMode.SetValue(OperatingMode);
             SolutionConfig.Stage.SetValue(Stage);
             SolutionConfig.ImageViewState.SetValue(ImageViewState);
-
             SolutionConfig.LastOpenTime = DateTime.Now.ToString();
             SolutionConfig.Dimensional.Saveprefix = ConfigFullName;
             SolutionConfig.ToJsonFile(ConfigFullName);
         }
+
+
+      
+
+
+
+
 
         /// <summary>
         /// 读取配置文件

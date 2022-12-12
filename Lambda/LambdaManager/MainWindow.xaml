@@ -193,12 +193,12 @@
                                     <Button Style="{DynamicResource ButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-search.png" Stretch="Fill" />
                                     </Button>
-                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
+                                    <Button Style="{DynamicResource ButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-zoom-out.png" Stretch="Fill" />
-                                    </ToggleButton>
-                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
+                                    </Button>
+                                    <Button Style="{DynamicResource ButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-zoom-in.png" Stretch="Fill" />
-                                    </ToggleButton>
+                                    </Button>
                                     <Button Style="{DynamicResource ButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-scale.png" Stretch="Fill" />
                                     </Button>
@@ -236,15 +236,6 @@
                                         </Separator.Template>
                                     </Separator>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}"  IsEnabled="True" IsChecked="True" >
-                                        <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
-                                    </ToggleButton>
-                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
-                                        <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
-                                    </ToggleButton>
-                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
-                                        <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
-                                    </ToggleButton>
-                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-line.png" Stretch="Fill" />
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
@@ -258,6 +249,15 @@
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
                                         <Image Source="/Resources/Icons/top-polygon.png" Stretch="Fill" />
+                                    </ToggleButton>
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
+                                        <Image Source="/Resources/Icons/top-text.png" Stretch="Fill" />
+                                    </ToggleButton>
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
+                                        <Image Source="/Resources/Icons/top-arrow.png" Stretch="Fill" />
+                                    </ToggleButton>
+                                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}">
+                                        <Image Source="/Resources/Icons/top-eraser.png" Stretch="Fill" />
                                     </ToggleButton>
                                 </WrapPanel>
                             </Border>

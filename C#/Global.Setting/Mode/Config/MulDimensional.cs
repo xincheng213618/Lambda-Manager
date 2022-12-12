@@ -299,9 +299,6 @@ namespace Global.Mode.Config
         }
 
 
-
-
-
         [JsonPropertyName("Z-Enable")]
         public bool ZEnable { get; set; } = false;
 
@@ -341,6 +338,18 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
         private bool zAbsolute = false;
 
         public bool ZAbsolute

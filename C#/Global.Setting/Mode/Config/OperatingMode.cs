@@ -37,25 +37,120 @@ namespace Global.Mode.Config
         [JsonPropertyName("quantitative-phase")]
         public QuantitativePhase QuantitativePhase { get; set; } = new();
 
+
+
+
         public void SetValue(OperatingMode OperatingMode)
         {
-            SelectViewMode = OperatingMode.SelectViewMode;
-            BrightField.SetValue(OperatingMode.BrightField);
-            DarkField.SetValue(OperatingMode.DarkField);
-            ReliefContrast.SetValue(OperatingMode.ReliefContrast);
-            QuantitativePhase.SetValue(OperatingMode.QuantitativePhase);
-            Reinberg.SetValue(OperatingMode.Reinberg);
-            PhaseContrast.SetValue (OperatingMode.PhaseContrast);
+           
+                SelectViewMode = OperatingMode.SelectViewMode;
+                BrightField.SetValue(OperatingMode.BrightField);
+                DarkField.SetValue(OperatingMode.DarkField);
+                ReliefContrast.SetValue(OperatingMode.ReliefContrast);
+                QuantitativePhase.SetValue(OperatingMode.QuantitativePhase);
+                Reinberg.SetValue(OperatingMode.Reinberg);
+                PhaseContrast.SetValue(OperatingMode.PhaseContrast);
+          
+
         }
 
     }
 
+    //[Serializable]
+    public class Outer : ViewModelBase
+    {
+        private int outer1 = 9;
+        [JsonPropertyName("10x")]
+        public int Outer1
+        {
+            get { return outer1; }
+            set
+            {
+                outer1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int outer2 = 5;
+        [JsonPropertyName("20x")]
+        public int Outer2
+        {
+            get { return outer2; }
+            set
+            {
+                outer2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int outer3 = 2;
+        [JsonPropertyName("40x")]
+        public int Outer3
+        {
+            get { return outer3; }
+            set
+            {
+                outer3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+      
+
+
+    }
+
+    public class Inner : ViewModelBase
+    {
+        private int inner1 = 9;
+        [JsonPropertyName("10x")]
+        public int Iinner1
+        {
+            get { return inner1; }
+            set
+            {
+                inner1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int inner2 = 5;
+        [JsonPropertyName("20x")]
+        public int Iinner2
+        {
+            get { return inner2; }
+            set
+            {
+                inner2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int inner3 = 2;
+        [JsonPropertyName("40x")]
+        public int Iinner3
+        {
+            get { return inner3; }
+            set
+            {
+                inner3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+    }
+
+
+
     public class BrightField : ViewModelBase
     {
+        [JsonPropertyOrderAttribute(-2)]
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 0 ,Gain = 0,Gamma = 1 };
 
         private int aperture = 9;
         [JsonPropertyName("led-diameter")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int Aperture
         {
             get { return aperture; }
@@ -65,6 +160,8 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        [JsonPropertyName("led-diameter_")]
+        public Outer MultiAperture { get; set; } = new Outer();
 
         private List<int> color = new List<int>() {255,255,255};
 
@@ -83,9 +180,19 @@ namespace Global.Mode.Config
         {
             CameraSetting.SetValue(brightField.CameraSetting);
             Aperture = brightField.aperture;
+            MultiAperture = brightField.MultiAperture;
             color = brightField.color;
         }
     };
+
+   
+
+
+
+
+
+
+
 
     public class DarkField : ViewModelBase
     {
@@ -103,10 +210,21 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
+        private Inner multiAmperture = new Inner();
+        [JsonPropertyName("led-diameter-outer_")]
+        public Inner MultiAperture
+        {
+            get { return multiAmperture; }
+            set
+            {
+                multiAmperture = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private int outAperture = 32;
         [JsonPropertyName("led-diameter-outer")]
+       // [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int OutAperture
         {
             get { return outAperture; }
@@ -200,6 +318,7 @@ namespace Global.Mode.Config
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 2 , Gamma = 1.67,Gain =15 };
 
         private int innerAperture = 0;
+        [JsonPropertyName("led-diameter-inner")]
         public int InnerAperture
         {
             get { return innerAperture; }
@@ -211,7 +330,7 @@ namespace Global.Mode.Config
         }
 
         private int outAperture = 32;
-
+        [JsonPropertyName("led-diameter-outer")]
         public int OutAperture
         {
             get { return outAperture; }
@@ -235,7 +354,17 @@ namespace Global.Mode.Config
             }
         }
 
-
+        private Inner multiAmperture = new Inner();
+        [JsonPropertyName("led-diameter-outer_")]
+        public Inner MultiAperture
+        {
+            get { return multiAmperture; }
+            set
+            {
+                multiAmperture = value;
+                NotifyPropertyChanged();
+            }
+        }
 
 
         private int mode = 0;

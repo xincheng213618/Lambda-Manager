@@ -29,6 +29,18 @@ namespace GalleryView
                 OnPropertyChanged(new PropertyChangedEventArgs("ModelName"));
             }
         }
+        private string mode;
+        public string Mode
+        {
+            get { return mode; }
+            set
+            {
+                mode = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("Mode"));
+            }
+        }
+
+
 
         private decimal unitCost;
         public decimal UnitCost
@@ -109,6 +121,7 @@ namespace GalleryView
             ModelName = modelName;
             ProductImagePath = productImagePath;
             WRiteableBitmap = writeableBitmap;
+            Mode = modelName.Substring(0, 2);
         }
 
         public Product(int modelNumber, string modelName,
