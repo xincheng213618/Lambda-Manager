@@ -203,7 +203,7 @@
                                         <TextBlock Grid.Row="2" Grid.Column="1" >
                                             <Run Text="{Binding Path=IsGPUCapable}"/>
                                         </TextBlock>
-                                        <TextBlock Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="0" Text="GPU加速:" Margin="0,2"/>
+                                        <TextBlock Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="0" Text="硬件加速(GPU):" Margin="0,2"/>
       
                                         <Button Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="1"  Click="GPU_Click"  Width="100" HorizontalAlignment="Left" >
                                             <Button.ToolTip>

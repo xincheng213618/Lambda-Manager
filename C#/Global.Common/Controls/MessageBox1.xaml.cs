@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Shell;
 using ThemeManager.Controls;
 
 namespace Global.Common.Controls
@@ -65,9 +64,6 @@ namespace Global.Common.Controls
                     break;
             }
             MessageBoxResult = defaultResult;
-
-            Height = ContentGrid.DesiredSize.Height + WindowChrome.GetWindowChrome(this).CaptionHeight;
-            Width = ContentGrid.DesiredSize.Width;
         }
 
 
