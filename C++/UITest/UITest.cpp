@@ -1,4 +1,3 @@
-#pragma warning(disable:26812 26495 26451 6294 6201)
 
 #include "pch.h"
 #include "UITest.h"
@@ -509,10 +508,137 @@ int OpenSerial(char* FullPath)
 	return  0;
 }
 
+
+std::map<std::string, std::string> CameraCalibrationList = {
+	{"HardTrigger","相机触发校准"}
+};
+std::map<std::string, std::string> StageCalibrationList = {
+	{"Integrity","Integrity"},
+	{"Magnification","放大倍数"},
+	{"Backhaul","回城校准" },
+	{"Zero","零点校准"}
+};
+
+std::map<std::string, std::string> LightCalibrationList = {
+	{"CenterPoint","CenterPoint"},
+	{"Integrity","Integrity"},
+	{"WhiteBalance","WhiteBalance"},
+	{"RadiusOfLightSource","光源明场暗场半径校准"}
+};
+std::map<std::string, std::string> InitializeCalibrationList = {
+	{"BackgroundCorrection","背景矫正"},
+	{"TransferFunction","正在计算函数"}
+};
+
+
+int HardwareCalibrationInit(int HardwareCalibrationType) {
+	json CalibrationInit;
+
+	json j2;
+	switch (HardwareCalibrationType)
+	{
+	case Wizard:
+	case All:
+		for (auto& it : CameraCalibrationList)
+		{
+			json j1;
+			j1["Hardware"] = "Camera";
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		for (auto &it : StageCalibrationList)
+		{
+			json j1;
+			j1["Hardware"] = "Stage";
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		for (auto& it : LightCalibrationList)
+		{
+			json j1;
+			j1["Hardware"] = "Light";
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		for (auto& it : InitializeCalibrationList)
+		{
+			json j1;
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		break;
+	case Camera:
+		for (auto& it : CameraCalibrationList)
+		{
+			json j1;
+			j1["Hardware"] = "Camera";
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		break;
+	case Stage:
+		for (auto& it : StageCalibrationList)
+		{
+			json j1;
+			j1["Hardware"] = "Stage";
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		break;
+	case Light:
+		for (auto& it : LightCalibrationList)
+		{
+			json j1;
+			j1["Hardware"] = "Light";
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		break;
+	case Initialize:
+		for (auto& it : InitializeCalibrationList)
+		{
+			json j1;
+			j1["Type"] = it.first;
+			j1["Name"] = it.second;
+			j2.push_back(j1);
+		}
+		break;
+	default:
+		break;
+	}
+
+	CalibrationInit["json"]=j2.dump().c_str();
+	Event::Trigger("SetHardwareCalibrationContent", &CalibrationInit);
+	return 0;
+}
+
+int bbb = 0;
 int HardwareCalibration(char* jsonchar) {
-	json j1  = json::parse(StringUtils::Multi2Utf8(jsonchar));
+	string aa = StringUtils::Multi2Utf8(jsonchar);
+	json j1  = json::parse(aa);
 	string Hardware = j1["Hardware"];
 	string Type = j1["Type"];
+	bbb++;
+	json j5;
+	j5["ResultCode"] = "0";
+	j5["Msg"] = Hardware+":" + Type;
+	//if (bbb == 10) {
+	//	j5["ResultCode"] = "-1";
+	//}
+	
+
+	Sleep(3000);
+
+	Event::Trigger("HardwareCalibrationState", &j5);
+
+
 
 	return 0;
 }
@@ -627,6 +753,7 @@ int VideoTest() {
 	//cv::cvtColor(Input, input1, CV_RGB2GRAY);
 	//input1.convertTo(input2, CV_32FC1, 1.0 / 255.0);
 	// 
+
 
 
 	PlayFilm("C:\\Users\\Chen\\Desktop\\1.mp4");

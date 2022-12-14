@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:Global.Common.Controls;assembly=Global.Common" 
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"   
         mc:Ignorable="d"
-        Height="450" Width="250" Background="#373B41"  Topmost="True" WindowStyle="ToolWindow" Initialized="BaseWindow_Initialized"  Closed="BaseWindow_Closed" >
+        Height="450" Width="250" Background="#373B41"  Topmost="True" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Initialized="BaseWindow_Initialized"  Closed="BaseWindow_Closed" >
     <Grid>
         <DockPanel HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0">
             <TextBlock Text="硬件自检中" FontSize="20"  />

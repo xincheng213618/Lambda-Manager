@@ -23,6 +23,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
 using System.IO;
+using Global.Common.Util;
 
 namespace ConfigSetting
 {
@@ -47,7 +48,7 @@ namespace ConfigSetting
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
                 IsFirstLoad = false;
-
+                Calibration.GetInstance();
                 SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;
                 OutOfMemorySign.Source = System.Drawing.SystemIcons.Warning.ToImageSource();
 
@@ -67,7 +68,8 @@ namespace ConfigSetting
                 {
                     GPUInfo.IsGPUCapable = true;
                     GPUInfo.GPUName = physicalGPUs[0].FullName;
-                    GPUInfo.GPUaccessibleRAM = physicalGPUs[0].MemoryInformation.AvailableDedicatedVideoMemoryInkB / 1024/1024;
+                    double a = (double)(physicalGPUs[0].MemoryInformation.AvailableDedicatedVideoMemoryInkB) / 1024 / 1024;
+                    GPUInfo.GPUaccessibleRAM = (uint)Math.Round(a);
                 }
                 LambdaControl.Trigger("IsGPUCapable", this,new Dictionary<string, object>() { { "Value", GPUInfo.IsOpenGPUAccelerate } });
 
@@ -238,6 +240,9 @@ namespace ConfigSetting
                     dockPanel.Children.Add(textBlock1);
                     UniformGrifHotKey.Children.Add(dockPanel);
                 }
+                //SoftwareConfig.HardwareConfig.LightSourceConfig = Json.Deserialize<LightSourceConfig>("LightSourceConfig");
+                //GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
+                //SoftwareConfig.HardwareConfig.LightSourceConfig.ToJsonFile("LightSourceConfig");
 
                 //一个针对主控不开放主窗口权限的解决方案 
                 if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
@@ -400,6 +405,8 @@ namespace ConfigSetting
                 HardwareCalibrationDic.Add(31, new HardwareCalibration() { Hardware = "Initialize", Type = "TransferFunction" });
                 HardwareCalibrationDicString.Add(31, "初始化传递函数");
 
+                HardwareCalibrationType hardwareCalibrationType = HardwareCalibrationType.All;
+
                 switch (value)
                 {
                     case "All":
@@ -420,8 +427,32 @@ namespace ConfigSetting
                         }
                         break;
                 }
-                CalibrationWindow calibrationWindow = new CalibrationWindow(HardwareCalibrationDic, HardwareCalibrationDicString);
-                calibrationWindow.ShowDialog();
+
+                switch (value)
+                {
+                    case "All":
+                        hardwareCalibrationType = HardwareCalibrationType.All;
+                        break;
+                    case "Camera":
+                        hardwareCalibrationType = HardwareCalibrationType.Camera;
+                        break;
+                    case "Stage":
+                        hardwareCalibrationType = HardwareCalibrationType.Stage;
+                        break;
+                    case "Light":
+                        hardwareCalibrationType = HardwareCalibrationType.Light;
+                        break;
+                    case "Initialize":
+                        hardwareCalibrationType = HardwareCalibrationType.Initialize;
+                        break;
+                    default:
+                        break;
+
+                }
+
+
+                CalibrationWindow calibrationWindow = new CalibrationWindow(hardwareCalibrationType, HardwareCalibrationDic, HardwareCalibrationDicString);
+                calibrationWindow.Show();
 
 
             }

@@ -161,6 +161,7 @@ void Event::Trigger(std::string type)
 				((Callback1)(it11->second))();
 			}
 		}
+
 		for (std::list <void*>::iterator it = RaiseEventMark_map.begin(); it != RaiseEventMark_map.end(); it++) {
 			if (*it == it11->second) {
 				callHandlerRaise(it11->second);
@@ -176,10 +177,9 @@ void Event::Trigger(std::string type)
 
 void Event::Trigger(std::string type, const json* event)
 {
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
-	{
-		if (it->second == type) {
-			callBack3(it->first, (void*)((json*)event)->dump().c_str(), NULL);
+	for (auto& it : RoutineEvent_map) {
+		if (it.second == type) {
+			callBack3(it.first, (void*)((json*)event)->dump().c_str(), NULL);
 		}
 	}
 
@@ -213,9 +213,9 @@ void Event::Trigger(std::string type, const char* event)
 		(it2->second)((char*)event);
 	}
 
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+	for (auto& it : RoutineEvent_map)
 	{
-		if (it->second == type) {
+		if (it.second == type) {
 			auto it11 = ArgumentType_map.find(type);
 			if (it11 != ArgumentType_map.end()) {
 				if (it11->second == NO_ARGS) {
@@ -223,12 +223,13 @@ void Event::Trigger(std::string type, const char* event)
 				}
 				else if (it11->second == JSON_STRING || it11->second == JSON_OBJECT || it11->second == STL_MAP) {
 					if (event != NULL) {
-						callBack3(it->first, (char*)event, NULL);
+						callBack3(it.first, (char*)event, NULL);
 					}
 				}
 			}
 		}
 	}
+
 
 
 	auto it11 = FunctionEvent_map.find(type);
@@ -262,15 +263,12 @@ void Event::Trigger(std::string type, const std::map<std::string, json>* event)
 		}
 	}
 	
-
-
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+	for (auto& it : RoutineEvent_map)
 	{
-		if (it->second == type) {
-			callBack3(it->first, (void*)event, NULL);
+		if (it.second == type) {
+			callBack3(it.first, (void*)event, NULL);
 		}
 	}
-
 
 }
 
@@ -281,10 +279,10 @@ void Event::Trigger(std::string type, void* object)
 		(it2->second)(object);
 	}
 
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+	for (auto& it : RoutineEvent_map)
 	{
-		if (it->second == type) {
-			callBack5(it->first, object, NULL);
+		if (it.second == type) {
+			callBack5(it.first, object, NULL);
 		}
 	}
 
@@ -303,10 +301,11 @@ void Event::Trigger(std::string type, void* object)
 
 void Event::Trigger(std::string type, void* object1, void* object2)
 {
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+
+	for (auto& it : RoutineEvent_map)
 	{
-		if (it->second == type) {
-			callBack6(it->first, object1, object2, NULL);
+		if (it.second == type) {
+			callBack6(it.first, object1, object2, NULL);
 		}
 	}
 
@@ -330,10 +329,10 @@ void Event::Trigger(std::string type, void* object1, void* object2)
 
 void Event::Trigger(std::string type, void* object1, void* object2, void* object3, void* object4)
 {
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+	for (auto& it : RoutineEvent_map)
 	{
-		if (it->second == type) {
-			callBack7(it->first, object1, object2, object3, object4, NULL);
+		if (it.second == type) {
+			callBack7(it.first, object1, object2, object3, object4, NULL);
 		}
 	}
 
@@ -355,10 +354,10 @@ void Event::Trigger(std::string type, void* object1, void* object2, void* object
 
 void Event::Trigger(std::string type, void* data, int size)
 {
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+	for (auto& it : RoutineEvent_map)
 	{
-		if (it->second == type) {
-			callBack8(it->first, data, size, NULL);
+		if (it.second == type) {
+			callBack8(it.first, data, size, NULL);
 		}
 	}
 }

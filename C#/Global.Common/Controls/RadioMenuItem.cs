@@ -33,7 +33,7 @@ namespace Global.Common.Controls
             if (this.Parent is Control control)
             {
                 TChecked(control);
-            }
+            }  
         }
         public void TChecked<T>(T ParentObject) where T : Control
         {

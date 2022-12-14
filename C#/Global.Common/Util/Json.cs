@@ -13,6 +13,13 @@ namespace Global.Common.Util
     /// </summary>
     public static class Json
     {
+
+        public static T Deserialize<T>(string FullName)
+        {
+            return JsonSerializer.Deserialize<T>(File.ReadAllText(FullName), new JsonSerializerOptions());
+        }
+
+
         /// <summary>
         /// 序列化成Json
         /// </summary>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows;
@@ -27,6 +28,7 @@ namespace Wizard
     {
         Dictionary<int, HardwareCalibration> HardwareCalibrationDic = new Dictionary<int, HardwareCalibration>();
         Dictionary<int, string> HardwareCalibrationDicString = new Dictionary<int, string>();
+        public  List<HardwareCalibration> HardwareCalibrations = new List<HardwareCalibration>();
 
         MainWindow Window;
         public Page5(MainWindow window)
@@ -74,13 +76,39 @@ namespace Wizard
             HardwareCalibrationDicString.Add(31, "初始化传递函数");
 
 
+            foreach (var item in HardwareCalibrationDicString)
+            {
+                HardwareCalibrations.Add(new HardwareCalibration() { Hardware = HardwareCalibrationDic[item.Key].Hardware, Type = HardwareCalibrationDic[item.Key].Type, Name = item.Value });
+            }
+            Calibration.GetHardwareCalibrationContentEvent += GetHardwareCalibrationContent;
+            LambdaControl.Trigger("HardwareCalibrationInit", this, new Dictionary<string, object>() { { "HardwareCalibrationType", (int)HardwareCalibrationType.Wizard } });
+
             InitializeComponent();
-            LambdaControl.AddLambdaEventHandler("HardwareCalibrationState", HardwareCalibrationState, false);
+            Calibration.HardwareCalibrationStateEvent += HardwareCalibrationState;
             Window = window;
+        }
+
+        public bool GetHardwareCalibrationContent(object sender, EventArgs e)
+        {
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+            if (eventData == null)
+                return false;
+
+            string json = eventData.GetString("json");
+
+            var HardwareCalibrationaaa = JsonSerializer.Deserialize<List<HardwareCalibration>>(json, new JsonSerializerOptions());
+            if (HardwareCalibrationaaa != null)
+            {
+                HardwareCalibrations = HardwareCalibrationaaa;
+            }
+            return true;
         }
 
         private void Pages()
         {
+            Calibration.HardwareCalibrationStateEvent -= HardwareCalibrationState;
+            Calibration.GetHardwareCalibrationContentEvent -= GetHardwareCalibrationContent;
+
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
@@ -101,27 +129,23 @@ namespace Wizard
             ScrollViewer1.ScrollToEnd();
         }
 
-
+        int Current = 0;
         private async void Page_Initialized(object sender, EventArgs e)
         {
-            await Task.Delay(100);
             AdddHardwareCalibration("正在准备校准环境");
             await Task.Delay(2000);
-            ProgressBar.Maximum = HardwareCalibrationDicString.Keys.Count;
-            ProgressBar.Value = 0;
-            int i = 0;
-            foreach (var item in HardwareCalibrationDicString.Keys)
+            if (HardwareCalibrations.Count <= 0)
             {
-                i++;
-                AdddHardwareCalibration($"({i}/{HardwareCalibrationDicString.Keys.Count}){HardwareCalibrationDicString[item]}");
-                LambdaControl.Trigger("HardwareCalibration", this, HardwareCalibrationDic[item].ToJson());
-                await Task.Delay(2000);
-                ProgressBar.Value = i;
+                Pages();
             }
-            AdddHardwareCalibration("正在还原默认工作环境");
-            await Task.Delay(2000);
-            Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(new Page6(Window))));
+            ProgressBar.Maximum = HardwareCalibrations.Count;
+            ProgressBar.Value = 0;
+            Current++;
+            AdddHardwareCalibration($"({Current}/{HardwareCalibrations.Count}){HardwareCalibrations[Current - 1].Name}");
+            LambdaControl.Dispatch("HardwareCalibration", this, HardwareCalibrations[Current - 1].ToJson());
+            ProgressBar.Value = Current;
         }
+
 
         public bool HardwareCalibrationState(object sender, EventArgs e)
         {
@@ -129,7 +153,32 @@ namespace Wizard
             if (eventData == null)
                 return false;
 
-
+            if (int.TryParse(eventData.GetString("ResultCode"), out int temp))
+            {
+                switch (temp)
+                {
+                    case 0:
+                        Current++;
+                        if (Current > HardwareCalibrations.Count)
+                        {
+                            Content = new Page6(Window);
+                            Pages();
+                            break;
+                        }
+                        AdddHardwareCalibration($"({Current}/{HardwareCalibrations.Count}){HardwareCalibrations[Current - 1].Name}");
+                        LambdaControl.Dispatch("HardwareCalibration", this, HardwareCalibrations[Current - 1].ToJson());
+                        ProgressBar.Value = Current;
+                        break;
+                    case -1:
+                        Environment.Exit(-1);
+                        break;
+                    case 1:
+                        Global.Common.MessageBox1.Show(eventData.GetString("Msg"));
+                        break;
+                    default:
+                        break;
+                }
+            }
             return true;
         }
 

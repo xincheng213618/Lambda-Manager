@@ -5,6 +5,7 @@
 #include "Customfile.h"
 
 
+
 #define CAMERA_API __declspec(dllexport)
 
 extern "C" CAMERA_API int OpenCamera();
@@ -41,6 +42,35 @@ extern "C" CAMERA_API int StageSettingReset();
 extern "C" CAMERA_API  GrifFile ReadFileInfo(char* FilePath);
 extern "C" CAMERA_API  int GrifExportAs(char* GrifExportAsJson);
 extern "C" CAMERA_API int HardwareCalibration(char* json);
+
+enum HardwareCalibrationType
+{
+	/// <summary>
+	/// 向导
+	/// </summary>
+	Wizard,
+	/// <summary>
+	/// 设置中第一个按钮
+	/// </summary>
+	All,
+	/// <summary>
+	/// 相机
+	/// </summary>
+	Camera,
+	/// <summary>
+	/// 位移台
+	/// </summary>
+	Stage,
+	/// <summary>
+	/// 光源
+	/// </summary>
+	Light,
+	/// <summary>
+	/// 初始化
+	/// </summary>
+	Initialize,
+};
+extern "C" CAMERA_API int HardwareCalibrationInit(int HardwareCalibrationType);
 
 
 

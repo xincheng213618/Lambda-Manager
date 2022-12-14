@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using HotKey;
 using Global.SettingUp;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
 namespace Solution
 {
@@ -38,8 +40,25 @@ namespace Solution
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox)
+            if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox && viewbox.Parent is ScrollViewer scrollViewer &&scrollViewer.Parent is TabItem tabItem)
             {
+                
+                HeaderStackPanel.Children.Remove(SoulutionButtonPanel1);
+                Grid grid = new Grid();
+                tabItem.Content = grid;
+                grid.Children.Add(scrollViewer);
+
+
+                //StackPanel stackPanel1 = new StackPanel();
+                //stackPanel1.Children.Add(SoulutionButtonPanel1);
+
+                Viewbox viewbox1 = new Viewbox() { Child = SoulutionButtonPanel1,VerticalAlignment =VerticalAlignment.Top,HorizontalAlignment =HorizontalAlignment.Left };
+
+                viewbox1.SetBinding(Viewbox.HeightProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualHeight") });
+                viewbox1.SetBinding(Viewbox.WidthProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualWidth") });
+
+                grid.Children.Add(viewbox1);
+
                 IsFirstLoad = false;
                 stackPanel.Margin = new Thickness(2, 2, 2, 0);
                 viewbox.Width = double.NaN;

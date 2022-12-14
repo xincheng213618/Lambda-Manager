@@ -14,7 +14,7 @@
             <TextBlock Text="选择你的主机型号" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,150,0,0"/>
             <TextBlock Text="如果你不确定你的主机型号，请查找您的用户配置手册，或查看您的仪器后侧的标签" HorizontalAlignment="Center" FontSize="12"   VerticalAlignment="Top" Margin="0,180,0,0"/>
             <Button  Height="100"  VerticalAlignment="Top" Margin="0,240,0,0" Click="Button_Click_1">
-                <Image Source="/Wizard;component/Images/图片1.png" />
+                <Image Source="/Wizard;component/Images/图片1.png"/>
             </Button>
 
 

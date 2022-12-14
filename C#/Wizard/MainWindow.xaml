@@ -10,7 +10,7 @@
     <Grid>
         <Border Margin="10,10"  CornerRadius="10">
             <Grid Margin="10">
-                <TextBlock Text="1.0"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBlock Text="1.0"  HorizontalAlignment="Left" VerticalAlignment="Bottom" />
             </Grid>
         </Border>
         <Frame Grid.RowSpan="3" x:Name="frame" NavigationUIVisibility="Hidden"/>

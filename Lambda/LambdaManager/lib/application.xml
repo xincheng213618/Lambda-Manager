@@ -7,7 +7,13 @@
 				<input name="GrifExportAsJson" type="#string" />
 			</action>
 		</procedure>
+
 		
+		<procedure name="HardwareCalibrationInit" event="HardwareCalibrationInit" key ="HardwareCalibrationType" >
+			<action name="HardwareCalibrationInit">
+				<input name="HardwareCalibrationType" type="int" />
+			</action>
+		</procedure>
 		<procedure name="HardwareCalibration" event="HardwareCalibration" arg ="json" >
 			<action name="HardwareCalibration">
 				<input name="json" type="#string" />

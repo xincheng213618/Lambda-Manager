@@ -10,8 +10,6 @@
         <ResourceDictionary>  
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ConfigSetting;component/themes/Button.xaml"/>
-                 <ResourceDictionary Source="/ThemeManager;component/Styles/Dark.xaml"/>
-                <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="SettingButton" TargetType="{x:Type Button}">
@@ -113,7 +111,6 @@
                     </TreeViewItem>
                     <TreeViewItem Header="固件更新" FontSize="16"  Tag="{Binding ElementName=GroupBox3}" Selected="TreeViewItem_Selected"/>
                     <TreeViewItem Header="软件升级" FontSize="16"  Tag="{Binding ElementName=GroupBox4}" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="自动校准" FontSize="16"  Tag="{Binding ElementName=GroupBox5}" Selected="TreeViewItem_Selected"/>
                 </TreeView>
 
                 <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="0,0,0,0" >
@@ -205,7 +202,7 @@
                                         </TextBlock>
                                         <TextBlock Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="0" Text="硬件加速(GPU):" Margin="0,2"/>
       
-                                        <Button Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="1"  Click="GPU_Click"  Width="100" HorizontalAlignment="Left" >
+                                        <Button Grid.Row="3" Visibility="{Binding Path=IsGPUCapable,Converter={StaticResource bool2VisibilityConverter}}" Grid.Column="2"  Click="GPU_Click"  Width="100" HorizontalAlignment="Left" >
                                             <Button.ToolTip>
                                                 <TextBlock>
                                                     <Run Text="当前GPU加速："/>
@@ -252,12 +249,12 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock  Grid.Row="0" Grid.Column="0" Text="装饰灯"/>
-                                        <Button Grid.Row="0" Grid.Column="1" Content="关"  Click="Button_Click_3" Width="100" HorizontalAlignment="Left"/>
+                                        <Button Grid.Row="0" Grid.Column="2" Content="关"  Click="Button_Click_3" Width="100" HorizontalAlignment="Left"/>
                                         <TextBlock  Grid.Row="1" Grid.Column="0" Text="装饰灯"/>
 
-                                        <Button Grid.Row="1" Grid.Column="1"  Content="开"  Click="Button_Click_31" Width="100" HorizontalAlignment="Left"/>
+                                        <Button Grid.Row="1" Grid.Column="2"  Content="开"  Click="Button_Click_31" Width="100" HorizontalAlignment="Left"/>
                                         <TextBlock  Grid.Row="2" Grid.Column="0" Text="日志显示"/>
-                                        <Button Grid.Row="2" Grid.Column="1" Click="Button_Click_7" Content="{Binding Path=IsShowLog ,Converter={StaticResource BoolToStringConverer},ConverterParameter=1}" Width="100" HorizontalAlignment="Left">
+                                        <Button Grid.Row="2" Grid.Column="2" Click="Button_Click_7" Content="{Binding Path=IsShowLog ,Converter={StaticResource BoolToStringConverer},ConverterParameter=1}" Width="100" HorizontalAlignment="Left">
                                             <Button.ToolTip>
                                                 <TextBlock>
                                                     <Run Text="当前日志显示："/>
@@ -374,21 +371,21 @@
                                         <Button Grid.Row="0" Grid.Column="2" Content="校准灯光" Click="Calibration_Click" Tag="Light"  Width="100" HorizontalAlignment="Left" />
 
                                         <TextBlock Grid.Row="1" Margin="0,3" Text="LED行列数:"/>
-                                        <TextBlock Grid.Row="1" Margin="0,3" Grid.Column="1"  Text="64"/>
+                                        <TextBlock Grid.Row="1" Margin="0,3" Grid.Column="1"  Text="{Binding Path=LEDRowsAndColumns}"/>
                                         <TextBlock Grid.Row="2" Margin="0,3" Text="LED间距:"/>
-                                        <TextBlock Grid.Row="2" Margin="0,3" Grid.Column="1"  Text="2nm"/>
+                                        <TextBlock Grid.Row="2" Margin="0,3" Grid.Column="1"  Text="{Binding Path=LEDSpacing}"/>
                                         <TextBlock Grid.Row="3" Margin="0,3" Text="LED高度:"/>
-                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text="62mm"/>
+                                        <TextBlock Grid.Row="3" Margin="0,3" Grid.Column="1"  Text="{Binding Path=LEDHeight}"/>
                                         <TextBlock Grid.Row="4" Margin="0,3" Text="LED颜色Bit数:"/>
-                                        <TextBlock Grid.Row="4" Margin="0,3" Grid.Column="1"  Text="4096"/>
+                                        <TextBlock Grid.Row="4" Margin="0,3" Grid.Column="1"  Text="{Binding Path=LEDColors}"/>
                                         <TextBlock Grid.Row="5" Margin="0,3" Text="LED中心波长:"/>
-                                        <TextBlock Grid.Row="5" Margin="0,3" Grid.Column="1"  Text="15um"/>
+                                        <TextBlock Grid.Row="5" Margin="0,3" Grid.Column="1"  Text="{Binding Path=LEDCenterWavelength}"/>
                                         <TextBlock Grid.Row="6" Margin="0,3" Text="照明模式最高刷新速率:"/>
-                                        <TextBlock Grid.Row="6" Margin="0,3" Grid.Column="1"  Text="6ms(166fps)"/>
+                                        <TextBlock Grid.Row="6" Margin="0,3" Grid.Column="1"  Text="{Binding Path=MaxRefreshRate}"/>
                                         <TextBlock Grid.Row="7" Margin="0,3" Text="照明最大数值孔径:"/>
-                                        <TextBlock Grid.Row="7" Margin="0,3" Grid.Column="1"  Text="0.8"/>
+                                        <TextBlock Grid.Row="7" Margin="0,3" Grid.Column="1"  Text="{Binding Path=MaxNumericalAperture}"/>
                                         <TextBlock Grid.Row="8" Margin="0,3" Text="照明亮度:"/>
-                                        <TextBlock Grid.Row="8" Margin="0,3" Grid.Column="1"  Text="10cd"/>
+                                        <TextBlock Grid.Row="8" Margin="0,3" Grid.Column="1"  Text="{Binding Path=MaxBrightness}"/>
                                     </Grid>
                                 </GroupBox>
 
@@ -482,19 +479,11 @@
                         </GroupBox>
                         <GroupBox x:Name="GroupBox4" Style="{DynamicResource GroupBoxStyle1}"  Header="软件升级" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
                             <StackPanel Margin="10,5"   >
-         
-                            </StackPanel>
-                        </GroupBox>
-
-                        <GroupBox x:Name="GroupBox5"  Style="{DynamicResource GroupBoxStyle1}" Header="自动校准" BorderBrush="{DynamicResource ForegroundBrush}" Margin="0,5">
-                            <StackPanel Margin="10,5"  Height="500" >
                                 <UniformGrid x:Name="UniformGrifHotKey" Margin="10,5">
-                                    
-                                </UniformGrid>
 
+                                </UniformGrid>
                             </StackPanel>
                         </GroupBox>
-
                     </StackPanel>
                 </ScrollViewer>
 

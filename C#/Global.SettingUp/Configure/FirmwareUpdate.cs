@@ -37,39 +37,100 @@ namespace Global.SettingUp.Configure
     /// </summary>
     public class LightSourceConfig : ViewModelBase
     {
+
         /// <summary>
         /// 硬件版本
         /// </summary>
-        public string Version { get; set; }
+        public string Version { get => _Version; set { _Version = value; NotifyPropertyChanged();} }
+        private string _Version;
+
         /// <summary>
         /// LED行列数
         /// </summary>
-        public int LEDRowsAndColumns { get; set; }
+        public int LEDRowsAndColumns { get => _LEDRowsAndColumns; set { _LEDRowsAndColumns = value; NotifyPropertyChanged(); } }
+        private int _LEDRowsAndColumns;
 
         /// <summary>
-        /// 
+        /// LED间距
         /// </summary>
-        public string LEDSpacing { get; set; }
-        public string LEDHeight { get; set; }
-        public string LEDColors { get; set; }
-        public string LEDCenterWavelength { get; set; }
-        public string MaxRefreshRate { get; set; }
-        public string MaxNumericalAperture { get; set; }
-        public string MaxBrightness { get; set; }
+        public string LEDSpacing { get => _LEDSpacing; set { _LEDSpacing = value; NotifyPropertyChanged(); } }
+        private string _LEDSpacing;
+
+        /// <summary>
+        /// LED高度
+        /// </summary>
+        public string LEDHeight { get => _LEDHeight; set { _LEDHeight = value; NotifyPropertyChanged(); } }
+        private string _LEDHeight;
+
+        /// <summary>
+        /// LED颜色Bit数
+        /// </summary>
+        public string LEDColors { get => _LEDColors; set { _LEDColors = value; NotifyPropertyChanged(); } }
+        private string _LEDColors;
+
+
+        /// <summary>
+        /// LED中心波长
+        /// </summary>
+        public string LEDCenterWavelength { get => _LEDCenterWavelength; set { _LEDCenterWavelength = value; NotifyPropertyChanged(); } }
+        private string _LEDCenterWavelength;
+
+        /// <summary>
+        /// 照明模式最高刷新速率
+        /// </summary>
+        public string MaxRefreshRate { get => _MaxRefreshRate; set { _MaxRefreshRate = value; NotifyPropertyChanged(); } }
+        private string _MaxRefreshRate;
+
+
+        /// <summary>
+        /// 照明最大数值孔径
+        /// </summary>
+        public string MaxNumericalAperture { get => _MaxNumericalAperture; set { _MaxNumericalAperture = value; NotifyPropertyChanged(); } }
+        private string _MaxNumericalAperture;
+        /// <summary>
+        /// 照明亮度
+        /// </summary>
+        public string MaxBrightness { get => _MaxBrightness; set { _MaxBrightness = value; NotifyPropertyChanged(); } }
+        private string _MaxBrightness;
+
     }
 
     public class CameraConfig : ViewModelBase
     {
-        public string CameraModel { get; set; }
-        public List<string> SupportResolution { get; set; }
+        /// <summary>
+        /// 相机型号
+        /// </summary>
+        public string CameraModel { get => _CameraModel; set { _CameraModel = value; NotifyPropertyChanged(); } }
+        private string _CameraModel;
 
-        public string TargetSize { get; set; }
+        /// <summary>
+        /// 支持的分辨率
+        /// </summary>
+        public List<string> SupportResolution { get; set; } = new List<string>();
 
-        public string SensorSize { get; set; }
+        /// <summary>
+        /// 相机靶面大小
+        /// </summary>
+        public string TargetSize { get => _TargetSize; set { _TargetSize = value; NotifyPropertyChanged(); } }
+        private string _TargetSize;
 
-        public string MAXFrameRate { get; set; }
+        /// <summary>
+        /// 传感器大小
+        /// </summary>
+        public string SensorSize { get => _SensorSize; set { _SensorSize = value; NotifyPropertyChanged(); } }
+        private string _SensorSize;
 
-        public string DynamicRange { get; set; }
+        /// <summary>
+        /// 最高帧率
+        /// </summary>
+        public string MAXFrameRate { get => _MAXFrameRate; set { _MAXFrameRate = value; NotifyPropertyChanged(); } }
+        private string _MAXFrameRate;
+
+        /// <summary>
+        /// 动态范围
+        /// </summary>
+        public string DynamicRange { get => _DynamicRange; set { _DynamicRange = value; NotifyPropertyChanged(); } }
+        public string _DynamicRange;
 
         public int ImageFlip { get; set; }
 

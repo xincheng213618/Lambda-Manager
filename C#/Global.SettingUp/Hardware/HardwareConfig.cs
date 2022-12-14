@@ -1,4 +1,5 @@
 ﻿using Global.Common;
+using Global.SettingUp.Configure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,13 +65,6 @@ namespace Global.SettingUp.Hardware
         
     }
 
-    /// <summary>
-    /// 光源配置
-    /// </summary>
-    public class LightSourceConfig : HardwareConfigBase
-    {
-
-    }
     /// <summary>
     /// 物镜配置
     /// </summary>
