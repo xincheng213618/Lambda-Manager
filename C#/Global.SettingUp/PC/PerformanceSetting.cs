@@ -2,7 +2,7 @@
 
 namespace Global.SettingUp.PC
 {
-    public class PerformanceSetting : ViewModelBase, IDisposable
+    public class PerformanceSetting : ViewModelBase
     {
         private Timer timer;
         private PerformanceCounterHelper PerformanceCounterHelper;
@@ -27,8 +27,7 @@ namespace Global.SettingUp.PC
         {
             PerformanceCounterHelper = PerformanceCounterHelper.GetInstance();
             timer = new Timer(TimeRun, null, 0, UpdateSpeed);
-            CurrentDrive = System.IO.DriveInfo.GetDrives()[0];
-            CurrentDiskTotalSize = (CurrentDrive.TotalSize / (1024 * 1024 * 1024)).ToString() + "GB";
+            CurrentDrive = DriveInfo.GetDrives()[0];
             OSInfo = Environment.OSVersion.Version.Build >= 22000 ? Environment.OSVersion.ToString().Replace("10.", "11.") : Environment.OSVersion.ToString() + " " + (Environment.Is64BitOperatingSystem ? "64-bit" : "32-bit");
         }
 
@@ -43,108 +42,66 @@ namespace Global.SettingUp.PC
 
                 DiskUse = (CurrentDrive.TotalFreeSpace / (1024 * 1024 * 1024)).ToString() + "GB";
                 IsDiskLackWarning = CurrentDrive.TotalFreeSpace < 107374182400;
-                IsMemoryLackWarning = PerformanceCounterHelper.RAMAL - PerformanceCounterHelper.RAM.NextValue() / 1024 > 4;
+
+                IsMemoryLackWarning = PerformanceCounterHelper.RAMAL - PerformanceCounterHelper.RAM.NextValue() / 1024 < 4;
             }
         }
         public string OSInfo { get; set; }
 
-        public DriveInfo currentDrive = null;
         public DriveInfo CurrentDrive
         {
-            get { return currentDrive; }
+            get { return _CurrentDrive; }
             set
             {
-                currentDrive = value; NotifyPropertyChanged();
+                _CurrentDrive = value; NotifyPropertyChanged();
+                CurrentDiskTotalSize = (CurrentDrive.TotalSize / (1024 * 1024 * 1024)).ToString() + "GB";
+                DiskUse = (CurrentDrive.TotalFreeSpace / (1024 * 1024 * 1024)).ToString() + "GB";
             }
         }
+        private DriveInfo _CurrentDrive = null;
 
-        public string CurrentDiskTotalSize { get; set; }
+        /// <summary>
+        /// 当前分区硬盘大小
+        /// </summary>
+        public string CurrentDiskTotalSize { get => _CurrentDiskTotalSize; set { _CurrentDiskTotalSize = value; NotifyPropertyChanged(); } }
+        private string _CurrentDiskTotalSize = string.Empty;
 
-        private bool _IsDiskLackWarning =false;
-        public bool IsDiskLackWarning 
-        {
-            get => _IsDiskLackWarning;
-            set 
-            { 
-                _IsDiskLackWarning = value;
-                NotifyPropertyChanged();
-            }
-        }
+        /// <summary>
+        /// 是否显示硬盘不足警告
+        /// </summary>
+        public bool IsDiskLackWarning { get => _IsDiskLackWarning; set { _IsDiskLackWarning = value; NotifyPropertyChanged(); } }
+        private bool _IsDiskLackWarning = false;
 
-
+        /// <summary>
+        /// 是否显示内存不足警告
+        /// </summary>
+        public bool IsMemoryLackWarning { get => _IsMemoryLackWarning; set { _IsMemoryLackWarning = value; NotifyPropertyChanged(); } }
         private bool _IsMemoryLackWarning = false;
-        public bool IsMemoryLackWarning
-        {
-            get => _IsMemoryLackWarning;
-            set
-            {
-                _IsMemoryLackWarning = value;
-                NotifyPropertyChanged();
-            }
-        }
 
-
-        private string processorTotal = String.Empty;
         /// <summary>
         /// 总处理器占用
         /// </summary>
-        public string ProcessorTotal
-        {
-            get { return processorTotal; }
-            set
-            {
-                if (value != null && value != processorTotal)
-                    processorTotal = value; NotifyPropertyChanged();
-            }
-        }
+        public string ProcessorTotal { get => _ProcessorTotal; set { _ProcessorTotal = value; NotifyPropertyChanged(); } }
+        private string _ProcessorTotal = String.Empty;
 
-        private string memoryAvailable = String.Empty;
+
         /// <summary>
         /// 内存获取
         /// </summary>
-        public string MemoryAvailable
-        {
-            get { return memoryAvailable; }
-            set
-            {
-                if (value != null && value != memoryAvailable)
-                    memoryAvailable = value; NotifyPropertyChanged();
-            }
-        }
+        public string MemoryAvailable { get => _MemoryAvailable; set { _MemoryAvailable = value; NotifyPropertyChanged(); } }
+        private string _MemoryAvailable = String.Empty;
 
-
-        private string memoryThis = String.Empty;
         /// <summary>
-        /// 当前内存
+        /// 当前软件占用内存
         /// </summary>
-        public string MemorytThis
-        {
-            get { return memoryThis; }
-            set
-            {
-                if (value != null && value != memoryThis)
-                    memoryThis = value; NotifyPropertyChanged();
-            }
-        }
+        public string MemorytThis { get => _MemorytThis; set { _MemorytThis = value; NotifyPropertyChanged(); } }
+        private string _MemorytThis = String.Empty;
 
-        private string diskUse = String.Empty;
         /// <summary>
         /// 硬盘使用
         /// </summary>
-        public string DiskUse
-        {
-            get { return diskUse; }
-            set
-            {
-                if (value != null && value != diskUse)
-                    diskUse = value; NotifyPropertyChanged();
-            }
-        }
-
-        public void Dispose()
-        {
-            timer.Dispose();
-        }
+        public string DiskUse { get => _DiskUse;set { _DiskUse = value; NotifyPropertyChanged(); }}
+        private string _DiskUse = String.Empty;
     }
 
 }

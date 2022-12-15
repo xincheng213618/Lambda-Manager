@@ -10,40 +10,33 @@ namespace Global.SettingUp.PC
 {
     public class GPUInfo:ViewModelBase
     {
-        public GPUInfo() { }
+        /// <summary>
+        /// 是否支持GPU
+        /// </summary>
+        public bool IsGPUCapable { get => _IsGPUCapable; set { _IsGPUCapable = value; NotifyPropertyChanged(); if (_IsGPUCapable) _IsOpenGPUAccelerate = IsGPUCapable; } }
+        private bool _IsGPUCapable = false;
 
-        private bool isGPUCapable = false;
+        /// <summary>
+        /// 是否开启CUDA加速
+        /// </summary>
+        public bool IsOpenGPUAccelerate { get => _IsOpenGPUAccelerate; set { _IsOpenGPUAccelerate = value; NotifyPropertyChanged(); } }
+        private bool _IsOpenGPUAccelerate = false;
 
-        public bool IsGPUCapable
-        {
-            get { return isGPUCapable; }
-            set { isGPUCapable = value; NotifyPropertyChanged(); if (isGPUCapable) isOpenGPUAccelerate = IsGPUCapable; }
-        }
-
-        private bool isOpenGPUAccelerate = false;
-        public bool IsOpenGPUAccelerate
-        {
-            get { return isOpenGPUAccelerate; }
-            set {
-                 if (IsGPUCapable)
-                {
-                    isOpenGPUAccelerate = value; NotifyPropertyChanged();
-                }
-            }
-        }
+        /// <summary>
+        /// 是否支持CUDA
+        /// </summary>
+        public bool IsCUDACapable { get => _IsCUDACapable; set { _IsCUDACapable = value; NotifyPropertyChanged(); } }
+        private bool _IsCUDACapable = false;
 
 
         public string GPUName { get; set; }
         public string GPUVersion { get; set; }
         public string GPUDescription { get; set; }
 
-        private uint gPUaccessibleRAM = 0;
-        public uint GPUaccessibleRAM     
-        {
-            get { return gPUaccessibleRAM; }
-            set { gPUaccessibleRAM = value; NotifyPropertyChanged(); }
-        }
-
-
+        /// <summary>
+        /// GPURAM容量
+        /// </summary>
+        public uint GPUaccessibleRAM { get => _GPUaccessibleRAM; set { _GPUaccessibleRAM = value; NotifyPropertyChanged(); } } 
+        private uint _GPUaccessibleRAM = 0;
     }
 }

@@ -1,5 +1,4 @@
-﻿using Global.Common;
-using Lambda;
+﻿using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,96 +19,6 @@ using System.Threading;
 
 namespace ConfigSetting
 {
-    public class HardwareCalibration : ViewModelBase
-    {
-        public string Name { internal get;  set; }
-
-        public string Hardware { get; set; }
-        public string Type { get; set; }
-
-    }
-
-    public delegate bool HardwareCalibrationStateEventHandler(object sender, EventArgs e);
-
-
-    public class Calibration
-    {
-
-        private static Calibration _instance;
-        private static readonly object _locker = new();
-
-        public static Calibration GetInstance()
-        {
-            lock (_locker) { _instance ??= new Calibration(); }
-            return _instance;
-        }
-
-        public Calibration()
-        {
-            LambdaControl.AddLambdaEventHandler("HardwareCalibrationState", HardwareCalibrationState, false);
-            LambdaControl.AddLambdaEventHandler("SetHardwareCalibrationContent", SetHardwareCalibrationContent, false);
-
-        }
-        private bool HardwareCalibrationState(object sender, EventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                HardwareCalibrationStateInvoke(sender, e);
-            });
-            return true;
-        }
-
-        private bool SetHardwareCalibrationContent(object sender, EventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                GetHardwareCalibrationContentInvoke(sender, e);
-            });
-            return true;
-        }
-
-
-        public static event HardwareCalibrationStateEventHandler HardwareCalibrationStateEvent;
-        public static event HardwareCalibrationStateEventHandler GetHardwareCalibrationContentEvent;
-
-
-        public static void HardwareCalibrationStateInvoke(object sender, EventArgs e)
-        {
-            HardwareCalibrationStateEvent?.Invoke(sender, e);
-        }
-        public static void GetHardwareCalibrationContentInvoke(object sender, EventArgs e)
-        {
-            GetHardwareCalibrationContentEvent?.Invoke(sender, e);
-        }
-    }
-
-    public enum HardwareCalibrationType
-    {
-        /// <summary>
-        /// 向导
-        /// </summary>
-        Wizard,
-       /// <summary>
-       /// 设置中第一个按钮
-       /// </summary>
-        All,
-        /// <summary>
-        /// 相机
-        /// </summary>
-        Camera,
-        /// <summary>
-        /// 位移台
-        /// </summary>
-        Stage,
-        /// <summary>
-        /// 光源
-        /// </summary>
-        Light,
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        Initialize,
-    }
 
     /// <summary>
     /// Window1.xaml 的交互逻辑
@@ -281,7 +190,6 @@ namespace ConfigSetting
             if (Closeing)
                 return;
             Closeing = true;
-            thread?.Interrupt();
             AdddHardwareCalibration("正在还原默认工作环境");
             LambdaControl.Dispatch("HardwareCalibrationClose", this, new Dictionary<string, object>() { });
             if (Closeing1)

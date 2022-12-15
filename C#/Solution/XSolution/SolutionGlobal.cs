@@ -6,35 +6,18 @@ using System.Reflection;
 
 namespace XSolution
 {
-    public static class ReflectiveEnumerator
-    {
-        static ReflectiveEnumerator() { }
-
-        public static IEnumerable<T> GetEnumerableOfType<T>(params object[] constructorArgs) where T : class, IComparable<T>
-        {
-            List<T> objects = new List<T>();
-            foreach (Type type in Assembly.GetAssembly(typeof(T)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(T))))
-            {
-                objects.Add((T)Activator.CreateInstance(type, constructorArgs));
-            }
-            objects.Sort();
-            return objects;
-        }
-    }
 
     public class SolutionGlobal
     {
         private static SolutionGlobal _instance;
         private static readonly object _locker = new();
+        public static SolutionGlobal GetInstance() { lock (_locker) { return _instance ??= new SolutionGlobal(); } }
+
+
 
         Dictionary<string[], Type> ProjectFileDic = new Dictionary<string[], Type>() { };
 
         List<Type> ProjectFileTypeList = new List<Type>();
-
-        public static SolutionGlobal GetInstance()
-        {
-            lock (_locker) { return _instance ??= new SolutionGlobal(); }
-        }
 
         private SolutionGlobal()
         {
@@ -42,7 +25,7 @@ namespace XSolution
             {
                 if (!item.IsAbstract && typeof(IProjectFile).IsAssignableFrom(item)&&item.IsClass)
                 {
-                    string[] SupportExtensions = ((IProjectFile)Activator.CreateInstance(item, "11")).SupportExtensions();
+                    string[] SupportExtensions = ((IProjectFile)Activator.CreateInstance(item, " ")).SupportExtensions();
 
                     ProjectFileDic.Add(SupportExtensions,item);
                     ProjectFileTypeList.Add(item);

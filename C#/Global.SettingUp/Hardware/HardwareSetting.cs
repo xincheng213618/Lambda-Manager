@@ -3,18 +3,20 @@ using Global.Common.Extensions;
 using Global.Common.Util;
 using Global.SettingUp.PC;
 using Lambda;
-using System.Windows;
 
 namespace Global.SettingUp.Hardware
 {
 
     public class HardwareSetting : ViewModelBase
     {
+        public static string RegPath = "Software\\Grid";
+
         public HardwareSetting()
         {
-            LambdaControl.AddLambdaEventHandler("LambdaNotifyPropertyChanged", LambdaNotifyPropertyChanged, false);
-            LambdaControl.Trigger("SeachHardwareSettingConnection ", this, new Dictionary<string, object>());
+            LambdaSettingUp.HardwareSettingConnectionEvent += LambdaNotifyPropertyChanged;
+            LambdaControl.Trigger("SeachHardwareSettingConnection", this, new Dictionary<string, object>());
         }
+
         public bool LambdaNotifyPropertyChanged(object sender, EventArgs e)
         {
             Dictionary<string, object> eventData = LambdaArgs.GetEventData(e);
@@ -43,105 +45,47 @@ namespace Global.SettingUp.Hardware
         public PerformanceSetting PerformanceSetting = new PerformanceSetting();
 
 
-        public static string RegPath = "Software\\Grid";
+        /// <summary>
+        /// 是否初始化向导
+        /// </summary>
+        public bool IsIniWizard { get => _IsIniWizard; set { _IsIniWizard = value; NotifyPropertyChanged();  Reg.WriteValue(RegPath, nameof(IsIniWizard), IsIniWizard); } }
+        private bool _IsIniWizard = Reg.ReadValue(RegPath, nameof(IsIniWizard), false);
 
-        private bool isIniWizard = Reg.ReadValue(RegPath, nameof(IsIniWizard), false);
-        public bool IsIniWizard
-        {
-            get { return isIniWizard; }
-            set
-            {
-                if (isIniWizard != value)
-                {
-                    isIniWizard = value;
-                    Reg.WriteValue(RegPath, nameof(IsIniWizard), IsIniWizard);
-                    NotifyPropertyChanged();
-                }
-            }
-        }
+        /// <summary>
+        /// 相机状态
+        /// </summary>
+        public CameraStatus CameraStatus { get => _CameraStatus; set { _CameraStatus = value; NotifyPropertyChanged(); } }
+        private CameraStatus _CameraStatus = CameraStatus.DisConnection;
 
-        private CameraStatus cameraStatus = CameraStatus.DisConnection;
-        public CameraStatus CameraStatus
-        {
-            get { return cameraStatus; }
-            set
-            {
-                cameraStatus = value;
-                NotifyPropertyChanged();
-            }
-        }
+        /// <summary>
+        /// 相机连接情况
+        /// </summary>
+        public bool IsCameraConnection { get => _IsCameraConnection; set { _IsCameraConnection = value; NotifyPropertyChanged(); } }
+        public bool _IsCameraConnection = false;
 
+        /// <summary>
+        /// 位移台状态
+        /// </summary>
+        public SerialPortStatus StageStatus { get => _StageStatus; set { _StageStatus = value; NotifyPropertyChanged(); } }
+        private SerialPortStatus _StageStatus = SerialPortStatus.UnknownError;
 
-        public bool isCameraConnection = false;
+        /// <summary>
+        /// 位移台连接情况
+        /// </summary>
+        public bool IsStageConnection { get => _IsStageConnection; set { _IsStageConnection = value; NotifyPropertyChanged(); } }
+        private bool _IsStageConnection = false;
+        
+        /// <summary>
+        /// 光源状态
+        /// </summary>
+        public SerialPortStatus LightStatus { get => _LightStatus; set { _LightStatus = value; NotifyPropertyChanged(); } }
+        private SerialPortStatus _LightStatus = SerialPortStatus.UnknownError;
 
-        public bool IsCameraConnection
-        {
-            get { return isCameraConnection; }
-            set
-            {
-                if (isCameraConnection != value)
-                {
-                    isCameraConnection = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private SerialPortStatus stageStatus = SerialPortStatus.UnknownError;
-        public SerialPortStatus StageStatus
-        {
-            get { return stageStatus; }
-            set
-            {
-                stageStatus = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        private bool isStageConnection = false;
-
-        public bool IsStageConnection
-        {
-            get { return isStageConnection; }
-            set
-            {
-                if (isStageConnection != value)
-                {
-                    isStageConnection = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private SerialPortStatus lightStatus = SerialPortStatus.UnknownError;
-        public SerialPortStatus LightStatus
-        {
-            get { return lightStatus; }
-            set
-            {
-                lightStatus = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        private bool isLightConnection = false;
-
-        public bool IsLightConnection
-        {
-            get { return isLightConnection; }
-            set
-            {
-                if (isLightConnection != value)
-                {
-                    isLightConnection = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-
+        /// <summary>
+        /// 光源连接情况
+        /// </summary>
+        public bool IsLightConnection { get => _IsLightConnection; set { _IsLightConnection = value; NotifyPropertyChanged(); } }
+        private bool _IsLightConnection = false;
 
     }
 }

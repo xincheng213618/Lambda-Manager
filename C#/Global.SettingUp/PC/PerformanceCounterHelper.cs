@@ -8,18 +8,12 @@ namespace Global.SettingUp.PC
     {
         private static PerformanceCounterHelper _instance;
         private static readonly object _lock = new();
-        public static PerformanceCounterHelper GetInstance()
-        {
-            lock (_lock) { _instance ??= new PerformanceCounterHelper(); }
-            return _instance;
-        }
+        public static PerformanceCounterHelper GetInstance() { lock (_lock) { return _instance ??= new PerformanceCounterHelper(); } }
+
+
         private PerformanceCounterHelper()
         {
-            Thread thread = new Thread(() => Run())
-            {
-                IsBackground = true
-            };
-            thread.Start();
+           new Thread(() => Run()) { IsBackground = true }.Start();
         }
         public void Run()
         {

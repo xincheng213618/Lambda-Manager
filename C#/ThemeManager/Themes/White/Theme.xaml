@@ -50,9 +50,9 @@
 
     <SolidColorBrush  x:Key="ControlShadow" Color="#71000000" />
 
-    <SolidColorBrush x:Key="toplevelmenuheaderhoverborder" Color="#FFE5C365" />
+    <SolidColorBrush x:Key="toplevelmenuheaderhoverborder" Color="#F4F5F7" />
     <SolidColorBrush x:Key="toplevelmenuheaderhover" Color="#FFFDF4BF" />
-    <SolidColorBrush x:Key="menuitemglyphpanelborderbrush" Color="#E5C365" />
+    <SolidColorBrush x:Key="menuitemglyphpanelborderbrush" Color="#F4F5F7" />
     <SolidColorBrush x:Key="MenuItemHighlightedInnerBorder" Color="#FDF4BF" />
     <SolidColorBrush x:Key="MenuItemDisabledForeground" Color="#808080" />
     <SolidColorBrush x:Key="MenuItemDisabledGlyphPanelBackground" Color="#FFA2A4A5" />

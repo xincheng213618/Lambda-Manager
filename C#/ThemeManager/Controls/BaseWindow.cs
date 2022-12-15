@@ -59,8 +59,7 @@ namespace ThemeManager.Controls
         public BaseWindow()
         {
             Command_Initialized();
-            IntPtr handle = new WindowInteropHelper(this).EnsureHandle();
-            HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
+
         }
 
         public static readonly bool IsWin11 = Environment.OSVersion.Version >= new Version(10, 0, 21996);
@@ -73,24 +72,6 @@ namespace ThemeManager.Controls
             get { return (bool)GetValue(IsWindowBlurEnabledProperty); }
             set {
                 SetValue(IsWindowBlurEnabledProperty, value);
-                if (value == true)
-                {
-                    if (IsWin11)
-                    {
-                        if (Environment.OSVersion.Version >= new Version(10, 0, 22523))
-                        {
-                            WindowHelper.EnableBackdropMicaBlur(this, ThemeManagers.CurrentUITheme == Theme.Dark);
-                        }
-                        else
-                        {
-                            WindowHelper.EnableMicaBlur(this, ThemeManagers.CurrentUITheme == Theme.Dark);
-                        }
-                    }
-                    if (IsWin10)
-                        WindowHelper.EnableBlur(this);
-                }
-
-
             }
         }
 
@@ -142,6 +123,24 @@ namespace ThemeManager.Controls
             if ((SizeToContent == SizeToContent.WidthAndHeight) && WindowChrome.GetWindowChrome(this) != null)
             {
                 InvalidateMeasure();
+            }
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
+            if (IsWindowBlurEnabled)
+            {
+                if (IsWin11)
+                {
+                    if (Environment.OSVersion.Version >= new Version(10, 0, 22523))
+                    {
+                        WindowHelper.EnableBackdropMicaBlur(this, ThemeManagers.CurrentUITheme == Theme.Dark);
+                    }
+                    else
+                    {
+                        WindowHelper.EnableMicaBlur(this, ThemeManagers.CurrentUITheme == Theme.Dark);
+                    }
+                }
+                if (IsWin10)
+                    WindowHelper.EnableBlur(this);
             }
 
         }

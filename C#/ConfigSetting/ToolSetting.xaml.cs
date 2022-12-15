@@ -90,8 +90,6 @@ namespace ConfigSetting
                 if (!SoftwareConfig.HardwareSetting.IsIniWizard)
                 {
 
-
-
                     //这里让窗口最小化
                     await Task.Delay(100);
                     SystemCommands.MinimizeWindow(Application.Current.MainWindow);
@@ -244,7 +242,7 @@ namespace ConfigSetting
                 //GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
                 //SoftwareConfig.HardwareConfig.LightSourceConfig.ToJsonFile("LightSourceConfig");
 
-                //一个针对主控不开放主窗口权限的解决方案 
+                //一个针对主控不开放主窗口权限的解决方案   这里如果走错误方案的话，会引起白屏问题
                 if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
                 {
                     int port = 52100;

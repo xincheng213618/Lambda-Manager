@@ -16,17 +16,6 @@ namespace Global.SettingUp.Hardware
     /// </summary>
     public class HardwareConfig:ViewModelBase
     {
-        private bool isCUDACapable = false;
-
-        /// <summary>
-        /// 是否支持CUDA
-        /// </summary>
-        public bool IsCUDACapable
-        {
-            get { return isCUDACapable; }
-            set { isCUDACapable = value; NotifyPropertyChanged(); }
-        }
-
         /// <summary>
         /// 物镜配置
         /// </summary>
@@ -41,28 +30,11 @@ namespace Global.SettingUp.Hardware
 
     public class HardwareConfigBase : ViewModelBase
     {
-        private string version = string.Empty;
         /// <summary>
         /// 型号
         /// </summary>
-        public string Version
-        {
-            get { return version; }
-            set { version = value; NotifyPropertyChanged(); }
-        }
-
-
-        private string reserved = string.Empty;
-        /// <summary>
-        /// 保留字段
-        /// </summary>
-        public string Reserved
-        {
-            get { return reserved; }
-            set { reserved = value; NotifyPropertyChanged(); }
-        }
-
-        
+        public string Version { get => _Version; set {_Version = value; NotifyPropertyChanged(); } }
+        private string _Version = string.Empty;       
     }
 
     /// <summary>

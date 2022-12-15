@@ -39,8 +39,6 @@ namespace Global
 
         private WindowData1()
         {
-            
-            Interference();
             AddEventHandler();
             AddInjection();
             AddInjection1();

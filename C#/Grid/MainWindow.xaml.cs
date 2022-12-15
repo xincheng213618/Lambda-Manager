@@ -69,16 +69,14 @@ namespace Grid
                 Directory.CreateDirectory(DirectoryPath + "\\" + "Video");
                 Directory.CreateDirectory(DirectoryPath + "\\" + "Image");
 
-                string FullPath = DirectoryPath +"\\default.gprj";
-                using (var fileStream = File.Create(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ "\\Grid\\Default\\default.gprj"))
+                string FullPath = DirectoryPath +"\\default1.gprj";
+                using (var fileStream = File.Create(FullPath))
                 {
                     info.Stream.Seek(0, SeekOrigin.Begin);
                     info.Stream.CopyTo(fileStream);
                 }
                 recentFileList.InsertFile(FullPath);
                 TextBox2.Text = recentFileList.RecentFiles[0];
-
-
             }
             else
             {
@@ -90,7 +88,6 @@ namespace Grid
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             if (File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
             {
                 try
