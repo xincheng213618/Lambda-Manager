@@ -1,22 +1,14 @@
-﻿using ConfigSetting;
-using Global.Common.Controls;
+﻿using Global.Common.Controls;
 using Global.Common.Extensions;
 using Lambda;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Wizard
@@ -152,7 +144,7 @@ namespace Wizard
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-
+            
             if (int.TryParse(eventData.GetString("ResultCode"), out int temp))
             {
                 switch (temp)

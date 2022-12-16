@@ -69,7 +69,7 @@ namespace Grid
                 Directory.CreateDirectory(DirectoryPath + "\\" + "Video");
                 Directory.CreateDirectory(DirectoryPath + "\\" + "Image");
 
-                string FullPath = DirectoryPath +"\\default1.gprj";
+                string FullPath = DirectoryPath +"\\default.gprj";
                 using (var fileStream = File.Create(FullPath))
                 {
                     info.Stream.Seek(0, SeekOrigin.Begin);
@@ -83,6 +83,7 @@ namespace Grid
                 TextBox2.Text = recentFileList.RecentFiles[0];
             }
             CheckBox1.IsChecked = Reg.ReadValue(StatusBarRegPath, "InitializeStage");
+            TextBox1.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default\\default.gcfg";
             labelVersion.Text = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
         }
 
@@ -104,7 +105,7 @@ namespace Grid
                 }
                 this.Close();
             }
-            else
+            else if (File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaManager.dll"))
             {
                 StartWindow startWindow = new StartWindow();
                 startWindow.Show();
@@ -112,6 +113,11 @@ namespace Grid
                 {
                     this.Close();
                 };
+            }
+            else
+            {
+                MessageBox.Show("找不到核心软件，启动失败", "Grid", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(0);
             }
         }
 

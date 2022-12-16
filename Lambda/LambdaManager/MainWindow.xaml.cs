@@ -80,7 +80,7 @@ namespace LambdaManager
             {
                 MenuItem menu = new MenuItem()
                 {
-                    Header = item.ToString(),
+                    Header = item.ToString1(),
                     Tag = item,
                     IsChecked = ThemeManagers.CurrentUITheme == item,
                 };

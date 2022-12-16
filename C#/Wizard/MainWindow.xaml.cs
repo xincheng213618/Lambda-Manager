@@ -30,11 +30,12 @@ namespace Wizard
         public MainWindow()
         {
             InitializeComponent();
-            Application.Current.ApplyTheme(ThemeManager.ThemeManagers.CurrentUITheme);
+            Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
         }
         public MainWindow(string Name)
         {
             InitializeComponent();
+
         }
 
         private void BaseWindow_Initialized(object sender, EventArgs e)

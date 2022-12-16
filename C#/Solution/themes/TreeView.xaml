@@ -135,7 +135,7 @@
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
         <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
-            <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/grif.png" />
+            <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
                                 <Run Text=" -"/>

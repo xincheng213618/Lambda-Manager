@@ -10,11 +10,8 @@ namespace Global.SettingUp.PC
         private static readonly object _lock = new();
         public static PerformanceCounterHelper GetInstance() { lock (_lock) { return _instance ??= new PerformanceCounterHelper(); } }
 
+        private PerformanceCounterHelper() => new Thread(() => Run()) { IsBackground = true }.Start();
 
-        private PerformanceCounterHelper()
-        {
-           new Thread(() => Run()) { IsBackground = true }.Start();
-        }
         public void Run()
         {
             try

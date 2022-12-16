@@ -8,6 +8,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using Global.Setting;
+using Global.SettingUp;
 
 namespace Global
 {
@@ -70,6 +71,11 @@ namespace Global
             SettingUp.Config.ConfigReadEvent += ReadConfig;
             SettingUp.Config.ConfigSetEvent += SetValue;
             SettingUp.Config.ConfigWriteEvent += SaveConfig;
+           
+            SoftwareConfig.WindowSetting.PhotoOptionsChanged += (s) =>
+            {
+                MessageBox.Show(s.ToString1());
+            };
             //Common.Config.ConfigReadEvent += ReadConfig;
             //Common.Config.ConfigSetEvent += SetValue;
             //Common.Config.ConfigWriteEvent += SaveConfig;

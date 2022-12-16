@@ -25,7 +25,7 @@ namespace XSolution
             {
                 if (!item.IsAbstract && typeof(IProjectFile).IsAssignableFrom(item)&&item.IsClass)
                 {
-                    string[] SupportExtensions = ((IProjectFile)Activator.CreateInstance(item, " ")).SupportExtensions();
+                    string[] SupportExtensions = ((IProjectFile)Activator.CreateInstance(item, "1")).SupportExtensions();
 
                     ProjectFileDic.Add(SupportExtensions,item);
                     ProjectFileTypeList.Add(item);

@@ -4,31 +4,29 @@ using System;
 namespace Global.Common.Extensions
 {
     /// <summary>
-    /// 对ViewMode的扩展，可以不这么写
+    /// 对ViewMode的扩展
     /// </summary>
     public static class ViewModeBaseExtensions
     {
         /// <summary>
-        /// 导出json
+        /// 导出Json
         /// </summary>
-        public static string ToJson(this ViewModelBase This)
-        {
-            return Json.ToJson(This);
-        }
+        public static string ToJson(this ViewModelBase This) => This.SerializeJson();
 
-        public static int ToJsonFile(this ViewModelBase This, string filePath)
-        {
-            return Json.ToJsonFile(This, filePath, false);
-        }
+        /// <summary>
+        /// 导出Json文件
+        /// </summary>
+        public static int ToJsonFile(this ViewModelBase This, string filePath, bool nullValue = false) => Json.ToJsonFile(This, filePath, nullValue);
 
-        public static string ToXML(this ViewModelBase This)
-        {
-            return This.SerializeXml();
-        }
+        /// <summary>
+        /// 导出XML
+        /// </summary>
 
-        public static int ToXMLFile(this ViewModelBase This, string filePath)
-        {
-            return XML.ToXMLFile(This, filePath);
-        }
+        public static string ToXML(this ViewModelBase This) => This.SerializeXml();
+        /// <summary>
+        /// 导出XML文件
+        /// </summary>
+
+        public static int ToXMLFile(this ViewModelBase This, string filePath) => XML.ToXMLFile(This, filePath);
     }
 }

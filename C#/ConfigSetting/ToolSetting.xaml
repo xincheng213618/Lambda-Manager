@@ -109,8 +109,6 @@
                         <TreeViewItem Header="用户配置" FontSize="14" Tag="{Binding ElementName=GroupBox26}" Selected="TreeViewItem_Selected" />
                         <TreeViewItem Header="存储器配置" FontSize="14" Tag="{Binding ElementName=GroupBox27}" Selected="TreeViewItem_Selected" />
                     </TreeViewItem>
-                    <TreeViewItem Header="固件更新" FontSize="16"  Tag="{Binding ElementName=GroupBox3}" Selected="TreeViewItem_Selected"/>
-                    <TreeViewItem Header="软件升级" FontSize="16"  Tag="{Binding ElementName=GroupBox4}" Selected="TreeViewItem_Selected"/>
                 </TreeView>
 
                 <ScrollViewer x:Name="ScrollViewer1" Grid.Column="1" Background="{DynamicResource GlobalBackgroundBrush}" Margin="0,0,0,0" >
@@ -133,8 +131,14 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="型号:"/>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Zircon-DPC-001"/>
-                                        <Button Grid.Row="0" Grid.Column="2" Content="自动校准"  Click="Calibration_Click" Tag="All" Width="100" HorizontalAlignment="Left" />
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Zircon-D150"/>
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+                                            <Button Content="自动校准"  Click="Calibration_Click" Tag="All" Width="100" HorizontalAlignment="Left" />
+                                            <Button Content="测试"  Click="Test_Click" Tag="All" Width="100" HorizontalAlignment="Left" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="安装尺寸:"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="100cmx80cmx60cm"/>
+
 
                                     </Grid>
 
@@ -166,6 +170,8 @@
                                             <TextBlock Text="{Binding Path=DiskUse}"/>
                                             <Image Source="{Binding ElementName=OutOfMemorySign,Path=Source}" Height="12" Visibility="{Binding Path=IsDiskLackWarning,Converter={StaticResource bool2VisibilityConverter}}" HorizontalAlignment="Left" Margin="10,0"/>
                                         </DockPanel>
+                                        <Button Grid.Row="2" Grid.Column="2" Content="清理" Width="100" HorizontalAlignment="Left"  Click="Button_Click_1"/>
+
                                     </Grid>
                                 </GroupBox>
 
@@ -232,14 +238,51 @@
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="支持多个工程:"/>
                                         <CheckBox Grid.Row="0" Grid.Column="1" x:Name="CheckBox1" Content="" IsChecked="{Binding IsSupportMultiProject}"/>
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="主题:"  Visibility="Collapsed"/>
-                                        <ComboBox Name="ComboBox1" Grid.Row="0" Grid.Column="1" Height="20"  SelectionChanged="ComboBox1_SelectionChanged" Visibility="Collapsed" />
+                                        <ComboBox Name="ThemeCombox" Grid.Row="0" Grid.Column="1" Height="20"  Visibility="Collapsed" />
                                     </Grid>
                                 </GroupBox>
+
+                                <GroupBox x:Name="GroupBox16" Style="{DynamicResource GroupBoxStyle2}" Header="拍照选项">
+                                    <Grid  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock  Grid.Row="0" Grid.Column="0" Text="交互模式"/>
+                                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                            <ComboBox x:Name="PhotoOptionsCombox"  Width="150"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </GroupBox>
+
+                                <GroupBox x:Name="GroupBox17" Style="{DynamicResource GroupBoxStyle2}" Header="标注选项">
+                                    <Grid  Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock  Grid.Row="2" Grid.Column="0" Text="标注图形应用范围"/>
+                                        <StackPanel  Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                            <ComboBox x:Name="DrawGraphicsOptionsCombox"  Width="150"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </GroupBox>
+
 
                                 <GroupBox x:Name="GroupBox15" Style="{DynamicResource GroupBoxStyle2}" Header="其他">
                                     <Grid x:Name="UniformGridSetting"  Margin="0,5,0,0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="20"/>
                                             <RowDefinition Height="20"/>
                                             <RowDefinition Height="20"/>
                                         </Grid.RowDefinitions>
@@ -249,12 +292,14 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock  Grid.Row="0" Grid.Column="0" Text="装饰灯"/>
-                                        <Button Grid.Row="0" Grid.Column="2" Content="关"  Click="Button_Click_3" Width="100" HorizontalAlignment="Left"/>
-                                        <TextBlock  Grid.Row="1" Grid.Column="0" Text="装饰灯"/>
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+                                            <Button  Content="关"  Click="Button_Click_3" Width="50" HorizontalAlignment="Left"/>
+                                            <Button  Content="开"  Click="Button_Click_31" Width="50" HorizontalAlignment="Left"/>
 
-                                        <Button Grid.Row="1" Grid.Column="2"  Content="开"  Click="Button_Click_31" Width="100" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        
                                         <TextBlock  Grid.Row="2" Grid.Column="0" Text="日志显示"/>
-                                        <Button Grid.Row="2" Grid.Column="2" Click="Button_Click_7" Content="{Binding Path=IsShowLog ,Converter={StaticResource BoolToStringConverer},ConverterParameter=1}" Width="100" HorizontalAlignment="Left">
+                                        <Button x:Name="ShowLogButton"  Grid.Row="2" Grid.Column="2"  Content="{Binding Path=IsShowLog ,Converter={StaticResource BoolToStringConverer},ConverterParameter=1}" Width="100" HorizontalAlignment="Left">
                                             <Button.ToolTip>
                                                 <TextBlock>
                                                     <Run Text="当前日志显示："/>
@@ -290,7 +335,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Row="0" Text="是否连接:"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="CameraConnectionText" Text="{Binding Path=IsCameraConnection,Converter={StaticResource BoolToStringConverer}}"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="CameraConnectionText" Foreground="{Binding Path=IsCameraConnection,Converter={StaticResource BoolToSolidColorBrushWarn}}" Text="{Binding Path=IsCameraConnection,Converter={StaticResource BoolToStringConverer}}"/>
                                         <Button Grid.Row="0" Grid.Column="2" Content="校准相机" Click="Calibration_Click" Tag="Camera" Width="100" HorizontalAlignment="Left" />
 
                                         <TextBlock Grid.Row="1" Margin="0,3" Text="相机型号:"/>
@@ -336,7 +381,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Row="0" Text="是否连接:"/>
-                                        <TextBlock  x:Name="StageConnectionText" Grid.Row="0" Grid.Column="1" Text="{Binding Path=IsStageConnection,Converter={StaticResource BoolToStringConverer}}"/>
+                                        <TextBlock  x:Name="StageConnectionText" Grid.Row="0" Grid.Column="1" Foreground="{Binding Path=IsCameraConnection,Converter={StaticResource BoolToSolidColorBrushWarn}}" Text="{Binding Path=IsStageConnection,Converter={StaticResource BoolToStringConverer}}"/>
 
                                         <Button Grid.Row="0" Grid.Column="2" Content="校准载物台" Click="Calibration_Click" Tag="Stage"  Width="100" HorizontalAlignment="Left" />
 
@@ -367,7 +412,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Row="0" Text="是否连接:"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="LightConnectionText" Text="{Binding Path=IsLightConnection,Converter={StaticResource BoolToStringConverer}}"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="LightConnectionText" Foreground="{Binding Path=IsCameraConnection,Converter={StaticResource BoolToSolidColorBrushWarn}}" Text="{Binding Path=IsLightConnection,Converter={StaticResource BoolToStringConverer}}"/>
                                         <Button Grid.Row="0" Grid.Column="2" Content="校准灯光" Click="Calibration_Click" Tag="Light"  Width="100" HorizontalAlignment="Left" />
 
                                         <TextBlock Grid.Row="1" Margin="0,3" Text="LED行列数:"/>

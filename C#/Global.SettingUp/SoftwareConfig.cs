@@ -9,29 +9,31 @@ namespace Global.SettingUp
     public static class SoftwareConfig
     {
         /// <summary>
-        /// 把Lambda转换成自己处理的委托
-        /// </summary>
-        public static LambdaSettingUp LambdaSettingUp = LambdaSettingUp.GetInstance();
-
-        /// <summary>
         ///工程设置
         /// </summary>
-        public static SolutionSetting SolutionSetting = new SolutionSetting();
+        public static SolutionSetting SolutionSetting = new();
 
 
         /// <summary>
         /// 硬件设置，可修改的
         /// </summary>
-        public static HardwareSetting HardwareSetting = new HardwareSetting(); 
+        public static HardwareSetting HardwareSetting = new(); 
 
         /// <summary>
         /// 硬件配置，不可修改
         /// </summary>
-        public static HardwareConfig HardwareConfig = new HardwareConfig();
+        public static HardwareConfig HardwareConfig = new();
 
         /// <summary>
         /// 性能设置
         /// </summary>
-        public static PerformanceSetting PerformanceSetting = new PerformanceSetting();
+        public static PerformanceSetting PerformanceSetting = new();
+
+        public static WindowSetting WindowSetting = new();
+
+        /// <summary>
+        /// 把Lambda转换成自己处理的委托
+        /// </summary>
+        public static LambdaSettingUp LambdaSettingUp = LambdaSettingUp.GetInstance();
     }
 }

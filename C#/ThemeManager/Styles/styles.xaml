@@ -11,6 +11,7 @@
     <Converter:BoolToVisibilityConverter x:Key="bool2VisibilityConverter1" Reverse="True"/>
     <Converter:BoolToStringConverer x:Key="BoolToStringConverer" />
     <Converter:SolidColorBrushOpacityConverer x:Key="SolidColorBrushOpacityConverer" />
+    <Converter:BoolToSolidColorBrushWarn x:Key="BoolToSolidColorBrushWarn"/>
     <!--#endregion-->
 
     <!--#region Brushes-->

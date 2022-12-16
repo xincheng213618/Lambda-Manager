@@ -12,34 +12,25 @@ namespace ThemeManager
         [Description("白色")]
         White,
         [Description("跟随系统")]
-        Defaul,
-    };
+        Defaul
+};
 
-    public static class TypeExtension
+
+    public static class ThemeExtension
     {
-
-        public static string GetDescription(this Theme obj)
+        public static string ToString1(this Theme This)
         {
-            return GetDescription(obj);
-        }
-
-        public static string GetDescription(object obj)
-        {
-            System.Type type = obj.GetType();
-            MemberInfo[] infos = type.GetMember(obj.ToString() ?? "");
-            if (infos != null && infos.Length != 0)
+            return This switch
             {
-                object[] attrs = infos[0].GetCustomAttributes(typeof(DescriptionAttribute), inherit: false);
-                if (attrs != null && attrs.Length != 0)
-                {
-                    return ((DescriptionAttribute)attrs[0]).Description;
-                }
-            }
-            return type.ToString();
+                Theme.Dark => "黑色",
+                Theme.White => "白色",
+                Theme.Defaul => "跟随系统",
+                _ => string.Empty,
+            };
         }
     }
 
-    public delegate void ThemeChangedEventHandler();
+    public delegate void ThemeChangedEventHandler(Theme theme);
 
 
     /// <summary>
@@ -48,47 +39,28 @@ namespace ThemeManager
     public static class ThemeManagers
     {
         private static bool IsRegister = false ;
-        private static Theme _CurrentUITheme = Reg.ReadValue("Software\\Grid", "CurrentUITheme");
-
         public static Theme CurrentUITheme
         {
-            get { return _CurrentUITheme; }
-            set
-            { 
+            get => _CurrentUITheme; set
+            {
                 if (value != _CurrentUITheme)
-                {
-                    _CurrentUITheme = value; 
-                    Reg.WriteValue("Software\\Grid", "CurrentUITheme", CurrentUITheme);
-                    ThemeChanged?.Invoke();
-                }
+                    _CurrentUITheme = value; Reg.WriteValue(value); ThemeChanged?.Invoke(value);
             }
         }
+        private static Theme _CurrentUITheme = Reg.ReadValue(nameof(CurrentUITheme));
+
 
         public static event ThemeChangedEventHandler ThemeChanged;
 
         public static void ApplyTheme(this Application app, Theme theme)
         {
-            if (IsRegister && CurrentUITheme == theme)
-            {
-                return;
-            }
-            if (!IsRegister)
-            {
-                IsRegister = true;
-            }
-            List<string> ResourceDictionary = new();
-            if (theme == Theme.Dark)
-            {
-                ResourceDictionary = ResourceDictionaryDark;
-            }
-            else if (theme == Theme.White)
-            {
-                ResourceDictionary = ResourceDictionaryWhite;
-            }
-            else if (theme == Theme.Defaul) {
-                ResourceDictionary = ResourceDictionaryDark;
-            }
-            foreach (var item in ResourceDictionary)
+            if (IsRegister && CurrentUITheme == theme) return;
+
+            if (!IsRegister) IsRegister = true;
+
+            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.White ? ResourceDictionaryWhite : ResourceDictionaryDark;
+
+            foreach (var item in ResourceDictionarys)
             {
                 ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
                 app.Resources.MergedDictionaries.Add(dictionary);

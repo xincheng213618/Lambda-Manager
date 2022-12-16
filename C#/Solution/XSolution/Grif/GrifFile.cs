@@ -1,6 +1,9 @@
 ﻿using Global.Common;
 using Solution;
+using System;
+using System.Drawing;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace XSolution
 {
@@ -68,6 +71,9 @@ namespace XSolution
 
         public GrifFile(string FullName) : base(FullName)
         {
+
+            Icon = new BitmapImage(new Uri(ThemeManager.ThemeManagers.CurrentUITheme == ThemeManager.Theme.Dark ? $"/Solution;component/images/grif1.png": $"/Solution;component/images/grif.png", UriKind.Relative));
+
             GrifExportAsCommand = new RelayCommand(GrifExportAsWindow, (value) => { return true; });
             GrifFileMeta = GrifFileManger.GetInstance().ReadGrifFileInfo(FullName);
             AttributesCommand = new RelayCommand(OpenAttributes, (value) => { return true; });

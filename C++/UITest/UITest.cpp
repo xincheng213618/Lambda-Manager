@@ -566,6 +566,7 @@ int HardwareCalibrationInit(int HardwareCalibrationType) {
 		for (auto& it : InitializeCalibrationList)
 		{
 			json j1;
+			j1["Hardware"] = "Initialize";
 			j1["Type"] = it.first;
 			j1["Name"] = it.second;
 			j2.push_back(j1);
@@ -605,6 +606,7 @@ int HardwareCalibrationInit(int HardwareCalibrationType) {
 		for (auto& it : InitializeCalibrationList)
 		{
 			json j1;
+			j1["Hardware"] = "Initialize";
 			j1["Type"] = it.first;
 			j1["Name"] = it.second;
 			j2.push_back(j1);
@@ -634,7 +636,7 @@ int HardwareCalibration(char* jsonchar) {
 	//}
 	
 
-	Sleep(3000);
+	Sleep(1000);
 
 	Event::Trigger("HardwareCalibrationState", &j5);
 

@@ -6,21 +6,19 @@ namespace Global.SettingUp.PC
     {
         private Timer timer;
         private PerformanceCounterHelper PerformanceCounterHelper;
-
-        public int updateSpeed = 1000;
         public int UpdateSpeed
         {
-            get { return updateSpeed; }
-            set
+            get => _UpdateSpeed; set
             {
-                if (value != updateSpeed)
+                if (value != _UpdateSpeed)
                 {
-                    updateSpeed = value; NotifyPropertyChanged();
+                    _UpdateSpeed = value; NotifyPropertyChanged();
                     timer?.Dispose();
-                    timer = new Timer(TimeRun, null, 0, UpdateSpeed);
+                    timer = new Timer(TimeRun, null, 0, value);
                 }
             }
         }
+        public int _UpdateSpeed = 1000;
 
 
         public PerformanceSetting()

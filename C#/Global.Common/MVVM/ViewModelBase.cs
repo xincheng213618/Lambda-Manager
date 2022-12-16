@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Global.Common.Util;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Global.Common
@@ -11,13 +12,29 @@ namespace Global.Common
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// 触发消息通知事件
+        /// 消息通知事件
         /// </summary>
-        /// <param name="propertyName"></param>
-        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //使用CallerMemberName可以在传参的时候，少些几行代码，还是比较方便的，但是这个名称好像不是很规范，可以在之后统一一下
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+
+    public abstract class ViewModelReg: ViewModelBase
+    {
+        public static string RegPath = "Software\\Grid";
+
+        public static void WriteRegValue(object value, [CallerMemberName] string name = "") => Reg.WriteValue(RegPath, name, value);
+
+        public static bool ReadRegValue(bool def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name, def);
+
+
+
+        public static bool ReadRegValue([CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name);
+
+        public static string ReadRegValue(string def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name,def);
+
+        public static int ReadRegValue(int def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name, def);
+
+
+
     }
 }

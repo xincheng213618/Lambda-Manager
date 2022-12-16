@@ -1,6 +1,6 @@
 ﻿using Global.Common;
 
-namespace ConfigSetting
+namespace Wizard
 {
     public class HardwareCalibration : ViewModelBase
     {

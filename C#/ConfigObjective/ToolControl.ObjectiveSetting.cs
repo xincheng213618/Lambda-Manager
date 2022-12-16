@@ -106,34 +106,16 @@ namespace ConfigObjective
 
         private Camera SwitchViewMode( int viewMode)
         {
-            switch (viewMode)
+            return viewMode switch
             {
-
-                case 0:
-                   return windowData.SolutionConfig.OperatingMode.BrightField.CameraSetting;
-                    break;
-                case 1:
-                    return windowData.SolutionConfig.OperatingMode.DarkField.CameraSetting;
-                    break;
-                case 2:
-                    return windowData.SolutionConfig.OperatingMode.Reinberg.CameraSetting;
-                    break;
-                case 3:
-                    return windowData.SolutionConfig.OperatingMode.ReliefContrast.CameraSetting;
-                    break;
-                case 5:
-                    return windowData.SolutionConfig.OperatingMode.PhaseContrast.CameraSetting;
-                    break;
-                case 4:
-                    return windowData.SolutionConfig.OperatingMode.QuantitativePhase.CameraSetting;
-                    break;
-                default: return null;
-
-            }
-
-
-
-
+                0 => windowData.SolutionConfig.OperatingMode.BrightField.CameraSetting,
+                1 => windowData.SolutionConfig.OperatingMode.DarkField.CameraSetting,
+                2 => windowData.SolutionConfig.OperatingMode.Reinberg.CameraSetting,
+                3 => windowData.SolutionConfig.OperatingMode.ReliefContrast.CameraSetting,
+                4 => windowData.SolutionConfig.OperatingMode.QuantitativePhase.CameraSetting,
+                5 => windowData.SolutionConfig.OperatingMode.PhaseContrast.CameraSetting,
+                _ => null
+            };
         }
 
 

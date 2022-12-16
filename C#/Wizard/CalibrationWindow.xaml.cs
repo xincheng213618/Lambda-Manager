@@ -17,7 +17,7 @@ using System.Text.Unicode;
 using System.Text.Json.Serialization;
 using System.Threading;
 
-namespace ConfigSetting
+namespace Wizard
 {
 
     /// <summary>
@@ -56,7 +56,7 @@ namespace ConfigSetting
             LambdaControl.Trigger("HardwareCalibrationInit", this, new Dictionary<string, object>() { { "HardwareCalibrationType", (int)HardwareCalibrationType } });
 
             InitializeComponent();
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Calibration.HardwareCalibrationStateEvent += HardwareCalibrationState;
         }
 

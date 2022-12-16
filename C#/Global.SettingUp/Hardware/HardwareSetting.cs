@@ -7,9 +7,8 @@ using Lambda;
 namespace Global.SettingUp.Hardware
 {
 
-    public class HardwareSetting : ViewModelBase
+    public class HardwareSetting : ViewModelReg
     {
-        public static string RegPath = "Software\\Grid";
 
         public HardwareSetting()
         {
@@ -48,7 +47,7 @@ namespace Global.SettingUp.Hardware
         /// <summary>
         /// 是否初始化向导
         /// </summary>
-        public bool IsIniWizard { get => _IsIniWizard; set { _IsIniWizard = value; NotifyPropertyChanged();  Reg.WriteValue(RegPath, nameof(IsIniWizard), IsIniWizard); } }
+        public bool IsIniWizard { get => _IsIniWizard; set { _IsIniWizard = value; WriteRegValue(value); NotifyPropertyChanged();   } }
         private bool _IsIniWizard = Reg.ReadValue(RegPath, nameof(IsIniWizard), false);
 
         /// <summary>

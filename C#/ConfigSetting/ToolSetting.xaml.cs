@@ -24,6 +24,10 @@ using System.Windows.Media.Imaging;
 using ThemeManager;
 using System.IO;
 using Global.Common.Util;
+using Wizard;
+using System.Xml.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace ConfigSetting
 {
@@ -58,7 +62,7 @@ namespace ConfigSetting
                 {
                     physicalGPUs = PhysicalGPU.GetPhysicalGPUs();
                 }
-                catch(Exception ex)
+                catch
                 {
                     physicalGPUs = new PhysicalGPU[0];
                 }
@@ -80,7 +84,7 @@ namespace ConfigSetting
                     if (!SoftwareConfig.HardwareSetting.IsIniWizard)
                     {
                         MessageBox1.Show($"硬件连接异常:\n\r相机状态:{SoftwareConfig.HardwareSetting.CameraStatus}\n\r光源状态:{SoftwareConfig.HardwareSetting.LightStatus}\n\r位移台状态:{SoftwareConfig.HardwareSetting.StageStatus}", "Grid");
-                        if (MessageBox1.Show("您是否要继续完成初始化\n\r ", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                        if (MessageBox1.Show("您是否要继续完成初始化 ", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.No)
                         {
                             Environment.Exit(0);
                         }
@@ -108,19 +112,29 @@ namespace ConfigSetting
                     MessageBox1.Show("硬件不足预警", "Grid", button: MessageBoxButton.OK, icon: MessageBoxImage.Warning);
                 }
 
-                if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
+                if (Application.Current.MainWindow.FindName("leftView") is ColumnDefinition leftView && Application.Current.MainWindow.FindName("leftTab") is TabControl leftTab)
                 {
-                    combobox.Visibility = SoftwareConfig.SolutionSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
-                    UniformGridSetting.DataContext = SoftwareConfig.SolutionSetting;
+                    leftView.Width = new GridLength(SoftwareConfig.WindowSetting.LeftViewWidth, GridUnitType.Pixel);
+                    leftTab.SizeChanged += (s, e) => { if (leftTab.ActualWidth > 0) SoftwareConfig.WindowSetting.LeftViewWidth = leftTab.ActualWidth; };
                 }
 
-                var array = Enum.GetValues(typeof(Theme)).Cast<Theme>();
-                ComboBox1.ItemsSource = array;
-                ComboBox1.SelectedItem = ThemeManagers.CurrentUITheme;
-                ThemeManagers.ThemeChanged += delegate
+
+                if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
                 {
-                    ComboBox1.SelectedItem = ThemeManagers.CurrentUITheme;
-                };
+                    GroupBox15.DataContext = SoftwareConfig.WindowSetting;
+                    combobox.Visibility = SoftwareConfig.WindowSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
+                    ShowLogButton.Click += (s, e) =>
+                    {
+                        SoftwareConfig.WindowSetting.IsShowLog = !SoftwareConfig.WindowSetting.IsShowLog;
+                        combobox.Visibility = SoftwareConfig.WindowSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
+                    };
+                }
+
+
+
+
+
+
                 firmwareUpdates = new ObservableCollection<FirmwareUpdate> {  };
                 ListView1.ItemsSource = firmwareUpdates;
 
@@ -130,8 +144,6 @@ namespace ConfigSetting
                 if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition)
                 {
                     stageConfig.Children.Add(this);
-
-
                     stageConfig.SetResourceReference(Grid.BackgroundProperty, "WindowBackgroundBrush");
                     
                     if (Application.Current.MainWindow.Content is Grid mainGrid&& mainGrid.Children[0] is Grid grid2 && grid2.Children[1] is StackPanel stackPanelMode)
@@ -174,70 +186,12 @@ namespace ConfigSetting
 
                 }
 
-                if (Application.Current.MainWindow.FindName("statusBar") is StatusBar statusBar)
-                {
-                    string xaml = @"<ItemsPanelTemplate   xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'>
-                        <DockPanel/>
-                    </ItemsPanelTemplate>";
-                    statusBar.ItemsPanel = XamlReader.Parse(xaml) as ItemsPanelTemplate;
+
+                InitConnect();
+                InitEmun();
 
 
-                    Dictionary<string, string> properties1 = new Dictionary<string, string>()
-                    {
-                        { "IsCameraConnection","CameraControlTemplate"},
-                        { "IsStageConnection","StageControlTemplate"},
-                        { "IsLightConnection","LightSourceControlTemplate"},
-                    };
-                    Dictionary<string, string> propertiesTag = new Dictionary<string, string>()
-                    {
-                        { "IsCameraConnection","相机连接情况"},
-                        { "IsStageConnection","位移台连接情况"},
-                        { "IsLightConnection","光源连接情况"},
-                    };
-                    Dictionary<string, double> propertiesHeight = new Dictionary<string, double>()
-                    {
-                        { "IsCameraConnection",15},
-                        { "IsStageConnection",15},
-                        { "IsLightConnection",18},
-                    };
 
-                    ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("/ConfigSetting;component/themes/Button.xaml", UriKind.Relative)};
-                    DockPanel dockPanel = new DockPanel();
-                    foreach (var property in properties1) 
-                    {
-                        Button button = new Button() { Height = propertiesHeight[property.Key], Width = propertiesHeight[property.Key], Background = Brushes.Transparent,DataContext = SoftwareConfig.HardwareSetting ,Tag = propertiesTag[property.Key] ,Margin= new Thickness(4,0,2,0)} ;
-                        if (resourceDictionary.Contains(property.Value) && resourceDictionary[property.Value] is ControlTemplate controlTemplate)
-                        {
-                            button.Template = controlTemplate;
-                            button.SetBinding(Button.IsEnabledProperty, new Binding() { Path = new PropertyPath(property.Key) });
-                        }
-                        button.Click += (s, e) =>
-                        {
-                            MessageBox.Show(property.Key + button.IsEnabled.ToString());
-                        };
-                        dockPanel.Children.Add(button);
-                    }
-                    StatusBarItem statusBarItem = new StatusBarItem() { Content = dockPanel };
-                    DockPanel.SetDock(statusBarItem, Dock.Right);
-                    statusBar.Items.Add(statusBarItem);
-                    statusBar.Items.Add(new StatusBarItem());
-                }
-
-                StageConnectionText.DataContext = SoftwareConfig.HardwareSetting;
-                CameraConnectionText.DataContext = SoftwareConfig.HardwareSetting;
-                LightConnectionText.DataContext= SoftwareConfig.HardwareSetting;
-                foreach (var item in HotKeyHelper.HotKeysList)
-                {
-
-                    TextBlock textBlock = new TextBlock() { Text =item.Value.FunctionName};
-                    TextBlock textBlock1 = new TextBlock() { Text = item.Value.Hotkey.ToString() };
-
-                    DockPanel dockPanel = new DockPanel();
-
-                    dockPanel.Children.Add(textBlock);
-                    dockPanel.Children.Add(textBlock1);
-                    UniformGrifHotKey.Children.Add(dockPanel);
-                }
                 //SoftwareConfig.HardwareConfig.LightSourceConfig = Json.Deserialize<LightSourceConfig>("LightSourceConfig");
                 //GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
                 //SoftwareConfig.HardwareConfig.LightSourceConfig.ToJsonFile("LightSourceConfig");
@@ -256,21 +210,7 @@ namespace ConfigSetting
                 }
             }
         }
-        private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is ComboBox comboBox && comboBox.SelectedItem is Theme theme)
-            {
-                Application.Current.ApplyTheme(theme);
-            }
 
-        }
-
-
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
@@ -293,10 +233,6 @@ namespace ConfigSetting
             }
         }
 
-        private void TreeViewItem_Selected1(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("1");
-        }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
@@ -307,16 +243,6 @@ namespace ConfigSetting
             LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 1 } });
         }
 
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-        }
-        private void Button_Click_5(object sender, RoutedEventArgs e)
-        {
-
-            var targetPosition = GroupBox2.TransformToVisual(ScrollViewer1).Transform(new Point());
-            ScrollViewer1.ScrollToVerticalOffset(targetPosition.Y);
-
-        }
 
 
         public void Button_Click_6(object sender, RoutedEventArgs e)
@@ -330,13 +256,6 @@ namespace ConfigSetting
             p.Start();
         }
 
-        private void TreeViewItem1_Selected(object sender, RoutedEventArgs e)
-        {
-
-
-
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is FirmwareUpdate firmwareUpdate)
@@ -345,15 +264,6 @@ namespace ConfigSetting
             }
         }
 
-        private void Button_Click_7(object sender, RoutedEventArgs e)
-        {
-            SoftwareConfig.SolutionSetting.IsShowLog = !SoftwareConfig.SolutionSetting.IsShowLog;
-            if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
-            {
-                combobox.Visibility =SoftwareConfig.SolutionSetting.IsShowLog? Visibility.Visible:Visibility.Hidden;
-            }
-            
-        }
 
         private void Calibration_Click(object sender, RoutedEventArgs e)
         {
@@ -461,5 +371,35 @@ namespace ConfigSetting
             SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate = !SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate;
             LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate } });
         }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            string result = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default\\default.gprj");
+
+            JsonObject lamdbda = (JsonObject)JsonNode.Parse(result);
+            string resultCode = lamdbda["config-imaging-mode"].ToString();
+            MessageBox.Show(resultCode);
+            lamdbda["config-imaging-mode"] = "Tetst";
+
+            string firmware = lamdbda["firmware"].ToString();
+
+
+            File.WriteAllText("Test", lamdbda.ToString());
+
+
+
+
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            //Process.Start("cleanmgr.exe");
+
+            Process.Start("cleanmgr.exe", string.Concat("/D ", SoftwareConfig.PerformanceSetting.CurrentDrive.Name.AsSpan(0,1)));
+
+        }
+
+
     }
 }

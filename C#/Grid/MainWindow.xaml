@@ -91,8 +91,7 @@
         <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
         <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
         <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
+            <Setter Property="Background" Value="#424445"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
@@ -108,9 +107,7 @@
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Margin="5,0,0,0"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
-                            </Trigger>
+
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
                             </Trigger>
@@ -175,13 +172,13 @@
                     <StackPanel  VerticalAlignment="Center">
                         <DockPanel Margin="0,10">
                             <TextBlock Text="{x:Static resx:Resources.Configuration_file}" Width="110"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
-                            <Button  DockPanel.Dock="Right" Style="{DynamicResource ButtonStyle1}"   Content="{x:Static resx:Resources.Set}" Foreground="White" Click="Set_Click" Width="50"/>
-                            <TextBox Name="TextBox1" Style="{DynamicResource TextBoxStyle1}" VerticalContentAlignment="Center" Text="C:\dell\ZIRCON\Grid\config\default.gcfg" Foreground="White" Margin="10,0" Background="#404040"/>
+                            <Button  DockPanel.Dock="Right" Style="{DynamicResource ButtonStyle1}"  Visibility="Hidden" Content="{x:Static resx:Resources.Set}" Foreground="White" Click="Set_Click" Width="50"/>
+                            <TextBox Name="TextBox1" Style="{DynamicResource TextBoxStyle1}" IsEnabled="False" VerticalContentAlignment="Center" Text="C:\xin\ZIRCON\Grid\config\default.gcfg" Foreground="White" Margin="10,0" Background="#99404040"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
                             <TextBlock Text="{x:Static resx:Resources.Project_file}"  Width="110" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
                             <Button  DockPanel.Dock="Right" Style="{DynamicResource ButtonStyle1}"   Content="{x:Static resx:Resources.Set}" Foreground="White" Click="Set_Click1" Width="50"/>
-                            <TextBox Name="TextBox2" Style="{DynamicResource TextBoxStyle1}" VerticalContentAlignment="Center" Text="C:\dell\ZIRCON\Grid\default.gprj" Foreground="White" Margin="10,0" Background="#404040"/>
+                            <TextBox Name="TextBox2" Style="{DynamicResource TextBoxStyle1}" VerticalContentAlignment="Center" Text="C:\dell\ZIRCON\Grid\default.gprj" Foreground="White" Margin="10,0" Background="#99404040"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
                             <CheckBox  x:Name="CheckBox1" IsChecked="True"  Click="CheckBox1_Click"/>
