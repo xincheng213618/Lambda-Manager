@@ -4,231 +4,55 @@ namespace LambdaManager.Mode
 {
     public class UpdateStatus: ViewModelBase
     {
-        private string imageX = string.Empty;
 
-        public string ImageX
+        public string ImageX { get => _ImageX; set { if (value == string.Empty) return; _ImageX = value; NotifyPropertyChanged(); } }
+        private string _ImageX;
 
-        {
-            get { return imageX; }
-            set
-            {
-                if (value != string.Empty &&value!=imageX)
-                {
-                    imageX = value;
-                    NotifyPropertyChanged();
-                }
+        public string ImageY { get => _ImageY; set { if (value == string.Empty) return; _ImageY = value; NotifyPropertyChanged(); } }
+        private string _ImageY;
 
-            }
-        }
+        public string ImageZ { get => _ImageZ; set { if (value == string.Empty) return; _ImageZ = value; NotifyPropertyChanged(); } }
+        private string _ImageZ;
 
-        private string imageY = string.Empty;
+        public string ImageSize { get => _ImageSize; set { if (value == string.Empty) return; _ImageSize = value; NotifyPropertyChanged(); } }
+        private string _ImageSize;
 
-        public string ImageY
+        public string ImageFocus { get => _ImageFocus; set { if (value == string.Empty) return; _ImageFocus = value; NotifyPropertyChanged(); } }
+        private string _ImageFocus;
 
-        {
-            get { return imageY; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    imageY = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        private string imageZ = string.Empty;
+        public string CreateTime { get => _CreateTime; set { if (value == string.Empty) return; _CreateTime = value; NotifyPropertyChanged(); } }
+        private string _CreateTime;
 
-        public string ImageZ
-
-        {
-            get { return imageZ; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    imageZ = value;
-                    NotifyPropertyChanged();
-                }
-
-            }
-        }
-        private string imageSize = string.Empty;
-
-        public string ImageSize
-
-        {
-            get { return imageSize; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    imageSize = value;
-                    NotifyPropertyChanged();
-                }
-
-            }
-        }
-
-        public string imageFocus = string.Empty;
-        public string ImageFocus
-
-        {
-            get { return imageFocus; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    imageFocus = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public string createTime = string.Empty;
-        public string CreateTime
-
-        {
-            get { return createTime; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    createTime = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public int frameIndex = 0;
-        public int FrameIndex
-
-        {
-            get { return frameIndex; }
-            set
-            {
-                frameIndex = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public int FrameIndex { get => _FrameIndex; set { _FrameIndex = value; NotifyPropertyChanged(); } }
+        private int _FrameIndex =0;
 
 
-        public int totalFrame = 4;
-        public int TotalFrame
+        public int TotalFrame { get => _TotalFrame; set { _TotalFrame = value; NotifyPropertyChanged(); } }
+        private int _TotalFrame = 4;
 
-        {
-            get { return totalFrame; }
-            set
-            {
-                totalFrame = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public string TimeElapsed { get => _TimeElapsed; set { if (value == string.Empty) return; _TimeElapsed = value; NotifyPropertyChanged(); } }
+        private string _TimeElapsed;
 
+        public string TotalTime { get => _TotalTime; set { if (value == string.Empty) return; _TotalTime = value; NotifyPropertyChanged(); } }
+        private string _TotalTime;
 
-        public string timeElapsed =string.Empty;
-        public string TimeElapsed
+        public int SliceIndex { get => _SliceIndex; set { _SliceIndex = value; NotifyPropertyChanged(); } }
+        private int _SliceIndex = 0;
 
-        {
-            get { return timeElapsed; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    timeElapsed = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
+        public int TotalSlice { get => _TotalSlice; set { _TotalSlice = value; NotifyPropertyChanged(); } }
+        private int _TotalSlice = 0;
 
-        public string totalTime;
-        public string TotalTime
+        public string ZTop { get => _ZTop; set { if (value == string.Empty) return; _ZTop = value; NotifyPropertyChanged(); } }
+        private string _ZTop;
 
-        {
-            get { return totalTime; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    totalTime = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public int sliceIndex = 0;
-        public int SliceIndex
+        public string ZCurrent { get => _ZCurrent; set { if (value == string.Empty) return; _ZCurrent = value; NotifyPropertyChanged(); } }
+        private string _ZCurrent;
 
-        {
-            get { return sliceIndex; }
-            set
-            {
-                sliceIndex = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public int totalSlice = 4;
-        public int TotalSlice
+        public string ZBottom { get => _ZBottom; set { if (value == string.Empty) return; _ZBottom = value; NotifyPropertyChanged(); } }
+        private string _ZBottom;
 
-        {
-            get { return totalSlice; }
-            set
-            {
-                totalSlice = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public string zTop;
-        public string ZTop
+        public string Ratio { get => _Ratio; set { if (value == string.Empty) return;  _Ratio = value; NotifyPropertyChanged(); } }
+        private string _Ratio;
 
-        {
-            get { return zTop; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    zTop = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public string zCurrent;
-        public string ZCurrent
-
-        {
-            get { return zCurrent; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    zCurrent = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public string zBottom;
-        public string ZBottom
-        {
-            get { return zBottom; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    zBottom = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public string ratio;
-        public string Ratio
-        {
-            get { return ratio; }
-            set
-            {
-                if (value != string.Empty)
-                {
-                    ratio = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
     }
 }

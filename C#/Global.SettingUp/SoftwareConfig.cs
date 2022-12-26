@@ -31,9 +31,8 @@ namespace Global.SettingUp
 
         public static WindowSetting WindowSetting = new();
 
-        /// <summary>
-        /// 把Lambda转换成自己处理的委托
-        /// </summary>
+
+
         public static LambdaSettingUp LambdaSettingUp = LambdaSettingUp.GetInstance();
     }
 }

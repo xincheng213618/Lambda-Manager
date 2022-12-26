@@ -22,12 +22,10 @@ namespace ThemeManager.Helpers
             var handle = new WindowInteropHelper(window).Handle;
             keep |= window.Topmost;
 
-            User32.SetWindowPos(handle, User32.HWND_TOPMOST, 0, 0, 0, 0,
-                User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
+            User32.SetWindowPos(handle, User32.HWND_TOPMOST, 0, 0, 0, 0, User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
 
             if (!keep)
-                User32.SetWindowPos(handle, User32.HWND_NOTOPMOST, 0, 0, 0, 0,
-                    User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
+                User32.SetWindowPos(handle, User32.HWND_NOTOPMOST, 0, 0, 0, 0,  User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
         }
 
         public static void MoveWindow(this Window window,
@@ -39,8 +37,7 @@ namespace ThemeManager.Helpers
             var handle = new WindowInteropHelper(window).EnsureHandle();
 
             // scale the size to the primary display
-            TransformToPixels(window, width, height,
-                out var pxWidth, out var pxHeight);
+            TransformToPixels(window, width, height, out var pxWidth, out var pxHeight);
 
             // Use absolute location and relative size. WPF will scale the size to the target display
             User32.MoveWindow(handle, (int) Math.Round(pxLeft), (int) Math.Round(pxTop), pxWidth, pxHeight, true);
@@ -55,11 +52,7 @@ namespace ThemeManager.Helpers
             return new Rect(new Point(nRect.Left, nRect.Top), new Point(nRect.Right, nRect.Bottom));
         }
 
-        private static void TransformToPixels(this Visual visual,
-            double unitX,
-            double unitY,
-            out int pixelX,
-            out int pixelY)
+        private static void TransformToPixels(this Visual visual, double unitX, double unitY, out int pixelX, out int pixelY)
         {
             Matrix matrix;
             var source = PresentationSource.FromVisual(visual);

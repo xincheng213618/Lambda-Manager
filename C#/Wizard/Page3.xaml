@@ -10,11 +10,14 @@
     <Border Margin="10,10"  CornerRadius="10">
         <Grid Margin="10">
             <TextBlock Text="软件向导"  FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBlock Text="Step3" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,80,0,0"/>
+            <TextBlock Text="第二步" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,80,0,0"/>
             <TextBlock Text="选择你的物镜型号" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,150,0,0"/>
             <TextBlock Text="如果你不确定你的物镜型号，请查找您的用户配置手册，或查看您的仪器后侧的标签" HorizontalAlignment="Center" FontSize="12"   VerticalAlignment="Top" Margin="0,180,0,0"/>
 
-            <Image Source="/Wizard;component/Images/图片2.png" Height="100"  VerticalAlignment="Top" Margin="0,240,0,0"/>
+            <UniformGrid x:Name="ObjectGrid" Columns="4" Height="100"  VerticalAlignment="Top" Margin="100,240,100,0">
+            </UniformGrid>
+
+
 
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >
 
@@ -25,6 +28,7 @@
 
 
             </DockPanel>
+            <Button Content="多物镜测试" HorizontalAlignment="Left" Margin="54,385,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
 
 
         </Grid>

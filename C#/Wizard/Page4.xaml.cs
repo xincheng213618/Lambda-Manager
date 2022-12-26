@@ -20,8 +20,8 @@ namespace Wizard
     /// </summary>
     public partial class Page4 : Page
     {
-        MainWindow Window;
-        public Page4(MainWindow window)
+        WizardWindow Window;
+        public Page4(WizardWindow window)
         {
             InitializeComponent();
             Window = window;

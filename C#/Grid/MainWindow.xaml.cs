@@ -58,6 +58,7 @@ namespace Grid
                 StreamResourceInfo info = Application.GetResourceStream(uri);
 
                 string DirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default";
+
                 if (!Directory.Exists(DirectoryPath))
                     Directory.CreateDirectory(DirectoryPath);
                 else
@@ -75,7 +76,28 @@ namespace Grid
                     info.Stream.Seek(0, SeekOrigin.Begin);
                     info.Stream.CopyTo(fileStream);
                 }
-                recentFileList.InsertFile(FullPath);
+
+
+                string DirectoryPath1 = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default1";
+                if (!Directory.Exists(DirectoryPath1))
+                    Directory.CreateDirectory(DirectoryPath1);
+                else
+                {
+                    Directory.Delete(DirectoryPath1, true);
+                    Directory.CreateDirectory(DirectoryPath1);
+                }
+
+                Directory.CreateDirectory(DirectoryPath + "\\" + "Video");
+                Directory.CreateDirectory(DirectoryPath + "\\" + "Image");
+
+                string FullPath1 = DirectoryPath + "\\默认.gprj";
+                using (var fileStream = File.Create(FullPath1))
+                {
+                    info.Stream.Seek(0, SeekOrigin.Begin);
+                    info.Stream.CopyTo(fileStream);
+                }
+
+                recentFileList.InsertFile(FullPath1);
                 TextBox2.Text = recentFileList.RecentFiles[0];
             }
             else

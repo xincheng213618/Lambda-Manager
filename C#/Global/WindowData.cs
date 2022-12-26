@@ -76,9 +76,6 @@ namespace Global
             {
                 MessageBox.Show(s.ToString1());
             };
-            //Common.Config.ConfigReadEvent += ReadConfig;
-            //Common.Config.ConfigSetEvent += SetValue;
-            //Common.Config.ConfigWriteEvent += SaveConfig;
             Hardware_Initialized();
         }
 

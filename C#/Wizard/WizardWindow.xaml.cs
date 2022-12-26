@@ -24,15 +24,15 @@ namespace Wizard
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : BaseWindow
+    public partial class WizardWindow : BaseWindow
     {
         public List<string> ResourceDictionaryDark = new List<string>();
-        public MainWindow()
+        public WizardWindow()
         {
             InitializeComponent();
             Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
         }
-        public MainWindow(string Name)
+        public WizardWindow(string Name)
         {
             InitializeComponent();
 

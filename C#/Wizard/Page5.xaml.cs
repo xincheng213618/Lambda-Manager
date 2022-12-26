@@ -22,8 +22,8 @@ namespace Wizard
         Dictionary<int, string> HardwareCalibrationDicString = new Dictionary<int, string>();
         public  List<HardwareCalibration> HardwareCalibrations = new List<HardwareCalibration>();
 
-        MainWindow Window;
-        public Page5(MainWindow window)
+        WizardWindow Window;
+        public Page5(WizardWindow window)
         {
             //硬触发
             HardwareCalibrationDic.Add(0, new HardwareCalibration() { Hardware = "Camera", Type = "HardTrigger" });

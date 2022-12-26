@@ -28,6 +28,8 @@ using Wizard;
 using System.Xml.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Global.SettingUp.Hardware;
+using Microsoft.VisualBasic.Logging;
 
 namespace ConfigSetting
 {
@@ -48,7 +50,6 @@ namespace ConfigSetting
         bool IsFirstLoad = true;
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
                 IsFirstLoad = false;
@@ -76,20 +77,20 @@ namespace ConfigSetting
                     GPUInfo.GPUaccessibleRAM = (uint)Math.Round(a);
                 }
                 LambdaControl.Trigger("IsGPUCapable", this,new Dictionary<string, object>() { { "Value", GPUInfo.IsOpenGPUAccelerate } });
-
-                if (SoftwareConfig.HardwareSetting.CameraStatus != Global.SettingUp.Hardware.CameraStatus.Ok ||
-                    SoftwareConfig.HardwareSetting.LightStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError ||
-                    SoftwareConfig.HardwareSetting.StageStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError)
+                GPUAccelerateCombox.ItemsSource = new List<string> { "开启", "关闭" };
+                GPUAccelerateCombox.SelectedIndex = GPUInfo.IsOpenGPUAccelerate ? 0 : 1;
+                SoftwareConfig.WindowSetting.PropertyChanged += (s, e) =>
                 {
-                    if (!SoftwareConfig.HardwareSetting.IsIniWizard)
+                    if (e.PropertyName == "IsOpenGPUAccelerate")
                     {
-                        MessageBox1.Show($"硬件连接异常:\n\r相机状态:{SoftwareConfig.HardwareSetting.CameraStatus}\n\r光源状态:{SoftwareConfig.HardwareSetting.LightStatus}\n\r位移台状态:{SoftwareConfig.HardwareSetting.StageStatus}", "Grid");
-                        if (MessageBox1.Show("您是否要继续完成初始化 ", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.No)
-                        {
-                            Environment.Exit(0);
-                        }
+                        GPUAccelerateCombox.SelectedIndex = GPUInfo.IsOpenGPUAccelerate ? 0 : 1;
+                        LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", GPUInfo.IsOpenGPUAccelerate } });
                     }
-                    }
+                };
+                GPUAccelerateCombox.SelectionChanged += (s, e) =>
+                {
+                    GPUInfo.IsOpenGPUAccelerate = GPUAccelerateCombox.SelectedIndex == 0;
+                };
 
                 if (!SoftwareConfig.HardwareSetting.IsIniWizard)
                 {
@@ -98,7 +99,22 @@ namespace ConfigSetting
                     await Task.Delay(100);
                     SystemCommands.MinimizeWindow(Application.Current.MainWindow);
                     await Task.Delay(50);
-                    Wizard.MainWindow mainWindow = new Wizard.MainWindow("1");
+
+                    if (SoftwareConfig.HardwareSetting.CameraStatus != Global.SettingUp.Hardware.CameraStatus.Ok ||
+    SoftwareConfig.HardwareSetting.LightStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError ||
+    SoftwareConfig.HardwareSetting.StageStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError)
+                    {
+                        if (!SoftwareConfig.HardwareSetting.IsIniWizard)
+                        {
+                            MessageBox.Show($"硬件连接异常:\n\r相机状态:{SoftwareConfig.HardwareSetting.CameraStatus}\n\r光源状态:{SoftwareConfig.HardwareSetting.LightStatus}\n\r位移台状态:{SoftwareConfig.HardwareSetting.StageStatus}", "Grid");
+                            if (MessageBox1.Show("您是否要继续完成初始化 ", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                            {
+                                Environment.Exit(0);
+                            }
+                        }
+                    }
+
+                    Wizard.WizardWindow mainWindow = new Wizard.WizardWindow("1");
                     mainWindow.ShowDialog();
 
                     if (SoftwareConfig.HardwareSetting.IsIniWizard)
@@ -106,6 +122,7 @@ namespace ConfigSetting
                         SystemCommands.RestoreWindow(Application.Current.MainWindow);
                     }
                 }
+                Test_Click(sender, e);
 
                 if (SoftwareConfig.PerformanceSetting.IsDiskLackWarning)
                 {
@@ -121,17 +138,32 @@ namespace ConfigSetting
 
                 if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
                 {
-                    GroupBox15.DataContext = SoftwareConfig.WindowSetting;
+
                     combobox.Visibility = SoftwareConfig.WindowSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
-                    ShowLogButton.Click += (s, e) =>
+                    ShowLogCombox.ItemsSource = new List<string> { "显示", "隐藏" };
+                    ShowLogCombox.SelectedIndex = SoftwareConfig.WindowSetting.IsShowLog ? 0 : 1;
+                    SoftwareConfig.WindowSetting.PropertyChanged += (s, e) =>
                     {
-                        SoftwareConfig.WindowSetting.IsShowLog = !SoftwareConfig.WindowSetting.IsShowLog;
-                        combobox.Visibility = SoftwareConfig.WindowSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
+                        if (e.PropertyName == "IsShowLog" )
+                        {
+                            ShowLogCombox.SelectedIndex = SoftwareConfig.WindowSetting.IsShowLog ? 0 : 1;
+                            combobox.Visibility = SoftwareConfig.WindowSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
+                        }
+                    };
+                    ShowLogCombox.SelectionChanged += (s, e) =>
+                    {
+                        SoftwareConfig.WindowSetting.IsShowLog = ShowLogCombox.SelectedIndex == 0;
                     };
                 }
 
-
-
+                bool DecorateLight = false;
+                DecorateLightCombox.ItemsSource = new List<string> { "关闭", "打开" };
+                DecorateLightCombox.SelectedIndex = -1;
+                DecorateLightCombox.SelectionChanged += (s, e) =>
+                {
+                    DecorateLight = ShowLogCombox.SelectedIndex == 0;
+                    LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", ShowLogCombox.SelectedIndex } });
+                };
 
 
 
@@ -140,6 +172,22 @@ namespace ConfigSetting
 
 
                 SolutionGrid.DataContext = SoftwareConfig.SolutionSetting;
+                SupportMultiProjectCombox.ItemsSource = new List<string> {  "是" , "否" };
+                SupportMultiProjectCombox.SelectedIndex = SoftwareConfig.SolutionSetting.IsSupportMultiProject ? 0 : 1;
+                SoftwareConfig.SolutionSetting.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == "IsSupportMultiProject")
+                    {
+                        SupportMultiProjectCombox.SelectedIndex = SoftwareConfig.SolutionSetting.IsSupportMultiProject ? 0 : 1;
+                    }
+                };
+                SupportMultiProjectCombox.SelectionChanged += (s, e) =>
+                {
+                    SoftwareConfig.SolutionSetting.IsSupportMultiProject = SupportMultiProjectCombox.SelectedIndex == 0;
+                };
+
+
+
                 stackPanel1.Children.Remove(this);
                 if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && Application.Current.MainWindow.FindName("stageAcquisition") is Grid stageAcquisition)
                 {
@@ -174,12 +222,15 @@ namespace ConfigSetting
                             radioButton.Checked += delegate
                             {
                                 stageConfig.Visibility = Visibility.Visible;
-                                stageAcquisition.Visibility = Visibility.Collapsed;
+                                stageAcquisition.Visibility = Visibility.Hidden;
+
+                                DecorateLightCombox.SelectedIndex = -1;
                             };
                             radioButton.Unchecked += delegate
                             {
-                                stageConfig.Visibility = Visibility.Hidden;
                                 stageAcquisition.Visibility = Visibility.Visible;
+                                stageConfig.Visibility = Visibility.Hidden;
+
                             };
                         }
                     }
@@ -191,7 +242,9 @@ namespace ConfigSetting
                 InitEmun();
 
 
-
+                GroupBox13.DataContext = SoftwareConfig.HardwareConfig;
+                GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
+                GroupBox24.DataContext = SoftwareConfig.HardwareConfig.CameraConfig;
                 //SoftwareConfig.HardwareConfig.LightSourceConfig = Json.Deserialize<LightSourceConfig>("LightSourceConfig");
                 //GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
                 //SoftwareConfig.HardwareConfig.LightSourceConfig.ToJsonFile("LightSourceConfig");
@@ -208,6 +261,8 @@ namespace ConfigSetting
                     }
                     catch { }
                 }
+
+
             }
         }
 
@@ -231,16 +286,6 @@ namespace ConfigSetting
                     ScrollViewer1.ScrollToVerticalOffset(targetPosition.Y);
                 }
             }
-        }
-
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 0 } });
-        }
-        private void Button_Click_31(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Trigger("DECORATIVE_LIGHTS_CONTROL", this, new Dictionary<string, object> { { "mode", 1 } });
         }
 
 
@@ -366,40 +411,144 @@ namespace ConfigSetting
             }
         }
 
-        private void GPU_Click(object sender, RoutedEventArgs e)
-        {
-            SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate = !SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate;
-            LambdaControl.Trigger("IsGPUCapable", this, new Dictionary<string, object>() { { "Value", SoftwareConfig.HardwareSetting.GPUInfo.IsOpenGPUAccelerate } });
-        }
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             string result = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default\\default.gprj");
 
-            JsonObject lamdbda = (JsonObject)JsonNode.Parse(result);
-            string resultCode = lamdbda["config-imaging-mode"].ToString();
-            MessageBox.Show(resultCode);
-            lamdbda["config-imaging-mode"] = "Tetst";
+            try
+            {
+                JsonObject lamdbda = (JsonObject)JsonNode.Parse(result);
+                if (lamdbda != null)
+                {
+                    SoftwareConfig.HardwareConfig.DeviceType = lamdbda["device-type"]?.ToString();
+                    SoftwareConfig.HardwareConfig.InstallSize = lamdbda["install-size"]?.ToString();
 
-            string firmware = lamdbda["firmware"].ToString();
+                    if (lamdbda["firmware"] is JsonObject firmware)
+                    {
+
+                        if (firmware["source"] is JsonObject source)
+                        {
+                            var LightSourceConfig = SoftwareConfig.HardwareConfig.LightSourceConfig;
+                            LightSourceConfig.LEDRowsAndColumns = source["led-size"]?.ToString();
+                            LightSourceConfig.LEDSpacing = source["led-spacing"]?.ToString();
+                            LightSourceConfig.LEDHeight = source["led-height"]?.ToString();
+                            LightSourceConfig.LEDCenterWavelength = source["center-wave-length"]?.ToString();
+                            LightSourceConfig.MaxRefreshRate = source["max-frequency"]?.ToString();
+                            LightSourceConfig.MaxBrightness = source["brightness"]?.ToString();
+                            LightSourceConfig.LEDColors = source["hdr"]?.ToString();
+                            LightSourceConfig.MaxNumericalAperture = source["NA"]?.ToString();
+                        }
+                        if (firmware["camera"] is JsonObject camera)
+                        {
+                            var CameraConfig = SoftwareConfig.HardwareConfig.CameraConfig;
+                            CameraConfig.CameraModel = camera["type"]?.ToString();
+                            CameraConfig.TargetSize = camera["ccd-size"]?.ToString();
+                            CameraConfig.DynamicRange = camera["hdr"]?.ToString();
+                            CameraConfig.MAXFrameRate = camera["max-fps"]?.ToString();
+                            CameraConfig.TriggerMode = camera["trigger"]?.ToString();
+                        }
+                        if (firmware["objective"] is JsonObject objective)
+                        {
+                            var ObjectiveConfigs = SoftwareConfig.HardwareConfig.ObjectiveConfigs;
+
+                            try
+                            {
+
+                                if ((bool)lamdbda["multi-objectives"] == true)
+                                {
+                                    List<string> ObjectiveConfigsLists = new List<string>() { };
+
+                                    JsonArray jsonArray = (JsonArray)lamdbda["lambda-manager"]["objective-keys"];
+                                    foreach (var item in jsonArray)
+                                    {
+                                        ObjectiveConfigsLists.Add(item.ToString());
+                                    }
+
+                                    List<string> ObjectiveConfigsList = new List<string>();
+                                    if (objective["magnitude"] is JsonObject magnitude)
+                                    {
+                                        foreach (var item in ObjectiveConfigsLists)
+                                        {
+                                            if (magnitude[item] is not null)
+                                                ObjectiveConfigsList.Add(item);
+                                        }
+                                    }
+                                    List<ObjectiveConfig> AvailableObjectives = new List<ObjectiveConfig> { };
+                                    foreach (var item in ObjectiveConfigsList)
+                                    {
+                                        ObjectiveConfig objectiveConfig = new ObjectiveConfig();
+                                        objectiveConfig.ObjectiveKey = item.ToString();
+                                        objectiveConfig.Magnitude = (int)objective["magnitude"][item];
+                                        objectiveConfig.NA = (double)objective["NA"][item];
+                                        objectiveConfig.Achromatic = (bool)objective["achromatic"][item];
+                                        objectiveConfig.Multiple = (double)objective["multiple"][item];
+                                        objectiveConfig.WorkingDistance = objective["WD"][item]?.ToString();
+                                        AvailableObjectives.Add(objectiveConfig);
+                                    }
+
+                                    ObjectiveConfigs.AvailableObjectives = AvailableObjectives;
+
+                                    foreach (var item in AvailableObjectives)
+                                    {
+                                        if (item.Magnitude == (int)objective["current-magnitude"])
+                                        {
+                                            ObjectiveConfigs.CurrentObjectiveConfig = item;
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    ObjectiveConfig objectiveConfig = new ObjectiveConfig();
+                                    objectiveConfig.ObjectiveKey = ((JsonArray)lamdbda["lambda-manager"]["objective-keys"])[0].ToString();
+                                    objectiveConfig.Magnitude = (int)objective["magnitude"];
+                                    objectiveConfig.NA = (double)objective["NA"];
+                                    objectiveConfig.Achromatic = (bool)objective["achromatic"];
+                                    objectiveConfig.Multiple = (double)objective["multiple"];
+                                    objectiveConfig.WorkingDistance = objective["WD"]?.ToString();
+                                    List<ObjectiveConfig> AvailableObjectives = new List<ObjectiveConfig> { objectiveConfig };
+
+                                    ObjectiveConfigs.AvailableObjectives = AvailableObjectives;
+                                    ObjectiveConfigs.CurrentObjectiveConfig = objectiveConfig;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("无法正确解析硬件参数，请检查文件是否损坏: \n\r" + ex.Message);
+                            }
+
+                        }             
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
 
-            File.WriteAllText("Test", lamdbda.ToString());
 
-
-
-
-
+            foreach (var item in SoftwareConfig.HardwareConfig.ObjectiveConfigs.AvailableObjectives)
+            {
+                TextBlock230.Children.Add(new TextBlock() { Width = 120, Text = $"{item.ObjectiveKey}:   {item.Magnitude}" });
+                TextBlock231.Children.Add(new TextBlock() { Width = 120, Text = $"{item.ObjectiveKey}:   {item.NA}" });
+                TextBlock232.Children.Add(new TextBlock() { Width = 120, Text = $"{item.ObjectiveKey}:   {item.WorkingDistance}mm" });
+                TextBlock233.Children.Add(new TextBlock() { Width = 120, Text = $"{item.ObjectiveKey}:   " + (item.Achromatic ? "是" : "否") });
+            }
+            SoftwareConfig.HardwareConfig.INIEDInvoke();
+            LambdaControl.Log(new Message() { Severity =Severity.INFO,Text = "参数读取完成"});
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //Process.Start("cleanmgr.exe");
-
             Process.Start("cleanmgr.exe", string.Concat("/D ", SoftwareConfig.PerformanceSetting.CurrentDrive.Name.AsSpan(0,1)));
-
         }
 
-
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

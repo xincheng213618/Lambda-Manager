@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Global.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,13 +16,24 @@ using System.Windows.Shapes;
 
 namespace Wizard
 {
-    /// <summary>
-    /// Page2.xaml 的交互逻辑
-    /// </summary>
-    public partial class Page2 : Page
+
+    public class Page2ViewMode : ViewModelBase
     {
-        MainWindow Window;
-        public Page2(MainWindow window)
+        public bool IsSelect { get => _IsSelect; set { _IsSelect = value; NotifyPropertyChanged(); } }
+        private bool _IsSelect { get; set; }
+    }
+
+
+
+        /// <summary>
+        /// Page2.xaml 的交互逻辑
+        /// </summary>
+     public partial class Page2 : Page
+    {
+        Page2ViewMode page2ViewMode = new Page2ViewMode();
+
+        WizardWindow Window;
+        public Page2(WizardWindow window)
         {
             InitializeComponent();
             Window = window;
@@ -51,6 +63,13 @@ namespace Wizard
         {
             Content = new Page3(Window);
             Pages();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            button.BorderThickness = new Thickness(2,2,2,2);
+            page2ViewMode.IsSelect = true;
         }
     }
 }

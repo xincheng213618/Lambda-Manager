@@ -1,3 +1,15 @@
+## [1.3.19] 2022-12.19
+
+- Fix 工程名称，不能正确排序的问题  ✔  StrCmpLogicalW    Shlwapi.dll
+- 调整初始化文件的结构  ✔
+- 添加lua和相关测试 ✔
+
+## [1.3.18] 2022-12-16
+
+- 重构代码，MVVM 改用_  而不是小写，调整ViewModeBase代码结构✔
+- 解决enum ToString 序列化的问题 ✔
+- 重构，注册表写入的逻辑，以及封装基于ViewModeBase 的ViewModelReg ✔
+
 ## [1.3.17] 2022-12-13
 
 - 合并皇黄代码 ✔

@@ -17,6 +17,7 @@ using HotKey;
 using Global.SettingUp;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Linq;
 
 namespace Solution
 {
@@ -34,7 +35,58 @@ namespace Solution
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
+
             this.DataContext = SoftwareConfig.SolutionSetting;
+        }
+
+        private void TreeViewControl_Drop(object sender, DragEventArgs e)
+        {
+            var b = e.Data.GetDataPresent(DataFormats.FileDrop);
+
+            if (b)
+            {
+                var sarr = e.Data.GetData(DataFormats.FileDrop);
+                var a = sarr as string[];
+                var fn = a.First();
+
+                if (fn.Contains(".gprj"))
+                {
+                    if (SoftwareConfig.SolutionSetting.IsSupportMultiProject)
+                    {
+                        string FullName = fn;
+
+                        for (int i = 0; i < SolutionExplorers.Count; i++)
+                        {
+                            if (SolutionExplorers[i].FullName == FullName)
+                            {
+                                SolutionExplorers[i].IsExpanded = true;
+                                SolutionExplorers[i].IsSelected = true;
+                                return;
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                        {
+                            SolutionFullName = FullName;
+                            recentFileList.InsertFile(FullName);
+                            TreeViewInitialized(FullName, false);
+                            SolutionExplorers[^1].IsExpanded = true;
+                        }
+                    }
+                    else
+                    {
+                        string FullName = fn;
+                        if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                        {
+                            SolutionFullName = FullName;
+                            recentFileList.InsertFile(FullName);
+                            TreeViewInitialized(FullName);
+                            SolutionExplorers[0].IsExpanded = true;
+                        }
+                    }
+                }
+                    
+            }
         }
 
         bool IsFirstLoad = true;
@@ -63,7 +115,8 @@ namespace Solution
                 stackPanel.Margin = new Thickness(2, 2, 2, 0);
                 viewbox.Width = double.NaN;
 
-               
+                tabItem.AllowDrop = true;
+                tabItem.Drop += TreeViewControl_Drop;
                 //追加在显示的时候显示触发
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();

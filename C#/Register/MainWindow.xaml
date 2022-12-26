@@ -41,7 +41,7 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="Bd" Background="{TemplateBinding Background}" 	BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"	CornerRadius="3">
                         <Grid>
-                            <Border x:Name="Bds"  Background="#6ae860" 	CornerRadius="3"  Opacity="0.5" Visibility="Collapsed"/>
+                            <Border x:Name="Bds"  Background="#6EA646" 	CornerRadius="3"  Opacity="0.5" Visibility="Collapsed"/>
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"  RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 	VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Grid>
                     </Border>

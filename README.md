@@ -1,4 +1,4 @@
-# 🧰 NLG
+# 🧰NLG
 
 # 快速开始
 
@@ -6,19 +6,19 @@
 git clone https://github.com/NJUST-SCIL/Lambda-Manager
 ```
 
-除OPENCV，CUDA,外，程序编译需要的依赖环境已经打包进项目中，不需要自行配置
+除OPENCV，CUDA外，程序编译需要的依赖环境已经打包进项目中，不需要自行配置
 
 需要先将程序编译环境从AnyCPU 改成 X64 然后 Build  Lambda 目录下的LambdaManager 。
 
+#### 添加CUDA运行环境
 
+如果没有CUDA运行环境，请自行官网安装CUDA开发包，否则，编译时请移除  application.xml中配置的CUDA 关联的DLL。
 
 #### 添加OPENCV运行环境
 
 在props/AddPathBat/存在 ADD_OPENCV_PATH.bat 脚本，复制脚本，到提供的OPNECV 开发环境下，点击运行即可。也可以自己添加 PATH 环境到中 OPENCV_PATH，或者自行修改OpenCV.Release.x64.props 亦可。
 
-#### 添加CUDA运行环境
-
-如果没有CUDA运行环境，请自行官网安装CUDA开发包，否则，请移除  application.xml中配置的CUDA 关联的DLL。
+## 编译
 
 之后需要将packages中的opencv 的dll copy 到debug 或者release 目录中，然后创建lib目录。
 
@@ -34,19 +34,15 @@ git clone https://github.com/NJUST-SCIL/Lambda-Manager
 
 ## Lambda
 
-根据依赖倒置原则，预留的接口，提供一些基本处理接口
+主控的一些接口
 
 ## LambdaUtils
 
-Lambda的一个依赖，没什么用
+Lambda的json解析的辅助类，可以合并在Lambda中
 
-## Common
+## LambdaCore、Common
 
-C++ ,C# 并行调用C++的一部分 ，需配合LambdaCore 使用
-
-## LambdaCore
-
-C++ ,C# 并行调用C#的一部分 ， 需配合Common使用
+串联在C++ 和C# 的交互逻辑
 
 ## LambdaManager
 
@@ -66,15 +62,23 @@ C++ ,C# 并行调用C#的一部分 ， 需配合Common使用
 
 ## Register、AboutMsg
 
-无用逻辑
+
 
 ## Global
 
-对主控修改的DLL，和图像区的逻辑（预备迁移），业务逻辑
+对主控修改的DLL，业务逻辑，拒绝拆分的代码
 
 ## Global.Common
 
 无其他引用项，仅C#中可以共用和复用的部分代码
+
+## Global.Setting
+
+和皇黄交涉失败下的产物
+
+## Global.SettingUp
+
+控制逻辑中控的部分
 
 ## Global.Reg
 

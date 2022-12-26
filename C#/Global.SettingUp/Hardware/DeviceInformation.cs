@@ -58,15 +58,12 @@ namespace Global.Hardware
     public class ExposureViewMode : ViewModelBase
     {
         public ObservableCollection<ExposureInfo> ExposureInfos = new ObservableCollection<ExposureInfo>();
-        public ExposureViewMode()
-        {
-        }
         public bool IsBackGroundChanged = false;
 
         public void SetValue(double Exposure)
         {
             IsBackGroundChanged = true;
-            if (exposure> ExposureInfos[ExposureInfos.Count - 1].Exposure)
+            if (_Exposure> ExposureInfos[ExposureInfos.Count - 1].Exposure)
             {
                 index = ExposureInfos.Count - 1;
                 this.Exposure = Exposure;
@@ -113,24 +110,18 @@ namespace Global.Hardware
             }
         }
 
-        private string exposureShow;
         /// <summary>
         /// 展示数据
         /// </summary>
-        public string ExposureShow
-        {
-            get { return exposureShow; }
-            set { exposureShow = value; NotifyPropertyChanged(); }
-        }
+        public string ExposureShow { get => _ExposureShow; set { _ExposureShow = value; NotifyPropertyChanged(); } }
+        private string _ExposureShow;
 
-        private double exposure;
         /// <summary>
         /// 展示数据
         /// </summary>
-        public double Exposure
-        {
-            get { return exposure; }
-            set { exposure = value; NotifyPropertyChanged(); }
-        }
+        public double Exposure { get => _Exposure; set { _Exposure = value; NotifyPropertyChanged(); } }
+
+        private double _Exposure;
+
     }
 }

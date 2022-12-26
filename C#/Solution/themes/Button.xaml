@@ -652,7 +652,7 @@
 
     <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle"  Value="true" />
-        <Setter Property="Height" Value="30"/>
+        <Setter Property="Height" Value="25"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="2"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -664,7 +664,7 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{DynamicResource ButtonBackground}" BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" SnapsToDevicePixels="true">
                         <Grid>
-                            <Border x:Name="Bds"  Background="#6ae860" CornerRadius="3"  Opacity="0.5" Visibility="Collapsed"/>
+                            <Border x:Name="Bds"  Background="#6EA646" CornerRadius="3"  Opacity="1" Visibility="Collapsed"/>
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Grid>
                     </Border>

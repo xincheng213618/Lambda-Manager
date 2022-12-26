@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Xml.Linq;
 
@@ -272,7 +274,7 @@ namespace XSolution
             if (obj == this) return 0;
             if (obj is BaseObject baseObject)
             {
-                return Name.CompareTo(baseObject.Name);
+                return Global.Common.NativeMethods.Shlwapi.StrCmpLogicalW(Name, baseObject.Name);
             }
             return 0;
         }

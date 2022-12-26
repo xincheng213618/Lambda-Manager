@@ -10,110 +10,46 @@ using System.Threading.Tasks;
 
 namespace Global.SettingUp.Hardware
 {
+    public delegate void HardwareConfigChangedHandler(HardwareConfig hardwareConfig);
+
 
     /// <summary>
     /// 硬件配置表
     /// </summary>
     public class HardwareConfig:ViewModelBase
     {
+        public event HardwareConfigChangedHandler HardwareConfigChanged;
+
+        public void INIEDInvoke()
+        {
+            HardwareConfigChanged?.Invoke(this);
+        }
+
+        /// <summary>
+        /// 设备型号
+        /// </summary>
+        public string DeviceType { get => _DeviceType; set { _DeviceType = value; NotifyPropertyChanged(); } }
+        private string _DeviceType = string.Empty;
+
+        /// <summary>
+        /// 安装尺寸
+        /// </summary>
+        public string InstallSize { get => _InstallSize; set { _InstallSize = value; NotifyPropertyChanged(); } }
+        private string _InstallSize = string.Empty;
+
+        
+
         /// <summary>
         /// 物镜配置
         /// </summary>
-        public ObjectiveConfig ObjectiveConfig { get; set; } = new ObjectiveConfig();
+        public ObjectiveConfigs ObjectiveConfigs { get; set; } = new ObjectiveConfigs();
 
         /// <summary>
         /// 光源配置
         /// </summary>
         public LightSourceConfig LightSourceConfig { get; set; } = new LightSourceConfig();
 
-    }
-
-    public class HardwareConfigBase : ViewModelBase
-    {
-        /// <summary>
-        /// 型号
-        /// </summary>
-        public string Version { get => _Version; set {_Version = value; NotifyPropertyChanged(); } }
-        private string _Version = string.Empty;       
-    }
-
-    /// <summary>
-    /// 物镜配置
-    /// </summary>
-    public class ObjectiveConfigBase : HardwareConfigBase
-    {
-
-        public ObjectiveConfigBase(int Magnitude,double NA)
-        {
-            this.Magnitude = Magnitude;
-            this.NA = NA;
-        }
-        /// <summary>
-        /// 放大倍数
-        /// </summary>
-        public int Magnitude { get; set; }
-
-        /// <summary>
-        /// 放大倍数
-        /// </summary>
-        public string MagnitudeName { get; set; }
-
-        /// <summary>
-        /// 数值孔径
-        /// </summary>
-        [JsonPropertyName("N.A")]
-        public double NA { get; set; }
-    }
-
-    public class ObjectiveConfig : HardwareConfigBase
-    {
-        public List<ObjectiveConfigBase> AvailableObjectives { get; set; } = new List<ObjectiveConfigBase>();
-
-
-        private ObjectiveConfigBase selectObjective = null;
-
-        public ObjectiveConfigBase SelectObjective { get => selectObjective; set 
-            {
-                selectObjective = value;
-                NotifyPropertyChanged();
-                this.Magnitude = selectObjective.Magnitude;
-                this.NA = selectObjective.NA;
-            }
-        }
-
-
-        private int magnitude;
-        /// <summary>
-        /// 放大倍数
-        /// </summary>
-        public int Magnitude
-        {
-            get => magnitude;
-            set
-            {
-                magnitude = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        private double na;
-        /// <summary>
-        /// 数值孔径
-        /// </summary>
-        [JsonPropertyName("N.A")]
-        public double NA
-        {
-            get =>na;
-            set 
-            { 
-                na = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-
+        public CameraConfig CameraConfig { get; set; } = new CameraConfig();    
 
     }
 

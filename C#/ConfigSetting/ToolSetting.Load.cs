@@ -89,7 +89,66 @@ namespace ConfigSetting
 
 
 
-		}
+			ImageResolutionShowOptionsCombox.ItemsSource = from e1 in Enum.GetValues(typeof(ImageResolutionOptions)).Cast<ImageResolutionOptions>()
+													select new KeyValuePair<ImageResolutionOptions, string>(e1, e1.ToString1());
+			ImageResolutionShowOptionsCombox.SelectedValuePath = "Key";
+			ImageResolutionShowOptionsCombox.DisplayMemberPath = "Value";
+			ImageResolutionShowOptionsCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.ImageResolutionShowOptions;
+			ImageResolutionShowOptionsCombox.SelectionChanged += (s, e) =>
+			{
+				if (ImageResolutionShowOptionsCombox.SelectedItem is KeyValuePair<ImageResolutionOptions, string> KeyValue && KeyValue.Key is ImageResolutionOptions drawGraphicsOptions)
+					SoftwareConfig.WindowSetting.ImageResolutionShowOptions = drawGraphicsOptions;
+			};
+			LambdaControl.Trigger("ImageResolutionShowOptionsChanged", this, new Dictionary<string, object>() { { "Type", (int)SoftwareConfig.WindowSetting.ImageResolutionShowOptions } });
+			SoftwareConfig.WindowSetting.ImageResolutionShowOptionsChanged += (s) =>
+			{
+				ImageResolutionShowOptionsCombox.SelectedIndex = (int)s;
+            };
+
+
+			ImageResolutionSaveOptionsCombox.ItemsSource = from e1 in Enum.GetValues(typeof(ImageResolutionOptions)).Cast<ImageResolutionOptions>()
+														   select new KeyValuePair<ImageResolutionOptions, string>(e1, e1.ToString1());
+			ImageResolutionSaveOptionsCombox.SelectedValuePath = "Key";
+			ImageResolutionSaveOptionsCombox.DisplayMemberPath = "Value";
+			ImageResolutionSaveOptionsCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.ImageResolutionSaveOptions;
+			ImageResolutionSaveOptionsCombox.SelectionChanged += (s, e) =>
+			{
+				if (ImageResolutionSaveOptionsCombox.SelectedItem is KeyValuePair<ImageResolutionOptions, string> KeyValue && KeyValue.Key is ImageResolutionOptions drawGraphicsOptions)
+					SoftwareConfig.WindowSetting.ImageResolutionSaveOptions = drawGraphicsOptions;
+			};
+			LambdaControl.Trigger("ImageResolutionSaveOptionsChanged", this, new Dictionary<string, object>() { { "Type", (int)SoftwareConfig.WindowSetting.ImageResolutionSaveOptions } });
+			SoftwareConfig.WindowSetting.ImageResolutionSaveOptionsChanged += (s) =>
+			{
+				ImageResolutionSaveOptionsCombox.SelectedIndex = (int)s;
+			};
+
+            //ImageResolutionOptions TempSave = SoftwareConfig.WindowSetting.ImageResolutionShowOptions;
+            //ImageResolutionOptions TempSave1 = SoftwareConfig.WindowSetting.ImageResolutionSaveOptions;
+
+            //if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig)
+            //{
+            //    stageConfig.IsVisibleChanged += (s, e) =>
+            //    {
+            //        if (stageConfig.Visibility != Visibility.Visible &&( TempSave != SoftwareConfig.WindowSetting.ImageResolutionShowOptions|| TempSave1!= SoftwareConfig.WindowSetting.ImageResolutionSaveOptions))
+            //        {
+            //            if (MessageBox.Show("更改参数涉及到硬件状态，是否选择重启", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            //            {
+            //                Process.Start(Application.ResourceAssembly.Location.Replace("dll", "exe"));
+            //                Application.Current.Shutdown();
+            //            }
+            //            else
+            //            {
+            //                SoftwareConfig.WindowSetting.ImageResolutionShowOptions = TempSave;
+            //                SoftwareConfig.WindowSetting.ImageResolutionSaveOptions = TempSave1;
+
+
+            //            }
+            //        }
+            //    };
+
+            //}
+
+        }
 
 		public void InitConnect()
 		{
@@ -146,7 +205,11 @@ namespace ConfigSetting
 			StageConnectionText.DataContext = SoftwareConfig.HardwareSetting;
 			CameraConnectionText.DataContext = SoftwareConfig.HardwareSetting;
 			LightConnectionText.DataContext = SoftwareConfig.HardwareSetting;
-			foreach (var item in HotKeyHelper.HotKeysList)
+            CameraCalibrationButton.DataContext = SoftwareConfig.HardwareSetting;
+            StageCalibrationButton.DataContext = SoftwareConfig.HardwareSetting;
+            LightCalibrationButton.DataContext = SoftwareConfig.HardwareSetting;
+
+            foreach (var item in HotKeyHelper.HotKeysList)
 			{
 
 				TextBlock textBlock = new TextBlock() { Text = item.Value.FunctionName };

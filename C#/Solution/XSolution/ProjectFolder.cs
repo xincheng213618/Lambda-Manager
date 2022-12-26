@@ -222,7 +222,7 @@ namespace XSolution
             if (obj == this) return 0;
             if (obj is ProjectFolder projectFolder)
             {
-                return Name.CompareTo(projectFolder.Name);
+                return Global.Common.NativeMethods.Shlwapi.StrCmpLogicalW(Name, projectFolder.Name);
             }
             if (obj is BaseObject baseObject)
             {
@@ -230,6 +230,7 @@ namespace XSolution
             }
             return 0;
         }
+
 
     }
 }

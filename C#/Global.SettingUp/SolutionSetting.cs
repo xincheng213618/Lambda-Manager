@@ -16,6 +16,8 @@ namespace Global.SettingUp
         //是否支持多项目
         public bool IsSupportMultiProject { get => _IsSupportMultiProject; set { _IsSupportMultiProject = value;  WriteRegValue(value); NotifyPropertyChanged(); } }
         private bool _IsSupportMultiProject = ReadRegValue(nameof(IsSupportMultiProject));
+
+
     }
 
     /// <summary>
@@ -55,6 +57,23 @@ namespace Global.SettingUp
     }
     public delegate void DrawGraphicsOptionsHandler(DrawGraphicsOptions drawGraphicsOptions);
 
+    /// <summary>
+    /// 图像分辨率
+    /// </summary>
+    public enum ImageResolutionOptions
+    {
+        /// <summary>
+        /// 适应屏幕
+        /// </summary>
+        Auto,
+        /// <summary>
+        /// 最大分辨率
+        /// </summary>
+        Max,
+    }
+    public delegate void ImageResolutionOptionsHandler(ImageResolutionOptions imageResolutionOptions);
+
+
 
 
 
@@ -65,7 +84,7 @@ namespace Global.SettingUp
             return This switch
             {
                 PhotoOptions.Display => "拍照后回看",
-                PhotoOptions.Browse => "拍照后浏览",
+                PhotoOptions.Browse => "拍照后预览",
                 _ => string.Empty,
             };
         }
@@ -76,6 +95,16 @@ namespace Global.SettingUp
                 DrawGraphicsOptions.File => "应用于图像文件",
                 DrawGraphicsOptions.Window => "应用于窗口",
                 DrawGraphicsOptions.Solution => "应用于工程",
+                _ => string.Empty,
+            };
+        }
+
+        public static string ToString1(this ImageResolutionOptions This)
+        {
+            return This switch
+            {
+                ImageResolutionOptions.Auto => "适应屏幕",
+                ImageResolutionOptions.Max => "最大分辨率",
                 _ => string.Empty,
             };
         }
@@ -108,7 +137,7 @@ namespace Global.SettingUp
         /// </summary>
         public event PhotoOptionsHandler PhotoOptionsChanged;
         
-        public PhotoOptions PhotoOptions { get => _PhotoOptions; set { if (_PhotoOptions == value) return; _PhotoOptions = value; LambdaControl.Trigger("PhotoOptionsChanged",this,new Dictionary<string, object>() { { "Type",(int)value} }); PhotoOptionsChanged?.Invoke(value); WriteRegValue((int)value); NotifyPropertyChanged(); } }
+        public PhotoOptions PhotoOptions { get => _PhotoOptions; set { if (_PhotoOptions == value) return; _PhotoOptions = value; LambdaControl.Trigger("PhotoOptionsChanged",this,new Dictionary<string, object>() { { "Type",(int)value} }); WriteRegValue((int)value); NotifyPropertyChanged(); PhotoOptionsChanged?.Invoke(value); } }
         private PhotoOptions _PhotoOptions = (PhotoOptions)ReadRegValue(0, nameof(PhotoOptions));
 
 
@@ -117,9 +146,24 @@ namespace Global.SettingUp
         /// </summary>
         public event DrawGraphicsOptionsHandler DrawGraphicsOptionsChanged;
 
-        public DrawGraphicsOptions DrawGraphicsOptions { get => _DrawGraphicsOptions; set { if (_DrawGraphicsOptions == value) return; _DrawGraphicsOptions = value; LambdaControl.Trigger("DrawGraphicsOptionsChanged", this, new Dictionary<string, object>() { { "Type", (int)value } }); DrawGraphicsOptionsChanged?.Invoke(value); WriteRegValue((int)value); NotifyPropertyChanged(); } }
+        public DrawGraphicsOptions DrawGraphicsOptions { get => _DrawGraphicsOptions; set { if (_DrawGraphicsOptions == value) return; _DrawGraphicsOptions = value; LambdaControl.Trigger("DrawGraphicsOptionsChanged", this, new Dictionary<string, object>() { { "Type", (int)value } });  WriteRegValue((int)value); NotifyPropertyChanged(); DrawGraphicsOptionsChanged?.Invoke(value); } }
         private DrawGraphicsOptions _DrawGraphicsOptions = (DrawGraphicsOptions)ReadRegValue(1, nameof(DrawGraphicsOptions));
 
+        /// <summary>
+        /// 图像显示分辨率更改事件
+        /// </summary>
+        public event ImageResolutionOptionsHandler ImageResolutionShowOptionsChanged;
+
+        public ImageResolutionOptions ImageResolutionShowOptions { get => _ImageResolutionShowOptions; set { if (_ImageResolutionShowOptions == value) return; _ImageResolutionShowOptions = value; LambdaControl.Trigger("ImageResolutionShowOptionsChanged", this, new Dictionary<string, object>() { { "Type", (int)value } }); WriteRegValue((int)value); NotifyPropertyChanged(); ImageResolutionShowOptionsChanged?.Invoke(value); } }
+        private ImageResolutionOptions _ImageResolutionShowOptions = (ImageResolutionOptions)ReadRegValue(1, nameof(ImageResolutionShowOptions));
+
+        /// <summary>
+        /// 图像保存分辨率更改事件
+        /// </summary>
+        public event ImageResolutionOptionsHandler ImageResolutionSaveOptionsChanged;
+
+        public ImageResolutionOptions ImageResolutionSaveOptions { get => _ImageResolutionSaveOptions; set { if (_ImageResolutionSaveOptions == value) return; _ImageResolutionSaveOptions = value; LambdaControl.Trigger("ImageResolutionSaveOptionsChanged", this, new Dictionary<string, object>() { { "Type", (int)value } }); WriteRegValue((int)value); NotifyPropertyChanged(); ImageResolutionSaveOptionsChanged?.Invoke(value); } }
+        private ImageResolutionOptions _ImageResolutionSaveOptions = (ImageResolutionOptions)ReadRegValue(1, nameof(ImageResolutionSaveOptions));
 
     }
 

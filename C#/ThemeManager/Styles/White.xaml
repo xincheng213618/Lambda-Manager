@@ -9,6 +9,6 @@
     <Color x:Key="BackgroundColor">#C2C2C2</Color>
     <Color x:Key="DisabledBackgroundColor">#BDBDBD</Color>
     <Color x:Key="LightDisabledBackgroundColor">#F3F9FF</Color>
-    <Color x:Key="HighlightColor">#776ae860</Color>
+    <Color x:Key="HighlightColor">#776EA646</Color>
     <Color x:Key="HotColor">#ADADAD</Color>
 </ResourceDictionary>

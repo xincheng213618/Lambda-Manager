@@ -13,21 +13,13 @@ namespace HotKey
         public HotKeyKinds Kinds;
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public bool sucess= false;
-        public bool Sucess
-        {
-            get => sucess;
-            set
-            {
-                sucess = value;
-                NotifyPropertyChanged();
-            }
-        }
+        /// <summary>
+        /// 是否绑定成功
+        /// </summary>
+        public bool Sucess { get => _Sucess; set { _Sucess = value; NotifyPropertyChanged(); } }
+        private bool _Sucess = false;
 
     }
 }

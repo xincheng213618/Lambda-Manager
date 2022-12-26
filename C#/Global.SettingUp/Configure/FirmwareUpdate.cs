@@ -47,8 +47,8 @@ namespace Global.SettingUp.Configure
         /// <summary>
         /// LED行列数
         /// </summary>
-        public int LEDRowsAndColumns { get => _LEDRowsAndColumns; set { _LEDRowsAndColumns = value; NotifyPropertyChanged(); } }
-        private int _LEDRowsAndColumns;
+        public string LEDRowsAndColumns { get => _LEDRowsAndColumns; set { _LEDRowsAndColumns = value; NotifyPropertyChanged(); } }
+        private string _LEDRowsAndColumns;
 
         /// <summary>
         /// LED间距
@@ -133,8 +133,11 @@ namespace Global.SettingUp.Configure
         public string _DynamicRange;
 
         public int ImageFlip { get; set; }
-
-        public TriggerMode TriggerMode { get; set; }
+        /// <summary>
+        /// 触发模式
+        /// </summary>
+        public string TriggerMode { get => _TriggerMode; set { _TriggerMode = value; NotifyPropertyChanged(); } }
+        public string _TriggerMode;
     }
 
     public enum TriggerMode
@@ -167,8 +170,36 @@ namespace Global.SettingUp.Configure
         public string Z { get; set; }
     }
 
+
+    public class ObjectiveConfigs:ViewModelBase
+    {
+        public List<double> AvailableNA { get; set; } = new List<double>();
+        public List<ObjectiveConfig> AvailableObjectives
+        {
+            get => _AvailableObjectives; set
+            {
+                _AvailableObjectives = value;
+                AvailableNA.Clear();
+                foreach (var item in value)
+                {
+                    AvailableNA.Add(item.NA);
+                } 
+            }
+        }
+        private List<ObjectiveConfig> _AvailableObjectives = new List<ObjectiveConfig>();
+
+
+        public ObjectiveConfig CurrentObjectiveConfig { get; set; }
+
+    }
+
     public class ObjectiveConfig :ViewModelBase
     {
+
+        /// <summary>
+        /// 序号
+        /// </summary>
+        public int No { get; set; }
         /// <summary>
         /// 型号
         /// </summary>
@@ -177,6 +208,12 @@ namespace Global.SettingUp.Configure
         /// 倍数
         /// </summary>
         public int Magnitude { get; set; }
+
+        /// <summary>
+        /// 标示
+        /// </summary>
+        public string ObjectiveKey { get; set; }
+
 
         /// <summary>
         /// 放大倍数

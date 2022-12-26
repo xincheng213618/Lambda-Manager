@@ -34,7 +34,7 @@ public class UIEvents
         updateStatus.ImageY = eventData.GetString("y");
         updateStatus.ImageZ = eventData.GetString("z");
         updateStatus.ImageSize = eventData.GetString("size");
-        updateStatus.imageFocus = eventData.GetString("focus");
+        updateStatus.ImageFocus = eventData.GetString("focus");
         updateStatus.CreateTime = eventData.GetString("createTime");
         string frameIndex = eventData.GetString("frameIndex");
         if (frameIndex != string.Empty)
