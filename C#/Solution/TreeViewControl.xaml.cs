@@ -49,63 +49,88 @@ namespace Solution
                 var a = sarr as string[];
                 var fn = a.First();
 
-                if (fn.Contains(".gprj"))
+                if (File.Exists(fn))
                 {
-                    if (SoftwareConfig.SolutionSetting.IsSupportMultiProject)
+                    if (fn.Contains(".gprj"))
                     {
-                        string FullName = fn;
-
-                        for (int i = 0; i < SolutionExplorers.Count; i++)
-                        {
-                            if (SolutionExplorers[i].FullName == FullName)
-                            {
-                                SolutionExplorers[i].IsExpanded = true;
-                                SolutionExplorers[i].IsSelected = true;
-                                return;
-                            }
-                        }
-
-                        if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
-                        {
-                            SolutionFullName = FullName;
-                            recentFileList.InsertFile(FullName);
-                            TreeViewInitialized(FullName, false);
-                            SolutionExplorers[^1].IsExpanded = true;
-                        }
+                        OpenSolution(fn);
                     }
                     else
                     {
-                        string FullName = fn;
-                        if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                        MessageBox.Show("文件的格式不受支持");
+                    }
+                }
+                else if (Directory.Exists(fn))
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(fn);
+                    foreach (var item in directoryInfo.GetFiles())
+                    {
+                        if (item.Extension==".gprj")
                         {
-                            SolutionFullName = FullName;
-                            recentFileList.InsertFile(FullName);
-                            TreeViewInitialized(FullName);
-                            SolutionExplorers[0].IsExpanded = true;
+                            OpenSolution(item.FullName);
+                            break;
                         }
                     }
                 }
-                    
             }
         }
+
+
+        private bool OpenSolution(string FullName)
+        {
+            bool sucess = false;
+            if (SoftwareConfig.SolutionSetting.IsSupportMultiProject)
+            {
+                for (int i = 0; i < SolutionExplorers.Count; i++)
+                {
+                    if (SolutionExplorers[i].FullName == FullName)
+                    {
+                        SolutionExplorers[i].IsExpanded = true;
+                        SolutionExplorers[i].IsSelected = true;
+                        return true;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                {
+                    SolutionFullName = FullName;
+                    recentFileList.InsertFile(FullName);
+                    TreeViewInitialized(FullName, false);
+                    SolutionExplorers[^1].IsExpanded = true;
+                    sucess = true;
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(FullName) && Config.ConfigRead(FullName) == 0)
+                {
+                    SolutionFullName = FullName;
+                    recentFileList.InsertFile(FullName);
+                    TreeViewInitialized(FullName);
+                    SolutionExplorers[0].IsExpanded = true;
+                    sucess = true;
+                }
+            }
+            return sucess;
+        }
+
+
 
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox && viewbox.Parent is ScrollViewer scrollViewer &&scrollViewer.Parent is TabItem tabItem)
             {
-                
+                tabItem.AllowDrop = true;
+                tabItem.Drop += TreeViewControl_Drop;
+
                 HeaderStackPanel.Children.Remove(SoulutionButtonPanel1);
                 Grid grid = new Grid();
                 tabItem.Content = grid;
                 grid.Children.Add(scrollViewer);
 
 
-                //StackPanel stackPanel1 = new StackPanel();
-                //stackPanel1.Children.Add(SoulutionButtonPanel1);
-
                 Viewbox viewbox1 = new Viewbox() { Child = SoulutionButtonPanel1,VerticalAlignment =VerticalAlignment.Top,HorizontalAlignment =HorizontalAlignment.Left };
-
                 viewbox1.SetBinding(Viewbox.HeightProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualHeight") });
                 viewbox1.SetBinding(Viewbox.WidthProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualWidth") });
 
@@ -115,8 +140,6 @@ namespace Solution
                 stackPanel.Margin = new Thickness(2, 2, 2, 0);
                 viewbox.Width = double.NaN;
 
-                tabItem.AllowDrop = true;
-                tabItem.Drop += TreeViewControl_Drop;
                 //追加在显示的时候显示触发
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
