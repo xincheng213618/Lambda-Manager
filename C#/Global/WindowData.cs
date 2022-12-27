@@ -9,6 +9,8 @@ using System.Text.Json;
 using System.Windows;
 using Global.Setting;
 using Global.SettingUp;
+using System.Text.Json.Nodes;
+using System.Collections.Generic;
 
 namespace Global
 {
@@ -40,6 +42,8 @@ namespace Global
 
         private WindowData1()
         {
+            
+            Interference();
             AddEventHandler();
             AddInjection();
             AddInjection1();
@@ -68,30 +72,37 @@ namespace Global
 
         private WindowData()
         {
+            
             SettingUp.Config.ConfigReadEvent += ReadConfig;
             SettingUp.Config.ConfigSetEvent += SetValue;
             SettingUp.Config.ConfigWriteEvent += SaveConfig;
-           
+           // MessageBox.Show("1111");
+            SolutionConfig.OtherMode.SnapMode =(int) SoftwareConfig.WindowSetting.PhotoOptions;
+            SolutionConfig.OtherMode.InkMode = (int)SoftwareConfig.WindowSetting.DrawGraphicsOptions;
+
             SoftwareConfig.WindowSetting.PhotoOptionsChanged += (s) =>
             {
-                MessageBox.Show(s.ToString1());
+                SolutionConfig.OtherMode.SnapMode = (int)s;
             };
+            SoftwareConfig.WindowSetting.DrawGraphicsOptionsChanged += (s) =>
+            {
+                SolutionConfig.OtherMode.InkMode = (int)s;
+               WindowData1.AllInkStrokeClear();
+
+            };
+            //Common.Config.ConfigReadEvent += ReadConfig;
+            //Common.Config.ConfigSetEvent += SetValue;
+            //Common.Config.ConfigWriteEvent += SaveConfig;
             Hardware_Initialized();
         }
 
         public string FilePath;
-
         public MulDimensional MulDimensional = new();
-
         public Stage Stage = new() {};
-
         public OperatingMode OperatingMode = new();
-        
-
         public SolutionConfig SolutionConfig = new();
         public MulSummary mulSummary = new();
         public UpdateStatus updateStatus = new();
-
 
         public void SetValue()
         {
@@ -100,7 +111,6 @@ namespace Global
                 MulDimensional.ZStart = SolutionConfig.Dimensional.ZstackWiseSerial.ZBegin;
                 MulDimensional.Zstep = SolutionConfig.Dimensional.ZstackWiseSerial.ZStep;
                 MulDimensional.ZEnd = SolutionConfig.Dimensional.ZstackWiseSerial.ZEnd;
-
                 OperatingMode.SetValue(SolutionConfig.OperatingMode);
                 Stage.SetValue(SolutionConfig.Stage);
                 ImageViewState.SetValue(SolutionConfig.ImageViewState);
@@ -126,11 +136,8 @@ namespace Global
             SolutionConfig.LastOpenTime = DateTime.Now.ToString();
             SolutionConfig.Dimensional.Saveprefix = ConfigFullName;
             SolutionConfig.ToJsonFile(ConfigFullName);
+            SaveCustomConfig(ConfigFullName, ObjList);
         }
-
-
-      
-
 
 
 
@@ -159,6 +166,9 @@ namespace Global
                 JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
                 jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
                 SolutionConfig = JsonSerializer.Deserialize<SolutionConfig>(result, jsonSerializerOptions);
+                ReadCustomConfig(result, ObjList);
+
+
             }
             catch (Exception ex)
             {
@@ -168,5 +178,15 @@ namespace Global
             FilePath = ConfigFullName;
             return 0;
         }
+
+
+
+      
+
+
+
+
+
+
     }
 }

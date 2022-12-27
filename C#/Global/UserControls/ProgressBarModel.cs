@@ -52,10 +52,6 @@ namespace Global
 			}
 		}
 
-
-
-
-
 		private double maxMum = 0;
 
 		public double MaxMum

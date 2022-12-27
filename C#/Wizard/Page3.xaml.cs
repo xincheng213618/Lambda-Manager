@@ -115,11 +115,11 @@ namespace Wizard
                                 objective["WD"] = new JsonObject();
                                 foreach (var item in DefaultObjectiveConfig)
                                 {
-                                    objective["magnitude"][item.ObjectiveKey] = item.Magnitude;
-                                    objective["NA"][item.ObjectiveKey] = item.NA;
-                                    objective["achromatic"][item.ObjectiveKey] = item.Achromatic;
-                                    objective["multiple"][item.ObjectiveKey] = item.Multiple;
-                                    objective["WD"][item.ObjectiveKey] = item.WorkingDistance;
+                                    objective["magnitude"]![item.ObjectiveKey] = item.Magnitude;
+                                    objective["NA"]![item.ObjectiveKey] = item.NA;
+                                    objective["achromatic"]![item.ObjectiveKey] = item.Achromatic;
+                                    objective["multiple"]![item.ObjectiveKey] = item.Multiple;
+                                    objective["WD"]![item.ObjectiveKey] = item.WorkingDistance;
 
                                 }
                             }
@@ -129,7 +129,7 @@ namespace Wizard
                                 jsonArray.Add(item.ObjectiveKey);
                             }
                             lamdbda["lambda-manager"] = new JsonObject();
-                            lamdbda["lambda-manager"]["objective-keys"] = jsonArray;
+                            lamdbda["lambda-manager"]!["objective-keys"] = jsonArray;
                         }
                         else
                         {
@@ -148,7 +148,7 @@ namespace Wizard
                             JsonArray jsonArray = new JsonArray();
                             jsonArray.Add(SelectObjective.ObjectiveKey);
                             lamdbda["lambda-manager"] = new JsonObject();
-                            lamdbda["lambda-manager"]["objective-keys"] = jsonArray;
+                            lamdbda["lambda-manager"]!["objective-keys"] = jsonArray;
                         }
 
                     }

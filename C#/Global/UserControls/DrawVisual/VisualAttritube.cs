@@ -15,10 +15,6 @@ namespace Global.UserControls.DrawVisual
         public int LineType { get; set; }
         public Color Color { get; set; }
 
-        //public Point Point2 { get; set; }
-        //public Point Point3 { get; set; }
-        //public Point Point4 { get; set; }
-
         public WinProperty winProperty { get; set; } = new WinProperty();
         public List<Point> PointList { get; set; }= new List<Point>(){new Point(0,0) };
 

@@ -15,11 +15,12 @@ namespace Global
             deviceInformation = new DeviceInformation()
             {
                 ObjectiveSettings = new() {
-                        new ObjectiveSetting() { ID = 0, Name = "奥林巴斯", Magnitude = "4X", NA = 0.1, IsEnabled = true },
-                        new ObjectiveSetting() { ID = 1, Name = "奥林巴斯", Magnitude = "10X", NA = 0.25, IsEnabled = true  },
+
+                        new ObjectiveSetting() { ID = 0, Name = "奥林巴斯", Magnitude = "10X", NA = 0.1, IsEnabled = true },
+                        new ObjectiveSetting() { ID = 1, Name = "奥林巴斯", Magnitude = "10PX", NA = 0.25, IsEnabled = true  },
                         new ObjectiveSetting() { ID = 2, Name = "奥林巴斯", Magnitude = "20X", NA = 0.4, IsEnabled = true },
                         new ObjectiveSetting() { ID = 3, Name = "奥林巴斯", Magnitude = "40X", NA = 0.65, IsEnabled = true },
-                        new ObjectiveSetting() { ID = 4, Name = "奥林巴斯", Magnitude = "100X", NA = 0.65, IsEnabled = false },
+                        //new ObjectiveSetting() { ID = 4, Name = "奥林巴斯", Magnitude = "100X", NA = 0.65, IsEnabled = false },
                     },
                 CameraResolution = Const.CameraResolution
 

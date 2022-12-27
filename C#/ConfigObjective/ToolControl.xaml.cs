@@ -328,12 +328,9 @@ namespace ConfigObjective
             timer.Start();
             timers.Add(type, timer);
         }
-
-
         
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
-            
             //Application.Current.Dispatcher.Invoke(delegate
             //{
             //    WaitContorl.GetInstance().Hidden();
@@ -343,10 +340,7 @@ namespace ConfigObjective
             LambdaControl.Trigger("QUANTITATIVE_PHASE_REG", Slider351, data);
            // MessageBox.Show(e.SignalTime.ToString());
 
-
         }
-
-
 
         private void Slider351_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

@@ -32,15 +32,11 @@ namespace ConfigObjective.UserControls
             //moveButton.AddHandler(Button.MouseRightButtonDownEvent, new MouseButtonEventHandler(mapCanvas_MouseRightButtonDown), true);
             //moveButton.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler(mapCanvas_MouseLeftButtonUp), true);
             //moveButton.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler(mapCanvas_MouseRightButtonUp), true);
-            var descriptor
-             = DependencyPropertyDescriptor.FromProperty(
-              Canvas.LeftProperty, typeof(Label));
-
+            var descriptor = DependencyPropertyDescriptor.FromProperty(Canvas.LeftProperty, typeof(Label));
             descriptor.AddValueChanged(moveButton, moveButtonLeft);
-            var descriptor1
-             = DependencyPropertyDescriptor.FromProperty(
-              Canvas.LeftProperty, typeof(Label));
 
+
+            var descriptor1= DependencyPropertyDescriptor.FromProperty(Canvas.LeftProperty, typeof(Label));
             descriptor1.AddValueChanged(moveButton, moveButtonTop);
         }
 

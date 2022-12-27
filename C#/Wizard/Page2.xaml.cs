@@ -67,9 +67,11 @@ namespace Wizard
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            button.BorderThickness = new Thickness(2,2,2,2);
-            page2ViewMode.IsSelect = true;
+            if (sender is Button button)
+            {
+                button.BorderThickness = new Thickness(2, 2, 2, 2);
+                page2ViewMode.IsSelect = true;
+            }
         }
     }
 }

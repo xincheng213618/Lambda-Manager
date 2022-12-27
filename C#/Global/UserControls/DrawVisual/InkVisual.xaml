@@ -75,26 +75,7 @@
         <Border BorderBrush="Transparent" BorderThickness="1" x:Name="Border" Margin="-1"></Border>
         <InkCanvas
             EditingMode="None"    Background="Transparent"  x:Name="inkCanvas"  MouseLeftButtonDown="inkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="inkCanvas_MouseLeftButtonUp" MouseMove="inkCanvas_MouseMove" MouseWheel="inkCanvas_MouseWheel"  PreviewKeyDown="inkCanvas_PreviewKeyDown" MouseLeave="inkCanvas_MouseLeave" MouseRightButtonDown="inkCanvas_MouseRightButtonDown" SelectionChanged="inkCanvas_SelectionChanged"  SelectionMoved="inkCanvas_SelectionMoved" SelectionResized="inkCanvas_SelectionResized" SelectionChanging="inkCanvas_SelectionChanging" ActiveEditingModeChanged="inkCanvas_ActiveEditingModeChanged" EditingModeChanged="inkCanvas_EditingModeChanged" MouseDown="inkCanvas_MouseDown" PreviewMouseDown="inkCanvas_PreviewMouseDown" Loaded="inkCanvas_Loaded" >
-            <InkCanvas.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="切换成像模式">
-                        <rmenuitem:RadioMenuItem    Header="明场" Checked="RadioMenuItem_Checked" ></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="暗场" ></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="莱茵伯格" ></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="差分" ></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="相位" ></rmenuitem:RadioMenuItem>
-                        <rmenuitem:RadioMenuItem    Header="相差" ></rmenuitem:RadioMenuItem>
-                    </MenuItem>
-                    <MenuItem Header="导出(_E)" FontSize="14" >  
-                        <MenuItem Header="导出PNG..."  FontSize="14"   Click="MenuItem_Click"  />
-                        <MenuItem Header="导出BMP..."  FontSize="14"  Click="MenuItem_Click" />
-                        <MenuItem Header="导出JPEG..." FontSize="14"   Click="MenuItem_Click" />
-                        <MenuItem Header="导出TIFF..." FontSize="14"    Click="MenuItem_Click" />
-
-
-                    </MenuItem>
-                </ContextMenu>
-            </InkCanvas.ContextMenu>
+           
             <Canvas Width="auto" x:Name="defaultDim" Height="auto"  InkCanvas.Left="20" InkCanvas.Top="20" Visibility="Visible" Background="Transparent">
                 <TextBlock Name="dimText"   Foreground="{Binding TextColor,Converter={StaticResource colorBrush}}" Canvas.Left="15" Canvas.Top="0">
                                      <Run Text="{Binding DimLength,StringFormat='F0'}"/>

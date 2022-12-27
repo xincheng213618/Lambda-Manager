@@ -13,6 +13,7 @@ using System.Windows.Media;
 using Global.Common.Extensions;
 using ConfigObjective.UserControls;
 using System.Linq;
+using System.Text.Json;
 
 namespace ConfigObjective
 {
@@ -253,7 +254,7 @@ namespace ConfigObjective
 				//	ToggleButton toggleAlive = (ToggleButton)dockPanel.Children[0];
 				//	StackPanel stackPanel = (StackPanel)dockPanel.Children[1];
 				//	ToggleButton toggleAcquire = (ToggleButton)stackPanel.Children[0];
-					
+
 				//	if (toggleAlive != null && toggleAlive.IsChecked == false)
 				//		{
 
@@ -262,8 +263,10 @@ namespace ConfigObjective
 				//			LambdaControl.Trigger("STOP_ALIVE", this, new Dictionary<string, object>() { });
 				//			EventArgs eventArgs = new EventArgs();
 				//	}
-					
+
 				//}
+			   // string xx=	JsonSerializer.Serialize(testMean);
+			
 				LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
 				
 

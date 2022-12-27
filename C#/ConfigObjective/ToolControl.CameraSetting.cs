@@ -135,6 +135,7 @@ namespace ConfigObjective
             {
                 LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "format", ComboBox1.SelectedItem } });
             }
+            Global.DrawInkMethod.Resolution.Res = ComboBox1.SelectedIndex;
         }
 
 

@@ -18,16 +18,84 @@ namespace Global
     public partial class WindowData1
     {
 
-        StreamResourceInfo sriEraser = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Eraser.cur", UriKind.Relative));
-        StreamResourceInfo sriHold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
-        StreamResourceInfo sriRuler = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
-        StreamResourceInfo sriZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
-        StreamResourceInfo sriZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
-        Cursor eraserCursor;
-        Cursor holdCursor;
-        Cursor rulerCursor;
-        Cursor zoomOutCursor;
-        Cursor zoomInCursor;
+        //StreamResourceInfo sriEraser = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Eraser.cur", UriKind.Relative));
+        //StreamResourceInfo sriHold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
+        //StreamResourceInfo sriRuler = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
+        //StreamResourceInfo sriZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
+        //StreamResourceInfo sriZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
+        //Cursor eraserCursor;
+        //Cursor holdCursor;
+        //Cursor rulerCursor;
+        //Cursor zoomOutCursor;
+        //Cursor zoomInCursor;
+
+        private void RatioTextBind(Window mainwin)
+        {
+            TextBox ratioTextBox = (TextBox)mainwin.FindName("ratio");
+            Binding bindingRatio = new Binding("Ratio")
+            {
+                Mode = BindingMode.TwoWay,
+            };
+            bindingRatio.Source = updateStatus;
+            bindingRatio.Converter = new ValueClassTodPercentonverter();
+            ratioTextBox.SetBinding(TextBox.TextProperty, bindingRatio);
+            ratioTextBox.PreviewKeyDown += (s, e) =>
+            {
+
+                if (e.Key == Key.Enter)
+                {
+                    var traversalRequest = new TraversalRequest(FocusNavigationDirection.Down);
+                    ratioTextBox.MoveFocus(traversalRequest);
+                }
+
+            };
+            double ReRatio = 1;
+            updateStatus.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "Ratio")
+                {
+                    if (!DrawInkMethod.ZoomWard)
+                    {
+                        ReRatio = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio;
+                        double ratio = updateStatus.Ratio / 100.0;
+                        Matrix matrix = new Matrix();
+                        double centerX = inkVisuals[0].inkCanvas.ActualWidth / 2.0;
+                        double centerY = inkVisuals[0].inkCanvas.ActualHeight / 2.0;
+
+                        //  ReRatio =1/ReRatio * ratio;
+                        matrix.ScaleAt(ratio / ReRatio, ratio / ReRatio, centerX, centerY);
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes.Transform(matrix, false);
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio = ratio;
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft * matrix;
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight * matrix;
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ZoomParTransform(inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin]);
+                        InkDimViewModel inkDimViewModel = new InkDimViewModel();
+                        inkDimViewModel = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel;
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
+                        DrawInkMethod.StrokesCollection.Clear();
+                        inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].FilterStroke(1, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas);
+
+                    }
+
+                };
+
+
+                if (e.PropertyName == "BFCheckEnable" || e.PropertyName == "DFCheckEnable" || e.PropertyName == "RICheckEnable" || e.PropertyName == "DPCheckEnable" || e.PropertyName == "QPCheckEnable" || e.PropertyName == "PCCheckEnable")
+                {
+
+                    ActiveModeMatch(e.PropertyName);
+
+                }
+
+
+            };
+
+
+
+        }
+
+
+
         private void AddInjection1()
         {
             Window mainwin = System.Windows.Application.Current.MainWindow;
@@ -55,147 +123,7 @@ namespace Global
                 Grid.SetRow(inkVisual, 0);
 
 
-
-                TextBox ratioTextBox = (TextBox)mainwin.FindName("ratio");
-                //ratioTextBox.Background = Brushes.Black;
-                Binding bindingRatio = new Binding("Ratio")
-                {
-                    Mode = BindingMode.TwoWay,
-                    // UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-
-
-                bindingRatio.Source = updateStatus;
-                bindingRatio.Converter = new ValueClassTodPercentonverter();
-                ratioTextBox.SetBinding(TextBox.TextProperty, bindingRatio);
-                ratioTextBox.PreviewKeyDown += (s, e) =>
-                {
-
-                    if (e.Key == Key.Enter)
-                    {
-                        var traversalRequest = new TraversalRequest(FocusNavigationDirection.Down);
-                        ratioTextBox.MoveFocus(traversalRequest);
-                    }
-
-                };
-
-
-
-                double ReRatio = 1;
-
-                updateStatus.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
-                {
-                    if (e.PropertyName == "Ratio")
-                    {
-                        if (!DrawInkMethod.ZoomWard)
-                        {
-                            ReRatio = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio;
-                            double ratio = updateStatus.Ratio / 100.0;
-                            Matrix matrix = new Matrix();
-                            double centerX = inkVisuals[0].inkCanvas.ActualWidth / 2.0;
-                            double centerY = inkVisuals[0].inkCanvas.ActualHeight / 2.0;
-
-                            //  ReRatio =1/ReRatio * ratio;
-                            matrix.ScaleAt(ratio / ReRatio, ratio / ReRatio, centerX, centerY);
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes.Transform(matrix, false);
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio = ratio;
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecTopLeft * matrix;
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].RecBottomRight * matrix;
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ZoomParTransform(inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes, inkVisuals[DrawInkMethod.ActiveViews.ActiveWin]);
-                            InkDimViewModel inkDimViewModel = new InkDimViewModel();
-                            inkDimViewModel = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel;
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].drawDefaultDim(inkDimViewModel.DimPos, inkDimViewModel.DimLength, inkDimViewModel.DimColor, ratio, inkDimViewModel.TextColor);
-                            DrawInkMethod.StrokesCollection.Clear();
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].FilterStroke(1);
-
-                        }
-
-                    };
-      
-
-                    if (e.PropertyName =="BFCheckEnable"|| e.PropertyName == "DFCheckEnable"|| e.PropertyName == "RICheckEnable" || e.PropertyName == "DPCheckEnable" || e.PropertyName == "QPCheckEnable" || e.PropertyName == "PCCheckEnable")
-                    {
-
-                        ActiveModeMatch(e.PropertyName);
-
-                    }
-
-
-                };
-
-
-                ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
-                {
-
-                    if (e.PropertyName == "EraserChecked")
-                    {
-                        if (ImageViewState.toolTop.EraserChecked == true)
-                        {
-                           
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-                            inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.UseCustomCursor = true;
-                            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
-                            inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
-                        }
-                        else
-                        {
-                            inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-                            inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                        }
-                    }
-                    else if (e.PropertyName == "RulerChecked")
-                    {
-
-                        if (ImageViewState.toolTop.RulerChecked == true)
-                        {
-
-                            inkVisual.inkCanvas.UseCustomCursor = true;
-                            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
-                            inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
-
-                        }
-                        else
-                        {
-                            inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-
-                        }
-                    }
-
-                    else if ((bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
-                    {
-                        inkVisual.inkCanvas.Cursor = Cursors.Cross;
-                        // drawing Mode
-                        inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                    }
-                    else if ((bool)ImageViewState.toolTop.MoveChecked)
-                    {
-                        inkVisual.inkCanvas.Cursor = Cursors.Hand;
-
-                    }
-                    else
-                    {
-                        inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-                    };
-
-                    if (e.PropertyName == "SelectChecked")
-                    {
-
-                        if ((bool)ImageViewState.toolTop.SelectChecked)
-                        {
-                            inkVisual.Visibility = Visibility.Visible;
-
-                        }
-                        else
-                        {
-                            inkVisual.Visibility = Visibility.Visible;
-
-                        }
-
-
-                    }
-
-
-                };
+                RatioTextBind(mainwin);
 
                 inkVisual.inkCanvas.EditingModeChanged += (s, e) =>
                 {
@@ -251,7 +179,7 @@ namespace Global
 
                             inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes, inkVisual);
                             DrawInkMethod.StrokesCollection.Clear();
-                            inkVisual.FilterStroke(1);
+                            inkVisual.FilterStroke(1, inkVisual.inkCanvas);
                             //  RepaintDim();
                             double ratio = inkVisual.ratio1.Ratio;
                             WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
@@ -288,7 +216,7 @@ namespace Global
                             inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
                             inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes, inkVisual);
                             DrawInkMethod.StrokesCollection.Clear();
-                            inkVisual.FilterStroke(1);
+                            inkVisual.FilterStroke(1,inkVisual.inkCanvas);
                             double ratio = inkVisual.ratio1.Ratio;
                             WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
                             inkVisual.drawDefaultDim(inkVisual.inkDimViewModel.DimPos, inkVisual.inkDimViewModel.DimLength, inkVisual.inkDimViewModel.DimColor, inkVisual.ratio1.Ratio, inkVisual.inkDimViewModel.TextColor);
@@ -313,6 +241,8 @@ namespace Global
                     {
                         case MessageBoxResult.Yes:
                             inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.Strokes.Clear();
+
+                           // inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].StrokeTransforAdapter(inkVisuals[DrawInkMethod.ActiveViews.ActiveWin]);
                             break;
                         case MessageBoxResult.No:
                             break;
@@ -438,41 +368,7 @@ namespace Global
                     }
                   
                 };
-
-
-
-
-                DrawInkMethod.StaticPropertyChanged += delegate
-                {
-                    DrawInkMethod.ActiveInk = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
-                    foreach (InkVisual k in WindowData1.GetInstance().inkVisuals)
-                    {
-                        if (k != null)
-                        {
-                            if (ImageViewState.toolTop.EraserChecked)
-                            {
-                                k.inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-                            }
-                            else
-                            {
-                                k.inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                            }
-
-
-                        }
-                    }
-                    DrawInkMethod.defdimenViewModel.DefDimReadOnly = false;
-                    WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ratio1.Ratio, 2) * 100);
-
-                    DrawInkMethod.defdimenViewModel.DimPos = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimPos;
-                    DrawInkMethod.defdimenViewModel.SelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimColor;
-                    DrawInkMethod.defdimenViewModel.Length = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.DimLength;
-                    DrawInkMethod.defdimenViewModel.TextSelectedAccentColor = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkDimViewModel.TextColor;
-                    DrawInkMethod.defdimenViewModel.DefDimReadOnly = true;
-
-                };
-
-
+              
             }
             catch (Exception ex)
             {
@@ -483,7 +379,7 @@ namespace Global
 
 
         }
-        private void findWindowMode(int i)
+        private void GetWindowMode(int i)
         {
             bool isExist = false;
             if (inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].ActiveMode != i)
@@ -501,16 +397,9 @@ namespace Global
                 {
                     LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 }, { "window", DrawInkMethod.ActiveViews.ActiveWin }, { "mode1", i }, { "mode2", -1 } });
                 }
-
             }
 
-
-
         }
-
-
-
-
 
 
         private void ActiveModeMatch(string mode)
@@ -519,44 +408,41 @@ namespace Global
             {
                 case "BFCheckEnable":
                     if (updateStatus.BFCheckEnable)
-                        findWindowMode(0);
+                        GetWindowMode(0);
                     break;
                 case "DFCheckEnable":
                     if (updateStatus.DFCheckEnable)
                     {
-                        findWindowMode(1);
+                        GetWindowMode(1);
                     }
                     break;
                 case "RICheckEnable":
                     if (updateStatus.RICheckEnable)
                     {
-                        findWindowMode(2);
+                        GetWindowMode(2);
                     }
                     break;
                 case "DPCheckEnable":
                     if (updateStatus.DPCheckEnable)
                     {
-                        findWindowMode(3);
+                        GetWindowMode(3);
                     }
                     break;
                 case "QPCheckEnable":
                     if (updateStatus.QPCheckEnable)
                     {
-                        findWindowMode(4);
+                        GetWindowMode(4);
                     }
                     break;
                 case "PCCheckEnable":
                     if (updateStatus.PCCheckEnable)
                     {
-                        findWindowMode(5);
+                        GetWindowMode(5);
                     }
                     break;
                 default:
                     return;
             }
-
-
-
 
         }
     }

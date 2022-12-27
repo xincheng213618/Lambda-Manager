@@ -44,6 +44,8 @@ namespace Global
         GalleryView.GalleryTool galleryTool;
         ToggleButton RepoTogg;
 
+
+
         private void AddInjection()
         {
 
@@ -150,7 +152,9 @@ namespace Global
 
 
                 };
+
                 int tempSelectedIndex = 0;
+                //拉线剖析
 
                 ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
                 {
@@ -266,15 +270,12 @@ namespace Global
             }
 
 
-            // right toolBar
+            // 右侧工具栏
             try
             {
                 Border imagingView = (Border)mainwin.FindName("imagingView");
                 StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
-
-
                 Grid stackPanelParent = (Grid)stackPanel.Parent;
-
                 WrapPanel WrapPanel1 = (WrapPanel)mainwin.FindName("rightToolbar");
                 //检测如果找不到rightToolbar 直接退出
                 if (WrapPanel1 == null)
@@ -388,10 +389,6 @@ namespace Global
                 ContentControl repo = new ContentControl();
                 repo.Template = (ControlTemplate)resourceDictionary["repo"];
                 RepoTogg.Content = repo;
-
-
-
-                
 
                 RepoTogg.Checked += (s, e) =>
                 {
@@ -595,10 +592,7 @@ namespace Global
                     }
                     if (inkVisuals[0] != null)
                     {
-                        if (inkVisuals[0].inkCanvas.ContextMenu != null)
-                        {
-                            
-                        }
+                       
                         inkVisuals[0].BorderBrush =new SolidColorBrush(Colors.Transparent);
                         WindowData1.GetInstance().inkVisuals[0].Border.BorderBrush = new SolidColorBrush(Colors.Transparent);
                     }
@@ -790,8 +784,8 @@ namespace Global
                 System.Windows.MessageBox.Show(ex.Message);
             }
 
-
-            try   //bottomBar
+            // 底部工具栏
+            try  
             {
                 WrapPanel bottomToolbar = (WrapPanel)mainwin.FindName("bottomToolbar");
 
@@ -964,7 +958,7 @@ namespace Global
                 ProgressBarV progressBarV = new ProgressBarV();
                 progressBarV.DataContext = progressBarModel;
                 rightToolbar.Children.Insert(13, progressBarV);
-                progressBarV.Margin = new Thickness(0, -15, 0, -10);
+                progressBarV.Margin = new Thickness(0, -15, 0, 0);
 
 
 
@@ -975,6 +969,7 @@ namespace Global
                 System.Windows.MessageBox.Show(ex.Message);
 
             }
+            // 属性栏
             try
             {
 
@@ -1015,16 +1010,13 @@ namespace Global
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
-
+            // 顶部工具栏
 
             try
             {
 
-
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
                 topToolbar.DataContext = ImageViewState.toolTop;
-
-
                 Binding binding0 = new Binding("SelectChecked");
                 ToggleButton ToggleButtonSelect = ((ToggleButton)topToolbar.Children[0]);
                 ToggleButtonSelect.SetBinding(ToggleButton.IsCheckedProperty, binding0);
@@ -1033,8 +1025,6 @@ namespace Global
                 ContentControl select = new ContentControl();
                 select.Template = (ControlTemplate)resourceDictionary["select"];
                 ToggleButtonSelect.Content = select;
-
-
                 Binding binding1 = new Binding("InlineChecked");
                 ToggleButton ToggleButtonInline = ((ToggleButton)topToolbar.Children[1]);
                 ToggleButtonInline.SetBinding(ToggleButton.IsCheckedProperty, binding1);
@@ -1044,9 +1034,6 @@ namespace Global
                 ContentControl inCline = new ContentControl();
                 inCline.Template = (ControlTemplate)resourceDictionary["inCline"];
                 ToggleButtonInline.Content = inCline;
-
-
-
                 Binding binding2 = new Binding("MoveChecked");
                 ToggleButton ToggleButtonMove = ((ToggleButton)topToolbar.Children[2]);
                 ToggleButtonMove.SetBinding(ToggleButton.IsCheckedProperty, binding2);
@@ -1263,18 +1250,6 @@ namespace Global
                 {
                     System.Windows.MessageBox.Show(ex.Message);
                 }
-
-
-
-                //ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[21]);
-                //ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
-                //ToggleButtonEraser.Margin = new Thickness(3, 0, 3, 0);
-
-                //ToggleButtonEraser.Padding = new Thickness(-1, -1, 0, 0);
-                //ContentControl eraser = new ContentControl();
-                //eraser.Template = (ControlTemplate)resourceDictionary["eraser"];
-                //ToggleButtonEraser.Content = eraser;
-
 
                 ToggleButton selectAllTogg  = ((ToggleButton)topToolbar.Children[21]);
                 selectAllTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkAllSelected"));
@@ -1542,13 +1517,12 @@ namespace Global
                 border.Child = grid1;
                 grid1.Children.Add(bottomToolBar1);
                 grid1.Children.Add(galleryTool);
+
                 galleryView.mode.PropertyChanged += (s, e) =>
 
                 {
-
                     if (e.PropertyName == "CurrentMode")
                     {
-
                        // MessageBox.Show("2");
                         switch (galleryView.mode.CurrentMode)
                         {
@@ -1556,7 +1530,6 @@ namespace Global
                                 if (updateStatus.BFCheckEnable == false)
                                 {
                                     updateStatus.BFCheckEnable= true;
-
                                 };
                                 break;
                             case "DF":
@@ -1609,6 +1582,27 @@ namespace Global
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
+            }
+
+            // 拍照回显，拍照后继续预览
+            try
+            {
+                
+                Grid stageAcquisition = (Grid)mainwin.FindName("stageAcquisition");
+                DockPanel dockPanel = (DockPanel)stageAcquisition.Children[1];
+                StackPanel stackPanel1 = (StackPanel)dockPanel.Children[1];
+                Button Snap = (Button)stackPanel1.Children[1];
+                Snap.Click += (s, e) =>
+                {
+                    int mode = WindowData.GetInstance().SolutionConfig.OtherMode.SnapMode.Value;
+                    //MessageBox.Show(mode.ToString());
+                    LambdaControl.Trigger("SNAP_SHOT1", this, new Dictionary<string, object> { { "mode", mode } });
+
+                };
+            }
+            catch
+            {
+
             }
 
 

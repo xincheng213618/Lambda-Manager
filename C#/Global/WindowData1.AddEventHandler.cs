@@ -50,7 +50,6 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("MUL_TIME_INTERVAL", Mul_TInterval, false);
 
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
-            LambdaControl.AddLambdaEventHandler("SNAPSHOT", Snapshot, false);
 
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
@@ -77,6 +76,11 @@ namespace Global
             // QUICK_EXPORT 
             
             LambdaControl.AddLambdaEventHandler("QUICK_EXPORT_PATHBACK", ImageExportAs, false);
+            //ContextMenu
+            LambdaControl.AddLambdaEventHandler("VIEW_CONTEXTMENU_BACK", UpdateContextMenu, false);
+            LambdaControl.AddLambdaEventHandler("VIEW_CONTEXTMENU_BACK1", UpdateContextMenu1, false);
+
+
         }
 
         private bool StaheIniClose(object sender, EventArgs e)
@@ -87,52 +91,45 @@ namespace Global
             });
             return true;
         }
-
-        private bool windowsMode(object sender, EventArgs e)
+         private bool UpdateContextMenu(object sender, EventArgs e)
         {
+           
+            Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
+          
+            if (eventData == null)
+                return false;
+           
+                if (!string.IsNullOrEmpty(eventData.GetString("status")))
+                contextMenuPar.status = int.Parse(eventData.GetString("status"));
+                if (!string.IsNullOrEmpty(eventData.GetString("count")))
+                contextMenuPar.count = int.Parse(eventData.GetString("count"));
+                if (!string.IsNullOrEmpty(eventData.GetString("mode")))
+                contextMenuPar.mode = int.Parse(eventData.GetString("mode"));
+                if (!string.IsNullOrEmpty(eventData.GetString("mode1")))
+                contextMenuPar.mode1 = int.Parse(eventData.GetString("mode1"));
+
+            return true;
+        }
+        private bool UpdateContextMenu1(object sender, EventArgs e)
+        {
+
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
 
             if (eventData == null)
                 return false;
-            Application.Current.Dispatcher.Invoke(delegate
+            string modeList = eventData.GetString("modes");
+            if (modeList != null)
             {
+                Modes List = JsonSerializer.Deserialize<Modes>(modeList);
+                contextMenuPar.modes = List.modes;
 
-                if (!string.IsNullOrEmpty(eventData.GetString("Min")))
-                    progressBarModel.MiniMum = double.Parse(eventData.GetString("Min"));
-                if (!string.IsNullOrEmpty(eventData.GetString("Max")))
-                    progressBarModel.MaxMum = double.Parse(eventData.GetString("Max"));
-                if (!string.IsNullOrEmpty(eventData.GetString("Current")))
-                    progressBarModel.Current = double.Parse(eventData.GetString("Current"));
-                if (!string.IsNullOrEmpty(eventData.GetString("LoadingMax")))
-                    progressBarModel.LoadingMax = double.Parse(eventData.GetString("LoadingMax"));
-                if (!string.IsNullOrEmpty(eventData.GetString("MinZ")))
-                    progressBarModel.MiniMumZ = double.Parse(eventData.GetString("MinZ"));
-                if (!string.IsNullOrEmpty(eventData.GetString("MaxZ")))
-                    progressBarModel.MaxMumZ = double.Parse(eventData.GetString("MaxZ"));
-                if (!string.IsNullOrEmpty(eventData.GetString("CurrentZ")))
-                    progressBarModel.CurrentZ = double.Parse(eventData.GetString("CurrentZ"));
-                if (!string.IsNullOrEmpty(eventData.GetString("LoadingMaxZ")))
-                    progressBarModel.LoadingMaxZ = double.Parse(eventData.GetString("LoadingMaxZ"));
-                if (!string.IsNullOrEmpty(eventData.GetString("SliderValueH")))
-                    progressBarModel.SliderValueH = double.Parse(eventData.GetString("SliderValueH"));
-                if (!string.IsNullOrEmpty(eventData.GetString("SliderValueV")))
-                    progressBarModel.SliderValueV = double.Parse(eventData.GetString("SliderValueV"));
-
-            });
+            }
 
             return true;
-
-
         }
 
 
-
-
-
-
-
-
-
+     
         private bool CollectionCompleted(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
@@ -340,62 +337,7 @@ namespace Global
             return true;
 
         }
-        private bool Snapshot(object sender, EventArgs e)
-        {
-          
-            SaveToPng(inkVisuals[0]);
-
-            return true;
-
-        }
-
-
-        private  void SaveToPng(FrameworkElement visual)
-        {
-            //inkVisuals[0].backCanvas.Visibility = Visibility.Visible;
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
-            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-            bitmap.Render(visual);
-            BitmapFrame frame = BitmapFrame.Create(bitmap);    
-            encoder.Frames.Add(frame);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                encoder.Save(stream);
-                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
-                System.Drawing.Image sbmpthum = image.GetThumbnailImage(1280, 960, () => { return false; }, IntPtr.Zero);
-                MemoryStream ms = new MemoryStream();
-                sbmpthum.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                byte[] bytes = BitmpToByte((Bitmap)sbmpthum);
-                LambdaControl.Trigger("INKDATA_TRANSFER", this, bytes);
-            }
-            
-            //inkVisuals[0].backCanvas.Visibility = Visibility.Hidden;
-
-        }
-       
-
-        private byte[] BitmpToByte(System.Drawing.Bitmap bmp)
-        {
-            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
-            int ch = System.Drawing.Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
-            int rowBytes = bmpData.Width * ch;
-            int imgBytes = bmp.Height * rowBytes;
-            byte[] rgbValues = new byte[imgBytes];
-            IntPtr ptr = bmpData.Scan0;
-            for (int j = 0; j < bmp.Height; j++)
-            {
-                Marshal.Copy(ptr, rgbValues, j * rowBytes, rowBytes);   //对齐
-                ptr += bmpData.Stride; // next row
-            }
-            bmp.UnlockBits(bmpData);
-            //string result = Encoding.UTF8.GetString(rgbValues);
-            //string path = "C://Users//15850//Desktop//RGB.txt";
-            //File.WriteAllText(path, result);
-            return rgbValues;
-           
-        }
-
+      
        
 
 
@@ -609,6 +551,12 @@ namespace Global
         {
             public List<List<int>> Points { get; set; } = new List<List<int>>();
         }
+
+        public class Modes
+        {
+            public List<int> modes { get; set; } = new List<int>();
+        }
+
 
  
         private bool ProfileCollectionP(object sender, EventArgs e)
@@ -1006,13 +954,35 @@ namespace Global
                 LambdaControl.Trigger("QUICK_EXPORT_FULLPATH", null, new Dictionary<string, object> { { "view", i } });
 
             }
-            string PATH = "C:\\1\\LambdaManager\\test\\Image\\Image 3.grif";
-            string TYPE = "导出PNG...";
-            ExportAsWindow exportAsWindow = new ExportAsWindow(PATH, TYPE);
-            exportAsWindow.ShowDialog();
+            //string PATH = "C:\\1\\LambdaManager\\test\\Image\\Image 3.grif";
+            //string TYPE = "导出PNG...";
+            //ExportAsWindow exportAsWindow = new ExportAsWindow(PATH, TYPE);
+            //exportAsWindow.ShowDialog();
 
 
         }
+        public static void AllImageExportAsPath(object sender, EventArgs e)
+        {
+            if (sender is MenuItem menuItem)
+            {
+                int i = DrawInkMethod.ActiveViews.ActiveWin;
+                ImageExportType.Type = menuItem.Header.ToString();
+
+
+                LambdaControl.Trigger("QUICK_EXPORT_All", null, new Dictionary<string, object> { });
+
+            }
+            //string PATH = "C:\\1\\LambdaManager\\test\\Image\\Image 3.grif";
+            //string TYPE = "导出PNG...";
+            //ExportAsWindow exportAsWindow = new ExportAsWindow(PATH, TYPE);
+            //exportAsWindow.ShowDialog();
+
+
+        }
+
+
+
+
         private  bool ImageExportAs(object sender, EventArgs e)
         {
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
@@ -1040,75 +1010,377 @@ namespace Global
 
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
-        List<string> ImageExportAsString = new List<string>() { "导出PNG...", "导出BMP...",  "导出JPEG...", "导出TIFF..."};
+        static  List<string> ImageExportAsString = new List<string>() { "导出PNG...", "导出BMP...",  "导出JPEG...", "导出TIFF..."};
         private void AddViewContentMenu(int view, List<int> ints)
         {
-            if (view >= 0 && view <= inkVisuals.Length && inkVisuals[view] != null)
-            {
-                ContextMenu contextMenu = new ContextMenu();
-                List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
-                MenuItem menuItem1 = new MenuItem() { Header= "切换成像模式",FontSize= 14};
-                MenuItem menuItem2= new MenuItem() { Header = "导出(_E)", FontSize = 14 };
-                bool IsLeft = true;
-                for (int i = 0; i < ViewContentMenuContent.Count; i++)
-                {
-                    RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
-                    int mode = i;
-                    radioMenuItem.Click += delegate
-                    {
-                        radioMenuItem.IsChecked = true;
-                        if (ints.Count == 1)
-                        {
-                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
-                           // ModeMatch(mode);
+            //if (view >= 0 && view <= inkVisuals.Length && inkVisuals[view] != null)
+            //{
+            //    ContextMenu contextMenu = new ContextMenu();
+            //    List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
+            //    MenuItem menuItem1 = new MenuItem() { Header= "切换成像模式",FontSize= 14};
+            //    MenuItem menuItem2= new MenuItem() { Header = "导出", FontSize = 14 };
+            //    MenuItem menuItem3 = new MenuItem() { Header= "全部导出", FontSize = 14 };
+            //    bool IsLeft = true;
+            //    for (int i = 0; i < ViewContentMenuContent.Count; i++)
+            //    {
+            //        RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
+            //        int mode = i;
+            //        radioMenuItem.Click += delegate
+            //        {
+            //            radioMenuItem.IsChecked = true;
+            //            if (ints.Count == 1)
+            //            {
+            //                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
+            //               // ModeMatch(mode);
+            //            }
+            //            else if (ints.Count == 2)
+            //            {
+            //                ints[IsLeft ? 0 : 1] = mode;
+            //                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ints[0] }, { "mode2", ints[1] } });
+            //            }
+            //        };
+            //        menuItem1.Items.Add(radioMenuItem);
+            //       // contextMenu.Items.Add(radioMenuItem);
+            //        menuItem1s.Add(radioMenuItem);
+            //    }
 
-                        }
-                        else if (ints.Count == 2)
-                        {
-                            ints[IsLeft ? 0 : 1] = mode;
-                            LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ints[0] }, { "mode2", ints[1] } });
-                        }
-                    };
-                    menuItem1.Items.Add(radioMenuItem);
-                   // contextMenu.Items.Add(radioMenuItem);
-                    menuItem1s.Add(radioMenuItem);
-                }
-
-                for (int i = 0; i < ImageExportAsString.Count; i++)
-                {
-                    MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i],FontSize=14 };
-                    menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
-                    menuItem2.Items.Add(menuItem);
-                }
-
-                contextMenu.Items.Add(menuItem1);
-                contextMenu.Items.Add(menuItem2);
-                InkCanvas drawingInkCanvas = inkVisuals[view].inkCanvas;
-                drawingInkCanvas.ContextMenu = contextMenu;
+            //    for (int i = 0; i < ImageExportAsString.Count; i++)
+            //    {
+            //        MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i],FontSize=14 };
+            //        menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
+            //        menuItem2.Items.Add(menuItem);
+            //    }
+            //    menuItem3.Click +=(s,e) => { AllImageExportAsPath(s, e); };
+            //    contextMenu.Items.Add(menuItem1);
+            //    contextMenu.Items.Add(menuItem2);
+            //    contextMenu.Items.Add(menuItem3);
+                
+            //    InkCanvas drawingInkCanvas = inkVisuals[view].inkCanvas;
+            //    drawingInkCanvas.ContextMenu = contextMenu;
 
 
-                if (ints.Count == 1)
-                {
-                    menuItem1s[ints[0]].IsChecked = true;
-                }
-                else if (ints.Count == 2)
-                {
-                    drawingInkCanvas.PreviewMouseMove += delegate
-                    {
-                        if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
-                        {
-                            IsLeft = true;
-                            menuItem1s[ints[0]].IsChecked = true;
-                        }
-                        else
-                        {
-                            IsLeft = false;
-                            menuItem1s[ints[1]].IsChecked = true;
-                        }
-                    };
-                }
-            }
+            //    if (ints.Count == 1)
+            //    {
+            //        menuItem1s[ints[0]].IsChecked = true;
+            //    }
+            //    else if (ints.Count == 2)
+            //    {
+            //        drawingInkCanvas.MouseRightButtonDown += delegate
+            //        {
+            //            if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
+            //            {
+            //                IsLeft = true;
+            //                menuItem1s[ints[0]].IsChecked = true;
+            //            }
+            //            else
+            //            {
+            //                IsLeft = false;
+            //                menuItem1s[ints[1]].IsChecked = true;
+            //            }
+            //        };
+            //    }
+
+            //}
         }
+       static List<string> ContextMenuItemMode = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
+
+        public static ContextMenu UpdateContextMenu(int m, int view)
+        {
+            ContextMenu contextMenu = new ContextMenu();
+            for (int i = 0; i < ContextMenuItemMode.Count; i++)
+            {
+                int mode = i;
+                MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[i], IsCheckable = true };
+                if (m == i)
+                {
+                    menuItem.IsChecked = true;
+                }
+                menuItem.Click += (s, e) =>
+                {
+                    if (contextMenu.Items.Count == 6)
+                    {
+                        foreach (MenuItem item in contextMenu.Items)
+                        {
+                            if (item.IsChecked == true && item != menuItem)
+                                item.IsChecked = false;
+                        }
+                    }
+                    menuItem.IsChecked = true;
+
+                    LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
+                };
+                contextMenu.Items.Add(menuItem);
+
+            }
+            return contextMenu;
+        }
+        public static ContextMenu UpdateContextMenu( int view,int modeL,int modeR,int where)
+        {
+            ContextMenu contextMenu = new ContextMenu();
+            int ModeL = modeL;
+            int ModeR = modeR;
+            for (int i = 0; i < ContextMenuItemMode.Count; i++)
+            {
+                int mode = i;
+                MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[i], IsCheckable = true };
+                if (where == 0&& modeL==i)
+                {
+                    menuItem.IsChecked = true;
+                }
+                else if(where == 1 && modeR == i)
+                {
+                    menuItem.IsChecked = true;
+                }
+                menuItem.Click += (s, e) =>
+                {
+                    if (contextMenu.Items.Count == 6)
+                    {
+                        foreach (MenuItem item in contextMenu.Items)
+                        {
+                            if (item.IsChecked == true && item != menuItem)
+                                item.IsChecked = false;
+                        }
+                    }
+                    menuItem.IsChecked = true;
+
+
+                    if (where == 0)
+                    {
+                        ModeL = mode;
+
+                        LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
+                    }
+                    if (where == 1)
+                    {
+                        ModeR = mode;
+
+                        LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
+                    }
+
+                };
+                contextMenu.Items.Add(menuItem);
+
+            }
+            return contextMenu;
+        }
+        //public static ContextMenu UpdateContextMenu1( int m, int view,int count)
+        //{
+        //    ContextMenu contextMenu = new ContextMenu();
+        //    MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
+        //    MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
+        //    MenuItem menuItem3 = new MenuItem() { Header = "全部导出", FontSize = 14 };
+        //    for (int i = 0; i < ContextMenuItemMode.Count; i++)
+        //    {
+        //        int mode = i;
+        //        MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[i],IsCheckable = true };
+        //        if (m == i)
+        //        {
+        //            menuItem.IsChecked = true;
+        //        }
+        //        menuItem.Click += (s, e) =>
+        //        {
+        //            if (menuItem1.Items.Count == 6)
+        //            {
+        //                foreach (MenuItem item in menuItem1.Items)
+        //                {
+        //                    if (item.IsChecked == true&&item != menuItem)
+        //                        item.IsChecked = false;
+        //                }
+        //            }
+        //            menuItem.IsChecked = true;
+        //            LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
+        //        };
+        //        menuItem1.Items.Add(menuItem);
+
+        //    }
+        //    for (int i = 0; i < ImageExportAsString.Count; i++)
+        //    {
+        //        MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+        //        menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
+        //        menuItem2.Items.Add(menuItem);
+        //    }
+        //    menuItem3.Click += (s, e) => { AllImageExportAsPath(s, e); };
+        //    contextMenu.Items.Add(menuItem1);
+        //    contextMenu.Items.Add(menuItem2);
+        //    if (count == 1)
+        //    {
+        //        contextMenu.Items.Add(menuItem3);
+        //    }
+        //    return contextMenu;
+        //}
+        public static ContextMenu UpdateContextMenu1(int m, int view, int count,List<int> modes)
+        {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
+            MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
+            MenuItem menuItem3 = new MenuItem() { Header = "全部导出", FontSize = 14 };
+            for (int i = 0; i < modes.Count; i++)
+            {
+                int mode = modes[i];
+                MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[modes[i]], IsCheckable = true };
+                if (m == modes[i])
+                {
+                    menuItem.IsChecked = true;
+                }
+                menuItem.Click += (s, e) =>
+                {
+                    if (menuItem1.Items.Count == modes.Count)
+                    {
+                        foreach (MenuItem item in menuItem1.Items)
+                        {
+                            if (item.IsChecked == true && item != menuItem)
+                                item.IsChecked = false;
+                        }
+                    }
+                    menuItem.IsChecked = true;
+                    LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
+                };
+                menuItem1.Items.Add(menuItem);
+
+            }
+            for (int i = 0; i < ImageExportAsString.Count; i++)
+            {
+                MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+                menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
+                menuItem2.Items.Add(menuItem);
+            }
+            menuItem3.Click += (s, e) => { AllImageExportAsPath(s, e); };
+            contextMenu.Items.Add(menuItem1);
+            contextMenu.Items.Add(menuItem2);
+            if (count == 1)
+            {
+                contextMenu.Items.Add(menuItem3);
+            }
+            return contextMenu;
+        }
+        //读图双拼
+        //public static ContextMenu UpdateContextMenu1(int view, int modeL, int modeR, int where)
+        //{
+        //    ContextMenu contextMenu = new ContextMenu();
+        //    MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
+        //    MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
+        //    int ModeL = modeL;
+        //    int ModeR = modeR;
+        //    for (int i = 0; i < ContextMenuItemMode.Count; i++)
+        //    {
+        //        int mode = i;
+        //        MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[i], IsCheckable = true };
+        //        if (where == 0 && modeL == i)
+        //        {
+        //            menuItem.IsChecked = true;
+        //        }
+        //        else if (where == 1 && modeR == i)
+        //        {
+        //            menuItem.IsChecked = true;
+        //        }
+        //        menuItem.Click += (s, e) =>
+        //        {
+        //            if (menuItem1.Items.Count == 6)
+        //            {
+        //                foreach (MenuItem item in menuItem1.Items)
+        //                {
+        //                    if (item.IsChecked == true && item != menuItem)
+        //                        item.IsChecked = false;
+        //                }
+        //            }
+        //            menuItem.IsChecked = true;
+        //            if (where == 0)
+        //            {
+        //                ModeL = mode;
+
+        //                LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
+        //            }
+        //            if (where == 1)
+        //            {
+        //                ModeR = mode;
+
+        //                LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
+        //            }
+        //        };
+        //        menuItem1.Items.Add(menuItem);
+
+        //    }
+        //    for (int i = 0; i < ImageExportAsString.Count; i++)
+        //    {
+        //        MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+        //        menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
+        //        menuItem2.Items.Add(menuItem);
+        //    }
+        //    contextMenu.Items.Add(menuItem1);
+        //    contextMenu.Items.Add(menuItem2);
+        //    return contextMenu;
+        //}
+        public static ContextMenu UpdateContextMenu1(int view, int modeL, int modeR, int where,List<int> modes)
+        {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
+            MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
+            int ModeL = modeL;
+            int ModeR = modeR;
+            for (int i = 0; i < modes.Count; i++)
+            {
+                int mode = modes[i];
+                MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[modes[i]], IsCheckable = true };
+                if (where == 0 && modeL == i)
+                {
+                    menuItem.IsChecked = true;
+                }
+                else if (where == 1 && modeR == i)
+                {
+                    menuItem.IsChecked = true;
+                }
+                menuItem.Click += (s, e) =>
+                {
+                    if (menuItem1.Items.Count == modes.Count)
+                    {
+                        foreach (MenuItem item in menuItem1.Items)
+                        {
+                            if (item.IsChecked == true && item != menuItem)
+                                item.IsChecked = false;
+                        }
+                    }
+                    menuItem.IsChecked = true;
+                    if (where == 0)
+                    {
+                        ModeL = mode;
+
+                        LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
+                    }
+                    if (where == 1)
+                    {
+                        ModeR = mode;
+
+                        LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
+                    }
+                };
+                menuItem1.Items.Add(menuItem);
+
+            }
+            for (int i = 0; i < ImageExportAsString.Count; i++)
+            {
+                MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+                menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
+                menuItem2.Items.Add(menuItem);
+            }
+            contextMenu.Items.Add(menuItem1);
+            contextMenu.Items.Add(menuItem2);
+            return contextMenu;
+        }
+
+        public static void AllInkStrokeClear()
+        {
+            foreach(var item in DrawInkMethod.InkAll)
+            {
+                if (item!= null)
+                {
+                    item.inkCanvas.Strokes.Clear();
+                }        
+            }
+
+        }
+
+
+
 
     }
 }

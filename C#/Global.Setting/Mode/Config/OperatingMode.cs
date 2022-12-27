@@ -94,8 +94,18 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        private int outer4 = 2;
+        [JsonPropertyName("100x")]
+        public int Outer4
+        {
+            get { return outer4; }
+            set
+            {
+                outer4 = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-      
 
 
     }
@@ -104,7 +114,7 @@ namespace Global.Mode.Config
     {
         private int inner1 = 9;
         [JsonPropertyName("10x")]
-        public int Iinner1
+        public int Inner1
         {
             get { return inner1; }
             set
@@ -116,7 +126,7 @@ namespace Global.Mode.Config
 
         private int inner2 = 5;
         [JsonPropertyName("20x")]
-        public int Iinner2
+        public int Inner2
         {
             get { return inner2; }
             set
@@ -128,7 +138,7 @@ namespace Global.Mode.Config
 
         private int inner3 = 2;
         [JsonPropertyName("40x")]
-        public int Iinner3
+        public int Inner3
         {
             get { return inner3; }
             set
@@ -137,7 +147,17 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
+        private int inner4 = 2;
+        [JsonPropertyName("100x")]
+        public int Inner4
+        {
+            get { return inner4; }
+            set
+            {
+                inner4 = value;
+                NotifyPropertyChanged();
+            }
+        }
 
     }
 
@@ -211,7 +231,7 @@ namespace Global.Mode.Config
             }
         }
         private Inner multiAmperture = new Inner();
-        [JsonPropertyName("led-diameter-outer_")]
+        [JsonPropertyName("led-diameter-inner_")]
         public Inner MultiAperture
         {
             get { return multiAmperture; }
@@ -355,7 +375,7 @@ namespace Global.Mode.Config
         }
 
         private Inner multiAmperture = new Inner();
-        [JsonPropertyName("led-diameter-outer_")]
+        [JsonPropertyName("led-diameter-inner_")]
         public Inner MultiAperture
         {
             get { return multiAmperture; }

@@ -1,4 +1,5 @@
 ﻿using Global.Mode.Config;
+using Global.UserControls.DrawVisual;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace ConfigObjective
                 {
                     Style = FindResource("ToggleButtonStyle1") as Style,
                     Width = 55,
-                    Margin = new Thickness(5, 0, 5, 0),
+                    Margin = new Thickness(20, 0, 20, 0),
                     Content = item.Magnitude,
                     IsChecked = item.IsChecked,
                     IsEnabled = item.IsEnabled, FontSize = 14
@@ -41,10 +42,23 @@ namespace ConfigObjective
                     };
                     LambdaControl.Trigger("OBJECTIVE_LENS_SETTING", this, values);
                     windowData.SolutionConfig.CurrentObjective = item.ID;
-                   
-                  
+
                     UpdateBinding(windowData.SolutionConfig.IsMultiObj.Enable== true,OperatingMode, item.ID);
-                    
+                    LensFactorChange(item.ID);
+                    foreach(InkVisual item in Global.DrawInkMethod.InkAll)
+                    {
+                        if (item != null)
+                        {
+                            item.inkcanva.Strokes.Clear();
+                            item.defDim.Visibility = Visibility.Hidden;
+                        }
+                    }
+                    if (windowData.ImageViewState.toolTop.DimensionChecked)
+                    {
+                        windowData.ImageViewState.toolTop.DimensionChecked=false;
+                    }
+
+
                 };
                
                 ObjectiveSettingStackPanel.Children.Add(radioButton);
@@ -59,6 +73,38 @@ namespace ConfigObjective
             ledDiameterBind(ID);
 
         }
+
+        private void LensFactorChange(int Id)
+        {
+            switch (Id)
+            {
+
+                case 0:
+                    Global.DrawInkMethod.lens.factor = 1;
+                    break;
+                case 1:
+                    Global.DrawInkMethod.lens.factor = 1;
+                    break;
+                case 2:
+                    Global.DrawInkMethod.lens.factor = 0.5;
+                    break;
+                case 3:
+                    Global.DrawInkMethod.lens.factor = 0.25;
+                    break;
+                case 4:
+                    Global.DrawInkMethod.lens.factor = 1;
+                    break;
+                default:
+                    Global.DrawInkMethod.lens.factor = 1;
+                    break;
+
+            }
+
+
+        }
+
+
+
 
 
 
@@ -106,16 +152,34 @@ namespace ConfigObjective
 
         private Camera SwitchViewMode( int viewMode)
         {
-            return viewMode switch
+            switch (viewMode)
             {
-                0 => windowData.SolutionConfig.OperatingMode.BrightField.CameraSetting,
-                1 => windowData.SolutionConfig.OperatingMode.DarkField.CameraSetting,
-                2 => windowData.SolutionConfig.OperatingMode.Reinberg.CameraSetting,
-                3 => windowData.SolutionConfig.OperatingMode.ReliefContrast.CameraSetting,
-                4 => windowData.SolutionConfig.OperatingMode.QuantitativePhase.CameraSetting,
-                5 => windowData.SolutionConfig.OperatingMode.PhaseContrast.CameraSetting,
-                _ => null
-            };
+
+                case 0:
+                   return windowData.SolutionConfig.OperatingMode.BrightField.CameraSetting;
+                    break;
+                case 1:
+                    return windowData.SolutionConfig.OperatingMode.DarkField.CameraSetting;
+                    break;
+                case 2:
+                    return windowData.SolutionConfig.OperatingMode.Reinberg.CameraSetting;
+                    break;
+                case 3:
+                    return windowData.SolutionConfig.OperatingMode.ReliefContrast.CameraSetting;
+                    break;
+                case 5:
+                    return windowData.SolutionConfig.OperatingMode.PhaseContrast.CameraSetting;
+                    break;
+                case 4:
+                    return windowData.SolutionConfig.OperatingMode.QuantitativePhase.CameraSetting;
+                    break;
+                default: return null;
+
+            }
+
+
+
+
         }
 
 

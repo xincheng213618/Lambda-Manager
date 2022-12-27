@@ -361,16 +361,19 @@ namespace Global.UserControls.DrawVisual
                 case "正方形":
                     stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateSquare(cusStroke.StylusPoints, color, LineWidth, dash);
                     return stroke1;
-                case "曲线":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-                case "曲线1":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateQuadraticBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
+                //case "曲线":
+                //    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
+                //    return stroke1;
+                //case "曲线1":
+                //    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateQuadraticBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
+                //    return stroke1;
                 case "矩形":
                     stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateRectangle(cusStroke.StylusPoints, color, LineWidth, dash);
                     return stroke1;
-               
+                case "曲线":
+                   stroke1 = DrawInkMethod.InkCanvasMethod.ReCreatePolyBezier(cusStroke.StylusPoints, color, LineWidth, dash);
+                    return stroke1;
+
 
             }
 

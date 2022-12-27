@@ -455,14 +455,14 @@ namespace ConfigSetting
                             try
                             {
 
-                                if ((bool)lamdbda["multi-objectives"] == true)
+                                if ((bool)lamdbda["multi-objectives"]! == true)
                                 {
                                     List<string> ObjectiveConfigsLists = new List<string>() { };
 
-                                    JsonArray jsonArray = (JsonArray)lamdbda["lambda-manager"]["objective-keys"];
-                                    foreach (var item in jsonArray)
+                                    JsonArray jsonArray = (JsonArray)lamdbda["lambda-manager"]!["objective-keys"];
+                                    foreach (var item in jsonArray!)
                                     {
-                                        ObjectiveConfigsLists.Add(item.ToString());
+                                        ObjectiveConfigsLists.Add(item!.ToString());
                                     }
 
                                     List<string> ObjectiveConfigsList = new List<string>();
@@ -479,11 +479,11 @@ namespace ConfigSetting
                                     {
                                         ObjectiveConfig objectiveConfig = new ObjectiveConfig();
                                         objectiveConfig.ObjectiveKey = item.ToString();
-                                        objectiveConfig.Magnitude = (int)objective["magnitude"][item];
-                                        objectiveConfig.NA = (double)objective["NA"][item];
-                                        objectiveConfig.Achromatic = (bool)objective["achromatic"][item];
-                                        objectiveConfig.Multiple = (double)objective["multiple"][item];
-                                        objectiveConfig.WorkingDistance = objective["WD"][item]?.ToString();
+                                        objectiveConfig.Magnitude = (int)objective["magnitude"]![item]!;
+                                        objectiveConfig.NA = (double)objective["NA"]![item]!;
+                                        objectiveConfig.Achromatic = (bool)objective["achromatic"]![item]!;
+                                        objectiveConfig.Multiple = (double)objective["multiple"]![item]!;
+                                        objectiveConfig.WorkingDistance = objective["WD"]![item]?.ToString();
                                         AvailableObjectives.Add(objectiveConfig);
                                     }
 
@@ -491,7 +491,7 @@ namespace ConfigSetting
 
                                     foreach (var item in AvailableObjectives)
                                     {
-                                        if (item.Magnitude == (int)objective["current-magnitude"])
+                                        if (item.Magnitude == (int)objective["current-magnitude"]!)
                                         {
                                             ObjectiveConfigs.CurrentObjectiveConfig = item;
                                             break;
@@ -502,11 +502,11 @@ namespace ConfigSetting
                                 else
                                 {
                                     ObjectiveConfig objectiveConfig = new ObjectiveConfig();
-                                    objectiveConfig.ObjectiveKey = ((JsonArray)lamdbda["lambda-manager"]["objective-keys"])[0].ToString();
-                                    objectiveConfig.Magnitude = (int)objective["magnitude"];
-                                    objectiveConfig.NA = (double)objective["NA"];
-                                    objectiveConfig.Achromatic = (bool)objective["achromatic"];
-                                    objectiveConfig.Multiple = (double)objective["multiple"];
+                                    objectiveConfig.ObjectiveKey = ((JsonArray)lamdbda["lambda-manager"]!["objective-keys"]!)[0]!.ToString();
+                                    objectiveConfig.Magnitude = (int)objective["magnitude"]!;
+                                    objectiveConfig.NA = (double)objective["NA"]!;
+                                    objectiveConfig.Achromatic = (bool)objective["achromatic"]!;
+                                    objectiveConfig.Multiple = (double)objective["multiple"]!;
                                     objectiveConfig.WorkingDistance = objective["WD"]?.ToString();
                                     List<ObjectiveConfig> AvailableObjectives = new List<ObjectiveConfig> { objectiveConfig };
 

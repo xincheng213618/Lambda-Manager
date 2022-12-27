@@ -22,6 +22,15 @@ namespace Global
     /// <summary>
     /// 监听CallEventHandler事件
     /// </summary>
+    /// 
+    public class ContextMenuPar
+    {
+        public int status { get; set; }
+        public int count { get; set; }
+        public int mode { get; set; }
+        public int mode1 { get; set; }
+        public List<int> modes { get; set; }
+    }
     public partial class WindowData1
     {
         public bool ACQUIRE { get; set; } = false;
@@ -29,8 +38,7 @@ namespace Global
         public DrawInkMethod inkMethod = new DrawInkMethod();
         Window mainwin = Application.Current.MainWindow;
         public  InkVisual[] inkVisuals = new InkVisual[6];
-       
-
+        public static ContextMenuPar contextMenuPar = new ContextMenuPar();
         public void AddImageConfident(Image image1, int viewindex)
         {
             InkVisual inkVisual = new InkVisual(viewindex, image1, ImageViewState.toolTop);
@@ -39,8 +47,6 @@ namespace Global
                 try
                 {
                     inkVisuals[viewindex] = inkVisual;
-                    if (ViewContentMenuCache.ContainsKey(viewindex))
-                        AddViewContentMenu(viewindex, ViewContentMenuCache[viewindex]);
                     if (image1.Parent is Grid grid1)
                     {
                         Binding bindingW = new Binding();
@@ -53,69 +59,15 @@ namespace Global
                         inkVisual.SetBinding(Image.HeightProperty, bindingH);
                         grid1.Children.Add(inkVisual);
                         Grid.SetRow(inkVisual, 0);
+
+                        
                     }
                     if (image1.Parent is Grid grid2)
                     {
-                        ImageViewState.toolTop.PropertyChanged += delegate (object? sender, PropertyChangedEventArgs e)
-                        {
-                            // MessageBox.Show("1111");
-                            if (e.PropertyName == "EraserChecked")
-                            {
-                                if (ImageViewState.toolTop.EraserChecked == true)
-                                {
-                                    inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-                                    inkVisual.inkCanvas.UseCustomCursor = true;
-                                    StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
-                                    inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
-                                }
-                                else
-                                {
-                                    inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-                                    inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                                }
-                            }
-                            else if ( (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
-                            {
-                                inkVisual.inkCanvas.Cursor = Cursors.Cross;
-                            }
-                            else if ((bool)ImageViewState.toolTop.MoveChecked)
-                            {
-                                inkVisual.inkCanvas.Cursor = Cursors.Hand;
-                            }
-                            else
-                            {
-                                inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-                            };
-                            
-                            if (e.PropertyName == "SelectChecked")
-                            {
-                                if ((bool)ImageViewState.toolTop.SelectChecked)
-                                {
-                                    inkVisual.Visibility = Visibility.Visible;
-                                }
-                                else
-                                {
-                                    inkVisual.Visibility = Visibility.Visible;
-                                }
-
-                            }
-                            if (e.PropertyName == "CurveChecked")
-                            {
-
-                            }
-                            if (e.PropertyName == "CurveChecked")
-                            {
-
-                            };
-                            
-
-                        };
+                       
                         if (!(bool)ImageViewState.toolTop.DimensionChecked)
                         {
-                           // MessageBox.Show("1111");
-
                             inkVisual.defaultDim.Visibility = Visibility.Hidden;
-                        
                         };
 
                         if (image1.Parent is Grid grid3)
@@ -152,7 +104,7 @@ namespace Global
                                         inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes,inkVisual);
 
                                         DrawInkMethod.StrokesCollection.Clear();
-                                        inkVisual.FilterStroke(1);
+                                        inkVisual.FilterStroke(1, inkVisual.inkCanvas);
                                         //  RepaintDim();
                                         double ratio = inkVisual.ratio1.Ratio;
                                         WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
@@ -190,7 +142,7 @@ namespace Global
                                         inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
                                         inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes,inkVisual);
                                         DrawInkMethod.StrokesCollection.Clear();
-                                        inkVisual.FilterStroke(1);
+                                        inkVisual.FilterStroke(1, inkVisual.inkCanvas);
                                         double ratio = inkVisual.ratio1.Ratio;
                                         WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
                                         inkVisual.drawDefaultDim(inkVisual.inkDimViewModel.DimPos, inkVisual.inkDimViewModel.DimLength, inkVisual.inkDimViewModel.DimColor, inkVisual.ratio1.Ratio, inkVisual.inkDimViewModel.TextColor);

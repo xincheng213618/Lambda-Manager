@@ -37,8 +37,8 @@ namespace Global.Mode
         public int CurrentObjective=1;
         [JsonPropertyName("multiObj")]
         public MultiObjective IsMultiObj { get; set; } = new MultiObjective();
-       
-
+        [JsonPropertyName("otherMode")]
+        public OtherMode OtherMode { get; set; } = new OtherMode();   
 
 
     }
@@ -150,6 +150,15 @@ namespace Global.Mode
     }
 
 
+    public class OtherMode
+    {
+        public int ? SnapMode { get; set; }=0;
+
+        public int? InkMode { get; set; } = 1;
+
+        public int? Resolution { get; set; } = 1;
+
+    }
 
 
 

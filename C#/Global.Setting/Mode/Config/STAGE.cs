@@ -97,8 +97,18 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        private int step4 = 50;
+        [JsonPropertyName("100x")]
+        public int Step4
+        {
+            get { return step4; }
+            set
+            {
+                step4 = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-      
 
     }
 

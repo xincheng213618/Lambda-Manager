@@ -74,7 +74,7 @@ namespace Global.Mode.Config
 
         private int exposure = 35;
         [JsonPropertyName("exposure")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+     
         public int Exposure
         {
             get { return exposure; }
@@ -85,7 +85,7 @@ namespace Global.Mode.Config
         private MultiExposure multiExposure = new MultiExposure();
 
         [JsonPropertyName("exposure_")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    
         public MultiExposure MultiObjExposure
         {
             get { return multiExposure; }
@@ -178,13 +178,23 @@ namespace Global.Mode.Config
                     NotifyPropertyChanged();
                 }
             }
-
-            //public void SetValue(Inner inner)
-            //{
-            //    this.Inner1 = inner.Inner1;
-            //    this.Inner2 = inner.Inner2;
-            //    this.Inner3 = inner.Inner3;
-            //}
+        private int gain4 = 30;
+        [JsonPropertyName("100x")]
+        public int Gain4
+        {
+            get { return gain4; }
+            set
+            {
+                gain4 = value;
+                NotifyPropertyChanged();
+            }
+        }
+        //public void SetValue(Inner inner)
+        //{
+        //    this.Inner1 = inner.Inner1;
+        //    this.Inner2 = inner.Inner2;
+        //    this.Inner3 = inner.Inner3;
+        //}
 
 
 
@@ -227,7 +237,17 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
+        private int exposure4 = 35;
+        [JsonPropertyName("100x")]
+        public int Exposure4
+        {
+            get { return exposure4; }
+            set
+            {
+                exposure4 = value;
+                NotifyPropertyChanged();
+            }
+        }
         //public void SetValue(Inner inner)
         //{
         //    this.Inner1 = inner.Inner1;
