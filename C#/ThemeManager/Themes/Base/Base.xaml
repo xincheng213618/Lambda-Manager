@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    
 
     <ControlTemplate x:Key="imageButtonTemplate" TargetType="{x:Type Button}">
         <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" Name="PART_Background" Border.Background="Transparent">

@@ -25,19 +25,14 @@ namespace XSolution
         /// <summary>
         /// 触发消息通知事件
         /// </summary>
-        /// <param name="propertyName"></param>
-        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Dispose()
         {
             this.Parent = null;
+            GC.SuppressFinalize(this); 
         }
+
 
         /// <summary>
         /// 显示的子集
@@ -51,19 +46,19 @@ namespace XSolution
 
 
 
-        protected Visibility _visibility = Visibility.Visible;
+        protected Visibility _Visibility = Visibility.Visible;
 
         public Visibility Visibility
         {
-            get { return _visibility; }
+            get { return _Visibility; }
             set {
-                if (value != _visibility)
+                if (value != _Visibility)
                 {
-                    _visibility = value;
+                    _Visibility = value;
 
                     if (this.Parent != null && this.Parent is BaseObject baseObject)
                     {
-                        if (_visibility == Visibility.Visible)
+                        if (_Visibility == Visibility.Visible)
                         {
                             baseObject.VisualChildrenHidden.Remove(this);
                             baseObject.VisualChildren.SortedAdd(this);
@@ -80,19 +75,13 @@ namespace XSolution
             }
         }
 
-        private bool isExpanded = false;
-        public bool IsExpanded
-        {
-            get { return isExpanded; }
-            set { isExpanded = value; NotifyPropertyChanged(); }
-        }
+        public bool IsExpanded { get => _IsExpanded; set { _IsExpanded = value; NotifyPropertyChanged(); } }
+        private bool _IsExpanded = false;
 
-        private bool isSelected = false;
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set { isSelected = value; NotifyPropertyChanged(); }
-        }
+
+        public bool IsSelected { get => _IsSelected; set { _IsSelected = value; NotifyPropertyChanged(); } }
+        private bool _IsSelected = false;
+
 
 
         public RelayCommand AddChildren { get; set; }
@@ -115,9 +104,8 @@ namespace XSolution
         /// <summary>
         /// 允许空构造
         /// </summary>
-        public BaseObject()
-        {
-        }
+        public BaseObject() { }
+
 
         public BaseObject(string FullName)
         {
@@ -157,26 +145,21 @@ namespace XSolution
         }
 
 
-        private BaseObject parent = null;
+        private BaseObject _Parent = null;
         public BaseObject Parent
         {
-            get { return parent; }
+            get { return _Parent; }
             set
             {
-                if (value != parent && value is not null)
+                if (value != _Parent && value is not null)
                 {
-                    parent = value;
+                    _Parent = value;
                     NotifyPropertyChanged();
                 }
             }
         }
 
-        public T GetParen<T>()where T : BaseObject 
-        {
-            if (Parent is T t)
-                return t;
-            return null;
-        }
+
         /// <summary>
         /// 添加对象的时候的触发的触发事件
         /// </summary>
@@ -223,16 +206,16 @@ namespace XSolution
 
 
 
-        protected bool isEditMode = false;
 
         /// <summary>
         /// 现在是否是文件名修改
         /// </summary>
         public virtual bool IsEditMode
         {
-            get { return isEditMode; }
-            set { isEditMode = value; NotifyPropertyChanged(); }
+            get { return _IsEditMode; }
+            set { _IsEditMode = value; NotifyPropertyChanged(); }
         }
+        protected bool _IsEditMode = false;
 
 
         /// <summary>
@@ -241,42 +224,39 @@ namespace XSolution
         public virtual void Delete() { }
 
 
-        protected string name;
 
         /// <summary>
         /// 展示的名称
         /// </summary>
         public string Name
         {
-            get { return name; }
-            set { name = value;  NotifyPropertyChanged();}
+            get { return _Name; }
+            set { _Name = value;  NotifyPropertyChanged();}
         }
+        protected string _Name;
 
-        protected string fullName; 
+
         /// <summary>
         /// 文件地址
         /// </summary>
         public string FullName
         {
-            get { return fullName; }
+            get { return _FullName; }
             set {
-                fullName = value;
-                this.Name = Path.GetFileNameWithoutExtension(fullName);
+                _FullName = value;
+                this.Name = Path.GetFileNameWithoutExtension(_FullName);
                 NotifyPropertyChanged();
             }
         }
-
+        protected string _FullName;
 
 
         public virtual int CompareTo(object obj)
         {
             if (obj == null) return -1;
-            if (obj == this) return 0;
-            if (obj is BaseObject baseObject)
-            {
-                return Global.Common.NativeMethods.Shlwapi.StrCmpLogicalW(Name, baseObject.Name);
-            }
-            return 0;
+            else if (obj == this) return 0;
+            else if (obj is BaseObject baseObject) return Global.Common.NativeMethods.Shlwapi.StrCmpLogicalW(Name, baseObject.Name);
+            else return -1;
         }
     }
 

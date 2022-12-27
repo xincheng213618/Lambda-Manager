@@ -105,7 +105,7 @@
             </Grid>
 
             <StackPanel Grid.Column="1"   Margin="20" >
-                <Button  Height="50" Content="打开本地项目"  FontSize="15"   Click="Button_Click">
+                <Button  Height="50"    Click="Button_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="Bd" Background="{TemplateBinding Background}" 	BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"	CornerRadius="3">
@@ -122,6 +122,15 @@
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="15"  Text="打开本地项目"/>
+                            <Viewbox  Width="15" Height="15" Margin="10,0,0,0">
+                                <Path Fill="#8B8B8B"  Data="M970.666667 213.333333H546.586667a10.573333 10.573333 0 0 1-7.54-3.126666L429.793333 100.953333A52.986667 52.986667 0 0 0 392.08 85.333333H96a53.393333 53.393333 0 0 0-53.333333 53.333334v704a53.393333 53.393333 0 0 0 53.333333 53.333333h874.666667a53.393333 53.393333 0 0 0 53.333333-53.333333V266.666667a53.393333 53.393333 0 0 0-53.333333-53.333334z" >
+                                </Path>
+                            </Viewbox>
+                        </StackPanel>
+                    </Button.Content>
                 </Button>
             </StackPanel>
 

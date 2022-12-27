@@ -132,11 +132,11 @@ namespace XSolution
 
         public override bool IsEditMode
         {
-            get { return isEditMode; }
+            get { return _IsEditMode; }
             set
             {
-                isEditMode = value;
-                if (!isEditMode)
+                _IsEditMode = value;
+                if (!_IsEditMode)
                 {
                     string oldpath = FullName;
                     string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, Extension);
@@ -150,7 +150,7 @@ namespace XSolution
                         catch (Exception ex)
                         {
                             MessageBox.Show("文件名冲突" + ex.Message);
-                            isEditMode = true;
+                            _IsEditMode = true;
                         }
                     }
                 }

@@ -76,11 +76,11 @@ namespace XSolution
 
         public override bool IsEditMode
         {
-            get { return isEditMode; }
+            get { return _IsEditMode; }
             set
             {
-                isEditMode = value;
-                if (!isEditMode)
+                _IsEditMode = value;
+                if (!_IsEditMode)
                 {
                     string oldpath = FullName;
                     string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + Name;
@@ -96,7 +96,7 @@ namespace XSolution
                         {
                             MessageBox.Show("文件名冲突" + ex.Message);
                             Name = tempname;
-                            isEditMode = true;
+                            _IsEditMode = true;
                         }
                     }
                 }

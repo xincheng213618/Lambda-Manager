@@ -40,7 +40,7 @@ namespace Wizard
 
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1(this))));
+            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "启动配置向导" });
         }
 

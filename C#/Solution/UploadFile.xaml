@@ -7,11 +7,18 @@
              d:DesignHeight="250" d:DesignWidth="400" DragOver="UIElement_OnDragOver" AllowDrop="True" Drop="UIElement_OnDrop" >
     <Grid>
         <Label x:Name="FilePathLabel" VerticalAlignment="Center" HorizontalAlignment="Center" Content="拖拽也可以打开"></Label>
-        <Button  Click="Button_Click" Height="35" Width="120" >/
+        <Button  Click="Button_Click" Height="35" Width="120" >
             <Button.Template>
                 <ControlTemplate>
                     <Border Background="#1CADE3" CornerRadius="5">
-                        <Label Content="打开文件" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="18"/>
+                        <StackPanel  Orientation="Horizontal">
+                            <Label Content="打开文件" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="18"/>
+                            <Viewbox  Width="20" Height="20">
+                                <Path Fill="#8B8B8B"  Data="M970.666667 213.333333H546.586667a10.573333 10.573333 0 0 1-7.54-3.126666L429.793333 100.953333A52.986667 52.986667 0 0 0 392.08 85.333333H96a53.393333 53.393333 0 0 0-53.333333 53.333334v704a53.393333 53.393333 0 0 0 53.333333 53.333333h874.666667a53.393333 53.393333 0 0 0 53.333333-53.333333V266.666667a53.393333 53.393333 0 0 0-53.333333-53.333334z" >
+
+                                </Path>
+                            </Viewbox>
+                        </StackPanel>
                     </Border>
                 </ControlTemplate>
             </Button.Template>

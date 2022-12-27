@@ -27,16 +27,20 @@ namespace XSolution
 
     public class ProjectFile : BaseObject, IProjectFile
     {
-        public ImageSource Icon { get; set; }
+        /// <summary>
+        /// 图标
+        /// </summary>
+        public ImageSource Icon { get =>_Icon; set { _Icon = value; NotifyPropertyChanged(); } }
+        private ImageSource _Icon;
 
         public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
 
-        private string fileSize;
-        public string FileSize
-        {
-            get { return fileSize; }
-            set { fileSize = value; NotifyPropertyChanged(); }
-        }
+        /// <summary>
+        /// 文件大小
+        /// </summary>
+        public string FileSize { get => _FileSize; set { _FileSize = value; NotifyPropertyChanged(); } }
+        private string _FileSize;
+
         public RelayCommand OpenFileCommand { get; set; }
         public RelayCommand AttributesCommand { get; set; }
 
@@ -51,7 +55,7 @@ namespace XSolution
         {
             ProjectFiles.Add(this);
             FileInfo = new FileInfo(FullName);
-            Name = Path.GetFileNameWithoutExtension(fullName);
+            Name = Path.GetFileNameWithoutExtension(_FullName);
             Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
 
             OpenFileCommand = new RelayCommand(OpenFile, (object value) => { return true; });
@@ -93,13 +97,13 @@ namespace XSolution
 
         public override bool IsEditMode
         {
-            get { return isEditMode; }
+            get { return _IsEditMode; }
             set
             {
-                if (value != isEditMode)
+                if (value != _IsEditMode)
                 {
-                    isEditMode = value;
-                    if (!isEditMode)
+                    _IsEditMode = value;
+                    if (!_IsEditMode)
                     {
                         string oldpath = FullName;
                         string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, GetExtension());
@@ -113,7 +117,7 @@ namespace XSolution
                             catch (Exception ex)
                             {
                                 MessageBox.Show("文件名冲突" + ex.Message);
-                                isEditMode = true;
+                                _IsEditMode = true;
                             }
                         }
                     }

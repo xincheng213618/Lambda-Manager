@@ -53,7 +53,7 @@ namespace XSolution
         {
             return new string[] { ".grif" };
         }
-        
+
         /// <summary>
         /// 拍摄模态
         /// </summary>
@@ -73,7 +73,10 @@ namespace XSolution
         {
 
             Icon = new BitmapImage(new Uri(ThemeManager.ThemeManagers.CurrentUITheme == ThemeManager.Theme.Dark ? $"/Solution;component/images/grif1.png": $"/Solution;component/images/grif.png", UriKind.Relative));
-
+            ThemeManager.ThemeManagers.ThemeChanged += (s) =>
+            {
+                Icon = new BitmapImage(new Uri(s == ThemeManager.Theme.Dark ? $"/Solution;component/images/grif1.png" : $"/Solution;component/images/grif.png", UriKind.Relative));
+            };
             GrifExportAsCommand = new RelayCommand(GrifExportAsWindow, (value) => { return true; });
             GrifFileMeta = GrifFileManger.GetInstance().ReadGrifFileInfo(FullName);
             AttributesCommand = new RelayCommand(OpenAttributes, (value) => { return true; });
@@ -157,7 +160,7 @@ namespace XSolution
             if (value is GrifFile grifFile1)
             {
                 grifFile = grifFile1.GrifFileMeta;
-                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}", "GRIF");
+                MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}", this.Name + "属性");
             }
         }
 

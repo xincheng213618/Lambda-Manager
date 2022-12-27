@@ -58,7 +58,8 @@ namespace Solution
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.Description = "项目位置";
+            dialog.UseDescriptionForTitle = true;
+            dialog.Description = "为新项目选择位置";
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 if (string.IsNullOrEmpty(dialog.SelectedPath))
