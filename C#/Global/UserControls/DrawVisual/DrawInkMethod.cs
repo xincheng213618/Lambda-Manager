@@ -92,7 +92,7 @@ namespace Global
     }
     public class Resolution
     {
-        public int Res = 1;
+        public int Res = 0;
 
     }
 

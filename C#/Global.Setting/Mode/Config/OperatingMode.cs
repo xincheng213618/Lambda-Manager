@@ -59,8 +59,20 @@ namespace Global.Mode.Config
     //[Serializable]
     public class Outer : ViewModelBase
     {
-        private int outer1 = 9;
+        private int outer0 = 9;
         [JsonPropertyName("10x")]
+        public int Outer0
+        {
+            get { return outer0; }
+            set
+            {
+                outer0 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int outer1 = 5;
+        [JsonPropertyName("20x")]
         public int Outer1
         {
             get { return outer1; }
@@ -71,8 +83,8 @@ namespace Global.Mode.Config
             }
         }
 
-        private int outer2 = 5;
-        [JsonPropertyName("20x")]
+        private int outer2 = 2;
+        [JsonPropertyName("40x")]
         public int Outer2
         {
             get { return outer2; }
@@ -82,26 +94,14 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
         private int outer3 = 2;
-        [JsonPropertyName("40x")]
+        [JsonPropertyName("100x")]
         public int Outer3
         {
             get { return outer3; }
             set
             {
                 outer3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private int outer4 = 2;
-        [JsonPropertyName("100x")]
-        public int Outer4
-        {
-            get { return outer4; }
-            set
-            {
-                outer4 = value;
                 NotifyPropertyChanged();
             }
         }
@@ -112,8 +112,20 @@ namespace Global.Mode.Config
 
     public class Inner : ViewModelBase
     {
-        private int inner1 = 9;
+        private int inner0 = 9;
         [JsonPropertyName("10x")]
+        public int Inner0
+        {
+            get { return inner0; }
+            set
+            {
+                inner0 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int inner1 = 5;
+        [JsonPropertyName("20x")]
         public int Inner1
         {
             get { return inner1; }
@@ -124,8 +136,8 @@ namespace Global.Mode.Config
             }
         }
 
-        private int inner2 = 5;
-        [JsonPropertyName("20x")]
+        private int inner2 = 2;
+        [JsonPropertyName("40x")]
         public int Inner2
         {
             get { return inner2; }
@@ -135,26 +147,14 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
         private int inner3 = 2;
-        [JsonPropertyName("40x")]
+        [JsonPropertyName("100x")]
         public int Inner3
         {
             get { return inner3; }
             set
             {
                 inner3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private int inner4 = 2;
-        [JsonPropertyName("100x")]
-        public int Inner4
-        {
-            get { return inner4; }
-            set
-            {
-                inner4 = value;
                 NotifyPropertyChanged();
             }
         }

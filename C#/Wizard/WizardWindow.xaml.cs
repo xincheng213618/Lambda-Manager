@@ -42,17 +42,18 @@ namespace Wizard
         RegisterInfo registerInfo;
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            fileRegisterinfo = new FileRegisterinfo();
-            registerInfo = fileRegisterinfo.GetRegisterInfo();
-            if (registerInfo == null)
-            {
-                Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1(this))));
-            }
-            else
-            {
-                Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
-            }
+            //fileRegisterinfo = new FileRegisterinfo();
+            //registerInfo = fileRegisterinfo.GetRegisterInfo();
+            //if (registerInfo == null)
+            //{
+            //    Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1(this))));
+            //}
+            //else
+            //{
+            //    Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
+            //}
 
+            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "启动配置向导" });
         }
 

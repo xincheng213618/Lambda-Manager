@@ -48,6 +48,7 @@ namespace Global
             AddInjection();
             AddInjection1();
             GalleryInk.GalleryInking();
+
         }
     }
 
@@ -90,10 +91,9 @@ namespace Global
                WindowData1.AllInkStrokeClear();
 
             };
-            //Common.Config.ConfigReadEvent += ReadConfig;
-            //Common.Config.ConfigSetEvent += SetValue;
-            //Common.Config.ConfigWriteEvent += SaveConfig;
-            Hardware_Initialized();
+           // MessageBox.Show("123");
+            ReadDefaultConfig(DirectoryPath);
+            Hardware_Initialized(ObjList);
         }
 
         public string FilePath;

@@ -1792,7 +1792,7 @@ namespace Global.UserControls.DrawVisual
             int RecWid=0;
             int RecHei = 0;
             //change Camera Resolution need to update some zoomPar
-            if (DrawInkMethod.Resolution.Res==1)
+            if (WindowData.GetInstance().SolutionConfig.OtherMode.Resolution ==1)
             {
                 double x = -(inkVisual.RecTopLeft.X) * 1280 / Width;
                 double y = -(inkVisual.RecTopLeft.Y) * 960 / Height;
@@ -1802,7 +1802,7 @@ namespace Global.UserControls.DrawVisual
                 RecHei = (int)(960 / ratio);
                
             }
-            else if(DrawInkMethod.Resolution.Res == 2)
+            else if(WindowData.GetInstance().SolutionConfig.OtherMode.Resolution == 2)
             {
                 double x = -(inkVisual.RecTopLeft.X) * 2448 / Width;
                 double y = -(inkVisual.RecTopLeft.Y) * 1836 / Height;
@@ -1840,11 +1840,11 @@ namespace Global.UserControls.DrawVisual
             double Height1 = inkVisual.RecBottomRight.Y - inkVisual.RecTopLeft.Y;
             Matrix matrix = new Matrix();
             matrix.Translate(-inkVisual.RecTopLeft.X, -inkVisual.RecTopLeft.Y);
-            if(DrawInkMethod.Resolution.Res == 1)
+            if(WindowData.GetInstance().SolutionConfig.OtherMode.Resolution == 1)
             {
                 matrix.Scale(1280 / Width1, 960 / Height1);
             }
-            else if (DrawInkMethod.Resolution.Res == 2)
+            else if (WindowData.GetInstance().SolutionConfig.OtherMode.Resolution == 2)
             {
                 matrix.Scale(2448 / Width1, 1836 / Height1);
             }
@@ -1859,11 +1859,11 @@ namespace Global.UserControls.DrawVisual
             double Height1 = inkVisual.ActualHeight;
             double ratio = inkVisual.ratio1.Ratio;
             Matrix matrix = new Matrix();
-            if(DrawInkMethod.Resolution.Res == 1)
+            if(WindowData.GetInstance().SolutionConfig.OtherMode.Resolution == 1)
             {
                 matrix.Scale(1280 / (Width1 * ratio), 960 / (Height1 * ratio));
             }
-            else if(DrawInkMethod.Resolution.Res == 2)
+            else if(WindowData.GetInstance().SolutionConfig.OtherMode.Resolution == 2)
             {
                 matrix.Scale(2448 / (Width1 * ratio), 1836 / (Height1 * ratio));
             }
@@ -2064,17 +2064,17 @@ namespace Global.UserControls.DrawVisual
         private ContextMenu AddContextMenu(ContextMenuPar menuPar, MouseButtonEventArgs e)
         {
             ContextMenu context = null;
-            if (menuPar.status == 0|| menuPar.status==2)
+            if (menuPar.status == 0|| menuPar.status==2) // 无图和采集不显示右键菜单
             {
                 return context;
             }
-            else if (menuPar.status == 1)
+            else if (menuPar.status == 1) //预览
             {
-                if (menuPar.count != 2)
+                if (menuPar.count != 2)//单窗口和多窗口
                 {
                     context = WindowData1.UpdateContextMenu(menuPar.mode, this.index);
                 }
-                else
+                else  //双拼
                 {
                     Point point = e.GetPosition(this.inkCanvas);
                     if(point.X< this.inkCanvas.ActualWidth / 2)
@@ -2092,16 +2092,16 @@ namespace Global.UserControls.DrawVisual
             }
             else    // 读图模式
             {
-                if (menuPar.count == 0)
+                if (menuPar.count == 0) //单窗口
                 {
                     context = WindowData1.UpdateContextMenu1(menuPar.mode, this.index,0,menuPar.modes);
 
                 }
-                else if (menuPar.count == 1)
+                else if (menuPar.count == 1)  //多窗口
                 {
                     context = WindowData1.UpdateContextMenu1(menuPar.mode, this.index, 1, menuPar.modes);
                 }
-                else if(menuPar.count == 2)
+                else if(menuPar.count == 2)   // 双拼
                 {
                     Point point = e.GetPosition(this.inkCanvas);
                     if (point.X < this.inkCanvas.ActualWidth / 2)

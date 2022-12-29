@@ -143,20 +143,32 @@ namespace Global.Mode.Config
     public class MultiGain : ViewModelBase
     {
       
-            private int gain1 = 0;
+            private int gain0 = 0;
             [JsonPropertyName("10x")]
-            public int Gain1
+            public int Gain0
            {
-                get { return gain1; }
+                get { return gain0; }
                 set
                 {
-                     gain1 = value;
+                     gain0 = value;
                     NotifyPropertyChanged();
                 }
             }
 
-            private int gain2 = 0;
+            private int gain1 = 0;
             [JsonPropertyName("20x")]
+            public int Gain1
+        {
+                get { return gain1; }
+                set
+                {
+                gain1 = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+            private int gain2 = 30;
+            [JsonPropertyName("40x")]
             public int Gain2
         {
                 get { return gain2; }
@@ -166,26 +178,14 @@ namespace Global.Mode.Config
                     NotifyPropertyChanged();
                 }
             }
-
-            private int gain3 = 30;
-            [JsonPropertyName("40x")]
-            public int Gain3
-        {
-                get { return gain3; }
-                set
-                {
-                gain3 = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        private int gain4 = 30;
+        private int gain3 = 30;
         [JsonPropertyName("100x")]
-        public int Gain4
+        public int Gain3
         {
-            get { return gain4; }
+            get { return gain3; }
             set
             {
-                gain4 = value;
+                gain3 = value;
                 NotifyPropertyChanged();
             }
         }
@@ -202,8 +202,20 @@ namespace Global.Mode.Config
     public class MultiExposure : ViewModelBase
     {
 
-        private int exposure1 = 35;
+        private int exposure0 = 35;
         [JsonPropertyName("10x")]
+        public int Exposure0
+        {
+            get { return exposure0; }
+            set
+            {
+                exposure0 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int exposure1 = 35;
+        [JsonPropertyName("20x")]
         public int Exposure1
         {
             get { return exposure1; }
@@ -215,7 +227,7 @@ namespace Global.Mode.Config
         }
 
         private int exposure2 = 35;
-        [JsonPropertyName("20x")]
+        [JsonPropertyName("40x")]
         public int Exposure2
         {
             get { return exposure2; }
@@ -225,26 +237,14 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
         private int exposure3 = 35;
-        [JsonPropertyName("40x")]
+        [JsonPropertyName("100x")]
         public int Exposure3
         {
             get { return exposure3; }
             set
             {
                 exposure3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private int exposure4 = 35;
-        [JsonPropertyName("100x")]
-        public int Exposure4
-        {
-            get { return exposure4; }
-            set
-            {
-                exposure4 = value;
                 NotifyPropertyChanged();
             }
         }

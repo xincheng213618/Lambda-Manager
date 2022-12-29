@@ -30,11 +30,7 @@ namespace ConfigObjective
                 };
                 radioButton.Checked += delegate
                 {
-                    if (item.ID == 0)
-                    {
-                        windowData.SolutionConfig.IsMultiObj.Enable = true;
-                        return;
-                    }
+                   
                     Dictionary<string, object> values = new Dictionary<string, object>()
                     {
                         {"magnitude",item.ID },
@@ -42,9 +38,10 @@ namespace ConfigObjective
                     };
                     LambdaControl.Trigger("OBJECTIVE_LENS_SETTING", this, values);
                     windowData.SolutionConfig.CurrentObjective = item.ID;
-
+                    ObjFoldText.Text = radioButton.Content.ToString();
                     UpdateBinding(windowData.SolutionConfig.IsMultiObj.Enable== true,OperatingMode, item.ID);
                     LensFactorChange(item.ID);
+                    //物镜切换，标记尺寸失效
                     foreach(InkVisual item in Global.DrawInkMethod.InkAll)
                     {
                         if (item != null)
@@ -157,17 +154,24 @@ namespace ConfigObjective
 
                 case 0:
                    return windowData.SolutionConfig.OperatingMode.BrightField.CameraSetting;
+                    break;
                 case 1:
                     return windowData.SolutionConfig.OperatingMode.DarkField.CameraSetting;
+                    break;
                 case 2:
                     return windowData.SolutionConfig.OperatingMode.Reinberg.CameraSetting;
+                    break;
                 case 3:
                     return windowData.SolutionConfig.OperatingMode.ReliefContrast.CameraSetting;
+                    break;
                 case 5:
                     return windowData.SolutionConfig.OperatingMode.PhaseContrast.CameraSetting;
+                    break;
                 case 4:
                     return windowData.SolutionConfig.OperatingMode.QuantitativePhase.CameraSetting;
+                    break;
                 default: return null;
+
             }
 
 

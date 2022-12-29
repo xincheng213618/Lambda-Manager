@@ -156,7 +156,7 @@ namespace Global.Mode
 
         public int? InkMode { get; set; } = 1;
 
-        public int? Resolution { get; set; } = 1;
+        public int? Resolution { get; set; } = 0;
 
     }
 

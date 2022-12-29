@@ -70,9 +70,7 @@ namespace ConfigObjective
 
             Update.UpdateGlobal();
             IsFirstUpdate = true;
-
-            ComboBox1.ItemsSource = windowData.deviceInformation.CameraResolution;
-            ComboBox1.SelectedIndex = 1;
+           
 
             #region slider
             SliderAbbreviation(Slider311, "BRIGHT_FIELD_DIAMETER", "diameter");
@@ -153,6 +151,8 @@ namespace ConfigObjective
                     LambdaControl.Dispatch("STAGE_SETTING_RESET", this, new Dictionary<string, object> { });
                 }
             }
+            ComboBox1.ItemsSource = windowData.deviceInformation.CameraResolution;
+            ComboBox1.SelectedIndex = (int)WindowData.GetInstance().SolutionConfig.OtherMode.Resolution;
         }
 
 
@@ -535,6 +535,18 @@ namespace ConfigObjective
         private void AcquireInkSave_Unchecked(object sender, RoutedEventArgs e)
         {
             LambdaControl.Trigger("VISUAL_ACQUIRE_SAVE", this, new Dictionary<string, object>() { { "mode", 0 } });
+        }
+
+        private void ToggleButton1_Unchecked(object sender, RoutedEventArgs e)
+        {
+           if(ObjectiveSettingStackPanel.Children.Count == 1)
+            {
+                if (ObjectiveSettingStackPanel.Children[0] is RadioButton radio)
+                {
+                    ObjFoldText.Text = radio.Content.ToString();
+                }
+
+            }
         }
     }
 

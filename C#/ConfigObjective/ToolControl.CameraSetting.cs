@@ -9,8 +9,8 @@ using System.Windows.Controls;
 using Global.Hardware;
 using Lambda;
 using Global.Mode.Config;
-using Global.Common.Util;
 using System.Text.Json.Nodes;
+using Global;
 
 namespace ConfigObjective
 {
@@ -133,15 +133,20 @@ namespace ConfigObjective
 
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Border2.DataContext is Camera cameraSetting)
+            //if (Border2.DataContext is Camera cameraSetting)
+            //{
+            //    JsonObject keyValuePairs = new JsonObject();
+            //    keyValuePairs["mode"] = cameraSetting.SelectViewMode;
+            //    keyValuePairs["format"] = ComboBox1.SelectedItem.ToString();
+            //    LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, keyValuePairs.ToString());
+            //}
+            if(Border2.DataContext is Camera cameraSetting)
             {
-                JsonObject keyValuePairs = new JsonObject();
-                keyValuePairs["mode"] = cameraSetting.SelectViewMode;
-                keyValuePairs["format"] = ComboBox1.SelectedItem.ToString();
-
-                LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, keyValuePairs.ToString());
+                LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "mode", ComboBox1.SelectedIndex } });
+               
             }
-            Global.DrawInkMethod.Resolution.Res = ComboBox1.SelectedIndex;
+            WindowData.GetInstance().SolutionConfig.OtherMode.Resolution = ComboBox1.SelectedIndex;
+            
         }
 
 

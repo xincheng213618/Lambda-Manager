@@ -8,7 +8,7 @@
              xmlns:userControls="clr-namespace:ConfigObjective.UserControls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1320" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1">
+             d:DesignHeight="1320" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -41,16 +41,16 @@
                 <ColumnDefinition Width="61*"/>
 
             </Grid.ColumnDefinitions>
-            <ToggleButton  Grid.Column="0" x:Name="ToggleButton1"  Style="{StaticResource ButtonPageControl11}"  Content="物镜设置" FontSize="16" Foreground="White" IsChecked="True" Margin="0,5,0,0"/>
+            <ToggleButton  Grid.Column="0" x:Name="ToggleButton1"  Style="{StaticResource ButtonPageControl11}"  Content="物镜设置" FontSize="16" Foreground="White" IsChecked="True" Margin="0,5,0,0" Unchecked="ToggleButton1_Unchecked"  />
 
-            <!--<Border Grid.Column="1" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Background="Transparent" Padding="5" Margin="5,5,0,0" Grid.ColumnSpan="2">
+            <Border Grid.Column="1" CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Background="Transparent" Padding="5" Margin="5,5,0,0" Grid.ColumnSpan="2">
                 <StackPanel x:Name="ObjectiveSettingStackPanel1" Orientation="Horizontal">
-                    --><!--<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0"  Foreground="#6EA646">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0"  Foreground="#6EA646">
                     <Run Text="物镜:"/>
-                    <Run Text="10X"/>
-                    </TextBlock>--><!--
+                    <Run x:Name="ObjFoldText" Text=""/>
+                    </TextBlock>
                 </StackPanel>
-            </Border>-->
+            </Border>
 
         </Grid>
         <Border CornerRadius="5" Visibility="{Binding ElementName=ToggleButton1 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#333333" Padding="5" Margin="5,0">
@@ -69,7 +69,7 @@
             </Grid.ColumnDefinitions>
             <ToggleButton Grid.Column="0" x:Name="ToggleButton2"  Style="{StaticResource ButtonPageControl11}" Content="相机设置" FontSize="16" Foreground="White" IsChecked="True" Margin="0,5,0,0" Checked="ToggleButton2_Checked"/>
             <DockPanel Grid.Column="2" HorizontalAlignment="Right">
-                <Button x:Name="Button201" Content="重置"  FontFamily="Microsoft YaHei"  Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,3" Click="Button201_Click"/>
+                <Button x:Name="Button201" Content="重置"  FontFamily="Microsoft YaHei"  Width="50" VerticalAlignment="Bottom"  HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,3" Click="Button201_Click"/>
             </DockPanel>
             <Border Grid.Column="1"  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton2 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  Background="Transparent" Padding="5" Margin="5,5,0,0">
                 <StackPanel>
@@ -78,8 +78,9 @@
                                     <Run Text=""/>
                                     <Run Text=",增益:"/>
                                     <Run Text="{Binding ElementName=Slider211,Path=Value,StringFormat=\{0:0.#######\}}"/>
-                                    <Run Text=",分辨率:1920*1080"/>
-                                    <Run Text=",帧率：30"/>
+                                    <Run Text=",分辨率:"/>
+                                    <Run Text="{Binding ElementName=ComboBox1,Path=SelectedItem}"/>
+                                    <!--<Run Text=",帧率：30"/>-->
                     </TextBlock>
                 </StackPanel>
             </Border>
@@ -513,7 +514,7 @@
                 <Popup StaysOpen="False" Name="popUp41" PlacementTarget="{Binding ElementName=Button41}" Width="120" PopupAnimation="Slide" HorizontalOffset="0" Closed="popUp41_Closed" AllowsTransparency="True" MouseWheel="popUp41_MouseWheel"  >
                     <Border BorderThickness="1" BorderBrush="#444444" CornerRadius="2">
                         <StackPanel Background="#1e1e1e" MouseLeave="StackPanel_MouseLeave_1" >
-                            <CheckBox Content="25x25 玻片" FontSize="14" IsChecked="{Binding ElementName=Button41,Path=IsChecked}" x:Name="_25x25" Checked="_25x25_Checked" Margin="5" Unchecked="_Unchecked" ></CheckBox>
+                            <CheckBox Content="75x25 玻片" FontSize="14" IsChecked="{Binding ElementName=Button41,Path=IsChecked}" x:Name="_25x25" Checked="_25x25_Checked" Margin="5" Unchecked="_Unchecked" ></CheckBox>
                         </StackPanel>
                     </Border>
                 </Popup>

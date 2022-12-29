@@ -62,8 +62,20 @@ namespace Global.Mode.Config
     public class MultiStep : ViewModelBase
     {
 
-        private int step1 = 200;
+        private int step0 = 200;
         [JsonPropertyName("10x")]
+        public int Step0
+        {
+            get { return step0; }
+            set
+            {
+                step0 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int step1 =100;
+        [JsonPropertyName("20x")]
         public int Step1
         {
             get { return step1; }
@@ -74,8 +86,8 @@ namespace Global.Mode.Config
             }
         }
 
-        private int step2 =100;
-        [JsonPropertyName("20x")]
+        private int step2 =50;
+        [JsonPropertyName("40x")]
         public int Step2
         {
             get { return step2; }
@@ -85,26 +97,14 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
-        private int step3 =50;
-        [JsonPropertyName("40x")]
+        private int step3 = 50;
+        [JsonPropertyName("100x")]
         public int Step3
         {
             get { return step3; }
             set
             {
                 step3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private int step4 = 50;
-        [JsonPropertyName("100x")]
-        public int Step4
-        {
-            get { return step4; }
-            set
-            {
-                step4 = value;
                 NotifyPropertyChanged();
             }
         }
