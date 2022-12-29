@@ -10,7 +10,7 @@ namespace Solution.RecentFile
         public string RegistryKey { get; set; }
         public RegistryPersister()
         {
-            RegistryKey ="Software\\" + Application.CompanyName + "\\" + Application.ProductName + "\\" + "RecentFileList";
+            RegistryKey ="Software\\" + Application.ProductName + "\\" + "RecentFileList";
         }
         public RegistryPersister(string key)
         {

@@ -157,24 +157,17 @@ namespace ConfigObjective
 
                 case 0:
                    return windowData.SolutionConfig.OperatingMode.BrightField.CameraSetting;
-                    break;
                 case 1:
                     return windowData.SolutionConfig.OperatingMode.DarkField.CameraSetting;
-                    break;
                 case 2:
                     return windowData.SolutionConfig.OperatingMode.Reinberg.CameraSetting;
-                    break;
                 case 3:
                     return windowData.SolutionConfig.OperatingMode.ReliefContrast.CameraSetting;
-                    break;
                 case 5:
                     return windowData.SolutionConfig.OperatingMode.PhaseContrast.CameraSetting;
-                    break;
                 case 4:
                     return windowData.SolutionConfig.OperatingMode.QuantitativePhase.CameraSetting;
-                    break;
                 default: return null;
-
             }
 
 

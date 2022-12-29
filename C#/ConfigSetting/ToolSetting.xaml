@@ -98,7 +98,6 @@
                         <TreeViewItem Header="显卡" FontSize="14" Tag="{Binding ElementName=GroupBox11}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="系统" FontSize="14" Tag="{Binding ElementName=GroupBox12}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="工程" FontSize="14" Tag="{Binding ElementName=GroupBox14}"  Selected="TreeViewItem_Selected"/>
-                        <TreeViewItem Header="显示" FontSize="14" Tag="{Binding ElementName=GroupBox18}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="保存" FontSize="14" Tag="{Binding ElementName=GroupBox19}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="拍照选项" FontSize="14" Tag="{Binding ElementName=GroupBox16}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="标注选项" FontSize="14" Tag="{Binding ElementName=GroupBox17}"  Selected="TreeViewItem_Selected"/>
@@ -245,7 +244,7 @@
                                     </Grid>
                                 </GroupBox>
 
-                                <GroupBox x:Name="GroupBox18" Style="{DynamicResource GroupBoxStyle2}" Header="显示">
+                                <GroupBox x:Name="GroupBox18" Style="{DynamicResource GroupBoxStyle2}" Header="显示" Visibility="Collapsed">
                                     <Grid  Margin="0,5,0,0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="20"/>
@@ -375,8 +374,8 @@
                                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,3" Text="图像翻转"/>
 
                                         <DockPanel Grid.Row="2" Grid.Column="1" Margin="0,3" HorizontalAlignment="Left" >
-                                            <CheckBox Content="水平翻转" Margin="0,0,20,0"/>
-                                            <CheckBox Content="垂直翻转" Margin="0,0,20,0"/>
+                                            <CheckBox Content="水平翻转" Margin="0,0,20,0" IsChecked="{Binding Path=ImageFlipH}"/>
+                                            <CheckBox Content="垂直翻转" Margin="0,0,20,0" IsChecked="{Binding Path=ImageFlipV}"/>
                                         </DockPanel>
 
                                         <TextBlock Grid.Row="3" Margin="0,3" Text="相机靶面大小:"/>

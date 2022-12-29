@@ -1,7 +1,12 @@
-﻿using System;
+﻿using ACE;
+using ACE.Global;
+using Global.Common;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +34,40 @@ namespace Wizard
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!Regex.IsMatch(registerInfo.RegistrationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
+            {
+                MessageBox1.Show("请输入正确的注册日期");
+                return;
+            }
+            if (!Regex.IsMatch(registerInfo.ExpirationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
+            {
+                MessageBox1.Show("请输入正确的过期日期");
+                return;
+            }
+            if (!Regex.IsMatch(registerInfo.Email, @"^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$"))
+            {
+                MessageBox1.Show("请输入正确的邮箱地址");
+                return;
+            }
+            if (!Regex.IsMatch(registerInfo.PhoneNumber, @"^1(3[0-9]|5[0-9]|7[6-8]|8[0-9])[0-9]{8}$"))
+            {
+                MessageBox1.Show("请输入正确的手机号");
+                return;
+            }
+
+            if (File.Exists("application.xml"))
+            {
+                fileRegisterinfo.SetRegisterInfo(registerInfo);
+                //new AESHelper(fileRegisterinfo).Encrypt();
+            }
+            else
+            {
+                //byte[] Caches = new AESHelper(fileRegisterinfo).Decrypt();
+                fileRegisterinfo.SetRegisterInfo(registerInfo);
+                //new AESHelper(fileRegisterinfo).Encrypt(Caches);
+            }
+
+
             Content = new Page2(Window);
             Pages();
         }
@@ -42,8 +81,25 @@ namespace Wizard
         {
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
-
+        FileRegisterinfo fileRegisterinfo;
+        RegisterInfo registerInfo;
         private void Page_Initialized(object sender, EventArgs e)
+        {
+            fileRegisterinfo = new FileRegisterinfo();
+            registerInfo = fileRegisterinfo.GetRegisterInfo();
+            if (registerInfo == null)
+            {
+                registerInfo = fileRegisterinfo.GetRegisterInfo() ?? new RegisterInfo();
+                RegisterStackpanel.DataContext = registerInfo;
+            }
+            else
+            {
+                Content = new Page2(Window);
+                Pages();
+            }
+        }
+
+        private void H5a6_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

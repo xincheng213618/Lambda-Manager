@@ -100,13 +100,11 @@ namespace ConfigSetting
                     SystemCommands.MinimizeWindow(Application.Current.MainWindow);
                     await Task.Delay(50);
 
-                    if (SoftwareConfig.HardwareSetting.CameraStatus != Global.SettingUp.Hardware.CameraStatus.Ok ||
-    SoftwareConfig.HardwareSetting.LightStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError ||
-    SoftwareConfig.HardwareSetting.StageStatus != Global.SettingUp.Hardware.SerialPortStatus.NoError)
+                    if (SoftwareConfig.HardwareSetting.CameraStatus != CameraStatus.Ok || SoftwareConfig.HardwareSetting.LightStatus != SerialPortStatus.NoError || SoftwareConfig.HardwareSetting.StageStatus != SerialPortStatus.NoError)
                     {
                         if (!SoftwareConfig.HardwareSetting.IsIniWizard)
                         {
-                            MessageBox.Show($"硬件连接异常:\n\r相机状态:{SoftwareConfig.HardwareSetting.CameraStatus}\n\r光源状态:{SoftwareConfig.HardwareSetting.LightStatus}\n\r位移台状态:{SoftwareConfig.HardwareSetting.StageStatus}", "Grid");
+                            MessageBox1.Show($"硬件连接异常:\n\r相机状态:{SoftwareConfig.HardwareSetting.CameraStatus}\n\r光源状态:{SoftwareConfig.HardwareSetting.LightStatus}\n\r位移台状态:{SoftwareConfig.HardwareSetting.StageStatus}", "Grid");
                             if (MessageBox1.Show("您是否要继续完成初始化 ", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.No)
                             {
                                 Environment.Exit(0);
@@ -245,6 +243,8 @@ namespace ConfigSetting
                 GroupBox13.DataContext = SoftwareConfig.HardwareConfig;
                 GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
                 GroupBox24.DataContext = SoftwareConfig.HardwareConfig.CameraConfig;
+                LambdaControl.Trigger("CameraSettingFlipV", this, new Dictionary<string, object>() { { "bflip", SoftwareConfig.HardwareConfig.CameraConfig.ImageFlipV } });
+                LambdaControl.Trigger("CameraSettingFlipH", this, new Dictionary<string, object>() { { "bflip", SoftwareConfig.HardwareConfig.CameraConfig.ImageFlipH } });
                 //SoftwareConfig.HardwareConfig.LightSourceConfig = Json.Deserialize<LightSourceConfig>("LightSourceConfig");
                 //GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
                 //SoftwareConfig.HardwareConfig.LightSourceConfig.ToJsonFile("LightSourceConfig");

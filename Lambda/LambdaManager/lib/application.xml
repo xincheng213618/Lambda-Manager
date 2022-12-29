@@ -7,8 +7,18 @@
 				<input name="GrifExportAsJson" type="#string" />
 			</action>
 		</procedure>
-
+		<procedure name="CameraSettingFlipV" event="CameraSettingFlipV" key ="bflip" >
+			<action name="CameraSettingFlipV">
+				<input name="bflip" type="bool" />
+			</action>
+		</procedure>
+		<procedure name="CameraSettingFlipH" event="CameraSettingFlipH" key ="bflip" >
+			<action name="CameraSettingFlipH">
+				<input name="bflip" type="bool" />
+			</action>
+		</procedure>
 		
+
 		<procedure name="HardwareCalibrationInit" event="HardwareCalibrationInit" key ="HardwareCalibrationType" >
 			<action name="HardwareCalibrationInit">
 				<input name="HardwareCalibrationType" type="int" />

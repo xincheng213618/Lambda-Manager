@@ -43,31 +43,14 @@ public class UIEvents
 
         }
 
-        string totalFrame = eventData.GetString("totalFrame");
-        if (totalFrame != string.Empty)
-        {
-            try
-            {
-                updateStatus.TotalFrame = int.Parse(totalFrame);
-            }
-            catch
-            {
-                updateStatus.TotalFrame = 0;
-            }
-        }
-
+        updateStatus.TotalFrame = eventData.GetInt("totalFrame") ?? 0;
         updateStatus.TimeElapsed = eventData.GetString("timeElapsed");
         updateStatus.TotalTime = eventData.GetString("totalTime");
-        string sliceIndex = eventData.GetString("sliceIndex");
-        if (sliceIndex != string.Empty)
-        {
-            updateStatus.SliceIndex = int.Parse(sliceIndex);
-        }
-        string totalSlice = eventData.GetString("totalSlice");
-        if (totalSlice != string.Empty)
-        {
-            updateStatus.TotalSlice = int.Parse(totalSlice);
-        }
+
+        updateStatus.SliceIndex = eventData.GetInt("sliceIndex") ?? 0;
+
+        updateStatus.TotalSlice = eventData.GetInt("totalSlice") ?? 0;
+
         updateStatus.ZTop = eventData.GetString("zTop");
         updateStatus.ZCurrent = eventData.GetString("zCurrent");
         updateStatus.ZBottom = eventData.GetString("zBottom");

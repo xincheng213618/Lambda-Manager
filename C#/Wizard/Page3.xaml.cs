@@ -34,8 +34,8 @@ namespace Wizard
         {
             new ObjectiveConfig() { No=0,Brand ="国产", ObjectiveKey ="10x",Magnitude =10,NA=0.25,WorkingDistance ="10.6",Achromatic=false, Multiple=5.5},
             new ObjectiveConfig() { No=1,Brand ="国产", ObjectiveKey ="20x",Magnitude =20,NA=0.4,WorkingDistance ="10.6",Achromatic=false, Multiple=3.2},
-            new ObjectiveConfig() { No=2,Brand ="国产", ObjectiveKey ="20xl",Magnitude =20,NA=0.4,WorkingDistance ="10.6",Achromatic=false, Multiple=3.2},
-            new ObjectiveConfig() { No=3,Brand ="国产", ObjectiveKey ="20xs",Magnitude =20,NA=0.4,WorkingDistance ="10.6",Achromatic=false, Multiple=3.2}
+            //new ObjectiveConfig() { No=2,Brand ="国产", ObjectiveKey ="20xl",Magnitude =20,NA=0.4,WorkingDistance ="10.6",Achromatic=false, Multiple=3.2},
+            //new ObjectiveConfig() { No=3,Brand ="国产", ObjectiveKey ="20xs",Magnitude =20,NA=0.4,WorkingDistance ="10.6",Achromatic=false, Multiple=3.2}
         };
 
 

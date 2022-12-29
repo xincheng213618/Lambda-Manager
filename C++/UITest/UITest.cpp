@@ -798,8 +798,14 @@ int  test_double(double exposure)
 	Logger::Log2(Severity::INFO, L"测试: Test8(x=%.8lf)", exposure);
 	return 0;
 }
-
-
+int CameraSettingFlipV(bool bflip) {
+	Logger::Log2(Severity::INFO, L"CameraSettingFlipV bflip =%b", bflip);
+	return 0;
+}
+int CameraSettingFlipH(bool bflip) {
+	Logger::Log2(Severity::INFO, L"CameraSettingFlipH bflip =%b", bflip);
+	return 0;
+}
 
 int CameraSettingExposure(int mode,double exposure)
 {

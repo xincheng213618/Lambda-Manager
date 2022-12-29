@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using Global.Hardware;
 using Lambda;
 using Global.Mode.Config;
+using Global.Common.Util;
+using System.Text.Json.Nodes;
 
 namespace ConfigObjective
 {
@@ -133,7 +135,11 @@ namespace ConfigObjective
         {
             if (Border2.DataContext is Camera cameraSetting)
             {
-                LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode }, { "format", ComboBox1.SelectedItem } });
+                JsonObject keyValuePairs = new JsonObject();
+                keyValuePairs["mode"] = cameraSetting.SelectViewMode;
+                keyValuePairs["format"] = ComboBox1.SelectedItem.ToString();
+
+                LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, keyValuePairs.ToString());
             }
             Global.DrawInkMethod.Resolution.Res = ComboBox1.SelectedIndex;
         }

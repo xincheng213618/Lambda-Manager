@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Wizard"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="500" Background="{DynamicResource WindowBackgroundBrush}" Topmost="True" Closed="BaseWindow_Closed" MinHeight="200" Width="700" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
+        Height="500" Background="{DynamicResource WindowBackgroundBrush}" Topmost="True" Closed="BaseWindow_Closed" ResizeMode="NoResize"  MinHeight="200" Width="700" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
     <Grid>
         <Border Margin="10,10"  CornerRadius="10">
             <Grid Margin="10">

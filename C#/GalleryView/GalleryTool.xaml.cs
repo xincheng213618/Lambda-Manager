@@ -116,7 +116,7 @@ namespace GalleryView
           
            
             Product product = Gallery.List.SelectedItem as Product;
-            string label = product.ModelName.ToString();
+            string label = product?.ModelName.ToString();
             int Index = product.ModelNumber;
             MessageBoxResult result = System.Windows.MessageBox.Show("是否删除原始图片 "+" "+ label, "信息提示", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             switch (result)

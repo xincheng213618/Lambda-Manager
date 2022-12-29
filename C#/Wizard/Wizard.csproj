@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ACE\ACE.csproj" />
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />

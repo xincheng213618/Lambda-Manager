@@ -40,7 +40,7 @@ namespace ThemeManager.Controls
                     ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/Themes/Dark/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
                     Application.Current.Resources.MergedDictionaries.Add(dictionary2);
                 }
-                else if (ThemeManagers.CurrentUITheme == Theme.White)
+                else if (ThemeManagers.CurrentUITheme == Theme.Light)
                 {
                     ResourceDictionary dictionary2 = Application.LoadComponent(new Uri("/ThemeManager;component/Themes/White/Theme.xaml", UriKind.Relative)) as ResourceDictionary;
                     Application.Current.Resources.MergedDictionaries.Add(dictionary2);

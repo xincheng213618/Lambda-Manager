@@ -4,6 +4,15 @@ using System.Windows.Input;
 
 namespace HotKey
 {
+    public static class HotKeyExtension
+    {
+        public static int ToInt(this Hotkey hotkey)
+        {
+            return ((int)hotkey.Modifiers >> 8) + (int)hotkey.Key;
+        }
+    }
+
+
     [Serializable]
     public class Hotkey
     {
@@ -13,10 +22,6 @@ namespace HotKey
         {
             Key = key;
             Modifiers = modifiers;
-        }
-        public int ToInt()
-        {
-            return (int)Modifiers>>8+ (int)Key;
         }
 
         public override string ToString()

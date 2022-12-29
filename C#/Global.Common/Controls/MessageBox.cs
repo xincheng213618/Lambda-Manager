@@ -18,6 +18,7 @@ namespace Global.Common
             Application.Current.Dispatcher.Invoke(delegate
             {
                 Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText, caption, button, icon, defaultResult);
+                messageBox1.Topmost = true;
                 messageBox1.ShowDialog();
                 MessageBoxResult = messageBox1.MessageBoxResult;
             });

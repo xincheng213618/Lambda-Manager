@@ -11,6 +11,7 @@ namespace Global.Common.Extensions
     /// </summary>
     public static class DictionaryExtensions
     {
+
         public static string GetString(this Dictionary<string, object>? This, string key)
         {
             if (This.ContainsKey(key)&& This[key] is string value)
@@ -19,6 +20,36 @@ namespace Global.Common.Extensions
             }
             return string.Empty;
         }
+
+
+        public static int? GetInt(this Dictionary<string, object>? This, string key)
+        {
+            if (This.ContainsKey(key))
+            {
+                if (This[key] is int value)
+                    return value;
+                else if (This[key] is string value1 && int.TryParse(value1,out int value2))
+                    return value2;
+                else
+                    return null;
+            }
+            return null;
+        }
+
+        public static double? GetDouble(this Dictionary<string, object>? This, string key)
+        {
+            if (This.ContainsKey(key))
+            {
+                if (This[key] is double value)
+                    return value;
+                else if (This[key] is string value1 && double.TryParse(value1, out double value2))
+                    return value2;
+                else
+                    return null;
+            }
+            return null;
+        }
+
 
         public static object GetValue(this Dictionary<string, object>? This, string key)
         {

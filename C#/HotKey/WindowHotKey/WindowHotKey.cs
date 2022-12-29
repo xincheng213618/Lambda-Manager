@@ -74,8 +74,7 @@ namespace HotKey.WindowHotKey
                 return;
 
             // Update the value
-            Hotkey hotkey = new Hotkey(key, modifiers);
-            if (keymap.TryGetValue(hotkey.ToInt(), out var callback))
+            if (keymap.TryGetValue(((int)modifiers >> 8) + (int)key, out var callback))
             {
                 callback();
             }

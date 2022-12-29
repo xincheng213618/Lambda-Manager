@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <TextBlock Text="新建工程" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
+        <TextBlock Text="配置新工程" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <Grid Margin="30,30,20,20" >
             <StackPanel>
                 <TextBlock Text="项目名称" FontSize="14"/>

@@ -18,7 +18,7 @@ namespace Global.SettingUp
         /// 硬件设置，可修改的
         /// </summary>
         public static HardwareSetting HardwareSetting = new(); 
-
+        
         /// <summary>
         /// 硬件配置，不可修改
         /// </summary>

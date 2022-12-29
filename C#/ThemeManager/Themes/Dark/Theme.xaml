@@ -44,7 +44,7 @@
     <!--MenuItem-->
     <SolidColorBrush x:Key="MenuBrushKey"   Color="{DynamicResource GlobalBackgroundColor}"/>
     <SolidColorBrush x:Key="MenuHighBrushKey"   Color="#2E2E2E"/>
-    <SolidColorBrush x:Key="SubMenuBrushKey"   Color="#2E2E2E"/>
+    <SolidColorBrush x:Key="SubMenuBrushKey"   Color="#252526"/>
     <SolidColorBrush x:Key="SubMenuBorderBrushKey"   Color="#424242"/>
 
     <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />

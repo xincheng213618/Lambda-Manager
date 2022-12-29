@@ -9,6 +9,7 @@
 		<Platforms>AnyCPU;x64</Platforms>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>

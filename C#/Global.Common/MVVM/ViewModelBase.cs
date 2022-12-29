@@ -1,5 +1,7 @@
 ﻿using Global.Common.Util;
+using System;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace Global.Common
@@ -16,6 +18,30 @@ namespace Global.Common
         /// </summary>
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+    public static class ViewModelBaseEx
+    {
+        public static void SetProperty<T, U>(this T tvm, Expression<Func<T, U>> expre) where T : ViewModelBase, new()
+        {
+            string _pro = GetPropertyName(expre);
+            tvm.NotifyPropertyChanged(_pro);
+        }
+
+        public static string GetPropertyName<T, U>(Expression<Func<T, U>> expr)
+        {
+            string _propertyName = "";
+            if (expr.Body is MemberExpression)
+            {
+                _propertyName = (expr.Body as MemberExpression).Member.Name;
+            }
+            else if (expr.Body is UnaryExpression)
+            {
+                _propertyName = ((expr.Body as UnaryExpression).Operand as MemberExpression).Member.Name;
+            }
+            return _propertyName;
+        }
+    }
+
 
 
     public abstract class ViewModelReg: ViewModelBase

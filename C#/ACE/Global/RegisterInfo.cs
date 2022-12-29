@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -9,88 +11,57 @@ namespace ACE.Global
     /// <summary>
     /// 注册信息
     /// </summary>
-    public class RegisterInfo : ViewModelBase
+    public class RegisterInfo : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void SetValue(RegisterInfo registerInfo)
-        {
-            this.UserName = registerInfo.UserName;
-            this.RegistrationDate = registerInfo.RegistrationDate;
-            this.RegisteredAddress = registerInfo.RegisteredAddress;
-            this.ExpirationDate =registerInfo.ExpirationDate;
-            this.Email = registerInfo.Email;
-            this.PhoneNumber = registerInfo.PhoneNumber;
-        }
 
-        private string userName = string.Empty;
         /// <summary>
         /// 用户名
         /// </summary>
-       [JsonPropertyName("name")]
-        public string UserName
-        {
-            get { return userName; }
-            set { userName = value; NotifyPropertyChanged(); }
-        }
-
-        private string registrationDate = string.Empty;
-
-        
+        [JsonPropertyName("name")]
+        public string UserName { get => _UserName; set { _UserName = value; NotifyPropertyChanged(); } }
+        private string _UserName = string.Empty;
+   
         /// <summary>
         /// 注册日期
         /// </summary>
         [JsonPropertyName("create_date")]
-        public string RegistrationDate
-        {
-            get { return registrationDate; }
-            set { registrationDate = value; NotifyPropertyChanged(); }
-        }
-
-
-        private string registeredAddress = string.Empty;
+        public string RegistrationDate { get => _RegistrationDate; set { _RegistrationDate = value; NotifyPropertyChanged(); } }
+        private string _RegistrationDate = string.Empty;
+        
 
         /// <summary>
         /// 注册地址
         /// </summary>
         [JsonPropertyName("legal_address")]
-        public string RegisteredAddress
-        {
-            get { return registeredAddress; }
-            set { registeredAddress = value; NotifyPropertyChanged(); }
-        }
+        public string RegisteredAddress { get => _RegisteredAddress; set { _RegisteredAddress = value; NotifyPropertyChanged(); } }
+        private string _RegisteredAddress = string.Empty;
 
-        private string expirationDate = string.Empty;
         /// <summary>
         /// 失效日期
         /// </summary>
         [JsonPropertyName("expire_date")]
-        public string ExpirationDate
-        {
-            get { return expirationDate; }
-            set { expirationDate = value; NotifyPropertyChanged(); }
-        }
+        public string ExpirationDate { get => _ExpirationDate; set { _ExpirationDate = value; NotifyPropertyChanged(); } }
+        private string _ExpirationDate = string.Empty;
 
-        private string email = string.Empty;
+
         /// <summary>
         /// 注册邮件地址
         /// </summary>
         [JsonPropertyName("email_address")]
-        public string Email
-        {
-            get { return email; }
-            set { email = value; NotifyPropertyChanged(); }
-        }
+        public string Email { get => _Email; set { _Email = value; NotifyPropertyChanged(); } }
+        private string _Email = string.Empty;
 
-        private string phoneNumber = string.Empty;
+
         /// <summary>
         /// 联系电话
         /// </summary>
         [JsonPropertyName("contact_number")]
-        public string PhoneNumber
-        {
-            get { return phoneNumber; }
-            set { phoneNumber = value; NotifyPropertyChanged(); }
-        }
+        public string PhoneNumber { get => _PhoneNumber; set { _PhoneNumber = value; NotifyPropertyChanged(); } }
+        private string _PhoneNumber = string.Empty;
+
 
         public override string ToString()
         {
@@ -104,10 +75,7 @@ namespace ACE.Global
 
         public string GetMD5()
         {
-            using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
-            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.ToString());
-            byte[] hashBytes = md5.ComputeHash(inputBytes);
-
+            byte[] hashBytes = System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(this.ToString()));
             return Convert.ToHexString(hashBytes); // .NET 5 +
         }
    

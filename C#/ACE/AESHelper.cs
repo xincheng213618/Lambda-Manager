@@ -34,7 +34,6 @@ namespace ACE
                 return true;
             }
             return false;
-
         }
         public bool Encrypt(byte[] EncryptData)
         {

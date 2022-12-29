@@ -27,7 +27,7 @@ namespace ACE.Global
             this.registerCode = registerCode;
         }
 
-        public RegisterInfo? GetRegisterInfo()
+        public RegisterInfo GetRegisterInfo()
         {
             string result = registerCode.GetRegisterCode();
             if (!string.IsNullOrEmpty(result))

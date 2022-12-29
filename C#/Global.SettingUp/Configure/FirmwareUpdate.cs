@@ -1,4 +1,5 @@
 ﻿using Global.Common;
+using Lambda;
 using System.Text.Json.Serialization;
 
 namespace Global.SettingUp.Configure
@@ -95,7 +96,7 @@ namespace Global.SettingUp.Configure
 
     }
 
-    public class CameraConfig : ViewModelBase
+    public class CameraConfig : ViewModelReg
     {
         /// <summary>
         /// 相机型号
@@ -132,7 +133,14 @@ namespace Global.SettingUp.Configure
         public string DynamicRange { get => _DynamicRange; set { _DynamicRange = value; NotifyPropertyChanged(); } }
         public string _DynamicRange;
 
-        public int ImageFlip { get; set; }
+        //图像翻转Vertical
+        public bool ImageFlipV { get => _ImageFlipV; set { _ImageFlipV = value; LambdaControl.Trigger("CameraSettingFlipV", this, new Dictionary<string, object>() { { "bflip",value  } }); WriteRegValue(value); NotifyPropertyChanged(); } }
+        private bool _ImageFlipV = ReadRegValue(nameof(ImageFlipV));
+
+        //图像翻转Horizon
+        public bool ImageFlipH { get => _ImageFlipH; set { _ImageFlipH = value; LambdaControl.Trigger("CameraSettingFlipH", this, new Dictionary<string, object>() { { "bflip", value } }); WriteRegValue(value); NotifyPropertyChanged(); } }
+        private bool _ImageFlipH = ReadRegValue(nameof(ImageFlipH));
+
         /// <summary>
         /// 触发模式
         /// </summary>

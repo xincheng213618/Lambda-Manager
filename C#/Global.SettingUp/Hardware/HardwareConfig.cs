@@ -37,7 +37,6 @@ namespace Global.SettingUp.Hardware
         public string InstallSize { get => _InstallSize; set { _InstallSize = value; NotifyPropertyChanged(); } }
         private string _InstallSize = string.Empty;
 
-        
 
         /// <summary>
         /// 物镜配置
@@ -49,6 +48,9 @@ namespace Global.SettingUp.Hardware
         /// </summary>
         public LightSourceConfig LightSourceConfig { get; set; } = new LightSourceConfig();
 
+        /// <summary>
+        /// 相机配置
+        /// </summary>
         public CameraConfig CameraConfig { get; set; } = new CameraConfig();    
 
     }

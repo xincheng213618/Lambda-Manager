@@ -1,4 +1,5 @@
-﻿using Global.Common;
+﻿using ACE.Global;
+using Global.Common;
 using Global.Common.Extensions;
 using Global.SettingUp;
 using Lambda;
@@ -37,10 +38,21 @@ namespace Wizard
             InitializeComponent();
 
         }
-
+        FileRegisterinfo fileRegisterinfo;
+        RegisterInfo registerInfo;
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
+            fileRegisterinfo = new FileRegisterinfo();
+            registerInfo = fileRegisterinfo.GetRegisterInfo();
+            if (registerInfo == null)
+            {
+                Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1(this))));
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
+            }
+
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "启动配置向导" });
         }
 

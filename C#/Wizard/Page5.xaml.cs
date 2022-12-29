@@ -125,7 +125,7 @@ namespace Wizard
         private async void Page_Initialized(object sender, EventArgs e)
         {
             AdddHardwareCalibration("正在准备校准环境");
-            await Task.Delay(2000);
+            //await Task.Delay(1000);
             if (HardwareCalibrations.Count <= 0)
             {
                 Pages();

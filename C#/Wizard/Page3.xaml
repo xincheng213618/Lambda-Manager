@@ -28,7 +28,7 @@
 
 
             </DockPanel>
-            <Button Content="多物镜测试" HorizontalAlignment="Left" Margin="54,385,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
+            <Button Content="多物镜测试" HorizontalAlignment="Left" Margin="54,385,0,0" VerticalAlignment="Top" Visibility="Collapsed" Click="Button_Click_2"/>
 
 
         </Grid>

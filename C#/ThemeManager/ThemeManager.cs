@@ -10,7 +10,7 @@ namespace ThemeManager
         [Description("黑色")]
         Dark,
         [Description("白色")]
-        White,
+        Light,
         [Description("跟随系统")]
         Defaul
 };
@@ -23,7 +23,7 @@ namespace ThemeManager
             return This switch
             {
                 Theme.Dark => "黑色",
-                Theme.White => "白色",
+                Theme.Light => "白色",
                 Theme.Defaul => "跟随系统",
                 _ => string.Empty,
             };
@@ -58,7 +58,7 @@ namespace ThemeManager
 
             if (!IsRegister) IsRegister = true;
 
-            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.White ? ResourceDictionaryWhite : ResourceDictionaryDark;
+            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
 
             foreach (var item in ResourceDictionarys)
             {

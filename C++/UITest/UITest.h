@@ -72,6 +72,8 @@ enum HardwareCalibrationType
 };
 extern "C" CAMERA_API int HardwareCalibrationInit(int HardwareCalibrationType);
 
+extern "C" CAMERA_API int CameraSettingFlipV(bool bflip);
+extern "C" CAMERA_API int CameraSettingFlipH(bool bflip);
 
 
 struct Cam

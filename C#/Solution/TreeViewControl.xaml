@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              mc:Ignorable="d" 
              d:DesignWidth="300" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -15,7 +16,7 @@
     </UserControl.Resources>
     <Grid Width="300">
         <StackPanel x:Name="HeaderStackPanel"  >
-            <UniformGrid  x:Name="SoulutionButtonPanel"  Visibility="Hidden"  Columns="8"  VerticalAlignment="Top" >
+            <UniformGrid  x:Name="SoulutionButtonPanel"  Visibility="Hidden"  Columns="8"   VerticalAlignment="Top" >
                 <Button Click="Button_Click_2"  Style="{StaticResource ButtonStyle}"  Height="32" ToolTip="新建">
                 </Button>
             </UniformGrid>
