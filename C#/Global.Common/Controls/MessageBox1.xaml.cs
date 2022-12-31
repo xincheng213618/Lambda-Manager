@@ -18,7 +18,6 @@ namespace Global.Common.Controls
         private void Initialize(string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK , MessageBoxImage icon = MessageBoxImage.None ,MessageBoxResult defaultResult = MessageBoxResult.None)
         {
             InitializeComponent();
-            IsWindowBlurEnabled = true;
             this.messageBoxText.Text = messageBoxText;
             this.caption.Text = caption;
             switch (button)

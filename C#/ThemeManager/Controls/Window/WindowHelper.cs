@@ -8,7 +8,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using ThemeManager.NativeMethods;
 
-namespace ThemeManager.Helpers
+namespace ThemeManager.Controls
 {
     public static class WindowHelper
     {
@@ -25,7 +25,7 @@ namespace ThemeManager.Helpers
             User32.SetWindowPos(handle, User32.HWND_TOPMOST, 0, 0, 0, 0, User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
 
             if (!keep)
-                User32.SetWindowPos(handle, User32.HWND_NOTOPMOST, 0, 0, 0, 0,  User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
+                User32.SetWindowPos(handle, User32.HWND_NOTOPMOST, 0, 0, 0, 0, User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
         }
 
         public static void MoveWindow(this Window window,
@@ -40,7 +40,7 @@ namespace ThemeManager.Helpers
             TransformToPixels(window, width, height, out var pxWidth, out var pxHeight);
 
             // Use absolute location and relative size. WPF will scale the size to the target display
-            User32.MoveWindow(handle, (int) Math.Round(pxLeft), (int) Math.Round(pxTop), pxWidth, pxHeight, true);
+            User32.MoveWindow(handle, (int)Math.Round(pxLeft), (int)Math.Round(pxTop), pxWidth, pxHeight, true);
         }
 
         public static Rect GetWindowRectInPixel(this Window window)
@@ -64,8 +64,8 @@ namespace ThemeManager.Helpers
                     matrix = src.CompositionTarget.TransformToDevice;
                 }
 
-            pixelX = (int) Math.Round(matrix.M11 * unitX);
-            pixelY = (int) Math.Round(matrix.M22 * unitY);
+            pixelX = (int)Math.Round(matrix.M11 * unitX);
+            pixelY = (int)Math.Round(matrix.M22 * unitY);
         }
 
         public static bool IsForegroundWindowBelongToSelf()
@@ -99,7 +99,7 @@ namespace ThemeManager.Helpers
             var accentStructSize = Marshal.SizeOf(accent);
             accent.AccentState = AccentState.AccentEnableBlurbehind;
             accent.AccentFlags = 2;
-            accent.GradientColor = ThemeManagers.CurrentUITheme ==Theme.Dark? 0x99333333: 0x99FFFFFF;
+            accent.GradientColor = ThemeManagers.CurrentUITheme == Theme.Dark ? 0x99333333 : 0x99FFFFFF;
 
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);

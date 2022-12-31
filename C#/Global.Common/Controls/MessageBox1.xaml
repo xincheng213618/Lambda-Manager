@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" MinWidth="250" MinHeight="200" Background="Transparent" ResizeMode="NoResize" >
+        WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" IsBlurEnabled="True" MinWidth="250" MinHeight="200" Background="Transparent" ResizeMode="NoResize" >
     <Grid> 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>

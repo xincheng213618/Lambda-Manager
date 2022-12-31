@@ -18,6 +18,7 @@ using Global.SettingUp;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Linq;
+using HandyControl.Data;
 
 namespace Solution
 {
@@ -538,17 +539,12 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            //OpenFileDialog dialog = new()
-            //{
-            //    Multiselect = false,//该值确定是否可以选择多个文件
-            //    Title = "请选择文件",
-            //    RestoreDirectory = true,
-            //};
-            //if (dialog.ShowDialog() == true)
-            //{
-            //    string Filename = dialog.FileName;
-            //    LambdaControl.Dispatch("LFOCMOpenVideo", this, Filename);
-            //}
+            HandyControl.Controls.Growl.SetShowMode(Application.Current.MainWindow,GrowlShowMode.Prepend);
+
+            HandyControl.Controls.Growl.Info("2222");
+            HandyControl.Controls.Growl.Warning("22222");
+            HandyControl.Controls.Growl.WarningGlobal("5555555555");
+
         }
 
 

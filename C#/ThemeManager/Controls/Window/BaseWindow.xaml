@@ -97,15 +97,15 @@
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Margin="10,0,0,0" Content="{TemplateBinding Icon}" Height="18" Width="18" IsTabStop="False" Command="{x:Static SystemCommands.ShowSystemMenuCommand}">
+                                        <Button Margin="10,0,0,0" Content="{TemplateBinding Icon}" Visibility="{TemplateBinding ShowIcon,Converter={StaticResource bool2VisibilityConverter}}" Height="18" Width="18" IsTabStop="False" Command="{x:Static SystemCommands.ShowSystemMenuCommand}">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="{x:Type Button}">
                                                     <Image Source="{TemplateBinding Content}"/>
                                                 </ControlTemplate>
                                             </Button.Template>
                                         </Button>
+                                        <ContentControl Foreground="White" Visibility="{TemplateBinding ShowTitle,Converter={StaticResource bool2VisibilityConverter}}"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="0,0,20,0" />
                                     </StackPanel>
-                                    <ContentControl Foreground="White"  FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSize}}"  Content="{TemplateBinding Title}" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="0,0,20,0" />
                                     <StackPanel x:Name="WindowCommandButtonsPanel"  Grid.Column="1"  HorizontalAlignment="Center" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,-1,0" >
                                         <!--<Button x:Name="TopMostButton" Style="{DynamicResource TopMostButtonStyle}"  Width="45" Command="{x:Static local:BaseWindow.WindowTopMost}"/>-->
                                         <Button x:Name="MinimizeButton" IsTabStop="False"  Style="{DynamicResource MinimizeButtonStyle}" Width="45"  Command="{x:Static SystemCommands.MinimizeWindowCommand}" />
@@ -136,7 +136,7 @@
                         </Trigger>
                         <Trigger Property="IsActive" Value="True">
                             <Setter TargetName="RootBorderActive" Property="BorderBrush" Value="#191919" />
-                            <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="1"/>
+                            <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="0.5"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="RootGrid" Property="Margin" Value="6" />
@@ -161,7 +161,7 @@
                             <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed" />
                         </Trigger>
 
-                        <Trigger Property="IsWindowBlurEnabled" Value="True">
+                        <Trigger Property="IsBlurEnabled" Value="True">
                             <Setter TargetName="RootBorderActive" Property="BorderThickness" Value="0"/>
                         </Trigger>
                         <MultiTrigger>

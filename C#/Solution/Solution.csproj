@@ -8,6 +8,7 @@
 	<UseWindowsForms>True</UseWindowsForms> 
 	 <Platforms>AnyCPU;x64</Platforms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyVersion></AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

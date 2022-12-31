@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
-using ThemeManager.Helpers;
+using ThemeManager.Controls;
 
 namespace ThemeManager.NativeMethods
 {

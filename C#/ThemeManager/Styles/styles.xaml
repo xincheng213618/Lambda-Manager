@@ -2,16 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:Converter ="clr-namespace:ThemeManager.Converter"
+                    xmlns:converter ="clr-namespace:ThemeManager.Converter"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
     <!--#region Converters-->
     <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
-    <Converter:BoolToVisibilityConverter x:Key="bool2VisibilityConverter1" Reverse="True"/>
-    <Converter:BoolToStringConverer x:Key="BoolToStringConverer" />
-    <Converter:SolidColorBrushOpacityConverer x:Key="SolidColorBrushOpacityConverer" />
-    <Converter:BoolToSolidColorBrushWarn x:Key="BoolToSolidColorBrushWarn"/>
+    <converter:Boolean2VisibilityReConverter x:Key="bool2VisibilityConverter1"/>
+    <converter:BoolToStringConverer x:Key="BoolToStringConverer" />
+    <converter:BoolToSolidColorBrushWarn x:Key="BoolToSolidColorBrushWarn"/>
+    <converter:Color2HexStringConverter x:Key="Color2HexStringConverter" />
     <!--#endregion-->
 
     <!--#region Brushes-->
@@ -2266,7 +2266,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
                     <ControlTemplate.Resources>
-                        <Converter:LeftMarginMultiplierConverter Length="15" x:Key="LengthConverter" />
+                        <converter:LeftMarginMultiplierConverter Length="15" x:Key="LengthConverter" />
                     </ControlTemplate.Resources>
                     <StackPanel>
                         <Border Name="Bd"

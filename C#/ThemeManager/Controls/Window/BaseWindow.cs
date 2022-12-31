@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
-using ThemeManager.Helpers;
 
 namespace ThemeManager.Controls
 {
@@ -23,7 +22,7 @@ namespace ThemeManager.Controls
     }
 
 
-    public partial class BaseWindow:Window
+    public partial class BaseWindow : Window
     {
         private static Style? GetDefautlStyle()
         {
@@ -33,7 +32,7 @@ namespace ThemeManager.Controls
             }
             else
             {
-                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/Controls/BaseWindow.xaml", UriKind.Relative)) as ResourceDictionary;
+                ResourceDictionary dictionary1 = Application.LoadComponent(new Uri("/ThemeManager;component/Controls/Window/BaseWindow.xaml", UriKind.Relative)) as ResourceDictionary;
                 Application.Current.Resources.MergedDictionaries.Add(dictionary1);
                 if (ThemeManagers.CurrentUITheme == Theme.Dark)
                 {
@@ -67,36 +66,50 @@ namespace ThemeManager.Controls
 
 
 
-        public bool IsWindowBlurEnabled
-        {
-            get { return (bool)GetValue(IsWindowBlurEnabledProperty); }
-            set {
-                SetValue(IsWindowBlurEnabledProperty, value);
-            }
-        }
 
         // Using a DependencyProperty as the backing store for IsWindowBlurEnabled.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsWindowBlurEnabledProperty =
-            DependencyProperty.Register("IsWindowBlurEnabled", typeof(bool), typeof(BaseWindow), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsBlurEnabledProperty =
+            DependencyProperty.Register(nameof(IsBlurEnabled), typeof(bool), typeof(BaseWindow), new PropertyMetadata(false));
 
+        public bool IsBlurEnabled
+        {
+            get =>(bool)GetValue(IsBlurEnabledProperty); 
+            set => SetValue(IsBlurEnabledProperty, value);
+        }
 
+        public static readonly DependencyProperty IsDragMoveEnabledProperty = DependencyProperty.Register(
+            "IsDragMoveEnabled", typeof(bool), typeof(BaseWindow), new PropertyMetadata(false));
 
         public bool IsDragMoveEnabled
         {
-            get { return (bool)GetValue(IsDragMoveEnabledProperty); }
-            set
-            {
-                SetValue(IsDragMoveEnabledProperty, value);
-            }
+            get => (bool)GetValue(IsDragMoveEnabledProperty);
+            set => SetValue(IsDragMoveEnabledProperty, value);
         }
 
-        public static readonly DependencyProperty IsDragMoveEnabledProperty =
-            DependencyProperty.Register("IsDragMoveEnabled", typeof(bool), typeof(BaseWindow), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty ShowTitleProperty = DependencyProperty.Register(
+            nameof(ShowTitle), typeof(bool), typeof(BaseWindow), new PropertyMetadata(true));
+
+        public bool ShowTitle
+        {
+            get => (bool)GetValue(ShowTitleProperty);
+            set => SetValue(ShowTitleProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowIconProperty = DependencyProperty.Register(
+            nameof(ShowIcon), typeof(bool), typeof(BaseWindow), new PropertyMetadata(true));
+
+        public bool ShowIcon
+        {
+            get => (bool)GetValue(ShowIconProperty);
+            set => SetValue(ShowIconProperty, value);
+        }
+
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            if (IsDragMoveEnabled &&e.ButtonState == MouseButtonState.Pressed)
+            if (IsDragMoveEnabled && e.ButtonState == MouseButtonState.Pressed)
                 DragMove();
         }
 
@@ -107,7 +120,7 @@ namespace ThemeManager.Controls
 
         public virtual void Command_Initialized()
         {
-            this.CommandBindings.Add(new CommandBinding(WindowTopMost, this.ExecutedCommand, this.CanExecuteCommand));
+            this.CommandBindings.Add(new CommandBinding(WindowTopMost, ExecutedCommand, CanExecuteCommand));
 
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, CloseWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, MaximizeWindow, CanResizeWindow));
@@ -120,13 +133,13 @@ namespace ThemeManager.Controls
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            if ((SizeToContent == SizeToContent.WidthAndHeight) && WindowChrome.GetWindowChrome(this) != null)
+            if (SizeToContent == SizeToContent.WidthAndHeight && WindowChrome.GetWindowChrome(this) != null)
             {
                 InvalidateMeasure();
             }
             IntPtr handle = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WndProc));
-            if (IsWindowBlurEnabled)
+            if (IsBlurEnabled)
             {
                 if (IsWin11)
                 {
@@ -159,7 +172,7 @@ namespace ThemeManager.Controls
             {
                 if (!BaseClosed)
                 {
-                    this.BaseClose();
+                    BaseClose();
                     handled = !BaseClosed;
                 }
 
@@ -169,7 +182,7 @@ namespace ThemeManager.Controls
 
 
 
-        
+
         public virtual void CanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -205,7 +218,6 @@ namespace ThemeManager.Controls
         private void MaximizeWindow(object sender, ExecutedRoutedEventArgs e)
         {
             SystemCommands.MaximizeWindow(this);
-            //WindowState = WindowState.Maximized;
 
         }
 

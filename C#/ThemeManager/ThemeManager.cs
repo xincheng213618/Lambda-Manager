@@ -76,7 +76,10 @@ namespace ThemeManager
             "/ThemeManager;component/Themes/Base/Slider.xaml",
             "/ThemeManager;component/Themes/Base/ButtonStyle.xaml",
             "/ThemeManager;component/themes/Dark/Theme.xaml",
-            "/ThemeManager;component/themes/Base/Menu.xaml"
+            "/ThemeManager;component/themes/Base/Menu.xaml",
+
+            //"/HandyControl;component/themes/basic/colors/dark.xaml",
+            //"/HandyControl;component/Themes/Theme.xaml",
         };
 
         public static List<string> ResourceDictionaryWhite { get; set; } = new List<string>()
@@ -86,7 +89,10 @@ namespace ThemeManager
             "/ThemeManager;component/Themes/Base/Slider.xaml",
             "/ThemeManager;component/Themes/Base/ButtonStyle.xaml",
             "/ThemeManager;component/themes/White/Theme.xaml",
-            "/ThemeManager;component/themes/Base/Menu.xaml"
+            "/ThemeManager;component/themes/Base/Menu.xaml",
+
+            //"/HandyControl;component/themes/basic/colors/light.xaml",
+            //"/HandyControl;component/Themes/Theme.xaml",
         };
 
 

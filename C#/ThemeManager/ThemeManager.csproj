@@ -10,4 +10,8 @@
     <AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="HandyControls" Version="3.4.4" />
+  </ItemGroup>
+
 </Project>
