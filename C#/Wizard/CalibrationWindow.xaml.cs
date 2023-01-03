@@ -16,6 +16,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Text.Json.Serialization;
 using System.Threading;
+using Global.Common.MVVM;
 
 namespace Wizard
 {

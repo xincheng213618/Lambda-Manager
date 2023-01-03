@@ -100,7 +100,7 @@ namespace ConfigObjective
             {
                 if (Slider212.Value < windowData.ExposureViewMode.ExposureInfos.Count)
                 {
-                    if (Border2.DataContext is Camera cameraSetting)
+                    if (Slider212.DataContext is Camera cameraSetting)
                     {
                          windowData.ExposureViewMode.Index = cameraSetting.Exposure;
                         if (!windowData.ExposureViewMode.IsBackGroundChanged)

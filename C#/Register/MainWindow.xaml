@@ -35,8 +35,6 @@
                 <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"  TextChanged="H5a6_TextChanged"/>
             </DockPanel>
         </StackPanel>
-        <hc:ColorPicker Name="ColorPicker" Margin="32"/>
-        <hc:LoadingCircle/>
         <Button x:Name="Button1" VerticalAlignment="Bottom" Margin="0,20" Content="注册" Width="150" Height="30" FontSize="15" Click="Button_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">

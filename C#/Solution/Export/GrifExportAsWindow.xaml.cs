@@ -1,7 +1,6 @@
 ﻿using XSolution;
 using System.Windows;
 using ThemeManager.Controls;
-using Global.Common.Extensions;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using Lambda;
@@ -9,6 +8,7 @@ using System;
 using System.Linq;
 using System.IO;
 using Global.Common;
+using Global.Common.MVVM;
 
 namespace Solution
 {

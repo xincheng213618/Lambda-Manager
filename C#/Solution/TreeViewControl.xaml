@@ -135,8 +135,8 @@
                             <Setter Property="HorizontalContentAlignment" Value="Left"/>
                             <Setter Property="VerticalContentAlignment" Value="Center"/>
                             <Setter Property="Padding" Value="2,4,2,3"/>
-                            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
-                            <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                            <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type TreeViewItem}">

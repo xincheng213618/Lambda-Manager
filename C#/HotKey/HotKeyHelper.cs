@@ -22,7 +22,6 @@ namespace HotKey
             }
             else
             {
-
                 WindowHotKeyManager.GetInstance(This).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
             }       
         }
@@ -36,8 +35,7 @@ namespace HotKey
 
         public static HotKeyHelper GetInstance()
         {
-            lock (locker) { instance ??= new HotKeyHelper(); }
-            return instance;
+            lock (locker) { return instance ??= new HotKeyHelper(); }
         }
 
         public static Dictionary<int, HotKeys> HotKeysList = new Dictionary<int, HotKeys>();

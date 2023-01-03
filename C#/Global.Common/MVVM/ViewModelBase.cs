@@ -59,8 +59,15 @@ namespace Global.Common
         public static string ReadRegValue(string def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name,def);
 
         public static int ReadRegValue(int def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name, def);
-
-
-
     }
+
+    public abstract class ViewModelJson : ViewModelBase
+    {
+        public static string RegPath = "Software\\Grid";
+
+        public static void WriteJsonValue(object value, [CallerMemberName] string name = "") => Reg.WriteValue(RegPath, name, value);
+
+        public static bool ReadJsonValue(bool def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name, def);
+    }
+
 }

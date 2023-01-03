@@ -58,7 +58,6 @@ namespace ThemeManager.Controls
         public BaseWindow()
         {
             Command_Initialized();
-
         }
 
         public static readonly bool IsWin11 = Environment.OSVersion.Version >= new Version(10, 0, 21996);

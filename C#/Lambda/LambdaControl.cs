@@ -174,7 +174,7 @@ namespace Lambda
         {
             if (json != null)
             {
-                Log(new Message { Severity = Severity.INFO, Text = type + JSON.Stringify(json) });
+                Log(new Message { Text = type + JSON.Stringify(json) });
             }
             else
             {

@@ -10,14 +10,14 @@ using Global.Mode.Config;
 using System.Text;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
-using Global.Common.Extensions;
 using ConfigObjective.UserControls;
 using System.Linq;
 using System.Text.Json;
+using Global.Common.MVVM;
 
 namespace ConfigObjective
 {
-	public partial class ToolControl
+    public partial class ToolControl
 	{
 		
 		private void AddEventHandler()

@@ -1,5 +1,4 @@
 ﻿using Global.Common.Converter.Json;
-using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
@@ -11,6 +10,7 @@ using Global.Setting;
 using Global.SettingUp;
 using System.Text.Json.Nodes;
 using System.Collections.Generic;
+using Global.Common.MVVM;
 
 namespace Global
 {

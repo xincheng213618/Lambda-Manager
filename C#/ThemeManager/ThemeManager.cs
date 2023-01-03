@@ -1,6 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using ThemeManager.Controls;
 using ThemeManager.Util;
 
 namespace ThemeManager
@@ -12,23 +15,8 @@ namespace ThemeManager
         [Description("白色")]
         Light,
         [Description("跟随系统")]
-        Defaul
-};
-
-
-    public static class ThemeExtension
-    {
-        public static string ToString1(this Theme This)
-        {
-            return This switch
-            {
-                Theme.Dark => "黑色",
-                Theme.Light => "白色",
-                Theme.Defaul => "跟随系统",
-                _ => string.Empty,
-            };
-        }
-    }
+        Default
+    };
 
     public delegate void ThemeChangedEventHandler(Theme theme);
 
@@ -38,7 +26,16 @@ namespace ThemeManager
     /// </summary>
     public static class ThemeManagers
     {
+        /// <summary>
+        /// 是否是第一次注入样式
+        /// </summary>
         private static bool IsRegister = false ;
+        /// <summary>
+        /// 是否打开清除开关，会影响性能
+        /// </summary>
+        public static bool IsOpenClear = false ;
+
+
         public static Theme CurrentUITheme
         {
             get => _CurrentUITheme; set
@@ -47,10 +44,12 @@ namespace ThemeManager
                     _CurrentUITheme = value; Reg.WriteValue(value); ThemeChanged?.Invoke(value);
             }
         }
+
         private static Theme _CurrentUITheme = Reg.ReadValue(nameof(CurrentUITheme));
 
-
         public static event ThemeChangedEventHandler ThemeChanged;
+
+        public static Dictionary<Theme, ResourceDictionary> ThemeResourceDictionaryCache = new Dictionary<Theme, ResourceDictionary>() { { Theme.Default,new ResourceDictionary()} };
 
         public static void ApplyTheme(this Application app, Theme theme)
         {
@@ -58,43 +57,74 @@ namespace ThemeManager
 
             if (!IsRegister) IsRegister = true;
 
+
             List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
 
-            foreach (var item in ResourceDictionarys)
+            if (!ThemeResourceDictionaryCache.ContainsKey(theme))
             {
-                ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                app.Resources.MergedDictionaries.Add(dictionary);
+                ResourceDictionary Themedictionary = new ResourceDictionary();
+                foreach (var item in ResourceDictionarys)
+                {
+                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                    Themedictionary.MergedDictionaries.Add(dictionary);
+                }
+                ThemeResourceDictionaryCache.Add(theme, Themedictionary);
             }
+            if (IsOpenClear)
+                app.Resources.MergedDictionaries.Clear();
+            app.Resources.MergedDictionaries.Add(ThemeResourceDictionaryCache[theme]);
+
             CurrentUITheme = theme;
         }
 
+        public static void ApplyTheme(this Control control, Theme theme)
+        {
+            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
+            if (!ThemeResourceDictionaryCache.ContainsKey(theme))
+            {
+                ResourceDictionary Themedictionary = new ResourceDictionary();
+                foreach (var item in ResourceDictionarys)
+                {
+                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                    Themedictionary.MergedDictionaries.Add(dictionary);
+                }
+                ThemeResourceDictionaryCache.Add(theme, Themedictionary);
+            }
+            if (IsOpenClear)
+                control.Resources.MergedDictionaries.Clear();
+            control.Resources.MergedDictionaries.Add(ThemeResourceDictionaryCache[theme]);
+        }
 
         public static List<string> ResourceDictionaryDark { get; set; } = new List<string>()
         {
+             "/HandyControl;component/themes/basic/colors/dark.xaml",
+            "/HandyControl;component/Themes/Theme.xaml",
+
+            "/ThemeManager;component/Controls/Window/BaseWindow.xaml",
             "/ThemeManager;component/Styles/Dark.xaml",
             "/ThemeManager;component/Styles/styles.xaml",
+
             "/ThemeManager;component/Themes/Base/Slider.xaml",
             "/ThemeManager;component/Themes/Base/ButtonStyle.xaml",
             "/ThemeManager;component/themes/Dark/Theme.xaml",
             "/ThemeManager;component/themes/Base/Menu.xaml",
-
-            //"/HandyControl;component/themes/basic/colors/dark.xaml",
-            //"/HandyControl;component/Themes/Theme.xaml",
         };
 
         public static List<string> ResourceDictionaryWhite { get; set; } = new List<string>()
         {
+            "/HandyControl;component/themes/basic/colors/light.xaml",
+            "/HandyControl;component/Themes/Theme.xaml",
+
+            "/ThemeManager;component/Controls/Window/BaseWindow.xaml",
             "/ThemeManager;component/Styles/White.xaml",
             "/ThemeManager;component/Styles/styles.xaml",
+
             "/ThemeManager;component/Themes/Base/Slider.xaml",
             "/ThemeManager;component/Themes/Base/ButtonStyle.xaml",
             "/ThemeManager;component/themes/White/Theme.xaml",
             "/ThemeManager;component/themes/Base/Menu.xaml",
 
-            //"/HandyControl;component/themes/basic/colors/light.xaml",
-            //"/HandyControl;component/Themes/Theme.xaml",
+
         };
-
-
     }
 }

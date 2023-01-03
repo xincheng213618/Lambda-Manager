@@ -1,4 +1,4 @@
-﻿using Global.Common.Extensions;
+﻿using Global.Common.MVVM;
 using Global.Mode.Config;
 using Lambda;
 using System;

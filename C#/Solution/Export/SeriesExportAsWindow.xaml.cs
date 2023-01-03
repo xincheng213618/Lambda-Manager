@@ -1,7 +1,6 @@
 ﻿using XSolution;
 using System.Windows;
 using ThemeManager.Controls;
-using Global.Common.Extensions;
 using System.Collections.Generic;
 using Lambda;
 using Microsoft.Win32;
@@ -17,6 +16,7 @@ using System.IO;
 using Global.Common;
 using System.Threading;
 using System.Threading.Tasks;
+using Global.Common.MVVM;
 
 namespace Solution
 {

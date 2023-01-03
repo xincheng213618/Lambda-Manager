@@ -1,5 +1,6 @@
 ﻿using Global.Common.Controls;
 using Global.Common.Extensions;
+using Global.Common.MVVM;
 using Lambda;
 using System;
 using System.Collections.Generic;

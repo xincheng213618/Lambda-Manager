@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
+using Global.Common.Extensions;
 using Global.SettingUp.PC;
 using Lambda;
 using LambdaCore;
@@ -80,7 +81,7 @@ namespace LambdaManager
             {
                 MenuItem menu = new MenuItem()
                 {
-                    Header = item.ToString1(),
+                    Header = item.ToDescription(),
                     Tag = item,
                     IsChecked = ThemeManagers.CurrentUITheme == item,
                 };

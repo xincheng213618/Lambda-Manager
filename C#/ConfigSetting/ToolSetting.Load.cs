@@ -37,7 +37,7 @@ namespace ConfigSetting
 		public void InitEmun()
 		{
 			ThemeCombox.ItemsSource = from e1 in Enum.GetValues(typeof(Theme)).Cast<Theme>()
-									  select new KeyValuePair<Theme, string>(e1, e1.ToString1());
+									  select new KeyValuePair<Theme, string>(e1, e1.ToDescription());
 			ThemeCombox.SelectedValuePath = "Key";
 			ThemeCombox.DisplayMemberPath = "Value";
 			ThemeCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.PhotoOptions;

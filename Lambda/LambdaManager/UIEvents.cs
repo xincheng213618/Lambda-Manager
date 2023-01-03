@@ -15,8 +15,7 @@ public class UIEvents
 
     public static UIEvents GetInstance()
     {
-        lock (locker) { instance ??= new UIEvents(); }
-        return instance;
+        lock (locker) { return instance ??= new UIEvents(); }
     }
     private UIEvents()
     {

@@ -19,6 +19,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Linq;
 using HandyControl.Data;
+using ThemeManager;
 
 namespace Solution
 {
@@ -539,19 +540,15 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            HandyControl.Controls.Growl.SetShowMode(Application.Current.MainWindow,GrowlShowMode.Prepend);
-
             HandyControl.Controls.Growl.Info("2222");
             HandyControl.Controls.Growl.Warning("22222");
             HandyControl.Controls.Growl.WarningGlobal("5555555555");
 
         }
 
-
+        int i = 0;
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-
-
         }
 
 

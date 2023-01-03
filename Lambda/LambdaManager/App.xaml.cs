@@ -49,7 +49,7 @@ partial class App : Application
     /// <summary>q
     /// Application Close
     /// </summary>
-	private  void Application_Exit(object sender, ExitEventArgs e)
+	private void Application_Exit(object sender, ExitEventArgs e)
 	{
 		Common.CommonExit();
 		Environment.Exit(0);

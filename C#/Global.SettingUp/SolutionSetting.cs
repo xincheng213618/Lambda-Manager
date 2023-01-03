@@ -16,8 +16,6 @@ namespace Global.SettingUp
         //是否支持多项目
         public bool IsSupportMultiProject { get => _IsSupportMultiProject; set { _IsSupportMultiProject = value;  WriteRegValue(value); NotifyPropertyChanged(); } }
         private bool _IsSupportMultiProject = ReadRegValue(nameof(IsSupportMultiProject));
-
-
     }
 
     /// <summary>

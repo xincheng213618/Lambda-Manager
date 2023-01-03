@@ -1,7 +1,8 @@
-﻿using Global.Common.Util;
+﻿using Global.Common.Extensions;
+using Global.Common.Util;
 using System;
 
-namespace Global.Common.Extensions
+namespace Global.Common.MVVM
 {
     /// <summary>
     /// 对ViewMode的扩展，可以不这么写
