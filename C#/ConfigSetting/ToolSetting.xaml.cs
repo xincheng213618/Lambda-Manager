@@ -53,6 +53,18 @@ namespace ConfigSetting
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
                 IsFirstLoad = false;
+                //一个针对主控不开放主窗口权限的解决方案   这里如果走错误方案的话，会引起白屏问题
+                if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
+                {
+                    int port = 52100;
+                    IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+                    Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                    try
+                    {
+                        sssss.Connect(localEndPoint);
+                    }
+                    catch { }
+                }
                 Calibration.GetInstance();
                 SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;
                 OutOfMemorySign.Source = System.Drawing.SystemIcons.Warning.ToImageSource();
@@ -209,7 +221,7 @@ namespace ConfigSetting
 
                         if (Application.Current.MainWindow.FindName("menu") is Menu menu)
                         {
-                            menu.Background = Brushes.Transparent;
+                            menu.BorderBrush = Brushes.Transparent;
                         }
 
                         if (stackPanelMode.Children[0] is RadioButton radioButton)
@@ -249,18 +261,7 @@ namespace ConfigSetting
                 //GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
                 //SoftwareConfig.HardwareConfig.LightSourceConfig.ToJsonFile("LightSourceConfig");
 
-                //一个针对主控不开放主窗口权限的解决方案   这里如果走错误方案的话，会引起白屏问题
-                if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
-                {
-                    int port = 52100;
-                    IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-                    Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                    try
-                    {
-                        sssss.Connect(localEndPoint);
-                    }
-                    catch { }
-                }
+
 
 
             }

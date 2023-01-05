@@ -6,6 +6,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
+
     <!--#region Converters-->
     <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
     <converter:Boolean2VisibilityReConverter x:Key="bool2VisibilityConverter1"/>

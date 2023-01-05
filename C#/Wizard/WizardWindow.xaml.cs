@@ -1,5 +1,6 @@
 ﻿using ACE.Global;
 using Global.Common;
+using Global.Common.Extensions;
 using Global.Common.MVVM;
 using Global.SettingUp;
 using Lambda;

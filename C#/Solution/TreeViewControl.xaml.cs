@@ -540,10 +540,7 @@ namespace Solution
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            HandyControl.Controls.Growl.Info("2222");
-            HandyControl.Controls.Growl.Warning("22222");
-            HandyControl.Controls.Growl.WarningGlobal("5555555555");
-
+            HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
         }
 
         int i = 0;

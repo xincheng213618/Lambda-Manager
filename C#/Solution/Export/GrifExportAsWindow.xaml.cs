@@ -9,6 +9,7 @@ using System.Linq;
 using System.IO;
 using Global.Common;
 using Global.Common.MVVM;
+using Global.Common.Extensions;
 
 namespace Solution
 {

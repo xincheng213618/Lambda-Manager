@@ -4,10 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Register"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="280" Background="{DynamicResource WindowBackgroundBrush}" MinHeight="300" SizeToContent="Height" Width="330" MinWidth="330"  ResizeMode="NoResize"  Foreground="White" Initialized="Window_Initialized" >
+        Height="280" MinHeight="300" Width="330" IsBlurEnabled="True" MinWidth="330" Background="Transparent" ResizeMode="NoResize"  Foreground="White" Initialized="Window_Initialized" >
     <Grid>
         <TextBlock Text="注册信息" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <StackPanel Margin="20,10">
@@ -16,7 +15,8 @@
                 <TextBox x:Name="H5a1" Text="{Binding UserName}"/>
             </DockPanel>
             <DockPanel Margin="5">
-                <hc:DatePicker SelectedDate="{Binding RegistrationDate}" hc:InfoElement.Title="注册日期" hc:InfoElement.TitlePlacement="Left" />
+                <TextBlock Text="注册日期" Width="100"/>
+                <TextBox x:Name="H5a2" Text="{Binding RegistrationDate}"/>
             </DockPanel>
             <DockPanel Margin="5">
                 <TextBlock Text="注册地址" Width="100"/>
@@ -35,6 +35,7 @@
                 <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"  TextChanged="H5a6_TextChanged"/>
             </DockPanel>
         </StackPanel>
+
         <Button x:Name="Button1" VerticalAlignment="Bottom" Margin="0,20" Content="注册" Width="150" Height="30" FontSize="15" Click="Button_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">

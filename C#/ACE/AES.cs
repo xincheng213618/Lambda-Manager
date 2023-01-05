@@ -38,6 +38,9 @@ namespace ACE
         public static AESHelper AESHelper = new AESHelper(fileRegisterinfo);
         public static string? GetSysConfig()
         {
+            string path = "application.xml";
+
+            return File.ReadAllText(path)??null;
             if (!IsInit) Init();
             byte[] trest1 = AESHelper.Decrypt();
             if (trest1 == null)
@@ -53,6 +56,7 @@ namespace ACE
 
         public static string? GetExpireDate()
         {
+            return "2025/1/1";
             if (!IsInit) Init();
 
             if (!File.Exists("application.xml"))

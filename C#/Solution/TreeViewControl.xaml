@@ -110,6 +110,7 @@
                         </Viewbox>
                     </Button>
                 </UniformGrid>
+
                 <Border  BorderThickness="0,0,0,2" Margin="0,-2">
                     <Border.BorderBrush>
                         <LinearGradientBrush  StartPoint="0.0,0.0" EndPoint="1,0">

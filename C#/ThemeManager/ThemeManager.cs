@@ -44,7 +44,6 @@ namespace ThemeManager
                     _CurrentUITheme = value; Reg.WriteValue(value); ThemeChanged?.Invoke(value);
             }
         }
-
         private static Theme _CurrentUITheme = Reg.ReadValue(nameof(CurrentUITheme));
 
         public static event ThemeChangedEventHandler ThemeChanged;
@@ -106,8 +105,8 @@ namespace ThemeManager
 
             "/ThemeManager;component/Themes/Base/Slider.xaml",
             "/ThemeManager;component/Themes/Base/ButtonStyle.xaml",
-            "/ThemeManager;component/themes/Dark/Theme.xaml",
-            "/ThemeManager;component/themes/Base/Menu.xaml",
+            "/ThemeManager;component/Themes/Dark/Theme.xaml",
+            "/ThemeManager;component/Themes/Base/Menu.xaml",
         };
 
         public static List<string> ResourceDictionaryWhite { get; set; } = new List<string>()
@@ -121,8 +120,8 @@ namespace ThemeManager
 
             "/ThemeManager;component/Themes/Base/Slider.xaml",
             "/ThemeManager;component/Themes/Base/ButtonStyle.xaml",
-            "/ThemeManager;component/themes/White/Theme.xaml",
-            "/ThemeManager;component/themes/Base/Menu.xaml",
+            "/ThemeManager;component/Themes/White/Theme.xaml",
+            "/ThemeManager;component/Themes/Base/Menu.xaml",
 
 
         };

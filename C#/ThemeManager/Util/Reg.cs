@@ -18,7 +18,7 @@ namespace ThemeManager.Util
         /// <summary>
         /// 读
         /// </summary>
-        public static Theme ReadValue([CallerMemberName]string name ="", string path = "Software\\Grid")
+        public static Theme ReadValue([CallerMemberName] string name = "", string path = "Software\\Grid")
         {
             RegistryKey regKey = null;
             try
@@ -43,13 +43,13 @@ namespace ThemeManager.Util
             {
                 regKey?.Close();
             }
-            return Theme.Dark; 
+            return Theme.Dark;
         }
 
         /// <summary>
         /// 写
         /// </summary>
-        public static void WriteValue(Theme value,[CallerMemberName] string name = "", string path = "Software\\Grid")
+        public static void WriteValue(Theme value, [CallerMemberName] string name = "", string path = "Software\\Grid")
         {
             RegistryKey regKey = null;
             try

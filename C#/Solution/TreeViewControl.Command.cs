@@ -112,9 +112,13 @@ namespace Solution
                 {
                     if (SelectedTreeViewItem != null)
                     {
-                        if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
+                        if (SelectedTreeViewItem.DataContext is SolutionExplorer sp)
                         {
-                            baseObject.Parent.RemoveChild(baseObject);
+                            SolutionExplorers.Remove(sp);
+                        }
+                        else if (SelectedTreeViewItem.DataContext is BaseObject baseObject)
+                        {
+                            baseObject.Parent?.RemoveChild(baseObject);
                         }
                     }
                 }
