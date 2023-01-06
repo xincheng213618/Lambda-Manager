@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConfigSetting"
         mc:Ignorable="d"
-        Initialized="UserControl_Initialized" d:Height="720" d:Width="1280"   Loaded="UserControl_Loaded">
+        Initialized="UserControl_Initialized" d:Height="720" d:Width="1280"  Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>  
             <ResourceDictionary.MergedDictionaries>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -33,6 +34,23 @@ namespace Global.Common
         public static MessageBoxResult Show(string messageBoxText, string caption)
         {
             return Initialize(messageBoxText, caption);
+        }
+
+        /// <summary>
+        /// 带有checkbox的显示
+        /// </summary>
+        public static bool ShowAgain(string messageBoxText, string caption,bool DontShowAgain)
+        {
+            if (DontShowAgain) return DontShowAgain;
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Controls.MessageBox1 messageBox1 = new Controls.MessageBox1(messageBoxText, caption);
+                messageBox1.Topmost = true;
+                messageBox1.show_again.Visibility = Visibility.Visible;
+                messageBox1.ShowDialog();
+                DontShowAgain = messageBox1.DontShowAgain;
+            });
+            return DontShowAgain;
         }
 
         public static MessageBoxResult Show(string messageBoxText, string caption, MessageBoxButton button)

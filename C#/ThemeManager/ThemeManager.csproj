@@ -14,4 +14,8 @@
     <PackageReference Include="HandyControls" Version="3.4.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HandyControl\Style\" />
+  </ItemGroup>
+
 </Project>

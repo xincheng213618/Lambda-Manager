@@ -19,6 +19,8 @@
     <SolidColorBrush x:Key="ThemeBrush" Color="{StaticResource ThemeColor}"/>
 
     <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
+    <SolidColorBrush x:Key="ForegroundHightBrush" Color="{StaticResource ForegroundHightColor}"/>
+
     <SolidColorBrush x:Key="MouseOverForegroundBrush" Color="{StaticResource DarkBackgroundColor}"/>
     <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}"/>
     <SolidColorBrush x:Key="GlobalBackgroundBrush" Color="{StaticResource DarkBackgroundColor}"/>
@@ -42,7 +44,7 @@
 
     <SolidColorBrush x:Key="TextBoxBorder" Color="{StaticResource DarkBackgroundColor}" />
     <SolidColorBrush x:Key="TextBoxBackground" Color="{StaticResource DarkBackgroundColor}" />
-    <SolidColorBrush x:Key="TextBoxDisabledForeground" Color="#8C8C8C" />
+    <SolidColorBrush x:Key="TextBoxDisabledForeground" Color="#8C8C8C" />  
     <SolidColorBrush x:Key="TextBoxDisabledBackground" Color="{StaticResource DisabledBackgroundColor}" />
     <SolidColorBrush x:Key="InactiveSelectionHighlightBrush" Color="#335C85"/>
 

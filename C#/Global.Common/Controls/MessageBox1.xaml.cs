@@ -1,5 +1,7 @@
 ﻿using Global.Common.Extensions;
+using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using ThemeManager.Controls;
@@ -11,9 +13,20 @@ namespace Global.Common.Controls
     /// </summary>
 
 
-    public partial class MessageBox1 : BaseWindow
+    public partial class MessageBox1 : BaseWindow, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+        /// <summary>
+        /// 不在提示
+        /// </summary>
+        public bool DontShowAgain { get => _DontShowAgain; set { _DontShowAgain = value; NotifyPropertyChanged(); } }
+        public bool _DontShowAgain = false;
+
+        /// <summary>
+        /// 显示结果
+        /// </summary>
         public MessageBoxResult MessageBoxResult;
         private void Initialize(string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK , MessageBoxImage icon = MessageBoxImage.None ,MessageBoxResult defaultResult = MessageBoxResult.None)
         {
@@ -63,13 +76,13 @@ namespace Global.Common.Controls
                     break;
             }
             MessageBoxResult = defaultResult;
+            this.DataContext = this;
         }
 
 
         public MessageBox1(string messageBoxText)
         {
             Initialize(messageBoxText);
-
         }
         public MessageBox1(string messageBoxText,string caption)
         {

@@ -32,12 +32,6 @@ namespace Wizard
         public WizardWindow()
         {
             InitializeComponent();
-            Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
-        }
-        public WizardWindow(string Name)
-        {
-            InitializeComponent();
-
         }
         FileRegisterinfo fileRegisterinfo;
         RegisterInfo registerInfo;

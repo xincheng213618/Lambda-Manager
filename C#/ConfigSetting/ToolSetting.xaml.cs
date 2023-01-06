@@ -65,6 +65,7 @@ namespace ConfigSetting
                     }
                     catch { }
                 }
+
                 Calibration.GetInstance();
                 SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;
                 OutOfMemorySign.Source = System.Drawing.SystemIcons.Warning.ToImageSource();
@@ -124,7 +125,7 @@ namespace ConfigSetting
                         }
                     }
 
-                    Wizard.WizardWindow mainWindow = new Wizard.WizardWindow("1");
+                    WizardWindow mainWindow = new WizardWindow();
                     mainWindow.ShowDialog();
 
                     if (SoftwareConfig.HardwareSetting.IsIniWizard)
@@ -136,7 +137,7 @@ namespace ConfigSetting
 
                 if (SoftwareConfig.PerformanceSetting.IsDiskLackWarning)
                 {
-                    MessageBox1.Show("硬件不足预警", "Grid", button: MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                    SoftwareConfig.PerformanceSetting.IsShowDiskLackWarning = MessageBox1.ShowAgain("硬盘剩余存储空间不足", "Grid", SoftwareConfig.PerformanceSetting.IsShowDiskLackWarning);
                 }
 
                 if (Application.Current.MainWindow.FindName("leftView") is ColumnDefinition leftView && Application.Current.MainWindow.FindName("leftTab") is TabControl leftTab)

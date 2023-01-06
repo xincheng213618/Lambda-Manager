@@ -1,6 +1,9 @@
 ﻿using Global.Common;
+using HandyControl.Properties.Langs;
 using Solution.RecentFile;
 using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -9,6 +12,57 @@ using Tool;
 
 namespace Solution
 {
+    public class NewCreatViewMode : ViewModelBase
+    {
+        public RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\NLG\\Grid\\RecentNewCreatCache") };
+
+        public NewCreatViewMode()
+        {
+            if (recentFileList.RecentFiles.Count == 0)
+                recentFileList.InsertFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid");
+
+            foreach (var item in recentFileList.RecentFiles)
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(item);
+                if (directoryInfo.Exists)
+                {
+                    RecentNewCreatCacheList.Add(directoryInfo.FullName);
+                }
+            }
+
+            this.DirectoryPath = recentFileList.RecentFiles[0];
+            this.Name = NewCreateFileName("新建工程");
+        }
+
+        public string NewCreateFileName(string FileName)
+        {
+            if (!Directory.Exists($"{this.DirectoryPath}\\{FileName}"))
+                return FileName;
+            for (int i = 1; i < 999; i++)
+            {
+                if (!Directory.Exists($"{this.DirectoryPath}\\{FileName}{i}"))
+                    return $"{FileName}{i}";
+            }
+            return FileName;
+        }
+
+        /// <summary>
+        /// 工程名称
+        /// </summary>
+        public string Name { get => _Name; set { _Name = value; NotifyPropertyChanged(); } }
+        private string _Name = string.Empty;
+
+        /// <summary>
+        /// 工程位置
+        /// </summary>
+        public string DirectoryPath { get => _DirectoryPath; set { _DirectoryPath = value; NotifyPropertyChanged(); } }
+        private string _DirectoryPath = string.Empty;
+
+        public ObservableCollection<string> RecentNewCreatCacheList { get; set; } = new ObservableCollection<string>();
+
+
+    }
+
     /// <summary>
     /// NewCreatWindow.xaml 的交互逻辑
     /// </summary>
@@ -21,36 +75,16 @@ namespace Solution
 
         public bool IsCreate =false;
 
-        RecentFileList recentFileList;
-
         public NewCreatViewMode newCreatViewMode;
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            recentFileList = new RecentFileList();
-            string regiserkey = "Software\\" + System.Windows.Forms.Application.CompanyName + "\\" + System.Windows.Forms.Application.ProductName + "\\" + "RecentNewCreatCache";
-            recentFileList.Persister = new RegistryPersister(regiserkey);
-
-            if (recentFileList.RecentFiles.Count==0)
-                recentFileList.InsertFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +"\\Grid");
-
             newCreatViewMode = new NewCreatViewMode();
-            newCreatViewMode.DirectoryPath = recentFileList.RecentFiles[0];
-            newCreatViewMode.Name = NewCreateFileName("新建工程");
+
             this.DataContext = newCreatViewMode;
         }
 
-        public string NewCreateFileName(string FileName)
-        {
-            if (!Directory.Exists($"{newCreatViewMode.DirectoryPath}\\{FileName}"))
-                return FileName;
-            for (int i = 1; i < 999; i++)
-            {
-                if (!Directory.Exists($"{newCreatViewMode.DirectoryPath}\\{FileName}{i}"))
-                    return $"{FileName}{i}";
-            }
-            return FileName ;
-        }
+
 
 
 
@@ -64,18 +98,17 @@ namespace Solution
             {
                 if (string.IsNullOrEmpty(dialog.SelectedPath))
                 {
-                    System.Windows.MessageBox.Show(this, "文件夹路径不能为空", "提示");
+                    MessageBox1.Show( "文件夹路径不能为空", "提示");
                     return;
                 }
                 newCreatViewMode.DirectoryPath = dialog.SelectedPath;
-                recentFileList.InsertFile(newCreatViewMode.DirectoryPath);
+                newCreatViewMode.recentFileList.InsertFile(newCreatViewMode.DirectoryPath);
             }
         }
 
         private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
             e.Handled = true;
-
         }
 
         private void Button_Close_Click(object sender, RoutedEventArgs e)
@@ -84,40 +117,27 @@ namespace Solution
 
             if (Directory.Exists(SolutionDirectoryPath))
             {
-                var result = MessageBox.Show("文件夹不为空，是否清空文件夹", "Grid", MessageBoxButton.YesNo);
+                var result = MessageBox1.Show("文件夹不为空，是否清空文件夹", "Grid", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
                     try
                     {
                         Directory.Delete(SolutionDirectoryPath, true);
-                    }catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Grid");
+                        MessageBox1.Show(ex.Message, "Grid");
                     }
                 }
             }
             Directory.CreateDirectory(SolutionDirectoryPath);
+            newCreatViewMode.recentFileList.InsertFile(newCreatViewMode.DirectoryPath);
 
             IsCreate = true;
             this.Close();
         }
     }
 
-    public class NewCreatViewMode:ViewModelBase
-    {
-        private string name = string.Empty;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; NotifyPropertyChanged();  } 
-        }
-        private string directoryPath = string.Empty;
 
-        public string DirectoryPath
-        {
-            get { return directoryPath; }
-            set { directoryPath = value; NotifyPropertyChanged(); } 
-        }
-    }
 
 }

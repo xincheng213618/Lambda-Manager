@@ -34,6 +34,10 @@
                 <TextBlock Text="联系电话" Width="100"/>
                 <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}"  TextChanged="H5a6_TextChanged"/>
             </DockPanel>
+            <DockPanel Margin="5">
+                <TextBlock Text="注册码" Width="100"/>
+                <TextBox  Text="{Binding SN}"  TextChanged="H5a6_TextChanged"/>
+            </DockPanel>
         </StackPanel>
 
         <Button x:Name="Button1" VerticalAlignment="Bottom" Margin="0,20" Content="注册" Width="150" Height="30" FontSize="15" Click="Button_Click">

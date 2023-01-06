@@ -438,8 +438,7 @@ namespace Solution
             Config.ConfigSet();
         }
 
-
-        RecentFileList recentFileList = new RecentFileList();
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\NLG\\Grid\\SolutionHistory") };
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
@@ -488,15 +487,15 @@ namespace Solution
             {
                 if (newCreatWindow.IsCreate)
                 {
-                    string SolutionDirectoryPath = newCreatWindow.newCreatViewMode.DirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name;
-                    SolutionFullName = SolutionDirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name + ".gprj";
+                string SolutionDirectoryPath = newCreatWindow.newCreatViewMode.DirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name;
+                SolutionFullName = SolutionDirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name + ".gprj";
 
-                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Video");
-                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Image");
+                Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Video");
+                Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Image");
 
-                    recentFileList.InsertFile(SolutionFullName);
-                    Config.ConfigWrite(SolutionFullName);
-                    TreeViewInitialized(SolutionFullName, !SoftwareConfig.SolutionSetting.IsSupportMultiProject);
+                recentFileList.InsertFile(SolutionFullName);
+                Config.ConfigWrite(SolutionFullName);
+                TreeViewInitialized(SolutionFullName, !SoftwareConfig.SolutionSetting.IsSupportMultiProject);
                 }
             };
             newCreatWindow.ShowDialog();
@@ -546,6 +545,7 @@ namespace Solution
         int i = 0;
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
+
         }
 
 

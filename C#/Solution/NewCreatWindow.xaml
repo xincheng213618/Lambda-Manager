@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Solution"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:bw ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
         Height="200" Width="500" Title="New" ShowTitle="False" MinWidth="500" MinHeight="300" WindowStyle="ToolWindow"  ResizeMode="NoResize" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
@@ -14,20 +15,23 @@
             </ResourceDictionary.MergedDictionaries>        
         </ResourceDictionary>
     </Window.Resources>
+    <Window.DataContext>
+        <local:NewCreatViewMode/>
+    </Window.DataContext>
     <Grid>
         <TextBlock Text="配置新工程" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <Grid Margin="30,30,20,20" >
-            <StackPanel>
-                <TextBlock Text="项目名称" FontSize="14"/>
-                <DockPanel Margin="0,5,0,5" >
-                    <TextBox Style="{DynamicResource TextBoxStyle1}" Text="{Binding Name}" Height="25" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="350"  Margin="0,0,5,0" />
-                </DockPanel>
-                <TextBlock Text="选择项目位置" FontSize="14" Margin="0,10,0,5"/>
-                <DockPanel Margin="0,5">
-                    <TextBox Style="{DynamicResource TextBoxStyle1}" Text="{Binding DirectoryPath}" Height="25" VerticalContentAlignment="Center" Width="350" HorizontalAlignment="Left"  Margin="0,0,5,0" />
-                    <Button Width="50" HorizontalAlignment="Left"  Content="..." VerticalContentAlignment="Top" Padding="0,0,0,5" Click="Button_Click"/>
+            <StackPanel >
+                <hc:ComboBox  Margin="0,0,0,0" Width="400" HorizontalAlignment="Left" IsEditable="True" SelectedIndex="0" Text="{Binding Name}"  hc:InfoElement.Title="项目名称" 
+                hc:InfoElement.Necessary="True" hc:InfoElement.Symbol="*"   />
+                <DockPanel >
+                    <Button Content="..." DockPanel.Dock="Right" VerticalAlignment="Bottom" Height="30" Width="30" Click="Button_Click"/>
+                    <hc:ComboBox  Margin="0,0,0,0"  Width="400"  HorizontalAlignment="Left" ShowClearButton="True"  IsEditable="True" SelectedIndex="0" Text="{Binding DirectoryPath}"  hc:InfoElement.Title="选择项目位置" 
+                              hc:InfoElement.Necessary="True"  hc:InfoElement.Symbol="*" 
+                              ItemsSource="{Binding RecentNewCreatCacheList}"/>
 
                 </DockPanel>
+
             </StackPanel>
 
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >

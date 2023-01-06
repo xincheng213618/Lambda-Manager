@@ -2,7 +2,7 @@
 
 namespace Global.SettingUp.PC
 {
-    public class PerformanceSetting : ViewModelBase
+    public class PerformanceSetting : ViewModelReg
     {
         private Timer timer;
         private PerformanceCounterHelper PerformanceCounterHelper;
@@ -39,8 +39,8 @@ namespace Global.SettingUp.PC
                 MemoryAvailable = (PerformanceCounterHelper.RAMAL - PerformanceCounterHelper.RAM.NextValue() / 1024).ToString("f1") + "/" + PerformanceCounterHelper.RAMAL.ToString("f1") + "GB";
 
                 DiskUse = (CurrentDrive.TotalFreeSpace / (1024 * 1024 * 1024)).ToString() + "GB";
-                IsDiskLackWarning = CurrentDrive.TotalFreeSpace < 107374182400;
 
+                IsDiskLackWarning = CurrentDrive.TotalFreeSpace < 10737418240;
                 IsMemoryLackWarning = PerformanceCounterHelper.RAMAL - PerformanceCounterHelper.RAM.NextValue() / 1024 < 4;
             }
         }
@@ -69,6 +69,12 @@ namespace Global.SettingUp.PC
         /// </summary>
         public bool IsDiskLackWarning { get => _IsDiskLackWarning; set { _IsDiskLackWarning = value; NotifyPropertyChanged(); } }
         private bool _IsDiskLackWarning = false;
+
+        /// <summary>
+        /// 是否显示硬盘不足警告
+        /// </summary>
+        public bool IsShowDiskLackWarning { get => _IsShowDiskLackWarning; set { _IsShowDiskLackWarning = value; WriteRegValue(false, nameof(IsShowDiskLackWarning)); NotifyPropertyChanged(); } }
+        private bool _IsShowDiskLackWarning = ReadRegValue(nameof(IsShowDiskLackWarning));
 
         /// <summary>
         /// 是否显示内存不足警告

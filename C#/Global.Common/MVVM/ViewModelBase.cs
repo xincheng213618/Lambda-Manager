@@ -12,7 +12,6 @@ namespace Global.Common
     public abstract class ViewModelBase :INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
         /// <summary>
         /// 消息通知事件
         /// </summary>

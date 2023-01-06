@@ -63,6 +63,14 @@ namespace ACE.Global
         private string _PhoneNumber = string.Empty;
 
 
+        /// <summary>
+        /// 注册码
+        /// </summary>
+        [JsonPropertyName("sn")]
+        public string SN { get => _SN; set { _SN = value; NotifyPropertyChanged(); } }
+        private string _SN = string.Empty;
+
+
         public override string ToString()
         {
             return $"{UserName},{RegistrationDate},{RegisteredAddress},{ExpirationDate},{Email},{PhoneNumber}";

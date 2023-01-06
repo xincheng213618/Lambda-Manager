@@ -1,8 +1,17 @@
+# TODO:
+
+- 重构注册模块
+
+## [1.4.3] 2023-01-06
+
+- 添加MessageBox DontShowAgain 选项  ✔ 
+- Solution Button 添加点击效果 ✔ 
+- NewCreatWindow 重构 ，样式调整 ✔ 
+
 ## [1.4.2] 2023-01-04
 
 - 添加注册模块后台    Python ✔ 
 - Fix  Solution 在删除时为空的bug ✔ 
-- 重构注册模块
 
 ## [1.4.1] 2023-01-01
 

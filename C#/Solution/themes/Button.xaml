@@ -658,19 +658,26 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{DynamicResource ButtonBackground}" BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" SnapsToDevicePixels="true">
                         <Grid>
-                            <Border x:Name="Bds"  Background="#6EA646" CornerRadius="3"  Opacity="1" Visibility="Collapsed"/>
+                            <Border x:Name="Bds" Background="#6EA646" CornerRadius="3"  Opacity="1" Visibility="Collapsed"/>
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="Bds" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="Bds" Property="Background" Value="#6EA646"/>
+
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Foreground" Value="{StaticResource ForegroundHightBrush}"/>
+                            <Setter TargetName="Bds" Property="Background" Value="#50A961"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

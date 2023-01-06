@@ -52,9 +52,6 @@ namespace Register
         }
 
 
-
-        private static readonly HttpClient client = new HttpClient();
-
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             if (!Regex.IsMatch(registerInfo.RegistrationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
@@ -98,23 +95,33 @@ namespace Register
                 { "expirationDate",registerInfo.ExpirationDate },
                 { "email",registerInfo.Email },
                 { "phoneNumber",registerInfo.PhoneNumber},
-                { "registerCode",registerInfo.GetMD5()},
+                { "sn",registerInfo.GetMD5()},
             };
             var content = new FormUrlEncodedContent(keyValues);
-            var response = await client.PostAsync("http://b.xincheng213618.com:18888/register", content);
 
+            Dictionary<string, string> keyValues1 = new Dictionary<string, string>()
+            {
+                { "sn",registerInfo.SN },
+                { "mac-address", registerInfo.RegistrationDate },
+                { "equip-identify",registerInfo.RegisteredAddress },
+            };
+
+
+            HttpClient client = new HttpClient();
+            var response = await client.PostAsync("http://127.0.0.1:18888/register", content);
             var responseString = await response.Content.ReadAsStringAsync();
             MessageBox.Show(responseString);
 
             if (!String.IsNullOrEmpty(Encoding.UTF8.GetString(AESHelper.Decrypt())))
                 MessageBox.Show("注册成功");
 
-            if (File.Exists("application.xml"))
-                File.Delete("application.xml");
-            if (!File.Exists("application.xml"))
-            {
-                Button1.Content = "重新注册";
-            }
+            //if (File.Exists("application.xml"))
+            //    File.Delete("application.xml");
+
+            //if (!File.Exists("application.xml"))
+            //{
+            //    Button1.Content = "重新注册";
+            //}
         }
 
 

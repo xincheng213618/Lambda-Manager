@@ -8,7 +8,8 @@
     <Color x:Key="BackgroundColor">#3D3D3D</Color>
     <Color x:Key="DisabledBackgroundColor">#424242</Color>
     <Color x:Key="LightDisabledBackgroundColor">#666666</Color>
-    <Color x:Key="ForegroundColor">white</Color>
+    <Color x:Key="ForegroundColor">#FAFAFA</Color>
+    <Color x:Key="ForegroundHightColor">white</Color>
     <Color x:Key="HighlightColor">#22FFFFFF</Color>
     <Color x:Key="HotColor">#525252</Color>
 </ResourceDictionary>

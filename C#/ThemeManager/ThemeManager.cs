@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using HandyControl.Properties.Langs;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -96,8 +98,10 @@ namespace ThemeManager
 
         public static List<string> ResourceDictionaryDark { get; set; } = new List<string>()
         {
-             "/HandyControl;component/themes/basic/colors/dark.xaml",
+            "/HandyControl;component/themes/basic/colors/dark.xaml",
             "/HandyControl;component/Themes/Theme.xaml",
+            "/ThemeManager;component/HandyControl/Style/ThemeColor.xaml",
+            "/ThemeManager;component/HandyControl/Lang/Lang.zh-CN.xaml",
 
             "/ThemeManager;component/Controls/Window/BaseWindow.xaml",
             "/ThemeManager;component/Styles/Dark.xaml",
@@ -113,6 +117,8 @@ namespace ThemeManager
         {
             "/HandyControl;component/themes/basic/colors/light.xaml",
             "/HandyControl;component/Themes/Theme.xaml",
+            "/ThemeManager;component/HandyControl/Style/ThemeColor.xaml",
+            "/ThemeManager;component/HandyControl/Lang/Lang.zh-CN.xaml",
 
             "/ThemeManager;component/Controls/Window/BaseWindow.xaml",
             "/ThemeManager;component/Styles/White.xaml",
