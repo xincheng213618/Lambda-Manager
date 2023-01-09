@@ -56,25 +56,32 @@ namespace ThemeManager
         {
             if (IsRegister && CurrentUITheme == theme) return;
 
-            if (!IsRegister) IsRegister = true;
+            if (!IsRegister)
+            {
+                IsRegister = true;
+            }
 
 
             List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
 
-            if (!ThemeResourceDictionaryCache.ContainsKey(theme))
-            {
-                ResourceDictionary Themedictionary = new ResourceDictionary();
-                foreach (var item in ResourceDictionarys)
-                {
-                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                    Themedictionary.MergedDictionaries.Add(dictionary);
-                }
-                ThemeResourceDictionaryCache.Add(theme, Themedictionary);
-            }
+            //if (!ThemeResourceDictionaryCache.ContainsKey(theme))
+            //{
+            //    ResourceDictionary Themedictionary = new ResourceDictionary();
+            //    foreach (var item in ResourceDictionarys)
+            //    {
+            //        ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+            //        Themedictionary.MergedDictionaries.Add(dictionary);
+            //    }
+            //    ThemeResourceDictionaryCache.Add(theme, Themedictionary);
+            //}
             if (IsOpenClear)
                 app.Resources.MergedDictionaries.Clear();
-            app.Resources.MergedDictionaries.Add(ThemeResourceDictionaryCache[theme]);
 
+            foreach (var item in ResourceDictionarys)
+            {
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                app.Resources.MergedDictionaries.Add(dictionary);
+            }
             CurrentUITheme = theme;
         }
 

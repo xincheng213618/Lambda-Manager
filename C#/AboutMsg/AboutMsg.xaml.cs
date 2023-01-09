@@ -24,8 +24,8 @@ namespace AboutMsg
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            FileRegisterinfo iRegisterInfo = new FileRegisterinfo();
-            this.DataContext = iRegisterInfo.GetRegisterInfo();
+            RegisterInfoReg iRegisterInfo = new RegisterInfoReg();
+            this.DataContext = iRegisterInfo.Get();
 
             produceInfos.Add(new ProduceInfo() { Name = "Register", Version = "1.0", Description = "注册" });
             produceInfos.Add(new ProduceInfo() { Name = "AboutMsg", Version = "1.0", Description = "关于" });

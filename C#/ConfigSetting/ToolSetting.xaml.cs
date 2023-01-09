@@ -40,8 +40,8 @@ namespace ConfigSetting
     {
         public ToolSetting()
         {
-            //最优先的部分
             Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
+            //最优先的部分
             InitializeComponent();
         }
 
@@ -52,7 +52,9 @@ namespace ConfigSetting
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
+                Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
                 IsFirstLoad = false;
+
                 //一个针对主控不开放主窗口权限的解决方案   这里如果走错误方案的话，会引起白屏问题
                 if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
                 {
@@ -223,6 +225,7 @@ namespace ConfigSetting
                         if (Application.Current.MainWindow.FindName("menu") is Menu menu)
                         {
                             menu.BorderBrush = Brushes.Transparent;
+                            menu.Background = Brushes.Transparent;
                         }
 
                         if (stackPanelMode.Children[0] is RadioButton radioButton)
@@ -261,10 +264,6 @@ namespace ConfigSetting
                 //SoftwareConfig.HardwareConfig.LightSourceConfig = Json.Deserialize<LightSourceConfig>("LightSourceConfig");
                 //GroupBox21.DataContext = SoftwareConfig.HardwareConfig.LightSourceConfig;
                 //SoftwareConfig.HardwareConfig.LightSourceConfig.ToJsonFile("LightSourceConfig");
-
-
-
-
             }
         }
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Register"
         xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="280" MinHeight="300" Width="330" IsBlurEnabled="True" MinWidth="330" Background="Transparent" ResizeMode="NoResize"  Foreground="White" Initialized="Window_Initialized" >
+        Height="330" MinHeight="300" Width="330"  Background="{DynamicResource WindowBackgroundBrush}"  MinWidth="330"  ResizeMode="NoResize"  Foreground="White" Initialized="Window_Initialized" >
     <Grid>
         <TextBlock Text="注册信息" FontSize="15" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-20,0,0"/>
         <StackPanel Margin="20,10">

@@ -16,7 +16,7 @@
     <!--#endregion-->
 
     <!--#region Brushes-->
-    <SolidColorBrush x:Key="ThemeBrush" Color="{StaticResource ThemeColor}"/>
+    <SolidColorBrush x:Key="ThemeBrush" Color="{StaticResource ThemeColor1}"/>
 
     <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
     <SolidColorBrush x:Key="ForegroundHightBrush" Color="{StaticResource ForegroundHightColor}"/>

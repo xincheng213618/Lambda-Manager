@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -57,14 +58,21 @@ namespace Wizard
 
             if (File.Exists("application.xml"))
             {
-                fileRegisterinfo.SetRegisterInfo(registerInfo);
+                //fileRegisterinfo.set(registerInfo);
                 //new AESHelper(fileRegisterinfo).Encrypt();
             }
             else
             {
                 //byte[] Caches = new AESHelper(fileRegisterinfo).Decrypt();
-                fileRegisterinfo.SetRegisterInfo(registerInfo);
+                //fileRegisterinfo.SetRegisterInfo(registerInfo);
                 //new AESHelper(fileRegisterinfo).Encrypt(Caches);
+            }
+
+            List<string> macs = new List<string>();
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (NetworkInterface ni in interfaces)
+            {
+                macs.Add(ni.GetPhysicalAddress().ToString());
             }
 
 
@@ -81,15 +89,12 @@ namespace Wizard
         {
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
-        FileRegisterinfo fileRegisterinfo;
-        RegisterInfo registerInfo;
+        RegisterInfo? registerInfo;
         private void Page_Initialized(object sender, EventArgs e)
         {
-            fileRegisterinfo = new FileRegisterinfo();
-            registerInfo = fileRegisterinfo.GetRegisterInfo();
-            if (registerInfo == null)
+            if (registerInfo != null)
             {
-                registerInfo = fileRegisterinfo.GetRegisterInfo() ?? new RegisterInfo();
+                registerInfo = new RegisterInfoReg().Get() ?? new RegisterInfo();
                 RegisterStackpanel.DataContext = registerInfo;
             }
             else

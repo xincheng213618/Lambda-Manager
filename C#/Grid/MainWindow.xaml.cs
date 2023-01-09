@@ -42,15 +42,14 @@ namespace Grid
         }
 
 
-        RecentFileList recentFileList = new RecentFileList();
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\NLG\\Grid\\SolutionHistory") };
 
         readonly string StatusBarRegPath = "Software\\Grid";
 
         private void Window_Initialized(object sender, EventArgs e)
         {
             TextBox1.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\config\\default.gcfg";
-            string regiserkey = "Software\\" + "LambdaManager" + "\\" + "LambdaManager" + "\\" + "RecentFileList";
-            recentFileList.Persister = new RegistryPersister(regiserkey);
+
             if (recentFileList.RecentFiles.Count ==0)
             {
                 Uri uri = new Uri("/Grid;component/default.gprj", UriKind.Relative);

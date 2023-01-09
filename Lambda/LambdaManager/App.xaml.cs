@@ -46,7 +46,7 @@ partial class App : Application
         startWindow.Show();
     }
 
-    /// <summary>q
+    /// <summary>
     /// Application Close
     /// </summary>
 	private void Application_Exit(object sender, ExitEventArgs e)

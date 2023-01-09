@@ -339,6 +339,7 @@ int ViewWindow(int type,int window,int mode1,int mode2)
 
 int CaptureImage(int mode, void** image)
 {
+
 	Logger::Log2(Severity::INFO, L"Invoke 'CaptureImage(mode: %d, <out> image: %p)'", mode, image);
 	char* buff = (char*)malloc(20);
 	if (buff != NULL) {

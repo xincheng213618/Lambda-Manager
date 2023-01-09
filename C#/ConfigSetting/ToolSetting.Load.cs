@@ -44,7 +44,7 @@ namespace ConfigSetting
 			ThemeCombox.SelectionChanged += (s, e) =>
 			{
 				if (ThemeCombox.SelectedItem is KeyValuePair<Theme, string> KeyValue && KeyValue.Key is Theme theme)
-					ThemeManagers.CurrentUITheme = theme;
+					Application.Current.ApplyTheme(theme);
 			};
 
 			ThemeManagers.ThemeChanged += (s) =>

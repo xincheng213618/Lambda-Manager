@@ -673,10 +673,9 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="Bds" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="Bds" Property="Background" Value="#6EA646"/>
-
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Foreground" Value="{StaticResource ForegroundHightBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundHightBrush}"/>
                             <Setter TargetName="Bds" Property="Background" Value="#50A961"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

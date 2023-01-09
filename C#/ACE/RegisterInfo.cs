@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ACE.Global
+namespace ACE
 {
 
     /// <summary>
@@ -23,14 +23,14 @@ namespace ACE.Global
         [JsonPropertyName("name")]
         public string UserName { get => _UserName; set { _UserName = value; NotifyPropertyChanged(); } }
         private string _UserName = string.Empty;
-   
+
         /// <summary>
         /// 注册日期
         /// </summary>
         [JsonPropertyName("create_date")]
         public string RegistrationDate { get => _RegistrationDate; set { _RegistrationDate = value; NotifyPropertyChanged(); } }
         private string _RegistrationDate = string.Empty;
-        
+
 
         /// <summary>
         /// 注册地址
@@ -83,9 +83,9 @@ namespace ACE.Global
 
         public string GetMD5()
         {
-            byte[] hashBytes = System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(this.ToString()));
+            byte[] hashBytes = System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(ToString()));
             return Convert.ToHexString(hashBytes); // .NET 5 +
         }
-   
+
     }
 }

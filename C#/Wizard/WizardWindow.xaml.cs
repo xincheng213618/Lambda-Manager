@@ -1,4 +1,5 @@
-﻿using ACE.Global;
+﻿using ACE;
+using ACE.Global;
 using Global.Common;
 using Global.Common.Extensions;
 using Global.Common.MVVM;
@@ -28,27 +29,14 @@ namespace Wizard
     /// </summary>
     public partial class WizardWindow : BaseWindow
     {
-        public List<string> ResourceDictionaryDark = new List<string>();
         public WizardWindow()
         {
             InitializeComponent();
         }
-        FileRegisterinfo fileRegisterinfo;
-        RegisterInfo registerInfo;
+
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
-            //fileRegisterinfo = new FileRegisterinfo();
-            //registerInfo = fileRegisterinfo.GetRegisterInfo();
-            //if (registerInfo == null)
-            //{
-            //    Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page1(this))));
-            //}
-            //else
-            //{
-            //    Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
-            //}
-
-            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new Page2(this))));
+            Dispatcher.BeginInvoke(new Action(() => frame.Navigate(new RegisterInfoReg().Get() == null ? new Page1(this) : new Page2(this))));
             LambdaControl.Log(new Message() { Severity = Severity.INFO, Text = "启动配置向导" });
         }
 
@@ -58,10 +46,7 @@ namespace Wizard
             {
                 Environment.Exit(0);
             }
-            else
-            {
-                SoftwareConfig.HardwareConfig.ToJsonFile("HardwareConfig");
-            }
+
 
         }
     }

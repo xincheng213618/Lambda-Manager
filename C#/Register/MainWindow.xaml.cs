@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,7 +38,7 @@ namespace Register
 
         RegisterInfo registerInfo;
         AESHelper AESHelper;
-        FileRegisterinfo FileRegisterinfo;
+        IRegisterInfo iRegisterInfo = new RegisterInfoReg();
 
         private void Window_Initialized(object sender, System.EventArgs e)
         {            
@@ -45,10 +47,9 @@ namespace Register
                 Button1.Content = "重新注册";
             }
 
-            FileRegisterinfo = new FileRegisterinfo();
-            registerInfo = FileRegisterinfo.GetRegisterInfo();
+            registerInfo = iRegisterInfo.Get();
             this.DataContext = registerInfo;
-            AESHelper = new AESHelper(FileRegisterinfo);
+            AESHelper = new AESHelper();
         }
 
 
@@ -77,13 +78,13 @@ namespace Register
 
             if (File.Exists("application.xml"))
             {
-                FileRegisterinfo.SetRegisterInfo(registerInfo);
+                iRegisterInfo.Set(registerInfo);
                 AESHelper.Encrypt();
             }
             else
             {
                 byte[] Caches = AESHelper.Decrypt();
-                FileRegisterinfo.SetRegisterInfo(registerInfo);
+                iRegisterInfo.Set(registerInfo);
                 AESHelper.Encrypt(Caches);
             }
 
@@ -97,23 +98,75 @@ namespace Register
                 { "phoneNumber",registerInfo.PhoneNumber},
                 { "sn",registerInfo.GetMD5()},
             };
-            var content = new FormUrlEncodedContent(keyValues);
 
-            Dictionary<string, string> keyValues1 = new Dictionary<string, string>()
+            try
             {
-                { "sn",registerInfo.SN },
-                { "mac-address", registerInfo.RegistrationDate },
-                { "equip-identify",registerInfo.RegisteredAddress },
-            };
+                HttpClient client = new HttpClient();
 
+                var content = new FormUrlEncodedContent(keyValues);
 
-            HttpClient client = new HttpClient();
-            var response = await client.PostAsync("http://127.0.0.1:18888/register", content);
-            var responseString = await response.Content.ReadAsStringAsync();
-            MessageBox.Show(responseString);
+                var response = await client.PostAsync("http://127.0.0.1:18888/register1", content);
+                var responseString = await response.Content.ReadAsStringAsync();
 
-            if (!String.IsNullOrEmpty(Encoding.UTF8.GetString(AESHelper.Decrypt())))
-                MessageBox.Show("注册成功");
+                List<string> macs = new List<string>();
+                NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+                foreach (NetworkInterface ni in interfaces)
+                {
+                    macs.Add(ni.GetPhysicalAddress().ToString());
+                }
+
+                Dictionary<string, string> keyValues1 = new Dictionary<string, string>()
+                { 
+                    { "sn",registerInfo.SN },
+                    { "mac-address", macs[0] },
+                    { "equip-identify",null},
+                };
+                var content1 = new FormUrlEncodedContent(keyValues1);
+
+                var response1 = await client.PostAsync("http://127.0.0.1:18888/register", content1);
+                var responseString1 = await response1.Content.ReadAsStringAsync();
+                JsonObject jsonobject = (JsonObject)JsonNode.Parse(responseString1);
+                if (jsonobject != null)
+                {
+                    if ("0"== jsonobject["state"].ToString())
+                    {
+                        if (jsonobject["message"].ToString() == "该用户已经注册过")
+                        {
+                            if (MessageBox.Show("该用户已经注册过，是否重新绑定机器", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            {
+                                var response2 = await client.PostAsync("http://127.0.0.1:18888/unregister", content1);
+                                var responseString2 = await response2.Content.ReadAsStringAsync();
+                                MessageBox.Show(responseString2);
+
+                                if (responseString2 == null)
+                                {
+                                    JsonObject jsonobject2 = (JsonObject)JsonNode.Parse(responseString2);
+
+                                    if ("0" == jsonobject["state"].ToString())
+                                    {
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("注册失败");
+                            }
+                        }
+
+                        if (!String.IsNullOrEmpty(Encoding.UTF8.GetString(AESHelper.Decrypt())))
+                            MessageBox.Show("注册成功");
+                    }
+                    MessageBox.Show("注册失败：");
+                }
+                else
+                {
+                    MessageBox.Show("注册失败：");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("注册失败："+ex.Message);
+            }
 
             //if (File.Exists("application.xml"))
             //    File.Delete("application.xml");

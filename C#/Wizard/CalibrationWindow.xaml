@@ -18,10 +18,10 @@
             <Grid Background="#333333" Margin="5,5,5,5">
                 <ScrollViewer x:Name="ScrollViewer1"  VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
                     <StackPanel x:Name="ShowStackPanel" Margin="5" >
-                        
                     </StackPanel>
                 </ScrollViewer>
                 <ProgressBar  x:Name="ProgressBar"  Height="5"  Foreground="Green" Background="#484d4f" BorderThickness="0"  VerticalAlignment="Bottom"  Margin="0,-5"/>
+                
             </Grid>
         </Border>
 
