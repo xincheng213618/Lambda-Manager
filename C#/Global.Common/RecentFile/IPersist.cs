@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solution.RecentFile
+namespace Global.RecentFile
 {
     public interface IPersist
     {

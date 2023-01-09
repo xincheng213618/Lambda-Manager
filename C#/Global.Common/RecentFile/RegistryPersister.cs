@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Solution.RecentFile
+namespace Global.RecentFile
 {
     public class RegistryPersister : IPersist
     {
@@ -11,7 +11,7 @@ namespace Solution.RecentFile
         public RegistryPersister()
         {
             RegistryKey ="Software\\" + Application.ProductName + "\\" + "RecentFileList";
-        }
+        }  
         public RegistryPersister(string key)
         {
             RegistryKey = key;

@@ -9,14 +9,8 @@ using System.Windows.Shapes;
 using ThemeManager.Controls;
 using Global.Common.Extensions;
 using Global.Common.Controls;
-using System.Linq;
 using System.Text.Json;
-using System.Security.Cryptography;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
-using System.Text.Json.Serialization;
 using System.Threading;
-using Global.Common.MVVM;
 
 namespace Wizard
 {
