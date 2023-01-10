@@ -8,7 +8,7 @@ namespace Global.RecentFile
 {
     public class RecentFileList
     {
-        public IPersist Persister { get; set; }
+        public IRecentFile Persister { get; set; }
 
         public int MaxNumberOfFiles { get; set; }
         public int MaxPathLength { get; set; }
@@ -33,11 +33,11 @@ namespace Global.RecentFile
             MenuItemFormatTenPlus = "{0}:  {2}";
         }
 
-        public List<string> RecentFiles { get { return Persister.RecentFiles(MaxNumberOfFiles); } }
-        public void RemoveFile(string filepath) { Persister.RemoveFile(filepath, MaxNumberOfFiles); }
-        public void InsertFile(string filepath) { Persister.InsertFile(filepath, MaxNumberOfFiles); }
+        public List<string> RecentFiles { get => Persister.RecentFiles(MaxNumberOfFiles); } 
+        public void RemoveFile(string filepath) => Persister.RemoveFile(filepath, MaxNumberOfFiles); 
+        public void InsertFile(string filepath) => Persister.InsertFile(filepath, MaxNumberOfFiles); 
 
-        public void Clear() { Persister.Clear(); }
+        public void Clear() => Persister.Clear(); 
 
         
 

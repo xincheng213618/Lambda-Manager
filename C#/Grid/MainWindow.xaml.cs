@@ -29,7 +29,7 @@ namespace Grid
         }
 
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\NLG\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
 
         readonly string StatusBarRegPath = "Software\\Grid";
 

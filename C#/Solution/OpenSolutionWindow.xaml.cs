@@ -1,4 +1,4 @@
-﻿using Solution.RecentFile;
+﻿using Global.RecentFile;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -20,7 +20,7 @@ namespace Solution
         }
         public string FullName = string.Empty;
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\NLG\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
 
         public ObservableCollection<SoulutionInfo> SoulutionInfos = new ObservableCollection<SoulutionInfo>();
         private void BaseWindow_Initialized(object sender, EventArgs e)

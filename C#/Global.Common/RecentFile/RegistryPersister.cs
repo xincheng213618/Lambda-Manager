@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Global.RecentFile
 {
-    public class RegistryPersister : IPersist
+    public class RegistryPersister : IRecentFile
     {
         public string RegistryKey { get; set; }
         public RegistryPersister()

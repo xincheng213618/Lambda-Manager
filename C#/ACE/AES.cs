@@ -20,10 +20,10 @@ namespace ACE
 
         public static string? GetSysConfig()
         {
-            //string path = "application.xml";
-            //if (File.Exists(path))
-            //    return File.ReadAllText(path) ?? null;
-            //return null;
+            string path = "application.xml";
+            if (File.Exists(path))
+                return File.ReadAllText(path) ?? null;
+            return null;
 
             AESHelper.DecryptFileName = "application.sys";
             byte[] data = AESHelper.Decrypt();
@@ -37,7 +37,7 @@ namespace ACE
 
         public static string? GetExpireDate()
         {
-            //return "2025/1/1";
+            return "2025/1/1";
             if (File.Exists("application.xml")) 
                 return null;
             try

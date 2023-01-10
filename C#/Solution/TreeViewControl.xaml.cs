@@ -9,17 +9,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Lambda;
 using Tool;
-using Solution.RecentFile;
 using Global.Common;
 using System.Threading.Tasks;
-using Microsoft.Win32;
 using HotKey;
 using Global.SettingUp;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Linq;
-using HandyControl.Data;
-using ThemeManager;
+using Global.RecentFile;
+using ThemeManager.Controls;
 
 namespace Solution
 {
@@ -438,7 +435,7 @@ namespace Solution
             Config.ConfigSet();
         }
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\NLG\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
@@ -542,9 +539,58 @@ namespace Solution
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
         }
 
-        int i = 0;
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
+            Application.Current.MainWindow.Style = Application.Current.TryFindResource(typeof(BaseWindow)) as Style;
+            
+            if (Application.Current.MainWindow.FindName("menu") is Menu menu)
+            {
+                MenuItem FileMenuItem = null;
+                foreach (var item in menu.Items.Cast<MenuItem>().ToList())
+                {
+                    if (item.Header.ToString().Contains("文件"))
+                    {
+                        FileMenuItem = item;
+                        menu.Items.Remove(item);
+                        break;
+                    }
+                } ;
+                FileMenuItem ??= new MenuItem();
+                FileMenuItem.Header = "文件(_F)";
+                menu.Items.Insert(0,FileMenuItem);
+
+                MenuItem RecentListMenuItem = null;
+
+                foreach (var item in FileMenuItem.Items.Cast<MenuItem>().ToList())
+                {
+                    if (item.Header.ToString().Contains("最近使用过的文件"))
+                    {
+                        RecentListMenuItem = item;
+                        FileMenuItem.Items.Remove(item);
+                        break;
+                    }
+                };
+
+
+                RecentListMenuItem ??= new MenuItem();
+                RecentListMenuItem.Header = "最近使用过的文件(_F)";
+                FileMenuItem.Items.Insert(FileMenuItem.Items.Count-1, RecentListMenuItem);
+
+                RecentListMenuItem.Items.Clear();
+                foreach (var item in recentFileList.RecentFiles)
+                {
+                    MenuItem menuItem = new MenuItem();
+                    menuItem.Header = item;
+                    menuItem.Click += (sender, e) =>
+                    {
+                        this.OpenSolution(item);
+                    };
+                    RecentListMenuItem.Items.Add(menuItem);
+                }
+
+
+            }
+
 
         }
 

@@ -1,6 +1,6 @@
 ﻿using Global.Common;
+using Global.RecentFile;
 using HandyControl.Properties.Langs;
-using Solution.RecentFile;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;

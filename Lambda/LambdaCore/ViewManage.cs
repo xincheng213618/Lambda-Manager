@@ -1,6 +1,8 @@
 ﻿using Lambda;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Media.Imaging;
 
@@ -13,18 +15,23 @@ namespace LambdaCore
         public WriteableBitmap WriteableBitmap { get; set; }
     }
 
+
+
+
     public delegate void ViewChangedEventHandler(object sender, ViewChangedEvent e);
 
-    public class ViewManager: INotifyPropertyChanged
+    public class ViewManager : INotifyPropertyChanged
     {
         private static ViewManager instance;
         private static readonly object locker = new();
+        public static ViewManager GetInstance() { lock (locker) { return instance ??= new ViewManager(); } }
 
-        public static ViewManager GetInstance()
-        {
-            lock (locker) { instance ??= new ViewManager(); }
-            return instance;
-        }
+        public static List<View> Views;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+
         Timer timer;
         public ViewManager()
         {
@@ -42,34 +49,18 @@ namespace LambdaCore
                 Start = DateTime.Now;
             }
         }
-
         public event ViewChangedEventHandler ViewChanged;
-
 
         public void Add(View view)
         {
-            System.Windows.Application.Current.Dispatcher.Invoke(delegate
-            {
-                if (view.Image.Source is WriteableBitmap writeableBitmap)
-                {
-                    ViewChanged?.Invoke(this, new ViewChangedEvent() { View = view, WriteableBitmap = writeableBitmap });
-                }
-                else
-                {
-                    ViewChanged?.Invoke(this, new ViewChangedEvent() { View = view, WriteableBitmap = null });
-                }
-            });
-
+            ViewChanged?.Invoke(this, new ViewChangedEvent() { View = view, WriteableBitmap = view.Image.Source as WriteableBitmap  });
+            Views.Add(view);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
-        private string fps;
-        public string AllFPS
-        {
-            get { return fps; }
-            set { fps = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllFPS))); }
-        }
+        public string AllFPS { get => _AllFPS; set { _AllFPS = value; NotifyPropertyChanged(); } }
+        private string _AllFPS;
+
         private int Counter = 0;
         private int TimerCounter = 0;
 

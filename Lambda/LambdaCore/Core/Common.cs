@@ -662,20 +662,20 @@ namespace LambdaManager.Core
                 {
                     image.Source = writeableBitmap;
                 }
-            });
-            if (index2 == 0)
-            {
-                Views[index].State = ViewState.RUNING;
-                ViewManager.Add(Views[index]);
-            }
-            else
-            {
-                if (-index2 - 1 > RegisterImageViews.Count)
+                if (index2 == 0)
                 {
-                    RegisterImageViews[-index2 - 1].State = ViewState.RUNING;
-
+                    Views[index].State = ViewState.RUNING;
+                    ViewManager.Add(Views[index]);
                 }
-            }
+                else
+                {
+                    if (-index2 - 1 > RegisterImageViews.Count)
+                    {
+                        RegisterImageViews[-index2 - 1].State = ViewState.RUNING;
+                    }
+                }
+            });
+
             return (int)ViewState.RUNING;
         }
         public static ViewManager ViewManager = ViewManager.GetInstance();

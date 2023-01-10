@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace Global.RecentFile
 {
-    public class XmlPersister : IPersist
+    public class XmlPersister : IRecentFile
     {
         public string Filepath { get; set; }
         public Stream Stream { get; set; }

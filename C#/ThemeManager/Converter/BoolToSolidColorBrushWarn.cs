@@ -15,10 +15,8 @@ namespace ThemeManager.Converter
             return !(bool)value ? Brushes.OrangeRed : ThemeManagers.CurrentUITheme == Theme.Dark ? Brushes.White : Brushes.Black;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+
     }
 
 }

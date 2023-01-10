@@ -20,10 +20,8 @@ namespace ThemeManager.Converter
             return new Thickness(Length * (double)item.GetDepth(), 0.0, 0.0, 0.0);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+
     }
 }
 
