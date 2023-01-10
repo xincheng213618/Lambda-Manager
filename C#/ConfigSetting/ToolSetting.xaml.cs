@@ -139,7 +139,7 @@ namespace ConfigSetting
 
                 if (SoftwareConfig.PerformanceSetting.IsDiskLackWarning)
                 {
-                    SoftwareConfig.PerformanceSetting.IsShowDiskLackWarning = MessageBox1.ShowAgain("硬盘剩余存储空间不足", "Grid", SoftwareConfig.PerformanceSetting.IsShowDiskLackWarning);
+                    SoftwareConfig.PerformanceSetting.IsShowDiskLackWarning = !MessageBox1.ShowAgain("硬盘剩余存储空间不足", "Grid", !SoftwareConfig.PerformanceSetting.IsShowDiskLackWarning);
                 }
 
                 if (Application.Current.MainWindow.FindName("leftView") is ColumnDefinition leftView && Application.Current.MainWindow.FindName("leftTab") is TabControl leftTab)

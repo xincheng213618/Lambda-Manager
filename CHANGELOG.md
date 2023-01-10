@@ -11,6 +11,8 @@
 
 - 重构 RecentFile ✔  并添加菜单项
 - 添加LICENSE ，并修改ReadMe文档✔
+- Fix PhaseAlgorithm.dll 日志需要管理员权限的问题 ✔
+- 添加MessageBox的消息支持 ✔
 
 ## [1.4.4] 2023-01-09
 - 修改公司名为 Zircon ,软件名为Grid, 用Lambda 框架开发 ✔ 

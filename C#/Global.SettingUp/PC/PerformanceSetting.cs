@@ -40,7 +40,7 @@ namespace Global.SettingUp.PC
 
                 DiskUse = (CurrentDrive.TotalFreeSpace / (1024 * 1024 * 1024)).ToString() + "GB";
 
-                IsDiskLackWarning = CurrentDrive.TotalFreeSpace < 10737418240;
+                IsDiskLackWarning = CurrentDrive.TotalFreeSpace < 107374182400;
                 IsMemoryLackWarning = PerformanceCounterHelper.RAMAL - PerformanceCounterHelper.RAM.NextValue() / 1024 < 4;
             }
         }

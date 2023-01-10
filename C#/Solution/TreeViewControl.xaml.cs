@@ -467,10 +467,7 @@ namespace Solution
         }
 
 
-        private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
-        }
+
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
@@ -523,16 +520,11 @@ namespace Solution
 
         }
 
-
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private unsafe void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            recentFileList.Clear();
+            HandyControl.Controls.Growl.Info("此功能在测试中");
+            LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
         }
-
-
-
-
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
@@ -541,8 +533,8 @@ namespace Solution
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Style = Application.Current.TryFindResource(typeof(BaseWindow)) as Style;
-            
+            HandyControl.Controls.Growl.Info("此功能在测试中");
+
             if (Application.Current.MainWindow.FindName("menu") is Menu menu)
             {
                 MenuItem FileMenuItem = null;

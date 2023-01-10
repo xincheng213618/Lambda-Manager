@@ -407,7 +407,7 @@ namespace LambdaManager
         private void ChangeColumnVisibility(int col, bool visible)
         {
             foreach (UIElement item in from UIElement i in stageAcquisition.Children
-                                       where Grid.GetColumn(i) == col
+                                       where System.Windows.Controls.Grid.GetColumn(i) == col
                                        select i)
             {
                 item.Visibility = ((!visible) ? Visibility.Collapsed : Visibility.Visible);

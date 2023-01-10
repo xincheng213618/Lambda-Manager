@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
+using Global.Common.Extensions;
 namespace XSolution
 {
 
@@ -25,7 +25,7 @@ namespace XSolution
             {
                 if (!item.IsAbstract && typeof(IProjectFile).IsAssignableFrom(item)&&item.IsClass)
                 {
-                    string[] SupportExtensions = ((IProjectFile)Activator.CreateInstance(item, "1")).SupportExtensions();
+                    string[] SupportExtensions = item.CreateInstance<IProjectFile>("1").SupportExtensions();
 
                     ProjectFileDic.Add(SupportExtensions,item);
                     ProjectFileTypeList.Add(item);
