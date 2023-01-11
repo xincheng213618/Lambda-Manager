@@ -55,14 +55,15 @@ namespace HotKey.WindowHotKey
 
         public bool Register(HotKeys hotkeys)
         {
-            WindowHotKey.Register(window, hotkeys.Hotkey, hotkeys.hotKeyHandler);
+            hotkeys.IsRegistered = WindowHotKey.Register(window, hotkeys.Hotkey, hotkeys.hotKeyHandler);
             HotKeysList.Add(hotkeys);
             return true;
         }
 
         public bool Register(Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
-            WindowHotKey.Register(window,hotkey, callBack);
+            if (!WindowHotKey.Register(window, hotkey, callBack))
+                return false;
             HotKeysList.Add(new HotKeys() { Hotkey =hotkey,hotKeyHandler = callBack});
             return true;
         }

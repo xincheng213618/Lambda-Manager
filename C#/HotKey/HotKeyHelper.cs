@@ -13,17 +13,11 @@ namespace HotKey
 
     public static class HotKeyExtensions
     {
-        public static void AddHotKeys(this Window This, HotKeys hotKeys)
+        public static bool AddHotKeys(this Window This, HotKeys hotKeys)
         {
             HotKeyHelper.GetInstance().AddHotKeys(This, hotKeys);
-            if (hotKeys.Kinds == HotKeyKinds.Global)
-            {
-                GlobalHotKeyManager.GetInstance(This).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
-            }
-            else
-            {
-                WindowHotKeyManager.GetInstance(This).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
-            }       
+            hotKeys.IsRegistered = hotKeys.Kinds == HotKeyKinds.Global ? GlobalHotKeyManager.GetInstance(This).Register(hotKeys):WindowHotKeyManager.GetInstance(This).Register(hotKeys);
+            return hotKeys.IsRegistered;
         }
     }
 

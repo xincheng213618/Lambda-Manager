@@ -1,6 +1,7 @@
 ﻿using Global.Common;
 using Global.Common.Util;
 using Lambda;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
@@ -26,10 +27,12 @@ namespace Global.SettingUp
         /// <summary>
         /// 拍照后回看
         /// </summary>
+        [Description("拍照后回看")]
         Display,
         /// <summary>
-        /// 拍照后浏览
+        /// 拍照后预览
         /// </summary>
+        [Description("拍照后预览")]
         Browse,
     }
     public delegate void PhotoOptionsHandler(PhotoOptions photoOptions);
@@ -43,14 +46,17 @@ namespace Global.SettingUp
         /// <summary>
         /// 应用于图像文件
         /// </summary>
+        [Description("应用于图像文件")]
         File,
         /// <summary>
         /// 应用于窗口
         /// </summary>
+        [Description("应用于窗口")]
         Window,
         /// <summary>
         /// 应用于工程
         /// </summary>
+        [Description("应用于工程")]
         Solution,
     }
     public delegate void DrawGraphicsOptionsHandler(DrawGraphicsOptions drawGraphicsOptions);
@@ -61,54 +67,17 @@ namespace Global.SettingUp
     public enum ImageResolutionOptions
     {
         /// <summary>
-        /// 适应屏幕
+        /// 自动
         /// </summary>
+        [Description("适应屏幕")]
         Auto,
         /// <summary>
         /// 最大分辨率
         /// </summary>
+        [Description("最大分辨率")]
         Max,
     }
     public delegate void ImageResolutionOptionsHandler(ImageResolutionOptions imageResolutionOptions);
-
-
-
-
-
-    public static class EnumExtension
-    {
-        public static string ToString1(this PhotoOptions This)
-        {
-            return This switch
-            {
-                PhotoOptions.Display => "拍照后回看",
-                PhotoOptions.Browse => "拍照后预览",
-                _ => string.Empty,
-            };
-        }
-        public static string ToString1(this DrawGraphicsOptions This)
-        {
-            return This switch
-            {
-                DrawGraphicsOptions.File => "应用于图像文件",
-                DrawGraphicsOptions.Window => "应用于窗口",
-                DrawGraphicsOptions.Solution => "应用于工程",
-                _ => string.Empty,
-            };
-        }
-
-        public static string ToString1(this ImageResolutionOptions This)
-        {
-            return This switch
-            {
-                ImageResolutionOptions.Auto => "适应屏幕",
-                ImageResolutionOptions.Max => "最大分辨率",
-                _ => string.Empty,
-            };
-        }
-
-    }
-
 
 
 

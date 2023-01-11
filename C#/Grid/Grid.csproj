@@ -23,6 +23,7 @@
     <None Remove="Image\background1.png" />
     <None Remove="Image\Grid.png" />
     <None Remove="Image\ZIRCON.png" />
+    <None Remove="默认.gprj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +46,7 @@
     <Resource Include="Image\background1.png" />
     <Resource Include="Image\Grid.png" />
     <Resource Include="Image\ZIRCON.png" />
+    <Resource Include="默认.gprj" />
   </ItemGroup>
 
   <ItemGroup>

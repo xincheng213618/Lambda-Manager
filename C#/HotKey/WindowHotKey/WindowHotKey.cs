@@ -30,7 +30,7 @@ namespace HotKey.WindowHotKey
             int vk = hotkey.ToInt();
             if (keymap.ContainsKey(vk))
             {
-                keymap[vk] = callBack;
+                return false;
             }
             else
             {
@@ -72,9 +72,8 @@ namespace HotKey.WindowHotKey
             // If no actual key was pressed - retur
             if (key == Key.LeftCtrl || key == Key.RightCtrl || key == Key.LeftAlt || key == Key.RightAlt || key == Key.LeftShift || key == Key.RightShift || key == Key.LWin || key == Key.RWin || key == Key.Clear || key == Key.OemClear || key == Key.Apps)
                 return;
-
             // Update the value
-            if (keymap.TryGetValue(((int)modifiers >> 8) + (int)key, out var callback))
+            if (keymap.TryGetValue(((int)modifiers << 8) + (int)key, out var callback))
             {
                 callback();
             }

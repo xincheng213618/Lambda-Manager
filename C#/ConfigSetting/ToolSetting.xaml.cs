@@ -45,6 +45,22 @@ namespace ConfigSetting
             InitializeComponent();
         }
 
+        public void SocketTest()
+        {
+            //一个针对主控不开放主窗口权限的解决方案 这里如果走错误方案的话，会引起白屏问题
+            if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
+            {
+                int port = 52100;
+                IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+                Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                try
+                {
+                    sssss.Connect(localEndPoint);
+                }
+                catch { }
+            }
+        }
+
         public ObservableCollection<FirmwareUpdate> firmwareUpdates;
 
         bool IsFirstLoad = true;
@@ -52,21 +68,11 @@ namespace ConfigSetting
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
+                Application.Current.MainWindow.Title = "";
                 Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
                 IsFirstLoad = false;
 
-                //一个针对主控不开放主窗口权限的解决方案   这里如果走错误方案的话，会引起白屏问题
-                if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
-                {
-                    int port = 52100;
-                    IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-                    Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                    try
-                    {
-                        sssss.Connect(localEndPoint);
-                    }
-                    catch { }
-                }
+                Task.Run(() => SocketTest());
 
                 Calibration.GetInstance();
                 SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;
@@ -111,9 +117,9 @@ namespace ConfigSetting
                 {
 
                     //这里让窗口最小化
-                    await Task.Delay(100);
-                    SystemCommands.MinimizeWindow(Application.Current.MainWindow);
                     await Task.Delay(50);
+                    SystemCommands.MinimizeWindow(Application.Current.MainWindow);
+                    await Task.Delay(100);
 
                     if (SoftwareConfig.HardwareSetting.CameraStatus != CameraStatus.Ok || SoftwareConfig.HardwareSetting.LightStatus != SerialPortStatus.NoError || SoftwareConfig.HardwareSetting.StageStatus != SerialPortStatus.NoError)
                     {
@@ -122,19 +128,22 @@ namespace ConfigSetting
                             MessageBox1.Show($"硬件连接异常:\n\r相机状态:{SoftwareConfig.HardwareSetting.CameraStatus}\n\r光源状态:{SoftwareConfig.HardwareSetting.LightStatus}\n\r位移台状态:{SoftwareConfig.HardwareSetting.StageStatus}", "Grid");
                             if (MessageBox1.Show("您是否要继续完成初始化 ", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.No)
                             {
-                                Environment.Exit(0);
+                                goto TouchDown;
+                                //Environment.Exit(0);
                             }
                         }
                     }
 
                     WizardWindow mainWindow = new WizardWindow();
                     mainWindow.ShowDialog();
-
+                    TouchDown:
                     if (SoftwareConfig.HardwareSetting.IsIniWizard)
                     {
                         SystemCommands.RestoreWindow(Application.Current.MainWindow);
                     }
                 }
+
+
                 Test_Click(sender, e);
 
                 if (SoftwareConfig.PerformanceSetting.IsDiskLackWarning)
@@ -147,7 +156,6 @@ namespace ConfigSetting
                     leftView.Width = new GridLength(SoftwareConfig.WindowSetting.LeftViewWidth, GridUnitType.Pixel);
                     leftTab.SizeChanged += (s, e) => { if (leftTab.ActualWidth > 0) SoftwareConfig.WindowSetting.LeftViewWidth = leftTab.ActualWidth; };
                 }
-
 
                 if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
                 {
@@ -226,6 +234,11 @@ namespace ConfigSetting
                         {
                             menu.BorderBrush = Brushes.Transparent;
                             menu.Background = Brushes.Transparent;
+
+                            foreach (var item in menu.Items.Cast<MenuItem>().ToList())
+                            {
+                                item.Width = 60;
+                            }
                         }
 
                         if (stackPanelMode.Children[0] is RadioButton radioButton)

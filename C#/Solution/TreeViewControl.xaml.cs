@@ -34,9 +34,82 @@ namespace Solution
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
-
             this.DataContext = SoftwareConfig.SolutionSetting;
         }
+
+        private void AddMenu()
+        {
+            if (Application.Current.MainWindow.FindName("menu") is Menu menu)
+            {
+                MenuItem FileMenuItem = null;
+                foreach (var item in menu.Items.Cast<MenuItem>().ToList())
+                {
+                    if (item.Header.ToString().Contains("文件"))
+                    {
+                        FileMenuItem = item;
+                        menu.Items.Remove(item);
+                        break;
+                    }
+                };
+                FileMenuItem ??= new MenuItem();
+                FileMenuItem.Header = "文件(_F)";
+                menu.Items.Insert(0, FileMenuItem);
+
+                MenuItem CloseMenuItem = new MenuItem() { Header = "退出(_X)" };
+                CloseMenuItem.InputGestureText = "Alt + F4";
+                CloseMenuItem.Click += (s, e) =>
+                {
+                    Application.Current.MainWindow.Close();
+                };
+                FileMenuItem.Items.Insert(FileMenuItem.Items.Count, CloseMenuItem);
+
+                MenuItem RecentListMenuItem = null;
+
+                foreach (var item in FileMenuItem.Items.Cast<MenuItem>().ToList())
+                {
+                    if (item.Header.ToString().Contains("最近使用过的工程文件"))
+                    {
+                        RecentListMenuItem = item;
+                        FileMenuItem.Items.Remove(item);
+                        break;
+                    }
+                };
+
+
+                RecentListMenuItem ??= new MenuItem();
+                RecentListMenuItem.Header = "最近使用过的文件(_F)";
+                FileMenuItem.Items.Insert(FileMenuItem.Items.Count - 1, RecentListMenuItem);
+
+                RecentListMenuItem.SubmenuOpened += (s, e) =>
+                {
+                    RecentListMenuItem.Items.Clear();
+                    foreach (var item in recentFileList.RecentFiles)
+                    {
+                        MenuItem menuItem = new MenuItem();
+                        menuItem.Header = item;
+                        menuItem.Click += (sender, e) =>
+                        {
+                            this.OpenSolution(item);
+                        };
+                        RecentListMenuItem.Items.Add(menuItem);
+                    }
+                };
+
+                RecentListMenuItem.Items.Clear();
+                foreach (var item in recentFileList.RecentFiles)
+                {
+                    MenuItem menuItem = new MenuItem();
+                    menuItem.Header = item;
+                    menuItem.Click += (sender, e) =>
+                    {
+                        this.OpenSolution(item);
+                    };
+                    RecentListMenuItem.Items.Add(menuItem);
+                }
+            }
+
+        }
+
 
         private void TreeViewControl_Drop(object sender, DragEventArgs e)
         {
@@ -120,6 +193,7 @@ namespace Solution
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox && viewbox.Parent is ScrollViewer scrollViewer &&scrollViewer.Parent is TabItem tabItem)
             {
+                AddMenu();
                 tabItem.AllowDrop = true;
                 tabItem.Drop += TreeViewControl_Drop;
 
@@ -278,14 +352,6 @@ namespace Solution
             //}
         }
 
-
-
-
-        /// <summary>
-        /// 新建
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OpenSolution();
@@ -534,55 +600,6 @@ namespace Solution
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能在测试中");
-
-            if (Application.Current.MainWindow.FindName("menu") is Menu menu)
-            {
-                MenuItem FileMenuItem = null;
-                foreach (var item in menu.Items.Cast<MenuItem>().ToList())
-                {
-                    if (item.Header.ToString().Contains("文件"))
-                    {
-                        FileMenuItem = item;
-                        menu.Items.Remove(item);
-                        break;
-                    }
-                } ;
-                FileMenuItem ??= new MenuItem();
-                FileMenuItem.Header = "文件(_F)";
-                menu.Items.Insert(0,FileMenuItem);
-
-                MenuItem RecentListMenuItem = null;
-
-                foreach (var item in FileMenuItem.Items.Cast<MenuItem>().ToList())
-                {
-                    if (item.Header.ToString().Contains("最近使用过的文件"))
-                    {
-                        RecentListMenuItem = item;
-                        FileMenuItem.Items.Remove(item);
-                        break;
-                    }
-                };
-
-
-                RecentListMenuItem ??= new MenuItem();
-                RecentListMenuItem.Header = "最近使用过的文件(_F)";
-                FileMenuItem.Items.Insert(FileMenuItem.Items.Count-1, RecentListMenuItem);
-
-                RecentListMenuItem.Items.Clear();
-                foreach (var item in recentFileList.RecentFiles)
-                {
-                    MenuItem menuItem = new MenuItem();
-                    menuItem.Header = item;
-                    menuItem.Click += (sender, e) =>
-                    {
-                        this.OpenSolution(item);
-                    };
-                    RecentListMenuItem.Items.Add(menuItem);
-                }
-
-
-            }
-
 
         }
 

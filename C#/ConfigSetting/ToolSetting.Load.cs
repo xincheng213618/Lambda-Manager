@@ -54,7 +54,7 @@ namespace ConfigSetting
 
 
 			PhotoOptionsCombox.ItemsSource = from e1 in Enum.GetValues(typeof(PhotoOptions)).Cast<PhotoOptions>()
-											 select new KeyValuePair<PhotoOptions, string>(e1, e1.ToString1());
+											 select new KeyValuePair<PhotoOptions, string>(e1, e1.ToDescription());
 			PhotoOptionsCombox.SelectedValuePath = "Key";
 			PhotoOptionsCombox.DisplayMemberPath = "Value";
 			PhotoOptionsCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.PhotoOptions;
@@ -72,7 +72,7 @@ namespace ConfigSetting
 
 
 			DrawGraphicsOptionsCombox.ItemsSource = from e1 in Enum.GetValues(typeof(DrawGraphicsOptions)).Cast<DrawGraphicsOptions>()
-													select new KeyValuePair<DrawGraphicsOptions, string>(e1, e1.ToString1());
+													select new KeyValuePair<DrawGraphicsOptions, string>(e1, e1.ToDescription());
 			DrawGraphicsOptionsCombox.SelectedValuePath = "Key";
 			DrawGraphicsOptionsCombox.DisplayMemberPath = "Value";
 			DrawGraphicsOptionsCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.DrawGraphicsOptions;
@@ -90,7 +90,7 @@ namespace ConfigSetting
 
 
 			ImageResolutionShowOptionsCombox.ItemsSource = from e1 in Enum.GetValues(typeof(ImageResolutionOptions)).Cast<ImageResolutionOptions>()
-													select new KeyValuePair<ImageResolutionOptions, string>(e1, e1.ToString1());
+													select new KeyValuePair<ImageResolutionOptions, string>(e1, e1.ToDescription());
 			ImageResolutionShowOptionsCombox.SelectedValuePath = "Key";
 			ImageResolutionShowOptionsCombox.DisplayMemberPath = "Value";
 			ImageResolutionShowOptionsCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.ImageResolutionShowOptions;
@@ -107,7 +107,7 @@ namespace ConfigSetting
 
 
 			ImageResolutionSaveOptionsCombox.ItemsSource = from e1 in Enum.GetValues(typeof(ImageResolutionOptions)).Cast<ImageResolutionOptions>()
-														   select new KeyValuePair<ImageResolutionOptions, string>(e1, e1.ToString1());
+														   select new KeyValuePair<ImageResolutionOptions, string>(e1, e1.ToDescription());
 			ImageResolutionSaveOptionsCombox.SelectedValuePath = "Key";
 			ImageResolutionSaveOptionsCombox.DisplayMemberPath = "Value";
 			ImageResolutionSaveOptionsCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.ImageResolutionSaveOptions;

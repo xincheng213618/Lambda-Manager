@@ -37,50 +37,35 @@ namespace Grid
         {
             TextBox1.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\config\\default.gcfg";
 
-            if (recentFileList.RecentFiles.Count ==0)
+            string DirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default";
+            string DirectoryPath1 = DirectoryPath + "1";
+
+            if (recentFileList.RecentFiles.Count ==0|| !Directory.Exists(DirectoryPath) ||!Directory.Exists(DirectoryPath1))
             {
-                Uri uri = new Uri("/Grid;component/default.gprj", UriKind.Relative);
-                //获取资源文件
-                StreamResourceInfo info = Application.GetResourceStream(uri);
-
-                string DirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default";
-
                 if (!Directory.Exists(DirectoryPath))
                     Directory.CreateDirectory(DirectoryPath);
-                else
-                {
-                    Directory.Delete(DirectoryPath, true);
-                    Directory.CreateDirectory(DirectoryPath);
-                }
-
-                Directory.CreateDirectory(DirectoryPath + "\\" + "Video");
-                Directory.CreateDirectory(DirectoryPath + "\\" + "Image");
 
                 string FullPath = DirectoryPath +"\\default.gprj";
+                StreamResourceInfo info = Application.GetResourceStream(new Uri("/Grid;component/default.gprj", UriKind.Relative));
                 using (var fileStream = File.Create(FullPath))
                 {
                     info.Stream.Seek(0, SeekOrigin.Begin);
                     info.Stream.CopyTo(fileStream);
                 }
 
-
-                string DirectoryPath1 = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default1";
-                if (!Directory.Exists(DirectoryPath1))
-                    Directory.CreateDirectory(DirectoryPath1);
-                else
-                {
+                if (Directory.Exists(DirectoryPath1))
                     Directory.Delete(DirectoryPath1, true);
-                    Directory.CreateDirectory(DirectoryPath1);
-                }
 
-                Directory.CreateDirectory(DirectoryPath + "\\" + "Video");
-                Directory.CreateDirectory(DirectoryPath + "\\" + "Image");
+                Directory.CreateDirectory(DirectoryPath1);
+                Directory.CreateDirectory(DirectoryPath1 + "\\" + "Video");
+                Directory.CreateDirectory(DirectoryPath1 + "\\" + "Image");
 
-                string FullPath1 = DirectoryPath + "\\默认.gprj";
-                using (var fileStream = File.Create(FullPath1))
+                StreamResourceInfo info1 = Application.GetResourceStream(new Uri("/Grid;component/默认.gprj", UriKind.Relative));
+                string FullPath1 = DirectoryPath1 + "\\默认.gprj";
+                using (FileStream fileStream = File.Create(FullPath1))
                 {
-                    info.Stream.Seek(0, SeekOrigin.Begin);
-                    info.Stream.CopyTo(fileStream);
+                    info1.Stream.Seek(0, SeekOrigin.Begin);
+                    info1.Stream.CopyTo(fileStream);
                 }
 
                 recentFileList.InsertFile(FullPath1);

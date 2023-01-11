@@ -8,7 +8,7 @@ namespace HotKey
     {
         public static int ToInt(this Hotkey hotkey)
         {
-            return ((int)hotkey.Modifiers >> 8) + (int)hotkey.Key;
+            return ((int)hotkey.Modifiers << 8) + (int)hotkey.Key;
         }
     }
 
