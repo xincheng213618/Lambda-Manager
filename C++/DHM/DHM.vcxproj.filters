@@ -21,9 +21,6 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="LFOCM.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="api.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -39,15 +36,15 @@
     <ClInclude Include="unwrap.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DHM.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LFOCM.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="api.cpp">
@@ -60,6 +57,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="unwrap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DHM.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

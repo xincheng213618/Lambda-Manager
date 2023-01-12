@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ACE\ACE.csproj" />
-    <ProjectReference Include="..\Solution\Solution.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 

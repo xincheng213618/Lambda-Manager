@@ -7,9 +7,14 @@
 
 # CHANGELOAG:
 
+## [1.4.6] 2023-01-11
+
+- Fix  Hotkey✔  
+- Fix  Grid✔
+
 ## [1.4.5] 2023-01-10
 
-- 重构 RecentFile ✔  并添加菜单项
+- 重构 RecentFile  并添加菜单项 ✔  
 - 添加LICENSE ，并修改ReadMe文档✔
 - Fix PhaseAlgorithm.dll 日志需要管理员权限的问题 ✔
 - 添加MessageBox的消息支持 ✔

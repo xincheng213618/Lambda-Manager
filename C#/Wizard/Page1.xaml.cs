@@ -92,16 +92,18 @@ namespace Wizard
         RegisterInfo? registerInfo;
         private void Page_Initialized(object sender, EventArgs e)
         {
-            if (registerInfo != null)
-            {
-                registerInfo = new RegisterInfoReg().Get() ?? new RegisterInfo();
-                RegisterStackpanel.DataContext = registerInfo;
-            }
-            else
-            {
-                Content = new Page2(Window);
-                Pages();
-            }
+            registerInfo = new RegisterInfoReg().Get() ?? new RegisterInfo();
+            RegisterStackpanel.DataContext = registerInfo;
+            //if (registerInfo != null)
+            //{
+            //    registerInfo = new RegisterInfoReg().Get() ?? new RegisterInfo();
+            //    RegisterStackpanel.DataContext = registerInfo;
+            //}
+            //else
+            //{
+            //    Content = new Page2(Window);
+            //    Pages();
+            //}
         }
 
         private void H5a6_TextChanged(object sender, TextChangedEventArgs e)

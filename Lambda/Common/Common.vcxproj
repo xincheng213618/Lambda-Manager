@@ -150,6 +150,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -171,6 +172,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)Lambda\LambdaManager\bi
 copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)packages\common";
 copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)packages\common";</Command>
     </PostBuildEvent>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

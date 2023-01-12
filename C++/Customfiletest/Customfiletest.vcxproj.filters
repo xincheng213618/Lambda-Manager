@@ -21,9 +21,15 @@
     <ClCompile Include="Customfile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GrifCustomFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Customfile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GrifCustomFile.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

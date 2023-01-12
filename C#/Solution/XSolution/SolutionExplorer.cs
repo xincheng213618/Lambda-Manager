@@ -23,6 +23,7 @@ namespace XSolution
         /// 打开日志
         /// </summary>
         public RelayCommand OpenLog { get; set; }
+
         /// <summary>
         /// 打开日志文件夹
         /// </summary>

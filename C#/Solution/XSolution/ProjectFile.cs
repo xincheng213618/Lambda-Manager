@@ -33,7 +33,7 @@ namespace XSolution
         public ImageSource Icon { get =>_Icon; set { _Icon = value; NotifyPropertyChanged(); } }
         private ImageSource _Icon;
 
-        public static ObservableCollection<ProjectFile> ProjectFiles { get; set; } = new ObservableCollection<ProjectFile>();
+
 
         /// <summary>
         /// 文件大小
@@ -45,21 +45,22 @@ namespace XSolution
         public RelayCommand AttributesCommand { get; set; }
 
 
+
         protected FileInfo FileInfo;
-        public ProjectFile()
-        {
 
-        }
+        /// <summary>
+        /// 文件是否存在
+        /// </summary>
+        public bool Exists { get => FileInfo.Exists; }
 
-        public ProjectFile(string FullName) :base(FullName)
+        public ProjectFile(string FullName) : base(FullName)
         {
-            ProjectFiles.Add(this);
             FileInfo = new FileInfo(FullName);
-            Name = Path.GetFileNameWithoutExtension(_FullName);
+            Name = FileInfo.Name;
             Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
 
-            OpenFileCommand = new RelayCommand(OpenFile, (object value) => { return true; });
-            AttributesCommand = new RelayCommand(delegate { FileProperties.ShowFileProperties(FullName); }, (object value) => { return true; });
+            OpenFileCommand = new RelayCommand((o)=>Process.Start("explorer.exe", FullName), (object value) => { return Exists; });
+            AttributesCommand = new RelayCommand((o) => FileProperties.ShowFileProperties(FullName) , (object value) => { return Exists; });
 
             Task.Run(CalculSize);
         }
@@ -80,12 +81,6 @@ namespace XSolution
             }
         }
 
-
-        private void OpenFile(object value)
-        {
-            Process.Start("explorer.exe", FullName);
-        }
-
         public void CalculSize()
         {
             if (FileInfo.Exists)
@@ -97,32 +92,29 @@ namespace XSolution
 
         public override bool IsEditMode
         {
-            get { return _IsEditMode; }
+            get => _IsEditMode;
             set
             {
-                if (value != _IsEditMode)
+                if (value == _IsEditMode) return;
+                if (_IsEditMode)
                 {
-                    _IsEditMode = value;
-                    if (!_IsEditMode)
+                    string newpath = string.Concat(FullName.AsSpan(0, FullName.LastIndexOf("\\") + 1), Name, GetExtension());
+                    if (newpath != FullName)
                     {
-                        string oldpath = FullName;
-                        string newpath = string.Concat(oldpath.AsSpan(0, oldpath.LastIndexOf("\\") + 1), Name, GetExtension());
-                        if (newpath != FullName)
+                        try
                         {
-                            try
-                            {
-                                File.Move(oldpath, newpath);
-                                FullName = newpath;
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("文件名冲突" + ex.Message);
-                                _IsEditMode = true;
-                            }
+                            File.Move(FullName, newpath);
+                            FullName = newpath;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox1.Show("文件名冲突:" + ex.Message,"Grid");
+                            return;
                         }
                     }
-                    NotifyPropertyChanged();
                 }
+                _IsEditMode = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -137,7 +129,7 @@ namespace XSolution
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox1.Show(ex.Message);
             }
         }
 

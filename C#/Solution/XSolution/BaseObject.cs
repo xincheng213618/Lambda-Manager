@@ -18,7 +18,7 @@ namespace XSolution
     /// 工程文件的基础Object
     /// 继承自ViewModeBase的
     /// </summary>
-    public class BaseObject : DependencyObject, INotifyPropertyChanged, IDisposable, IComparable
+    public class BaseObject : DependencyObject, INotifyPropertyChanged, IComparable
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -26,13 +26,6 @@ namespace XSolution
         /// 触发消息通知事件
         /// </summary>
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        public void Dispose()
-        {
-            this.Parent = null;
-            GC.SuppressFinalize(this); 
-        }
-
 
         /// <summary>
         /// 显示的子集
@@ -55,8 +48,7 @@ namespace XSolution
                 if (value != _Visibility)
                 {
                     _Visibility = value;
-
-                    if (this.Parent != null && this.Parent is BaseObject baseObject)
+                    if (this.Parent is BaseObject baseObject)
                     {
                         if (_Visibility == Visibility.Visible)
                         {
@@ -104,7 +96,10 @@ namespace XSolution
         /// <summary>
         /// 允许空构造
         /// </summary>
-        public BaseObject() { }
+        public BaseObject() 
+        {
+
+        }
 
 
         public BaseObject(string FullName)
@@ -145,19 +140,16 @@ namespace XSolution
         }
 
 
-        private BaseObject _Parent = null;
         public BaseObject Parent
         {
             get { return _Parent; }
             set
             {
-                if (value != _Parent && value is not null)
-                {
-                    _Parent = value;
-                    NotifyPropertyChanged();
-                }
+                _Parent = value;
+                NotifyPropertyChanged();
             }
         }
+        private BaseObject _Parent;
 
 
         /// <summary>

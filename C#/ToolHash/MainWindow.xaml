@@ -44,7 +44,7 @@
                 <TextBox x:Name="H5a6" Text="{Binding PhoneNumber}" />
             </DockPanel>
             <DockPanel >
-                <Button x:Name="Button2" Content="测试信息" Click="Button1_Click"/>
+                <Button x:Name="Button2" Content="测试信息" />
                 <Button x:Name="Button1" Content="注册" Click="Button_Click"/>
             </DockPanel>
             <CheckBox  x:Name="Checkbox1"  Content="密匙保存到文件"/>
