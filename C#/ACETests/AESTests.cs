@@ -11,16 +11,6 @@ namespace ACE.Tests
     [TestClass()]
     public class AESTests
     {
-        [TestMethod()]
-        public static void GetExpireDateTest()
-        {
-            Assert.Fail();
-        }
 
-        [TestMethod()]
-        public static void GetSysConfigTest()
-        {
-            Assert.Fail();
-        }
     }
 }

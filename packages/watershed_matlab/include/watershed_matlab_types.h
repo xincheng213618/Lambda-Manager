@@ -2,7 +2,7 @@
 // File: watershed_matlab_types.h
 //
 // MATLAB Coder version            : 4.2
-// C/C++ source code generated on  : 04-Jan-2022 13:53:28
+// C/C++ source code generated on  : 05-Jul-2022 17:23:29
 //
 #ifndef WATERSHED_MATLAB_TYPES_H
 #define WATERSHED_MATLAB_TYPES_H
@@ -43,6 +43,15 @@ struct emxArray_boolean_T
 struct emxArray_int32_T
 {
   int *data;
+  int *size;
+  int allocatedSize;
+  int numDimensions;
+  boolean_T canFreeData;
+};
+
+struct emxArray_real32_T
+{
+  float *data;
   int *size;
   int allocatedSize;
   int numDimensions;
