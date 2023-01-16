@@ -600,6 +600,14 @@ namespace Solution
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能在测试中");
+            //BaseWindow baseWindow = new BaseWindow() { Background = Brushes.Black };
+            //object content = Application.Current.MainWindow.Content;
+            //Application.Current.MainWindow.Content = null;
+            //Application.Current.MainWindow.Close();
+            //baseWindow.Content = content;
+            //baseWindow.Show();
+            //Application.Current.MainWindow = baseWindow;
+
 
         }
 

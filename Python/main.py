@@ -79,12 +79,11 @@ def register1():
 def register():
     user_id = 1 ;
     sn = request.values.get('sn')
-    register_info = request.values.get('register-info')
     mac_address = request.values.get('mac-address')
     equip_identify = request.values.get('equip-identify')
 
     if sn and register_info and mac_address and equip_identify:
-        try:
+           try:
             db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
                                  use_unicode=True)
             cursor = db.cursor()
@@ -116,7 +115,6 @@ def register():
     else:
         resu = {'state': 1, 'message': '参数不能为空！'}
         return json.dumps(resu, ensure_ascii=False)
-
 
 @server.route('/unregister', methods=['post'])
 def unregister():

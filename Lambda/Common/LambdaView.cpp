@@ -68,6 +68,7 @@ void LambdaView::Show(cv::Mat mat, size_t left, size_t right, size_t width, size
 void LambdaView::Close()
 {
 	closeImageView(index);
+	flag = CLOSED;
 }
 
 ViewState LambdaView::GetState()

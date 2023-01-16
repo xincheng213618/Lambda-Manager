@@ -28,7 +28,7 @@ namespace ThemeManager
         {
             if (sender is TextBox textBox && textBox.Tag is Track track)
             {
-                textBox.Text = track.Maximum.ToString($"f2");
+                textBox.Text = track.Maximum.ToString("f2");
             }
         }
     }

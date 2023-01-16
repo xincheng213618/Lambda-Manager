@@ -95,8 +95,9 @@
                 </Grid.ColumnDefinitions>
                 <TreeView x:Name="SolutionTreeView" Height="{Binding Path=ActualHeight,ElementName=grid }" >
                     <TreeViewItem Header="系统配置" FontSize="16" Tag="{Binding ElementName=GroupBox1}" IsExpanded="True" >
-                        <TreeViewItem Header="显卡" FontSize="14" Tag="{Binding ElementName=GroupBox11}"  Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="主机" FontSize="14" Tag="{Binding ElementName=GroupBox13}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="系统" FontSize="14" Tag="{Binding ElementName=GroupBox12}"  Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem Header="显卡" FontSize="14" Tag="{Binding ElementName=GroupBox11}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="工程" FontSize="14" Tag="{Binding ElementName=GroupBox14}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="保存" FontSize="14" Tag="{Binding ElementName=GroupBox19}"  Selected="TreeViewItem_Selected"/>
                         <TreeViewItem Header="拍照选项" FontSize="14" Tag="{Binding ElementName=GroupBox16}"  Selected="TreeViewItem_Selected"/>

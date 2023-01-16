@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Tool
 {
@@ -22,6 +23,8 @@ namespace Tool
 
         public static bool SaveFileDialog(out string FileName)
         {
+            //FolderBrowserDialog
+
             SaveFileDialog dialog = new()
             {
                 Title = "请选择文件",

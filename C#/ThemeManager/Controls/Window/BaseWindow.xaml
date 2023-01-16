@@ -4,12 +4,12 @@
                     xmlns:local="clr-namespace:ThemeManager.Controls">
 
     <WindowChrome x:Key="DefaultWindowChrome" x:Shared="False"  CornerRadius="0" GlassFrameThickness="-1"  UseAeroCaptionButtons="False"/>
-    <SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
+    <!--<SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonForeground">white</SolidColorBrush>
     <SolidColorBrush x:Key="WindowIsNotActiveForeground">#d7d7d7</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
-    <!--<SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>-->
-    <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>
+    --><!--<SolidColorBrush x:Key="CaptionButtonChoiceBackgrouundBrush">#888888</SolidColorBrush>--><!--
+    <SolidColorBrush x:Key="CaptionButtonCloseBrush" Color="Red"/>-->
 
     
     <Style x:Key="CaptionButtonStyleDefault" TargetType="Button">
