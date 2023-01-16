@@ -219,17 +219,12 @@ namespace Global.UserControls.DrawVisual
 
             }
             if (TextStrokeCollect.Count > 0)
-            {
-               
-               ink2.Select(TextStrokeCollect);
-
-               
+            {            
+               ink2.Select(TextStrokeCollect);  
             };
             if (StrokeCollect.Count > 0)
-            {
-                
+            {          
                ink2.Select(StrokeCollect);
-
             }
 
 
@@ -253,10 +248,10 @@ namespace Global.UserControls.DrawVisual
         }
 
 
-        private void FilterDistinct(List<CustomStroke> geometryList, List<CustomStroke> textList, List<CustomStroke> dimGeometryList )
+        private void FilterDistinct(List<CustomStroke> geometryList, List<CustomStroke> textList, List<CustomStroke> dimGeometryList)
         {
-            
-        
+
+
             // text 
             bool isTextColorDif = textList.Select(g => g.textColor).Distinct().Count() > 1;
             if (isTextColorDif)
@@ -271,7 +266,7 @@ namespace Global.UserControls.DrawVisual
             bool isTextSizeDif = textList.Select(g => g.textColor).Distinct().Count() > 1;
             if (isTextSizeDif)
             {
-                DrawInkMethod.dimenViewModel.FontSize = 16; 
+                DrawInkMethod.dimenViewModel.FontSize = 16;
             }
             bool isTextBoldDif = textList.Select(g => g.Bold).Distinct().Count() > 1;
             if (isTextBoldDif)
@@ -326,84 +321,35 @@ namespace Global.UserControls.DrawVisual
             {
                 DrawInkMethod.dimenViewModel.SelectedAccentColor = Colors.Transparent;
             }
-          
         }
-
-
-
-
-
-
-
-
         private CustomStroke ReCreateStroke(CustomStroke cusStroke,Color color, int LineWidth, int dash)
         {
-            CustomStroke stroke1;
-            switch (cusStroke.Type)
+            return cusStroke.Type switch
             {
-
-                case "椭圆":
-                   stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateEllipse(cusStroke.StylusPoints, color, LineWidth, dash);
-                   return stroke1;
-
-                case "圆":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateCircle(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-                case "多边形":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreatePolygon(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-                case "直线":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateLine(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-                case "箭头":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateArrow(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-                case "正方形":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateSquare(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-                //case "曲线":
-                //    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
-                //    return stroke1;
-                //case "曲线1":
-                //    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateQuadraticBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
-                //    return stroke1;
-                case "矩形":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateRectangle(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-                case "曲线":
-                   stroke1 = DrawInkMethod.InkCanvasMethod.ReCreatePolyBezier(cusStroke.StylusPoints, color, LineWidth, dash);
-                    return stroke1;
-
-
-            }
-
-            return null;
+                "椭圆" => DrawInkMethod.InkCanvasMethod.ReCreateEllipse(cusStroke.StylusPoints, color, LineWidth, dash),
+                "圆" => DrawInkMethod.InkCanvasMethod.ReCreateCircle(cusStroke.StylusPoints, color, LineWidth, dash),
+                "多边形" => DrawInkMethod.InkCanvasMethod.ReCreatePolygon(cusStroke.StylusPoints, color, LineWidth, dash),
+                "直线" => DrawInkMethod.InkCanvasMethod.ReCreateLine(cusStroke.StylusPoints, color, LineWidth, dash),
+                "箭头" => DrawInkMethod.InkCanvasMethod.ReCreateArrow(cusStroke.StylusPoints, color, LineWidth, dash),
+                "正方形" => DrawInkMethod.InkCanvasMethod.ReCreateSquare(cusStroke.StylusPoints, color, LineWidth, dash),
+               //"曲线" => DrawInkMethod.InkCanvasMethod.ReCreateBesizer(cusStroke.StylusPoints, color, LineWidth, dash),
+               // "曲线1" => DrawInkMethod.InkCanvasMethod.ReCreateQuadraticBesizer(cusStroke.StylusPoints, color, LineWidth, dash),
+                "矩形" => DrawInkMethod.InkCanvasMethod.ReCreateRectangle(cusStroke.StylusPoints, color, LineWidth, dash),
+                "曲线" => DrawInkMethod.InkCanvasMethod.ReCreatePolyBezier(cusStroke.StylusPoints, color, LineWidth, dash),
+                _ => null
+            } ;
         }
 
-        private CustomStroke ReCreateDim(CustomStroke cusStroke, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash,bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily,string labpos)
+        private CustomStroke ReCreateDim(CustomStroke cusStroke, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash, bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily, string labpos)
         {
-            CustomStroke stroke1;
-            switch (cusStroke.Type)
+            return cusStroke.Type switch
             {
-
-                case "标尺 A":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim1(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic,  bold, underLine, fonSize, fontFamily,labpos);
-                    return stroke1;
-
-                case "标尺 B":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim2(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
-                    return stroke1;
-                case "标尺 C":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim3(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash,italic, bold, underLine, fonSize, fontFamily, labpos);
-                    return stroke1;
-                case "标尺 D":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim4(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash,italic, bold, underLine, fonSize, fontFamily, labpos);
-                    return stroke1;
-             
-
-            }
-
-            return null;
+                "标尺 A" => DrawInkMethod.InkCanvasMethod.ReCreateDim1(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
+                "标尺 B" => DrawInkMethod.InkCanvasMethod.ReCreateDim2(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
+                "标尺 C" => DrawInkMethod.InkCanvasMethod.ReCreateDim3(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
+                "标尺 D" => DrawInkMethod.InkCanvasMethod.ReCreateDim4(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
+                _ => null
+            };
         }
 
 
@@ -474,16 +420,11 @@ namespace Global.UserControls.DrawVisual
 
         private void LineShapeCombo_Loaded(object sender, RoutedEventArgs e)
         {
-
-           // ink = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkCanvas;
             LineWidthUpdown.ValueChanged += (s, e) =>
             {
-
                 if (!isReadOnly)
-                {
-
                     ReDrawVisual(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.LineWidth, DrawInkMethod.dimenViewModel.DashSelectedIndex);
-                }
+
             };
 
         }
@@ -491,10 +432,8 @@ namespace Global.UserControls.DrawVisual
         private void _colorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             if (!isReadOnly)
-            {
-
                 ReDrawVisual(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.LineWidth, DrawInkMethod.dimenViewModel.DashSelectedIndex);
-            }
+
         }
 
 
@@ -504,14 +443,7 @@ namespace Global.UserControls.DrawVisual
             listview.ItemsSource = DrawInkMethod.StrokesCollection;
             DrawInkMethod.StrokesCollection.CollectionChanged += delegate
             {
-                if (DrawInkMethod.StrokesCollection.Count > 0)
-                {
-                    objectManageGrid.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    objectManageGrid.Visibility = Visibility.Collapsed;
-                }
+                objectManageGrid.Visibility = DrawInkMethod.StrokesCollection.Count > 0 ?Visibility.Visible :Visibility.Collapsed;
             };
 
         }
@@ -519,50 +451,39 @@ namespace Global.UserControls.DrawVisual
         private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             if (!isReadOnly)
-            {
                 ReWriteText(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
-            }
         }
 
         private void FontFamilyCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!isReadOnly)
-            {
                 ReWriteText(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
-            }
         }
 
         private void FontSizeComb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!isReadOnly)
-            {
                 ReWriteText(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
-            }
+
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (!isReadOnly)
-            {
                 ReWriteText(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
-            }
+
         }
 
         private void CheckBox_Click_1(object sender, RoutedEventArgs e)
         {
             if (!isReadOnly)
-            {
-
-                ReWriteText(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
-           }
+            ReWriteText(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
         }
 
         private void CheckBox_Click_2(object sender, RoutedEventArgs e)
         {
             if (!isReadOnly)
-            {
-                ReWriteText( DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
-            }
+            ReWriteText(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.TextSelectedAccentColor, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam);
         }
 
         private void SnapInkSave_Checked(object sender, RoutedEventArgs e)

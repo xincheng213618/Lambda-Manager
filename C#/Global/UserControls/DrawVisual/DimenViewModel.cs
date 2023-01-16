@@ -52,7 +52,7 @@ namespace Global
 				if (_SelectedAccentColor != value)
 				{
 					_SelectedAccentColor = value;
-					RaisePropertyChanged(() => SelectedAccentColor);
+					NotifyPropertyChanged();
 				}
 			}
 		}
@@ -64,9 +64,9 @@ namespace Global
 				if (_TextSelectedAccentColor != value)
 				{
 					_TextSelectedAccentColor = value;
-					RaisePropertyChanged(() => TextSelectedAccentColor);
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		public List<int> FontSizeList { get; set; }
@@ -81,9 +81,9 @@ namespace Global
 				if (_dimShapeCombo != value)
 				{
 					_dimShapeCombo = value;
-					RaisePropertyChanged(nameof(DimShapeCombo));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		public bool DefDimReadOnly
 		{
@@ -93,9 +93,9 @@ namespace Global
 				if (_defDimReadOnly != value)
 				{
 					_defDimReadOnly = value;
-					RaisePropertyChanged(nameof(DefDimReadOnly));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		public bool LineProEnable
         {
@@ -105,9 +105,9 @@ namespace Global
 				if (_LineProEnable != value)
 				{
 					_LineProEnable = value;
-					RaisePropertyChanged(nameof(LineProEnable));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 
@@ -119,9 +119,9 @@ namespace Global
 				if (_fontSize != value)
 				{
 					_fontSize = value;
-					RaisePropertyChanged(nameof(FontSize));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		public int LineWidth
@@ -132,9 +132,9 @@ namespace Global
 				if (_lineWidth != value)
 				{
 					_lineWidth = value;
-					RaisePropertyChanged(nameof(LineWidth));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 
@@ -149,9 +149,9 @@ namespace Global
 				if (_dimPosShow != value)
 				{
 					_dimPosShow = value;
-					RaisePropertyChanged(nameof(DimPosShow));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		
 		 public bool LabelPosShow
@@ -162,9 +162,9 @@ namespace Global
 				if (_labPosShow != value)
 				{
 					_labPosShow = value;
-					RaisePropertyChanged(nameof(LabelPosShow));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
         public string LabelPos
@@ -175,9 +175,9 @@ namespace Global
 				if (_labelPos != value)
 				{
 					_labelPos = value;
-					RaisePropertyChanged(nameof(LabelPos));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		public string DimPos
@@ -188,9 +188,9 @@ namespace Global
 				if (_dimPos != value)
 				{
 					_dimPos = value;
-					RaisePropertyChanged(nameof(DimPos));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 
@@ -206,9 +206,9 @@ namespace Global
 				if (_fontFamily != value)
 				{
 					_fontFamily = value;
-					RaisePropertyChanged(nameof(FontFam));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		public int DimSelectedIndex
@@ -223,11 +223,10 @@ namespace Global
 				if (_dimSelectedIndex != value)
 				{
 					_dimSelectedIndex = value;
-					//Console.WriteLine()
-					RaisePropertyChanged(nameof(DimSelectedIndex));
-				}
+                    NotifyPropertyChanged();
+                }
 
-			}
+            }
 
 		}
 		public int DashSelectedIndex
@@ -242,11 +241,10 @@ namespace Global
 				if (_dashSelectedIndex != value)
 				{
 					_dashSelectedIndex = value;
-					//Console.WriteLine()
-					RaisePropertyChanged(nameof(DashSelectedIndex));
-				}
+                    NotifyPropertyChanged();
+                }
 
-			}
+            }
 
 		}
 
@@ -259,9 +257,9 @@ namespace Global
 				if (_length != value)
 				{
 					_length = value;
-					RaisePropertyChanged(nameof(Length));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		public double Angle
 		{
@@ -271,9 +269,9 @@ namespace Global
 				if (_angle != value)
 				{
 					_angle = value;
-					RaisePropertyChanged(nameof(Angle));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		public bool Label
@@ -284,9 +282,9 @@ namespace Global
 				if (_label != value)
 				{
 					_label = value;
-					RaisePropertyChanged(nameof(Label));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		public bool AutoColor
 		{
@@ -296,9 +294,9 @@ namespace Global
 				if (_autoColor != value)
 				{
 					_autoColor = value;
-					RaisePropertyChanged(nameof(AutoColor));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		public bool Bold
 		{
@@ -308,9 +306,9 @@ namespace Global
 				if (_bold != value)
 				{
 					_bold = value;
-					RaisePropertyChanged(nameof(Bold));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		public bool Italic
 		{
@@ -320,9 +318,9 @@ namespace Global
 				if (_italic != value)
 				{
 					_italic = value;
-					RaisePropertyChanged(nameof(Italic));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		public bool UnderLine
@@ -333,9 +331,9 @@ namespace Global
 				if (_underLine != value)
 				{
 					_underLine = value;
-					RaisePropertyChanged(nameof(UnderLine));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		#endregion properties

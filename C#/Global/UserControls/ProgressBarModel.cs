@@ -18,9 +18,9 @@ namespace Global
 				if (miniMum != value)
 				{
 					miniMum = value;
-					RaisePropertyChanged(nameof(MiniMum));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		private double sliderValueH = 0;
 
@@ -32,9 +32,9 @@ namespace Global
 				if (sliderValueH != value)
 				{
 					sliderValueH = value;
-					RaisePropertyChanged(nameof(SliderValueH));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		private double sliderValueV = 0;
@@ -47,9 +47,9 @@ namespace Global
 				if (sliderValueV != value)
 				{
 					sliderValueV = value;
-					RaisePropertyChanged(nameof(SliderValueV));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		private double maxMum = 0;
@@ -62,9 +62,9 @@ namespace Global
 				if (maxMum != value)
 				{
 					maxMum = value;
-					RaisePropertyChanged(nameof(MaxMum));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		private double current = 0;
@@ -77,9 +77,9 @@ namespace Global
 				if (current != value)
 				{
 					current = value;
-					RaisePropertyChanged(nameof(Current));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		private double loadingMax =0;
@@ -92,9 +92,9 @@ namespace Global
 				if (loadingMax != value)
 				{
 					loadingMax = value;
-					RaisePropertyChanged(nameof(LoadingMax));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		private double miniMumZ = 0;
@@ -107,9 +107,9 @@ namespace Global
 				if (miniMumZ != value)
 				{
 					miniMumZ = value;
-					RaisePropertyChanged(nameof(MiniMumZ));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 		private double maxMumZ = 0;
 
@@ -121,9 +121,9 @@ namespace Global
 				if (maxMumZ != value)
 				{
 					maxMumZ = value;
-					RaisePropertyChanged(nameof(MaxMumZ));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		private double currentZ = 0;
@@ -136,9 +136,9 @@ namespace Global
 				if (currentZ != value)
 				{
 					currentZ = value;
-					RaisePropertyChanged(nameof(CurrentZ));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 		private double loadingMaxZ = 0;
@@ -151,9 +151,9 @@ namespace Global
 				if (loadingMaxZ != value)
 				{
 					loadingMaxZ = value;
-					RaisePropertyChanged(nameof(LoadingMaxZ));
-				}
-			}
+                    NotifyPropertyChanged();
+                }
+            }
 		}
 
 
