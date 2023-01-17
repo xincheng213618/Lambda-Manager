@@ -66,7 +66,7 @@ namespace ToolHash
                         AESHelper.iRegisterInfo.Set(registerInfo);
                         AESHelper.Encrypt();
                         MessageBox.Show("加密成功");
-                        File.Delete(AESHelper.EncryptFileName);
+                        //File.Delete(AESHelper.EncryptFileName);
                         File.Move("application.sys", BasePath + "\\application.sys", true);
 
                         if (Checkbox1.IsChecked == true)
@@ -89,17 +89,16 @@ namespace ToolHash
 
     public static class Hash
     {
+        public static MD5 hash = MD5.Create();
         public static string GetMD5(string path)
         {
             if (File.Exists(path))
             {
-                var hash = MD5.Create();
                 using var stream = new FileStream(path, FileMode.Open);
                 byte[] hashByte = hash.ComputeHash(stream);
                 return BitConverter.ToString(hashByte).Replace("-", "");
             }
             return string.Empty;
-
         }
     }
 }

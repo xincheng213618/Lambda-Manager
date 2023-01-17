@@ -18,6 +18,9 @@ namespace Global.Common
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    /// <summary>
+    /// .NET5 中，可以不使用string 直接使用变量，减少错误的可能，被nameof替代，和CallerMemberName
+    /// </summary>
     public static class ViewModelBaseEx
     {
         public static void SetProperty<T, U>(this T tvm, Expression<Func<T, U>> expre) where T : ViewModelBase, new()

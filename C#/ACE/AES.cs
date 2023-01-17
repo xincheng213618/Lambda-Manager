@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace ACE
 {
@@ -17,6 +20,7 @@ namespace ACE
         public static IRegisterInfo IRegisterInfo = new RegisterInfoFile();
         public static AESHelper AESHelper = new AESHelper(IRegisterInfo);
 
+        public static EventManager eventManager = new EventManager();
 
         public static string? GetSysConfig()
         {
@@ -24,6 +28,19 @@ namespace ACE
             if (File.Exists(path))
                 return File.ReadAllText(path) ?? null;
             return null;
+
+
+            //string path = "C:\\Users\\Chen\\Desktop\\lambda\\application.xml";
+            //string s = File.ReadAllText(path);
+
+            //if (!eventManager.Parsing(s))
+            //    return null;
+            //if (!eventManager.ParsingXml())
+            //    return null;
+            //if (!eventManager.CheckMD5())
+            //    return null;
+            //return s;
+
 
             AESHelper.DecryptFileName = "application.sys";
             byte[] data = AESHelper.Decrypt();
