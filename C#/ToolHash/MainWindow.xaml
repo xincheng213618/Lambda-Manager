@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToolHash"
         mc:Ignorable="d"
-        Title="注册机" Height="300" Width="400" >
+        Title="注册机" Height="400" Width="400" Background="Black"  Foreground="White">
     <Grid Margin="5">
         
         <StackPanel Margin="0,0,0,0" >
@@ -48,6 +48,35 @@
                 <Button x:Name="Button1" Content="注册" Click="Button_Click"/>
             </DockPanel>
             <CheckBox  x:Name="Checkbox1"  Content="密匙保存到文件"/>
+
+            <StackPanel x:Name="StackPanelSN">
+                <DockPanel Margin="0,2">
+                    <TextBlock  Text="区域编码 "  Width="100" />
+                    <TextBox Text="{Binding AreaCode}" />
+                </DockPanel>
+                <DockPanel Margin="0,2">
+                    <TextBlock Text="分销商编码"  Width="100" />
+                    <TextBox Text="{Binding DistributorCode}" />
+                </DockPanel>
+                <DockPanel Margin="0,2">
+                    <TextBlock Text="统一设备号"  Width="100" />
+                    <TextBox Text="{Binding EquipIdentify}" />
+                </DockPanel>
+                <DockPanel Margin="0,2">
+                    <TextBlock Text="有效期信息"  Width="100" />
+                    <TextBox Text="{Binding ValidityPeriod}" />
+                </DockPanel>
+            </StackPanel>
+
+            <DockPanel Margin="0,5">
+                <TextBlock  Text="SN码"  Width="100"/>
+                <TextBox x:Name="SNTextBolck" Text="" />
+            </DockPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="测试" Width="100" Click="Button_Click0"/>
+                <Button Content="生成" Width="100" Click="Button_Click1"/>
+                <Button Content="复制SN码" Width="100" Click="Button_Click2"/>
+            </StackPanel>
         </StackPanel>
 
 

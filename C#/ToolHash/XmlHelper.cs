@@ -13,17 +13,19 @@ namespace ToolHash
 
         public static bool AddHash(string BasePath)
         {
-            string applicationxml = BasePath + "\\application.xml";
+            string filexml = BasePath + "\\application.xml";
 
-            if (!File.Exists(applicationxml))
+            if (!File.Exists(filexml))
             {
                 return false;
             }
 
+            XDocument xmlDoc = XDocument.Load(filexml);
+            if (xmlDoc.Root == null)
+                return false;
 
-            XDocument xmlDoc = XDocument.Load(applicationxml);
             XElement root = xmlDoc.Root;
-
+            //先移除Root
             foreach (var item in root.Descendants("md5"))
             {
                 item.RemoveAll();
@@ -45,7 +47,7 @@ namespace ToolHash
             {
                 XmlHelper.AddDirectory(md5, item.FullName, BasePath);
             }
-            xmlDoc.Save(applicationxml);
+            xmlDoc.Save(filexml);
             return true;
         }
 

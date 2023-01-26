@@ -80,7 +80,7 @@ namespace Global.Common.NativeMethods
         /// <param name="file">目标文件或文件夹</param>
         /// <param name="smallIcon">需要关联的图标是小图标或者大图标</param>
         /// <returns>文件所关联Icon所对应的数据源</returns>
-        public static ImageSource GetImageSource(String file, bool smallIcon)
+        public static ImageSource GetImageSource(string file, bool smallIcon)
         {
             try
             {

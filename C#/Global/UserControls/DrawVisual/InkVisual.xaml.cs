@@ -113,7 +113,6 @@ namespace Global.UserControls.DrawVisual
         List<System.Windows.Point> pointList1 = new List<Point>();
         List<System.Windows.Point> pointListRuler = new List<Point>();
         List<System.Windows.Point> pointListBesizer = new List<Point>();
-        StylusPointCollection point1;
         public Point RecTopLeft = new Point(0, 0);
         public Point RecBottomRight = new Point(0, 0);
         Stroke stroke1;
@@ -295,7 +294,7 @@ namespace Global.UserControls.DrawVisual
 
 
                     }
-                    catch (Exception ex)
+                    catch
                     {
 
                     }
@@ -468,12 +467,7 @@ namespace Global.UserControls.DrawVisual
         {
 
             Point endP = e.GetPosition(inkCanvas);
-            List<System.Windows.Point> pointList;
-            StylusPointCollection point;
             Stroke stroke;
-            Stroke stroke0;
-            StrokeCollection strokes = new StrokeCollection();
-
             if (ToolTop.CurveChecked)  //Curve
             {
 
@@ -1024,9 +1018,6 @@ namespace Global.UserControls.DrawVisual
             iniP = e.GetPosition(inkCanvas);
             isMouseDown = true;
             // inkCanvas.CaptureMouse();
-            Stroke stroke;
-            //Stroke stroke0;
-
             if (ToolTop.MoveChecked == true)
             {
                 StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
@@ -1280,7 +1271,7 @@ namespace Global.UserControls.DrawVisual
 
 
                 }
-                catch (Exception ex)
+                catch 
                 {
 
                 }
@@ -1581,8 +1572,7 @@ namespace Global.UserControls.DrawVisual
                     inkCanvas.Strokes.Remove(lastTempStroke);
 
                 }
-                catch (Exception ex)
-                {
+                catch {
                     // MessageBox.Show(ex.Message);
                 }
 

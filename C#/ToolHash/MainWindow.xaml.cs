@@ -2,6 +2,7 @@
 using ACE.Global;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -82,6 +83,65 @@ namespace ToolHash
                     };
                 }
             }
+        }
+        SNCode sNCode = new SNCode();
+        private void Button_Click1(object sender, RoutedEventArgs e)
+        {
+
+            SNTextBolck.Text = Regex.Replace(sNCode.GetSN(), @"(\w{4}(?=[^$]))", "$1-");
+        }
+
+
+
+
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(SNTextBolck.Text);
+
+
+            MessageBox.Show("复制成功");
+        }
+
+
+
+        private void Button_Click0(object sender, RoutedEventArgs e)
+        {
+            sNCode = new SNCode() { AreaCode = "0000", DistributorCode = "2210", EquipIdentify = "0000-xxx-xxx-x", ValidityPeriod = DateTime.Now.ToString("yyyyMMdd") };
+            StackPanelSN.DataContext = sNCode;
+        }
+    }
+
+    public static class Clipboard
+    {
+        [DllImport("User32")]
+        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
+
+        [DllImport("User32")]
+        public static extern bool CloseClipboard();
+
+        [DllImport("User32")]
+        public static extern bool EmptyClipboard();
+
+        [DllImport("User32")]
+        public static extern bool IsClipboardFormatAvailable(int format);
+
+        [DllImport("User32")]
+        public static extern IntPtr GetClipboardData(int uFormat);
+
+        [DllImport("User32", CharSet = CharSet.Unicode)]
+        public static extern IntPtr SetClipboardData(int uFormat, IntPtr hMem);
+
+        public static void SetText(string text)
+        {
+            if (!OpenClipboard(IntPtr.Zero))
+            {
+                System.Windows.Clipboard.SetText(text);
+                MessageBox.Show("复制成功");
+                return;
+            }
+            EmptyClipboard();
+            SetClipboardData(13, Marshal.StringToHGlobalUni(text));
+            CloseClipboard();
         }
     }
 

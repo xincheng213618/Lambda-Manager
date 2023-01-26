@@ -12,12 +12,4 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
-	</ItemGroup>
-
 </Project>

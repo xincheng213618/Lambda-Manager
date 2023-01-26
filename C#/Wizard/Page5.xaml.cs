@@ -1,6 +1,8 @@
 ﻿using Global.Common.Controls;
 using Global.Common.Extensions;
 using Global.Common.MVVM;
+using Global.SettingUp.Hardware;
+using Global.SettingUp;
 using Lambda;
 using System;
 using System.Collections.Generic;

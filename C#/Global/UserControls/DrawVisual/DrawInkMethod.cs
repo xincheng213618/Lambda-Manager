@@ -1,6 +1,7 @@
 ﻿using Global.Mode;
 using Global.UserControls.DrawVisual;
 using Lambda;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -136,7 +137,6 @@ namespace Global
         public static InkVisual[]  InkAll = new InkVisual[6];
         public static ActiveView ActiveViews = new ActiveView();
         private int viewCount = 0;
-        public static event EventHandler propertyChanged;
         public static Resolution Resolution = new Resolution();
       
         // active window Change
@@ -2442,9 +2442,8 @@ namespace Global
                 _green = (int)pixelByteArray[colorOrder + 1];
                 _blue = (int)pixelByteArray[colorOrder];
             }
-            catch (Exception ex)
+            catch
             {
-
             };
 
 
@@ -2503,9 +2502,8 @@ namespace Global
                     drawingContext.DrawLine(InkCanvasMethod.SetPenSolid1(), new Point(x1, y1 + 45), new Point(x1 + 120, y1 + 45));
                     drawingContext.DrawLine(InkCanvasMethod.SetPenSolid1(), new Point(x1 + 60, y1), new Point(x1 + 60, y1 + 90));
                 }
-                catch (Exception ex)
+                catch 
                 {
-                    // MessageBox.Show(ex.Message);
                 };
 
             }

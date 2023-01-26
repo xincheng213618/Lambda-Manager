@@ -13,23 +13,23 @@ extern CallBack4 callBack4;
 extern CallBack5 callBack5;
 extern CallBack6 callBack6;
 extern CallBack7 callBack7;
-extern CallBack8 callBack8;
+extern CallBack8 callBack8;  
 
 extern CallHandlerRaise callHandlerRaise;
 
 
-std::map<std::string, Callback1> Callback1_map;
-std::map<std::string, Callback2> Callback2_map;
-std::map<std::string, Callback3> Callback3_map;
-std::map<std::string, Callback4> Callback4_map;
-std::map<std::string, Callback5> Callback5_map;
-std::map<std::string, Callback6> Callback6_map;
-std::map<std::string, Callback7> Callback7_map;
+std::unordered_map<std::string, Callback1> Callback1_map;
+std::unordered_map<std::string, Callback2> Callback2_map;
+std::unordered_map<std::string, Callback3> Callback3_map;
+std::unordered_map<std::string, Callback4> Callback4_map;
+std::unordered_map<std::string, Callback5> Callback5_map;
+std::unordered_map<std::string, Callback6> Callback6_map;
+std::unordered_map<std::string, Callback7> Callback7_map;
 
-std::map<int, std::string> RoutineEvent_map;
-std::map<std::string, void*> FunctionEvent_map;
+std::unordered_map<int, std::string> RoutineEvent_map;
+std::unordered_map<std::string, void*> FunctionEvent_map;
 
-std::map<std::string, ArgumentType> ArgumentType_map;
+std::unordered_map<std::string, ArgumentType> ArgumentType_map;
 
 std::list<void*> RaiseEventMark_map;
 
@@ -55,7 +55,7 @@ int CallFunction(char* type, int argType, void* eventObject, void* sender)
 	std::string Event = std::string(type);
 
 
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+	for (std::unordered_map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
 	{
 		if (it->second == Event) {
 			auto it2 = ArgumentType_map.find(Event);
@@ -139,16 +139,16 @@ Event::~Event()
 
 void Event::Trigger(std::string type)
 {
-	for (std::map<int, std::string>::iterator it = RoutineEvent_map.begin(); it != RoutineEvent_map.end(); it++)
+	for (auto& it : RoutineEvent_map)
 	{
-		if (it->second == type) {
+		if (it.second == type) {
 			auto it2 = ArgumentType_map.find(type);
 			if (it2 != ArgumentType_map.end()) {
 				if (it2->second == NO_ARGS) {
-					callBack1(it->first, NULL);
+					callBack1(it.first, NULL);
 				}
 				else if (it2->second == JSON_STRING) {
-					callBack3(it->first, NULL, NULL);
+					callBack3(it.first, NULL, NULL);
 				}
 			}
 		}

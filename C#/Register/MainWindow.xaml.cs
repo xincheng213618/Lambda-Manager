@@ -153,7 +153,7 @@ namespace Register
                             }
                         }
 
-                        if (!String.IsNullOrEmpty(Encoding.UTF8.GetString(AESHelper.Decrypt())))
+                        if (!string.IsNullOrEmpty(Encoding.UTF8.GetString(AESHelper.Decrypt())))
                             MessageBox.Show("注册成功");
                     }
                     MessageBox.Show("注册失败：");

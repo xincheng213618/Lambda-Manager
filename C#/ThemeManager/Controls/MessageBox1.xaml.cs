@@ -1,10 +1,10 @@
-﻿using Global.Common.Extensions;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using ThemeManager.Controls;
+using Global.Common.Extensions;
 
 namespace Global.Common.Controls
 {

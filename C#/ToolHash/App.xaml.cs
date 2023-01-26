@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ThemeManager;
 
 namespace ToolHash
 {
@@ -25,7 +26,7 @@ namespace ToolHash
             {
                 App app = new App();
                 app.InitializeComponent();
-                ((Application)app).Run();
+                app.Run();
             }
             else
             {
@@ -35,15 +36,14 @@ namespace ToolHash
                 }
                 else
                 {
-                    MessageBox.Show(args[0]);
+                    MessageBox.Show(args[0] +"不存在");
                 }
-
-
-
             }
-
         }
 
-
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            Current.ApplyTheme(Theme.Dark);
+        }
     }
 }

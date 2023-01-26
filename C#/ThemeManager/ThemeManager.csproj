@@ -12,10 +12,27 @@
 
   <ItemGroup>
     <PackageReference Include="HandyControls" Version="3.4.4" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="HandyControl\Style\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\ProgressRing.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\ProgressRing.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

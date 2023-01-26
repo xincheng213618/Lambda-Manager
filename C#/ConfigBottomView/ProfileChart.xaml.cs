@@ -267,7 +267,6 @@ namespace ConfigBottomView
 
         private LineAnnotation AddLineAnnotation(LineAnnotation lineAnnotation, PlotModel model)
         {
-
             lineAnnotation.MouseDown += (s, e) =>
             {
                 if (e.ChangedButton != OxyMouseButton.Left)

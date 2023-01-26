@@ -68,7 +68,7 @@ namespace GalleryView
                 if (i < 7)
                 {
                     Product product = Gallery.List.SelectedItems[i] as Product;
-                    label += product.ModelName;
+                    label += product?.ModelName;
                     label += ", ";
                 }
                 

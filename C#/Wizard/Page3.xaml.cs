@@ -168,6 +168,14 @@ namespace Wizard
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (SoftwareConfig.HardwareSetting.CameraStatus != CameraStatus.Ok || SoftwareConfig.HardwareSetting.LightStatus != SerialPortStatus.NoError || SoftwareConfig.HardwareSetting.StageStatus != SerialPortStatus.NoError)
+            {
+                MessageBox.Show("检测不到硬件连接，跳过硬件校准");
+                Content = new Page6(Window);
+                Pages();
+                return;
+            };
+
             Content = new Page5(Window);
             Pages();
         }
@@ -197,6 +205,15 @@ namespace Wizard
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             IsMul = true;
+
+            if (SoftwareConfig.HardwareSetting.CameraStatus != CameraStatus.Ok || SoftwareConfig.HardwareSetting.LightStatus != SerialPortStatus.NoError || SoftwareConfig.HardwareSetting.StageStatus != SerialPortStatus.NoError)
+            {
+                MessageBox.Show("检测不到硬件连接，跳过硬件校准");
+                Content = new Page6(Window);
+                Pages();
+                return;
+            };
+
             Content = new Page5(Window);
             Pages();
         }

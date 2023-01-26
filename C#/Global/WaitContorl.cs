@@ -26,6 +26,7 @@ namespace Global
 
         public WaitContorl()
         {
+
             if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && stageConfig.Parent is Grid MainGrid)
             {
                 WaitWindow = new Grid();

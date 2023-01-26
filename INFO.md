@@ -16,3 +16,6 @@ https://stackoverflow.com/questions/69958065/relativesource-binding-in-itemscont
 
 
 
+1. 主窗口  Content  继承BaseWindow  , 可行但是 目前 皇黄的dll 绑定有些多，直接换会报错，需要仔细调试
+2. 
+

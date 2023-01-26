@@ -1,11 +1,6 @@
 ﻿using Global.Common;
-using Global.Common.Util;
 using Lambda;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
-using ThemeManager;
 
 namespace Global.SettingUp
 {

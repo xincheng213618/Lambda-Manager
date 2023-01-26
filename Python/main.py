@@ -4,7 +4,7 @@ import time
 
 import pymysql.cursors
 
-HOST = '192.168.31.133'
+HOST = 'xc213618.ddns.me'
 USER = 'root'
 PASSWD = 'xincheng'
 DB = 'grid'
@@ -51,6 +51,7 @@ def register1():
     email =request.values.get('email')
     phoneNumber=request.values.get('phoneNumber')
     registerCode = request.values.get('registerCode')
+    sn =request.values.get('sn')
     # 判断用户名、密码都不为空，如果不传用户名、密码则username和pwd为None
     if username and registerCode:
         try:
@@ -71,7 +72,7 @@ def register1():
             resu = {'code': -1, 'message': "数据库连接失败"}
             return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
     else:
-        resu = {'code': 10001, 'message': '参数不能为空！'}
+        resu = {'code': 10001, 'message': '参数为空'}
         return json.dumps(resu, ensure_ascii=False)
 
 
@@ -79,17 +80,20 @@ def register1():
 def register():
     user_id = 1 ;
     sn = request.values.get('sn')
+    if (len(sn)!=24):
+        resu = {'state': 1, 'message': "注册码位数异常"}
+        return json.dumps(resu, ensure_ascii=False)
+
+
+    register_info = request.values.get('register-info')
     mac_address = request.values.get('mac-address')
     equip_identify = request.values.get('equip-identify')
 
     if sn and register_info and mac_address and equip_identify:
-           try:
+        try:
             db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
                                  use_unicode=True)
             cursor = db.cursor()
-
-
-
 
             sql = "SELECT * FROM  `register-info` WHERE `mac_address` = '%s'" %(mac_address);
             print(sql)
@@ -107,7 +111,7 @@ def register():
                 resu = {'state': 0, 'message': "注册成功", 'user-class': "0", 'feature-list': "22"}
                 return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
             else:
-                resu = {'state': 1, 'message': "该用户已经注册过"}
+                resu = {'state': 1, 'message': "该用户已经注册"}
                 return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
         except Exception as e:
             resu = {'state': 1, 'message': e.args}
@@ -115,6 +119,7 @@ def register():
     else:
         resu = {'state': 1, 'message': '参数不能为空！'}
         return json.dumps(resu, ensure_ascii=False)
+
 
 @server.route('/unregister', methods=['post'])
 def unregister():
@@ -165,4 +170,4 @@ def test1(user_id,equip_identify,mac_address,sn):
 
 
 if __name__ == '__main__':
-    server.run(debug=True, port=18888, host='0.0.0.0')  # 指定端口、host,0.0.0.0代表不管几个网卡，任何ip都可以访问
+    server.run(debug=True, port=18888, host='0.0.0.0',ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));
