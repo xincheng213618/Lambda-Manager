@@ -145,9 +145,10 @@ namespace Global.UserControls.DrawVisual
         {
             Passive.passive = true;
             this.inkCanvas.Strokes.Clear();
-            foreach (CustomStroke stroke in inkCanvas.Strokes)
+            foreach (Stroke stroke  in inkCanvas.Strokes)
             {
-                this.inkCanvas.Strokes.Add(stroke.Clone());
+                if (stroke is CustomStroke custom)
+                    this.inkCanvas.Strokes.Add(stroke.Clone());
             }
 
             Passive.passive = false;
@@ -208,52 +209,7 @@ namespace Global.UserControls.DrawVisual
 
             };
         }
-
-        // if (e.PropertyName == "EraserChecked")
-                        //    {
-                        //        if (ImageViewState.toolTop.EraserChecked == true)
-                        //        {
-                        //            inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-                        //            inkVisual.inkCanvas.UseCustomCursor = true;
-                        //            StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
-                        //            inkVisual.inkCanvas.Cursor = new Cursor(sri.Stream);
-                        //        }
-                        //        else
-                        //        {
-                        //            inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-                        //            inkVisual.inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                        //        }
-                        //    }
-                        //    else if ( (bool)ImageViewState.toolTop.CircleChecked || (bool)ImageViewState.toolTop.CurveChecked || (bool)ImageViewState.toolTop.PolygonChecked || (bool)ImageViewState.toolTop.TextChecked || (bool)ImageViewState.toolTop.LineChecked || (bool)ImageViewState.toolTop.RectangleChecked)
-                        //    {
-                        //        inkVisual.inkCanvas.Cursor = Cursors.Cross;
-                        //    }
-                        //    else if ((bool)ImageViewState.toolTop.MoveChecked)
-                        //    {
-                        //        inkVisual.inkCanvas.Cursor = Cursors.Hand;
-                        //    }
-                        //    else
-                        //    {
-                        //        inkVisual.inkCanvas.Cursor = Cursors.Arrow;
-                        //    };
-                            
-                        //    if (e.PropertyName == "SelectChecked")
-                        //    {
-                        //        if ((bool)ImageViewState.toolTop.SelectChecked)
-                        //        {
-                        //            inkVisual.Visibility = Visibility.Visible;
-                        //        }
-                        //        else
-                        //        {
-                        //            inkVisual.Visibility = Visibility.Visible;
-                        //        }
-
-                        //    }
        
-
-       
-
-
         private void ToolBarAddEventHandle(ImageViewState.ToolTop ToolTop)
         {
 
@@ -329,8 +285,7 @@ namespace Global.UserControls.DrawVisual
                     {
                         inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
                         inkCanvas.UseCustomCursor = true;
-                        StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
-                        inkCanvas.Cursor = new Cursor(sri.Stream);
+                        inkCanvas.Cursor = CusCursors.Eraser;
                     }
                     else
                     {
@@ -482,8 +437,7 @@ namespace Global.UserControls.DrawVisual
                 if (inkCanvas.Cursor == Cursors.Arrow)
                 {
                     inkCanvas.UseCustomCursor = true;
-                    StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
-                    inkCanvas.Cursor = new Cursor(sri.Stream);
+                    inkCanvas.Cursor = CusCursors.Ruler;
                 }
                 drawRulerPolygon2(sender, e);
              
@@ -629,8 +583,7 @@ namespace Global.UserControls.DrawVisual
 
                 if (inkCanvas.Cursor == Cursors.Hand)
                 {
-                    StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
-                    inkCanvas.Cursor = new Cursor(sri.Stream);
+                    inkCanvas.Cursor = CusCursors.Hold;
                 }
             
                 var isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
@@ -760,8 +713,7 @@ namespace Global.UserControls.DrawVisual
                 if (inkCanvas.Cursor == Cursors.Arrow || inkCanvas.Cursor == null)
                 {
                     inkCanvas.UseCustomCursor = true;
-                    StreamResourceInfo sri = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/eraser.cur", UriKind.Relative));
-                    inkCanvas.Cursor = new Cursor(sri.Stream);
+                    inkCanvas.Cursor = CusCursors.Eraser;
                 }
             }
             if ( ToolTop.DimensionChecked || ToolTop.LineChecked || ToolTop.PolygonChecked || ToolTop.RectangleChecked || ToolTop.TextChecked || ToolTop.CurveChecked)
@@ -1020,8 +972,7 @@ namespace Global.UserControls.DrawVisual
             // inkCanvas.CaptureMouse();
             if (ToolTop.MoveChecked == true)
             {
-                StreamResourceInfo hold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
-                inkCanvas.Cursor = new Cursor(hold.Stream);
+                inkCanvas.Cursor = CusCursors.Hold;
                 movePoint = iniP;
             };
 
@@ -1416,9 +1367,7 @@ namespace Global.UserControls.DrawVisual
                         ZoomParTransform(ratio1.Ratio, inkCanvas.Strokes,this);
 
 
-
-                        StreamResourceInfo ZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
-                        inkCanvas.Cursor = new Cursor(ZoomOut.Stream);
+                        inkCanvas.Cursor = CusCursors.ZoomOut;
                         await Task.Delay(500);
 
                         if (ToolTop.MoveChecked)
@@ -1499,10 +1448,7 @@ namespace Global.UserControls.DrawVisual
                 }
 
 
-
-
-                StreamResourceInfo ZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
-                inkCanvas.Cursor = new Cursor(ZoomIn.Stream);
+                inkCanvas.Cursor = CusCursors.ZoomIn;
                 await Task.Delay(500);
                 if (ToolTop.MoveChecked)
                 {

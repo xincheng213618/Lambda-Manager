@@ -58,9 +58,9 @@
 	
   <ItemGroup>
     <Resource Include="UserControls\Image\Grid.ico" />
-    <Resource Include="UserControls\Image\hold.cur" />
+    <Resource Include="UserControls\Cursor\hold.cur" />
     <Resource Include="UserControls\Image\PLASMA.jpg" />
-    <Resource Include="UserControls\Image\Eraser.cur" />
+    <Resource Include="UserControls\Cursor\Eraser.cur" />
     <Resource Include="UserControls\Image\startpicture1.png" />
   </ItemGroup>
 	
@@ -107,7 +107,7 @@
     <Resource Include="UserControls\Image\PARULA.jpg" />
     <Resource Include="UserControls\Image\PINK.jpg" />
     <Resource Include="UserControls\Image\RAINBOW.jpg" />
-    <Resource Include="UserControls\Image\Ruler.cur" />
+    <Resource Include="UserControls\Cursor\Ruler.cur" />
     <Resource Include="UserControls\Image\SHIFTED.jpg" />
     <Resource Include="UserControls\Image\SPRING.jpg" />
     <Resource Include="UserControls\Image\SUMMER.jpg" />
@@ -116,8 +116,8 @@
     <Resource Include="UserControls\Image\VIRIDIS.jpg" />
     <Resource Include="UserControls\Image\WINTER.jpg" />
     <Resource Include="UserControls\Image\ZIRCON.png" />
-    <Resource Include="UserControls\Image\zoomIn.cur" />
-    <Resource Include="UserControls\Image\zoomOut.cur" />
+    <Resource Include="UserControls\Cursor\zoomIn.cur" />
+    <Resource Include="UserControls\Cursor\zoomOut.cur" />
   </ItemGroup>
 
 

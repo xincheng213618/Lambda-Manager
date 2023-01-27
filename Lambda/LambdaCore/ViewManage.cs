@@ -16,8 +16,6 @@ namespace LambdaCore
     }
 
 
-
-
     public delegate void ViewChangedEventHandler(object sender, ViewChangedEvent e);
 
     public class ViewManager : INotifyPropertyChanged
@@ -26,7 +24,7 @@ namespace LambdaCore
         private static readonly object locker = new();
         public static ViewManager GetInstance() { lock (locker) { return instance ??= new ViewManager(); } }
 
-        public static List<View> Views;
+        public static List<View> Views = new List<View>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

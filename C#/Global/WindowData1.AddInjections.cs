@@ -17,18 +17,6 @@ namespace Global
 {
     public partial class WindowData1
     {
-
-        //StreamResourceInfo sriEraser = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Eraser.cur", UriKind.Relative));
-        //StreamResourceInfo sriHold = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/hold.cur", UriKind.Relative));
-        //StreamResourceInfo sriRuler = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/Ruler.cur", UriKind.Relative));
-        //StreamResourceInfo sriZoomOut = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomOut.cur", UriKind.Relative));
-        //StreamResourceInfo sriZoomIn = Application.GetResourceStream(new Uri("/Global;component/usercontrols/image/zoomIn.cur", UriKind.Relative));
-        //Cursor eraserCursor;
-        //Cursor holdCursor;
-        //Cursor rulerCursor;
-        //Cursor zoomOutCursor;
-        //Cursor zoomInCursor;
-
         private void RatioTextBind(Window mainwin)
         {
             TextBox ratioTextBox = (TextBox)mainwin.FindName("ratio");
