@@ -260,25 +260,24 @@ namespace Global
                     }
                     if (!isMapWindowshow)
                     {
-                        // MessageBox.Show(MapWindow.SeriesPoints.Count.ToString());
-                        if (MapWindow.SeriesPoints.Count == 0)
-                            return;
+                        //if (MapWindow.SeriesPoints.Count == 0)
+                        //    return;
                         MapWindow mapWindow = new MapWindow();
-                        Point point = bottomPlace.PointToScreen(new Point(0, 0));
-                        //Point point = bottomPlace.TransformToAncestor(mainwin).Transform(new Point(0, 0));
-                        mapWindow.Show();
                         mapWindow.Topmost = true;
-                        // monitor system Screen  ratio
-                        var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
-                        var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
-                        var dpiX = (int)dpiXProperty.GetValue(null, null);
-                        var dpiY = (int)dpiYProperty.GetValue(null, null);
-                        double dpixRatio = (double)dpiX / 96;
-                        double dpiyRatio = (double)dpiX / 96;
+                        mapWindow.Show();
+
+                        Point point = bottomPlace.PointToScreen(new Point(0, 0));
+                        using System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+                        float dpiX = graphics.DpiX;
+                        float dpiY = graphics.DpiY;
+
+                        double dpixRatio = dpiX / 96;
+                        double dpiyRatio = dpiX / 96;
                         double x = point.X / dpixRatio + bottomPlace.ActualWidth - mapWindow.ActualWidth;
                         double y = point.Y / dpiyRatio - mapWindow.ActualHeight - 3;
                         mapWindow.Left = x;
                         mapWindow.Top = y;
+
                         mapWindow.DrawPointRec(MapWindow.SeriesPoints);
 
                         mainwin.Closing += delegate
@@ -286,10 +285,8 @@ namespace Global
                             mapWindow.Close();
                         };
 
-
-
-
                     }
+
 
 
                 };

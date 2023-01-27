@@ -619,7 +619,6 @@ namespace Global
                 {
                     MultiPoints testMean = JsonSerializer.Deserialize<MultiPoints>(multiCollectJson);
                     List<List<int>> points = testMean.Points;
-                    // MessageBox.Show(points.Count.ToString());
                     if (MapWindow.ListViewP!=null)
                     { MapWindow.ListViewP.SelectedItem = null; }
                    

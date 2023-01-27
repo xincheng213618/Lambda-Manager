@@ -64,6 +64,23 @@ namespace ThemeManager.Controls
         public static readonly bool IsWin10 = !IsWin11 && Environment.OSVersion.Version >= new Version(10, 0);
 
 
+        public static float Dpi { get => DpiX; }
+
+        public static float DpiX {
+            get {
+                using System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+                return graphics.DpiX;
+            }
+        }
+
+        public static float DpiY
+        {
+            get
+            {
+                using System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+                return graphics.DpiY;
+            }
+        }
 
 
         // Using a DependencyProperty as the backing store for IsWindowBlurEnabled.  This enables animation, styling, binding, etc...
