@@ -260,8 +260,8 @@ namespace Global
                     }
                     if (!isMapWindowshow)
                     {
-                        //if (MapWindow.SeriesPoints.Count == 0)
-                        //    return;
+                        if (MapWindow.SeriesPoints.Count == 0)
+                            return;
                         MapWindow mapWindow = new MapWindow();
                         mapWindow.Topmost = true;
                         mapWindow.Show();
