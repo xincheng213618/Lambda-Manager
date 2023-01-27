@@ -100,8 +100,7 @@ namespace Global.UserControls.DrawVisual
         public bool saveTempStroke = true;
         private int textFlag = 0;
         public Stroke profileStroke;
-        int i = 0;
-        Stroke lastTempCurveStroke = null;
+
         List<Point> CurvePointsList = new List<Point>();
         public InkDimViewModel inkDimViewModel = new InkDimViewModel();
         private Point movePoint = new Point(0, 0);
@@ -218,8 +217,7 @@ namespace Global.UserControls.DrawVisual
 
                 if (ToolTop.CurveChecked == false)
                 {
-                    i = 0;
-                    lastTempCurveStroke = null;
+
                     CurvePointsList.Clear();
                 };
                 if (ToolTop.PolygonChecked == false)

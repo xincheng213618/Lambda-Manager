@@ -98,13 +98,14 @@ namespace Global
                 //profile.DataContext = profileModel;
                 //Image ProfileImage = profile.profileImage;
                 //LambdaControl.RegisterImageView(ProfileImage).ToString();
-
+#pragma warning disable CS0618 // 类型或成员已过时
                 profile.la.MouseMove += delegate
                 {
                     profileModel.Ratio1 = profile.la.X / profile.DataPoints.Count;
                     if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
+#pragma warning disable CS0618 // 类型或成员已过时
                 profile.lb.MouseMove += delegate
                 {
                     profileModel.Ratio2 = profile.lb.X / profile.DataPoints.Count;

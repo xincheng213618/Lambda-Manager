@@ -267,6 +267,7 @@ namespace ConfigBottomView
 
         private LineAnnotation AddLineAnnotation(LineAnnotation lineAnnotation, PlotModel model)
         {
+#pragma warning disable CS0618 // 类型或成员已过时
             lineAnnotation.MouseDown += (s, e) =>
             {
                 if (e.ChangedButton != OxyMouseButton.Left)
@@ -280,8 +281,7 @@ namespace ConfigBottomView
                 e.Handled = true;
 
             };
-
-            // Handle mouse movements (note: this is only called when the mousedown event was handled)                                   
+#pragma warning disable CS0618 // 类型或成员已过时
             lineAnnotation.MouseMove += (s, e) =>
             {
                 try
@@ -328,6 +328,7 @@ namespace ConfigBottomView
               
                 e.Handled = true;
             };
+#pragma warning disable CS0618 // 类型或成员已过时
             lineAnnotation.MouseUp += (s, e) =>
             {
 
@@ -384,26 +385,7 @@ namespace ConfigBottomView
             
             AddLineAnnotation(la, model);
             AddLineAnnotation(lb, model);
-            //Random random = new Random();
-            //Task.Run(
-            //   () =>
-            //   {
-            //       while (true)
-            //       {
-            //           Application.Current.Dispatcher.Invoke(delegate
-            //           {
-            //               randomList1(x);
-            //               Model.InvalidatePlot(true);
-                          
-            //           });
-
-            //           Thread.Sleep(10);
-            //       }
-            //   });
-
-
-            //linearAxisX.AbsoluteMinimum = 1;
-            //linearAxisX.AbsoluteMaximum = DataPoints.Count;
+#pragma warning disable CS0618 // 类型或成员已过时
             model.MouseMove += (s, e) =>
                 {
                    
@@ -546,7 +528,6 @@ namespace ConfigBottomView
         {
            
         }
-        int x=1000;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //Random random = new Random();
