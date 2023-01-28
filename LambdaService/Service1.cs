@@ -41,16 +41,17 @@ namespace LambdaService
         {
             while (true)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
                 try
                 {
-                    var context = "LambdaRun";
+                    var context = "LambdaRun" + System.Windows.Forms.SystemInformation.PowerStatus.BatteryChargeStatus.ToString();
                     WriteLogs(path, context);
                     //Process process = new Process();
                     //process.StartInfo.FileName = @"C:\Users\Chen\Desktop\Lambda Manager\Lambda\LambdaManager\bin\x64\Debug\net6.0-windows\\LambdaManager.exe";
                     //process.StartInfo.UseShellExecute = false;
                     //process.StartInfo.WorkingDirectory = "C:\\Users\\Chen\\Desktop\\Lambda Manager\\Lambda\\LambdaManager\\bin\\x64\\Debug\\net6.0-windows";
                     //process.Start();
+                    ;
                 }
                 catch (Exception ex)
                 {

@@ -602,38 +602,6 @@ namespace Solution
         private async void  Button_Click_5(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能在测试中");
-            //BaseWindow baseWindow = new BaseWindow() { Background = Brushes.Black };
-            //object content = Application.Current.MainWindow.Content;
-            //Application.Current.MainWindow.Content = null;
-            //Application.Current.MainWindow.Close();
-            //baseWindow.Content = content;
-            //baseWindow.Show();
-            //Application.Current.MainWindow = baseWindow;
-
-
-            //HttpClient client = new HttpClient();
-
-            //List<string> macs = new List<string>();
-            //NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            //foreach (NetworkInterface ni in interfaces)
-            //{
-            //    macs.Add(ni.GetPhysicalAddress().ToString());
-            //}
-
-            //Dictionary<string, string> keyValues1 = new Dictionary<string, string>()
-            //    {
-            //        { "sn","abcdefghijklmnopqrstuvaa" },
-            //        { "mac-address", macs[0] },
-            //        { "equip-identify","2"},
-            //        {"register-info","2" }
-            //    };
-            //var content1 = new FormUrlEncodedContent(keyValues1);
-
-            //var response1 = await client.PostAsync("https://v3.xincheng213618.com:18888/register", content1);
-            //var responseString1 = await response1.Content.ReadAsStringAsync();
-            //MessageBox.Show(responseString1);
-
-
         }
 
 
