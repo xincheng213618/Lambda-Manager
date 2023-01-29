@@ -3,14 +3,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:conver="clr-namespace:Wizard.Converters"
       xmlns:local="clr-namespace:Wizard"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="700"
       Title="Page0">
-    <Page.Resources>
-        <conver:StringToVisibilityConverter x:Key="StringToVisible"></conver:StringToVisibilityConverter>
-    </Page.Resources>
     <Grid Background="#444444"  Width="700">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>

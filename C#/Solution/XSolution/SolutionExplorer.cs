@@ -13,7 +13,6 @@ namespace XSolution
 {
     public class SolutionExplorer : BaseObject
     {
-        public FileSystemWatcher watcher;
         public string Rootpath;
         public RelayCommand AddNewProject { get; set; }
         public RelayCommand OpenExplorer { get; set; }
@@ -31,10 +30,66 @@ namespace XSolution
 
         public ContextMenu ContextMenu { get; set; }
 
+        public DirectoryInfo DirectoryInfo { get; set; }
+
+        public FileSystemWatcher watcher;
+        public FileSystemWatcher watcher1;
+        public FileSystemWatcher watcher2;
+
+
         public SolutionExplorer(string FullPath):base(FullPath)
         {
-            SolutionGuid = Guid.NewGuid();
             Rootpath = Path.GetDirectoryName(FullPath);
+            SolutionName = Path.GetFileNameWithoutExtension(FullPath);
+
+            DirectoryInfo  = new DirectoryInfo(Rootpath);
+
+
+            foreach (var item in DirectoryInfo.GetFiles())
+            {
+                AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
+            }
+
+            foreach (var dic in DirectoryInfo.GetDirectories())
+            {
+                if (SeriesProjectManager.IsThis(dic))
+                {
+                    AddChild(new SeriesProjectManager(dic.FullName));
+                    continue;
+                }
+
+                else if (dic.Name == "Image")
+                {
+                    foreach (var item in dic.GetFiles())
+                    {
+                        AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
+                    }
+                    watcher1 = new FileSystemWatcher(dic.FullName)
+                    {
+                        IncludeSubdirectories = false
+                    };
+                    watcher1.Deleted += Watcher_Deleted;
+                    watcher1.Created += Watcher_Created;
+                    watcher1.Renamed += Watcher_Renamed;
+                    watcher1.EnableRaisingEvents = true;
+                }
+                else if (dic.Name == "Video")
+                {
+                    foreach (var item in dic.GetFiles())
+                    {
+                        AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
+                    }
+                    watcher2 = new FileSystemWatcher(dic.FullName)
+                    {
+                        IncludeSubdirectories = false
+                    };
+                    watcher2.Deleted += Watcher_Deleted;
+                    watcher2.Created += Watcher_Created;
+                    watcher2.Renamed += Watcher_Renamed;
+                    watcher2.EnableRaisingEvents = true;
+                }
+            }
+
 
             watcher = new FileSystemWatcher(Rootpath)
             {
@@ -45,7 +100,7 @@ namespace XSolution
             watcher.Created += Watcher_Created;
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
-
+           
             AddNewProject = new RelayCommand(OnAddNewProject, (object value) => { return true; });
             OpenExplorer = new RelayCommand((object value) => {
                 System.Diagnostics.Process.Start("explorer.exe", Rootpath);
@@ -66,6 +121,8 @@ namespace XSolution
             ContextMenu.Items.Add(new MenuItem() { Header = "打开日志(_L)", Command = OpenLog, CommandParameter = this });
             ContextMenu.Items.Add(new MenuItem() { Header = "打开日志文件夹(_D)", Command = OpenLogExplorer, CommandParameter = this });
             ContextMenu.Items.Add(new MenuItem() { Header = "属性(_R)"});
+
+
 
 
         }
@@ -110,21 +167,23 @@ namespace XSolution
             }
             else if (Directory.Exists(e.FullPath))
             {
-                if (e.Name == "Video" || e.Name == "Image")
+                Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
-                    {
-                        AddChild(new ProjectManager(e.FullPath));
-                    }));
-                }
-                else
-                {
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
-                    {
-                        AddChild(new SeriesProjectManager(e.FullPath));
-                    }));
-                }
+                    AddChild(new SeriesProjectManager(e.FullPath));
+                }));
 
+                //if (SeriesProjectManager.IsThis(e.FullPath))
+                //{
+                //    Application.Current.Dispatcher.Invoke((Action)(() =>
+                //    {
+                //        AddChild(new SeriesProjectManager(e.FullPath));
+                //    }));
+                //    return;
+                //}
+                //Application.Current.Dispatcher.Invoke((Action)(() =>
+                //{
+                //    AddChild(new ProjectManager(e.FullPath));
+                //}));
             }
         }
 
@@ -166,15 +225,10 @@ namespace XSolution
             protected set { }
         }
 
-
         private void OnAddNewProject(object value)
         {
 
         }
-
-
-
-        public Guid SolutionGuid { get; set; }
 
         public string SolutionName { get; set; }
 

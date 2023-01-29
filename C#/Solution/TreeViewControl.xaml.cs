@@ -409,39 +409,8 @@ namespace Solution
         private void TreeViewInitialized(string FilePath, bool init = true)
         {
             SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath);
-            solutionExplorer.SolutionName = Path.GetFileNameWithoutExtension(FilePath);
-            SolutionDir = Path.GetDirectoryName(FilePath);
+           
 
-            DirectoryInfo root = new DirectoryInfo(SolutionDir);
-            var dics = root.GetDirectories();
-
-            foreach (var item in root.GetFiles())
-            {
-                solutionExplorer.AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
-            }
-
-            foreach (var dic in dics)
-            {
-                if (dic.Name == "Video" || dic.Name == "Image")
-                {
-                    ProjectManager projectMannager = new ProjectManager(dic.FullName) { CanDelete = false, CanReName = false, Visibility = Visibility.Hidden };
-                    foreach (var item in dic.GetDirectories())
-                    {
-                        projectMannager.AddChild(SolutionGlobal.FromDirectories(new ProjectFolder(item.FullName), item));
-                    }
-                    foreach (var item in dic.GetFiles())
-                    {
-                        projectMannager.AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
-                        solutionExplorer.AddChild(SolutionGlobal.GetInstance().GetProjectFile(item.FullName));
-                    }
-                    solutionExplorer.AddChild(projectMannager);
-                }
-                else
-                {
-                    SeriesProjectManager seriesProjectManager = new SeriesProjectManager(dic.FullName);
-                    solutionExplorer.AddChild(ADDDerivativeSeriesFile(seriesProjectManager, dic.FullName));
-                }
-            }
             if (init)
                 SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
@@ -471,7 +440,6 @@ namespace Solution
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
             if (!string.IsNullOrEmpty(SolutionFullName))
             {
                 Config.ConfigWrite(SolutionFullName);

@@ -17,28 +17,46 @@ using XSolution.SeriesProject;
 namespace XSolution
 {
 
-
     public class SeriesProjectManager : ProjectFolder
     {
+        public static bool IsThis(string FullName)
+        {
+            if (!Directory.Exists(FullName))
+                return false;
+            DirectoryInfo info = new DirectoryInfo(FullName);
+            return IsThis(info);
+        }
+
+        public static bool IsThis(DirectoryInfo info)
+        {
+            foreach (var directoryInfo in info.GetDirectories())
+            {
+                string[] value = directoryInfo.Name.Split("_");
+                if (value.Length == 2 && int.TryParse(value[0], out int a) && int.TryParse(value[1], out int b))
+                    return true;
+            }
+            return false;
+        }
+
+
         /// <summary>
         /// 系列的统计数据
         /// </summary>
         public SeriesProjectMeta Meta;
 
-
-        private string fileSize;
-        public string FileSize
+        public string FolderSize
         {
-            get { return fileSize; }
-            set { fileSize = value; NotifyPropertyChanged(); }
+            get { return _FolderSize; }
+            set { _FolderSize = value; NotifyPropertyChanged(); }
         }
+        private string _FolderSize;
 
 
         private async void CalculSize()
         {
             //加延迟是为了显示效果更好。
             await Task.Delay(1000);
-            FileSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullName, "derives"));
+            FolderSize = MemorySize.MemorySizeText(MemorySize.GetDirectoryLength(FullName, "derives"));
         }
 
         public ObservableCollection<BaseObject> ExportChildren { get; set; }

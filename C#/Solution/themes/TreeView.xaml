@@ -69,8 +69,8 @@
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
-                            <Run Text=" -"/>
-                            <Run Text="{Binding FileSize}"/>
+                            <Run Text="  "/>
+                            <Run Text="{Binding FolderSize}"/>
             </TextBlock>
             <StackPanel.ContextMenu>
                 <ContextMenu >
