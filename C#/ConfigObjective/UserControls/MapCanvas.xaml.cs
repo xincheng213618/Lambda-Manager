@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ConfigObjective;
+using System.Collections.ObjectModel;
 
 namespace ConfigObjective.UserControls
 {
@@ -38,6 +39,7 @@ namespace ConfigObjective.UserControls
 
             var descriptor1= DependencyPropertyDescriptor.FromProperty(Canvas.LeftProperty, typeof(Label));
             descriptor1.AddValueChanged(moveButton, moveButtonTop);
+          
         }
 
        
@@ -146,10 +148,11 @@ namespace ConfigObjective.UserControls
 
         private Brush selectionSquareBrush = Brushes.Transparent;
         private Pen selectionSquarePen = new Pen(Brushes.Black, 1);
-        public List<Point> selectedPoints = new List<Point>();
+        public ObservableCollection<Point> selectedPoints = new ObservableCollection<Point>();
+        public SelectedPointCollect pointCollect = new SelectedPointCollect();
         public bool IsReadMap = false;
 
-        public class SelectedPointCollect:INotifyPropertyChanged
+        public class SelectedPointCollect: INotifyPropertyChanged
         {
             private bool selectedPointsSend = false;
             public bool SelectedPointsSend
@@ -161,6 +164,7 @@ namespace ConfigObjective.UserControls
                     RaisePropertyChanged(nameof(SelectedPointsSend));
                 }
             }
+           
             public event PropertyChangedEventHandler PropertyChanged;
             protected virtual void RaisePropertyChanged(string propertyName)
             {
@@ -172,7 +176,7 @@ namespace ConfigObjective.UserControls
             }
         }
 
-        public  SelectedPointCollect pointCollect = new SelectedPointCollect();
+       
 
 
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -515,6 +519,8 @@ namespace ConfigObjective.UserControls
         {
 
         }
+       
+       
     }
 }
 

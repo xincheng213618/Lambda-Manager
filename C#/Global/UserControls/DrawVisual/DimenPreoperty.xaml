@@ -366,7 +366,7 @@
                         </WrapPanel>
                         <WrapPanel Margin="6,0,0,0" Name="labelWrap" Visibility="{Binding LabelPosShow,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                             <CheckBox FontSize="12" Name="labelCheck" Content="显示标签" IsChecked="{Binding Label}"   Foreground="White" Width="70" Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"></CheckBox>
-                            <ComboBox FontSize="12" Name="labelCombo" HorizontalAlignment="Left" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding Label,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Width="100" Margin="4,0,0,0" SelectionChanged="ComboBox_SelectionChanged_1" ></ComboBox>
+                            <ComboBox FontSize="12" Name="labelCombo" HorizontalAlignment="Left" VerticalContentAlignment="Center" Padding="10,0,0,0" Foreground="White" Height="25" ItemsSource="{Binding LabelPosList}" SelectedItem="{Binding LabelPos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding LabelPosShow,Converter={StaticResource Vis},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  BorderThickness="0.6" Width="100" Margin="4,0,0,0" SelectionChanged="ComboBox_SelectionChanged_1" ></ComboBox>
                         </WrapPanel>
                        
                        

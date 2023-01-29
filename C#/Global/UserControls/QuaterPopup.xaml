@@ -144,8 +144,9 @@
     </UserControl.Resources>
 
 
+
     <Border  Background="#595959" BorderThickness="1.5" CornerRadius="4" Width="80" Height="110"  BorderBrush="White" >
-        <StackPanel  Background="Transparent"  >
+        <StackPanel  ToggleButton.Checked="RadioButton_checked" Background="Transparent"  >
             <RadioButton  Style="{StaticResource popStyle}" x:Name="dual" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2,6,6,0" >
                 <Path Fill="#F373985B" Stroke="White" StrokeThickness="1" Margin="5" >
                     <Path.Data>

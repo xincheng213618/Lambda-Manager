@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Collections;
+using System.Windows;
 
 namespace ACE.Tests
 {
@@ -18,16 +19,6 @@ namespace ACE.Tests
         {
             Dictionary<string,object> data = new Dictionary<string,object>();
 
-            SNCode code = new SNCode();
-            for (int i = 0; i < 10000; i++)
-            {
-                for (int j = 0; j < 10000; j++)
-                {
-                    code.AreaCode = i.ToString();
-                    data.Add(code.GetSN(), code);
-
-                }
-            }
 
 
 

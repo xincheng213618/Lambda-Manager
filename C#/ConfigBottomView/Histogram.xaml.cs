@@ -16,6 +16,7 @@ namespace ConfigBottomView
     public partial class Histogram : UserControl
     {
         public Image histogramImage;
+        public ComboBox RangeCombo;
         public Histogram()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace ConfigBottomView
                 IgnorePressure = true,
             };
             histogramImage = HistogramImage;
-
+            RangeCombo = RangeComboBox;
             // MessageBox.Show("1111");
         }
 

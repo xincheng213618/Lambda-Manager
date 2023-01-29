@@ -81,6 +81,13 @@ namespace ConfigObjective
         {
             LambdaControl.Trigger("IMAGE_MODE_RESET", this, new Dictionary<string, object>() { });
 
+            ImageModeReset1();
+        }
+      
+
+        private void ImageModeReset()
+        {
+
             if (OperatingMode.SelectViewMode == 0)
             {
                 OperatingMode.BrightField = new Global.Mode.Config.BrightField();
@@ -141,7 +148,64 @@ namespace ConfigObjective
                 Border2.DataContext = OperatingMode.PhaseContrast.CameraSetting;
 
             }
+
+
         }
+        private void ImageModeReset1()
+        {
+
+            if (OperatingMode.SelectViewMode == 0)
+            {
+                CameraModeReset();
+                Slider311.Value = 9;
+                colorHelp1 = new ColorHelper(255, OperatingMode.BrightField.Color[0], OperatingMode.BrightField.Color[1], OperatingMode.BrightField.Color[2]);
+                ColorButton311.Background = colorHelp1.SolidColorBrush;
+                Slider312.Value = (int)(colorHelp1.Brightness * 100);
+            }
+            if (OperatingMode.SelectViewMode == 1)
+            {
+                CameraModeReset1();
+                colorHelp2 = new ColorHelper(255, OperatingMode.DarkField.Color[0], OperatingMode.DarkField.Color[1], OperatingMode.DarkField.Color[2]);
+                ColorButton321.Background = colorHelp2.SolidColorBrush;
+                Slider324.Value = (int)(colorHelp2.Brightness * 100);
+                Slider323.Value =0.67;
+            }
+
+            if (OperatingMode.SelectViewMode == 2)
+            {
+                CameraModeReset1(); 
+                IntToColor(1, out int bright2);
+                IntToColor(4080, out int bright3);
+                Slider333.Value = bright2;
+                Slider334.Value = bright3;
+                Slider335.Value = 0.67;
+
+            }
+
+            if (OperatingMode.SelectViewMode == 3)
+            {
+                CameraModeReset();
+                Slider342.Value = 0;
+                Slider348.Value = 0;
+            }
+
+            if (OperatingMode.SelectViewMode == 4)
+            {
+                CameraModeReset();
+                Slider351.Value = 0.1;
+                Slider352.Value = 2.5;
+            }
+            if (OperatingMode.SelectViewMode == 5)
+            {
+                CameraModeReset();
+                Slider361.Value =0.07 ;
+                Slider363.Value =0;
+                Button362.IsChecked = false;
+            }
+
+
+        }
+
 
 
         private void Button_Click(object sender, MouseButtonEventArgs e)
@@ -250,7 +314,7 @@ namespace ConfigObjective
                 if (OperatingMode.SelectViewMode == 0)
                 {
                     Border2.DataContext = OperatingMode.BrightField.CameraSetting;
-
+                    Slider212.DataContext = OperatingMode.BrightField.CameraSetting;
                     if (windowData.SolutionConfig.IsMultiObj.Enable == true)
                     {
                         updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
@@ -379,7 +443,7 @@ namespace ConfigObjective
         private void Slider348_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            Dictionary<string, object> data = new() { { "rotationAngle", ((int)(slider.Value / 15)) % 12 } };
+            Dictionary<string, object> data = new() { { "rotationAngle", ((int)(slider.Value / 15)) } };  //0-180,改为0-360；
             SliderAbbreviation(slider, e, "RELIEF_Rotation_Angle", data);
         }
 

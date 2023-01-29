@@ -1,5 +1,4 @@
 ﻿using Global.Common.Extensions;
-using Global.Common.MVVM;
 using Global.Mode.Config;
 using Lambda;
 using System;
@@ -15,14 +14,12 @@ namespace ConfigObjective
     public partial class ToolControl
     {
         public void MulDimensional_Initialize()
-        {
-            //StackPanelMul.DataContext = windowData.MulDimensional;
-            //focusModePanel.DataContext = windowData.MulDimensional;
-            //focusModeLab.DataContext = windowData.MulDimensional;
+        {        
             MulSummaryUniformGrid.DataContext = windowData.mulSummary;
-            //CollectionMode.DataContext = windowData.MulDimensional;
             multiCollectionStack.DataContext = windowData.MulDimensional;
-            windowData.MulDimensional.PropertyChanged += delegate
+			AutoFocusModule.DataContext= windowData.MulDimensional;
+			AutoFocusBar.DataContext = windowData.MulDimensional;
+			windowData.MulDimensional.PropertyChanged += delegate
             {
 				MulCollectionUpdate();
 			};
@@ -35,13 +32,20 @@ namespace ConfigObjective
 			{
 				MulCollectionUpdate();
 			};
+			windowData.MulDimensional.FocusImageMod.ModeList1.CollectionChanged += delegate
+			{
+				AcquireModeChangeEvent();
+
+			};
+
 			Map.pointCollect.PropertyChanged += delegate
 			{
 				if (Map.pointCollect.SelectedPointsSend)
 				MulCollectionUpdate();
 
 			};
-
+			//acquire points change
+			SelectPointsChangeEvent();
 
 		}
         
@@ -87,6 +91,18 @@ namespace ConfigObjective
           
 
         }
+		private void AcquireModeChangeEvent()
+        {
+            if (windowData.MulDimensional.FocusImageMod.ModeList.Count==0)
+            {
+				windowData.MulDimensional.MulColMode.MWiseChecked = false;
+			}
+            else
+            {
+				windowData.MulDimensional.MulColMode.MWiseChecked = true;
+			}
+
+		}
         private void UpdateMulZend_Click(object sender, RoutedEventArgs e)
         {
            // windowData.MulDimensional.ZEnd = windowData.WindowMsg.StageZ;
@@ -118,15 +134,19 @@ namespace ConfigObjective
             if ((bool)ToggleButton504.IsChecked)
             {
                 ZwisePanel.Visibility = Visibility.Hidden;
-
             }
             else
             {
                 ZwisePanel.Visibility = Visibility.Collapsed;
 
             }
-           
-        }
+
+			
+			AutoFocusBar.Visibility = Visibility.Visible;
+			AutoFocusModule.Visibility = Visibility.Visible;
+			
+
+		}
 
         private void ToggleButton505_Checked(object sender, RoutedEventArgs e)
         {
@@ -254,6 +274,17 @@ namespace ConfigObjective
 				optimized.Local = mulDimensional.UserDefined.Local;
 				optimized.Precision = mulDimensional.UserDefined.Precision;
 			}
+			Global.Mode.Config.Zwise zwise = new Zwise();
+            if (mulDimensional.ZFocusMode == "不聚焦")
+            {
+				zwise.Interval = "null";
+
+			}
+            else
+            {
+				zwise.Interval = "every";
+			}
+
 			Global.Mode.Config.Twise twise = new Twise();
 			// t-wise
 			if (mulDimensional.TFirst)
@@ -394,15 +425,71 @@ namespace ConfigObjective
 
 			//System.Windows.MessageBox.Show(testMean.ToJson());
 
-			
-				
 			LambdaControl.Trigger("MUL_SUMMARY_UPDATE", this, testMean.ToJson());
 
 
 
 		
 		}
+		private void ToggleButton506_Checked(object sender, RoutedEventArgs e)
+		{
+			if (Map.selectedPoints.Count == 0)
+			{
+				PWTipsText.Text = "采集点为当前点";
+			}
+			else
+			{
+				PWTipsText.Text = "采集点为当前地图选中点";
+			}
 
+		}
+
+		private void ToggleButton506_Unchecked(object sender, RoutedEventArgs e)
+		{
+			PWTipsText.Text = "未选中，采集点为当前点";
+		}
+
+		private void SelectPointsChangeEvent()
+		{
+			Map.selectedPoints.CollectionChanged += (s, e) =>
+			{
+				if (ToggleButton506.IsChecked == true)
+				{
+
+					if (Map.selectedPoints.Count == 0)
+					{
+						PWTipsText.Text = "采集点为当前点";
+					}
+					else
+					{
+						PWTipsText.Text = "采集点为当前地图选中点";
+					}
+				}
+
+			};
+
+		}
+
+		private void ToggleButton507_Checked(object sender, RoutedEventArgs e)
+		{
+			if (windowData.MulDimensional.FocusImageMod.ModeList1.Count == 0)
+			{
+				windowData.MulDimensional.FocusImageMod.Bright = true;
+				windowData.MulDimensional.FocusImageMod.Dark = true;
+				windowData.MulDimensional.FocusImageMod.Relief = true;
+			}
+
+		}
+
+		private void ToggleButton507_Unchecked(object sender, RoutedEventArgs e)
+		{
+			windowData.MulDimensional.FocusImageMod.Bright = false;
+			windowData.MulDimensional.FocusImageMod.Dark = false;
+			windowData.MulDimensional.FocusImageMod.Rheinberg = false;
+			windowData.MulDimensional.FocusImageMod.Phase = false;
+			windowData.MulDimensional.FocusImageMod.Quantitative = false;
+			windowData.MulDimensional.FocusImageMod.Relief = false;
+		}
 
 
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ExportProcessing"
         xmlns:base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
-        Height="450" Width="400"  Background="#444444"   WindowStartupLocation="CenterScreen"   Initialized="BaseWindow_Initialized" >
+        Height="450" Width="400"  Background="#2e2e2e"   WindowStartupLocation="CenterScreen"   Initialized="BaseWindow_Initialized" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -42,7 +42,7 @@
                                 <StackPanel>
                                     <CheckBox Content="输出叠加图像" IsChecked="{Binding Path=OutputOverlayImage}" Margin="0,2"/>
                                     <CheckBox Content="使用目录"  IsChecked="{Binding Path=UseDirectory}" Margin="0,2"/>
-                                    <CheckBox Content="使用保存的标注内容" IsChecked="{Binding Path=SavedCalloutContent}" Margin="0,2"/>
+                                    <CheckBox Content="使用保存的标注内容" IsChecked="{Binding Path=SavedCalloutContent}" Margin="0,2" Checked="CheckBox_Checked" />
                                     <CheckBox Content="保存原始图像" IsChecked="{Binding Path=SaveOriginalImage}" Margin="0,2"/>
                                 </StackPanel>
                                 <StackPanel>

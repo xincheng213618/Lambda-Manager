@@ -1,4 +1,5 @@
 ﻿using Global.Common.Converter.Json;
+using Global.Common.Extensions;
 using Global.Hardware;
 using Global.Mode;
 using Global.Mode.Config;
@@ -10,8 +11,9 @@ using Global.Setting;
 using Global.SettingUp;
 using System.Text.Json.Nodes;
 using System.Collections.Generic;
-using Global.Common.MVVM;
-using Global.Common.Extensions;
+using System.Windows.Controls;
+using Global.Setting.Mode;
+using Global.UserControls.DrawVisual;
 
 namespace Global
 {
@@ -43,12 +45,13 @@ namespace Global
 
         private WindowData1()
         {
-            
+           
             Interference();
             AddEventHandler();
             AddInjection();
             AddInjection1();
             GalleryInk.GalleryInking();
+            //UIExtension();
 
         }
     }
@@ -69,6 +72,7 @@ namespace Global
 
         public DeviceInformation deviceInformation = new DeviceInformation();
         public ExposureViewMode ExposureViewMode = new ExposureViewMode();
+        public string CurrentProjectPath;
 
         public MapModel mapModel = new MapModel();
 
@@ -78,23 +82,41 @@ namespace Global
             SettingUp.Config.ConfigReadEvent += ReadConfig;
             SettingUp.Config.ConfigSetEvent += SetValue;
             SettingUp.Config.ConfigWriteEvent += SaveConfig;
-           // MessageBox.Show("1111");
-            SolutionConfig.OtherMode.SnapMode =(int) SoftwareConfig.WindowSetting.PhotoOptions;
-            SolutionConfig.OtherMode.InkMode = (int)SoftwareConfig.WindowSetting.DrawGraphicsOptions;
+            setting.otherMode.SnapMode =(int) SoftwareConfig.WindowSetting.PhotoOptions;
+            setting.otherMode.InkMode = (int)SoftwareConfig.WindowSetting.DrawGraphicsOptions;
 
             SoftwareConfig.WindowSetting.PhotoOptionsChanged += (s) =>
             {
-                SolutionConfig.OtherMode.SnapMode = (int)s;
+                setting.otherMode.SnapMode = (int)s;
             };
             SoftwareConfig.WindowSetting.DrawGraphicsOptionsChanged += (s) =>
             {
-                SolutionConfig.OtherMode.InkMode = (int)s;
-               WindowData1.AllInkStrokeClear();
+                if(setting.otherMode.InkMode == 2)
+                {
+                    SaveConfig(CurrentProjectPath);
+                };
+
+                setting.otherMode.InkMode = (int)s;
+                WindowData1.AllInkStrokeClear();
+                if (setting.otherMode.InkMode == 2)
+                {
+                    ReadConfig(CurrentProjectPath);
+                    string json = JsonSerializer.Serialize(SolutionConfig.Visuals, new JsonSerializerOptions());
+                    GalleryInk.VisualsDrawBack(json, DrawInkMethod.InkAll);
+                }
+                WriteDefaultConfig(DirectoryPath);
+
 
             };
-           // MessageBox.Show("123");
+
+            LambdaSettingUp.HardwareSettingConnectionEvent += CheckHardWareConnection;
             ReadDefaultConfig(DirectoryPath);
             Hardware_Initialized(ObjList);
+            //Application.Current.MainWindow.Closing += (s, e) =>
+            //{
+            //    WriteDefaultConfig(DirectoryPath);
+            //};
+            
         }
 
         public string FilePath;
@@ -104,6 +126,7 @@ namespace Global
         public SolutionConfig SolutionConfig = new();
         public MulSummary mulSummary = new();
         public UpdateStatus updateStatus = new();
+        public Settings setting = new Settings();
 
         public void SetValue()
         {
@@ -136,10 +159,15 @@ namespace Global
             SolutionConfig.ImageViewState.SetValue(ImageViewState);
             SolutionConfig.LastOpenTime = DateTime.Now.ToString();
             SolutionConfig.Dimensional.Saveprefix = ConfigFullName;
+            WriteVisualOnInkMode(setting.otherMode.InkMode);
             SolutionConfig.ToJsonFile(ConfigFullName);
             SaveCustomConfig(ConfigFullName, ObjList);
         }
+        public void SaveDefaultConfig(string path)
+        {
+            WriteDefaultConfig(path);
 
+        }
 
 
 
@@ -164,11 +192,13 @@ namespace Global
 
             try
             {
+                CurrentProjectPath = ConfigFullName;
                 JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
                 jsonSerializerOptions.Converters.Add(new SolidColorBrushConverter());
                 SolutionConfig = JsonSerializer.Deserialize<SolutionConfig>(result, jsonSerializerOptions);
+                ReadVisualOnInkMode(setting.otherMode.InkMode);
                 ReadCustomConfig(result, ObjList);
-
+                IsAcquireShow();
 
             }
             catch (Exception ex)
@@ -179,13 +209,105 @@ namespace Global
             FilePath = ConfigFullName;
             return 0;
         }
+        //事件预留，硬件实时检测
+        private bool CheckHardWareConnection(object sender, EventArgs e)
+        {
+            if (SoftwareConfig.HardwareSetting.IsCameraConnection && SoftwareConfig.HardwareSetting.IsLightConnection && SoftwareConfig.HardwareSetting.IsStageConnection)
+            {
+                AcquireModule(true);
+                return true;
+            }
+            else
+            {
+                AcquireModule(false);
+                return false;
+            }
+
+        }
+        public void IsAcquireShow()
+        {
+            
+            if (setting.otherMode.DevelopMode == true)
+            {
+                AcquireModule(true);
+            }
+            else
+            {
+                if (SoftwareConfig.HardwareSetting.IsCameraConnection && SoftwareConfig.HardwareSetting.IsLightConnection && SoftwareConfig.HardwareSetting.IsStageConnection)
+                {
+                    AcquireModule(true);
+
+                }
+                else
+                {
+                    AcquireModule(false);
+                }
+            }
+
+        }
 
 
 
+
+
+        public void AcquireModule(bool IsConnect)
+        {
+            if (IsConnect)
+            {
+                Window mainwin = Application.Current.MainWindow;
+                TabControl tabControl = (TabControl)mainwin.FindName("leftTab");
+                TabItem tabItem = (TabItem)tabControl.Items[1];
+                if (tabItem.Visibility == Visibility.Visible)
+                {
+                    return;
+                }
+                tabItem.Visibility = Visibility.Visible;
+                tabControl.SelectedIndex = 1;
+
+
+            }
+            else
+            {
+                Window mainwin = Application.Current.MainWindow;
+                TabControl tabControl = (TabControl)mainwin.FindName("leftTab");
+                TabItem tabItem = (TabItem)tabControl.Items[1];
+                tabItem.Visibility = Visibility.Collapsed;
+                tabControl.SelectedIndex = 0;
+
+            }
+
+
+        }
       
+        private void ReadVisualOnInkMode(int mode)
+        {
+            if (mode == 2)
+            {
+                DrawInkMethod.Visuals = WindowData.GetInstance().SolutionConfig.Visuals;
+                string json = JsonSerializer.Serialize(SolutionConfig.Visuals, new JsonSerializerOptions());
+                GalleryInk.VisualsDrawBack(json, DrawInkMethod.InkAll);
 
+            }
+            
+        }
 
+        private void WriteVisualOnInkMode(int mode)
+        {
+            if(mode == 2)
+            {
+                
+                foreach (InkVisual ink in DrawInkMethod.InkAll)  //右键菜单导出前，刷新标记数据
+                {
+                    if (ink != null)
+                    {
+                        ink.StrokeToBackUpdate();
+                    }
 
+                }
+                WindowData.GetInstance().SolutionConfig.Visuals = DrawInkMethod.Visuals;
+            }
+            
+        }
 
 
 

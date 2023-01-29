@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Global
 {
@@ -65,16 +66,71 @@ namespace Global
                 }
                 
             }
+            // 绘图跟随图像 预留 回显
 
-            if (WindowData.GetInstance().SolutionConfig.OtherMode.InkMode == 0)
-            {
-                Application.Current.Dispatcher.Invoke(delegate
-                { InkEcho(); });
+            //if (WindowData.GetInstance().SolutionConfig.OtherMode.InkMode == 0)
+            //{
+            //    Application.Current.Dispatcher.Invoke(delegate
+            //    { InkEcho(); });
 
-            }
+            //}
 
             return true;
         }
+
+        public static async void VisualsDrawBack(string jsonNodes, InkVisual[] inks)
+        {
+            await Task.Delay(500);
+            List<WindowVisual> visuals = JsonSerializer.Deserialize<List<WindowVisual>>(jsonNodes);
+            Global.GalleryInk.ListInkDrawBack(visuals, inks);
+
+  
+        }
+
+
+
+
+
+
+
+
+
+        public static void ListInkDrawBack(List<WindowVisual> visuals, InkVisual[] inks)
+        {
+
+            for (int i = 0; i < visuals.Count; i++)
+            {
+                if(visuals[i] != null)
+                {
+                    InkDrawBack(visuals[i], inks[i]);
+                }
+
+            }
+
+        }
+        public static async void InkDrawBack(WindowVisual windowVisual, InkVisual ink)
+        {
+
+           
+            if (ink != null && ink.index == windowVisual.Window)
+                {
+                  await Task.Delay(100);
+                   ink.ratio1.Ratio = 1;
+                   ink.inkcanva.Strokes.Clear();
+                    foreach (VisualAttritube visual in windowVisual.VisualsList)
+                    {
+                        visual.PointList = ZoomParList1(visual.PointList,windowVisual.AcWidth, windowVisual.AcHeight);
+                        CustomStroke stroke = ReDrawVisual(visual);
+                        if (stroke != null)
+                        {
+                        ink.inkcanva.Strokes.Add(stroke);
+                        }
+
+                    }
+                }
+           
+        }
+
 
 
         private static void InkEcho()
@@ -89,8 +145,7 @@ namespace Global
                 if (stroke != null)
                 {
                     DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].inkcanva.Strokes.Add(stroke);
-                }
-               
+                } 
 
             }
 
@@ -100,9 +155,8 @@ namespace Global
 
         private static CustomStroke ReDrawVisual(VisualAttritube visual)
         {
-            if (visual.Type != "Window")
-            {
-                if (visual.Type == "DimA" || visual.Type == "DimB" || visual.Type == "DimC"|| visual.Type == "DimD"|| visual.Type == "Ruler")
+            
+                if (visual.Type == "DimA" || visual.Type == "DimB" || visual.Type == "DimC"|| visual.Type == "DimD"|| visual.Type == "Ruler"||visual.Type =="Line"||visual.Type == "Arrow")
                 {
 
                     RatioClass ratioClass = new RatioClass() { Ratio = 1,actualwidth = DrawInkMethod.InkAll[0].inkcanva.ActualWidth };
@@ -116,11 +170,8 @@ namespace Global
                     CustomStroke stroke = ReCreateStroke(visual.Type, visual.PointList, visual.Color, visual.LineWidth, visual.LineType);
                     return stroke;
                 }
-               
-               
-            }
 
-            return null;
+            
         }
          
          
@@ -146,13 +197,6 @@ namespace Global
                 case "Polygon":
                     stroke1 = DrawInkMethod.InkCanvasMethod.CreatePolygon(pointList, color, LineWidth, dash);
                     return stroke1;
-               
-                case "Line":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateLineStroke(pointList[0], pointList[1], color, LineWidth, dash);
-                    return stroke1;
-                case "Arrow":
-                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateArrowStroke(pointList[0], pointList[1], color, LineWidth, dash);
-                    return stroke1;
                 case "Square":
                     stroke1 = DrawInkMethod.InkCanvasMethod.CreateSquare(pointList[0], pointList[1], color, LineWidth, dash);
                     return stroke1;
@@ -165,7 +209,7 @@ namespace Global
                 case "Rectangle":
                     stroke1 = DrawInkMethod.InkCanvasMethod.CreateRectangleStroke(pointList[0], pointList[1], color, LineWidth, dash);
                     return stroke1;
-
+                
 
             }
 
@@ -197,7 +241,12 @@ namespace Global
                 case "Ruler":
                     stroke1 = DrawInkMethod.InkCanvasMethod.CreateRuler(pointList, color, ratio, textColor, lineWidth, dash, italic, bold, fonSize, fontFamily);
                     return stroke1;
-
+                case "Line":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateLineStroke(pointList[0], pointList[1], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    return stroke1;
+                case "Arrow":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.CreateArrowStroke(pointList[0], pointList[1], color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    return stroke1;
 
             }
 
@@ -205,26 +254,7 @@ namespace Global
         }
 
 
-        //private static void addInjection()
-        //{
-        //    WrapPanel WrapPanel1 = mainwin.FindName("rightToolbar") as WrapPanel;
-        //    ToggleButton CubeTogg = (ToggleButton)WrapPanel1.Children[9];
-        //    CubeTogg.Click += delegate
-        //    {
-        //        InkBack = DrawInkMethod.InkAll[0].drawVisualsCopy;
-
-        //        for (int i = 1; i < InkBack.Count; i++)
-        //        {
-
-        //            InkBack[i].PointList = ZoomParList(InkBack[i].PointList);
-        //        }
-
-                
-        //        InkEcho();
-
-        //    };
-        //}
-
+       
         private static Point ZoomPar(Point point)
         {
             double Width1 = DrawInkMethod.InkAll[0].ActualWidth;
@@ -245,7 +275,25 @@ namespace Global
 
             return points;
         }
+        private static Point ZoomPar1(Point point,double width,double height)
+        {
+            double Width1 = DrawInkMethod.InkAll[0].ActualWidth;
+            double Height1 = DrawInkMethod.InkAll[0].ActualHeight;
+            Matrix matrix = new Matrix();
+            matrix.Scale(Width1 / width, Height1 / height);
+            point = point * matrix;
+            return point;
+        }
+        private static List<Point> ZoomParList1(List<Point> points,double width,double height)
+        {
+            for (int i = 0; i < points.Count; i++)
+            {
 
+                points[i] = ZoomPar1(points[i],width,height);
+            }
+
+            return points;
+        }
 
 
 

@@ -834,7 +834,7 @@
 
 
     <SolidColorBrush x:Key="DisableBackground" Color="#595959" />
-    <SolidColorBrush x:Key="DisableForeground" Color="#fff" />
+    <SolidColorBrush x:Key="DisableForeground" Color="#aaaaaa" />
     <SolidColorBrush x:Key="CheckedBack1" Color="#6EA646" />
     <SolidColorBrush x:Key="CheckedFore" Color="#fff" />
     <SolidColorBrush x:Key="EnableBack1" Color="#FFF" />

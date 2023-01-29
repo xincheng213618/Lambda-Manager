@@ -75,6 +75,7 @@
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\Global.Setting\Global.Setting.csproj" />
+    <ProjectReference Include="..\Lambda.UI.Extension\Lambda.UI.Extension.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
@@ -89,6 +90,9 @@
 	  <Reference Include="RangeSlider">
 		  <HintPath>..\DLL\RangeSlider.dll</HintPath>
 		  <Private>True</Private>
+	  </Reference>
+	  <Reference Include="UI.Control.Lib">
+	    <HintPath>..\DLL\UI.Control.Lib.dll</HintPath>
 	  </Reference>
   </ItemGroup>
 

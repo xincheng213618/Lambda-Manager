@@ -23,6 +23,7 @@ namespace ConfigObjective
                 if (e.PropertyName =="Index"&& Border2.DataContext is Camera cameraSetting)
                 {
                       cameraSetting.Exposure = windowData.ExposureViewMode.Index;
+                      Slider212.Value = windowData.ExposureViewMode.Index;
                 }
             };
             UpDownControl1.DataContext = windowData.ExposureViewMode;
@@ -53,6 +54,7 @@ namespace ConfigObjective
         {
             if (Border2.DataContext is Camera cameraSetting)
                 LambdaControl.Trigger("CAMERA_SETTING_RESET", this, new Dictionary<string, object>() { { "mode", cameraSetting.SelectViewMode} });
+            CameraReset();
         }
 
         private void Button211_Click(object sender, RoutedEventArgs e)
@@ -100,9 +102,10 @@ namespace ConfigObjective
             {
                 if (Slider212.Value < windowData.ExposureViewMode.ExposureInfos.Count)
                 {
-                    if (Slider212.DataContext is Camera cameraSetting)
+                    if (Border2.DataContext is Camera cameraSetting)
                     {
-                         windowData.ExposureViewMode.Index = cameraSetting.Exposure;
+                        // windowData.ExposureViewMode.Index = cameraSetting.Exposure;
+                        windowData.ExposureViewMode.Index = (int)Slider212.Value;
                         if (!windowData.ExposureViewMode.IsBackGroundChanged)
                         {
                             Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "exposure", windowData.ExposureViewMode.Exposure } };
@@ -142,10 +145,11 @@ namespace ConfigObjective
             //}
             if(Border2.DataContext is Camera cameraSetting)
             {
-                LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "mode", ComboBox1.SelectedIndex } });
-               
+               // MessageBox.Show(ComboBox1.SelectedIndex.ToString());
+                //LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "mode", ComboBox1.SelectedIndex } });
+                LambdaControl.Trigger("CAMERA_SETTING_RESOLUTION", this, new Dictionary<string, object>() { { "mode", ComboBox1.SelectedIndex } });
             }
-            WindowData.GetInstance().SolutionConfig.OtherMode.Resolution = ComboBox1.SelectedIndex;
+            WindowData.GetInstance().setting.otherMode.Resolution = ComboBox1.SelectedIndex;
             
         }
 
@@ -186,6 +190,59 @@ namespace ConfigObjective
                 Dictionary<string, object> data = new() { { "mode", cameraSetting.SelectViewMode }, { "denoise", (int)slider.Value } };
                 SliderAbbreviation(slider, e, "CAMERA_SETTING_DENOISE", data);
             }
+
+        }
+
+        private void CameraModeReset() //other mode
+        {
+            Slider211.Value = 0; 
+            Slider212.Value = 35; 
+            Slider213.Value = 0; 
+            Slider214.Value = 1.0;  
+            Slider215.Value = 0;
+        }
+        private void CameraModeReset1() // darkfield or  Reinberg 
+        {
+            Slider211.Value = 0; //增益
+            Slider212.Value = 35; //曝光
+            Slider213.Value = 0; // 锐度
+            Slider214.Value = 1.67;  //伽马
+            Slider215.Value = 0; //降噪
+        }
+
+
+
+        public void CameraReset()
+        {
+
+            if (OperatingMode.SelectViewMode == 0)
+            {
+                CameraModeReset();
+            }
+            if (OperatingMode.SelectViewMode == 1)
+            {
+                CameraModeReset1();
+            }
+
+            if (OperatingMode.SelectViewMode == 2)
+            {
+                CameraModeReset1();
+            }
+
+            if (OperatingMode.SelectViewMode == 3)
+            {
+                CameraModeReset();
+            }
+
+            if (OperatingMode.SelectViewMode == 4)
+            {
+                CameraModeReset();
+            }
+            if (OperatingMode.SelectViewMode == 5)
+            {
+                CameraModeReset();
+            }
+
 
         }
 

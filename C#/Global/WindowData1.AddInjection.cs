@@ -16,8 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
 using GalleryView;
-
-
+using Lambda.UI.Extension;
+using System.Windows.Threading;
+using System.Threading.Tasks;
 
 namespace Global
 {
@@ -31,6 +32,7 @@ namespace Global
         DOUBLE_WINDOW
     };
 
+
     /// <summary>
     /// 监听AddInjection事件
     /// </summary>
@@ -43,9 +45,31 @@ namespace Global
         Gallery galleryView;
         GalleryView.GalleryTool galleryTool;
         ToggleButton RepoTogg;
+        Histogram histogram;
 
+        private void ViewsUpdateActiveWin(int viewCount)
+        {
+            if (viewCount>DrawInkMethod.ActiveViews.ActiveWin)
+            {
 
-
+            }
+            else
+            {
+                DrawInkMethod.ActiveViews.ActiveWin = 0;
+            }
+        }
+        public async void MultiEraseEnable()
+        {
+            await Task.Delay(200);
+            ImageViewState.toolTop.EraserChecked = true;
+            ImageViewState.toolTop.MultiEraser = true;
+        }
+        public async void MultiInkSelectEnable()
+        {
+            await Task.Delay(200);
+            ImageViewState.toolTop.InkSelected = true;
+            ImageViewState.toolTop.InkMultiSelected = true;
+        }
         private void AddInjection()
         {
 
@@ -75,7 +99,7 @@ namespace Global
             {
                 // Add Histogram
 
-                Histogram histogram = new Histogram();
+                histogram = new Histogram();
                 StackPanel stackPanel = (StackPanel)mainwin.FindName("bottomView");
                 Grid grid1 = (Grid)stackPanel.Parent;
                 histogram.Height = Double.NaN;
@@ -98,14 +122,14 @@ namespace Global
                 //profile.DataContext = profileModel;
                 //Image ProfileImage = profile.profileImage;
                 //LambdaControl.RegisterImageView(ProfileImage).ToString();
-#pragma warning disable CS0618 // 类型或成员已过时
+
                 profile.la.MouseMove += delegate
                 {
                     profileModel.Ratio1 = profile.la.X / profile.DataPoints.Count;
                     if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
-#pragma warning disable CS0618 // 类型或成员已过时
+
                 profile.lb.MouseMove += delegate
                 {
                     profileModel.Ratio2 = profile.lb.X / profile.DataPoints.Count;
@@ -125,7 +149,6 @@ namespace Global
 
 
                 stackPanel.Children.Add(profile);
-
                 GridSplitter gridSplitter = (GridSplitter)grid1.Children[1];
                 gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
                 gridSplitter.VerticalAlignment = VerticalAlignment.Center;
@@ -485,8 +508,8 @@ namespace Global
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
-                      
-                        DrawInkMethod.ActiveViews.ActiveWin = 0;
+                        DrawInkMethod.ViewsCount.ViewCount = 2;
+                       // DrawInkMethod.ActiveViews.ActiveWin = 0;
                     
 
 
@@ -506,9 +529,9 @@ namespace Global
 
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
-                      
-                        DrawInkMethod.ActiveViews.ActiveWin = 0;
-                    
+                        DrawInkMethod.ViewsCount.ViewCount = 4;
+                        // DrawInkMethod.ActiveViews.ActiveWin = 0;
+
 
                     }
                     else
@@ -527,9 +550,9 @@ namespace Global
 
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
-                       
-                        DrawInkMethod.ActiveViews.ActiveWin = 0;
-                      
+                        DrawInkMethod.ViewsCount.ViewCount = 6;
+                        // DrawInkMethod.ActiveViews.ActiveWin = 0;
+
 
                     }
                     else
@@ -543,6 +566,7 @@ namespace Global
                     if ((bool)quaterPopup.four.IsChecked)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
+                        DrawInkMethod.ViewsCount.ViewCount = 4;
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
 
@@ -550,18 +574,19 @@ namespace Global
                     else if ((bool)quaterPopup.six.IsChecked)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
+                        DrawInkMethod.ViewsCount.ViewCount = 6;
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
                     }
                     else if ((bool)quaterPopup.dual.IsChecked)
                     {
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
-
+                        DrawInkMethod.ViewsCount.ViewCount = 2;
                         histogramTogg.IsChecked = false;
                         histogramTogg.IsEnabled = false;
 
                     }
-
+                   
 
                 }
 
@@ -581,7 +606,7 @@ namespace Global
                     {
                         LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.DOUBLE_WINDOW } });
                     }
-
+                    DrawInkMethod.ViewsCount.ViewCount = 1;
                 };
                 QuaterTogg.Checked += FourWindowTogg_Checked;
                 QuaterTogg.Unchecked += delegate
@@ -596,7 +621,9 @@ namespace Global
                        
                         inkVisuals[0].BorderBrush =new SolidColorBrush(Colors.Transparent);
                         WindowData1.GetInstance().inkVisuals[0].Border.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                       // DrawInkMethod.ActiveViews.ActiveWin = 0;
                     }
+                    DrawInkMethod.ViewsCount.ViewCount = 1;
                 };
 
 
@@ -616,6 +643,9 @@ namespace Global
             try
             {
                 DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
+               // MessageBox.Show("1111111");
+                //DockPanel leftToolBar1 = (DockPanel)VisualHelper.GetChild(mainwin, "leftToolbar");
+                //TreeView tree = (TreeView)VisualHelper.GetChild(mainwin, 1);
                 if (leftToolBar == null) return;
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
                 histogramTogg = (ToggleButton)leftToolBarChild.Children[3];
@@ -638,6 +668,7 @@ namespace Global
                 ColorBarUser colorBarUser = new ColorBarUser();
                 colorBarUser.Visibility = Visibility.Hidden;
                 leftToolBar.Children.Add(colorBarUser);
+                
                 WrapPanel leftToolBarChild = (WrapPanel)leftToolBar.Children[0];
                 ToggleButton colorbarTogg = (ToggleButton)leftToolBarChild.Children[0];
                 ToggleButton monoTogg = (ToggleButton)leftToolBarChild.Children[1];
@@ -665,12 +696,36 @@ namespace Global
                 ContentControl div = new ContentControl();
                 div.Template = (ControlTemplate)resourceDictionary["div"];
                 divtogg.Content = div;
-                ContentControl histogram = new ContentControl();
-                histogram.Template = (ControlTemplate)resourceDictionary["histogram"];
-                histogg.Content = histogram;
+                ContentControl histogram1 = new ContentControl();
+                histogram1.Template = (ControlTemplate)resourceDictionary["histogram"];
+                histogg.Content = histogram1;
                 ContentControl range = new ContentControl();
                 range.Template = (ControlTemplate)resourceDictionary["range"];
                 rangetogg.Content = range;
+                histogram.RangeCombo.SelectionChanged += (s, e) =>
+                {
+                    if (s is ComboBox combo && WindowData.GetInstance().OperatingMode.SelectViewMode == 4)
+                    {
+                        if ((string)combo.SelectedItem == "-5,5")
+                        {
+                            colorBarUser.colorBar.Minimum = -5;
+                            colorBarUser.colorBar.Maximum = 5;
+                        }
+
+                        else if ((string)combo.SelectedItem == "-10,10")
+                        {
+                            colorBarUser.colorBar.Minimum = -10;
+                            colorBarUser.colorBar.Maximum = 10;
+                        }
+                        else if ((string)combo.SelectedItem == "-20,20")
+                        {
+                            colorBarUser.colorBar.Minimum = -20;
+                            colorBarUser.colorBar.Maximum = 20;
+                        }
+
+
+                    };
+                };
 
 
 
@@ -679,9 +734,37 @@ namespace Global
                     if (e.PropertyName == "SelectViewMode")
                     {
                         if (OperatingMode.SelectViewMode == 0 || OperatingMode.SelectViewMode == 1 || OperatingMode.SelectViewMode == 3 || OperatingMode.SelectViewMode == 4)
-                            colorbarTogg.IsEnabled = true;
+                        {
+
+                            if (OperatingMode.SelectViewMode == 4)
+                            {
+                                monoTogg.IsEnabled = true;
+                                divtogg.IsEnabled = true;
+                                colorbarTogg.IsEnabled = true;
+                                colorBarUser.colorBar.SlidThumbVis = Visibility.Visible;
+                                colorBarUser.colorBar.Minimum = histogramModel.SliderMinP;
+                                colorBarUser.colorBar.Maximum = histogramModel.SliderMaxP;
+                                colorBarUser.DataContext = histogramModel;
+                            }
+                            else
+                            {
+                                colorbarTogg.IsEnabled = true;
+                                monoTogg.IsEnabled = false;
+                                divtogg.IsEnabled = false;
+                                colorBarUser.colorBar.SlidThumbVis = Visibility.Hidden;
+                                colorBarUser.colorBar.Minimum = 0;
+                                colorBarUser.colorBar.Maximum = 255;
+                                colorBarUser.DataContext = null;
+                            }
+
+                        }
                         else
+                        {
+                            monoTogg.IsEnabled = false;
+                            divtogg.IsEnabled = false;
                             colorbarTogg.IsEnabled = false;
+                        }
+
                     }
 
                 };
@@ -765,19 +848,22 @@ namespace Global
                 }
                 colorbarTogg.ContextMenu = contextMenu;
 
-
-
                 // MonoColor
                 ToggleButton monoColorTogg = (ToggleButton)leftToolBarChild.Children[1];
 
                 monoColorTogg.Checked += delegate
                 {
+                    if(colorBarUser.Visibility ==Visibility.Hidden)
+                    {
+                        colorBarUser.Visibility = Visibility.Visible;
+                    }
+
                     colorBarUser.colorBar.SlidThumbVis = Visibility.Hidden;
                 };
                 monoColorTogg.Unchecked += delegate
                 {
                     colorBarUser.colorBar.SlidThumbVis = Visibility.Visible;
-                }; ;
+                };
 
             }
             catch (Exception ex)
@@ -1252,14 +1338,14 @@ namespace Global
                     System.Windows.MessageBox.Show(ex.Message);
                 }
 
-                ToggleButton selectAllTogg  = ((ToggleButton)topToolbar.Children[21]);
-                selectAllTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkAllSelected"));
-                selectAllTogg.Margin = new Thickness(3, 0, 3, 0);
+                //ToggleButton selectAllTogg  = ((ToggleButton)topToolbar.Children[21]);
+                //selectAllTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkAllSelected"));
+                //selectAllTogg.Margin = new Thickness(3, 0, 3, 0);
 
-                selectAllTogg.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl selectedAll = new ContentControl();
-                selectedAll.Template = (ControlTemplate)resourceDictionary["allSelected"];
-                selectAllTogg.Content = selectedAll;
+                //selectAllTogg.Padding = new Thickness(-1, -1, 0, 0);
+                //ContentControl selectedAll = new ContentControl();
+                //selectedAll.Template = (ControlTemplate)resourceDictionary["allSelected"];
+                //selectAllTogg.Content = selectedAll;
 
 
 
@@ -1273,15 +1359,15 @@ namespace Global
 
 
 
-                ToggleButton selectTogg = ((ToggleButton)topToolbar.Children[20]);
-                selectTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkSelected"));
-                selectTogg.Visibility = Visibility.Visible; //
-                selectTogg.Margin = new Thickness(3, 0, 3, 0);
+                //ToggleButton selectTogg = ((ToggleButton)topToolbar.Children[20]);
+                //selectTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkSelected"));
+                //selectTogg.Visibility = Visibility.Visible; //
+                //selectTogg.Margin = new Thickness(3, 0, 3, 0);
 
-                selectTogg.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl select1 = new ContentControl();
-                select1.Template = (ControlTemplate)resourceDictionary["singleSelected"];
-                selectTogg.Content = select1;
+                //selectTogg.Padding = new Thickness(-1, -1, 0, 0);
+                //ContentControl select1 = new ContentControl();
+                //select1.Template = (ControlTemplate)resourceDictionary["singleSelected"];
+                //selectTogg.Content = select1;
 
 
 
@@ -1347,6 +1433,38 @@ namespace Global
                 topToolbar.Children.Add(button1);
 
 
+
+                ToggleButton selectTogg = ((ToggleButton)topToolbar.Children[20]);
+                selectTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkSelected"));
+                selectTogg.Visibility = Visibility.Visible; //
+                selectTogg.Margin = new Thickness(3, 0, 3, 0);
+
+                selectTogg.Padding = new Thickness(-1, -1, 0, 0);
+                ContentControl select1 = new ContentControl();
+                select1.Template = (ControlTemplate)resourceDictionary["singleSelected"];
+                selectTogg.Content = select1;
+                selectTogg.MouseDoubleClick += (s, e) =>
+                {
+                    Application.Current.Dispatcher.Invoke(delegate
+                    {
+                        if (e.ChangedButton == MouseButton.Left)
+                        {
+                            MultiInkSelectEnable();
+                        }
+                    });
+
+                };
+
+                ToggleButton selectAllTogg = ((ToggleButton)topToolbar.Children[21]);
+                selectAllTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkAllSelected"));
+                selectAllTogg.Margin = new Thickness(3, 0, 3, 0);
+
+                selectAllTogg.Padding = new Thickness(-1, -1, 0, 0);
+                ContentControl selectedAll = new ContentControl();
+                selectedAll.Template = (ControlTemplate)resourceDictionary["allSelected"];
+                selectAllTogg.Content = selectedAll;
+
+
                 ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[22]);
                 ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
                 ToggleButtonEraser.Margin = new Thickness(3, 0, 3, 0);
@@ -1355,6 +1473,26 @@ namespace Global
                 ContentControl eraser = new ContentControl();
                 eraser.Template = (ControlTemplate)resourceDictionary["eraser"];
                 ToggleButtonEraser.Content = eraser;
+                ToggleButtonEraser.MouseDoubleClick += (s, e) =>
+                {
+                    Application.Current.Dispatcher.Invoke(delegate
+                    {
+                        if (e.ChangedButton == MouseButton.Left)
+                        {
+                            MultiEraseEnable();
+                        }
+                    });
+
+                };
+                //ToggleButtonEraser.PreviewMouseDoubleClick += (s, e) =>
+                //{
+                //    if (e.ChangedButton == MouseButton.Left)
+                //    {
+                //        ImageViewState.toolTop.EraserChecked = true;
+                //    }
+
+                // };
+
 
                 Button EraserAll = ((Button)topToolbar.Children[23]);
                // EraserAll.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
@@ -1595,7 +1733,7 @@ namespace Global
                 Button Snap = (Button)stackPanel1.Children[1];
                 Snap.Click += (s, e) =>
                 {
-                    int mode = WindowData.GetInstance().SolutionConfig.OtherMode.SnapMode.Value;
+                    int mode = WindowData.GetInstance().setting.otherMode.SnapMode.Value;
                     //MessageBox.Show(mode.ToString());
                     LambdaControl.Trigger("SNAP_SHOT1", this, new Dictionary<string, object> { { "mode", mode } });
 

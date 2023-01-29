@@ -41,7 +41,7 @@ namespace ConfigObjective
                     ObjFoldText.Text = radioButton.Content.ToString();
                     UpdateBinding(windowData.SolutionConfig.IsMultiObj.Enable== true,OperatingMode, item.ID);
                     LensFactorChange(item.ID);
-                    //物镜切换，标记尺寸失效
+                    //物镜切换，标记尺寸失效,清除所有标记
                     foreach(InkVisual item in Global.DrawInkMethod.InkAll)
                     {
                         if (item != null)

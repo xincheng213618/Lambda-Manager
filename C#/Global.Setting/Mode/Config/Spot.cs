@@ -54,6 +54,8 @@ namespace Global.Mode.Config
     [Serializable]
     public class FocusMode
     {
+        [JsonPropertyName("z-wise")]
+        public Zwise Zwise { get; set; } = new();
         [JsonPropertyName("t-wise")]
         public Twise Twise { get; set; } = new();
 
@@ -70,6 +72,12 @@ namespace Global.Mode.Config
 
 
 
+    }
+    [Serializable]
+    public class Zwise
+    {
+        [JsonPropertyName("interval")]
+        public string Interval { get; set; } = "null";
     }
     [Serializable]
     public class Twise
@@ -95,7 +103,7 @@ namespace Global.Mode.Config
         public int ZStep { get; set; }
         [JsonPropertyName("z-absolute")]
         public bool ZAbsolute { get; set; }
-
+          
     }
 
 
@@ -110,7 +118,17 @@ namespace Global.Mode.Config
         public String Mode { get; set; } = "h";
 
     }
+    //[Serializable]
+    //public class ZWiseSerial
+    //{
+    //    [JsonPropertyName("times")]
+    //    public int Times { get; set; } = -1;
+    //    [JsonPropertyName("duration")]
+    //    public string Duration { get; set; } = "-1";
+    //    [JsonPropertyName("mode")]
+    //    public String Mode { get; set; } = "h";
 
+    //}
     [Serializable]
     public class Optimized
     {
@@ -128,7 +146,16 @@ namespace Global.Mode.Config
         public bool IsLocal { get; set; } = false;
     }
 
-   
+    //public class AutoFocus
+    //{
+    //    [JsonPropertyName("enable")]
+    //    public bool AFEnable { get; set; } = false;
+    //    [JsonPropertyName("slice")]
+    //    public int Slice { get; set; } = 7;
+    //    [JsonPropertyName("gap")]
+    //    public int Gap { get; set; } = 11;
+
+    //}
 
 
 }

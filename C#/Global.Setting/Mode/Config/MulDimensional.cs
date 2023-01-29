@@ -25,13 +25,14 @@ namespace Global.Mode.Config
             Zstep=mulDimensional.Zstep;
             ZAbsolute=mulDimensional.ZAbsolute;
             TEnable = mulDimensional.TEnable;
-
+           
         }
        
         public List<MulDimensionalArea> mulDimensionalAreas { get; set; } = new List<MulDimensionalArea> { };
         public List<MulDimensionalPoint> mulDimensionalPoints { get; set; } = new List<MulDimensionalPoint> { };
        
         public List<string> TIntervalUnitsList { get; set; } = new List<string> {"秒","分钟","小时","天"};
+        public List<string> ZWiseFocusItems { get; set; } = new List<string> {"不聚焦", "每次循环聚焦一次" };
 
 
         private FocusImageModeS focusImageModeS = new FocusImageModeS();
@@ -63,7 +64,7 @@ namespace Global.Mode.Config
             private FocusImageMode phaseMode = new FocusImageMode() { Index = 5, mode = "相位" };
 
             public ObservableCollection<FocusImageMode> ModeList { get; set; } = new ObservableCollection<FocusImageMode>() { };
-
+            public ObservableCollection<FocusImageMode> ModeList1 { get; set; } = new ObservableCollection<FocusImageMode>() { };
             private FocusImageMode focusImageModeSel;
             private int modeSelectedIndex = 0;
             private bool modeSelecteShow = false;
@@ -109,13 +110,21 @@ namespace Global.Mode.Config
                     if (value)
                     {
                         if (ModeList.Contains(brightMode) == false)
+                        {
                             ModeList.Add(brightMode);
+                            ModeList1.Add(brightMode);
+                        }
+                           
 
                     }
                     else
                     {
                         if (ModeList.Contains(brightMode))
+                        {
                             ModeList.Remove(brightMode);
+                            ModeList1.Remove(brightMode);
+                        }
+                            
                     }
                     CollectionOrder(ModeList);
                 }
@@ -135,13 +144,21 @@ namespace Global.Mode.Config
                     if (value)
                     {
                         if (ModeList.Contains(darkMode) == false)
+                        {
                             ModeList.Add(darkMode);
+                            ModeList1.Add(darkMode);
+                        }
+                            
 
                     }
                     else
                     {
                         if (ModeList.Contains(darkMode))
+                        {
                             ModeList.Remove(darkMode);
+                            ModeList1.Remove(darkMode);
+                        }
+                           
 
                     }
                     CollectionOrder(ModeList);
@@ -157,13 +174,20 @@ namespace Global.Mode.Config
                     if (value)
                     {
                         if (ModeList.Contains(rheinbergMode) == false)
+                        {
                             ModeList.Add(rheinbergMode);
-
+                            ModeList1.Add(rheinbergMode);
+                        }
+                           
                     }
                     else
                     {
                         if (ModeList.Contains(rheinbergMode))
+                        {
                             ModeList.Remove(rheinbergMode);
+                            ModeList1.Remove(rheinbergMode);
+                        }
+                           
                     }
                     CollectionOrder(ModeList);
                 }
@@ -177,13 +201,22 @@ namespace Global.Mode.Config
                     if (value)
                     {
                         if (ModeList.Contains(reliefMode) == false)
+                        {
                             ModeList.Add(reliefMode);
+                            ModeList1.Add(reliefMode);
+
+                        }
+                            
 
                     }
                     else
                     {
                         if (ModeList.Contains(reliefMode))
+                        {
                             ModeList.Remove(reliefMode);
+                            ModeList1.Remove(reliefMode);
+                        }
+                           
                     }
                     CollectionOrder(ModeList);
                 }
@@ -197,13 +230,21 @@ namespace Global.Mode.Config
                     if (value)
                     {
                         if (ModeList.Contains(quantitativeMode) == false)
+                        {
                             ModeList.Add(quantitativeMode);
+                            ModeList1.Add(quantitativeMode);
+                        }
+                            
 
                     }
                     else
                     {
                         if (ModeList.Contains(quantitativeMode))
+                        {
                             ModeList.Remove(quantitativeMode);
+                            ModeList1.Remove(quantitativeMode);
+                        }
+                           
                     }
                     CollectionOrder(ModeList);
 
@@ -220,14 +261,23 @@ namespace Global.Mode.Config
                     if (value)
                     {
                         if (ModeList.Contains(phaseMode) == false)
+                        {
                             ModeList.Add(phaseMode);
-                        CollectionOrder(ModeList);
+                            ModeList1.Add(phaseMode);
+                        }
+                           
+                        
                     }
                     else
                     {
                         if (ModeList.Contains(phaseMode))
+                        {
                             ModeList.Remove(phaseMode);
+                            ModeList1.Remove(phaseMode);
+                        }
+                           
                     }
+                    CollectionOrder(ModeList);
 
                 }
             }
@@ -340,16 +390,6 @@ namespace Global.Mode.Config
         }
 
 
-
-
-
-
-
-
-
-
-
-
         private bool zAbsolute = false;
 
         public bool ZAbsolute
@@ -362,31 +402,37 @@ namespace Global.Mode.Config
             }
         }
 
-        private int aFSlices = 7;
-       // [JsonPropertyName("Z-Start")]
-        public int AFSlices
-        {
-            get { return aFSlices; }
-            set
-            {
-                aFSlices = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private int aFSlicesGap = 11;
-        // [JsonPropertyName("Z-Start")]
-        public int AFSlicesGap
-        {
-            get { return aFSlicesGap; }
-            set
-            {
-                aFSlicesGap = value;
-                NotifyPropertyChanged();
-            }
-        }
+       // private int aFSlices = 7;
+       //// [JsonPropertyName("Z-Start")]
+       // public int AFSlices
+       // {
+       //     get { return aFSlices; }
+       //     set
+       //     {
+       //         aFSlices = value;
+       //         NotifyPropertyChanged();
+       //     }
+       // }
+       // private int aFSlicesGap = 11;
+       // // [JsonPropertyName("Z-Start")]
+       // public int AFSlicesGap
+       // {
+       //     get { return aFSlicesGap; }
+       //     set
+       //     {
+       //         aFSlicesGap = value;
+       //         NotifyPropertyChanged();
+       //     }
+       // }
 
 
-
+        //private bool aFEnable = false;
+        //public bool AFEnable
+        //{
+        //    get { return aFEnable; }
+        //    set { aFEnable = value; NotifyPropertyChanged();
+        //    }
+        //}
 
 
 
@@ -593,7 +639,18 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
+        // z-wise
+        private string zFocusMode = "不聚焦";
+        public string ZFocusMode
+        {
+            get { return zFocusMode; }
+            set
+            {
+                zFocusMode = value;
+                NotifyPropertyChanged();
+            }
 
+        }
 
 
         private Optimize optimized = new Optimize();
@@ -803,7 +860,7 @@ namespace Global.Mode.Config
         private bool tWiseChecked = false;
         private bool edofWiseChecked = false;
         private bool pWiseChecked = false;
-        private bool mWiseChecked = true;
+        private bool mWiseChecked = false;
 
         public bool XWiseChecked
         {

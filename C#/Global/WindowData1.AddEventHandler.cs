@@ -20,6 +20,7 @@ using System.Drawing;
 using Microsoft.Win32;
 using System.Text;
 using ExportProcessing;
+using System.Text.Json.Nodes;
 
 namespace Global
 {
@@ -79,8 +80,7 @@ namespace Global
             //ContextMenu
             LambdaControl.AddLambdaEventHandler("VIEW_CONTEXTMENU_BACK", UpdateContextMenu, false);
             LambdaControl.AddLambdaEventHandler("VIEW_CONTEXTMENU_BACK1", UpdateContextMenu1, false);
-
-
+          
         }
 
         private bool StaheIniClose(object sender, EventArgs e)
@@ -91,7 +91,9 @@ namespace Global
             });
             return true;
         }
-         private bool UpdateContextMenu(object sender, EventArgs e)
+
+       
+        private bool UpdateContextMenu(object sender, EventArgs e)
         {
            
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
@@ -532,15 +534,35 @@ namespace Global
 
             Application.Current.Dispatcher.Invoke(delegate
             {
-                mulSummary.CollectionTimes = eventData.GetString("CollectionTimes"); 
+                if (eventData.GetString("CollectionTimes") == "-1")
+                {
+                    mulSummary.CollectionTimes = "0";
+                }
+                else
+                {
+                   mulSummary.CollectionTimes = eventData.GetString("CollectionTimes");
+                }; 
                 mulSummary.CollectionLayers = eventData.GetString("CollectionLayers");
                 mulSummary.CollectionPoints = eventData.GetString("CollectionPoints");
                 mulSummary.FluorescenceChannels = eventData.GetString("FluorescenceChannels");
                 mulSummary.ViewModeCounts = eventData.GetString("ViewModeCounts");
-
                 mulSummary.ImageSize = eventData.GetString("ImageSize");
-                mulSummary.ImageNums = eventData.GetString("ImageNums");
-                mulSummary.Storage = eventData.GetString("Storage");
+                if (eventData.GetString("ImageNums") == "-1")
+                {
+                    mulSummary.ImageNums = "0";
+                }
+                else
+                {
+                    mulSummary.ImageNums = eventData.GetString("ImageNums");
+                };
+                if (eventData.GetString("Storage") == "-1")
+                {
+                    mulSummary.ImageNums = "0";
+                }
+                else
+                {
+                    mulSummary.Storage = eventData.GetString("Storage");
+                };
                 mulSummary.AllCollectionTime = eventData.GetString("AllCollectionTime");
                 mulSummary.CameraWorkingTime = eventData.GetString("CameraWorkingTime");
             });
@@ -619,6 +641,7 @@ namespace Global
                 {
                     MultiPoints testMean = JsonSerializer.Deserialize<MultiPoints>(multiCollectJson);
                     List<List<int>> points = testMean.Points;
+                    // MessageBox.Show(points.Count.ToString());
                     if (MapWindow.ListViewP!=null)
                     { MapWindow.ListViewP.SelectedItem = null; }
                    
@@ -857,7 +880,23 @@ namespace Global
 
 
         }
+        private static bool CheckIsMutiView()
+        {
+            Grid grid  = (Grid)Application.Current.MainWindow.FindName("mainView");
+            if (grid.Children.Count == 1)
+            {
+                return false;
+            }
+            else if(grid.Children.Count > 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
+        }
 
 
 
@@ -922,7 +961,7 @@ namespace Global
 
                             Application.Current.Dispatcher.Invoke(delegate
                             {
-                                AddViewContentMenu(value, ints);
+                              //  AddViewContentMenu(value, ints);
                             });
                         }
                     }
@@ -940,24 +979,38 @@ namespace Global
          public string Type { get; set; }
  
         }
-
+        public static int ExportNameIndex = 1;
+        public static int ExportNameIndex1 = 1;
+        public static int ExportNameIndex2 = 1;
         public static ImageType ImageExportType = new ImageType();
+        public static string ExportPath =Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)+"\\";
         public static void ImageExportAsPath(object sender, EventArgs e)
         {
             if (sender is MenuItem menuItem)
             {
                 int i = DrawInkMethod.ActiveViews.ActiveWin;
                 ImageExportType.Type = menuItem.Header.ToString();
-
-
                 LambdaControl.Trigger("QUICK_EXPORT_FULLPATH", null, new Dictionary<string, object> { { "view", i } });
 
             }
-            //string PATH = "C:\\1\\LambdaManager\\test\\Image\\Image 3.grif";
-            //string TYPE = "导出PNG...";
-            //ExportAsWindow exportAsWindow = new ExportAsWindow(PATH, TYPE);
-            //exportAsWindow.ShowDialog();
-
+           
+        }
+        public static void LiveImageExportAsPath(object sender, EventArgs e)
+        {
+            if (sender is MenuItem menuItem)
+            {
+                int i = DrawInkMethod.ActiveViews.ActiveWin;
+                ImageExportType.Type = menuItem.Header.ToString();
+                string type = ImageExportType.Type;
+                string json = DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].drawingVisualJson;
+                ExportAsWindow exportAsWindow = new ExportAsWindow(ExportNameIndex2, i, type, ExportPath, json);
+                exportAsWindow.Closing += (s, e) =>
+                {
+                    ExportNameIndex2 = exportAsWindow.NameIndex2;
+                    ExportPath = exportAsWindow.ExportFullName;
+                };
+                exportAsWindow.ShowDialog();
+            }
 
         }
         public static void AllImageExportAsPath(object sender, EventArgs e)
@@ -966,19 +1019,40 @@ namespace Global
             {
                 int i = DrawInkMethod.ActiveViews.ActiveWin;
                 ImageExportType.Type = menuItem.Header.ToString();
-
-
-                LambdaControl.Trigger("QUICK_EXPORT_All", null, new Dictionary<string, object> { });
-
             }
-            //string PATH = "C:\\1\\LambdaManager\\test\\Image\\Image 3.grif";
-            //string TYPE = "导出PNG...";
-            //ExportAsWindow exportAsWindow = new ExportAsWindow(PATH, TYPE);
-            //exportAsWindow.ShowDialog();
-
-
+            string TYPE = ImageExportType.Type;
+            string json =JsonSerializer.Serialize(DrawInkMethod.Visuals, new JsonSerializerOptions());
+            ExportAsWindow exportAsWindow = new ExportAsWindow( TYPE,1, ExportNameIndex, ExportPath,json);
+            exportAsWindow.Closing += (s, e) =>
+            {
+                ExportNameIndex = exportAsWindow.NameIndex;
+                ExportPath = exportAsWindow.ExportFullName;
+            };
+           
+            exportAsWindow.ShowDialog();
+           
         }
 
+        public static void AllImageMosaic(object sender, EventArgs e)
+        {
+            if (sender is MenuItem menuItem)
+            {
+                ImageExportType.Type = menuItem.Header.ToString();
+               // LambdaControl.Trigger("QUICK_EXPORT_All", null, new Dictionary<string, object> { });
+
+            }
+            string TYPE = ImageExportType.Type;
+            //string json = DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].drawingVisualJson;
+            string json = JsonSerializer.Serialize(DrawInkMethod.Visuals, new JsonSerializerOptions());
+            ExportAsWindow exportAsWindow = new ExportAsWindow(TYPE, 2, ExportNameIndex1, ExportPath,json);
+            exportAsWindow.Closing += (s, e) =>
+            {
+                ExportNameIndex1 = exportAsWindow.NameIndex1;
+                ExportPath = exportAsWindow.ExportFullName;
+            };
+            exportAsWindow.ShowDialog();
+           
+        }
 
 
 
@@ -992,7 +1066,13 @@ namespace Global
             if (!string.IsNullOrEmpty(eventData.GetString("path")))
             {
                 string path = eventData.GetString("path");
-                ExportAsWindow exportAsWindow = new ExportAsWindow(path, type);
+                string json = inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].drawingVisualJson;
+                int i = DrawInkMethod.ActiveViews.ActiveWin;
+                ExportAsWindow exportAsWindow = new ExportAsWindow(path,i, type, ExportPath, json);
+                exportAsWindow.Closing += (s, e) =>
+                {
+                    ExportPath = exportAsWindow.ExportFullName;
+                };
                 exportAsWindow.ShowDialog();
                 return true;
 
@@ -1002,90 +1082,19 @@ namespace Global
 
 
         }
-
-
-
-
-
         Dictionary<int, List<int>> ViewContentMenuCache = new Dictionary<int, List<int>>();
         List<string> ViewContentMenuContent = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
         static  List<string> ImageExportAsString = new List<string>() { "导出PNG...", "导出BMP...",  "导出JPEG...", "导出TIFF..."};
-        private void AddViewContentMenu(int view, List<int> ints)
-        {
-            //if (view >= 0 && view <= inkVisuals.Length && inkVisuals[view] != null)
-            //{
-            //    ContextMenu contextMenu = new ContextMenu();
-            //    List<RadioMenuItem> menuItem1s = new List<RadioMenuItem>();
-            //    MenuItem menuItem1 = new MenuItem() { Header= "切换成像模式",FontSize= 14};
-            //    MenuItem menuItem2= new MenuItem() { Header = "导出", FontSize = 14 };
-            //    MenuItem menuItem3 = new MenuItem() { Header= "全部导出", FontSize = 14 };
-            //    bool IsLeft = true;
-            //    for (int i = 0; i < ViewContentMenuContent.Count; i++)
-            //    {
-            //        RadioMenuItem radioMenuItem = new RadioMenuItem() { Header = ViewContentMenuContent[i] };
-            //        int mode = i;
-            //        radioMenuItem.Click += delegate
-            //        {
-            //            radioMenuItem.IsChecked = true;
-            //            if (ints.Count == 1)
-            //            {
-            //                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
-            //               // ModeMatch(mode);
-            //            }
-            //            else if (ints.Count == 2)
-            //            {
-            //                ints[IsLeft ? 0 : 1] = mode;
-            //                LambdaControl.Trigger("VIEW_WINDOW", this, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ints[0] }, { "mode2", ints[1] } });
-            //            }
-            //        };
-            //        menuItem1.Items.Add(radioMenuItem);
-            //       // contextMenu.Items.Add(radioMenuItem);
-            //        menuItem1s.Add(radioMenuItem);
-            //    }
-
-            //    for (int i = 0; i < ImageExportAsString.Count; i++)
-            //    {
-            //        MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i],FontSize=14 };
-            //        menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
-            //        menuItem2.Items.Add(menuItem);
-            //    }
-            //    menuItem3.Click +=(s,e) => { AllImageExportAsPath(s, e); };
-            //    contextMenu.Items.Add(menuItem1);
-            //    contextMenu.Items.Add(menuItem2);
-            //    contextMenu.Items.Add(menuItem3);
-                
-            //    InkCanvas drawingInkCanvas = inkVisuals[view].inkCanvas;
-            //    drawingInkCanvas.ContextMenu = contextMenu;
-
-
-            //    if (ints.Count == 1)
-            //    {
-            //        menuItem1s[ints[0]].IsChecked = true;
-            //    }
-            //    else if (ints.Count == 2)
-            //    {
-            //        drawingInkCanvas.MouseRightButtonDown += delegate
-            //        {
-            //            if (Mouse.GetPosition(drawingInkCanvas).X < drawingInkCanvas.ActualWidth / 2)
-            //            {
-            //                IsLeft = true;
-            //                menuItem1s[ints[0]].IsChecked = true;
-            //            }
-            //            else
-            //            {
-            //                IsLeft = false;
-            //                menuItem1s[ints[1]].IsChecked = true;
-            //            }
-            //        };
-            //    }
-
-            //}
-        }
+        
        static List<string> ContextMenuItemMode = new List<string>() { "明场", "暗场", "莱茵伯格", "差分", "相位", "相差" };
-
+        //预览右键菜单
         public static ContextMenu UpdateContextMenu(int m, int view)
         {
             ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
+            MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
+            MenuItem menuItem3 = new MenuItem() { Header = "全部导出", FontSize = 14 };
+            MenuItem menuItem4 = new MenuItem() { Header = "全部合成导出", FontSize = 14 };
             for (int i = 0; i < ContextMenuItemMode.Count; i++)
             {
                 int mode = i;
@@ -1108,14 +1117,32 @@ namespace Global
 
                     LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
                 };
-                contextMenu.Items.Add(menuItem);
+                menuItem1.Items.Add(menuItem);
 
+            }
+            for (int i = 0; i < ImageExportAsString.Count; i++)
+            {
+                MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+                menuItem.Click += (s, e) => { LiveImageExportAsPath(s, e); };
+                menuItem2.Items.Add(menuItem);
+            }
+            ExportMenuAdd(menuItem3, menuItem4);
+            contextMenu.Items.Add(menuItem1);
+            contextMenu.Items.Add(menuItem2);
+            bool isMulti = CheckIsMutiView();
+            if (isMulti)
+            {
+                contextMenu.Items.Add(menuItem3);
+                contextMenu.Items.Add(menuItem4);
             }
             return contextMenu;
         }
+        //预览 双拼
         public static ContextMenu UpdateContextMenu( int view,int modeL,int modeR,int where)
         {
             ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
+            MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
             int ModeL = modeL;
             int ModeR = modeR;
             for (int i = 0; i < ContextMenuItemMode.Count; i++)
@@ -1157,62 +1184,47 @@ namespace Global
                     }
 
                 };
-                contextMenu.Items.Add(menuItem);
 
+               
+               
             }
+            for (int i = 0; i < ImageExportAsString.Count; i++)
+            {
+                MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+                menuItem.Click += (s, e) => { LiveImageExportAsPath(s, e); };
+                menuItem2.Items.Add(menuItem);
+            }
+            menuItem1.Items.Add(menuItem1);
+            menuItem1.Items.Add(menuItem2);
             return contextMenu;
         }
-        //public static ContextMenu UpdateContextMenu1( int m, int view,int count)
-        //{
-        //    ContextMenu contextMenu = new ContextMenu();
-        //    MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
-        //    MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
-        //    MenuItem menuItem3 = new MenuItem() { Header = "全部导出", FontSize = 14 };
-        //    for (int i = 0; i < ContextMenuItemMode.Count; i++)
-        //    {
-        //        int mode = i;
-        //        MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[i],IsCheckable = true };
-        //        if (m == i)
-        //        {
-        //            menuItem.IsChecked = true;
-        //        }
-        //        menuItem.Click += (s, e) =>
-        //        {
-        //            if (menuItem1.Items.Count == 6)
-        //            {
-        //                foreach (MenuItem item in menuItem1.Items)
-        //                {
-        //                    if (item.IsChecked == true&&item != menuItem)
-        //                        item.IsChecked = false;
-        //                }
-        //            }
-        //            menuItem.IsChecked = true;
-        //            LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
-        //        };
-        //        menuItem1.Items.Add(menuItem);
+       private static void ExportMenuAdd( MenuItem menuItem3, MenuItem menuItem4)
+        {
+           
+            for (int i = 0; i < ImageExportAsString.Count; i++)
+            {
+                MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+                menuItem.Click += (s, e) => { AllImageExportAsPath(s, e); };
+                menuItem3.Items.Add(menuItem);
 
-        //    }
-        //    for (int i = 0; i < ImageExportAsString.Count; i++)
-        //    {
-        //        MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
-        //        menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
-        //        menuItem2.Items.Add(menuItem);
-        //    }
-        //    menuItem3.Click += (s, e) => { AllImageExportAsPath(s, e); };
-        //    contextMenu.Items.Add(menuItem1);
-        //    contextMenu.Items.Add(menuItem2);
-        //    if (count == 1)
-        //    {
-        //        contextMenu.Items.Add(menuItem3);
-        //    }
-        //    return contextMenu;
-        //}
+            }
+            for (int i = 0; i < ImageExportAsString.Count; i++)
+            {
+                MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
+                menuItem.Click += (s, e) => { AllImageMosaic(s, e); };
+                menuItem4.Items.Add(menuItem);
+
+            }
+
+
+        }
         public static ContextMenu UpdateContextMenu1(int m, int view, int count,List<int> modes)
         {
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
             MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
             MenuItem menuItem3 = new MenuItem() { Header = "全部导出", FontSize = 14 };
+            MenuItem menuItem4 = new MenuItem() { Header = "全部合成导出", FontSize = 14 };
             for (int i = 0; i < modes.Count; i++)
             {
                 int mode = modes[i];
@@ -1243,72 +1255,17 @@ namespace Global
                 menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
                 menuItem2.Items.Add(menuItem);
             }
-            menuItem3.Click += (s, e) => { AllImageExportAsPath(s, e); };
+            ExportMenuAdd(menuItem3, menuItem4);
             contextMenu.Items.Add(menuItem1);
             contextMenu.Items.Add(menuItem2);
             if (count == 1)
             {
                 contextMenu.Items.Add(menuItem3);
+                contextMenu.Items.Add(menuItem4);
             }
             return contextMenu;
         }
-        //读图双拼
-        //public static ContextMenu UpdateContextMenu1(int view, int modeL, int modeR, int where)
-        //{
-        //    ContextMenu contextMenu = new ContextMenu();
-        //    MenuItem menuItem1 = new MenuItem() { Header = "切换成像模式", FontSize = 14 };
-        //    MenuItem menuItem2 = new MenuItem() { Header = "导出", FontSize = 14 };
-        //    int ModeL = modeL;
-        //    int ModeR = modeR;
-        //    for (int i = 0; i < ContextMenuItemMode.Count; i++)
-        //    {
-        //        int mode = i;
-        //        MenuItem menuItem = new MenuItem() { Header = ContextMenuItemMode[i], IsCheckable = true };
-        //        if (where == 0 && modeL == i)
-        //        {
-        //            menuItem.IsChecked = true;
-        //        }
-        //        else if (where == 1 && modeR == i)
-        //        {
-        //            menuItem.IsChecked = true;
-        //        }
-        //        menuItem.Click += (s, e) =>
-        //        {
-        //            if (menuItem1.Items.Count == 6)
-        //            {
-        //                foreach (MenuItem item in menuItem1.Items)
-        //                {
-        //                    if (item.IsChecked == true && item != menuItem)
-        //                        item.IsChecked = false;
-        //                }
-        //            }
-        //            menuItem.IsChecked = true;
-        //            if (where == 0)
-        //            {
-        //                ModeL = mode;
-
-        //                LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
-        //            }
-        //            if (where == 1)
-        //            {
-        //                ModeR = mode;
-
-        //                LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", (int)ViewWindowMode.DOUBLE_WINDOW }, { "window", view }, { "mode1", ModeL }, { "mode2", ModeR } });
-        //            }
-        //        };
-        //        menuItem1.Items.Add(menuItem);
-
-        //    }
-        //    for (int i = 0; i < ImageExportAsString.Count; i++)
-        //    {
-        //        MenuItem menuItem = new MenuItem() { Header = ImageExportAsString[i], FontSize = 14 };
-        //        menuItem.Click += (s, e) => { ImageExportAsPath(s, e); };
-        //        menuItem2.Items.Add(menuItem);
-        //    }
-        //    contextMenu.Items.Add(menuItem1);
-        //    contextMenu.Items.Add(menuItem2);
-        //    return contextMenu;
-        //}
+        
         public static ContextMenu UpdateContextMenu1(int view, int modeL, int modeR, int where,List<int> modes)
         {
             ContextMenu contextMenu = new ContextMenu();

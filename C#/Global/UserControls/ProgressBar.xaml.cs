@@ -24,6 +24,7 @@ namespace Global.UserControls
         public ProgressBar1()
         {
             InitializeComponent();
+           // (this.Content as FrameworkElement).DataContext = new ProgressBarModel();
             
         }
         int before=0;

@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -226,7 +227,14 @@ namespace GalleryView
             }
             string path = foldername;
             string indexs = JsonSerializer.Serialize<List<int>>(ints);
-            LambdaControl.Trigger("ZSTACK_GALLERY_SAVE", this, new Dictionary<string, object> { { "indexs", indexs }, { "path", path } });
+
+            var saveJson = new JsonObject 
+            {
+                ["indexs"] = indexs,
+                ["path"] = path
+            };
+
+            LambdaControl.Trigger("ZSTACK_GALLERY_SAVE", this, saveJson.ToJsonString());
             
         }
 

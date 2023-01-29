@@ -8,7 +8,7 @@
              xmlns:userControls="clr-namespace:ConfigObjective.UserControls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1320" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1" >
+             d:DesignHeight="1350" d:DesignWidth="400" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded" Margin="-1" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -67,7 +67,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ToggleButton Grid.Column="0" x:Name="ToggleButton2"  Style="{StaticResource ButtonPageControl11}" Content="相机设置" FontSize="16" Foreground="White" IsChecked="True" Margin="0,5,0,0" Checked="ToggleButton2_Checked"/>
+            <ToggleButton Grid.Column="0" x:Name="ToggleButton2"  Style="{StaticResource ButtonPageControl11}" Content="相机设置" FontSize="16" Foreground="White" IsChecked="True" Margin="0,5,0,0" Checked="ToggleButton2_Checked" Unchecked="ToggleButton2_Unchecked" />
             <DockPanel Grid.Column="2" HorizontalAlignment="Right">
                 <Button x:Name="Button201" Content="重置"  FontFamily="Microsoft YaHei"  Width="50" VerticalAlignment="Bottom"  HorizontalAlignment="Right" Padding="10,2" Margin="0,0,5,3" Click="Button201_Click"/>
             </DockPanel>
@@ -75,7 +75,7 @@
                 <StackPanel>
                     <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis">
                                     <Run Text="曝光:" />
-                                    <Run Text=""/>
+                                    <Run Name="ExposureFoldText" Text=""/>
                                     <Run Text=",增益:"/>
                                     <Run Text="{Binding ElementName=Slider211,Path=Value,StringFormat=\{0:0.#######\}}"/>
                                     <Run Text=",分辨率:"/>
@@ -100,7 +100,7 @@
                     <TextBlock  Width="50" DockPanel.Dock="Left"  FontSize="14" Text="曝光" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
                     <ToggleButton x:Name="ToggleButton210" Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Width="50" IsChecked="{Binding Path=ExposureAuto}" Content="自动"  Click="ToggleButton210_Click" Margin="2,1,0,1"/>
                     <local:UpDownControl DockPanel.Dock="Right" x:Name="UpDownControl1"  IsEnabled="{Binding Path=IsEnabled,ElementName=Slider212}"  Width="66"/>
-                    <Slider  x:Name="Slider212" Value="{Binding Path=Exposure}" Margin="0,0,2,0" Style="{StaticResource LM_Slider0}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged"  Minimum="0" Maximum="67" IsSnapToTickEnabled="True"  TickFrequency="1"/>
+                    <Slider  x:Name="Slider212" Margin="0,0,2,0" Style="{StaticResource LM_Slider0}" VerticalAlignment="Center" IsEnabled="{Binding Path=ExposureAuto,Converter={StaticResource InverseBooleanConverter}}" ValueChanged="Slider212_ValueChanged" Value="{Binding Path=Exposure}" Minimum="0" Maximum="67" IsSnapToTickEnabled="True"  TickFrequency="1"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="锐度"  Width="50" VerticalAlignment="Center"  FontSize="14" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
@@ -326,7 +326,7 @@
                                 </Path>-->
                             </Button>
 
-                            <Slider  x:Name="Slider336" Visibility="Collapsed" Style="{StaticResource LM_Slider}" VerticalAlignment="Center" Value="0" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
+                            <Slider  x:Name="Slider336" Visibility="Collapsed" Style="{StaticResource LM_Slider33}" VerticalAlignment="Center" Value="{Binding Path=RotationAngle}" Minimum="0" Maximum="360" IsSnapToTickEnabled="True"  TickFrequency="1"  ValueChanged="Slider336_ValueChanged"/>
                         </DockPanel>
 
 
@@ -375,7 +375,7 @@
 
                         <DockPanel>
                             <TextBlock Width="80" Text="差分角度" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                            <Slider x:Name="Slider348" Style="{StaticResource LM_Slider33}" Maximum="360" Minimum="0" SmallChange="15" LargeChange="30" TickFrequency="15" ValueChanged="Slider348_ValueChanged" />
+                            <Slider x:Name="Slider348" Style="{StaticResource LM_Slider33}" Maximum="360" Minimum="0" SmallChange="15" LargeChange="30" Value="{Binding Path=Rotationangle}" TickFrequency="15" ValueChanged="Slider348_ValueChanged" />
                         </DockPanel>
                         <Button x:Name="Button341"   Content="背景校正" Width="70"  Height="25"  Margin="0,3,0,0" Click="Button341_Click" HorizontalAlignment="Right" />
 
@@ -435,7 +435,7 @@
                         <DockPanel>
                             <DockPanel Margin="0,5,0,0">
                                 <TextBlock Text="正负相衬" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,0" Foreground="White"/>
-                                <ToggleButton x:Name="Button362" Style="{StaticResource CheckButton1}" Width="55" Content="正负相称" Margin="20,0" Height="18" Checked="Button362_Checked" Unchecked="Button362_Unchecked" HorizontalAlignment="Right" />
+                                <ToggleButton x:Name="Button362" Style="{StaticResource CheckButton1}" Width="55" Content="正负相称" IsChecked="{Binding Path=BgCollection}" Margin="20,0" Height="18" Checked="Button362_Checked" Unchecked="Button362_Unchecked" HorizontalAlignment="Right" />
                             </DockPanel>
                             <Button x:Name="Button361"  Content="背景校正"  Height="25"  Margin="0,3,0,0" Width="70"  Click="Button361_Click" HorizontalAlignment="Right" />
                         </DockPanel>
@@ -529,7 +529,7 @@
                 </Border>
                 <Border Margin="5" Height="310"  Visibility="{Binding ElementName=Button42 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid >
-                        <userControls:MapCanvas  HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Map" >
+                        <userControls:MapCanvas  HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Map"   >
 
                         </userControls:MapCanvas>
 
@@ -615,10 +615,10 @@
                         <ToggleButton x:Name="ToggleButton503"   IsChecked="{Binding ZWiseChecked}" FontFamily="Arial" Style="{StaticResource ToggleButtonStyle1}" Content="Z" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0"  Unchecked="ToggleButton503_Unchecked" Checked="ToggleButton503_Checked"  />
                         <ToggleButton x:Name="ToggleButton504"   IsChecked="{Binding TWiseChecked}"  FontFamily="Arial" Style="{StaticResource ToggleButtonStyle1}" Content="T" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="15,0" Checked="ToggleButton504_Checked" Unchecked="ToggleButton504_Unchecked"  />
                         <ToggleButton x:Name="ToggleButton505"  Style="{StaticResource ToggleButtonStyle1}" FontFamily="Arial" Content="EDOF" VerticalAlignment="Center" Width="45" HorizontalAlignment="Center" Padding="0,0" IsChecked="{Binding EdofWiseChecked}" Checked="ToggleButton505_Checked"/>
-                        <ToggleButton x:Name="ToggleButton506"  Style="{StaticResource ToggleButtonStyle1}" FontFamily="Arial" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding PWiseChecked}" />
-                        <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}" FontFamily="Arial" IsEnabled="False" Content="M"  DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding MWiseChecked}" />
+                        <ToggleButton x:Name="ToggleButton506"  Style="{StaticResource ToggleButtonStyle1}" FontFamily="Arial" Content="P" DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding PWiseChecked}" Checked="ToggleButton506_Checked" Unchecked="ToggleButton506_Unchecked"  />
+                        <ToggleButton x:Name="ToggleButton507"  Style="{StaticResource ToggleButtonStyle1}" FontFamily="Arial" IsEnabled="True" Content="M"  DockPanel.Dock="Right" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="15,0" IsChecked="{Binding MWiseChecked}" Checked="ToggleButton507_Checked" Unchecked="ToggleButton507_Unchecked"  />
                     </UniformGrid>
-                    <UniformGrid  Name="CollectionMode" Margin="10,5,10,5" Columns="6" Visibility="{Binding ElementName=ToggleButton507,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"   DataContext="{Binding FocusImageMod}" >
+                    <UniformGrid  Name="CollectionMode" Margin="10,5,10,5" Columns="6" Visibility="Visible"   DataContext="{Binding FocusImageMod}" >
                         <CheckBox x:Name="checkbox51" IsChecked="{Binding Bright,Mode=TwoWay}"  Content="明场" FontSize="14" />
                         <CheckBox x:Name="checkbox52" IsChecked="{Binding Dark,Mode=TwoWay}" Content="暗场" FontSize="14" />
                         <CheckBox x:Name="checkbox53" IsChecked="{Binding Rheinberg,Mode=TwoWay}" Content="莱茵" FontSize="14" />
@@ -629,13 +629,14 @@
 
 
                     <Border Margin="10,5,5,5">
+                        <StackPanel Orientation="Vertical">
                         <StackPanel x:Name="StackPanelMul" Orientation="Horizontal" >
                             <StackPanel x:Name="ZwisePanel" Visibility="{Binding ElementName=ToggleButton503,Path=IsChecked,Converter={ StaticResource bool2VisibilityConverter}}" >
                                 <DockPanel Margin="0,2">
                                     <TextBlock Text="Z-绝对坐标" FontSize="14" x:Name="ZAbsolute"  Width="70" Margin="0,0,3,0" VerticalAlignment="Center" Foreground="White" />
                                     <ToggleButton  x:Name="ToggleButton5221" Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  Width="50" Margin="2" Checked="ToggleButton5221_Checked" Unchecked="ToggleButton5221_Unchecked"/>
                                     <TextBlock Text="{Binding ElementName=ToggleButton5221,Path=IsChecked}"  FontSize="14" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
-                                    <ToggleButton  Name="AF"  Content="AF" Width="40" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Style="{StaticResource ToggleButtonStyle1}" DockPanel.Dock="Right" Margin="10,0,0,0"></ToggleButton>
+                                    <!--<ToggleButton  Name="AF"  Content="AF" Width="40" Visibility="{Binding ElementName=ToggleButton5221,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Style="{StaticResource ToggleButtonStyle1}" IsChecked="{Binding Path=AFEnable,Mode=TwoWay}" DockPanel.Dock="Right" Margin="10,0,0,0"></ToggleButton>-->
 
                                 </DockPanel>
                                 <StackPanel Orientation="Vertical"  Visibility="{Binding ElementName=AF,Path=IsChecked,Converter={ StaticResource bool2VisibilityConverter1}}" >
@@ -661,7 +662,7 @@
                                         <Button DockPanel.Dock="Right"  Padding="5,0" Content="自动" Click="UpdateMulZStep_Click"/>
                                     </DockPanel>
                                 </StackPanel>
-                                <StackPanel Name="AFStack" Visibility="{Binding ElementName=AF,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
+                                <!--<StackPanel Name="AFStack" Visibility="{Binding ElementName=AF,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}">
                                     <DockPanel Margin="0,2">
                                         <TextBlock Text="层数"  FontSize="14" Width="65"  VerticalAlignment="Center" TextAlignment="Left" Foreground="White" />
                                         <TextBox  FontSize="14"  Style="{StaticResource TextBoxStyle}" HorizontalContentAlignment="Center" Text="{Binding AFSlices}"  Foreground="White" Width="55" Margin="5,0" HorizontalAlignment="Left"></TextBox>
@@ -670,7 +671,7 @@
                                         <TextBlock Text="层间距"  FontSize="14" Width="65"  VerticalAlignment="Center" TextAlignment="Left" Foreground="White" />
                                         <TextBox  FontSize="14" Style="{StaticResource TextBoxStyle}" HorizontalContentAlignment="Center" Text="{Binding AFSlicesGap}" Foreground="White" Width="55" Margin="5,0" HorizontalAlignment="Left"></TextBox>
                                     </DockPanel>
-                                </StackPanel>
+                                </StackPanel>-->
 
                             </StackPanel>
                             <StackPanel  Visibility="{Binding ElementName=ToggleButton504,Path=IsChecked,Converter={ StaticResource bool2VisibilityConverter}}"  Margin="5,0,2,0" HorizontalAlignment="Right" >
@@ -696,95 +697,125 @@
                                 </DockPanel>
                             </StackPanel>
                         </StackPanel>
-                    </Border>
-                    <StackPanel Orientation="Horizontal" Name="focusModeLab" >
-                        <ToggleButton x:Name="ToggleButton52" IsChecked="True" Style="{StaticResource ButtonPageControl11}" Content="自动聚焦" FontSize="13" Foreground="White"  />
-                        <StackPanel Orientation="Horizontal" Margin="10,0,0,2" >
-
-                            <StackPanel Margin="10,0,0,0" Orientation="Horizontal"  Visibility="{Binding ElementName=ToggleButton52,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" >
-                                <TextBlock Text="自定义"  Foreground="#6EA646" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1 }}"  VerticalAlignment="Center" ></TextBlock>
-                                <TextBlock Text="自动优化" Foreground="#6EA646" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  VerticalAlignment="Center"  ></TextBlock>
-                                <!--<TextBlock Text="自定义"  Foreground="White" Visibility="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}"  VerticalAlignment="Center"></TextBlock>-->
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="P: " Margin="-3,0,0,0"></Label>
+                                <TextBlock x:Name="PWTipsText" Padding="0,5,0,0" Text="未选中，采集点为当前点"></TextBlock>
                             </StackPanel>
-
                         </StackPanel>
-                    </StackPanel>
-
-
-                    <Border Visibility="{Binding ElementName=ToggleButton52 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="3" Margin="2" Padding="5">
-
-
-
-                        <StackPanel Name="focusModePanel">
-                            <CheckBox Content="自动优化" Name="Optimized" IsChecked="{Binding OptimizedSel}" FontSize="14" HorizontalAlignment="Right" Margin="0,0,10,0" ></CheckBox>
-                            <Border x:Name="Border521"  Visibility="Visible" Padding="5">
-                                <StackPanel IsEnabled="{Binding ElementName=Optimized,Path=IsChecked,Converter={StaticResource InverseBooleanConverter}}" DataContext="{Binding UserDefined}" >
-
-                                    <UniformGrid Columns="2" Rows="2" >
-                                        <RadioButton Margin="10,0,0,0" Content="粗聚焦" FontSize="14" Foreground="white" IsChecked="{Binding IsGlobal,Mode=TwoWay}" Style="{StaticResource RadioButton1}"></RadioButton>
-                                        <RadioButton Margin="10,0,0,0" Content="精聚焦"  FontSize="14" Foreground="white"  Style="{StaticResource RadioButton1}" IsChecked="{Binding IsLocal,Mode=TwoWay}"></RadioButton>
-                                        <Slider Style="{StaticResource updown}" Value="{Binding Global,Mode=TwoWay}" Width="150"  FontSize="14" Height="25" ></Slider>
-                                        <Slider Style="{StaticResource updown}" Value="{Binding  Local,Mode=TwoWay}" Width="150"   FontSize="14" Margin="10,0,10,0" Height="25" ></Slider>
-                                    </UniformGrid>
-
-
-                                    <DockPanel Margin="0,5,0,0"  >
-                                        <Label Content="速度" FontSize="14" Background="#333333" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="white"></Label>
-                                        <Slider Width="245" Style="{StaticResource LM_Slider6}" HorizontalAlignment="Center"  Value="{Binding Precision}"  Minimum="0" Maximum="10" VerticalAlignment="Center" Orientation="Horizontal"/>
-                                        <Label Content="准确度" FontSize="14" HorizontalAlignment="Right" Margin="0,0,8,0" Background="#333333" Foreground="white"></Label>
-                                    </DockPanel>
-
-                                </StackPanel>
-
-
-
-
-                            </Border>
-                            <Border x:Name="Border522"  Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" BorderBrush="#333333" >
-                                <DockPanel>
-                                    <Label Content="T" Foreground="White"></Label>
-                                    <ComboBox  HorizontalAlignment="Right"  Style="{StaticResource ComboBox2}" Width="150" Margin="2,0,0,0" >
-                                        <ComboBoxItem Content="不聚焦" IsSelected="{Binding TwiseEnable}"></ComboBoxItem>
-                                        <ComboBoxItem Content="首循环聚焦一次" IsSelected="{Binding TFirst}"></ComboBoxItem>
-                                        <ComboBoxItem Content="每次循环聚焦一次" IsSelected="{Binding TEvery}"></ComboBoxItem>
-                                        <ComboBoxItem  Content="每N次循环聚焦一次" IsSelected="{Binding TN}" Name="tWiseN"></ComboBoxItem>
-                                    </ComboBox>
-                                    <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="{Binding ElementName=tWiseN,Path=IsSelected,Converter={StaticResource bool2VisibilityConverter}}" Value="{Binding TWiseN}"  Height="25" Width="150" HorizontalAlignment="Right" Margin="5,0,18,0"  ></Slider>
-
-                                    <!--  <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="Visible" Value="{Binding TWiseN}"  Height="25" Width="70" HorizontalAlignment="Left" Margin="5,0,0,0"  ></Slider> -->
-
-
-                                </DockPanel>
-                            </Border>
-                            <Border x:Name="Border523" Margin="0,10,0,5" BorderBrush="#333333"  Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" >
-                                <DockPanel>
-                                    <Label Content="P" Foreground="White"></Label>
-                                    <ComboBox HorizontalAlignment="Right" Width="150" Style="{StaticResource ComboBox2}" Margin="2,0,0,0" >
-                                        <ComboBoxItem Content="不聚焦" IsSelected="{Binding PwiseEnable}"></ComboBoxItem>
-                                        <ComboBoxItem Content="首个采集点聚焦一次" IsSelected="{Binding PFirst}"></ComboBoxItem>
-                                        <ComboBoxItem Content="每个采集点聚焦一次" IsSelected="{Binding PEvery}"></ComboBoxItem>
-                                        <ComboBoxItem Name="pWiseN" Content="每N个采集点聚焦一次" IsSelected="{Binding PN}" ></ComboBoxItem>
-                                    </ComboBox>
-                                    <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Value="{Binding PWiseN}"  Width="150" Visibility="{Binding ElementName=pWiseN,Path=IsSelected,Converter={StaticResource bool2VisibilityConverter}}"  Height="25"  HorizontalAlignment="Right" Margin="0,0,18,0"  ></Slider>
-                                </DockPanel>
-                            </Border>
-                            <Border Margin="5,5,0,0"  Name="ImageModeSelBorder" Visibility="{Binding ModeSelecteShow,Converter={StaticResource boolToVisConverter}}" DataContext="{Binding FocusImageMod}">
-                                <DockPanel >
-                                    <Label Content="聚焦模态" FontSize="14" Foreground="white" HorizontalAlignment="Left" Margin="10,0,0,0" ></Label>
-                                    <ComboBox  Name="focusModeCombo" FontSize="14" HorizontalAlignment="Left" Style="{StaticResource ComboBox2}" ItemsSource="{Binding ModeList}"  DisplayMemberPath="mode"  Width="60" Margin="28,0,0,0" VerticalContentAlignment="Center" Padding="5,2,5,2" SelectedIndex="{Binding ModeSelectedIndex}" SelectedItem="{Binding FocusImageModeSel,Mode=OneWayToSource}"
-                                    >
-                                    </ComboBox>
-                                </DockPanel>
-                            </Border>
-
-                        </StackPanel>
-
-
                     </Border>
                 </StackPanel>
+            </StackPanel>
+        </Border>
+        <Grid x:Name="AutoFocusBar">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <ToggleButton x:Name="ToggleButton52" IsChecked="True" Style="{StaticResource ButtonPageControl11}" Content="自动聚焦" FontSize="16" Foreground="White" Margin="0,10,0,0" />
+            </Grid>
+            <Grid  Grid.Column="1">
+                <StackPanel Orientation="Horizontal" Name="focusModeLab" Margin="0,10,0,0" >
 
-                <ToggleButton x:Name="ToggleButton51"  Style="{StaticResource ButtonPageControl11}" Content="采集摘要" FontSize="13" Foreground="White" IsChecked="True" />
-                <Border  Visibility="{Binding ElementName=ToggleButton51 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5">
+                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal"  Visibility="{Binding ElementName=ToggleButton52,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter1}}" >
+                        <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=GlobalRadio,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Padding="0,7,0,0">
+                        <Run Text="粗聚焦:" />
+                        <Run Text="{Binding ElementName=GlobalSlider,Path=Value }"/>
+                        <Run Text="层,"/>
+                            </TextBlock>
+                        <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Visibility="{Binding ElementName=LocalRadio, Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="0,7,0,0">
+                        <Run Text="精聚焦:" />
+                        <Run Text="{Binding ElementName=LocalSlider,Path=Value }"/>
+                        <Run Text="层,"/>
+                            </TextBlock>
+                        <TextBlock Foreground="#6EA646" TextTrimming="CharacterEllipsis" Padding="0,7,0,0" >
+                        <Run Text="速度:" />
+                        <Run Text="{Binding ElementName=PrecisionSlider,Path=Value }"/>
+                
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+               
+            </Grid>
+            <Grid Grid.Column="2">
+                <ToggleButton x:Name="AutoOptimize" Style="{StaticResource ToggleButtonStyle1}" Content="自动优化"  FontFamily="Microsoft YaHei" IsChecked="{Binding OptimizedSel}"  Width="70" VerticalAlignment="Bottom"  HorizontalAlignment="Right" Padding="5,2" Margin="0,10,5,3" />
+            </Grid>
+        </Grid>
+
+
+        <Border Name="AutoFocusModule" Visibility="{Binding ElementName=ToggleButton52 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5" Margin="5" Padding="5" Background="#333333">
+            <StackPanel Name="focusModePanel">
+                <!--<CheckBox Content="自动优化" Name="Optimized" IsChecked="{Binding OptimizedSel}" FontSize="14" HorizontalAlignment="Right" Margin="0,0,10,0" ></CheckBox>-->
+                <Border x:Name="Border521"  Visibility="Visible" Padding="5">
+                    <StackPanel IsEnabled="{Binding ElementName=AutoOptimize,Path=IsChecked,Converter={StaticResource InverseBooleanConverter}}" DataContext="{Binding UserDefined}" >
+                        <UniformGrid Columns="2" Rows="2" >
+                            <RadioButton Margin="10,0,0,0" Content="粗聚焦" x:Name="GlobalRadio" FontSize="14" Foreground="white" IsChecked="{Binding IsGlobal,Mode=TwoWay}" Style="{StaticResource RadioButton1}"></RadioButton>
+                            <RadioButton Margin="10,0,0,0" Content="精聚焦" x:Name="LocalRadio" FontSize="14" Foreground="white"  Style="{StaticResource RadioButton1}" IsChecked="{Binding IsLocal,Mode=TwoWay}"></RadioButton>
+                            <Slider Style="{StaticResource updown}" Name="GlobalSlider" Value="{Binding Global,Mode=TwoWay}" Width="150"  FontSize="14" Height="25" ></Slider>
+                            <Slider Style="{StaticResource updown}" Name="LocalSlider" Value="{Binding  Local,Mode=TwoWay}" Width="150"   FontSize="14" Margin="10,0,10,0" Height="25" ></Slider>
+                        </UniformGrid>
+                        <DockPanel Margin="0,5,0,0"  >
+                            <Label Content="速度" FontSize="14" Background="#333333" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="white"></Label>
+                            <Slider Width="245" Style="{StaticResource LM_Slider6}" x:Name="PrecisionSlider" HorizontalAlignment="Center"  Value="{Binding Precision}"  Minimum="0" Maximum="10" VerticalAlignment="Center" Orientation="Horizontal"/>
+                            <Label Content="准确度" FontSize="14" HorizontalAlignment="Right" Margin="0,0,8,0" Background="#333333" Foreground="white"></Label>
+                        </DockPanel>
+
+                    </StackPanel>
+
+                </Border>
+                <Border x:Name="Border524" Margin="0,10,0,0" BorderBrush="#333333"  Visibility="{Binding ElementName=ToggleButton5221 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" >
+                    <DockPanel>
+                        <Label Content="Z" Foreground="White"></Label>
+                        <ComboBox HorizontalAlignment="Left" Width="150" Style="{StaticResource ComboBox2}" ItemsSource="{Binding ZWiseFocusItems}"  SelectedItem="{Binding ZFocusMode}" Margin="2,0,0,0" >
+                            <!--<ComboBoxItem Content="不聚焦" IsSelected="{Binding TwiseEnable}"></ComboBoxItem>
+                            <ComboBoxItem Content="每次循环聚焦一次" IsSelected="{Binding TEvery}"></ComboBoxItem>-->
+                        </ComboBox>
+                    </DockPanel>
+                </Border>
+                <Border x:Name="Border522" Margin="0,10,0,0" Visibility="{Binding ElementName=ToggleButton504 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" BorderBrush="#333333" >
+                    <DockPanel>
+                        <Label Content="T" Foreground="White"></Label>
+                        <ComboBox  HorizontalAlignment="Right"  Style="{StaticResource ComboBox2}" Width="150" Margin="2,0,0,0" >
+                            <ComboBoxItem Content="不聚焦" IsSelected="{Binding TwiseEnable}"></ComboBoxItem>
+                            <ComboBoxItem Content="首循环聚焦一次" IsSelected="{Binding TFirst}"></ComboBoxItem>
+                            <ComboBoxItem Content="每次循环聚焦一次" IsSelected="{Binding TEvery}"></ComboBoxItem>
+                            <ComboBoxItem  Content="每N次循环聚焦一次" IsSelected="{Binding TN}" Name="tWiseN"></ComboBoxItem>
+                        </ComboBox>
+                        <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="{Binding ElementName=tWiseN,Path=IsSelected,Converter={StaticResource bool2VisibilityConverter}}" Value="{Binding TWiseN}"  Height="25" Width="150" HorizontalAlignment="Right" Margin="5,0,18,0"  ></Slider>
+
+                        <!--  <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Visibility="Visible" Value="{Binding TWiseN}"  Height="25" Width="70" HorizontalAlignment="Left" Margin="5,0,0,0"  ></Slider> -->
+
+
+                    </DockPanel>
+                </Border>
+                <Border x:Name="Border523" Margin="0,10,0,5" BorderBrush="#333333"  Visibility="{Binding ElementName=ToggleButton506 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" >
+                    <DockPanel>
+                        <Label Content="P" Foreground="White"></Label>
+                        <ComboBox HorizontalAlignment="Right" Width="150" Style="{StaticResource ComboBox2}" Margin="2,0,0,0" >
+                            <ComboBoxItem Content="不聚焦" IsSelected="{Binding PwiseEnable}"></ComboBoxItem>
+                            <ComboBoxItem Content="首个采集点聚焦一次" IsSelected="{Binding PFirst}"></ComboBoxItem>
+                            <ComboBoxItem Content="每个采集点聚焦一次" IsSelected="{Binding PEvery}"></ComboBoxItem>
+                            <ComboBoxItem Name="pWiseN" Content="每N个采集点聚焦一次" IsSelected="{Binding PN}" ></ComboBoxItem>
+                        </ComboBox>
+                        <Slider Style="{StaticResource updown}" Minimum="0" Maximum="100" Value="{Binding PWiseN}"  Width="150" Visibility="{Binding ElementName=pWiseN,Path=IsSelected,Converter={StaticResource bool2VisibilityConverter}}"  Height="25"  HorizontalAlignment="Right" Margin="0,0,18,0"  ></Slider>
+                    </DockPanel>
+                </Border>
+               
+                <Border Margin="5,5,0,0"  Name="ImageModeSelBorder" Visibility="{Binding ModeSelecteShow,Converter={StaticResource boolToVisConverter}}" DataContext="{Binding FocusImageMod}">
+                    <DockPanel >
+                        <Label Content="聚焦模态" FontSize="14" Foreground="white" HorizontalAlignment="Left" Margin="10,0,0,0" ></Label>
+                        <ComboBox  Name="focusModeCombo" FontSize="14" HorizontalAlignment="Left" Style="{StaticResource ComboBox2}" ItemsSource="{Binding ModeList}"  DisplayMemberPath="mode"  Width="60" Margin="28,0,0,0" VerticalContentAlignment="Center" Padding="5,2,5,2" SelectedIndex="{Binding ModeSelectedIndex}" SelectedItem="{Binding FocusImageModeSel,Mode=OneWayToSource}"
+                                    >
+                        </ComboBox>
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <ToggleButton x:Name="ToggleButton7"  Style="{StaticResource ButtonPageControl11}" Content="采集摘要" FontSize="16" Foreground="White" IsChecked="True" Margin="0,10,0,0" />
+        <Border  CornerRadius="5"  Visibility="{Binding ElementName=ToggleButton7 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#333333" Padding="5" Margin="5,5">
+            <Border  Visibility="{Binding ElementName=ToggleButton7 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}" Padding="5" Margin="0,0,0,5">
                     <UniformGrid Columns="2" x:Name="MulSummaryUniformGrid" >
                         <StackPanel >
                             <TextBlock FontSize="14"  Foreground="White" >
@@ -835,13 +866,9 @@
                     </UniformGrid>
                 </Border>
 
-
-
-            </StackPanel>
-
         </Border>
 
-        <ToggleButton  Visibility="Collapsed" x:Name="ToggleButton6"  Style="{StaticResource ButtonPageControl11}" Content="其他设置" FontSize="16" Foreground="White" IsChecked="false" Margin="0,15,5,5"/>
+        <ToggleButton  Visibility="Hidden" x:Name="ToggleButton6"  Style="{StaticResource ButtonPageControl11}" Content="其他设置" FontSize="16" Foreground="White" IsChecked="false" Margin="0,15,5,5"/>
         <!--<Border  CornerRadius="5" Visibility="{Binding ElementName=ToggleButton6 ,Path=IsChecked,Converter={StaticResource bool2VisibilityConverter}}"  Background="#333333" Padding="5" Margin="5,0">
             <StackPanel Orientation="Vertical">
                 <CheckBox Content="绘制图形拍照时保存" FontSize="14" Foreground="White" Margin="0,10" Name="SnapInkSave" Checked="SnapInkSave_Checked" Unchecked="SnapInkSave_Unchecked"  ></CheckBox>

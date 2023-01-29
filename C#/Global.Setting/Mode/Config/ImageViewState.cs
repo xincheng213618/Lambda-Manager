@@ -240,6 +240,15 @@ namespace Global.Mode.Config
                 }
             }
 
+            private bool multiEraser = false;
+
+            public bool MultiEraser
+            {
+                get { return multiEraser; }
+                set { multiEraser = value; NotifyPropertyChanged(); }
+            }
+
+
             private bool textChecked = false;
             [JsonPropertyName("text-checked")]
             public bool TextChecked
@@ -302,6 +311,17 @@ namespace Global.Mode.Config
                 get { return inkSelected; }
                 set { inkSelected = value; NotifyPropertyChanged(); }
             }
+
+            private bool inkMultiSelected = false;
+
+            public bool InkMultiSelected
+            {
+                get { return inkMultiSelected; }
+                set { inkMultiSelected = value; NotifyPropertyChanged(); }
+            }
+
+
+
 
             private bool inkAllSelected = false;
 
@@ -453,6 +473,7 @@ namespace Global.Mode.Config
                 set { eraser = value; NotifyPropertyChanged(); }
             }
 
+          
 
 
             private object text = null;

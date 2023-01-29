@@ -270,10 +270,10 @@
                                 <Condition Property="IsMouseOver" Value="true"/>
                             </MultiTrigger.Conditions>
                             <!--<Setter Property="Background" TargetName="border" Value="#6EA646"/>-->
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource TogNormalBrush}"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="#222222" />
+                            <Setter Property="Background" TargetName="border" Value="#6EA646"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="white" />
                             <Setter Property="FontWeight" Value="Bold"/>
-                            <Setter Property="Foreground" Value="#6EA646"/>
+                            <Setter Property="Foreground" Value="white"/>
                            
                         </MultiTrigger>
                         <MultiTrigger>
@@ -282,10 +282,10 @@
                                 <Condition Property="IsChecked" Value="true"/>
                                 <Condition Property="IsMouseOver" Value="false"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="border" Value="#333333"/>
+                            <Setter Property="Background" TargetName="border" Value="#6EA646"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="#222222" />
                             <!--<Setter Property="FontWeight" Value="Bold"/>-->
-                            <Setter Property="Foreground" Value="#6EA646"/>
+                            <Setter Property="Foreground" Value="White"/>
 
                         </MultiTrigger>
                         <MultiTrigger>

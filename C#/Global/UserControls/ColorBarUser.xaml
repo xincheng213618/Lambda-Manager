@@ -19,11 +19,11 @@
             <Border Background="#2e2e2e" CornerRadius="4" BorderThickness="1" BorderBrush="white">
                 <TextBlock  TextAlignment="Center" Text="{Binding ElementName=colorBar,Path=HigherValue,StringFormat={}{0:F0}}" Width="40" Foreground="White"  HorizontalAlignment="Center"></TextBlock>
              </Border>
-                <TextBlock  Width="30" Text="255" TextAlignment="Center"  Foreground="White"  HorizontalAlignment="Center" Margin="0,0,0,10"></TextBlock>
-            <range:RangeSlider  Width="30" LowerValue="{Binding RangeMin}"  HigherValue="{Binding RangeMax}" Name="colorBar"  Background="#444444"   Height="300" SlidBackground="{StaticResource GRAY}"  Orientation="Vertical" Minimum="0" Maximum="255" Margin="0,-5,0,0" >
+            <TextBlock  Width="30" Text="{Binding ElementName=colorBar,Path=Maximum}"  TextAlignment="Center" x:Name="RangeMaxText"  Foreground="White"  HorizontalAlignment="Center" Margin="0,0,0,10"></TextBlock>
+            <range:RangeSlider  Width="30" LowerValue="{Binding RangeMinP}"  SlidThumbVis="Hidden" HigherValue="{Binding RangeMaxP}" Name="colorBar"  Background="#444444"   Height="300" SlidBackground="{StaticResource GRAY}"  Orientation="Vertical" Minimum="0" Maximum="255" Margin="0,-5,0,0" >
             </range:RangeSlider>
           
-            <TextBlock  Width="30" Foreground="White" Text="0" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,-30,0,0"></TextBlock>
+            <TextBlock  Width="30" Foreground="White" Text="{Binding ElementName=colorBar,Path=Minimum}" x:Name="RangeMinText" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,-30,0,0"></TextBlock>
             <Border Background="#2e2e2e" CornerRadius="4" BorderThickness="1" BorderBrush="white" Margin="0,-13,0,0" VerticalAlignment="Top">
             <TextBlock  TextAlignment="Center" Width="30" Text="{Binding ElementName=colorBar,Path=LowerValue,StringFormat={}{0:F0} }"  Foreground="White"  HorizontalAlignment="Center"></TextBlock>
             </Border>

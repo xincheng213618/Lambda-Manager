@@ -17,6 +17,40 @@ namespace Global
 {
     public partial class WindowData1
     {
+        public void AddDevelopMode()
+        {
+            Grid AncestorGrid = (Grid)mainwin.Content;
+            Grid grid1 = (Grid)AncestorGrid.Children[0];
+            StackPanel stackPanel = (StackPanel)grid1.Children[2];
+            Menu menu = (Menu)stackPanel.Children[0];
+            MenuItem menuItem1 = (MenuItem)menu.Items[0];
+            bool AddDevelopMode = false;
+            ItemCollection menuItems = menuItem1.Items;
+            foreach(MenuItem item in menuItems)
+            {
+                if (item.Header.ToString() == "开发模式")
+                {
+                    item.Click += (s, e) =>
+                    {
+                        WindowData.GetInstance().setting.otherMode.DevelopMode = !WindowData.GetInstance().setting.otherMode.DevelopMode;
+                        bool? isDevMode = WindowData.GetInstance().setting.otherMode.DevelopMode;
+                        if (isDevMode == true)
+                        {
+                            WindowData.GetInstance().AcquireModule(true);
+                        }
+                        else
+                        {
+                            WindowData.GetInstance().AcquireModule(false);
+                        }
+
+                    };
+                }
+
+            }
+
+
+        }
+
         private void RatioTextBind(Window mainwin)
         {
             TextBox ratioTextBox = (TextBox)mainwin.FindName("ratio");
@@ -128,8 +162,11 @@ namespace Global
 
 
                 };
+                inkVisual.Loaded += (s, e) =>
+                {
+                    AddDevelopMode();
 
-
+                };
 
                 //MessageBox.Show("1");
                 WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
@@ -260,24 +297,25 @@ namespace Global
                     }
                     if (!isMapWindowshow)
                     {
+                        // MessageBox.Show(MapWindow.SeriesPoints.Count.ToString());
                         if (MapWindow.SeriesPoints.Count == 0)
                             return;
                         MapWindow mapWindow = new MapWindow();
-                        mapWindow.Topmost = true;
-                        mapWindow.Show();
-
                         Point point = bottomPlace.PointToScreen(new Point(0, 0));
-                        using System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-                        float dpiX = graphics.DpiX;
-                        float dpiY = graphics.DpiY;
-
-                        double dpixRatio = dpiX / 96;
-                        double dpiyRatio = dpiX / 96;
+                        //Point point = bottomPlace.TransformToAncestor(mainwin).Transform(new Point(0, 0));
+                        mapWindow.Show();
+                        mapWindow.Topmost = true;
+                        // monitor system Screen  ratio
+                        var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+                        var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+                        var dpiX = (int)dpiXProperty.GetValue(null, null);
+                        var dpiY = (int)dpiYProperty.GetValue(null, null);
+                        double dpixRatio = (double)dpiX / 96;
+                        double dpiyRatio = (double)dpiX / 96;
                         double x = point.X / dpixRatio + bottomPlace.ActualWidth - mapWindow.ActualWidth;
                         double y = point.Y / dpiyRatio - mapWindow.ActualHeight - 3;
                         mapWindow.Left = x;
                         mapWindow.Top = y;
-
                         mapWindow.DrawPointRec(MapWindow.SeriesPoints);
 
                         mainwin.Closing += delegate
@@ -285,8 +323,10 @@ namespace Global
                             mapWindow.Close();
                         };
 
-                    }
 
+
+
+                    }
 
 
                 };
@@ -296,11 +336,21 @@ namespace Global
                     {
                         if (item != null)
                         {
-                            item.inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                            if(item.index!= DrawInkMethod.ActiveViews.ActiveWin)
+                            {
+                                item.inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                            }
+                            else
+                            {
+                                if(item.inkCanvas.EditingMode!= InkCanvasEditingMode.Select)
+                                {
+                                    item.inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+                                }
+                            }
+                            
                         }
 
                     }
-                    inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas.EditingMode = InkCanvasEditingMode.Select;
 
                 };
                 toggleButtonSelect.Unchecked += delegate

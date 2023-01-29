@@ -94,6 +94,26 @@ namespace ExportProcessing
             }
         }
 
+        private int exportType = 0;
+        public int ExportType
+        {
+            get { return exportType; }
+            set
+            {
+                if (value != exportType)
+                    exportType = value; NotifyPropertyChanged();
+            }
+        }
+        private int exportWindow = 0;
+        public int ExportWindow
+        {
+            get { return exportWindow; }
+            set
+            {
+                if (value != exportWindow)
+                    exportWindow = value; NotifyPropertyChanged();
+            }
+        }
         private bool exportViewROI = false;
         public bool ExportViewROI
         {

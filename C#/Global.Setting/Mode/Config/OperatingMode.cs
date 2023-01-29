@@ -385,7 +385,16 @@ namespace Global.Mode.Config
                 NotifyPropertyChanged();
             }
         }
-
+        public int rotationAngle = 0;
+        public int RotationAngle
+        {
+            get { return rotationAngle; }
+            set
+            {
+                rotationAngle = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private int mode = 0;
 
@@ -568,7 +577,7 @@ namespace Global.Mode.Config
             BgCollection = reliefContrast.BgCollection;
         }
     }
-    //相位
+    //相差
     public class PhaseContrast : ViewModelBase
     {
         public Camera CameraSetting { get; set; } = new Camera() { SelectViewMode = 5, Gamma = 1};
@@ -646,7 +655,7 @@ namespace Global.Mode.Config
             }
         }
 
-        private bool bgCollection = true;
+        private bool bgCollection = false;
 
         public bool BgCollection
         {

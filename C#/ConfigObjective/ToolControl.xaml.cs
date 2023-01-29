@@ -27,6 +27,7 @@ namespace ConfigObjective
             Update.UpdateEvent += UpdateGlobal;
             InitializeComponent();
             InitCheckList();
+
         }
         private List<CheckBox> checklist = new List<CheckBox>();
         private CheckBox checkCurrent;
@@ -133,6 +134,8 @@ namespace ConfigObjective
             #endregion
 
 
+           
+
         }
 
         bool IsFirstLoad = true;
@@ -152,7 +155,7 @@ namespace ConfigObjective
                 }
             }
             ComboBox1.ItemsSource = windowData.deviceInformation.CameraResolution;
-            ComboBox1.SelectedIndex = (int)WindowData.GetInstance().SolutionConfig.OtherMode.Resolution;
+            ComboBox1.SelectedIndex = (int)WindowData.GetInstance().setting.otherMode.Resolution;
         }
 
 
@@ -264,7 +267,7 @@ namespace ConfigObjective
 
         private void ToggleButton222_Checked(object sender, RoutedEventArgs e)
         {
-           // windowData.MulDimensional.TInterval = ">>";
+           windowData.MulDimensional.TInterval = ">>";
         }
 
         private void ToggleButton221_Checked(object sender, RoutedEventArgs e)
@@ -291,25 +294,49 @@ namespace ConfigObjective
         private void ToggleButton503_Checked(object sender, RoutedEventArgs e)
         {
             ZwisePanel.Visibility = Visibility.Visible;
+
+            AutoFocusModuleShow();
+
         }
+        private void AutoFocusModuleShow()
+        {
+            if (windowData.MulDimensional.ZAbsolute)
+            {
+                AutoFocusBar.Visibility = Visibility.Visible;
+                AutoFocusModule.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                AutoFocusBar.Visibility = Visibility.Collapsed;
+                AutoFocusModule.Visibility = Visibility.Collapsed;
+            }
+
+        }
+
+
+
 
         private void ToggleButton5221_Checked(object sender, RoutedEventArgs e)
         {
             ZAbsolute.Text = "Z-相对坐标";
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 1 }, { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
+            AutoFocusModuleShow();
+
         }
 
         private void ToggleButton5221_Unchecked(object sender, RoutedEventArgs e)
         {
             ZAbsolute.Text = "Z-绝对坐标";
             LambdaControl.Trigger("MUL_ZAXIS", this, new Dictionary<string, object>() { { "mode", 3 }, { "value", 0 }, { "zstart", windowData.MulDimensional.ZStart }, { "zend", windowData.MulDimensional.ZEnd } });
+            AutoFocusModuleShow();
         }
 
 
        
         private void ToggleButton222_Unchecked(object sender, RoutedEventArgs e)
         {
-          windowData.MulDimensional.TInterval = "-1";
+          //windowData.MulDimensional.TInterval = "-1";
+            windowData.MulDimensional.TInterval = "0";
         }
         private static Dictionary<string, Timer> timers = new Dictionary<string, Timer>();
         //延时触发实现
@@ -350,7 +377,7 @@ namespace ConfigObjective
 
         private void ToggleButton221_Unchecked(object sender, RoutedEventArgs e)
         {
-          //  windowData.MulDimensional.TNumber = -1;
+           windowData.MulDimensional.TNumber = 0;
         }
 
         private void ColorButton311_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -548,6 +575,13 @@ namespace ConfigObjective
 
             }
         }
+
+        private void ToggleButton2_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ExposureFoldText.Text = WindowData.GetInstance().ExposureViewMode.ExposureShow;
+        }
+
+      
     }
 
 

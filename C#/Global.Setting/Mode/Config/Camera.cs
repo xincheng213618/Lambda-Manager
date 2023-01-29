@@ -3,7 +3,6 @@ using Global.Mode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -24,8 +23,7 @@ namespace Global.Mode.Config
         public double Gamma
         {
             get { return gamma; }
-            set { 
-                gamma = value; NotifyPropertyChanged(); }
+            set { gamma = value; NotifyPropertyChanged(); }
         }
 
         private double gain = 0;
@@ -80,8 +78,7 @@ namespace Global.Mode.Config
         public int Exposure
         {
             get { return exposure; }
-            set { exposure = value; 
-                NotifyPropertyChanged(); }
+            set { exposure = value; NotifyPropertyChanged(); }
         }
 
 
@@ -128,26 +125,17 @@ namespace Global.Mode.Config
 
         public void SetValue(Camera camera)
         {
-            FieldInfo[] fis = camera.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
-
-            foreach (FieldInfo fi in fis)
-            {
-                fi.SetValue(this, fi.GetValue(camera));
-            }
-
-
-
-            //this.SelectViewMode = camera.SelectViewMode;
-            //this.Gamma = camera.gamma;
-            //this.Gain = camera.gain;
-            //this.GainAuto = camera.GainAuto;
-            //this.Sharpness = camera.Sharpness;
-            //this.Saturation = camera.saturation;
-            //this.Exposure = camera.Exposure;
-            //this.ExposureAuto = camera.ExposureAuto;
-            //this.MultiObjGain = camera.MultiObjGain;
-            //this.MultiObjExposure = camera.MultiObjExposure;
-
+           // this.SelectViewMode = camera.SelectViewMode;
+            this.Gamma = camera.gamma;
+            this.Gain = camera.gain;
+            this.GainAuto = camera.GainAuto;
+            this.Sharpness = camera.Sharpness;
+            this.Saturation = camera.saturation;
+            this.Exposure = camera.Exposure;
+            this.ExposureAuto = camera.ExposureAuto;
+            this.MultiObjGain = camera.MultiObjGain;
+            this.MultiObjExposure = camera.MultiObjExposure;
+            
         }
     }
 

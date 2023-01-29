@@ -25,7 +25,10 @@ namespace Global.UserControls
         {
             InitializeComponent();
         }
-
+        //private void Slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        //{
+        //    LambdaControl.Trigger("TRIGGER_PROGRESSBAR_Z", this, new Dictionary<string, object> { { "CurrentZ", (int)Math.Floor(SliderV.LowerValue) } });
+        //}
         int before = 0;
         bool isActive = false;
         private void RangeSlider_LowerValueChanged(object sender, RoutedEventArgs e)
@@ -42,6 +45,7 @@ namespace Global.UserControls
         private void P1_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             isActive = false;
+           // LambdaControl.Trigger("TRIGGER_PROGRESSBAR", this, new Dictionary<string, object> { { "Current", (int)Math.Floor(pro.LowerValue) } });
         }
 
         private void drag_start(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)

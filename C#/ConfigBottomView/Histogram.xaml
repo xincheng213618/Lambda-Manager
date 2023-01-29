@@ -156,7 +156,7 @@
                     </StackPanel>
                     <StackPanel  Margin="0"  Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Phase,Converter={StaticResource Vis}}">
                         <Label Content="范围:" Foreground="White"  HorizontalAlignment="Left" Margin="0,0,0,0"   VerticalAlignment="Center" ></Label>
-                        <ComboBox Width="80"  VerticalContentAlignment="Center" ItemsSource="{Binding RangList}" Height="20"  Style="{StaticResource ComboBox2}"  Margin="11,0,0,0"  Padding="5,2,5,2"  SelectedItem="{Binding RangeSelectedItem}" SelectionChanged="ComboBox_SelectionChanged"  >
+                        <ComboBox Width="80"  x:Name="RangeComboBox" VerticalContentAlignment="Center" ItemsSource="{Binding RangList}" Height="20"  Style="{StaticResource ComboBox2}"  Margin="11,0,0,0"  Padding="5,2,5,2"  SelectedItem="{Binding RangeSelectedItem}" SelectionChanged="ComboBox_SelectionChanged"  >
                         </ComboBox>
                     </StackPanel>
                 </WrapPanel>

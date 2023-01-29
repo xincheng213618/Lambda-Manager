@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Global
 {
@@ -30,11 +31,8 @@ namespace Global
         public List<int> ObjXStepList = new List<int>() { 0, 0, 0, 0 };
         public List<int> ObjYStepList = new List<int>() { 0, 0, 0, 0 };
         public List<int> ObjZStepList = new List<int>() { 0, 0, 0, 0 };
-
         public List<string> ObjList = new List<string>() { };
         public string DirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default\\default.gprj";
-       
-
         public void SaveCustomConfig(string ConfigFullName)
         {
             string jsonString = File.ReadAllText(ConfigFullName);
@@ -130,35 +128,90 @@ namespace Global
         {
             JsonObject lamdbda = (JsonObject)JsonNode.Parse(json);
             solutionConfig.OperatingMode.BrightField.CameraSetting.MultiObjGain.Gain1 = lamdbda!["config-imaging-mode"]!["bright-field"]!["CameraSetting"]!["gain_"]!["10px"]!.GetValue<int>();
+        }
+        public void ReadDefaultConfig(string path) 
+        {  
+            string result = File.ReadAllText(path);
+            JsonObject defaultConfig = (JsonObject)JsonNode.Parse(result);
+            if (defaultConfig!["multi-objectives"]  != null)
+            {
+                SolutionConfig.IsMultiObj.Enable = defaultConfig!["multi-objectives"].GetValue<bool>();
+            }
             
+            JsonNode document = JsonNode.Parse(result)!;
+            JsonNode root = document.Root;
+            if (root["lambda-manager"]!=null)
+            {
+                if (root["lambda-manager"]!["objective-keys"] != null)
+                {
+                    JsonArray objectArray = root["lambda-manager"]!["objective-keys"]!.AsArray();
+                    if (objectArray.Count > 0)
+                    {
+                        ObjList.Clear();
+                        for (int i = 0; i < objectArray.Count; i++)
+                        {
+                            if (objectArray[i] != null && objectArray[i].ToString().Length > 0)
+                            {
+                                ObjList.Add(objectArray[i].ToString());
+                            }
+                        }
+                    }
+                }
+            }
 
+            ReadDefaultConfigPreference(path);
+            
+        }
+        public void WriteDefaultConfig(string path)
+        {
+            WriteDefaultConfigPreference(path);
 
         }
-        public void ReadDefaultConfig(string path)
+            public void ReadDefaultConfigPreference(string path)
         {
             string result = File.ReadAllText(path);
             JsonObject defaultConfig = (JsonObject)JsonNode.Parse(result);
-            SolutionConfig.IsMultiObj.Enable = defaultConfig!["multi-objectives"].GetValue<bool>();
-            JsonNode document = JsonNode.Parse(result)!;
-            JsonNode root = document.Root;
-            JsonArray objectArray = root["lambda-manager"]!["objective-keys"]!.AsArray();
-            if (objectArray.Count > 0)
+
+            if (defaultConfig["preference"] != null)
             {
-                ObjList.Clear();
-                for(int i = 0; i < objectArray.Count; i++)
+                
+                if (defaultConfig["preference"]!["display-resolution"] != null)
                 {
-                    if (objectArray[i]!= null&& objectArray[i].ToString().Length>0)
-                    {
-                        ObjList.Add(objectArray[i].ToString());
-                    }
+                    setting.otherMode.SnapMode = defaultConfig!["preference"]!["action-after-snapshot"].GetValue<int>();
+                    
+                }
+                if (defaultConfig["preference"]!["annotation-target"] != null)
+                {
+
+                    setting.otherMode.InkMode = defaultConfig!["preference"]!["annotation-target"].GetValue<int>();
+
+                }
+            }
+
+        }
+        public void WriteDefaultConfigPreference(string path)
+        {
+            string result = File.ReadAllText(path);
+            JsonObject defaultConfig = (JsonObject)JsonNode.Parse(result);
+
+            if (defaultConfig["preference"] != null)
+            {
+                
+                if (defaultConfig["preference"]!["display-resolution"] != null)
+                {
+                    defaultConfig["preference"]["action-after-snapshot"] = setting.otherMode.SnapMode;
+
+                }
+                if (defaultConfig["preference"]!["annotation-target"] != null)
+                {
+                    defaultConfig["preference"]["annotation-target"] = setting.otherMode.InkMode;
                    
 
                 }
-
             }
-            
-
+            File.WriteAllText(path, defaultConfig.ToJsonString());
         }
+
 
         public void ReadCustomConfig(string jsonString, List<string> objList)
         {
@@ -170,22 +223,18 @@ namespace Global
             JsonObject gainJsonDP = (JsonObject)lamdbda!["config-imaging-mode"]!["relief-contrast"]!["CameraSetting"]!["gain_"];
             JsonObject gainJsonQP = (JsonObject)lamdbda!["config-imaging-mode"]!["phase-contrast"]!["CameraSetting"]!["gain_"];
             JsonObject gainJsonPC = (JsonObject)lamdbda!["config-imaging-mode"]!["quantitative-phase"]!["CameraSetting"]!["gain_"];
-
             JsonObject exposureJsonBF = (JsonObject)lamdbda!["config-imaging-mode"]!["bright-field"]!["CameraSetting"]!["exposure_"];
             JsonObject exposureJsonDF = (JsonObject)lamdbda!["config-imaging-mode"]!["dark-field"]!["CameraSetting"]!["exposure_"];
             JsonObject exposureJsonRI = (JsonObject)lamdbda!["config-imaging-mode"]!["rheinberg"]!["CameraSetting"]!["exposure_"];
             JsonObject exposureJsonDP = (JsonObject)lamdbda!["config-imaging-mode"]!["relief-contrast"]!["CameraSetting"]!["exposure_"];
             JsonObject exposureJsonQP = (JsonObject)lamdbda!["config-imaging-mode"]!["phase-contrast"]!["CameraSetting"]!["exposure_"];
             JsonObject exposureJsonPC = (JsonObject)lamdbda!["config-imaging-mode"]!["quantitative-phase"]!["CameraSetting"]!["exposure_"];
-
             JsonObject ledJsonBF = (JsonObject)lamdbda!["config-imaging-mode"]!["bright-field"]!["led-diameter_"];
             JsonObject ledJsonDF = (JsonObject)lamdbda!["config-imaging-mode"]!["dark-field"]!["led-diameter-inner_"];
             JsonObject ledJsonRI = (JsonObject)lamdbda!["config-imaging-mode"]!["rheinberg"]!["led-diameter-inner_"];
-
             JsonObject StepXJson = (JsonObject)lamdbda!["config-stage"]!["moving-step"]!["x-step_"];
             JsonObject StepYJson = (JsonObject)lamdbda!["config-stage"]!["moving-step"]!["y-step_"];
             JsonObject StepZJson = (JsonObject)lamdbda!["config-stage"]!["moving-step"]!["z-step_"];
-
 
             for (int i = 0; i < objList.Count; i++)
             {
@@ -214,9 +263,6 @@ namespace Global
                     ObjGainListPC[i] = gainJsonPC![objList[i]]!.GetValue<int>();
                 }
                 ;
-
-
-
                 if (exposureJsonBF![objList[i]] != null)
                 {
                     ObjExposureListBF[i] = exposureJsonBF![objList[i]]!.GetValue<int>();
@@ -266,13 +312,7 @@ namespace Global
                 {
                     ObjZStepList[i] = StepZJson![objList[i]]!.GetValue<int>();
                 };
-
-
-
-
             }
-
-
             GainReadBack();
             ExposureReadBack();
             LEDReadBack();
@@ -395,14 +435,6 @@ namespace Global
 
 
         }
-
-
-
-
-
-
-
-
 
 
         public void GenerateGainList()
@@ -531,40 +563,6 @@ namespace Global
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
