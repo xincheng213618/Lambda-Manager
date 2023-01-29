@@ -599,7 +599,7 @@ namespace Solution
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
         }
 
-        private async void  Button_Click_5(object sender, RoutedEventArgs e)
+        private void  Button_Click_5(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能在测试中");
         }
