@@ -410,7 +410,6 @@ namespace Solution
         {
             SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath);
            
-
             if (init)
                 SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
