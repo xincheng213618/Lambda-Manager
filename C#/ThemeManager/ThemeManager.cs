@@ -61,22 +61,10 @@ namespace ThemeManager
                 IsRegister = true;
             }
 
-
-            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
-
-            //if (!ThemeResourceDictionaryCache.ContainsKey(theme))
-            //{
-            //    ResourceDictionary Themedictionary = new ResourceDictionary();
-            //    foreach (var item in ResourceDictionarys)
-            //    {
-            //        ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-            //        Themedictionary.MergedDictionaries.Add(dictionary);
-            //    }
-            //    ThemeResourceDictionaryCache.Add(theme, Themedictionary);
-            //}
             if (IsOpenClear)
                 app.Resources.MergedDictionaries.Clear();
-
+            
+            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
             foreach (var item in ResourceDictionarys)
             {
                 ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
@@ -87,20 +75,14 @@ namespace ThemeManager
 
         public static void ApplyTheme(this Control control, Theme theme)
         {
-            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
-            if (!ThemeResourceDictionaryCache.ContainsKey(theme))
-            {
-                ResourceDictionary Themedictionary = new ResourceDictionary();
-                foreach (var item in ResourceDictionarys)
-                {
-                    ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
-                    Themedictionary.MergedDictionaries.Add(dictionary);
-                }
-                ThemeResourceDictionaryCache.Add(theme, Themedictionary);
-            }
             if (IsOpenClear)
                 control.Resources.MergedDictionaries.Clear();
-            control.Resources.MergedDictionaries.Add(ThemeResourceDictionaryCache[theme]);
+            List<string> ResourceDictionarys = theme == Theme.Dark ? ResourceDictionaryDark : theme == Theme.Light ? ResourceDictionaryWhite : ResourceDictionaryDark;
+            foreach (var item in ResourceDictionarys)
+            {
+                ResourceDictionary dictionary = Application.LoadComponent(new Uri(item, UriKind.Relative)) as ResourceDictionary;
+                control.Resources.MergedDictionaries.Add(dictionary);
+            }
         }
 
         public static List<string> ResourceDictionaryDark { get; set; } = new List<string>()

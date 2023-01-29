@@ -7,7 +7,14 @@ namespace Global.RecentFile
 {
     public class RegistryPersister : IRecentFile
     {
-        public string RegistryKey { get; set; }
+        public static List<string> RegistryKeyList = new List<string>();
+
+        /// <summary>
+        /// 注册表信息
+        /// </summary>
+        public string RegistryKey { get => _RegistryKey; set { _RegistryKey = value;  if (!RegistryKeyList.Contains(value)) RegistryKeyList.Add(value);  } }
+        public string _RegistryKey;
+
         public RegistryPersister()
         {
             RegistryKey ="Software\\" + Application.ProductName + "\\" + "RecentFileList";

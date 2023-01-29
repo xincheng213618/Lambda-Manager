@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ThemeManager.Controls;
 using Global.Common.Extensions;
+using System.Windows.Forms;
 
 namespace Global.Common.Controls
 {
@@ -37,6 +38,14 @@ namespace Global.Common.Controls
             {
                 case MessageBoxButton.OK:
                     ButtonOK.Visibility = Visibility.Visible;
+                    this.KeyDown += (s, e) =>
+                    {
+                        if (e.Key==System.Windows.Input.Key.Enter)
+                        {
+                            ButtonOK.Focus();
+                        }
+                    };
+
                     break;
                 case MessageBoxButton.OKCancel:
                     ButtonOK.Visibility = Visibility.Visible;

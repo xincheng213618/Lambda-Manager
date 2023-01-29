@@ -30,6 +30,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Global.SettingUp.Hardware;
 using Microsoft.VisualBasic.Logging;
+using Global.RecentFile;
 
 namespace ConfigSetting
 {
@@ -562,7 +563,15 @@ namespace ConfigSetting
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            
+            RecentFileList recentFileList;
+            foreach (var item in RecentFileList.RegistryKeyList)
+            {
+                recentFileList = new RecentFileList() { Persister = new RegistryPersister(item) };
+                recentFileList.Clear();
+            }
+            MessageBox1.Show("缓存清理完成");
+            MessageBox1.ShowAgain("缓存清理完成","sss", false);
+
         }
     }
 }

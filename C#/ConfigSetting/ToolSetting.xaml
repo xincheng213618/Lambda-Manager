@@ -235,7 +235,7 @@
                                             <ComboBox  x:Name="SupportMultiProjectCombox"  Width="150"/>
                                         </StackPanel>
                                         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                                            <Button Content="清除缓存"  Click="Button_Click_2" Tag="All" Width="100" Visibility="Collapsed" HorizontalAlignment="Left" />
+                                            <Button Content="清除缓存"  Click="Button_Click_2" Tag="All" Width="100" Visibility="Visible" HorizontalAlignment="Left" />
                                         </StackPanel>
                                         
                                         <TextBlock Grid.Row="1" Grid.Column="0" Text="主题:"  Visibility="Collapsed"/>

@@ -8,6 +8,8 @@ namespace Global.RecentFile
 {
     public class RecentFileList
     {
+        public static List<string> RegistryKeyList = RegistryPersister.RegistryKeyList;
+
         public IRecentFile Persister { get; set; }
 
         public int MaxNumberOfFiles { get; set; }

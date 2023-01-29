@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <CheckBox x:Name="show_again" Visibility="Collapsed" Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding Path=DontShowAgain}" Content="不在提示(_O)"/>
-            <Button x:Name="ButtonOK" Visibility="Collapsed" Grid.Column="1" Content="确认(_Y)" FontSize="13" Padding="20,3"  Margin="18,10"  VerticalAlignment="Center"  Click="ButtonOK_Click" ></Button>
+            <Button x:Name="ButtonOK" Visibility="Collapsed" Grid.Column="1" Content="确认(_Y)"  FontSize="13" Padding="20,3"  Margin="18,10"  VerticalAlignment="Center"  Click="ButtonOK_Click" ></Button>
             <Button x:Name="ButtonYes"  Visibility="Collapsed"  Grid.Column="2" Content="是(_Y)"  Padding="20,3"   Margin="18,10" VerticalAlignment="Center"  Click="ButtonYes_Click" ></Button>
             <Button x:Name="ButtonNo"  Visibility="Collapsed"  Grid.Column="3" Content="否(_N)"  Padding="20,3"   Margin="18,10" VerticalAlignment="Center"  Click="ButtonNo_Click" ></Button>
             <Button x:Name="ButtonCancel"  Visibility="Collapsed"  Grid.Column="4" Content="取消(_C)"  Padding="20,3"  Margin="18,10" VerticalAlignment="Center" Click="ButtonCancel_Click"></Button>
