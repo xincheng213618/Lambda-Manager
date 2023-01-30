@@ -2,7 +2,7 @@
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace LambdaService
+namespace LambdaSerivceInstall
 {
     public class WindowServiceSetup
     {
@@ -10,7 +10,7 @@ namespace LambdaService
         /// 安装服务
         /// </summary>
         /// <param name="serverName"></param>
-        public void WindowServiceInstall(string serviceName)
+        public static void WindowServiceInstall(string serviceName)
         {
             string[] args = new string[1];
             args[0] = serviceName;
@@ -27,7 +27,7 @@ namespace LambdaService
         /// 卸载服务
         /// </summary>
         /// <param name="serviceName"></param>
-        public void WindowServiceUnInstall(string serviceName)
+        public static void WindowServiceUnInstall(string serviceName)
         {
             string[] args = new string[2];
             args[0] = "/u";
@@ -46,7 +46,7 @@ namespace LambdaService
         /// </summary>
         /// <param name="svcName"></param>
         /// <returns></returns>
-        public bool ServiceIsExisted(string svcName)
+        public static bool ServiceIsExisted(string svcName)
         {
             ServiceController[] services = ServiceController.GetServices();
             foreach (ServiceController s in services)
@@ -63,8 +63,8 @@ namespace LambdaService
         /// 启动服务
         /// </summary>
         /// <param name="serviceName">服务名</param>
-        /// <returns>是否启动成功</returns>
-        public bool StartService(string serviceName)
+        /// <returns>是否启动成功</returns>s
+        public static bool StartService(string serviceName)
         {
             ServiceController sc = new ServiceController(serviceName);
 

@@ -82,36 +82,43 @@ namespace Grid
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
+            StartWindow startWindow = new StartWindow();
+            startWindow.Show();
+            startWindow.Closed += delegate
             {
-                try
-                {
-                    Process process = new Process();
-                    process.StartInfo.FileName = @"LambdaManager.exe";
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.WorkingDirectory = System.Windows.Forms.Application.StartupPath;
-                    process.Start();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
                 this.Close();
-            }
-            else if (File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaManager.dll"))
-            {
-                StartWindow startWindow = new StartWindow();
-                startWindow.Show();
-                startWindow.Closed += delegate
-                {
-                    this.Close();
-                };
-            }
-            else
-            {
-                MessageBox.Show("找不到核心软件，启动失败", "Grid", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
+            };
+            return;
+            //if (File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
+            //{
+            //    try
+            //    {
+            //        Process process = new Process();
+            //        process.StartInfo.FileName = @"LambdaManager.exe";
+            //        process.StartInfo.UseShellExecute = false;
+            //        process.StartInfo.WorkingDirectory = System.Windows.Forms.Application.StartupPath;
+            //        process.Start();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //    this.Close();
+            //}
+            //else if (File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaManager.dll"))
+            //{
+            //    StartWindow startWindow = new StartWindow();
+            //    startWindow.Show();
+            //    startWindow.Closed += delegate
+            //    {
+            //        this.Close();
+            //    };
+            //}
+            //else
+            //{
+            //    MessageBox.Show("找不到核心软件，启动失败", "Grid", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    Environment.Exit(0);
+            //}
         }
 
 

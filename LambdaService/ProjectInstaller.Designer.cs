@@ -41,7 +41,7 @@
             // 
             this.serviceInstaller1.Description = "Lambda安全服务";
             this.serviceInstaller1.DisplayName = "Lambda";
-            this.serviceInstaller1.ServiceName = "Service1";
+            this.serviceInstaller1.ServiceName = "LambdaService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

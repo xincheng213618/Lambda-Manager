@@ -29,7 +29,7 @@ namespace Global.Common.Controls
         /// 显示结果
         /// </summary>
         public MessageBoxResult MessageBoxResult;
-        private void Initialize(string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK , MessageBoxImage icon = MessageBoxImage.None ,MessageBoxResult defaultResult = MessageBoxResult.None)
+        private void Init(string messageBoxText, string caption = "提示", MessageBoxButton button = MessageBoxButton.OK , MessageBoxImage icon = MessageBoxImage.None ,MessageBoxResult defaultResult = MessageBoxResult.None)
         {
             InitializeComponent();
             this.messageBoxText.Text = messageBoxText;
@@ -91,24 +91,24 @@ namespace Global.Common.Controls
 
         public MessageBox1(string messageBoxText)
         {
-            Initialize(messageBoxText);
+            Init(messageBoxText);
         }
         public MessageBox1(string messageBoxText,string caption)
         {
-            Initialize(messageBoxText, caption);
+            Init(messageBoxText, caption);
         }
         public MessageBox1(string messageBoxText, string caption, MessageBoxButton button)
         {
-            Initialize(messageBoxText, caption, button);
+            Init(messageBoxText, caption, button);
         }
 
         public MessageBox1(string messageBoxText, string caption, MessageBoxButton button,MessageBoxImage icon)
         {
-            Initialize(messageBoxText, caption, button, icon);
+            Init(messageBoxText, caption, button, icon);
         }
         public MessageBox1(string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon,MessageBoxResult defaultResult)
         {
-            Initialize(messageBoxText, caption, button, icon, defaultResult);
+            Init(messageBoxText, caption, button, icon, defaultResult);
         }
         
 

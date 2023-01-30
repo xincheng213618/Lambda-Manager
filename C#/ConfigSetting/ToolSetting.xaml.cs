@@ -31,6 +31,8 @@ using System.Text.Json.Nodes;
 using Global.SettingUp.Hardware;
 using Microsoft.VisualBasic.Logging;
 using Global.RecentFile;
+using System.Text.Unicode;
+using System.Text;
 
 namespace ConfigSetting
 {
@@ -48,17 +50,18 @@ namespace ConfigSetting
 
         public void SocketTest()
         {
-            //一个针对主控不开放主窗口权限的解决方案 这里如果走错误方案的话，会引起白屏问题
-            if (!File.Exists($"{System.Windows.Forms.Application.StartupPath}\\LambdaCore.dll"))
+            int port = 53618;
+            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+            Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            try
             {
-                int port = 52100;
-                IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-                Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                try
-                {
-                    sssss.Connect(localEndPoint);
-                }
-                catch { }
+                sssss.Connect(localEndPoint);
+                string aaa = "LambdaStart";
+                sssss.Send(Encoding.UTF8.GetBytes(aaa));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
