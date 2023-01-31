@@ -76,18 +76,28 @@ namespace LambdaService
             {
                 Byte[] stream = new Byte[1024];
                 int length = clientSocket.Receive(stream);
-
                 string _data = Encoding.UTF8.GetString(stream,0, length);
+                Task.Run(() => Phrase(_data.Trim()));
                 WriteLogs(path, "Socket" + _data.Trim());
-                RegHelper.StartUp();
                 foreach (Socket socket in socketPoll)
                 {
                     WriteLogs(path, "发送");
                     socket.Send(Encoding.UTF8.GetBytes("LambdaStart"));
-
                 }
             }
+        }
 
+
+        public void Phrase(string str)
+        {
+            if (str == "1")
+            {
+                RegHelper.StartUp(str);
+            }
+            if (str == "0")
+            {
+                RegHelper.StartUp(str);
+            }
         }
 
 

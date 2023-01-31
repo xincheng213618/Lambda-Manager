@@ -140,7 +140,7 @@ namespace Solution
         private bool rulerInformation = false;
         public bool RulerInformation
         {
-            get { return relativeInterval; }
+            get { return rulerInformation; }
             set
             {
                 if (value != rulerInformation)

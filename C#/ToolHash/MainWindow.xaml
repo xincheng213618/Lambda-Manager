@@ -24,16 +24,8 @@
                 <TextBox x:Name="H5a1" Text="{Binding UserName}"/>
             </DockPanel>
             <DockPanel >
-                <TextBlock Text="注册日期" Width="100"/>
-                <TextBox x:Name="H5a2" Text="{Binding RegistrationDate}"/>
-            </DockPanel>
-            <DockPanel >
                 <TextBlock Text="注册地址" Width="100"/>
                 <TextBox  x:Name="H5a3" Text="{Binding RegisteredAddress}"/>
-            </DockPanel>
-            <DockPanel >
-                <TextBlock Text="失效日期" Width="100"/>
-                <TextBox x:Name="H5a4" Text="{Binding ExpirationDate}"/>
             </DockPanel>
             <DockPanel >
                 <TextBlock Text="注册邮件地址" Width="100"/>

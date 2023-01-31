@@ -21,6 +21,9 @@ using System.Net.Http;
 using System.Net.NetworkInformation;
 using Microsoft.Win32;
 using System.Diagnostics;
+using System.Net.Sockets;
+using System.Net;
+using System.Text;
 
 namespace Solution
 {
@@ -562,12 +565,28 @@ namespace Solution
             HandyControl.Controls.Growl.Info("此功能在测试中");
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
         }
+        int zzz = 0;
 
-        private void Button_Click_4(object sender, RoutedEventArgs e)
+        private async void Button_Click_4(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
 
 
+            int port = 53618;
+            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+            Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            zzz++;
+            try
+            {
+                sssss.Connect(localEndPoint);
+                string aaa = zzz%2==0?"0":"1";
+                sssss.Send(Encoding.UTF8.GetBytes(aaa));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            sssss.Close();
             string Arguments = string.Empty;
             if (Environment.OSVersion.Version.Major == 6)
             {

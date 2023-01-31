@@ -56,7 +56,7 @@ namespace XSolution
         public ProjectFile(string FullName) : base(FullName)
         {
             FileInfo = new FileInfo(FullName);
-            Name = FileInfo.Name;
+            Name = Path.GetFileNameWithoutExtension(FileInfo.Name); ;
             Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
 
             OpenFileCommand = new RelayCommand((o)=>Process.Start("explorer.exe", FullName), (object value) => { return Exists; });

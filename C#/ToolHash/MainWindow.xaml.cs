@@ -34,16 +34,6 @@ namespace ToolHash
         {
             if (this.DataContext is RegisterInfo registerInfo)
             {
-                if (!Regex.IsMatch(registerInfo.RegistrationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
-                {
-                    MessageBox.Show("请输入正确的注册日期");
-                    return;
-                }
-                if (!Regex.IsMatch(registerInfo.ExpirationDate, "^(?<year>\\d{2,4})-(?<month>\\d{1,2})-(?<day>\\d{1,2})$"))
-                {
-                    MessageBox.Show("请输入正确的过期日期");
-                    return;
-                }
                 if (!Regex.IsMatch(registerInfo.Email, @"^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$"))
                 {
                     MessageBox.Show("请输入正确的邮箱地址");
@@ -106,7 +96,7 @@ namespace ToolHash
 
         private void Button_Click0(object sender, RoutedEventArgs e)
         {
-            sNCode = new SNCode() { AreaCode = "0000", DistributorCode = "2210", EquipIdentify = "0000-xxx-xxx-x", ValidityPeriod = DateTime.Now.ToString("yyyyMMdd") };
+            sNCode = new SNCode() { AreaCode = "000000", DistributorCode = "2210", EquipIdentify = "0000-xxx-xxx-x", ValidityPeriod = DateTime.Now.ToString("yyyyMMdd") };
             StackPanelSN.DataContext = sNCode;
         }
     }

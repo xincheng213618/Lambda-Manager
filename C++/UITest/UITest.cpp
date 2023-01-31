@@ -499,12 +499,12 @@ string UTF8ToGB(const char* str)
 int OpenSerial(char* FullPath)	
 {
 	//std::wstring fp = StringUtils::string2wstring(FullPath);
-	//std::wstring fp = StringUtils::Multi2WideByte(FullPath);
+	//std::wstring fp = StringUtils::Multi2Utf8(FullPath);
 
 	//Logger::Log1(Severity::INFO, FullPath);
-	//std::string str = UTF8ToGB(FullPath);
-	//const char* bbb = str.c_str();
-	//Logger::Log1(Severity::INFO, str);
+	std::string str = UTF8ToGB(FullPath);
+	const char* bbb = str.c_str();
+	Logger::Log1(Severity::INFO, str);
 
 	return  0;
 }
