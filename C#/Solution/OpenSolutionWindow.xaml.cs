@@ -20,7 +20,7 @@ namespace Solution
         }
         public string FullName = string.Empty;
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Grid\\SolutionHistory") };
 
         public ObservableCollection<SoulutionInfo> SoulutionInfos = new ObservableCollection<SoulutionInfo>();
         private void BaseWindow_Initialized(object sender, EventArgs e)

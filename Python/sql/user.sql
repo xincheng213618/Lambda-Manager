@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 03/01/2023 15:18:26
+ Date: 31/01/2023 16:51:46
 */
 
 SET NAMES utf8mb4;
@@ -28,8 +28,8 @@ CREATE TABLE `user`  (
   `email_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '注册邮件地址',
   `contact_number` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '联系电话',
   `user_class
-user_class` tinyint NOT NULL COMMENT '0普通用户，1高级用户，2钻石用户',
+user_class` tinyint NOT NULL COMMENT '0普通用户，1高级用户，2钻石用户\r\n',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

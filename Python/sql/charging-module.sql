@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 03/01/2023 15:17:53
+ Date: 31/01/2023 16:51:02
 */
 
 SET NAMES utf8mb4;
@@ -28,6 +28,6 @@ CREATE TABLE `charging-module`  (
   `download_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '下载地址',
   `renewal_type` tinyint NULL DEFAULT NULL COMMENT '续费模式：\r\n0：无需续费\r\n1：每月续费\r\n2：每季度续费\r\n3：每年续费',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

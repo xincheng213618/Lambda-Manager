@@ -55,7 +55,6 @@ namespace Global.Common
         public static bool ReadRegValue(bool def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name, def);
 
 
-
         public static bool ReadRegValue([CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name);
 
         public static string ReadRegValue(string def, [CallerMemberName] string name = "") => Reg.ReadValue(RegPath, name,def);

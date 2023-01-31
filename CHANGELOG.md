@@ -1,9 +1,25 @@
 # TODO:
 
-- C++和C#的协同开发测试
-- 样式和语言
+- 注册模块 （o）
+- 工程的模块 的移植（包含 C++ Grif文件重构成类管理的方式）
+- 代码重构 、单元测试
+- 统一的一套样式和语言模块
+- Hotkey的添加和管理
+- 安装模块全自动化
 
 # CHANGELOAG:
+
+## [1.5.2] 2023-01-30
+
+- 为服务制作一个一件安装卸载的命令行软件 ✔ 
+- Fix Soultion  系列文件夹识别错误的问题 ✔ 
+- Add Solution 文件确认工程✔
+
+## [1.5.1] 2023-01-29
+
+- Merge huanghuang ✔ 
+- Add Windows Service  Lambda✔ 
+- Fix MessageBox1
 
 ## [1.5.0] 2023-01-28
 

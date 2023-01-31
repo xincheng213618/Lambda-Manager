@@ -19,6 +19,8 @@ using Global.RecentFile;
 using ThemeManager.Controls;
 using System.Net.Http;
 using System.Net.NetworkInformation;
+using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace Solution
 {
@@ -470,7 +472,7 @@ namespace Solution
             Config.ConfigSet();
         }
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Grid\\SolutionHistory") };
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
@@ -564,6 +566,32 @@ namespace Solution
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
+
+
+            string Arguments = string.Empty;
+            if (Environment.OSVersion.Version.Major == 6)
+            {
+                Arguments = "/c gpupdate /force /wait:0 && ie4uinit.exe -ClearIconCache";
+                Arguments = "/c gpupdate /force /wait:0 && ie4uinit.exe -ClearIconCache";
+
+
+            }
+            else if (Environment.OSVersion.Version.Major > 6)
+            {
+                Arguments = "/c ie4uinit.exe -show";
+            }
+            ProcessStartInfo info = new ProcessStartInfo
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false,
+                FileName = "cmd.exe",
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                Arguments = Arguments
+            };
+            Process process = Process.Start(info);
+            process.WaitForExit();
+
         }
 
         private void  Button_Click_5(object sender, RoutedEventArgs e)

@@ -79,10 +79,10 @@ namespace LambdaService
 
                 string _data = Encoding.UTF8.GetString(stream,0, length);
                 WriteLogs(path, "Socket" + _data.Trim());
+                RegHelper.StartUp();
                 foreach (Socket socket in socketPoll)
                 {
                     WriteLogs(path, "发送");
-
                     socket.Send(Encoding.UTF8.GetBytes("LambdaStart"));
 
                 }
@@ -108,7 +108,6 @@ namespace LambdaService
                     //process.StartInfo.UseShellExecute = false;
                     //process.StartInfo.WorkingDirectory = "C:\\Users\\Chen\\Desktop\\Lambda Manager\\Lambda\\LambdaManager\\bin\\x64\\Debug\\net6.0-windows";
                     //process.Start();
-                    ;
                 }
                 catch (Exception ex)
                 {
@@ -118,8 +117,9 @@ namespace LambdaService
 
         }
 
+        public static void WriteLogs(string context) => WriteLogs(AppDomain.CurrentDomain.BaseDirectory + "service.log", context);
 
-        public void WriteLogs(string path, string context)
+        public static void WriteLogs(string path, string context)
         {
             var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
             var sw = new StreamWriter(fs);

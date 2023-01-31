@@ -11,7 +11,7 @@ namespace ACE
     /// </summary>
     public class RegisterInfoReg : IRegisterInfo
     {
-        private static string RegistryKey = "Software\\ZirCon";
+        private static string RegistryKey = "Software\\Grid";
         private static string Key = "RegisterInfo";
 
         public RegisterInfo? Get()
