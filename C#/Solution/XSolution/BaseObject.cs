@@ -132,9 +132,6 @@ namespace XSolution
             VisualChildrenHidden = new ObservableCollection<BaseObject>() { };
         }
 
-
-
-
         public virtual void AddChildDialog(object obj)
         {
 

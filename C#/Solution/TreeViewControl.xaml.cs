@@ -319,8 +319,7 @@ namespace Solution
                     //这里因为考虑到和lambda接轨，所以暂时不拆出来，合并类和基类的扩展中
                     if (item.DataContext is GrifFile grifFile)
                     {
-                        LambdaControl.Trigger("SolutionGrifFileOpen", this, grifFile.FullName);
-                        LambdaControl.Trigger("projectFile1", this, new Dictionary<string, object>() { });
+                        grifFile.OpenFileCommand.Execute(grifFile);
                     }
                     else if (item.DataContext is ProjectFile projectFile1)
                     {

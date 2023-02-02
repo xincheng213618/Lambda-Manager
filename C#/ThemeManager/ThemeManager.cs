@@ -12,12 +12,10 @@ namespace ThemeManager
 {
     public enum Theme
     {
-        [Description("黑色")]
+        [Description("深色")]
         Dark,
-        [Description("白色")]
+        [Description("浅色")]
         Light,
-        [Description("跟随系统")]
-        Default
     };
 
     public delegate void ThemeChangedEventHandler(Theme theme);
@@ -28,6 +26,24 @@ namespace ThemeManager
     /// </summary>
     public static class ThemeManagers
     {
+        public static bool GetWindowsTheme()
+        {
+            
+            const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            const string RegistryValueName = "AppsUseLightTheme";
+            // 这里也可能是LocalMachine(HKEY_LOCAL_MACHINE)
+            // see "https://www.addictivetips.com/windows-tips/how-to-enable-the-dark-theme-in-windows-10/"
+            object registryValueObject = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryKeyPath)?.GetValue(RegistryValueName);
+            if (registryValueObject is null) return false;
+            return (int)registryValueObject > 0 ? false : true;
+        }
+
+        public static void SetWindowsTheme()
+        {
+            CurrentUITheme = GetWindowsTheme()?Theme.Dark:Theme.Light;
+            Application?.ApplyTheme(CurrentUITheme);
+        }
+
         /// <summary>
         /// 是否是第一次注入样式
         /// </summary>
@@ -50,10 +66,12 @@ namespace ThemeManager
 
         public static event ThemeChangedEventHandler ThemeChanged;
 
-        public static Dictionary<Theme, ResourceDictionary> ThemeResourceDictionaryCache = new Dictionary<Theme, ResourceDictionary>() { { Theme.Default,new ResourceDictionary()} };
+
+        public static Application Application { get; private set; }
 
         public static void ApplyTheme(this Application app, Theme theme)
         {
+            Application = app;
             if (IsRegister && CurrentUITheme == theme) return;
 
             if (!IsRegister)

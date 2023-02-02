@@ -154,6 +154,34 @@ def unregister():
 
 
 
+@server.route('/checkregister', methods=['post'])
+def checkregister():
+    sn = request.values.get('sn')
+    macstrings = request.values.get('mac-array')
+    if sn and macstrings:
+        if (len(sn) == 24):
+            try:
+                db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
+                                     use_unicode=True)
+                cursor = db.cursor()
+                sql = "SELECT * FROM  `serial-number` WHERE `sn` = '%s'" %(sn)
+                print(sql)
+                aa = cursor.execute(sql)
+                if (aa == 0):
+                    resu = {'state': 1, 'message': '找不到注册信息'}
+                else:
+                    resu = {'state': 0, 'message': ''}
+                db.commit()
+            except Exception:
+                resu = {'state': 1, 'message': "数据库连接失败"}
+                return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+
+        else:
+            resu = {'state': 1, 'message': "注册码位数异常"}
+    else:
+        resu = {'state': 1, 'message': '参数不能存在空值'}
+    return json.dumps(resu, ensure_ascii=False)
+
 
 def test1(user_id,equip_identify,mac_address,sn):
     db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,

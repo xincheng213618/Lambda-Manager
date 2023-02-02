@@ -23,13 +23,11 @@ namespace Global.Common.Util
                 if (File.Exists(fileName))
                     File.Delete(fileName);
                 //创建流
-                using (var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
-                {
-                    //创建XML序列化器，需要指定对象的类型
-                    var serializer = new XmlSerializer(obj.GetType());
-                    //序列化执行
-                    serializer.Serialize(fs, obj);
-                }
+                using var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                //创建XML序列化器，需要指定对象的类型
+                var serializer = new XmlSerializer(obj.GetType());
+                //序列化执行
+                serializer.Serialize(fs, obj);
                 return 0;
             }
             catch(Exception ex)

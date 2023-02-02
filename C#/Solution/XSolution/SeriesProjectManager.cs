@@ -131,7 +131,11 @@ namespace XSolution
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
             Task.Run(CalculSize);
+
+            if (Directory.Exists(FullName))
+                DirectoryInfo = new DirectoryInfo(FullName);
         }
+        public DirectoryInfo DirectoryInfo { get; set; }
         public void ExportIni()
         {
             foreach (var item in new DirectoryInfo(FullName).GetDirectories())
@@ -150,7 +154,7 @@ namespace XSolution
                 var point = FullName.Split('_');
                 int X = int.Parse(point[0]);
                 int Y = int.Parse(point[1]);
-                Point point1 = new Point(X, Y); 
+                Point point1 = new Point(X, Y);
                 if (!Meta.DicPoints.ContainsKey(point1))
                     Meta.DicPoints.Add(point1, new List<GrifFile>());
 
@@ -170,7 +174,7 @@ namespace XSolution
 
                             if (!Meta.DicOM.ContainsKey(grifFile.OperatingMode))
                                 Meta.DicOM.Add(grifFile.OperatingMode, new List<GrifFile>());
-                            Meta.DicOM[grifFile.OperatingMode].Add(grifFile);   
+                            Meta.DicOM[grifFile.OperatingMode].Add(grifFile);
                         }
                     }
                 }
