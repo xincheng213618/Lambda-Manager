@@ -20,27 +20,24 @@ namespace XSolution
 
         public ImageSource Icon { get; set; }
 
-        public SolutionExplorer SolutionExplorer
-        { 
-            get 
-            {
-                return this.GetAncestor<SolutionExplorer>();
-            } 
-            protected set { }
-        }
+        public SolutionExplorer SolutionExplorer   { get => this.GetAncestor<SolutionExplorer>();   }
 
         public ProjectFolder()
         {
-
         }
+
+        public DirectoryInfo DirectoryInfo { get; set; }
 
         public FileSystemWatcher watcher;
 
         public ProjectFolder(string FolderPath) :base(FolderPath)
         {
             VisualChildren = new ObservableCollection<BaseObject>();
-            if (IsFolder)
+            Icon = FileIcon.GetDirectoryIcon().ToImageSource();
+
+            if (Directory.Exists(FolderPath))
             {
+                DirectoryInfo = new DirectoryInfo(FolderPath);
                 VisualChildren.CollectionChanged += (s, e) =>
                 {
                     if (e.Action == NotifyCollectionChangedAction.Remove && VisualChildren.Count == 0)
@@ -52,25 +49,21 @@ namespace XSolution
                         Visibility = Visibility.Visible;
                     }
                 };
+
+                watcher = new FileSystemWatcher(FolderPath)
+                {
+                    IncludeSubdirectories = false,
+                };
+                watcher.Deleted += Watcher_Deleted;
+                watcher.Created += Watcher_Created;
+                watcher.Changed += Watcher_Changed;
+                watcher.Renamed += Watcher_Renamed;
+                watcher.EnableRaisingEvents = true;
             }
-            Icon = FileIcon.GetDirectoryIcon().ToImageSource();
-            watcher = new FileSystemWatcher(FolderPath)
-            {
-                IncludeSubdirectories = false,               
-            };
-            watcher.Deleted += Watcher_Deleted;
-            watcher.Created += Watcher_Created;
-            watcher.Changed += Watcher_Changed;
-            watcher.Renamed += Watcher_Renamed;
-            watcher.EnableRaisingEvents = true;
         }
 
-        private bool? isCheck = false;
-        public bool? IsCheck
-        {
-            get { return isCheck; }
-            set { isCheck = value; NotifyPropertyChanged(); }
-        }
+        public bool? IsCheck { get => _IsCheck; set { _IsCheck = value; NotifyPropertyChanged(); } }
+        private bool? _IsCheck = false;
 
         private string tempname  =string.Empty;
 

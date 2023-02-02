@@ -283,7 +283,6 @@ namespace Solution
         {
             base.OnPreviewMouseDown(e);
             
-
             SelectPoint = e.GetPosition(SolutionTreeView);
             HitTestResult result = VisualTreeHelper.HitTest(SolutionTreeView, SelectPoint);
             if (result != null)
@@ -331,19 +330,8 @@ namespace Solution
                         await Task.Delay(300);
                         LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName);
                         LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
-                        LambdaControl.Trigger("projectFile1", this, new Dictionary<string, object>() { });
                     }
-                    else if (item.DataContext is ProjectManager projectMannager1)
-                    {
-                        LambdaControl.Trigger("projectManager", this, projectMannager1.FullName);
-                    }
-                    else if (item.DataContext is ProjectFolder projectFolder1)
-                    {
-                        LambdaControl.Trigger("projectFolder", this, projectFolder1.FullName);
-                    }
-
                 }
-
             }
             else
             {

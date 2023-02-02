@@ -96,7 +96,6 @@ namespace XSolution
             GrifExportAsCommand = new RelayCommand((o) => { new GrifExportAsWindow(this).ShowDialog(); }, (object value) => { return true; });
             OpenFileCommand = new RelayCommand((o) => {
                 LambdaControl.Trigger("SolutionGrifFileOpen", this, FullName);
-                LambdaControl.Trigger("projectFile1", this, new Dictionary<string, object>() { });
             }, (object value) => { return true; });
             var OMstring = Path.GetFileNameWithoutExtension(Name).Split('-');
             if (OMstring.Length>1&& OMstring[0] is string str)

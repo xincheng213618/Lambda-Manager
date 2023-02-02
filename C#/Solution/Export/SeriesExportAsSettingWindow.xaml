@@ -72,7 +72,7 @@
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
                                     <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  MouseDown="StackPanel1_MouseRightButtonDown" Tag="{Binding .}" >
-                                        <CheckBox  Tag="{Binding .}" Content="{Binding OperatingModeString}" IsChecked="{Binding IsCheck}"  Click="GrifFileCheckBoxClick"/>
+                                        <CheckBox  Tag="{Binding .}" Content="{Binding Name}" IsChecked="{Binding IsCheck}"  Click="GrifFileCheckBoxClick"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>

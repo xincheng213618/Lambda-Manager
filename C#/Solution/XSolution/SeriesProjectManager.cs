@@ -17,6 +17,17 @@ using XSolution.SeriesProject;
 namespace XSolution
 {
 
+    public class SeriesProjectExport
+    {
+
+        public string Name { get; set; }
+
+        
+
+    }
+
+
+
     public class SeriesProjectManager : ProjectFolder
     {
         public static bool IsThis(string FullName)
@@ -131,26 +142,22 @@ namespace XSolution
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
             Task.Run(CalculSize);
-
-            if (Directory.Exists(FullName))
-                DirectoryInfo = new DirectoryInfo(FullName);
         }
-        public DirectoryInfo DirectoryInfo { get; set; }
+
         public void ExportIni()
         {
-            foreach (var item in new DirectoryInfo(FullName).GetDirectories())
-            {
-                BaseObject baseObject = FromDirectories(new ProjectFolder(item.FullName), item);
-                AddChild(baseObject);
-            }
+            if (DirectoryInfo == null) return;
+
             ExportChildren = new ObservableCollection<BaseObject>();
             AllGrifChildren = new ObservableCollection<GrifFile>();
 
             Meta = new SeriesProjectMeta();
 
-            foreach (var item in VisualChildren)
+            foreach (var Dpoint in DirectoryInfo.GetDirectories())
             {
-                string FullName = item.Name;
+                ProjectFolder projectFolderDpoint = new ProjectFolder(Dpoint.FullName);
+
+                string FullName = Dpoint.Name;
                 var point = FullName.Split('_');
                 int X = int.Parse(point[0]);
                 int Y = int.Parse(point[1]);
@@ -158,16 +165,24 @@ namespace XSolution
                 if (!Meta.DicPoints.ContainsKey(point1))
                     Meta.DicPoints.Add(point1, new List<GrifFile>());
 
-                foreach (var zitem in item.VisualChildren)
+                foreach (var Dz in Dpoint.GetDirectories())
                 {
-                    int Zstep = int.Parse(zitem.Name);
+                    ProjectFolder projectFolderDz = new ProjectFolder(Dz.FullName);
+                    Dictionary<GrifFileOperatingMode, ProjectFolder> DicOMs = new Dictionary<GrifFileOperatingMode, ProjectFolder>();
+
+                    int Zstep = int.Parse(Dz.Name);
                     if (!Meta.DicZ.ContainsKey(Zstep))
                         Meta.DicZ.Add(Zstep, new List<GrifFile>());
 
-                    foreach (var image in zitem.VisualChildren)
+                    foreach (var image in Dz.GetDirectories())
                     {
-                        if (image is GrifFile grifFile)
+                        foreach (var Dmode in image.GetFiles())
                         {
+                            GrifFile grifFile = new GrifFile(Dmode.FullName);
+                            if (!DicOMs.ContainsKey(grifFile.OperatingMode))
+                                DicOMs.Add(grifFile.OperatingMode, new ProjectFolder("Virtual") { Name = grifFile.OperatingModeString });
+                            DicOMs[grifFile.OperatingMode].AddChild(grifFile);
+
                             AllGrifChildren.Add(grifFile);
                             Meta.DicPoints[point1].Add(grifFile);
                             Meta.DicZ[Zstep].Add(grifFile);
@@ -176,9 +191,15 @@ namespace XSolution
                                 Meta.DicOM.Add(grifFile.OperatingMode, new List<GrifFile>());
                             Meta.DicOM[grifFile.OperatingMode].Add(grifFile);
                         }
+
                     }
+                    foreach (var Dmode1 in DicOMs)
+                        projectFolderDz.AddChild(Dmode1.Value);
+                    projectFolderDpoint.AddChild(projectFolderDz);
                 }
+                AddChild(projectFolderDpoint);
             }
+
         }
 
         public static BaseObject FromDirectories(BaseObject baseObject, DirectoryInfo root)
