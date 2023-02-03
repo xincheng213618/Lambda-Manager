@@ -2,12 +2,11 @@
 using ACE.Global;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using ThemeManager.Controls;
 using MessageBox = System.Windows.MessageBox;
 
 namespace ToolHash
@@ -15,7 +14,7 @@ namespace ToolHash
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : BaseWindow
     {
         AESHelper AESHelper;
         public MainWindow()
@@ -27,7 +26,7 @@ namespace ToolHash
             var registerInfo = AESHelper.iRegisterInfo.Get() ?? new RegisterInfo();
             this.DataContext = registerInfo;
         }
-
+        
         string BasePath;
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -78,7 +77,7 @@ namespace ToolHash
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
 
-            SNTextBolck.Text = Regex.Replace(sNCode.GetSN(), @"(\w{4}(?=[^$]))", "$1-");
+            SNTextBolck.Text = Regex.Replace(sNCode.GetSN(), @"(\w{6}(?=[^$]))", "$1-");
         }
 
 
@@ -99,56 +98,12 @@ namespace ToolHash
             sNCode = new SNCode() { AreaCode = "000000", DistributorCode = "2210", EquipIdentify = "0000-xxx-xxx-x", ValidityPeriod = DateTime.Now.ToString("yyyyMMdd") };
             StackPanelSN.DataContext = sNCode;
         }
-    }
 
-    public static class Clipboard
-    {
-        [DllImport("User32")]
-        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
-
-        [DllImport("User32")]
-        public static extern bool CloseClipboard();
-
-        [DllImport("User32")]
-        public static extern bool EmptyClipboard();
-
-        [DllImport("User32")]
-        public static extern bool IsClipboardFormatAvailable(int format);
-
-        [DllImport("User32")]
-        public static extern IntPtr GetClipboardData(int uFormat);
-
-        [DllImport("User32", CharSet = CharSet.Unicode)]
-        public static extern IntPtr SetClipboardData(int uFormat, IntPtr hMem);
-
-        public static void SetText(string text)
+        private void Button_Click3(object sender, RoutedEventArgs e)
         {
-            if (!OpenClipboard(IntPtr.Zero))
-            {
-                System.Windows.Clipboard.SetText(text);
-                MessageBox.Show("复制成功");
-                return;
-            }
-            EmptyClipboard();
-            SetClipboardData(13, Marshal.StringToHGlobalUni(text));
-            CloseClipboard();
-        }
-    }
 
 
 
-    public static class Hash
-    {
-        public static MD5 hash = MD5.Create();
-        public static string GetMD5(string path)
-        {
-            if (File.Exists(path))
-            {
-                using var stream = new FileStream(path, FileMode.Open);
-                byte[] hashByte = hash.ComputeHash(stream);
-                return BitConverter.ToString(hashByte).Replace("-", "");
-            }
-            return string.Empty;
         }
     }
 }

@@ -23,6 +23,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)\lambda.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controls\**" />
@@ -31,6 +32,7 @@
     <Page Remove="Controls\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="app.manifest" />
     <None Remove="Image\ZIRCON.png" />
     <None Remove="resources\icons\application-icon.png" />
     <None Remove="resources\icons\application-logo.png" />
@@ -123,16 +125,15 @@
     <Resource Include="resources\icons\top-eraser.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="$(SolutionDir)C#\AboutMsg\AboutMsg.csproj" />
-    <ProjectReference Include="$(SolutionDir)C#\ACE\ACE.csproj" />
-    <ProjectReference Include="$(SolutionDir)C#\ConfigObjective\ConfigObjective.csproj" />
-    <ProjectReference Include="$(SolutionDir)C#\ConfigSetting\ConfigSetting.csproj" />
-    <ProjectReference Include="$(SolutionDir)C#\Global.Common\Global.Common.csproj" />
-    <ProjectReference Include="..\..\C#\Grid\Grid.csproj" />
+    <ProjectReference Include="..\..\C#\AboutMsg\AboutMsg.csproj" />
+    <ProjectReference Include="..\..\C#\ACE\ACE.csproj" />
+    <ProjectReference Include="..\..\C#\ConfigObjective\ConfigObjective.csproj" />
+    <ProjectReference Include="..\..\C#\ConfigSetting\ConfigSetting.csproj" />
+    <ProjectReference Include="..\..\C#\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\..\C#\Register\Register.csproj" />
+    <ProjectReference Include="..\..\C#\Solution\Solution.csproj" />
+    <ProjectReference Include="..\..\C#\ThemeManager\ThemeManager.csproj" />
     <ProjectReference Include="..\LambdaCore\LambdaCore.csproj" />
-    <ProjectReference Include="$(SolutionDir)C#\Solution\Solution.csproj" />
-    <ProjectReference Include="$(SolutionDir)C#\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\icons\application-icon.png" />

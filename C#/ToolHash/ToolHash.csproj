@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Paomedia-Small-N-Flat-Key.ico" />
+    <Resource Include="Paomedia-Small-N-Flat-Key.ico" />
   </ItemGroup>
 
   <ItemGroup>

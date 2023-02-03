@@ -7,8 +7,8 @@
 
 //CUDA
 #define CUDA_API_PER_THREAD_DEFAULT_STREAM
-#include <cuda_runtime_api.h>
-#include "cuda_runtime.h"
+//#include <cuda_runtime_api.h>
+//#include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include <cufft.h>
 

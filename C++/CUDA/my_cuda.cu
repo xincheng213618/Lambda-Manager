@@ -170,6 +170,7 @@ CUDA_class::CUDA_class()
 {
 	int nH = nH_max;
 	int nW = nW_max;
+	cudaMalloc((void**)&device1_float_out, 4 * nH * nW * sizeof(float));
 	Check(cudaMalloc((void**)&device1_float_out, 4 * nH * nW * sizeof(float)));
 	Check(cudaMalloc((void**)&device2_float_out, 4 * nH * nW * sizeof(float)));
 	Check(cudaMalloc((void**)&device3_float_out, 4 * nH * nW * sizeof(float)));
@@ -280,7 +281,7 @@ void CUDA_class::CUDA_filter_creat_now(cv::Mat src1, cv::Mat src2, cv::Mat& dst1
 	Check(cudaMemcpy(real_out.data, (uchar*)Amp_real, nH * nW * sizeof(float), cudaMemcpyDeviceToHost));
 	dst1 = real_out;
 	//fftshift imag
-	fftshift_step1_kernel << <grid, block >> > (Phi_imag, device1_float, device2_float, device3_float, device4_float, nH, nW, Nt);
+	fftshift_step1_kernel <<< grid, block >> > (Phi_imag, device1_float, device2_float, device3_float, device4_float, nH, nW, Nt);
 	fftshift_step2_kernel << <grid, block >> > (device1_float, device2_float, device3_float, device4_float, Phi_imag, nH, nW, Nt);
 	Check(cudaMemcpy(imag_out.data, (uchar*)Phi_imag, nH * nW * sizeof(float), cudaMemcpyDeviceToHost));
 	dst2 = imag_out;
@@ -317,7 +318,7 @@ void CUDA_class::CUDA_ALL_calculate(cv::Mat Phi, cv::Mat real_filter, cv::Mat im
 
 	dim3 grid((nH * nW + 1024 - 1) / 1024);//(1280*960+1024-1)/1024
 	dim3 block(1024);//1024
-	Mat2complex_kernel << <grid, block, 0, stream[i] >> > (Phi_imag, U0_device1, a, Nt);
+	Mat2complex_kernel <<< grid, block, 0, stream[i] >>> (Phi_imag, U0_device1, a, Nt);
 	//Ö´ÐÐfftÕý±ä»»
 	cufftExecC2C(cufft_Handle, U0_device1, U0_device2, CUFFT_FORWARD);
 	//cudaDeviceSynchronize();

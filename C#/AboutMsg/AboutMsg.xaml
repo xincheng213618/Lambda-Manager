@@ -24,9 +24,7 @@
             </Grid.RowDefinitions>
             <DockPanel>
                 <StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" Width="75" Height="100" Margin="0,-100,0,0">
-                    <Button Content="复制信息" Margin="0,5"/>
-                    <Button Content="系统信息" Click="Button1_Click" Margin="0,5"/>
-                    <Button Content="DxDiag" Click="Button2_Click" Margin="0,5"/>
+ 
                 </StackPanel>
                 <StackPanel>
                     <BulletDecorator >

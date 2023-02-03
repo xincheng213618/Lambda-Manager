@@ -2,9 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:root="clr-namespace:ThemeManager"
                     xmlns:local="clr-namespace:ThemeManager.Controls">
-
+    
+    <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
     <WindowChrome x:Key="DefaultWindowChrome" x:Shared="False"  CornerRadius="0" GlassFrameThickness="-1"  UseAeroCaptionButtons="False"/>
-    <!--<SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>
+    <!--<SolidColorBrush x:Key="CaptionButtonBrush">white</SolidColorBrush>s
     <SolidColorBrush x:Key="CaptionButtonForeground">white</SolidColorBrush>
     <SolidColorBrush x:Key="WindowIsNotActiveForeground">#d7d7d7</SolidColorBrush>
     <SolidColorBrush x:Key="CaptionButtonChoiceBrush">white</SolidColorBrush>
