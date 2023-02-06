@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuickLook.Common.ExtensionMethods
+namespace Global.Common.Extensions
 {
     public static class FileExtensions
     {

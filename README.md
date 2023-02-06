@@ -100,7 +100,7 @@ Lambda的json解析的辅助类，可以合并在Lambda中
 
 ## ThemeManager
 
-主题管理模块DLL，将会支持多种主题颜色。 目前支持 黑，白 两种主题
+主题管理模块DLL. 暂时支持主题色，黑色，白色，支持强调色 绿色
 
 ## ToolHash
 

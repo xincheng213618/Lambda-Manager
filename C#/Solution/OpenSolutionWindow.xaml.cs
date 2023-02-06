@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,6 +24,8 @@ namespace Solution
         RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Grid\\SolutionHistory") };
 
         public ObservableCollection<SoulutionInfo> SoulutionInfos = new ObservableCollection<SoulutionInfo>();
+        public ObservableCollection<SoulutionInfo> SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>();
+
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
             foreach (var item in recentFileList.RecentFiles)
@@ -33,7 +36,8 @@ namespace Solution
                     SoulutionInfos.Add(new SoulutionInfo() { Name = fileInfo.Name, FullName = fileInfo.FullName, CreationTime = fileInfo.CreationTime.ToString("yyyy/MM/dd H:mm") });
                 }
             }
-            ListView1.ItemsSource = SoulutionInfos;
+            SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>(SoulutionInfos);
+            ListView1.ItemsSource = SoulutionInfosCopy;
         }
 
 
@@ -77,6 +81,32 @@ namespace Solution
             {
                 SoulutionInfos.Remove(soulutioninfo);
                 recentFileList.RemoveFile(soulutioninfo.FullName);
+            }
+        }
+
+
+        private void SearchBar_OnSearchStarted(object sender, HandyControl.Data.FunctionEventArgs<string> e)
+        {
+
+        }
+
+        private void Searchbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (string.IsNullOrEmpty(textBox.Text))
+            {
+                ListView1.ItemsSource = SoulutionInfos;
+            }
+            else
+            {
+                ObservableCollection<SoulutionInfo> SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>();
+                foreach (var item in SoulutionInfos)
+                {
+                    if (item.FullName.Contains(textBox.Text))
+                        SoulutionInfosCopy.Add(item);
+                }
+                ListView1.ItemsSource = SoulutionInfosCopy;
             }
         }
     }

@@ -16,8 +16,11 @@ namespace HotKey
     [Serializable]
     public class Hotkey
     {
+        public readonly static Hotkey None = new (Key.None,ModifierKeys.None);
+
         public Key Key { get; }
         public ModifierKeys Modifiers { get; }
+
         public Hotkey(Key key, ModifierKeys modifiers)
         {
             Key = key;
@@ -26,6 +29,9 @@ namespace HotKey
 
         public override string ToString()
         {
+            if (Key == Key.None && Modifiers == ModifierKeys.None)
+                return "< None >";
+
             var str = new StringBuilder();
             if (Modifiers.HasFlag(ModifierKeys.Windows))
                 str.Append("Win + ");
