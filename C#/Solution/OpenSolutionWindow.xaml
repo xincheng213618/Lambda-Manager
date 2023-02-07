@@ -69,13 +69,11 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <DockPanel  >
-                    <TextBlock Text="最近使用的内容"  FontSize="15"/>
-                    <TextBox x:Name="Searchbox"  BorderBrush="Beige"  VerticalContentAlignment="Center"   TextChanged="Searchbox_TextChanged"  Margin="10,0" VerticalAlignment="Center">
+                    <TextBlock Text="最近使用的内容"  FontSize="18"/>
+                    <TextBox x:Name="Searchbox"  BorderBrush="Beige" MaxLength="15" VerticalContentAlignment="Center"  TextChanged="Searchbox_TextChanged"  Margin="10,0" Width="200"  HorizontalAlignment="Left" VerticalAlignment="Center">
                         <TextBox.Template>
                             <ControlTemplate  TargetType="TextBox">
-                                <Border x:Name="Bd"	BorderBrush="{TemplateBinding BorderBrush}" 	BorderThickness="{TemplateBinding BorderThickness}" 
-						Background="{TemplateBinding Background}"
-						SnapsToDevicePixels="true">
+                                <Border x:Name="Bd"	BorderBrush="{TemplateBinding BorderBrush}" 	BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                                     <ScrollViewer x:Name="PART_ContentHost"  Padding="{TemplateBinding Padding}" 
 							            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </Border>
@@ -84,38 +82,41 @@
                         </TextBox.Template>
                     </TextBox>
                 </DockPanel>
-                <ScrollViewer  Grid.Row="1"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
- 
-                    <ListView  x:Name="ListView1"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ScrollViewer.VerticalScrollBarVisibility="Auto" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
-                        <ListView.View>
-                            <GridView   >
-                                <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}">
-                                    <GridViewColumn.CellTemplate  >
-                                        <DataTemplate >
-                                            <Border x:Name="border1"  Height="45" Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}"   >
-                                                <Grid Margin="0,2,30,2" >
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="30"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
-                                                    <Grid Grid.Column="1" Margin="2">
-                                                        <TextBlock  Text="{Binding Path = Name}" TextTrimming = "CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Top"/>
-                                                        <TextBlock Text="{Binding Path = FullName}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Bottom"/>
-                                                        <TextBlock Text="{Binding Path = CreationTime}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                                                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Click="Button_Click_1" Visibility="{Binding ElementName=border1,Path=IsMouseOver,Converter={StaticResource bool2VisibilityConverter}}" Tag="{Binding .}" />
+                <Grid  Grid.Row="1">
+                    <ScrollViewer  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ListView  x:Name="ListView1"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ScrollViewer.VerticalScrollBarVisibility="Auto" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" SelectionChanged="ListView1_SelectionChanged">
+                            <ListView.View>
+                                <GridView   >
+                                    <GridViewColumn Width="{Binding ElementName=ListView1,Path=ActualWidth}">
+                                        <GridViewColumn.CellTemplate  >
+                                            <DataTemplate >
+                                                <Border x:Name="border1"  Height="45" Margin="0,2,0,2" BorderThickness="0" Width="{Binding ElementName=ListView1,Path=ActualWidth}"   >
+                                                    <Grid Margin="0,2,30,2" >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="30"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Image Source="/Solution;component/images/图片2.png" VerticalAlignment="Top" Margin="5"/>
+                                                        <Grid Grid.Column="1" Margin="2">
+                                                            <TextBlock  Text="{Binding Path = Name}" TextTrimming = "CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Top"/>
+                                                            <TextBlock Text="{Binding Path = FullName}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Bottom"/>
+                                                            <TextBlock Text="{Binding Path = CreationTime}" TextTrimming = "CharacterEllipsis" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                                            <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Click="Button_Click_1" Visibility="{Binding ElementName=border1,Path=IsMouseOver,Converter={StaticResource bool2VisibilityConverter}}" Tag="{Binding .}" />
+                                                        </Grid>
                                                     </Grid>
-                                                </Grid>
 
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-                </ScrollViewer>
+                    </ScrollViewer>
+                    <TextBlock x:Name="SearchNoneText" Visibility="Hidden" Margin="0,20,0,0" Text="未找到相关项目" />
+
+                </Grid>
 
             </Grid>
 
@@ -139,7 +140,7 @@
                     </Button.Template>
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontSize="15"  Text="打开本地项目"/>
+                            <TextBlock FontSize="18"  Text="打开本地项目"/>
                             <Viewbox  Width="15" Height="15" Margin="10,0,0,0">
                                 <Path Fill="#8B8B8B"  Data="M970.666667 213.333333H546.586667a10.573333 10.573333 0 0 1-7.54-3.126666L429.793333 100.953333A52.986667 52.986667 0 0 0 392.08 85.333333H96a53.393333 53.393333 0 0 0-53.333333 53.333334v704a53.393333 53.393333 0 0 0 53.333333 53.333333h874.666667a53.393333 53.393333 0 0 0 53.333333-53.333333V266.666667a53.393333 53.393333 0 0 0-53.333333-53.333334z" >
                                 </Path>

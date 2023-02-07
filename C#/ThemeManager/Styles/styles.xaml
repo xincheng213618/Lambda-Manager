@@ -600,7 +600,7 @@
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid Background="Transparent">
                         <Path x:Name="TrianglePath" Data="{StaticResource RepeatButton}" 
-									Fill="{StaticResource VerticalScrollBarThumb}" Height="Auto" Margin="5" Stretch="Fill" Width="Auto"/>
+									Fill="{StaticResource VerticalScrollBarThumb}" Height="auto" Margin="5" Stretch="Fill" Width="Auto"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -707,9 +707,9 @@
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Grid x:Name="Bg" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                         <Grid.RowDefinitions>
-                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                            <RowDefinition MaxHeight="20"/>
                             <RowDefinition Height="0.00001*"/>
-                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                            <RowDefinition MaxHeight="20"/>
                         </Grid.RowDefinitions>
                         <RepeatButton Command="{x:Static ScrollBar.LineUpCommand}"
 									IsEnabled="{TemplateBinding IsMouseOver}"
@@ -797,9 +797,9 @@
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
                             <Grid x:Name="Bg" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                    <ColumnDefinition MaxWidth="20"/>
                                     <ColumnDefinition Width="0.00001*"/>
-                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                    <ColumnDefinition MaxWidth="20"/>
                                 </Grid.ColumnDefinitions>
                                 <RepeatButton Command="{x:Static ScrollBar.LineLeftCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{DynamicResource RepeatLeftButtonStyle}"/>
                                 <Track x:Name="PART_Track" Grid.Column="1" IsEnabled="{TemplateBinding IsMouseOver}">

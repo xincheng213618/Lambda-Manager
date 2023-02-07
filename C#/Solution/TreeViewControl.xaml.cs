@@ -355,8 +355,9 @@ namespace Solution
         private void OpenSolution()
         {
             OpenSolutionWindow openSolutionWindow = new OpenSolutionWindow();
-            openSolutionWindow.Closed += (s, e) =>
+            openSolutionWindow.Closed += async (s, e) =>
             {
+                await Task.Delay(30);
                 if (SoftwareConfig.SolutionSetting.IsSupportMultiProject)
                 {
                     string FullName = openSolutionWindow.FullName;

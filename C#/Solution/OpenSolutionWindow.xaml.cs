@@ -80,7 +80,14 @@ namespace Solution
             if (sender is Button button&& button.Tag is SoulutionInfo soulutioninfo)
             {
                 SoulutionInfos.Remove(soulutioninfo);
+                SoulutionInfosCopy.Remove(soulutioninfo);
                 recentFileList.RemoveFile(soulutioninfo.FullName);
+
+                if (!string.IsNullOrEmpty(Searchbox.Text)&&SoulutionInfosCopy.Count == 0)
+                {
+                    SearchNoneText.Visibility = Visibility.Visible;
+                    SearchNoneText.Text = "未找到" + Searchbox.Text + "相关项目";
+                }
             }
         }
 
@@ -93,20 +100,27 @@ namespace Solution
         private void Searchbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-
+            if (SearchNoneText.Visibility == Visibility.Visible)
+                SearchNoneText.Visibility = Visibility.Hidden;
             if (string.IsNullOrEmpty(textBox.Text))
             {
                 ListView1.ItemsSource = SoulutionInfos;
+
             }
             else
             {
-                ObservableCollection<SoulutionInfo> SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>();
+                SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>();
                 foreach (var item in SoulutionInfos)
                 {
                     if (item.FullName.Contains(textBox.Text))
                         SoulutionInfosCopy.Add(item);
                 }
                 ListView1.ItemsSource = SoulutionInfosCopy;
+                if (SoulutionInfosCopy.Count == 0)
+                {
+                    SearchNoneText.Visibility = Visibility.Visible;
+                    SearchNoneText.Text = "未找到" + textBox.Text + "相关项目";
+                }
             }
         }
     }
