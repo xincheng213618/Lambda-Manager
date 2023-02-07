@@ -76,7 +76,6 @@ namespace ToolHash
         SNCode sNCode = new SNCode();
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
-
             SNTextBolck.Text = Regex.Replace(sNCode.GetSN(), @"(\w{6}(?=[^$]))", "$1-");
         }
 

@@ -79,16 +79,18 @@ def register1():
 
 @server.route('/register', methods=['post'])
 def register():
-    user_id = 1 ;
+    user_id =1
     sn = request.values.get('sn')
-    if (len(sn)!=24):
-        resu = {'state': 1, 'message': "注册码位数异常"}
-        return json.dumps(resu, ensure_ascii=False)
-
-
     register_info = request.values.get('register-info')
     mac_address = request.values.get('mac-address')
     equip_identify = request.values.get('equip-identify')
+
+    if not sn or not mac_address:
+        resu = {'state': 1, 'message': '参数不能存在空值'}
+        return json.dumps(resu, ensure_ascii=False)
+    if not checkSN(sn):
+        resu = {'state': 1, 'message': '注册码参数异常'}
+        return json.dumps(resu, ensure_ascii=False)
 
     if sn and register_info and mac_address and equip_identify:
         try:
@@ -153,7 +155,6 @@ def unregister():
         resu = {'state': 1, 'message': '参数不能为空！'}
         return json.dumps(resu, ensure_ascii=False)
 
-from flask_bootstrap import Bootstrap
 @server.route('/', methods=['get'])
 def root():
     return render_template("index.html")
@@ -233,9 +234,11 @@ def checkregister():
             return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
         for row in cursor.fetchall():
             print(row[3])
-            for r in row:
-                print(r)
-        resu = {'state': 0, 'message': '当前序列号已注册到其他机器'}
+            for mac in macs:
+                if (row[3].strip().replace("-","").replace(":","").replace(".","") == mac.strip().replace("-","").replace(":","").replace(".","")):
+                    resu = {'state': 0, 'message': ''}
+                    return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+        resu = {'state': 1, 'message': '当前序列号已注册到其他机器'}
         db.commit()
     except Exception:
         resu = {'state': 1, 'message': "数据库连接失败"}
@@ -259,5 +262,3 @@ def test1(user_id,equip_identify,mac_address,sn):
 
 if __name__ == '__main__':
     app = server.run(debug=True, port=18888, host='0.0.0.0');
-
-    bootstrap = Bootstrap(app)

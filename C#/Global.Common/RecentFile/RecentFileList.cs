@@ -29,7 +29,7 @@ namespace Global.RecentFile
         public RecentFileList()
         {
             Persister = new RegistryPersister();
-            MaxNumberOfFiles = 15;
+            MaxNumberOfFiles = 100;
             MaxPathLength = 50;
             MenuItemFormatOneToNine = "_{0}:  {2}";
             MenuItemFormatTenPlus = "{0}:  {2}";
