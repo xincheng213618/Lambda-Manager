@@ -88,7 +88,7 @@ namespace Solution
                 FileMenuItem.Items.Insert(FileMenuItem.Items.Count - 1, RecentListMenuItem);
                 RecentListMenuItem.Loaded += (s, e) =>
                 {
-                    //RecentListMenuItem.Items.Clear();
+                    RecentListMenuItem.Items.Clear();
                     foreach (var item in recentFileList.RecentFiles)
                     {
                         MenuItem menuItem = new MenuItem();
