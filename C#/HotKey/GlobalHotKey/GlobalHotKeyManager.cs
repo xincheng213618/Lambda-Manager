@@ -18,20 +18,12 @@ namespace HotKey.GlobalHotKey
 
         public static GlobalHotKeyManager GetInstance(Window window)
         {
-            lock (locker)
-            {
-                // 如果类的实例不存在则创建，否则直接返回
-                if (instance == null)
-                {
-                    instance = new GlobalHotKeyManager(window);
-                }
-            }
-            return instance;
+            lock (locker) { return instance ??= new GlobalHotKeyManager(window); }
         }
         public bool Register(HotKeys hotKeys)
         {
             if (hotKeys == null) return false;
-            if (hotKeys.Kinds == HotKeyKinds.Windows)
+            if (hotKeys.Kinds == HotKeyKinds.Global)
             {
                 return GlobalHotKey.Register(intPtr, hotKeys.Hotkey.Modifiers, hotKeys.Hotkey.Key, hotKeys.hotKeyHandler);
             }

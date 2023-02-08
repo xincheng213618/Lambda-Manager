@@ -50,7 +50,7 @@ namespace HotKey.GlobalHotKey
 
 
         static Dictionary<int, HotKeyCallBackHanlder> keymap = new Dictionary<int, HotKeyCallBackHanlder>();
-        static Dictionary<HwndSource, bool> HwndHook = new Dictionary<HwndSource, bool>();
+        static List<HwndSource> HwndHook = new List<HwndSource>();
         static int keyid = 0;
 
         /// <summary>
@@ -63,15 +63,10 @@ namespace HotKey.GlobalHotKey
         public static bool Register(IntPtr hwnd, ModifierKeys fsModifiers, Key key, HotKeyCallBackHanlder callBack)
         {
             HwndSource _hwndSource = HwndSource.FromHwnd(hwnd);
-            if (HwndHook.TryGetValue(_hwndSource ,out bool bool1))
-            {
-                if (!bool1)
-                    _hwndSource.AddHook(WndProc);
-            }
-            else
+            if (!HwndHook.Contains(_hwndSource))
             {
                 _hwndSource.AddHook(WndProc);
-                HwndHook.Add(_hwndSource, true);
+                HwndHook.Add(_hwndSource);
             }
             int id = keyid++;
             int vk = KeyInterop.VirtualKeyFromKey(key);
@@ -93,15 +88,10 @@ namespace HotKey.GlobalHotKey
         public static bool Register(IntPtr hwnd, int id , ModifierKeys fsModifiers, Key key, HotKeyCallBackHanlder callBack)
         {
             HwndSource _hwndSource = HwndSource.FromHwnd(hwnd);
-            if (HwndHook.TryGetValue(_hwndSource, out bool bool1))
-            {
-                if (!bool1)
-                    _hwndSource.AddHook(WndProc);
-            }
-            else
+            if (!HwndHook.Contains(_hwndSource))
             {
                 _hwndSource.AddHook(WndProc);
-                HwndHook.Add(_hwndSource, true);
+                HwndHook.Add(_hwndSource);
             }
             int vk = KeyInterop.VirtualKeyFromKey(key);
             if (!RegisterHotKey(hwnd, id, fsModifiers, (uint)vk))
@@ -119,6 +109,7 @@ namespace HotKey.GlobalHotKey
         /// <summary>
         /// 快捷键消息处理
         /// </summary>
+        /// 这里用一个就可以，不管开了几个窗口，最后触发的都是绑定的事件
         static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             //https://wiki.winehq.org/List_Of_Windows_Messages

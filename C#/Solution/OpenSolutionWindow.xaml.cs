@@ -1,4 +1,5 @@
 ﻿using Global.RecentFile;
+using HotKey;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -38,11 +39,12 @@ namespace Solution
             }
             SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>(SoulutionInfos);
             ListView1.ItemsSource = SoulutionInfosCopy;
+
         }
 
 
 
-        
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

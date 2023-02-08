@@ -161,7 +161,8 @@ namespace Global
             SolutionConfig.Dimensional.Saveprefix = ConfigFullName;
             WriteVisualOnInkMode(setting.otherMode.InkMode);
             SolutionConfig.ToJsonFile(ConfigFullName);
-            SaveCustomConfig(ConfigFullName, ObjList);
+            if (string.IsNullOrEmpty(ConfigFullName))
+                SaveCustomConfig(ConfigFullName, ObjList);
         }
         public void SaveDefaultConfig(string path)
         {

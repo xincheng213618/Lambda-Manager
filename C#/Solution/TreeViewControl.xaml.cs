@@ -224,7 +224,6 @@ namespace Solution
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
 
-                //添加热键
                 Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "打开当前工程", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = OpenSolution });
                 Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "新建工程", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = NewCreat });
                 Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), Kinds =HotKeyKinds.Windows,hotKeyHandler = SolutionClose });

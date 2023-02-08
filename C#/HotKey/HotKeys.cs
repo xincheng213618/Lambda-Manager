@@ -12,15 +12,11 @@ namespace HotKey
 
 
         public string FunctionName { get; set; }
+
         public HotKeyCallBackHanlder hotKeyHandler;
-        public Hotkey Hotkey;
-        public HotKeyKinds Kinds;
+        public Hotkey Hotkey { get; set; }
+        public HotKeyKinds Kinds { get; set; }
 
-
-
-        /// <summary>
-        /// 是否绑定成功
-        /// </summary>
         public bool IsRegistered { get => _IsRegistered; set { _IsRegistered = value; NotifyPropertyChanged(); } }
         private bool _IsRegistered = false;
 

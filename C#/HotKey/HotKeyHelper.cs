@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HotKey
 {
@@ -19,6 +20,9 @@ namespace HotKey
             hotKeys.IsRegistered = hotKeys.Kinds == HotKeyKinds.Global ? GlobalHotKeyManager.GetInstance(This).Register(hotKeys):WindowHotKeyManager.GetInstance(This).Register(hotKeys);
             return hotKeys.IsRegistered;
         }
+
+        public static bool AddHotKeys(this Control This, HotKeys hotKeys) => hotKeys.Kinds != HotKeyKinds.Global && WindowHotKeyManager.GetInstance(This).Register(hotKeys);
+
     }
 
 
@@ -56,7 +60,6 @@ namespace HotKey
                 }
                 else
                 { 
-
                     WindowHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey,hotKeys.hotKeyHandler);
                 }
             }       
@@ -87,11 +90,11 @@ namespace HotKey
                 Window window = WindowList[vk];
                 if (hotKeys.Kinds == HotKeyKinds.Global)
                 {
-                    GlobalHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
+                    hotKeys.IsRegistered = GlobalHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
                 }
                 else
                 {
-                    WindowHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
+                    hotKeys.IsRegistered = WindowHotKeyManager.GetInstance(window).Register(hotKeys.Hotkey, hotKeys.hotKeyHandler);
                 }
             }
         }
@@ -104,11 +107,11 @@ namespace HotKey
                 Window window = WindowList[vk];
                 if (hotKeys.Kinds == HotKeyKinds.Global)
                 {
-                    GlobalHotKeyManager.GetInstance(window).ModifiedHotkey(hotKeys);
+                     GlobalHotKeyManager.GetInstance(window).ModifiedHotkey(hotKeys);
                 }
                 else
                 {
-                    WindowHotKeyManager.GetInstance(window).ModifiedHotkey(hotKeys);
+                     WindowHotKeyManager.GetInstance(window).ModifiedHotkey(hotKeys);
                 }
             }
 

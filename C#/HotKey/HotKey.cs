@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Text;
 using System.Windows.Input;
 
@@ -6,17 +9,19 @@ namespace HotKey
 {
     public static class HotKeyExtension
     {
-        public static int ToInt(this Hotkey hotkey)
-        {
-            return ((int)hotkey.Modifiers << 8) + (int)hotkey.Key;
-        }
+        public static int ToInt(this Hotkey hotkey) => Hotkey.ToInt(hotkey);
+        public static bool IsNullOrEmpty(this Hotkey hotkey) => Hotkey.IsNullOrEmpty(hotkey);
     }
 
 
     [Serializable]
     public class Hotkey
     {
+        #region static
         public readonly static Hotkey None = new (Key.None,ModifierKeys.None);
+        public static bool IsNullOrEmpty(Hotkey hotkey) => hotkey is not null && hotkey != None;
+        public static int ToInt(Hotkey hotkey) => ((int)hotkey.Modifiers << 8) + (int)hotkey.Key;
+        #endregion
 
         public Key Key { get; }
         public ModifierKeys Modifiers { get; }
@@ -30,7 +35,7 @@ namespace HotKey
         public override string ToString()
         {
             if (Key == Key.None && Modifiers == ModifierKeys.None)
-                return "< None >";
+                return "<None>";
 
             var str = new StringBuilder();
             if (Modifiers.HasFlag(ModifierKeys.Windows))
