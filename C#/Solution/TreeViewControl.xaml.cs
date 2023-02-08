@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Solution
 {
@@ -43,7 +44,9 @@ namespace Solution
             IniCommand();
             this.DataContext = SoftwareConfig.SolutionSetting;
         }
-
+        [DllImport("user32.dll", EntryPoint = "keybd_event", SetLastError = true)]
+        public static extern void keybd_event(System.Windows.Forms.Keys bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
+        public const int KEYEVENTF_KEYUP = 2;
         private void AddMenu()
         {
             if (Application.Current.MainWindow.FindName("menu") is Menu menu)
@@ -86,7 +89,7 @@ namespace Solution
                 RecentListMenuItem ??= new MenuItem();
                 RecentListMenuItem.Header = "最近使用过的文件(_F)";
                 FileMenuItem.Items.Insert(FileMenuItem.Items.Count - 1, RecentListMenuItem);
-                RecentListMenuItem.Loaded += (s, e) =>
+                RecentListMenuItem.SubmenuOpened += async (s, e) =>
                 {
                     RecentListMenuItem.Items.Clear();
                     foreach (var item in recentFileList.RecentFiles)
@@ -99,7 +102,10 @@ namespace Solution
                         };
                         RecentListMenuItem.Items.Add(menuItem);
                     };
- 
+                    await Task.Delay(100);
+                    keybd_event(System.Windows.Forms.Keys.Down, 0, 0, 0);
+                    keybd_event(System.Windows.Forms.Keys.Down, 0, 2, 0);
+
                 };
 
                 RecentListMenuItem.Items.Clear();
@@ -144,7 +150,7 @@ namespace Solution
                     DirectoryInfo directoryInfo = new DirectoryInfo(fn);
                     foreach (var item in directoryInfo.GetFiles())
                     {
-                        if (item.Extension==".gprj")
+                        if (item.Extension == ".gprj")
                         {
                             OpenSolution(item.FullName);
                             break;
@@ -198,7 +204,7 @@ namespace Solution
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox && viewbox.Parent is ScrollViewer scrollViewer &&scrollViewer.Parent is TabItem tabItem)
+            if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox && viewbox.Parent is ScrollViewer scrollViewer && scrollViewer.Parent is TabItem tabItem)
             {
                 AddMenu();
                 tabItem.AllowDrop = true;
@@ -210,7 +216,7 @@ namespace Solution
                 grid.Children.Add(scrollViewer);
 
 
-                Viewbox viewbox1 = new Viewbox() { Child = SoulutionButtonPanel1,VerticalAlignment =VerticalAlignment.Top,HorizontalAlignment =HorizontalAlignment.Left };
+                Viewbox viewbox1 = new Viewbox() { Child = SoulutionButtonPanel1, VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
                 viewbox1.SetBinding(Viewbox.HeightProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualHeight") });
                 viewbox1.SetBinding(Viewbox.WidthProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualWidth") });
 
@@ -226,7 +232,7 @@ namespace Solution
 
                 Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "打开当前工程", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = OpenSolution });
                 Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "新建工程", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = NewCreat });
-                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), Kinds =HotKeyKinds.Windows,hotKeyHandler = SolutionClose });
+                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = SolutionClose });
             }
         }
 
@@ -242,8 +248,9 @@ namespace Solution
         public string SolutionDir
         {
             get { return solutionDir; }
-            set { 
-                if (value!=null && value!= solutionDir)
+            set
+            {
+                if (value != null && value != solutionDir)
                 {
                     solutionDir = value;
                     LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
@@ -253,23 +260,24 @@ namespace Solution
 
         private string solutionFullName;
 
-        public string SolutionFullName 
+        public string SolutionFullName
         {
             get { return solutionFullName; }
-            set {
-                if (solutionFullName != value) 
+            set
+            {
+                if (solutionFullName != value)
                 {
                     solutionFullName = value;
-                    SolutionDir =Path.GetDirectoryName(solutionFullName);
+                    SolutionDir = Path.GetDirectoryName(solutionFullName);
                 }
-                }
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             if (SoftwareConfig.SolutionSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
             {
-                MessageBox1.Show(Application.Current.MainWindow,"多工程情况下参数自动保存");
+                MessageBox1.Show(Application.Current.MainWindow, "多工程情况下参数自动保存");
             }
             if (!string.IsNullOrEmpty(SolutionFullName))
             {
@@ -281,7 +289,7 @@ namespace Solution
         protected async override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
-            
+
             SelectPoint = e.GetPosition(SolutionTreeView);
             HitTestResult result = VisualTreeHelper.HitTest(SolutionTreeView, SelectPoint);
             if (result != null)
@@ -296,7 +304,7 @@ namespace Solution
                 }
                 SelectedTreeViewItem = item;
                 LastSelectedTreeViewItem = item;
-                if (SolutionExplorers.Count != 1&&item.DataContext is SolutionExplorer solutionExplorer)
+                if (SolutionExplorers.Count != 1 && item.DataContext is SolutionExplorer solutionExplorer)
                 {
                     ///判断当前工程配置不是现在的，不重复读取
                     if (SolutionFullName != solutionExplorer.FullName)
@@ -401,7 +409,7 @@ namespace Solution
         private void TreeViewInitialized(string FilePath, bool init = true)
         {
             SolutionExplorer solutionExplorer = new SolutionExplorer(FilePath);
-           
+
             if (init)
                 SolutionExplorers.Clear();
             SolutionExplorers.Add(solutionExplorer);
@@ -445,7 +453,8 @@ namespace Solution
                     recentFileList.InsertFile(SolutionFullName);
                     Config.ConfigWrite(SolutionFullName);
 
-                    if (Config.ConfigRead(SolutionFullName)==0){
+                    if (Config.ConfigRead(SolutionFullName) == 0)
+                    {
                         TreeViewInitialized(SolutionFullName);
                     }
                 }
@@ -508,15 +517,15 @@ namespace Solution
             {
                 if (newCreatWindow.IsCreate)
                 {
-                string SolutionDirectoryPath = newCreatWindow.newCreatViewMode.DirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name;
-                SolutionFullName = SolutionDirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name + ".gprj";
+                    string SolutionDirectoryPath = newCreatWindow.newCreatViewMode.DirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name;
+                    SolutionFullName = SolutionDirectoryPath + "\\" + newCreatWindow.newCreatViewMode.Name + ".gprj";
 
-                Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Video");
-                Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Image");
+                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Video");
+                    Directory.CreateDirectory(SolutionDirectoryPath + "\\" + "Image");
 
-                recentFileList.InsertFile(SolutionFullName);
-                Config.ConfigWrite(SolutionFullName);
-                TreeViewInitialized(SolutionFullName, !SoftwareConfig.SolutionSetting.IsSupportMultiProject);
+                    recentFileList.InsertFile(SolutionFullName);
+                    Config.ConfigWrite(SolutionFullName);
+                    TreeViewInitialized(SolutionFullName, !SoftwareConfig.SolutionSetting.IsSupportMultiProject);
                 }
             };
             newCreatWindow.ShowDialog();
@@ -603,7 +612,7 @@ namespace Solution
 
         }
 
-        private void  Button_Click_5(object sender, RoutedEventArgs e)
+        private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能在测试中");
         }
