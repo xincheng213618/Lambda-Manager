@@ -86,10 +86,9 @@ namespace Solution
                 RecentListMenuItem ??= new MenuItem();
                 RecentListMenuItem.Header = "最近使用过的文件(_F)";
                 FileMenuItem.Items.Insert(FileMenuItem.Items.Count - 1, RecentListMenuItem);
-
-                RecentListMenuItem.SubmenuOpened += (s, e) =>
+                RecentListMenuItem.Loaded += (s, e) =>
                 {
-                    RecentListMenuItem.Items.Clear();
+                    //RecentListMenuItem.Items.Clear();
                     foreach (var item in recentFileList.RecentFiles)
                     {
                         MenuItem menuItem = new MenuItem();
@@ -99,7 +98,8 @@ namespace Solution
                             this.OpenSolution(item);
                         };
                         RecentListMenuItem.Items.Add(menuItem);
-                    }
+                    };
+ 
                 };
 
                 RecentListMenuItem.Items.Clear();
