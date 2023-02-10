@@ -12,8 +12,6 @@ DB = 'grid'
 PORT = 3306
 CHARSET = 'utf8'
 
-
-
 '''
 flask： web框架，通过flask提供的装饰器@server.route()将普通函数转换为服务
 登录接口，需要传url、username、passwd
@@ -162,7 +160,9 @@ def generateSNCodepost():
 @server.route('/checkregister', methods=['post'])
 def checkregister():
     sn = request.values.get('sn')
+    print(sn)
     macstrings = request.values.get('mac-array')
+    print(macstrings)
     if not sn or not macstrings:
         resu = {'state': 1, 'message': '参数不能存在空值'}
         return json.dumps(resu, ensure_ascii=False)
@@ -206,6 +206,44 @@ def checkregister():
 
 
 
+@server.route('/getRegion', methods=['get'])
+def GetRegion():
+    resu = {'state': 0, 'message': '注册码添加成功'}
+    return json.dumps(resu, ensure_ascii=False)
+
+@server.route('/addSNCode', methods=['post'])
+def addSNCode():
+    sn = request.values.get('sn')
+    print(sn)
+    if not sn:
+        resu = {'state': 1, 'message': '参数不能存在空值'}
+        return json.dumps(resu, ensure_ascii=False)
+    if not checkSN(sn):
+        resu = {'state': 1, 'message': '注册码参数异常'}
+        return json.dumps(resu, ensure_ascii=False)
+    sn =sn.strip().replace("-","")
+    try:
+        db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
+                             use_unicode=True)
+        cursor = db.cursor()
+        create_date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        sql = "INSERT INTO `grid`.`serial-number` (`sn`, `vendor_id`, `module_id`, `effect_months`, `create_date`) VALUES ('%s', %s, %s,'%s', '%s')" % (sn, 11, 11, create_date,create_date)
+        print(sql)
+        aa = cursor.execute(sql)
+        db.commit()
+        print(aa)
+        if (aa == 0):
+            resu = {'state': 0, 'message': '注册成功'}
+            return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+        resu = {'state': 0, 'message': '注册成功'}
+    except Exception:
+        resu = {'state': 1, 'message': "数据库连接失败"}
+    return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+
+
+
+
+
 def test1(user_id,equip_identify,mac_address,sn):
     db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
                          use_unicode=True)
@@ -221,4 +259,4 @@ def test1(user_id,equip_identify,mac_address,sn):
 
 
 if __name__ == '__main__':
-    server.run(debug=True, port=18888, host='0.0.0.0',ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));
+    server.run(debug=True, port=18888, host='0.0.0.0');

@@ -51,9 +51,9 @@
 
 
             </StackPanel>
-            
-            
-            
+
+
+
 
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置" />
@@ -428,14 +428,14 @@
                 </Border>
             </Grid>
 
-            <StatusBar Name="statusBar" Background="Transparent" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4">
+            <StatusBar Name="statusBar"  Background="Red"  Grid.Row="2" Grid.Column="4" Height="22">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
                         <DockPanel/>
                     </ItemsPanelTemplate>
                 </StatusBar.ItemsPanel>
                 <StatusBarItem>
-                    <TextBlock Name="imageUnit"/> 
+                    <TextBlock Name="imageUnit"/>
                 </StatusBarItem>
                 <StatusBarItem Grid.Column="2">
                     <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
