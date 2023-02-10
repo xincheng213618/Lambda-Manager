@@ -119,6 +119,21 @@ namespace Solution
                     };
                     RecentListMenuItem.Items.Add(menuItem);
                 }
+
+
+                MenuItem NewMenuItem = new MenuItem() { Header = "新建(_N)" };
+                NewMenuItem.InputGestureText = "Ctrl + N";
+                NewMenuItem.Click += (s, e) => NewCreat();
+
+                MenuItem OpenMenuItem = new MenuItem() { Header = "打开(_O)" };
+                OpenMenuItem.InputGestureText = "Ctrl + O";
+                OpenMenuItem.Click += (s, e) => OpenSolution();
+
+                FileMenuItem.Items.Insert(0, NewMenuItem);
+                FileMenuItem.Items.Insert(1, OpenMenuItem);
+                FileMenuItem.Items.Insert(2, new Separator());
+
+                FileMenuItem.Items.Insert(FileMenuItem.Items.Count-2, new Separator());
             }
 
         }

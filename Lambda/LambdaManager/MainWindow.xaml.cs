@@ -119,7 +119,6 @@ namespace LambdaManager
             MenuItem Toolmenu = new MenuItem() { Header = Properties.Resources._Tool };
             Toolmenu.Items.Add(MenuThemes);
             MenuItem Filemenu = new MenuItem() { Header = Properties.Resources._File };
-            Filemenu.Items.Add(new MenuItem() { Header = Properties.Resources._New });
             menu.Items.Add(Filemenu);
             menu.Items.Add(Toolmenu);
             menu.Items.Add(new MenuItem() { Header = Properties.Resources._Help });
