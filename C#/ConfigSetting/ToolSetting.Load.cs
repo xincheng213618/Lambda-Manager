@@ -159,9 +159,8 @@ namespace ConfigSetting
                         <DockPanel/>
                     </ItemsPanelTemplate>";
 				statusBar.ItemsPanel = XamlReader.Parse(xaml) as ItemsPanelTemplate;
-
-
-				Dictionary<string, string> properties1 = new Dictionary<string, string>()
+				statusBar.Background = Brushes.Transparent;
+                Dictionary<string, string> properties1 = new Dictionary<string, string>()
 					{
 						{ "IsCameraConnection","CameraControlTemplate"},
 						{ "IsStageConnection","StageControlTemplate"},
