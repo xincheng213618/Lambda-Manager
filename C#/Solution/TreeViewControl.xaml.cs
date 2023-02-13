@@ -131,9 +131,9 @@ namespace Solution
 
                 FileMenuItem.Items.Insert(0, NewMenuItem);
                 FileMenuItem.Items.Insert(1, OpenMenuItem);
-                FileMenuItem.Items.Insert(2, new Separator());
+                //FileMenuItem.Items.Insert(2, new Separator());
 
-                FileMenuItem.Items.Insert(FileMenuItem.Items.Count-2, new Separator());
+                //FileMenuItem.Items.Insert(FileMenuItem.Items.Count-2, new Separator());
             }
 
         }
@@ -213,8 +213,7 @@ namespace Solution
             }
             return sucess;
         }
-
-
+        List<HotKeys> hotKeysList = new List<HotKeys>();
 
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -245,9 +244,13 @@ namespace Solution
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
 
-                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "打开当前工程", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = OpenSolution });
-                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "新建工程", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = NewCreat });
-                Application.Current.MainWindow.AddHotKeys(new HotKeys() { FunctionName = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, hotKeyHandler = SolutionClose });
+                hotKeysList.Add(new HotKeys() { Name = "打开当前工程", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = OpenSolution });
+                hotKeysList.Add(new HotKeys() { Name = "新建工程", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = NewCreat });
+                hotKeysList.Add(new HotKeys() { Name = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = SolutionClose });
+                foreach (var hotKeys in hotKeysList)
+                {
+                    Application.Current.MainWindow.AddHotKeys(hotKeys);
+                }
             }
         }
 
@@ -582,7 +585,7 @@ namespace Solution
         {
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
 
-            HotKeyManger hotKeyManger = new HotKeyManger();
+            HotKeyManger hotKeyManger = new HotKeyManger(hotKeysList);
             hotKeyManger.Show();
 
 

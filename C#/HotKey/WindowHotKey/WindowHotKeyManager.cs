@@ -21,28 +21,28 @@ namespace HotKey.WindowHotKey
 
         private static readonly object locker = new object();
 
-        public Control window;
+        public Control control;
 
         private WindowHotKeyManager(Control window)
         {
-            this.window = window;
+            this.control = window;
             Instances.Add(window, this);
             HotKeysList = new List<HotKeys>();
         }
 
         private static WindowHotKeyManager instance;
 
-        public static WindowHotKeyManager GetInstance(Control window)
+        public static WindowHotKeyManager GetInstance(Control control)
         {
             lock (locker)
             {
-                if (Instances.ContainsKey(window))
+                if (Instances.ContainsKey(control))
                 {
-                    return Instances[window];
+                    return Instances[control];
                 }
                 else
                 {
-                    instance = new WindowHotKeyManager(window);
+                    instance = new WindowHotKeyManager(control);
                 }
             }
             return instance;
@@ -56,22 +56,23 @@ namespace HotKey.WindowHotKey
 
         public bool Register(HotKeys hotkeys)
         {
-            hotkeys.IsRegistered = WindowHotKey.Register(window, hotkeys.Hotkey, hotkeys.hotKeyHandler);
+            hotkeys.Control = control;
+            hotkeys.IsRegistered = WindowHotKey.Register(control, hotkeys.Hotkey, hotkeys.HotKeyHandler);
             HotKeysList.Add(hotkeys);
             return true;
         }
 
         public bool Register(Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
-            if (!WindowHotKey.Register(window, hotkey, callBack))
+            if (!WindowHotKey.Register(control, hotkey, callBack))
                 return false;
-            HotKeysList.Add(new HotKeys() { Hotkey =hotkey,hotKeyHandler = callBack});
+            HotKeysList.Add(new HotKeys() { Hotkey =hotkey,HotKeyHandler = callBack});
             return true;
         }
 
         public bool UnRegister(HotKeys hotkeys)
         {
-            WindowHotKey.UnRegister(hotkeys.hotKeyHandler);
+            WindowHotKey.UnRegister(hotkeys.HotKeyHandler);
             HotKeysList.Remove(hotkeys);
             return true;
         }
@@ -81,7 +82,7 @@ namespace HotKey.WindowHotKey
             WindowHotKey.UnRegister(callBack);
             foreach (var item in HotKeysList)
             {
-                if (callBack == item.hotKeyHandler)
+                if (callBack == item.HotKeyHandler)
                 {
                     HotKeysList.Remove(item);
                 }
@@ -90,35 +91,25 @@ namespace HotKey.WindowHotKey
         }
 
 
-        public void ModifiedHotkey(HotKeys hotkeys)
+        public bool ModifiedHotkey(HotKeys hotkeys)
         {
-            WindowHotKey.UnRegister(hotkeys.hotKeyHandler);
-            WindowHotKey.Register(window, hotkeys.Hotkey, hotkeys.hotKeyHandler);
-
-            foreach (var item in HotKeysList)
-            {
-                if (hotkeys.hotKeyHandler == item.hotKeyHandler)
-                {
-                    HotKeysList.Remove(item);
-                }
-            }
-            HotKeysList.Add(hotkeys);
-
+            WindowHotKey.UnRegister(hotkeys.HotKeyHandler);
+            return WindowHotKey.Register(control, hotkeys.Hotkey, hotkeys.HotKeyHandler);
         }
 
         public void ModifiedHotkey(Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
             WindowHotKey.UnRegister(callBack);
-            WindowHotKey.Register(window, hotkey, callBack);
+            WindowHotKey.Register(control, hotkey, callBack);
 
             foreach (var item in HotKeysList)
             {
-                if (callBack == item.hotKeyHandler)
+                if (callBack == item.HotKeyHandler)
                 {
                     HotKeysList.Remove(item);
                 }
             }
-            HotKeysList.Add(new HotKeys() { Hotkey = hotkey, hotKeyHandler = callBack });
+            HotKeysList.Add(new HotKeys() { Hotkey = hotkey, HotKeyHandler = callBack });
         }
 
     }

@@ -211,7 +211,7 @@ namespace ConfigSetting
             foreach (var item in HotKeyHelper.HotKeysList)
 			{
 
-				TextBlock textBlock = new TextBlock() { Text = item.Value.FunctionName };
+				TextBlock textBlock = new TextBlock() { Text = item.Value.Name };
 				TextBlock textBlock1 = new TextBlock() { Text = item.Value.Hotkey.ToString() };
 
 				DockPanel dockPanel = new DockPanel();

@@ -164,14 +164,8 @@
                 <form class="form-horizontal">
                     <span class="heading">生成注册码</span>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="inputPassword1" list="sexlist" autocomplete="on" placeholder="分销商名称">
-                        <datalist id="sexlist">
-                            <option>分销商1</option>
-                            <option>分销商2</option>
-                            <option>分销商3</option>
-                            <option>分销商4</option>
-                            <option>分A4</option>
-                            <option>分销商4</option>
+                        <input type="email" class="form-control" id="inputPassword1" list="browsers" autocomplete="on" placeholder="分销商名称">
+                        <datalist id="browsers">
                         </datalist>
                         <i class="fa fa-lock"></i>
                     </div>
@@ -179,17 +173,6 @@
                         <input type="email" class="form-control" id="inputPassword3" placeholder="有效期信息">
                         <i class="fa fa-lock"></i>
                     </div>
-                    <dic class="form-group">
-                        <select class="singleSelect" style="width: 200px">
-                            <option value="">--请选择--</option>
-                            <option value="">江南</option>
-                            <option value="">杭州</option>
-                            <option value="">上海</option>
-                            <option value="">北京</option>
-                            <option value="">深圳</option>
-                            <option value="">浙江</option>
-                        </select>
-                    </dic>
 
                     <div id="localapp" class="form-group" align="center">
                         <input id="box1" type="button" type="submit" @click="vuefunction()"  value="生成" class="btn btn-default"></input>
@@ -208,18 +191,25 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript">
+    window.onload = function () {
+        var datalist = document.getElementById("browsers");
+        console.log(datalist)
+        getRegionurl = "/getRegion"
+        axios.get(getRegionurl)
+            .then(function (response) {
+                for (var o in response.data.list) {
+                    var option = document.createElement("option");
+                    option.text = response.data.list[o]
+                    console.log(option)
+                    datalist.appendChild(option);
+                }
+            })
+    }
     new Vue({
         el: '#localapp',
         methods: {
             vuefunction: function () {
-                getRegionurl ="/getRegion"
-                axios.get(getRegionurl)
-                    .then(function (response){
-                        console.log(response);
-                alert(response.data.toString())
-                    })
-
-                var sn = document.getElementById("inputPassword2");
+                var sn = document.getElementById("inputPassword1");
                 var mac = document.getElementById("inputPassword3");
                 var postforms = new FormData();
                 postforms.append("sn", sn.value)

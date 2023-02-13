@@ -5,19 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Solution"
         mc:Ignorable="d"
-        Title="HotKeyManger" Height="450" Width="800">
-    <Grid>
-        <TextBox x:Name="HotkeyTextBox"
-             HorizontalContentAlignment="Center"
-             VerticalContentAlignment="Center"
-             IsReadOnly="True"
-             IsReadOnlyCaretVisible="False"
-             IsUndoEnabled="False"
-             PreviewKeyDown="HotkeyTextBox_PreviewKeyDown"
-             Text="sss">
-            <TextBox.ContextMenu>
-                <ContextMenu Visibility="Collapsed" />
-            </TextBox.ContextMenu>
-        </TextBox>
+        Title="HotKeyManger" Height="450" Width="800" Background="#444444">
+    <Grid >
+        <StackPanel x:Name="HotKeyStackPanel">
+        </StackPanel>
     </Grid>
 </Window>

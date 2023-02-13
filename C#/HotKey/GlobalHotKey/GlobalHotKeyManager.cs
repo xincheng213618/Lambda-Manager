@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 
@@ -8,24 +11,25 @@ namespace HotKey.GlobalHotKey
     public class GlobalHotKeyManager
     {
         public IntPtr intPtr = IntPtr.Zero;
-        private GlobalHotKeyManager(Window window)
+        private GlobalHotKeyManager(IntPtr intPtr)
         {
-            intPtr = new WindowInteropHelper(window).EnsureHandle();
+            this.intPtr = intPtr;
         }
-
-        private static GlobalHotKeyManager instance;
         private static readonly object locker = new object();
 
         public static GlobalHotKeyManager GetInstance(Window window)
         {
-            lock (locker) { return instance ??= new GlobalHotKeyManager(window); }
+            IntPtr intPtr = new WindowInteropHelper(window).EnsureHandle();
+            lock (locker) { return new GlobalHotKeyManager(intPtr); }
         }
+
+
         public bool Register(HotKeys hotKeys)
         {
             if (hotKeys == null) return false;
             if (hotKeys.Kinds == HotKeyKinds.Global)
             {
-                return GlobalHotKey.Register(intPtr, hotKeys.Hotkey.Modifiers, hotKeys.Hotkey.Key, hotKeys.hotKeyHandler);
+                return GlobalHotKey.Register(intPtr, hotKeys.Hotkey.Modifiers, hotKeys.Hotkey.Key, hotKeys.HotKeyHandler);
             }
             return false;
         }
@@ -42,20 +46,17 @@ namespace HotKey.GlobalHotKey
 
         public void UnRegister(HotKeys hotKeys)
         {
-            GlobalHotKey.UnRegister(intPtr, hotKeys.hotKeyHandler);
+            GlobalHotKey.UnRegister(intPtr, hotKeys.HotKeyHandler);
         }
         public void UnRegister(HotKeyCallBackHanlder callBack)
         {
             GlobalHotKey.UnRegister(intPtr, callBack);
         }
 
-        public void ModifiedHotkey(HotKeys hotkeys)
+        public bool ModifiedHotkey(HotKeys hotkeys)
         {
-            GlobalHotKey.UnRegister(intPtr, hotkeys.hotKeyHandler);
-            if (hotkeys.Hotkey != null)
-            {
-                GlobalHotKey.Register(intPtr, hotkeys.Hotkey.Modifiers, hotkeys.Hotkey.Key, hotkeys.hotKeyHandler);
-            }
+            GlobalHotKey.UnRegister(intPtr, hotkeys.HotKeyHandler);
+            return hotkeys.Hotkey != null && hotkeys.Hotkey == Hotkey.None && GlobalHotKey.Register(intPtr, hotkeys.Hotkey.Modifiers, hotkeys.Hotkey.Key, hotkeys.HotKeyHandler);
         }
 
         public void ModifiedHotkey(Hotkey hotkey, HotKeyCallBackHanlder callBack)

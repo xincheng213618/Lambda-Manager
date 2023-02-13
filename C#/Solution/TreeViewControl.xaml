@@ -194,7 +194,7 @@
                 </TreeView>
             </Border>
         </StackPanel>
-        <Grid x:Name="testt22" Visibility="Collapsed" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
+        <Grid x:Name="leftGrid" Visibility="Collapsed" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
             
         </Grid>
 

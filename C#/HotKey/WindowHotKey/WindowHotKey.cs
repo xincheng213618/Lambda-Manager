@@ -11,18 +11,21 @@ namespace HotKey.WindowHotKey
 {
     public class WindowHotKey
     {
-        static Dictionary<int, HotKeyCallBackHanlder> keymap = new Dictionary<int, HotKeyCallBackHanlder>();
+        /// <summary>
+        /// AllKeyMap
+        /// </summary>
+        static Dictionary<int, HotKeyCallBackHanlder> AllKeyMap = new Dictionary<int, HotKeyCallBackHanlder>();
         
-        static List<Control> WindowHook = new List<Control>();
-        static Dictionary<Control,Dictionary<int, HotKeyCallBackHanlder>> WindowHookKeyMap = new ();
+        static List<Control> ControlHook = new List<Control>();
+        static Dictionary<Control,Dictionary<int, HotKeyCallBackHanlder>> ControlHookKeyMap = new ();
 
 
-        public static bool Register(Control window,Hotkey hotkey, HotKeyCallBackHanlder callBack)
+        public static bool Register(Control control,Hotkey hotkey, HotKeyCallBackHanlder callBack)
         {
             if (hotkey == null || hotkey == Hotkey.None) return false;
-            if (!WindowHook.Contains(window))
+            if (!ControlHook.Contains(control))
             {
-                window.PreviewKeyUp += (s,e)=> 
+                control.PreviewKeyUp += (s,e)=> 
                 {
                     ModifierKeys modifiers = Keyboard.Modifiers;
                     if (Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
@@ -43,32 +46,40 @@ namespace HotKey.WindowHotKey
                     if (key == Key.LeftCtrl || key == Key.RightCtrl || key == Key.LeftAlt || key == Key.RightAlt || key == Key.LeftShift || key == Key.RightShift || key == Key.LWin || key == Key.RWin || key == Key.Clear || key == Key.OemClear || key == Key.Apps)
                         return;
                     // Update the value
-                    if (WindowHookKeyMap[window].TryGetValue(((int)modifiers << 8) + (int)key, out var callback))
+                    if (ControlHookKeyMap[control].TryGetValue(((int)modifiers << 8) + (int)key, out var callback))
                     {
                         callback();
                     }
                 };
-                WindowHook.Add(window);
-                WindowHookKeyMap.Add(window, new Dictionary<int, HotKeyCallBackHanlder>());
+                ControlHook.Add(control);
+                ControlHookKeyMap.Add(control, new Dictionary<int, HotKeyCallBackHanlder>());
             }
             int vk = hotkey.ToInt();
-            if (keymap.ContainsKey(vk))
+            if (AllKeyMap.ContainsKey(vk))
             {
                 return false;
             }
             else
             {
-                WindowHookKeyMap[window].Add(vk, callBack);
-                keymap.Add(vk, callBack);
+                ControlHookKeyMap[control].Add(vk, callBack);
+                AllKeyMap.Add(vk, callBack);
             }
             return true;
         }
         public static bool UnRegister(HotKeyCallBackHanlder callBack)
         {
-            foreach (KeyValuePair<int, HotKeyCallBackHanlder> var in keymap)
+            foreach (KeyValuePair<int, HotKeyCallBackHanlder> var in AllKeyMap)
             {
                 if (var.Value == callBack)
-                    keymap.Remove(var.Key);
+                    AllKeyMap.Remove(var.Key);
+            }
+            foreach (var item in ControlHookKeyMap)
+            {
+                foreach (KeyValuePair<int, HotKeyCallBackHanlder> var in item.Value)
+                {
+                    if (var.Value == callBack)
+                        item.Value.Remove(var.Key);
+                }
             }
             return true;
         }

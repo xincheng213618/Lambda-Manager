@@ -40,6 +40,9 @@ def register():
         resu = {'state': 1, 'message': 'Mac地址参数异常'}
         return json.dumps(resu, ensure_ascii=False)
 
+    sn = sn.strip().replace("-", "")
+    mac_address = mac_address.strip().replace("-", "").replace(":", "").replace(".", "")
+
     if register_info and equip_identify:
         try:
             db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
@@ -54,10 +57,20 @@ def register():
                 return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
 
+            sql = "SELECT * FROM  `register-info` WHERE `sn` = '%s'" %(sn);
+            print(sql)
+            aa = cursor.execute(sql)
+            if (aa != 0):
+                resu = {'state': 1, 'message': "该注册码已经注册"}
+                return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+
+
+
             sql = "SELECT * FROM  `register-info` WHERE `mac_address` = '%s'" %(mac_address);
 
             print(sql)
             aa = cursor.execute(sql)
+
 
             if (aa==0):
                 create_date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -87,20 +100,33 @@ def unregister():
     request.environ.get('HTTP_X_REAL_IP', request.remote_addr);
     sn = request.values.get('sn')
     register_info = request.values.get('register-info')
+
     mac_address = request.values.get('mac-address')
     equip_identify = request.values.get('equip-identify')
 
     if sn and register_info and mac_address and equip_identify:
         try:
+            sn = sn.strip().replace("-", "")
+            mac_address = mac_address.strip().replace("-", "").replace(":", "").replace(".", "")
             db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
                                  use_unicode=True)
             cursor = db.cursor()
+
+
+            sql = "DELETE FROM  `register-info` WHERE `sn` = '%s'" %(sn);
+            aa = cursor.execute(sql)
+            db.commit()
+
+            if(aa!=0):
+                resu = {'state': 0, 'message': "取消注册成功"}
+                return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
             sql = "DELETE FROM  `register-info` WHERE `mac_address` = '%s'" %(mac_address);
             print(sql)
             aa = cursor.execute(sql)
             db.commit()
             if (aa==0):
+
                 resu = {'state': 0, 'message': "找不到已经注册的信息", }
                 return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
             else:
@@ -123,8 +149,6 @@ def generateSNCode():
     return render_template("generateSNCode.html")
 
 
-
-
 def checkSN(sn):
     sn = sn.strip().replace("-","")
     print(sn,len(sn))
@@ -132,12 +156,14 @@ def checkSN(sn):
         return True
     return False
 
+
 import re
 def checkMac(mac):
     print(mac)
     mac =mac.strip().replace("-","").replace(":","").replace(".","")
     if re.match(r"^\s*([0-9a-fA-F]{2,2}){5,5}[0-9a-fA-F]{2,2}\s*$", mac): return True
     return False
+
 
 @server.route('/generateSNCode', methods=['post'])
 def generateSNCodepost():
@@ -170,6 +196,7 @@ def checkregister():
         resu = {'state': 1, 'message': '注册码参数异常'}
         return json.dumps(resu, ensure_ascii=False)
 
+    sn = sn.strip().replace("-", "")
     macs = macstrings.split(";")
     print(macstrings)
     checkmacis=False
@@ -208,7 +235,19 @@ def checkregister():
 
 @server.route('/getRegion', methods=['get'])
 def GetRegion():
-    resu = {'state': 0, 'message': '注册码添加成功'}
+    db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
+                         use_unicode=True)
+    cursor = db.cursor()
+    sql ="SELECT `name` FROM `grid`.`vendor`"
+    num = cursor.execute(sql)
+    vendor = cursor.fetchall()
+    vendorlist = []
+    for row in vendor:
+        vendorlist.append(row[0]);
+
+    print(vendorlist)
+
+    resu = {'state': 0, 'message': '','list':vendorlist}
     return json.dumps(resu, ensure_ascii=False)
 
 @server.route('/addSNCode', methods=['post'])
@@ -241,9 +280,6 @@ def addSNCode():
     return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
 
-
-
-
 def test1(user_id,equip_identify,mac_address,sn):
     db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
                          use_unicode=True)
@@ -259,4 +295,4 @@ def test1(user_id,equip_identify,mac_address,sn):
 
 
 if __name__ == '__main__':
-    server.run(debug=True, port=18888, host='0.0.0.0');
+    server.run(debug=True, port=18888, host='0.0.0.0',ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));

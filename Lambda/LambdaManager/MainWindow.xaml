@@ -428,7 +428,7 @@
                 </Border>
             </Grid>
 
-            <StatusBar Name="statusBar"  Background="Red"  Grid.Row="2" Grid.Column="4" Height="22">
+            <StatusBar Name="statusBar"  Background="Transparent"  Grid.Row="2" Grid.Column="4" Height="22">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
                         <DockPanel/>

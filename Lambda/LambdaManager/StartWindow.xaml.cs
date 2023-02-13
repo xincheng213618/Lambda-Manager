@@ -168,6 +168,7 @@ namespace LambdaManager
             await Task.Delay(100);
             ConfigLibrary.LoadUIComponents();
             mainWindow.Show();
+            await Task.Delay(100);
             this.Close();
         }
 
