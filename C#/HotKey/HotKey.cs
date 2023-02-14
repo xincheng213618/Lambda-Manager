@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace HotKey
@@ -18,11 +19,10 @@ namespace HotKey
     public class Hotkey
     {
         #region static
-        public readonly static Hotkey None = new (Key.None,ModifierKeys.None);
-        public static bool IsNullOrEmpty(Hotkey hotkey) => hotkey is not null && hotkey != None;
+        public readonly static Hotkey None = new Hotkey(Key.None,ModifierKeys.None);
+        public static bool IsNullOrEmpty(Hotkey hotkey) => hotkey != null && hotkey != None;
         public static int ToInt(Hotkey hotkey) => ((int)hotkey.Modifiers << 8) + (int)hotkey.Key;
         #endregion
-
         public Key Key { get; }
         public ModifierKeys Modifiers { get; }
 

@@ -44,9 +44,7 @@ namespace Solution
             IniCommand();
             this.DataContext = SoftwareConfig.SolutionSetting;
         }
-        [DllImport("user32.dll", EntryPoint = "keybd_event", SetLastError = true)]
-        public static extern void keybd_event(System.Windows.Forms.Keys bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
-        public const int KEYEVENTF_KEYUP = 2;
+
         private void AddMenu()
         {
             if (Application.Current.MainWindow.FindName("menu") is Menu menu)
@@ -89,9 +87,9 @@ namespace Solution
                 RecentListMenuItem ??= new MenuItem();
                 RecentListMenuItem.Header = "最近使用过的文件(_F)";
                 FileMenuItem.Items.Insert(FileMenuItem.Items.Count - 1, RecentListMenuItem);
-                RecentListMenuItem.SubmenuOpened += async (s, e) =>
+                RecentListMenuItem.SubmenuOpened +=  (s, e) =>
                 {
-                    RecentListMenuItem.Items.Clear();
+                    var firstMenuItem = RecentListMenuItem.Items[0];
                     foreach (var item in recentFileList.RecentFiles)
                     {
                         MenuItem menuItem = new MenuItem();
@@ -102,23 +100,14 @@ namespace Solution
                         };
                         RecentListMenuItem.Items.Add(menuItem);
                     };
-                    await Task.Delay(100);
-                    keybd_event(System.Windows.Forms.Keys.Down, 0, 0, 0);
-                    keybd_event(System.Windows.Forms.Keys.Down, 0, 2, 0);
+                    RecentListMenuItem.Items.Remove(firstMenuItem);
 
                 };
-
-                RecentListMenuItem.Items.Clear();
-                foreach (var item in recentFileList.RecentFiles)
-                {
-                    MenuItem menuItem = new MenuItem();
-                    menuItem.Header = item;
-                    menuItem.Click += (sender, e) =>
-                    {
-                        this.OpenSolution(item);
-                    };
-                    RecentListMenuItem.Items.Add(menuItem);
-                }
+                RecentListMenuItem.SubmenuClosed += (s, e) => {
+                    RecentListMenuItem.Items.Clear();
+                    RecentListMenuItem.Items.Add(new MenuItem());
+                };
+                RecentListMenuItem.Items.Add(new MenuItem());
 
 
                 MenuItem NewMenuItem = new MenuItem() { Header = "新建(_N)" };
@@ -213,7 +202,6 @@ namespace Solution
             }
             return sucess;
         }
-        List<HotKeys> hotKeysList = new List<HotKeys>();
 
         bool IsFirstLoad = true;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -243,7 +231,7 @@ namespace Solution
                 //追加在显示的时候显示触发
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
-
+                List<HotKeys> hotKeysList = new List<HotKeys>();
                 hotKeysList.Add(new HotKeys() { Name = "打开当前工程", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = OpenSolution });
                 hotKeysList.Add(new HotKeys() { Name = "新建工程", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = NewCreat });
                 hotKeysList.Add(new HotKeys() { Name = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = SolutionClose });
@@ -585,7 +573,7 @@ namespace Solution
         {
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
 
-            HotKeyManger hotKeyManger = new HotKeyManger(hotKeysList);
+            HotKeyManger hotKeyManger = new HotKeyManger();
             hotKeyManger.Show();
 
 

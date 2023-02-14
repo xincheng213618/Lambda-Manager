@@ -250,8 +250,34 @@ def GetRegion():
     resu = {'state': 0, 'message': '','list':vendorlist}
     return json.dumps(resu, ensure_ascii=False)
 
+
+import random,string
+@server.route("/GeneraSNCode",methods =['post'])
+def GeneraSNCode():
+    vendor = request.values.get('vendor')
+    if not vendor:
+        resu = {'state': 1, 'message': '参数不能存在空值'}
+        return json.dumps(resu, ensure_ascii=False)
+
+    db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
+                         use_unicode=True)
+    cursor = db.cursor()
+    sql ="SELECT `name` FROM `grid`.`vendor` WHERE `name` = '%s'" % (vendor);
+    num = cursor.execute(sql);
+    if (num == 0):
+        resu = {'state': 1, 'message': '找不到供应商，请重新输入或者注册'}
+        return json.dumps(resu, ensure_ascii=False)
+    sn =''.join(random.sample(string.ascii_letters + string.digits, 24)).upper()
+    print(sn)
+    pattern = re.compile('.{6}')
+    sn ='-'.join(pattern.findall(sn))
+    print(sn)
+    resu = {'state': 0, 'message': '','sn':sn}
+
+    return  json.dumps(resu, ensure_ascii=False)
 @server.route('/addSNCode', methods=['post'])
 def addSNCode():
+
     sn = request.values.get('sn')
     print(sn)
     if not sn:
@@ -280,17 +306,7 @@ def addSNCode():
     return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
 
-def test1(user_id,equip_identify,mac_address,sn):
-    db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
-                         use_unicode=True)
-    cursor = db.cursor()
-    create_date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    sql = "INSERT INTO `register-info` (user_id, equip_identify, mac_address, sn,create_date) \
-           VALUES (%s, '%s', '%s','%s','%s')" % \
-          (user_id,equip_identify , mac_address, sn,create_date)
-    print(sql)
-    aa = cursor.execute(sql)
-    db.commit();
+
 
 
 

@@ -33,6 +33,7 @@ using Microsoft.VisualBasic.Logging;
 using Global.RecentFile;
 using System.Text.Unicode;
 using System.Text;
+using System.Windows.Input;
 
 namespace ConfigSetting
 {
@@ -163,6 +164,11 @@ namespace ConfigSetting
 
                 if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
                 {
+
+                    Application.Current.MainWindow.AddHotKeys(new HotKeys() { Name = "日志切换", Hotkey = new Hotkey(Key.L, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler =delegate{
+                        SoftwareConfig.WindowSetting.IsShowLog = !SoftwareConfig.WindowSetting.IsShowLog; }
+                    });;
+
 
                     combobox.Visibility = SoftwareConfig.WindowSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;
                     ShowLogCombox.ItemsSource = new List<string> { "显示", "隐藏" };

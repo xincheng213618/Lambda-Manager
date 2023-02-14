@@ -15,11 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Width="300">
-        <StackPanel x:Name="HeaderStackPanel"  >
-            <UniformGrid  x:Name="SoulutionButtonPanel"  Visibility="Hidden"  Columns="8" VerticalAlignment="Top" >
-                <Button Style="{StaticResource ButtonStyle}"  Height="32"/>
-            </UniformGrid>
-            
+        <StackPanel x:Name="HeaderStackPanel"  >   
             <Grid x:Name="SoulutionButtonPanel1" Width="300" Background="{DynamicResource GlobalBackgroundBrush}">
                 <UniformGrid  Columns="8"  Margin="1,2,2,2"  VerticalAlignment="Top" >
                     <Button Click="Button_Click_2"   Style="{StaticResource ButtonStyle}"  ToolTip="新建">
@@ -121,6 +117,11 @@
                 </Border>
             </Grid>
 
+            <UniformGrid  x:Name="SoulutionButtonPanel"  Visibility="Hidden"  Columns="8" VerticalAlignment="Top" >
+                <Button Style="{StaticResource ButtonStyle}"  Height="32"/>
+            </UniformGrid>
+            
+
             <Border BorderThickness="0"  CornerRadius="4"  Padding="0" Height="auto">
                 <TreeView x:Name="SolutionTreeView"  BorderThickness="0">
                     <TreeView.ItemContainerStyle>
@@ -194,7 +195,7 @@
                 </TreeView>
             </Border>
         </StackPanel>
-        <Grid x:Name="leftGrid" Visibility="Collapsed" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,26,0,0" HorizontalAlignment="Right" Background="Transparent">
+        <Grid x:Name="leftGrid" Visibility="Hidden" Background="Transparent" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,38,0,2" HorizontalAlignment="Right" >
             
         </Grid>
 

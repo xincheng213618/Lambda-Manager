@@ -32,7 +32,7 @@ namespace HotKey
     public class HotKeyHelper
     {
         private static HotKeyHelper instance;
-        private static readonly object locker = new();
+        private static readonly object locker = new object();
         public static HotKeyHelper GetInstance()
         {
             lock (locker) { return instance ??= new HotKeyHelper(); }

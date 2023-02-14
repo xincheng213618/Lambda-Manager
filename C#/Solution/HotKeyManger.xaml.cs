@@ -20,12 +20,10 @@ namespace Solution
     /// </summary>
     public partial class HotKeyManger : Window
     {
-        List<HotKeys> hotKeysList;
-        public HotKeyManger(List<HotKeys> hotKeysList)
+        public HotKeyManger()
         {
             InitializeComponent();
-            this.hotKeysList = hotKeysList;
-            foreach (HotKeys hotKeys in hotKeysList)
+            foreach (HotKeys hotKeys in HotKeys.HotKeysList)
             {
                 HotKeyStackPanel.Children.Add(new HoyKeyControl(hotKeys));
             }

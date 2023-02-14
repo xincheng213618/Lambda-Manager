@@ -209,25 +209,36 @@
         el: '#localapp',
         methods: {
             vuefunction: function () {
-                var sn = document.getElementById("inputPassword1");
-                var mac = document.getElementById("inputPassword3");
+                var vendor = document.getElementById("inputPassword1");
                 var postforms = new FormData();
-                postforms.append("sn", sn.value)
-                postforms.append("mac-array", mac.value)
-                url = "/checkregiste";
-                axios.post('/checkregister', postforms)
-                    .then(function (response) {
-                        var x = document.getElementById("inputPassword4");
-                        if (response.data.state == "0") {
-                            x.value = "检测正常"
-                        } else {
-                            x.value = response.data.message;
-                            console.log(response.data);
-                        }
-                    })
-                    .catch(function (error) { // 请求失败处理
-                        console.log(error);
-                    });
+                postforms.append("vendor", vendor.value)
+
+                url = "/GeneraSNCode";
+                axios.post(url, postforms).then(response => {
+                    var x = document.getElementById("inputPassword4");
+                    if (response.data.state != "0") {
+                        x.value = response.data.message;
+
+                    } else {
+                        x.value = response.data.sn;
+                    }
+                })
+
+
+                {#url = "/checkregiste";#}
+                {#axios.post('/checkregister', postforms)#}
+                {#    .then(function (response) {#}
+                {#        var x = document.getElementById("inputPassword4");#}
+                {#        if (response.data.state == "0") {#}
+                {#            x.value = "检测正常"#}
+                {#        } else {#}
+                {#            x.value = response.data.message;#}
+                {#            console.log(response.data);#}
+                {#        }#}
+                {#    })#}
+                {#    .catch(function (error) { // 请求失败处理#}
+                {#        console.log(error);#}
+                {#    });#}
             }
         }
     })

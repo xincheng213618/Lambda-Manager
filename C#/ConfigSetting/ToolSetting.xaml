@@ -264,20 +264,38 @@
                                 </GroupBox>
 
                                 <GroupBox x:Name="GroupBox19" Style="{DynamicResource GroupBoxStyle2}" Header="保存">
-                                    <Grid  Margin="0,5,0,0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="20"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock  Grid.Row="0" Grid.Column="0" Text="图像保存分辨率"/>
-                                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" ToolTip="该参数涉及到硬件参数，修改需要重启">
-                                            <ComboBox x:Name="ImageResolutionSaveOptionsCombox"  Width="150"/>
-                                        </StackPanel>
-                                    </Grid>
+                                    <StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock  Grid.Row="0" Grid.Column="0" Text="缺省工程目录"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1"  Text="C:\Users\Chen\Documents\Grid"/>
+                                        </Grid>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock  Grid.Row="0" Grid.Column="0" Text="当前工程目录"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1"  Text="C:\Users\Chen\Documents\Grid"/>
+                                        </Grid>
+
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock  Grid.Row="0" Grid.Column="0" Text="图像保存分辨率"/>
+                                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                                <ComboBox x:Name="ImageResolutionSaveOptionsCombox"  Width="150"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
                                 </GroupBox>
 
                                 <GroupBox x:Name="GroupBox16" Style="{DynamicResource GroupBoxStyle2}" Header="拍照选项">
