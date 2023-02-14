@@ -248,7 +248,7 @@ namespace ConfigObjective
 
 			MessageBoxResult result = MessageBox.Show(message, "信息提示", MessageBoxButton.OKCancel, MessageBoxImage.Information);
 
-			if (result == MessageBoxResult.Yes)
+			if (result == MessageBoxResult.OK)
 			{
 				LambdaControl.Trigger("START_ACQUIRE1", this, testMean.ToJson());
 			}

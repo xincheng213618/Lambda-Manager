@@ -26,22 +26,20 @@ namespace Global.UserControls.SeriesMap
         {
             InitializeComponent();
             ListViewP = listview;
+           
         }
 
         public static ListView ListViewP { get; set; }
-
         public static Point CurrentP;
-
-        public static List<Point> SeriesPoints = new List<Point>();
-
+        public static List<Point> SeriesPoints = new List<Point>()
+        {
+            //new Point(120,66),new Point(96, 66),new Point(128, 72),new Point(184, 78),new Point(160, 84),new Point(96,84), new Point(112,84),new Point(208, 96),new Point(208, 102),new Point(128, 108),new Point(248, 108),new Point(88,114),
+            //new Point(160,114),new Point(184, 120),new Point(232, 126),new Point(216, 126),new Point(56, 132),new Point(152,144), new Point(224,144),new Point(104, 150),new Point(240, 144),new Point(104, 150),new Point(192, 168),new Point(160,222)
+        };
         public static bool ReverseTrans = false;
-
-        public ObservableCollection<SeriersPoint> SeriersPointsCollection = new ObservableCollection<SeriersPoint>();
-
-        private  List<Point> SeriesPointsList;
-
+        public  ObservableCollection<SeriersPoint> SeriersPointsCollection = new ObservableCollection<SeriersPoint>();
+        private static List<Point> SeriesPointsList;
         public static List<Rectangle> Rectangles = new List<Rectangle>();
-
 
         public void DrawPointRec(List<Point> points)    //Add rectangle to show acquire point 
         {
@@ -70,8 +68,15 @@ namespace Global.UserControls.SeriesMap
             ReverseTransCurrentP(CurrentP);
         }
 
+
+
+
+
+
+
         private void listview_SelectionChanged(object sender, SelectionChangedEventArgs e)  // selected change 
         {
+            
             if (sender is ListView listView)
             {
                 if (listview.SelectedItems.Count ==0)
@@ -86,11 +91,31 @@ namespace Global.UserControls.SeriesMap
                     SeriersPoint seriersPoint = (SeriersPoint)listView.SelectedItem;
                     int x = seriersPoint.Index;
                     Rectangles[x - 1].Fill = Brushes.Orange;
+
+
+                    SpotInfor spotInfor = new SpotInfor();
+                    spotInfor.Index.Add((int)seriersPoint.Index);
+                    List<int> selectedpoint = new List<int>() { (int)seriersPoint.PointXY.X, (int)seriersPoint.PointXY.Y };
+                    spotInfor.Coordinate.Add(selectedpoint);
+                    string JSON = JsonSerializer.Serialize(spotInfor, new JsonSerializerOptions());
+
+                    // LambdaControl.Trigger("MUL_POINT_POSITION", this, JSON);
                     if (!ReverseTrans)
                     {
+                       
                         LambdaControl.Trigger("MUL_POINT_POSITION", this, new Dictionary<string, object>() { { "Index", seriersPoint.Index }, { "X", (int)seriersPoint.PointXY.X }, { "Y", (int)seriersPoint.PointXY.Y } });
-
+                        LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", 0 } });
+                        if ( WindowData1.contextMenuPar.status == 3&& WindowData1.RepoTogg.IsChecked == true)
+                        {
+                            LambdaControl.Trigger("ZSTACK_GALLERYPATH_TRIGGER", this, new Dictionary<string, object>() { { "mode", WindowData1.contextMenuPar.mode } });
+                        }
+                      
+                        //
+                        
                     }
+                 ;
+                   
+                    //LambdaControl.Trigger("MUL_POINT_POSITION", this, new Dictionary<string, object>() { { "Index", seriersPoint.Index }, { "X", (int)seriersPoint.PointXY.X }, { "Y", (int)seriersPoint.PointXY.Y } });
                 }
                 else if (listview.SelectedItems.Count > 1)
                 {
@@ -133,7 +158,9 @@ namespace Global.UserControls.SeriesMap
                 if (selectedPoint.Equals(seriersPoint.PointXY))
                     ListViewP.SelectedItem = ListViewP.Items[i];
             }
+
         }
+
 
 
         public class SeriersPoint
@@ -142,17 +169,38 @@ namespace Global.UserControls.SeriesMap
             public Point PointXY { get; set; }
 
         }
+        [Serializable]
+        public class SpotInfor
+        {
 
-        public void MapUpdate()
+            [JsonPropertyName("Index")]
+            public List<int> Index { get; set; } = new List<int>();
+            [JsonPropertyName("Coordinate")]
+            public List<List<int>> Coordinate { get; set; } = new List<List<int>>();
+
+        }
+
+        //public void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MapUpdate(SeriesPoints);
+        //}
+
+
+        public  void MapUpdate()
         {
             SeriersPointsCollection.Clear();
             foreach (var item in Rectangles)
             {
                 mapCanvas.Children.Remove(item);
             }
+          
             DrawPointRec(SeriesPoints);
         }
 
+        private void Grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+           
+        }
 
        
     }

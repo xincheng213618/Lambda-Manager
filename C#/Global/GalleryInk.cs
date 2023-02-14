@@ -20,8 +20,6 @@ namespace Global
 
         public GalleryInk()
         {
-
-
         }
 
         public static void GalleryInking()
@@ -29,11 +27,8 @@ namespace Global
            // addInjection();
             addEvent();
         }
-        static  Window mainwin = Application.Current.MainWindow;
-
-        static List<VisualAttritube> InkBack = new List<VisualAttritube>();
-       
       
+        static List<VisualAttritube> InkBack = new List<VisualAttritube>();
 
         // public ObservableCollection<VisualAttritube> drawVisuals = new ObservableCollection<VisualAttritube>();
         private static void addEvent()

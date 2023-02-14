@@ -29,17 +29,19 @@ namespace ConfigObjective.UserControls
         public MapCanvas()
         {
             InitializeComponent();
-            //moveButton.AddHandler(Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(mapCanvas_MouseLeftButtonDown), true);
-            //moveButton.AddHandler(Button.MouseRightButtonDownEvent, new MouseButtonEventHandler(mapCanvas_MouseRightButtonDown), true);
-            //moveButton.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler(mapCanvas_MouseLeftButtonUp), true);
-            //moveButton.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler(mapCanvas_MouseRightButtonUp), true);
             var descriptor = DependencyPropertyDescriptor.FromProperty(Canvas.LeftProperty, typeof(Label));
             descriptor.AddValueChanged(moveButton, moveButtonLeft);
-
-
             var descriptor1= DependencyPropertyDescriptor.FromProperty(Canvas.LeftProperty, typeof(Label));
             descriptor1.AddValueChanged(moveButton, moveButtonTop);
-          
+
+
+            selectedPoints.CollectionChanged += (s, e) =>
+            {
+                selectedPoints.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+
+            };
+
+
         }
 
        
@@ -144,7 +146,7 @@ namespace ConfigObjective.UserControls
         private Brush drawingBrush1 = Brushes.Red;
         private Pen drawingPen = new Pen(Brushes.SteelBlue, 0.1);
         private Size squareSize = new Size(8, 6);
-        private DrawingVisual selectionSquare;
+        private DrawingVisualE selectionSquare;
 
         private Brush selectionSquareBrush = Brushes.Transparent;
         private Pen selectionSquarePen = new Pen(Brushes.Black, 1);
@@ -154,6 +156,7 @@ namespace ConfigObjective.UserControls
 
         public class SelectedPointCollect: INotifyPropertyChanged
         {
+           
             private bool selectedPointsSend = false;
             public bool SelectedPointsSend
             {
@@ -176,8 +179,6 @@ namespace ConfigObjective.UserControls
             }
         }
 
-       
-
 
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -185,7 +186,7 @@ namespace ConfigObjective.UserControls
             
             Point pointClicked = e.GetPosition(mapCanvas);
             pointClickLeft = pointClicked;
-
+            
             if (e.ClickCount == 2)
             {
                 
@@ -218,7 +219,7 @@ namespace ConfigObjective.UserControls
 
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    selectionSquare = new DrawingVisual();
+                    selectionSquare = new DrawingVisualE();
 
                     mapCanvas.AddVisual(selectionSquare);
 
@@ -246,14 +247,14 @@ namespace ConfigObjective.UserControls
 
             Point drawpoint = new Point(x * 8, y * 6);
             // Rectangle Point 
-            double Rx1 = Math.Pow(x * 8 - 150, 2.0);
-            double Ry1 = Math.Pow(y * 6 - 150, 2.0);
-            double Rx2 = Math.Pow(x * 8 + 8 - 150, 2.0);
-            double Ry2 = Math.Pow(y * 6 - 150, 2.0);
-            double Rx3 = Math.Pow(x * 8 - 150, 2.0);
-            double Ry3 = Math.Pow(y * 6 + 6 - 150, 2.0);
-            double Rx4 = Math.Pow(x * 8 + 8 - 150, 2.0);
-            double Ry4 = Math.Pow(y * 6 + 6 - 150, 2.0);
+            double Rx1 = Math.Pow(x * 8 - 150, 2);
+            double Ry1 = Math.Pow(y * 6 - 150, 2);
+            double Rx2 = Math.Pow(x * 8 + 8 - 150, 2);
+            double Ry2 = Math.Pow(y * 6 - 150, 2);
+            double Rx3 = Math.Pow(x * 8 - 150, 2);
+            double Ry3 = Math.Pow(y * 6 + 6 - 150, 2);
+            double Rx4 = Math.Pow(x * 8 + 8 - 150, 2);
+            double Ry4 = Math.Pow(y * 6 + 6 - 150, 2);
 
             if (y >= 50 || x >= 37) return;
 
@@ -283,6 +284,8 @@ namespace ConfigObjective.UserControls
             }
             else if (mapArrray[y, x] == 0)
             {
+                MessageBox.Show("?");
+                
                 DrawingVisual visual = new DrawingVisual();
 
                 DrawSquare(visual, drawpoint, false, drawingBrush1);
@@ -296,7 +299,7 @@ namespace ConfigObjective.UserControls
 
 
 
-        // Rendering the square.
+        // Rendering the square. 蓝色
         public void DrawSquare(DrawingVisual visual, Point topLeftCorner, bool isSelected, Brush drawingBrush)
         {
 
@@ -349,12 +352,12 @@ namespace ConfigObjective.UserControls
             if (isMultiSelecting)
             {
                 // Display all the squares in this region.
-                RectangleGeometry geometry = new RectangleGeometry(
-                    new Rect(selectionSquareTopLeft, e.GetPosition(mapCanvas)));
-                DrawMultiRec(pointClickLeft, pointClicked);
-                
-                isMultiSelecting = false;
+                //RectangleGeometry geometry = new RectangleGeometry(
+                //    new Rect(selectionSquareTopLeft, e.GetPosition(mapCanvas)));
                 mapCanvas.DeleteVisual(selectionSquare);
+                DrawMultiRec(pointClickLeft, pointClicked);
+                isMultiSelecting = false;
+               
                 mapCanvas.ReleaseMouseCapture();
 
                 // send selected point to multiCollection 
@@ -367,15 +370,15 @@ namespace ConfigObjective.UserControls
 
         public void DrawMultiRec(Point pointStart, Point pointStop) // LeftMouseBUtton draging
         {
-            int i, j;
-            int m = (int)Math.Floor((pointStop.Y - pointStart.Y) / 6) + 1;
-            int n = (int)Math.Floor((pointStop.X - pointStart.X) / 8) + 1;
-            for (i = 0; i < m; i++)
+            
+            int m = (int)Math.Ceiling(pointStop.Y / 6) - (int)Math.Floor(pointStart.Y / 6); //行
+            int n = (int)Math.Ceiling(pointStop.X / 8) - (int)Math.Floor(pointStart.X / 8); //列
+            for (int i = 0; i < m; i++)
             {
-                for (j = 0; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
-                    int x = (int)pointStart.X + j * 8;
-                    int y = (int)pointStart.Y + i * 6;
+                    int x = (int)Math.Floor(pointStart.X / 8)*8 + j * 8;
+                    int y = (int)Math.Floor(pointStart.Y / 6)*6 + i * 6;
 
                     Point point = new Point(x, y);
                     DrawRectangle(point, false);
@@ -386,33 +389,45 @@ namespace ConfigObjective.UserControls
 
         public void DelMultiRec(Point pointStart, Point pointStop) // RightMouseBUtton draging
         {
-            int i, j;
-            int m = (int)Math.Floor((pointStop.Y - pointStart.Y) / 6) + 1;
-            int n = (int)Math.Floor((pointStop.X - pointStart.X) / 8) + 1;
-            for (i = 0; i < m; i++)
+
+            int m = (int)Math.Ceiling(pointStop.Y / 6) - (int)Math.Floor(pointStart.Y / 6); //行
+            int n = (int)Math.Ceiling(pointStop.X / 8) - (int)Math.Floor(pointStart.X / 8); //列
+            for (int i = 0; i < m; i++)
             {
-                for (j = 0; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
-                    int x = (int)pointStart.X + j * 8;
-                    int y = (int)pointStart.Y + i * 6;
-                    int c = x;
-                    int d = y;
-                    int a = (int)Math.Floor((double)c / 8);
-                    int b = (int)Math.Floor((double)d / 6);
-                    Point point = new Point(x, y);
+                    int x = (int)Math.Floor((pointStart.X) / 8) * 8 + j * 8;
+                    int y = (int)Math.Floor((pointStart.Y) / 6) * 6 + i * 6;
+
+                    int a = (int)Math.Floor((double)x / 8);
+                    int b = (int)Math.Floor((double)y / 6);
+                    Point point = new Point(x + 4, y + 3);
                     if (x >= 300 || y >= 300) continue;
                     DrawingVisual visual = mapCanvas.GetVisual(point);
-                    if (visual != null) mapCanvas.DeleteVisual(visual);
-                    if (b >= 50 || a >= 37) continue;
-                    mapArrray[b, a] = 0;
-                    Point removePoint = new Point(a * 8, b * 6);
-                    selectedPoints.Remove(removePoint);
+                    if (visual != null)
+                    {
+                        Point removePoint = new Point(a * 8, b * 6);
+                        if (visual.GetType() == typeof(DrawingVisualE))
+                        {
+                            mapCanvas.DeleteVisual(visual);
+                            DrawingVisual visual1 = mapCanvas.GetVisual(point);
+                            mapCanvas.DeleteVisual(visual1);
 
+                        }
+                        int p = mapArrray[b, a];
+                        int Q = selectedPoints.Count;
+
+                        mapCanvas.DeleteVisual(visual);
+                        mapArrray[b, a] = 0;
+                        selectedPoints.Remove(removePoint);
+
+                    }
+                    if (b >= 50 || a >= 37) continue;
                 }
-               
+
             }
-            Double moveButtonX = Canvas.GetLeft(moveButton)+4;
-            Double moveButtonY = Canvas.GetTop(moveButton)+3;
+            Double moveButtonX = Canvas.GetLeft(moveButton) + 4;
+            Double moveButtonY = Canvas.GetTop(moveButton) + 3;
             Point moveButtonPoint = new Point(moveButtonX, moveButtonY);
             int moveButtonX1 = (int)Math.Floor(moveButtonPoint.X / 8);
             int moveButtonY1 = (int)Math.Floor(moveButtonPoint.Y / 6);
@@ -427,7 +442,108 @@ namespace ConfigObjective.UserControls
             pointCollect.SelectedPointsSend = true;
         }
 
+        //public void DelMultiRec(Point pointStart, Point pointStop) // RightMouseBUtton draging
+        //{
 
+        //    int m = (int)Math.Ceiling(pointStop.Y / 6) - (int)Math.Floor(pointStart.Y / 6); //行
+        //    int n = (int)Math.Ceiling(pointStop.X / 8) - (int)Math.Floor(pointStart.X / 8); //列
+        //    for (int i = 0; i < m; i++)
+        //    {
+        //        for (int j = 0; j < n; j++)
+        //        {
+        //            int x = (int)Math.Floor((pointStart.X) / 8) * 8 + j * 8;
+        //            int y = (int)Math.Floor((pointStart.Y) / 6) * 6 + i * 6;
+
+        //            int a = (int)Math.Floor((double)x / 8);
+        //            int b = (int)Math.Floor((double)y / 6);
+        //            Point point = new Point(x+4 , y+3 );
+        //            if (x >= 300 || y >= 300) continue;
+        //            DrawingVisual visual = mapCanvas.GetVisual(point);
+        //            if (visual != null)
+        //            {
+        //                if (visual.GetType() == typeof(DrawingVisualE))
+        //                {
+        //                    MessageBox.Show("11111");
+        //                }
+        //                Point removePoint = new Point(a * 8, b * 6);
+        //                //if (selectedPoints.Contains(removePoint))
+        //                //{
+        //                //    mapCanvas.DeleteVisual(visual);
+        //                //    mapArrray[b, a] = 0;
+        //                //    selectedPoints.Remove(removePoint);
+        //                //}
+        //                int p = mapArrray[b, a];
+        //                int Q = selectedPoints.Count;
+
+        //                mapCanvas.DeleteVisual(visual);
+        //                mapArrray[b, a] = 0;
+        //                selectedPoints.Remove(removePoint);
+
+        //            }
+        //            else {
+                        
+        //               // MessageBox.Show("null"); 
+                    
+                    
+                    
+        //            }
+        //            if (b >= 50 || a >= 37) continue;
+        //        }
+
+        //    }
+        //    //int x = (int)Math.Floor((pointStart.X) / 8) * 8 ;
+        //    //int y = (int)Math.Floor((pointStart.Y) / 6) * 6 ;
+        //    //int x1 = (int)Math.Ceiling((pointStop.X) / 8) * 8;
+        //    //int y1 = (int)Math.Ceiling((pointStop.Y) / 6) * 6;
+        //    //foreach (Point item in selectedPoints)
+        //    //{
+        //    //    if(item.X>= x&& item.Y>=y&& item.X <= x1 && item.Y <= y1)
+        //    //    {
+        //    //        DrawingVisual visual = mapCanvas.GetVisual(item);
+        //    //        if(visual !=null)
+        //    //        {
+        //    //            mapCanvas.DeleteVisual(visual);
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            MessageBox.Show("null");
+        //    //        }
+
+        //    //    }
+
+
+        //    //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //    //Double moveButtonX = Canvas.GetLeft(moveButton) + 4;
+        //    //Double moveButtonY = Canvas.GetTop(moveButton) + 3;
+        //    //Point moveButtonPoint = new Point(moveButtonX, moveButtonY);
+        //    //int moveButtonX1 = (int)Math.Floor(moveButtonPoint.X / 8);
+        //    //int moveButtonY1 = (int)Math.Floor(moveButtonPoint.Y / 6);
+
+        //    //Point moveButtonPoint1 = new Point(moveButtonX1 * 8, moveButtonY1 * 6);
+        //    //if (selectedPoints.Contains(moveButtonPoint1) == false)
+        //    //{
+        //    //    moveButton.Tag = 2;
+        //    //}
+        //    //// send selected point to multiCollection 
+        //    //pointCollect.SelectedPointsSend = false;
+        //    //pointCollect.SelectedPointsSend = true;
+        //}
 
 
 
@@ -439,7 +555,7 @@ namespace ConfigObjective.UserControls
 
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                selectionSquare = new DrawingVisual();
+                selectionSquare = new DrawingVisualE();
 
                 mapCanvas.AddVisual(selectionSquare);
 
@@ -455,15 +571,15 @@ namespace ConfigObjective.UserControls
             int x = (int)Math.Floor(pointClicked.X / 8);
             int y = (int)Math.Floor(pointClicked.Y / 6);
             if (x >= 300 || y >= 300) return;
-            DrawingVisual visual = mapCanvas.GetVisual(pointClicked);
-            if (visual != null)
-            {
-                mapCanvas.DeleteVisual(visual);
-                if (y >= 50 || x >= 37) return;
-                mapArrray[y, x] = 0;
-                Point removePoint = new Point(x * 8, y * 6);
-                selectedPoints.Remove(removePoint);
-            }
+            //DrawingVisual visual = mapCanvas.GetVisual(pointClicked);
+            //if (visual != null)
+            //{
+            //    mapCanvas.DeleteVisual(visual);
+            //    if (y >= 50 || x >= 37) return;
+            //    mapArrray[y, x] = 0;
+            //    Point removePoint = new Point(x * 8, y * 6);
+            //    selectedPoints.Remove(removePoint);
+            //}
 
             Double moveButtonX = Canvas.GetLeft(moveButton)+4;
             Double moveButtonY = Canvas.GetTop(moveButton)+3;
@@ -479,7 +595,7 @@ namespace ConfigObjective.UserControls
             // send selected point to multiCollection 
             pointCollect.SelectedPointsSend = false;
             pointCollect.SelectedPointsSend = true;
-
+            int i = mapArrray[0, 0];
 
         }
 
@@ -492,6 +608,11 @@ namespace ConfigObjective.UserControls
 
                 DelMultiRec(pointClickRight, pointClicked);
                 isDraging = false;
+              
+                if (selectionSquare == null)
+                {
+                    MessageBox.Show("11111");
+                }
                 mapCanvas.DeleteVisual(selectionSquare);
                 mapCanvas.ReleaseMouseCapture();
 
@@ -499,21 +620,7 @@ namespace ConfigObjective.UserControls
         }
 
 
-        public  void DrawSeriesPoint(List<Point>  points)
-        {
-            foreach (Point point in points)
-            {
-
-                DrawingVisual visual = new DrawingVisual();
-
-                DrawSquare(visual, point, false, drawingBrush0);
-
-                visual.Opacity = 0.3;
-                mapCanvas.AddVisual(visual);
-
-            }
-            
-        }
+       
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {

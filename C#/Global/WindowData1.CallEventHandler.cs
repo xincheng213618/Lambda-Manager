@@ -36,12 +36,13 @@ namespace Global
         public bool ACQUIRE { get; set; } = false;
         public bool ALIVE { get; set; } = false;
         public DrawInkMethod inkMethod = new DrawInkMethod();
-        Window mainwin = Application.Current.MainWindow;
+        public Window mainwin = Application.Current.MainWindow;
         public  InkVisual[] inkVisuals = new InkVisual[6];
         public static ContextMenuPar contextMenuPar = new ContextMenuPar();
         public void AddImageConfident(Image image1, int viewindex)
         {
-            InkVisual inkVisual = new InkVisual(viewindex, image1, ImageViewState.toolTop);
+            
+            InkVisual inkVisual = new InkVisual(viewindex, image1, ImageViewState.toolTop,profileModel);
             if (image1.Parent is Grid grid0)
             {
                 try
@@ -70,93 +71,6 @@ namespace Global
                             inkVisual.defaultDim.Visibility = Visibility.Hidden;
                         };
 
-                        if (image1.Parent is Grid grid3)
-                        {
-                            WrapPanel topToolbar = (WrapPanel)mainwin.FindName("topToolbar");
-                            if (topToolbar == null)
-                                return;
-                            Button ButtonZoomOut = ((Button)topToolbar.Children[4]);
-                            Button ButtonZoomIn = ((Button)topToolbar.Children[5]);
-                            Button ScaleButton = (Button)topToolbar.Children[6];
-                            ButtonZoomOut.Click += delegate
-                            {
-                                if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
-                                {
-                                    if (inkVisual.ratio1.Ratio < 2.5)
-                                    {
-                                        Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
-                                        inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio * 1.2;
-                                        Matrix matrix = new Matrix();
-                                        if (inkVisual.ratio1.Ratio >= 2.49)
-                                        {
-                                            matrix.ScaleAt(2.49 * 1.2 / inkVisual.ratio1.Ratio, 2.49 * 1.2 / inkVisual.ratio1.Ratio, curPoint.X, curPoint.Y);
-                                            inkVisual.ratio1.Ratio = 2.49;
-                                        }
-                                        else
-                                        {
-                                            matrix.ScaleAt(1.2, 1.2, curPoint.X, curPoint.Y);
-                                        }
-                                        //  ZoomInOut++;
-                                        inkVisual.inkCanvas.Strokes.Transform(matrix, false);
-                                        inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
-                                        inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
-
-                                        inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes,inkVisual);
-
-                                        DrawInkMethod.StrokesCollection.Clear();
-                                        inkVisual.FilterStroke(1, inkVisual.inkCanvas);
-                                        //  RepaintDim();
-                                        double ratio = inkVisual.ratio1.Ratio;
-                                        WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
-                                        inkVisual.drawDefaultDim(inkVisual.inkDimViewModel.DimPos, inkVisual.inkDimViewModel.DimLength, inkVisual.inkDimViewModel.DimColor, inkVisual.ratio1.Ratio, inkVisual.inkDimViewModel.TextColor);
-
-                                    };
-                                }
-
-
-                            };
-                            ButtonZoomIn.Click += delegate
-                            {
-                                if (inkVisual.index == DrawInkMethod.ActiveViews.ActiveWin)
-                                {
-                                    if (inkVisual.ratio1.Ratio >= 1)
-                                    {
-
-                                        Point curPoint = new Point(inkVisual.ActualWidth / 2, inkVisual.ActualHeight / 2);
-
-                                        Matrix matrix = new Matrix();
-                                        inkVisual.ratio1.Ratio = inkVisual.ratio1.Ratio / 1.2;
-                                        if (inkVisual.ratio1.Ratio <= 1)
-                                        {
-                                            matrix.ScaleAt(1 / (inkVisual.ratio1.Ratio * 1.2), 1 / (inkVisual.ratio1.Ratio * 1.2), curPoint.X, curPoint.Y);
-                                            inkVisual.ratio1.Ratio = 1;
-                                        }
-                                        else
-                                        {
-                                            matrix.ScaleAt(1 / 1.2, 1 / 1.2, curPoint.X, curPoint.Y);
-                                        }
-
-
-                                        inkVisual.inkCanvas.Strokes.Transform(matrix, false);
-                                        inkVisual.RecTopLeft = inkVisual.RecTopLeft * matrix;
-                                        inkVisual.RecBottomRight = inkVisual.RecBottomRight * matrix;
-                                        inkVisual.ZoomParTransform(inkVisual.ratio1.Ratio, inkVisual.inkCanvas.Strokes,inkVisual);
-                                        DrawInkMethod.StrokesCollection.Clear();
-                                        inkVisual.FilterStroke(1, inkVisual.inkCanvas);
-                                        double ratio = inkVisual.ratio1.Ratio;
-                                        WindowData.GetInstance().updateStatus.Ratio = (int)(Math.Round(ratio, 2) * 100);
-                                        inkVisual.drawDefaultDim(inkVisual.inkDimViewModel.DimPos, inkVisual.inkDimViewModel.DimLength, inkVisual.inkDimViewModel.DimColor, inkVisual.ratio1.Ratio, inkVisual.inkDimViewModel.TextColor);
-
-                                    };
-                                }
-                            };
-                            ScaleButton.Click += delegate
-                            {
-                                
-                                WindowData.GetInstance().updateStatus.Ratio = 100;
-
-                            };
-                        }
 
                    }
                 }

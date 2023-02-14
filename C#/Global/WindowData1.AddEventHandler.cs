@@ -30,6 +30,11 @@ namespace Global
     /// </summary>
     public partial class WindowData1
     {
+        public HistogramModel histogramModel = new HistogramModel();
+        public ProfileModel profileModel = new ProfileModel();
+        public ProfileChart profile = new ProfileChart();
+        public ProgressBarModel progressBarModel = new ProgressBarModel();
+
         private void AddEventHandler()
         {
 
@@ -37,7 +42,7 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("UPDATE_STAGE_MOVE", UPDATE_STAGE_MOVE, false);
             LambdaControl.AddLambdaEventHandler("STAGE_INI_CLOSE", StaheIniClose, false);
 
-            LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
+           //LambdaControl.AddLambdaEventHandler("UPDATE_WINDOWSTATUS", OnUpdateWindowStatus, false);
 
             LambdaControl.AddLambdaEventHandler("SELECT_CLICKED", SELECT_CLICKED, false);
 
@@ -51,13 +56,13 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("MUL_TIME_INTERVAL", Mul_TInterval, false);
 
             LambdaControl.AddLambdaEventHandler("STOP_ALIVE", STOP_ALIVE, false);
-
+            LambdaControl.AddLambdaEventHandler("STOP_ALIVE1", StopPreview, false);
             LambdaControl.AddLambdaEventHandler("START_ALIVE", START_ALIVE, false);
             LambdaControl.AddLambdaEventHandler("STOP_ACQUIRE", STOP_ACQUIRE, false);
             LambdaControl.AddLambdaEventHandler("START_ACQUIRE", START_ACQUIRE, false);
 
             //预览关闭
-            LambdaControl.AddLambdaEventHandler("PREVIEW_CLOSE", seriesProjectManager, false);
+            LambdaControl.AddLambdaEventHandler("PREVIEW_CLOSE", StopPreview, false);
             LambdaControl.AddLambdaEventHandler("UPDATE_HISTOGRAM", UpdateHistogramModel, false);
 
             //采集关闭
@@ -82,6 +87,7 @@ namespace Global
             LambdaControl.AddLambdaEventHandler("VIEW_CONTEXTMENU_BACK1", UpdateContextMenu1, false);
           
         }
+
 
         private bool StaheIniClose(object sender, EventArgs e)
         {
@@ -112,6 +118,7 @@ namespace Global
 
             return true;
         }
+        // 读图模式下，右键模态切换只支持系列文件中已有的模态
         private bool UpdateContextMenu1(object sender, EventArgs e)
         {
 
@@ -165,7 +172,7 @@ namespace Global
 
 
 
-        private bool seriesProjectManager(object sender, EventArgs e)
+        private bool StopPreview(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -188,17 +195,82 @@ namespace Global
 
                 PlayerEnable();
 
-
+                UpdateActiveWindowMode();
 
             });
 
             return true;
 
         }
-       
+
+       private void UpdateActiveWindowMode()
+        {
+            LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", DrawInkMethod.ActiveViews.ActiveWin } });
+            if (WindowData1.contextMenuPar.status == 3&& RepoTogg.IsChecked==true)
+            {
+                LambdaControl.Trigger("ZSTACK_GALLERYPATH_TRIGGER", this, new Dictionary<string, object>() { { "mode", WindowData1.contextMenuPar.mode } });
+            }
+            if(WindowData1.contextMenuPar.status == 3)
+            {
+                int mode = WindowData1.contextMenuPar.mode;
+                switch (mode)
+                {
+
+                    case 0:
+                        updateStatus.BFCheckEnable = true;
+                        break;
+                    case 1:
+                        updateStatus.DFCheckEnable = true; break;
+                    case 2:
+                        updateStatus.RICheckEnable = true; break;
+                    case 3:
+                        updateStatus.DPToggEnable = true; break;
+                    case 4:
+                        updateStatus.QPCheckEnable = true; break;
+                    case 5:
+                        updateStatus.PCCheckEnable = true; break;
+
+                }
+            }
 
 
-            private  void PlayerEnable()
+        }
+
+
+
+
+
+
+
+
+        private bool StartPreview(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
+                {
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
+                        if (toggleButton != null && toggleButton.IsChecked == false)
+                        {
+                            toggleButton.IsChecked = true;
+                            toggleButton.Content = "停止预览";
+                            EventArgs eventArgs = new EventArgs();
+                        }
+                    }
+                }
+
+            });
+
+            return true;
+
+        }
+
+        private  void PlayerEnable()
         {
             updateStatus.StartEnable = true;
             updateStatus.StopEnable = true;
@@ -206,7 +278,23 @@ namespace Global
             updateStatus.BackwardEnbale = true;
         }
 
+        private void ReadModeUpdate()
+        {
+            updateStatus.BFCheckEnable = false;
+            updateStatus.DFCheckEnable = false;
+            updateStatus.RICheckEnable = false;
+            updateStatus.DPCheckEnable = false;
+            updateStatus.QPCheckEnable = false;
+            updateStatus.PCCheckEnable = false;
 
+            updateStatus.BFToggEnable = false;
+            updateStatus.DFToggEnable = false; 
+            updateStatus.RIToggEnable = false;
+            updateStatus.DPToggEnable = false;
+            updateStatus.QPToggEnable = false;
+            updateStatus.PCToggEnable = false;
+        }
+        
 
 
 
@@ -250,6 +338,7 @@ namespace Global
             histogramModel.MoveEnable = true;
             ALIVE = false;
             PlayerDisable();
+            ReadModeUpdate();
             return true;
 
         }
@@ -330,12 +419,16 @@ namespace Global
             return true;
             
         }
+
+
+
         // start acquire
         private bool STOP_ACQUIRE(object sender, EventArgs e)
         {
             ACQUIRE = true;
             // SaveToPng(inkVisuals[0], "C:\\1\\File.PNG");
             PlayerDisable();
+            ReadModeUpdate();
             return true;
 
         }
@@ -362,11 +455,8 @@ namespace Global
             return true;
         }
 
-        public HistogramModel histogramModel = new HistogramModel();
-        public ProfileModel profileModel = new ProfileModel();
-        public ProfileChart profile = new ProfileChart();
-        public ProgressBarModel progressBarModel = new ProgressBarModel();
-       // MapWindow mapWindow = new MapWindow();
+       
+      
 
         private bool UpdateProgressBarModel(object sender, EventArgs e)
         {
@@ -758,32 +848,52 @@ namespace Global
                 // isChecked 
                 if (!string.IsNullOrEmpty(eventData.GetString("BFC")))
                 {
-                    updateStatus.BFCheckEnable = bool.Parse(eventData.GetString("BFC"));
+                    if (updateStatus.BFToggEnable)
+                    {
+                        updateStatus.BFCheckEnable = bool.Parse(eventData.GetString("BFC"));
+                    }
+                   
                 }
                 if (!string.IsNullOrEmpty(eventData.GetString("DFC")))
                 {
-                    updateStatus.DFCheckEnable = bool.Parse(eventData.GetString("DFC"));
+                    if (updateStatus.DFToggEnable)
+                    {
+                        updateStatus.DFCheckEnable = bool.Parse(eventData.GetString("DFC"));
+                    }
+                   
                 }
                 if (!string.IsNullOrEmpty(eventData.GetString("RIC")))
                 {
-                    updateStatus.RICheckEnable = bool.Parse(eventData.GetString("RIC"));
+                    if (updateStatus.RIToggEnable)
+                    {
+                        updateStatus.RICheckEnable = bool.Parse(eventData.GetString("RIC"));
+                    }
+                   
                 }
                 if (!string.IsNullOrEmpty(eventData.GetString("DPC")))
                 {
-                    updateStatus.DPCheckEnable = bool.Parse(eventData.GetString("DPC"));
+                    if (updateStatus.DPToggEnable)
+                    {
+                        updateStatus.DPCheckEnable = bool.Parse(eventData.GetString("DPC"));
+                    }
+                   
                 }
                 if (!string.IsNullOrEmpty(eventData.GetString("QPC")))
                 {
-                    updateStatus.QPCheckEnable = bool.Parse(eventData.GetString("QPC"));
+                    if (updateStatus.QPToggEnable)
+                    {
+                        updateStatus.QPCheckEnable = bool.Parse(eventData.GetString("QPC"));
+                    }
+                   
                 }
                 if (!string.IsNullOrEmpty(eventData.GetString("PCC")))
                 {
-                    updateStatus.PCCheckEnable = bool.Parse(eventData.GetString("PCC"));
+                    if (updateStatus.PCToggEnable)
+                    {
+                        updateStatus.PCCheckEnable = bool.Parse(eventData.GetString("PCC"));
+                    }
+                   
                 }
-
-
-
-
 
                 //MessageBox.Show("1111");
 
@@ -846,40 +956,39 @@ namespace Global
             return true;
         }
 
-       
+
+        //private void intToMode(UpdateStatus update, int i)
+        //{
+
+        //    switch (i)
+        //    {
+
+        //        case 0:
+        //            MessageBox.Show("1");
+        //            update.BFCheckEnable = true;
+        //            break;
+        //        case 1:
+        //            update.DFCheckEnable = true;
+        //            break;
+        //        case 2:
+        //            update.RICheckEnable = true;
+        //            break;
+
+        //        case 3:
+        //            update.DPCheckEnable = true;
+        //            break;
+        //        case 4:
+        //            update.QPCheckEnable = true;
+        //            break;
+        //        case 5:
+        //            update.PCCheckEnable = true;
+        //            break;
+
+        //    }
 
 
-        private void intToMode(UpdateStatus update, int i)
-        {
 
-            switch (i)
-            {
-
-                case 0:
-                    update.BFCheckEnable = true;
-                    break;
-                case 1:
-                    update.DFCheckEnable = true;
-                    break;
-                case 2:
-                    update.RICheckEnable = true;
-                    break;
-
-                case 3:
-                    update.DPCheckEnable = true;
-                    break;
-                case 4:
-                    update.QPCheckEnable = true;
-                    break;
-                case 5:
-                    update.PCCheckEnable = true;
-                    break;
-
-            }
-
-
-
-        }
+        //}
         private static bool CheckIsMutiView()
         {
             Grid grid  = (Grid)Application.Current.MainWindow.FindName("mainView");
@@ -900,33 +1009,33 @@ namespace Global
 
 
 
-        private void WindowModeUpdate(string windowMode )
-        {
-           
-            foreach (var item in windowMode.Split(";"))
-            {
-                string[] views = item.Split(",");
-                if (views.Length == 2)
-                {
-                    int windowN = int.Parse(views[0]);
-                    int windowM = int.Parse(views[1]);
-                  
-                    if (int.TryParse(views[0], out int value))
-                    {
-                        if (inkVisuals[value] != null)
-                        {
-                            inkVisuals[value].ActiveMode = windowM;
-                        } 
-                    }
-                }
-            }
+        //private void WindowModeUpdate(string windowMode )
+        //{
 
-            int m = DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].ActiveMode;
+        //    foreach (var item in windowMode.Split(";"))
+        //    {
+        //        string[] views = item.Split(",");
+        //        if (views.Length == 2)
+        //        {
+        //            int windowN = int.Parse(views[0]);
+        //            int windowM = int.Parse(views[1]);
 
-            intToMode(updateStatus, m);
+        //            if (int.TryParse(views[0], out int value))
+        //            {
+        //                if (inkVisuals[value] != null)
+        //                {
+        //                    inkVisuals[value].ActiveMode = windowM;
+        //                } 
+        //            }
+        //        }
+        //    }
+
+        //    int m = DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].ActiveMode;
+
+        //    intToMode(updateStatus, m);
 
 
-        }
+        //}
 
 
 
@@ -937,43 +1046,48 @@ namespace Global
             Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
             if (eventData == null)
                 return false;
-
             string windowstatus = eventData.GetString("windowstatus");
-
-            try
-            {
-                foreach (var item in windowstatus.Split(";"))
-                {
-                    string[] views = item.Split(",");
-                    if (views.Length == 2)
-                    {
-                        if (int.TryParse(views[0], out int value))
-                        {
-                            List<int> ints = new List<int> { };
-                            for (int j = 0; j < views[1].Length; j++)
-                                ints.Add(int.Parse(views[1].Substring(j, 1)));
-
-
-                            if (ViewContentMenuCache.ContainsKey(value))
-                                ViewContentMenuCache[value] = ints;
-                            else
-                                ViewContentMenuCache.Add(value, ints);
-
-                            Application.Current.Dispatcher.Invoke(delegate
-                            {
-                              //  AddViewContentMenu(value, ints);
-                            });
-                        }
-                    }
-                }
-                WindowModeUpdate(windowstatus);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            MessageBox.Show(windowstatus);
             return true;
+
         }
+
+        //    string windowstatus = eventData.GetString("windowstatus");
+
+            //    try
+            //    {
+            //        foreach (var item in windowstatus.Split(";"))
+            //        {
+            //            string[] views = item.Split(",");
+            //            if (views.Length == 2)
+            //            {
+            //                if (int.TryParse(views[0], out int value))
+            //                {
+            //                    List<int> ints = new List<int> { };
+            //                    for (int j = 0; j < views[1].Length; j++)
+            //                        ints.Add(int.Parse(views[1].Substring(j, 1)));
+
+
+            //                    if (ViewContentMenuCache.ContainsKey(value))
+            //                        ViewContentMenuCache[value] = ints;
+            //                    else
+            //                        ViewContentMenuCache.Add(value, ints);
+
+            //                    Application.Current.Dispatcher.Invoke(delegate
+            //                    {
+            //                      //  AddViewContentMenu(value, ints);
+            //                    });
+            //                }
+            //            }
+            //        }
+            //       // WindowModeUpdate(windowstatus);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //    return true;
+            //}
        public class ImageType
         {
          public string Type { get; set; }
@@ -1159,9 +1273,9 @@ namespace Global
                 }
                 menuItem.Click += (s, e) =>
                 {
-                    if (contextMenu.Items.Count == 6)
+                    if (menuItem1.Items.Count == 6)
                     {
-                        foreach (MenuItem item in contextMenu.Items)
+                        foreach (MenuItem item in menuItem1.Items)
                         {
                             if (item.IsChecked == true && item != menuItem)
                                 item.IsChecked = false;
@@ -1184,9 +1298,8 @@ namespace Global
                     }
 
                 };
+                menuItem1.Items.Add(menuItem);
 
-               
-               
             }
             for (int i = 0; i < ImageExportAsString.Count; i++)
             {
@@ -1194,8 +1307,8 @@ namespace Global
                 menuItem.Click += (s, e) => { LiveImageExportAsPath(s, e); };
                 menuItem2.Items.Add(menuItem);
             }
-            menuItem1.Items.Add(menuItem1);
-            menuItem1.Items.Add(menuItem2);
+            contextMenu.Items.Add(menuItem1);
+            contextMenu.Items.Add(menuItem2);
             return contextMenu;
         }
        private static void ExportMenuAdd( MenuItem menuItem3, MenuItem menuItem4)
@@ -1218,6 +1331,15 @@ namespace Global
 
 
         }
+
+
+
+
+        private static void UpdateInkvisualMode(int CurrentMode,int ActiveWinMode )
+        {
+            ActiveWinMode = CurrentMode;
+        }
+        // 读图右键菜单
         public static ContextMenu UpdateContextMenu1(int m, int view, int count,List<int> modes)
         {
             ContextMenu contextMenu = new ContextMenu();
@@ -1244,7 +1366,19 @@ namespace Global
                         }
                     }
                     menuItem.IsChecked = true;
+                    //同步读图模态
+                    updateToolBarMode(mode);
+
                     LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", 0 }, { "window", view }, { "mode1", mode }, { "mode2", -1 } });
+                    if (RepoTogg.IsChecked == true)
+                    {
+                        LambdaControl.Trigger("ZSTACK_GALLERYPATH_TRIGGER", null, new Dictionary<string, object>() { { "mode", mode } });
+                       // MessageBox.Show(mode.ToString());
+                    }
+
+
+
+
                 };
                 menuItem1.Items.Add(menuItem);
 
@@ -1265,7 +1399,36 @@ namespace Global
             }
             return contextMenu;
         }
-        
+
+        private static void updateToolBarMode(int mode)
+        {
+            switch (mode)
+            {
+
+                case 0:
+                    updateStatus.BFCheckEnable = true;
+                    break;
+                case 1:
+                    updateStatus.DFCheckEnable = true; break;
+                case 2:
+                    updateStatus.RICheckEnable = true; break;
+                case 3:
+                    updateStatus.DPToggEnable = true; break;
+                case 4:
+                    updateStatus.QPCheckEnable = true; break;
+                case 5:
+                    updateStatus.PCCheckEnable = true; break;
+
+            }
+
+
+        }
+
+
+
+
+
+        //读图双拼
         public static ContextMenu UpdateContextMenu1(int view, int modeL, int modeR, int where,List<int> modes)
         {
             ContextMenu contextMenu = new ContextMenu();

@@ -12,6 +12,11 @@ using Global.Common;
 using System.Timers;
 using System.ComponentModel;
 using Global.Setting;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.Json;
+using Global.SettingUp;
+using UserRegister;
 
 namespace ConfigObjective
 {
@@ -19,14 +24,17 @@ namespace ConfigObjective
     public partial class ToolControl : UserControl
     {
         WindowData windowData;
+        WindowData1 windowData1;
         public ToolControl()
         {
+            Validate();
             windowData = WindowData.GetInstance();
+            windowData1 = WindowData1.GetInstance();
             WindowData1.GetInstance();
-
             Update.UpdateEvent += UpdateGlobal;
             InitializeComponent();
             InitCheckList();
+           
 
         }
         private List<CheckBox> checklist = new List<CheckBox>();
@@ -51,6 +59,108 @@ namespace ConfigObjective
             Stage_Update();
             MulDimensional_Update();
         }
+
+        //private void Validate()
+        //{
+
+        //    IpConfig  ipConfig = new IpConfig();
+        //    List<string> macs = ipConfig.GetMacAddress();
+
+        //}
+        public async void Validate()
+        {
+            
+           // MessageBox.Show("111");
+            await Task.Delay(10000);
+            if (!SoftwareConfig.HardwareSetting.IsIniWizard)
+            {
+                return;
+            }
+            IpConfig ipConfig = new IpConfig();
+            List<string> macS2 = ipConfig.GetMacAddress();
+            String URL = "https://v3.xincheng213618.com:18888/checkregister";
+            MessageBox.Show("111111");
+            bool Connect = HttpsRequest.CheckUrlConnect(URL);
+            if (Connect)
+            {
+
+                //SN 通过读取默认工程文件获取
+                string result = HttpRequest1(URL, "D822D1-10E8C1-CE535A-6797C8", macS2);
+                RegisterBack regBack = JsonSerializer.Deserialize<RegisterBack>(result, new JsonSerializerOptions());
+                if (regBack.State == 1)
+                {
+                    //预留
+                    if (regBack.Message == "找不到注册信息")
+                    {
+                        MessageBoxResult res = MessageBox.Show("当前序列号未注册，是否重新注册 ？", "信息提示", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+
+                        if(res == MessageBoxResult.OK)
+                        {
+                            UserRegister.MainWindow userRegsterWindow = new UserRegister.MainWindow();
+
+                            userRegsterWindow.ShowDialog();
+                        }
+                        else
+                        {
+                            Register.DisableAll();
+                        }
+                    }
+                    else
+                    { 
+                            MessageBox.Show("当前序列号已注册到其他机器");
+                            Register.DisableAll();
+                            //MessageBoxResult boxResult = MessageBox.Show("恢复正常状态？", "信息提示", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+
+                            //if (boxResult == MessageBoxResult.OK)
+                            //{
+                            //    Register.EnableAll();
+                            // }
+                        
+
+                    }
+
+                }
+            }
+           
+        }
+        
+
+
+
+
+
+
+
+
+        public string HttpRequest1(string uri,string SN,List<string> macAddress)
+        {
+
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("sn", SN);
+            StringBuilder stringBuilder = new StringBuilder();
+            if(macAddress.Count > 0)
+            {
+                for (int i = 0; i < macAddress.Count; i++)
+                {
+                    if (i != macAddress.Count - 1)
+                    {
+                        stringBuilder.Append(macAddress[i]);
+                        stringBuilder.Append(";");
+                    }
+                    else
+                    {
+                        stringBuilder.Append(macAddress[i]);
+                    }
+                }
+
+            }
+            dic.Add("mac-array", stringBuilder.ToString());
+            string message = HttpsRequest.Post(uri, dic);
+            MessageBox.Show(message);
+            return message;
+
+        }
+
 
         /// <summary>
         /// 初始化写在前面
@@ -133,9 +243,6 @@ namespace ConfigObjective
 
             #endregion
 
-
-           
-
         }
 
         bool IsFirstLoad = true;
@@ -156,9 +263,29 @@ namespace ConfigObjective
             }
             ComboBox1.ItemsSource = windowData.deviceInformation.CameraResolution;
             ComboBox1.SelectedIndex = (int)WindowData.GetInstance().setting.otherMode.Resolution;
+            //多物镜 延迟切换绑定当前物镜
+            if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+            {
+                foreach(var item in windowData.deviceInformation.ObjectiveSettings)
+                {
+                    if(item.IsChecked == true)
+                    {
+                        foreach(ToggleButton toggleButton in ObjectiveSettingStackPanel.Children)
+                        {
+                           if( toggleButton.Content.ToString() == item.Name)
+                            {
+                                toggleButton.IsChecked = true;
+                            }
+
+                        }
+                    }
+                }
+
+
+            }
+
+
         }
-
-
 
 
 
@@ -581,7 +708,59 @@ namespace ConfigObjective
             ExposureFoldText.Text = WindowData.GetInstance().ExposureViewMode.ExposureShow;
         }
 
-      
+        private void StackPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void StackPanel_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", 0 } });
+            //if (WindowData1.contextMenuPar.status == 4 )
+            //{
+            //    StartPreview();
+            //};
+           
+        }
+
+        private void StackPanel_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("111111");
+        }
+
+        private void StartPreview()
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Window mainwin = Application.Current.MainWindow;
+                if (mainwin != null)
+                {
+                    Grid grid = (Grid)mainwin.FindName("stageAcquisition");
+                    if (grid != null)
+                    {
+                        DockPanel dockPanel = (DockPanel)grid.Children[1];
+                        ToggleButton toggleButton = (ToggleButton)dockPanel.Children[0];
+                        if (toggleButton != null && toggleButton.IsChecked == false)
+                        {
+                            toggleButton.IsChecked = true;
+                            toggleButton.Content = "停止预览";
+                        }
+                    }
+                }
+
+            });
+
+          
+
+        }
+
+
+
+
+
+
+
+
     }
 
 

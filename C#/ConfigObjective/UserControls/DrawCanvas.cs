@@ -8,6 +8,25 @@ using System.Windows.Shapes;
 
 namespace ConfigObjective.UserControls
 {
+        
+    public class DrawingVisualE : DrawingVisual
+    {
+        private int type = 0;
+        public int Type
+        
+        {
+            get { return type; }
+            set { type = value; }
+
+
+        }
+
+    }
+
+
+
+
+
     public class DrawCanvas : Image
     {
         private List<Visual> visuals = new List<Visual>();

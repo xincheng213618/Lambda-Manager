@@ -145,9 +145,10 @@ namespace ConfigObjective
             //}
             if(Border2.DataContext is Camera cameraSetting)
             {
+                string resolution = ComboBox1.SelectedItem as string;
                // MessageBox.Show(ComboBox1.SelectedIndex.ToString());
                 //LambdaControl.Trigger("CAMERA_SETTING_VIDEO_FORMAT", this, new Dictionary<string, object>() { { "mode", ComboBox1.SelectedIndex } });
-                LambdaControl.Trigger("CAMERA_SETTING_RESOLUTION", this, new Dictionary<string, object>() { { "mode", ComboBox1.SelectedIndex } });
+                LambdaControl.Trigger("CAMERA_SETTING_RESOLUTION", this, new Dictionary<string, object>() { { "mode", resolution } });
             }
             WindowData.GetInstance().setting.otherMode.Resolution = ComboBox1.SelectedIndex;
             

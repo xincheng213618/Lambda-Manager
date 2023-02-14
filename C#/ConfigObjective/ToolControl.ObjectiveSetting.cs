@@ -19,30 +19,31 @@ namespace ConfigObjective
             ObjectiveSettingStackPanel.Children.Clear();
             foreach (var item in windowData.deviceInformation.ObjectiveSettings)
             {
-                RadioButton radioButton = new RadioButton
+                RadioButton radioButton = new RadioButton()
                 {
-                    Style = FindResource("ToggleButtonStyle1") as Style,
-                    Width = 55,
-                    Margin = new Thickness(20, 0, 20, 0),
-                    Content = item.Magnitude,
-                    IsChecked = item.IsChecked,
-                    IsEnabled = item.IsEnabled, FontSize = 14
+                Style = FindResource("ToggleButtonStyle1") as Style,
+                Width = 55,
+                Margin = new Thickness(20, 0, 20, 0),
+                Content = item.Name,
+                IsEnabled = item.IsEnabled,
+                FontSize = 14,   
                 };
+
                 radioButton.Checked += delegate
                 {
                    
                     Dictionary<string, object> values = new Dictionary<string, object>()
                     {
-                        {"magnitude",item.ID },
+                        {"magnitude",item.Magnitude },
                         {"na",(double)(item.NA) },
                     };
                     LambdaControl.Trigger("OBJECTIVE_LENS_SETTING", this, values);
                     windowData.SolutionConfig.CurrentObjective = item.ID;
                     ObjFoldText.Text = radioButton.Content.ToString();
-                    UpdateBinding(windowData.SolutionConfig.IsMultiObj.Enable== true,OperatingMode, item.ID);
+                    UpdateBinding(windowData.SolutionConfig.IsMultiObj.Enable == true, OperatingMode, item.ID);
                     LensFactorChange(item.ID);
                     //物镜切换，标记尺寸失效,清除所有标记
-                    foreach(InkVisual item in Global.DrawInkMethod.InkAll)
+                    foreach (InkVisual item in Global.DrawInkMethod.InkAll)
                     {
                         if (item != null)
                         {
@@ -52,17 +53,19 @@ namespace ConfigObjective
                     }
                     if (windowData.ImageViewState.toolTop.DimensionChecked)
                     {
-                        windowData.ImageViewState.toolTop.DimensionChecked=false;
+                        windowData.ImageViewState.toolTop.DimensionChecked = false;
                     }
 
 
                 };
                
+                // radioButton.IsChecked = item.IsChecked;
+              
                 ObjectiveSettingStackPanel.Children.Add(radioButton);
             }
         }
-       
-        private void UpdateBinding( bool mutiObj, OperatingMode operatingMode, int  ID)
+
+        private void UpdateBinding(bool mutiObj, OperatingMode operatingMode, int ID)
         {
             if (!mutiObj) return;
 
@@ -108,10 +111,10 @@ namespace ConfigObjective
         public void UpdateObjBinding(OperatingMode operatingMode, int Id)
         {
 
-           updateGainBinding(operatingMode.SelectViewMode, Id);
-           // updateGainAndEXposBinding1(Id);
+            updateGainBinding(operatingMode.SelectViewMode, Id);
+            // updateGainAndEXposBinding1(Id);
         }
-        public void updateGainBinding(int viewMode,int Id)
+        public void updateGainBinding(int viewMode, int Id)
         {
             Camera camera;
             camera = SwitchViewMode(viewMode);
@@ -131,7 +134,7 @@ namespace ConfigObjective
             Slider212.SetBinding(Slider.ValueProperty, bindingBFExpo);
 
         }
-       
+
 
 
         private void ledDiameterBind(int Id)
@@ -145,7 +148,7 @@ namespace ConfigObjective
             Slider311.SetBinding(Slider.ValueProperty, binding1);
 
         }
-       
+
 
         private Camera SwitchViewMode(int viewMode)
         {

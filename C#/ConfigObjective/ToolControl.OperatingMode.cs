@@ -25,6 +25,34 @@ namespace ConfigObjective
         public void OperatingMode_Initialize()
         {
             OperatingMode ??= new Global.Mode.Config.OperatingMode();
+            OperatingMode.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "SelectViewMode")
+                {
+                    switch (OperatingMode.SelectViewMode)
+                    {
+                        case 0:
+                            Button31.IsChecked = true;
+                            break;
+                        case 1:
+                            Button32.IsChecked = true;
+                            break;
+                        case 2:
+                            Button33.IsChecked = true;
+                            break;
+                        case 3:
+                            Button34.IsChecked = true;
+                            break;
+                        case 4:
+                            Button35.IsChecked = true;
+                            break;
+                        case 5:
+                            Button36.IsChecked = true;
+                            break;
+                    }
+
+                }
+            };
         }
 
         public void OperatingMode_Update()
@@ -301,85 +329,164 @@ namespace ConfigObjective
 
         }
 
+        public void OperateModeChange( int mode)
+        {
+            if (mode == 0)
+            {
+                Border2.DataContext = OperatingMode.BrightField.CameraSetting;
+                Slider212.DataContext = OperatingMode.BrightField.CameraSetting;
+                if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                {
+                    updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                }
+
+                //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
+            }
+            if (mode == 1)
+            {
+                Border2.DataContext = OperatingMode.DarkField.CameraSetting;
+                if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                {
+                    updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                }
+                //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
+            }
+            if (mode == 2)
+            {
+                Border2.DataContext = OperatingMode.Reinberg.CameraSetting;
+                if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                {
+                    updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                }
+                //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
+            }
+
+            if (mode == 3)
+            {
+                Border2.DataContext = OperatingMode.ReliefContrast.CameraSetting;
+                if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                {
+                    updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                }
+                // updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
+            }
+            if (mode == 4)
+            {
+                Border2.DataContext = OperatingMode.QuantitativePhase.CameraSetting;
+                if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                {
+                    updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                }
+                // updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
+                WindowData1.GetInstance().histogramModel.Phase = true;
+                WindowData1.GetInstance().histogramModel.XAxisMin = -10;
+                WindowData1.GetInstance().histogramModel.XAxisMax = 10;
+
+
+            }
+            if (mode == 5)
+            {
+                Border2.DataContext = OperatingMode.PhaseContrast.CameraSetting;
+                if (windowData.SolutionConfig.IsMultiObj.Enable == true)
+                {
+                    updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
+                }
+                //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
+            }
+
+            CameraMode_Changed();
+            OperatingMode_Update();
+            Dictionary<string, object> data = new() { { "mode", mode } };
+            LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
+            OperateModeToActiveWin(mode);
+
+        }
 
 
 
-        private void ViewMode_Checked(object sender, RoutedEventArgs e)
+
+
+
+
+
+        public void ViewMode_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton radioButton = sender as RadioButton;
             string s = radioButton.Tag.ToString();
             if (s != null)
             {
                 OperatingMode.SelectViewMode = int.Parse(s);
-                if (OperatingMode.SelectViewMode == 0)
-                {
-                    Border2.DataContext = OperatingMode.BrightField.CameraSetting;
-                    Slider212.DataContext = OperatingMode.BrightField.CameraSetting;
-                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
-                    {
-                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
-                    }
-
-                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
-                }
-                if (OperatingMode.SelectViewMode == 1)
-                {
-                    Border2.DataContext = OperatingMode.DarkField.CameraSetting;
-                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
-                    {
-                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
-                    }
-                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
-                }
-                if (OperatingMode.SelectViewMode == 2)
-                {
-                    Border2.DataContext = OperatingMode.Reinberg.CameraSetting;
-                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
-                    {
-                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
-                    }
-                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
-                }
-
-                if (OperatingMode.SelectViewMode == 3)
-                {
-                    Border2.DataContext = OperatingMode.ReliefContrast.CameraSetting;
-                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
-                    {
-                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
-                    }
-                    // updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
-                }
-                if (OperatingMode.SelectViewMode == 4)
-                {
-                    Border2.DataContext = OperatingMode.QuantitativePhase.CameraSetting;
-                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
-                    {
-                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
-                    }
-                    // updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
-                    WindowData1.GetInstance().histogramModel.Phase = true;
-                    WindowData1.GetInstance().histogramModel.XAxisMin = -10;
-                    WindowData1.GetInstance().histogramModel.XAxisMax = 10;
-
-
-                }
-                if (OperatingMode.SelectViewMode == 5)
-                {
-                    Border2.DataContext = OperatingMode.PhaseContrast.CameraSetting;
-                    if (windowData.SolutionConfig.IsMultiObj.Enable == true)
-                    {
-                        updateGainBinding(OperatingMode.SelectViewMode, windowData.SolutionConfig.CurrentObjective);
-                    }
-                    //updateGainAndEXposBinding(windowData.SolutionConfig.CurrentObjective);
-                }
-
-                CameraMode_Changed();
-                OperatingMode_Update();
-                Dictionary<string, object> data = new() { { "mode", OperatingMode.SelectViewMode } };
-                LambdaControl.Trigger("IMAGING_MODE_SETTING", this, data);
+                OperateModeChange(OperatingMode.SelectViewMode);
             }
         }
+        // 预览 多窗口 模态
+        private void OperateModeToActiveWin(int mode)
+        {
+           
+            LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", 0 } });
+            if (WindowData1.contextMenuPar.status==0 || WindowData1.contextMenuPar.status == 2|| WindowData1.contextMenuPar.status == 3)
+            {
+                
+            }
+            else
+            {
+                FindActiveOnMode(mode);
+
+            };
+
+        }
+      
+        public void FindActiveOnMode(int mode)
+        {
+            bool find = false;
+            int Count = DrawInkMethod.ViewsCount.ViewCount;
+            if (Count > 1)
+            {
+               for(int i = 0; i < Count; i++)
+                {
+                    LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", i } });
+                    if(mode == WindowData1.contextMenuPar.mode)
+                    {
+                        DrawInkMethod.ActiveViews.ActiveWin = i;
+                        find= true;
+                        return;
+                    }
+                }
+                if (!find)
+                {
+                    LambdaControl.Trigger("VIEW_WINDOW", null, new Dictionary<string, object>() { { "type", 0 }, { "window", Count - 1 }, { "mode1", mode }, { "mode2", -1 } });
+                    
+                    FindActiveOnMode1(mode);
+                }
+
+            }
+        }
+
+        private void FindActiveOnMode1(int mode)
+        {
+            bool find = false;
+            int Count = DrawInkMethod.ViewsCount.ViewCount;
+            if (Count > 1)
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", i } });
+                    if (mode == WindowData1.contextMenuPar.mode)
+                    {
+                        DrawInkMethod.ActiveViews.ActiveWin = i;
+                        find = true;
+                        return;
+                    }
+                }
+
+            }
+        }
+
+
+
+
+
+
 
         private void Button35_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -482,7 +589,7 @@ namespace ConfigObjective
             ToggleButton332.IsChecked = false;
             ToggleButton333.IsChecked = false;
 
-            LambdaControl.Trigger("RHEIN_BERG_ANGLE", this, new Dictionary<string, object>() { { "angle", (int)Slider336.Value } });
+            LambdaControl.Trigger("RHEIN_BERG_ANGLE", this, new Dictionary<string, object>() { { "angle", (int)(Slider336.Value/15) } });
         }
 
 

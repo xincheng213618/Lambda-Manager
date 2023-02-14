@@ -2,7 +2,7 @@
 
 namespace Wizard
 {
-    public class HardwareCalibration : ViewModelBase
+    public class HardwareCalibration : Global.Common.ViewModelBase
     {
         public string Name { internal get;  set; }
 

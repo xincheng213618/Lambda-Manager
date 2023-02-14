@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace Wizard
 {
 
-    public class Page2ViewMode : ViewModelBase
+    public class Page2ViewMode : Global.Common.ViewModelBase
     {
         public bool IsSelect { get => _IsSelect; set { _IsSelect = value; NotifyPropertyChanged(); } }
         private bool _IsSelect { get; set; }

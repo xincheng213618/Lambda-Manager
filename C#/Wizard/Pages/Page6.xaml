@@ -13,12 +13,8 @@
 
             <TextBlock Text="设置完毕" HorizontalAlignment="Center" FontSize="20"   VerticalAlignment="Top" Margin="0,200,0,0"/>
 
-
-
             <DockPanel  VerticalAlignment="Bottom" HorizontalAlignment="Right"  >
                 <Button Margin="5,0" Padding="10,5"  Content="上一步"  Click="Button1_Click"/>
-
-
                 <Button Margin="5,0" Padding="10,5"   Content="关闭"  Click="Button_Click" />
 
             </DockPanel>

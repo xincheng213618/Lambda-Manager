@@ -300,14 +300,14 @@
         </Canvas>
     </ControlTemplate>
     <ControlTemplate x:Key="eraser">
-        <Canvas Width="24"  Height="22" >
-            <Rectangle Width="24" Canvas.Left="0" Canvas.Top="0" Height="22" RadiusX="3" RadiusY="3" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Rectangle>
+        <Canvas Width="24"  Height="21" >
+            <Rectangle Width="24" Canvas.Left="-1" Canvas.Top="-0.5" Height="21" RadiusX="3" RadiusY="3" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Rectangle>
             <!--<Rectangle Canvas.Left="0.5" Canvas.Top="0.5" Stroke="#666666" Width="27" Height="23" RadiusX="3.5" RadiusY="3.5" ></Rectangle>
             <Rectangle Canvas.Left="1" Canvas.Top="1"  Width="26" Height="22" RadiusX="3" RadiusY="3" Fill="#4d4d4d" ></Rectangle>
             <Rectangle Canvas.Left="1.5" Canvas.Top="1.5"  Width="25" Height="21" RadiusX="2.5" RadiusY="2.5" Stroke="#333333" ></Rectangle>
             <Rectangle Canvas.Left="3" Canvas.Top="3"  Width="22" Height="18" RadiusX="1.5" RadiusY="1.5" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"  ></Rectangle>
             <Rectangle Canvas.Left="3.5" Canvas.Top="3"  Width="21" Height="18" RadiusX="1"  RadiusY="1" Stroke="#b2b2b2"></Rectangle>-->
-            <Viewbox   Width="22" Height="22" Canvas.Left="-8" Canvas.Top="-3">
+            <Viewbox   Width="22" Height="21" Canvas.Left="-8" Canvas.Top="-3">
                 <Canvas Width="18" Height="18" Canvas.Left="0">
                     <!--<Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M15.44588390625,15.503432666015625L19.95825390625,11.086392666015625L15.46177390625,6.852032666015625L11.22741390625,11.277062666015624L15.44588390625,15.503432666015625ZM14.30984390625,16.615732666015624L10.13109390625,12.428992666015624L8.28005390625,14.327702666015625L10.854033906249999,16.901732666015626C11.00395390625,17.050432666015624,11.206923906250001,17.133332666015626,11.41808390625,17.132032666015625L13.10229390625,17.132032666015625C13.51799390625,17.132432666015625,13.917283906249999,16.969832666015627,14.21450390625,16.679232666015626L14.30984390625,16.615732666015624ZM16.01788390625,17.163832666015622L19.990053906249997,17.163832666015622C20.428853906249998,17.163832666015622,20.78455390625,17.519532666015625,20.78455390625,17.958332666015625C20.78455390625,18.397032666015626,20.428853906249998,18.752732666015625,19.990053906249997,18.752732666015625L11.41014390625,18.752732666015625C10.77825390625,18.752132666015626,10.17245390625,18.500732666015622,9.72592390625,18.053632666015623L7.15194590625,15.479632666015625C6.54635690625,14.861812666015625,6.54635690625,13.873032666015625,7.15194590625,13.255212666015625L14.301893906250001,5.747764666015625C14.90621390625,5.116071666015625,15.90730390625,5.091221666015625,16.542213906249998,5.692153666015625L21.03075390625,9.926512666015626C21.67005390625,10.529432666015625,21.698453906250002,11.536712666015625,21.09435390625,12.174772666015624L21.04665390625,12.222442666015624L16.01788390625,17.163832666015622Z"></Path>-->
                     <Path Data="M13.98737724609375,12.417066785888672L17.88868724609375,8.515756785888673L15.42505724609375,6.051376785888672L12.28870824609375,9.186976785888671L12.74168724609375,11.171376785888672L13.98737724609375,12.416316785888672L13.98737724609375,12.417066785888672ZM15.732537246093749,5.127422785888672L22.371927246093747,11.76684678588867C22.50422724609375,11.899206785888673,22.50422724609375,12.113716785888672,22.371927246093747,12.246076785888672L17.71769724609375,16.900336785888673C17.58533724609375,17.03263678588867,17.37082724609375,17.03263678588867,17.238467246093748,16.900336785888673L12.03672124609375,11.698606785888671C11.97852724609375,11.640576785888673,11.93796224609375,11.567246785888672,11.91972624609375,11.487116785888672L11.38650254609375,9.146476785888673C11.35292324609375,9.000476785888672,11.39684244609375,8.847466785888672,11.50274724609375,8.741496785888671L15.11756724609375,5.127422785888672C15.28750724609375,4.957174785888672,15.56335724609375,4.957174785888672,15.733287246093749,5.127422785888672L15.732537246093749,5.127422785888672Z" Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" />
@@ -332,6 +332,21 @@
 
                 </Canvas>
             </Viewbox>
+        </Canvas>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="eraserAll2">
+        <Canvas Width="80"  Height="24" >
+            <Rectangle Width="80" Canvas.Left="-3" Canvas.Top="-3" Height="24" RadiusX="3" RadiusY="3" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Rectangle>
+            <Viewbox   Width="22" Height="22" Canvas.Left="-5" Canvas.Top="-4">
+                <Canvas Width="19" Height="19">
+                    <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M8.77344,15.25L9.23047,18.625L8.19727,18.625L8.07812,17.69727L6.63867,17.69727L6.23633,18.625L5.257812,18.625L6.58398,15.41602L6.41016,15.25L8.77344,15.25ZM7.44727,15.82227L6.87109,17.125L8.02344,17.125L7.84961,15.82227L7.44727,15.82227ZM11.30469,15.25L10.902339999999999,18.05273L13.14648,18.05273L13.0918,18.625L10.097660000000001,18.625Q9.923829999999999,18.625,9.83594,18.51367Q9.75,18.40039,9.75,18.22656L10.097660000000001,15.47656L9.923829999999999,15.25L11.30469,15.25ZM15.1797,15.25L14.77734,18.05273L17.0215,18.05273L16.9668,18.625L13.97266,18.625Q13.79883,18.625,13.71094,18.51367Q13.625,18.40039,13.625,18.22656L13.97266,15.47656L13.79883,15.25L15.1797,15.25Z"></Path>
+                    <Path Data="M13.98737724609375,12.417066785888672L17.88868724609375,8.515756785888673L15.42505724609375,6.051376785888672L12.28870824609375,9.186976785888671L12.74168724609375,11.171376785888672L13.98737724609375,12.416316785888672L13.98737724609375,12.417066785888672ZM15.732537246093749,5.127422785888672L22.371927246093747,11.76684678588867C22.50422724609375,11.899206785888673,22.50422724609375,12.113716785888672,22.371927246093747,12.246076785888672L17.71769724609375,16.900336785888673C17.58533724609375,17.03263678588867,17.37082724609375,17.03263678588867,17.238467246093748,16.900336785888673L12.03672124609375,11.698606785888671C11.97852724609375,11.640576785888673,11.93796224609375,11.567246785888672,11.91972624609375,11.487116785888672L11.38650254609375,9.146476785888673C11.35292324609375,9.000476785888672,11.39684244609375,8.847466785888672,11.50274724609375,8.741496785888671L15.11756724609375,5.127422785888672C15.28750724609375,4.957174785888672,15.56335724609375,4.957174785888672,15.733287246093749,5.127422785888672L15.732537246093749,5.127422785888672Z"  Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" />
+                </Canvas>
+            </Viewbox>
+              <TextBlock Text="全擦除" Width="40" Height="22"  Canvas.Left="30"  Canvas.Top="0" Foreground="Black"></TextBlock>
+          
+            
         </Canvas>
     </ControlTemplate>
 
@@ -379,14 +394,14 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="singleSelected">
-        <Canvas Width="24"  Height="22" >
-            <Rectangle Width="24" Canvas.Left="0" Canvas.Top="0" Height="22" RadiusX="3" RadiusY="3" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Rectangle>
+        <Canvas Width="24"  Height="21" >
+            <Rectangle Width="24" Canvas.Left="0" Canvas.Top="-0.5" Height="21" RadiusX="3" RadiusY="3" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Rectangle>
             <!--<Rectangle Canvas.Left="0.5" Canvas.Top="0.5" Stroke="#666666" Width="27" Height="23" RadiusX="3.5" RadiusY="3.5" ></Rectangle>
             <Rectangle Canvas.Left="1" Canvas.Top="1" Width="26" Height="22" RadiusX="3" RadiusY="3" Fill="#4d4d4d" ></Rectangle>
             <Rectangle Canvas.Left="1.5" Canvas.Top="1.5"  Width="25" Height="21" RadiusX="2.5" RadiusY="2.5" Stroke="#333333" ></Rectangle>
             <Rectangle Canvas.Left="3" Canvas.Top="3"  Width="22" Height="18" RadiusX="1.5" RadiusY="1.5" Opacity="1" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"  ></Rectangle>
             <Rectangle Canvas.Left="3.5" Canvas.Top="3"  Width="21" Height="18" RadiusX="1" RadiusY="1" Stroke="#b2b2b2"></Rectangle>-->
-            <Viewbox   Width="24" Height="22" Canvas.Left="-6" Canvas.Top="-1">
+            <Viewbox   Width="24" Height="21" Canvas.Left="-7" Canvas.Top="-1">
                 <Canvas Width="20" Height="20">
                 <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M12.11046517578125,5.406013526367188Q12.05435517578125,5.578570526367187,12.05664517578125,5.760005426367187Q12.05892517578125,5.941440526367187,12.11936517578125,6.112528526367187L14.26277517578125,12.180159526367188Q14.47477517578125,12.780299526367187,15.06635517578125,13.015099526367187Q15.65794517578125,13.249909526367187,16.223795175781248,12.958499526367188L17.10127517578125,12.506619526367189L20.16290517578125,15.389989526367188Q20.63944517578125,15.838739526367187,21.29391517578125,15.824839526367187Q21.94837517578125,15.810939526367187,22.405385175781248,15.342249526367187L23.04318517578125,14.688189526367188Q23.50585517578125,14.213679526367187,23.49755517578125,13.550979526367188Q23.48915517578125,12.888289526367188,23.01465517578125,12.425599526367186L20.02064517578125,9.506189526367187L20.44397517578125,8.630619526367187Q20.72103517578125,8.057599526367188,20.47139517578125,7.472119526367187Q20.22175517578125,6.886629526367187,19.61645517578125,6.689824526367188L13.49668117578125,4.700049526367188Q13.44529017578125,4.683339526367187,13.39250817578125,4.671739526367188Q13.33972717578125,4.660149526367188,13.28606317578125,4.653789526367188Q13.23239947578125,4.647429526367187,13.17837057578125,4.6463595263671875Q13.12434167578125,4.6452795263671876,13.07046787578125,4.649509526367187Q13.01659417578125,4.653739526367188,12.96339417578125,4.6632295263671875Q12.91019417578125,4.672719526367187,12.85818117578125,4.687379526367188Q12.80616717578125,4.702039526367187,12.75584117578125,4.721719526367187Q12.70551517578125,4.741409526367187,12.65736017578125,4.765933526367188Q12.60920617578125,4.790457526367187,12.56368717578125,4.819582526367188Q12.51816817578125,4.848708526367187,12.47572317578125,4.882155526367187Q12.43327817578125,4.915602526367188,12.39431617578125,4.953049526367187Q12.35535417578125,4.990495526367187,12.32025017578125,5.031580526367187Q12.28514617578125,5.072665526367188,12.25423817578125,5.116993526367187Q12.22333017578125,5.161321526367187,12.19691617578125,5.2084655263671875Q12.17050217578125,5.255609526367188,12.148835175781251,5.305115526367188Q12.12716517578125,5.354621526367188,12.11046517578125,5.406013526367188ZM13.15655517578125,5.7461395263671875L13.61817617578125,7.052909526367188L15.29996517578125,11.813769526367189C15.36053517578125,11.985239526367188,15.55850517578125,12.063819526367187,15.72018517578125,11.980559526367188L16.97485517578125,11.334429526367188C17.16323517578125,11.237419526367187,17.39231517578125,11.269689526367188,17.54657517578125,11.414959526367188L20.91705517578125,14.589209526367188C21.11561517578125,14.776209526367188,21.42741517578125,14.769569526367187,21.617835175781252,14.574289526367188L22.255625175781248,13.920229526367187C22.44841517578125,13.722519526367186,22.444425175781248,13.405959526367187,22.246715175781247,13.213169526367189L18.94329517578125,9.992059526367187C18.78929517578125,9.841899526367188,18.74858517578125,9.610079526367187,18.84221517578125,9.416429526367187L19.45365517578125,8.151799526367189C19.532815175781252,7.988079526367187,19.44927517578125,7.792149526367187,19.27633517578125,7.735919526367187L14.47455517578125,6.174671526367187L13.15655517578125,5.7461395263671875Z"  Opacity="1">
                     <Path.RenderTransform>
@@ -430,11 +445,32 @@
 
         </Canvas>
     </ControlTemplate>
-    
-    
-    
-    
-    
+
+    <ControlTemplate x:Key="selectAll">
+        <Canvas Width="78"  Height="24" >
+            <Rectangle Width="80" Canvas.Left="-3" Canvas.Top="-3" Height="24" RadiusX="3" RadiusY="3" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Border}}}"></Rectangle>
+            <Viewbox   Width="22" Height="22" Canvas.Left="-3" Canvas.Top="-2">
+                <Canvas Width="20" Height="20">
+                    <Path Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M12.11046517578125,5.406013526367188Q12.05435517578125,5.578570526367187,12.05664517578125,5.760005426367187Q12.05892517578125,5.941440526367187,12.11936517578125,6.112528526367187L14.26277517578125,12.180159526367188Q14.47477517578125,12.780299526367187,15.06635517578125,13.015099526367187Q15.65794517578125,13.249909526367187,16.223795175781248,12.958499526367188L17.10127517578125,12.506619526367189L20.16290517578125,15.389989526367188Q20.63944517578125,15.838739526367187,21.29391517578125,15.824839526367187Q21.94837517578125,15.810939526367187,22.405385175781248,15.342249526367187L23.04318517578125,14.688189526367188Q23.50585517578125,14.213679526367187,23.49755517578125,13.550979526367188Q23.48915517578125,12.888289526367188,23.01465517578125,12.425599526367186L20.02064517578125,9.506189526367187L20.44397517578125,8.630619526367187Q20.72103517578125,8.057599526367188,20.47139517578125,7.472119526367187Q20.22175517578125,6.886629526367187,19.61645517578125,6.689824526367188L13.49668117578125,4.700049526367188Q13.44529017578125,4.683339526367187,13.39250817578125,4.671739526367188Q13.33972717578125,4.660149526367188,13.28606317578125,4.653789526367188Q13.23239947578125,4.647429526367187,13.17837057578125,4.6463595263671875Q13.12434167578125,4.6452795263671876,13.07046787578125,4.649509526367187Q13.01659417578125,4.653739526367188,12.96339417578125,4.6632295263671875Q12.91019417578125,4.672719526367187,12.85818117578125,4.687379526367188Q12.80616717578125,4.702039526367187,12.75584117578125,4.721719526367187Q12.70551517578125,4.741409526367187,12.65736017578125,4.765933526367188Q12.60920617578125,4.790457526367187,12.56368717578125,4.819582526367188Q12.51816817578125,4.848708526367187,12.47572317578125,4.882155526367187Q12.43327817578125,4.915602526367188,12.39431617578125,4.953049526367187Q12.35535417578125,4.990495526367187,12.32025017578125,5.031580526367187Q12.28514617578125,5.072665526367188,12.25423817578125,5.116993526367187Q12.22333017578125,5.161321526367187,12.19691617578125,5.2084655263671875Q12.17050217578125,5.255609526367188,12.148835175781251,5.305115526367188Q12.12716517578125,5.354621526367188,12.11046517578125,5.406013526367188ZM13.15655517578125,5.7461395263671875L13.61817617578125,7.052909526367188L15.29996517578125,11.813769526367189C15.36053517578125,11.985239526367188,15.55850517578125,12.063819526367187,15.72018517578125,11.980559526367188L16.97485517578125,11.334429526367188C17.16323517578125,11.237419526367187,17.39231517578125,11.269689526367188,17.54657517578125,11.414959526367188L20.91705517578125,14.589209526367188C21.11561517578125,14.776209526367188,21.42741517578125,14.769569526367187,21.617835175781252,14.574289526367188L22.255625175781248,13.920229526367187C22.44841517578125,13.722519526367186,22.444425175781248,13.405959526367187,22.246715175781247,13.213169526367189L18.94329517578125,9.992059526367187C18.78929517578125,9.841899526367188,18.74858517578125,9.610079526367187,18.84221517578125,9.416429526367187L19.45365517578125,8.151799526367189C19.532815175781252,7.988079526367187,19.44927517578125,7.792149526367187,19.27633517578125,7.735919526367187L14.47455517578125,6.174671526367187L13.15655517578125,5.7461395263671875Z"  Opacity="1">
+                        <Path.RenderTransform>
+                            <MatrixTransform>
+                                <MatrixTransform.Matrix>
+                                    <Matrix M11="0.9848077297210693" M12="0.1736481636762619" M21="-0.1736481636762619" M22="0.9848077297210693" OffsetX="1.1976845191513803" OffsetY="-2.1973147418348162"></Matrix>
+                                </MatrixTransform.Matrix>
+                            </MatrixTransform>
+                        </Path.RenderTransform>
+                    </Path>
+
+                    <Path  Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Border}}}" Data="M8.77344,15.25L9.23047,18.625L8.19727,18.625L8.07812,17.69727L6.63867,17.69727L6.23633,18.625L5.257812,18.625L6.58398,15.41602L6.41016,15.25L8.77344,15.25ZM7.44727,15.82227L6.87109,17.125L8.02344,17.125L7.84961,15.82227L7.44727,15.82227ZM11.30469,15.25L10.902339999999999,18.05273L13.14648,18.05273L13.0918,18.625L10.097660000000001,18.625Q9.923829999999999,18.625,9.83594,18.51367Q9.75,18.40039,9.75,18.22656L10.097660000000001,15.47656L9.923829999999999,15.25L11.30469,15.25ZM15.1797,15.25L14.77734,18.05273L17.0215,18.05273L16.9668,18.625L13.97266,18.625Q13.79883,18.625,13.71094,18.51367Q13.625,18.40039,13.625,18.22656L13.97266,15.47656L13.79883,15.25L15.1797,15.25Z"  ></Path>
+                </Canvas>
+            </Viewbox>
+            <TextBlock Text="全选中" Width="40" Height="22"  Canvas.Left="30"  Canvas.Top="0" Foreground="Black"></TextBlock>
+        </Canvas>
+    </ControlTemplate>
+
+
+
+
 
 
 
@@ -973,7 +1009,61 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ToggleButtonArrowStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Height" Value="22"/>
+        <Setter Property="Width" Value="12"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource EnableFore}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <!--<Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />-->
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}" >
 
+                    <Border x:Name="border" Background="Transparent"  BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0,3,3,0" SnapsToDevicePixels="true">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="true"/>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource CheckedBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
+                        </MultiTrigger>-->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource mouseOverBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource mouseOverFore}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter  TargetName="border" Property="Background" Value="{StaticResource DisableBackground}"/>
+                            <Setter  TargetName="border" Property="BorderBrush" Value="{StaticResource DisableForeground}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource CheckedBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
+                        </Trigger>
+
+                        <!--<EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
+                                            To="#6EA646" Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever"></ColorAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 
@@ -1051,7 +1141,7 @@
     <Style x:Key="ButtonStyle222" TargetType="{x:Type Button}">
         <Setter Property="Height" Value="22"/>
         <Setter Property="Width" Value="23.5"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        
         <Setter Property="Background" Value="{StaticResource EnableBack}"/>
         <Setter Property="BorderBrush" Value="{StaticResource EnableFore}"/>
         <!--<Setter Property="Margin" Value="1.5"/>-->
@@ -1098,7 +1188,7 @@
     <Style x:Key="ButtonStyle212" TargetType="{x:Type Button}">
         <Setter Property="Height" Value="22"/>
         <Setter Property="Width" Value="23.5"/>
-        <Setter Property="BorderThickness" Value="0"/>
+       
         <Setter Property="Background" Value="{StaticResource EnableBack}"/>
         <Setter Property="BorderBrush" Value="{StaticResource EnableFore}"/>
         <!--<Setter Property="Margin" Value="1.5"/>-->
@@ -1235,7 +1325,45 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ButtonStyleDownArrow" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22"/>
+        <Setter Property="Width" Value="12"/>
 
+        <Setter Property="Background" Value="{StaticResource EnableBack}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource EnableFore}"/>
+        <!--<Setter Property="Margin" Value="1.5"/>-->
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FrameworkElement.FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Border x:Name="border" Background="{StaticResource EnableBack}" BorderBrush="{StaticResource EnableFore}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" SnapsToDevicePixels="true">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Opacity="0.9" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource EnableBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource mouseOverFore}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter  TargetName="border" Property="Background" Value="{StaticResource DisableBackground}"/>
+                            <Setter  TargetName="border" Property="BorderBrush" Value="{StaticResource DisableForeground}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource EnableBack}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource CheckedFore}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 

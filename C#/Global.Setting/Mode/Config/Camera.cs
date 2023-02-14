@@ -144,7 +144,7 @@ namespace Global.Mode.Config
     {
       
             private int gain0 = 0;
-            [JsonPropertyName("10x")]
+            [JsonPropertyName("4x")]
             public int Gain0
            {
                 get { return gain0; }
@@ -156,7 +156,7 @@ namespace Global.Mode.Config
             }
 
             private int gain1 = 0;
-            [JsonPropertyName("20x")]
+            [JsonPropertyName("10x")]
             public int Gain1
         {
                 get { return gain1; }
@@ -168,7 +168,7 @@ namespace Global.Mode.Config
             }
 
             private int gain2 = 30;
-            [JsonPropertyName("40x")]
+            [JsonPropertyName("20x")]
             public int Gain2
         {
                 get { return gain2; }
@@ -179,7 +179,7 @@ namespace Global.Mode.Config
                 }
             }
         private int gain3 = 30;
-        [JsonPropertyName("100x")]
+        [JsonPropertyName("40x")]
         public int Gain3
         {
             get { return gain3; }
@@ -203,7 +203,7 @@ namespace Global.Mode.Config
     {
 
         private int exposure0 = 35;
-        [JsonPropertyName("10x")]
+        [JsonPropertyName("4x")]
         public int Exposure0
         {
             get { return exposure0; }
@@ -215,7 +215,7 @@ namespace Global.Mode.Config
         }
 
         private int exposure1 = 35;
-        [JsonPropertyName("20x")]
+        [JsonPropertyName("10x")]
         public int Exposure1
         {
             get { return exposure1; }
@@ -227,7 +227,7 @@ namespace Global.Mode.Config
         }
 
         private int exposure2 = 35;
-        [JsonPropertyName("40x")]
+        [JsonPropertyName("20x")]
         public int Exposure2
         {
             get { return exposure2; }
@@ -238,7 +238,7 @@ namespace Global.Mode.Config
             }
         }
         private int exposure3 = 35;
-        [JsonPropertyName("100x")]
+        [JsonPropertyName("40x")]
         public int Exposure3
         {
             get { return exposure3; }

@@ -10,7 +10,7 @@ namespace Global.Hardware
         public string Name { get; set; }
 
         [JsonPropertyName("magnitude")]
-        public string Magnitude { get; set; }
+        public int Magnitude { get; set; }
 
         [JsonPropertyName("N.A")]
         public double NA { get; set; }

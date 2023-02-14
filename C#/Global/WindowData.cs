@@ -38,21 +38,23 @@ namespace Global
 
         //public SolutionConfig SolutionConfig = WindowData.GetInstance().SolutionConfig;
         public MulSummary mulSummary = WindowData.GetInstance().mulSummary;
-        public UpdateStatus updateStatus = WindowData.GetInstance().updateStatus;
+        public static UpdateStatus updateStatus = WindowData.GetInstance().updateStatus;
         public ImageViewState ImageViewState = WindowData.GetInstance().ImageViewState;
-
         public MapModel mapModel = WindowData.GetInstance().mapModel;
-
+        
+       
         private WindowData1()
         {
            
             Interference();
             AddEventHandler();
+            UIExtension();
+            ToolBarTopAddEvent();
+            ToolBarRightAddEvent();
             AddInjection();
             AddInjection1();
             GalleryInk.GalleryInking();
-            //UIExtension();
-
+            
         }
     }
 
@@ -111,11 +113,8 @@ namespace Global
 
             LambdaSettingUp.HardwareSettingConnectionEvent += CheckHardWareConnection;
             ReadDefaultConfig(DirectoryPath);
-            Hardware_Initialized(ObjList);
-            //Application.Current.MainWindow.Closing += (s, e) =>
-            //{
-            //    WriteDefaultConfig(DirectoryPath);
-            //};
+            Hardware_Initialized(ObjParaList,ObjList);
+          
             
         }
 
@@ -161,8 +160,13 @@ namespace Global
             SolutionConfig.Dimensional.Saveprefix = ConfigFullName;
             WriteVisualOnInkMode(setting.otherMode.InkMode);
             SolutionConfig.ToJsonFile(ConfigFullName);
-            if (string.IsNullOrEmpty(ConfigFullName))
+            if(ConfigFullName!= null)
+            {
                 SaveCustomConfig(ConfigFullName, ObjList);
+            }
+            WriteDefaultConfig(DirectoryPath);
+
+
         }
         public void SaveDefaultConfig(string path)
         {
@@ -178,7 +182,7 @@ namespace Global
         /// <returns></returns>
         public int ReadConfig(string ConfigFullName)
         {
-
+            
             if (!File.Exists(ConfigFullName))
             {
                 MessageBox.Show("找不到工程文件。");

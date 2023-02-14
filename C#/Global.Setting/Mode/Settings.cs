@@ -22,4 +22,13 @@ namespace Global.Setting.Mode
         public bool? DevelopMode { get; set; } = false;
 
     }
+
+
+
+
+
+
+
+
+
 }

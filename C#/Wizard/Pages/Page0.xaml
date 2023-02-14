@@ -1,0 +1,67 @@
+﻿<Page x:Class="Wizard.Page0"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:conver="clr-namespace:Wizard.Converters"
+      xmlns:local="clr-namespace:Wizard"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Page0">
+    <Page.Resources>
+        <conver:StringToVisibilityConverter x:Key="StringToVisible"></conver:StringToVisibilityConverter>
+    </Page.Resources>
+    <Grid Background="#444444"  Width="700">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid  Grid.Row="0">
+            <Label Content="注册用户" FontSize="20" FontWeight="Bold" Margin="10,0,0,0" VerticalContentAlignment="Center" Foreground="white"></Label>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Label Content="用户名" Foreground="White"  Margin="95,0,0,0" VerticalAlignment="Center"></Label>
+            <TextBox Height="30"  x:Name="UserName" Text="{Binding Name,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="300"  FontSize="16" Padding="10,0,0,0"  VerticalContentAlignment="Center" LostFocus="LostFocus"   ></TextBox>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Label Content="注册地址"  Foreground="White" Margin="95,0,0,0"  VerticalAlignment="Center"></Label>
+            <TextBox Height="30" x:Name="Legal" Text="{Binding LegalAddress}" Width="300"  FontSize="16" Padding="10,0,0,0"  VerticalContentAlignment="Center" LostFocus="LostFocus"></TextBox>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Label Content="注册邮件地址" Foreground="White"  Margin="95,0,0,0" VerticalAlignment="Center"></Label>
+            <TextBox Height="30" Name="Email"  Text="{Binding EmailAddress}" Width="300" FontSize="16" Padding="10,0,0,0"  VerticalContentAlignment="Center" LostFocus="LostFocus"></TextBox>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Label Content="联系电话"  Foreground="White" Margin="95,0,0,0" VerticalAlignment="Center"></Label>
+            <TextBox Height="30" x:Name="Call" Text="{Binding ContactNumber}" Width="300" FontSize="16" Padding="10,0,0,0"  VerticalContentAlignment="Center" LostFocus="LostFocus"></TextBox>
+        </Grid>
+        <Grid Grid.Row="5">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="序列号"  Foreground="White" Margin="95,0,0,0" VerticalAlignment="Center"></Label>
+                <StackPanel Orientation="Horizontal" Margin="60,0,0,0">
+                    <TextBox Width="63" Height="30" VerticalContentAlignment="Center" MaxLength="6" Text="{Binding SN1}"></TextBox>
+                    <Label Content="-" Foreground="white" VerticalAlignment="Center"></Label>
+                    <TextBox Width="63"  Height="30" VerticalContentAlignment="Center" MaxLength="6" Text="{Binding SN2}"></TextBox>
+                    <Label Content="-" Foreground="white" VerticalAlignment="Center"></Label>
+                    <TextBox Width="63"  Height="30" VerticalContentAlignment="Center" MaxLength="6" Text="{Binding SN3}"></TextBox>
+                    <Label Content="-" Foreground="white" VerticalAlignment="Center"></Label>
+                    <TextBox Width="63"  Height="30" VerticalContentAlignment="Center" MaxLength="6" Text="{Binding SN4}"></TextBox>
+                </StackPanel>
+            </StackPanel>
+           
+            <!--<TextBox Height="40" Name="SN" Text="{Binding SN}" Width="400" FontSize="16" Padding="10,0,0,0"  VerticalContentAlignment="Center" LostFocus="LostFocus"></TextBox>-->
+        </Grid>
+        <Grid Grid.Row="7" Margin="0,-20,0,0">
+            <Button Height="40" x:Name="CreateButton" Margin="-180,0,0,0" Content="注册用户" Width="120" FontSize="16" Padding="10,0,0,0" VerticalAlignment="Top"  VerticalContentAlignment="Center" Click="CreateButton_Click" ></Button>
+            <Button Height="40" x:Name="CreateButton1" Margin="180,0,0,0" Content="离线注册" Width="120" FontSize="16" Padding="10,0,0,0" VerticalAlignment="Top"  VerticalContentAlignment="Center" Click="CreateButton1_Click"  ></Button>
+
+        </Grid>
+    </Grid>
+</Page>

@@ -60,7 +60,7 @@ namespace Global.Mode.Config
     public class Outer : ViewModelBase
     {
         private int outer0 = 9;
-        [JsonPropertyName("10x")]
+        [JsonPropertyName("4x")]
         public int Outer0
         {
             get { return outer0; }
@@ -72,7 +72,7 @@ namespace Global.Mode.Config
         }
 
         private int outer1 = 5;
-        [JsonPropertyName("20x")]
+        [JsonPropertyName("10x")]
         public int Outer1
         {
             get { return outer1; }
@@ -84,7 +84,7 @@ namespace Global.Mode.Config
         }
 
         private int outer2 = 2;
-        [JsonPropertyName("40x")]
+        [JsonPropertyName("20x")]
         public int Outer2
         {
             get { return outer2; }
@@ -95,7 +95,7 @@ namespace Global.Mode.Config
             }
         }
         private int outer3 = 2;
-        [JsonPropertyName("100x")]
+        [JsonPropertyName("40x")]
         public int Outer3
         {
             get { return outer3; }
@@ -113,7 +113,7 @@ namespace Global.Mode.Config
     public class Inner : ViewModelBase
     {
         private int inner0 = 9;
-        [JsonPropertyName("10x")]
+        [JsonPropertyName("4x")]
         public int Inner0
         {
             get { return inner0; }
@@ -125,7 +125,7 @@ namespace Global.Mode.Config
         }
 
         private int inner1 = 5;
-        [JsonPropertyName("20x")]
+        [JsonPropertyName("10x")]
         public int Inner1
         {
             get { return inner1; }
@@ -137,7 +137,7 @@ namespace Global.Mode.Config
         }
 
         private int inner2 = 2;
-        [JsonPropertyName("40x")]
+        [JsonPropertyName("20x")]
         public int Inner2
         {
             get { return inner2; }
@@ -148,7 +148,7 @@ namespace Global.Mode.Config
             }
         }
         private int inner3 = 2;
-        [JsonPropertyName("100x")]
+        [JsonPropertyName("40x")]
         public int Inner3
         {
             get { return inner3; }

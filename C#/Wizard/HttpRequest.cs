@@ -42,6 +42,7 @@ namespace Wizard
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded";
+            req.Timeout = 10000;
             #region 添加Post 参数
             StringBuilder builder = new StringBuilder();
             int i = 0;
@@ -101,6 +102,29 @@ namespace Wizard
                 result = reader.ReadToEnd();
             }
             return result;
+        }
+
+
+        public static bool CheckUrlConnect(string url)
+        {
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+                if (resp.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            catch
+            {
+                return false;
+            }
         }
     }       
 }

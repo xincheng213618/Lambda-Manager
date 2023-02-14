@@ -5,12 +5,65 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Global
 {
+
+    public class ObjectiveConfig 
+    {
+
+        /// <summary>
+        /// 序号
+        /// </summary>
+        public int No { get; set; }
+        /// <summary>
+        /// 型号
+        /// </summary>
+        public string Brand { get; set; }
+        /// <summary>
+        /// 倍数
+        /// </summary>
+        public int Magnitude { get; set; }
+
+        /// <summary>
+        /// 标示
+        /// </summary>
+        public string ObjectiveKey { get; set; }
+
+
+        /// <summary>
+        /// 放大倍数
+        /// </summary>
+        public double Multiple { get; set; }
+
+        /// <summary>
+        /// 工作距离
+        /// </summary>
+        public string WorkingDistance { get; set; }
+
+        /// <summary>
+        /// 数值孔径
+        /// </summary>
+        [JsonPropertyName("N.A")]
+        public double NA { get; set; }
+
+        /// <summary>
+        /// 消色差
+        /// </summary>
+        public bool Achromatic { get; set; }
+
+
+
+    }
+
+   
+
+
     public partial class WindowData
     {
         public List<int> ObjGainListBF = new List<int>() { 0,0,0,0};
@@ -32,6 +85,12 @@ namespace Global
         public List<int> ObjYStepList = new List<int>() { 0, 0, 0, 0 };
         public List<int> ObjZStepList = new List<int>() { 0, 0, 0, 0 };
         public List<string> ObjList = new List<string>() { };
+        public List<ObjectiveConfig> ObjParaList = new List<ObjectiveConfig> { };
+        public ObjectiveConfig CurrentObjective = new ObjectiveConfig();
+        // public List<ObjectiveConfig> ObjParList = new List<ObjectiveConfig>() { };
+
+
+
         public string DirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default\\default.gprj";
         public void SaveCustomConfig(string ConfigFullName)
         {
@@ -160,11 +219,38 @@ namespace Global
             }
 
             ReadDefaultConfigPreference(path);
-            
+            ReadObjectivePar(path);
         }
         public void WriteDefaultConfig(string path)
         {
             WriteDefaultConfigPreference(path);
+            WriteCurrentOjective(path);
+        }
+
+
+
+
+        private void WriteCurrentOjective(string path)
+        {
+
+            string result = File.ReadAllText(path);
+            JsonObject defaultConfig = (JsonObject)JsonNode.Parse(result);
+
+            if (defaultConfig["firmware"] != null)
+            {
+
+                if (defaultConfig["firmware"]!["objective"] != null)
+                {
+                    int index = WindowData.GetInstance().SolutionConfig.CurrentObjective;
+                    int magnitude = ObjParaList[index].Magnitude;
+                   defaultConfig["firmware"]!["objective"]!["current-magnitude"] = magnitude;
+
+                }
+               
+            }
+            File.WriteAllText(path, defaultConfig.ToJsonString());
+
+
 
         }
             public void ReadDefaultConfigPreference(string path)
@@ -189,6 +275,116 @@ namespace Global
             }
 
         }
+
+
+
+        //private void ReadObjParList(string path)
+        //{
+
+        //    string result = File.ReadAllText(path);
+        //    JsonObject defaultConfig = (JsonObject)JsonNode.Parse(result);
+        //    JsonNode forecastNode = JsonNode.Parse(result)!;
+        //    if (defaultConfig["firmware"] != null)
+        //    {
+        //        if (defaultConfig["firmware"]!["objective"] != null)
+        //        {
+        //            JsonObject objective = forecastNode!["firmware"]!["objective"]!.AsObject();
+        //            using var stream = new MemoryStream();
+        //            using var writer = new Utf8JsonWriter(stream);
+        //            objective.WriteTo(writer);
+        //            writer.Flush();
+        //            try
+        //            {
+        //                OBJParameter? objPar =
+        //                JsonSerializer.Deserialize<OBJParameter>(stream.ToArray());
+
+        //            }
+        //            catch
+        //            {
+
+        //            }
+
+        //        }
+        //    }
+
+
+        //}
+
+        private void ReadObjectivePar(string path)
+        {
+        
+            string result = File.ReadAllText(path);
+            JsonObject defaultConfig = (JsonObject)JsonNode.Parse(result);
+            if (defaultConfig["firmware"]!["objective"] is JsonObject objective)
+            {
+               // var ObjectiveConfigs = SoftwareConfig.HardwareConfig.ObjectiveConfigs;
+
+                try
+                {
+                    
+                    if ((bool)defaultConfig["multi-objectives"]! == true)
+                    {
+                        List<string> ObjectiveList = new List<string>() { };
+
+                        JsonArray jsonArray = (JsonArray)defaultConfig["lambda-manager"]!["objective-keys"];
+                        foreach (var item in jsonArray!)
+                        {
+                            ObjectiveList.Add(item!.ToString());
+                        }
+
+                       
+                        List<ObjectiveConfig> AvailableObjectives = new List<ObjectiveConfig> { };
+                        foreach (var item in ObjectiveList)
+                        {
+                            ObjectiveConfig objectiveConfig = new ObjectiveConfig();
+                            objectiveConfig.ObjectiveKey = item.ToString();
+                            objectiveConfig.Magnitude = (int)objective["magnitude"]![item]!;
+                            objectiveConfig.NA = (double)objective["NA"]![item]!;
+                            objectiveConfig.Achromatic = (bool)objective["achromatic"]![item]!;
+                            objectiveConfig.Multiple = (double)objective["multiple"]![item]!;
+                            objectiveConfig.WorkingDistance = objective["WD"]![item]?.ToString();
+                            AvailableObjectives.Add(objectiveConfig);
+                        }
+                        ObjParaList = AvailableObjectives;
+                        foreach (var item in AvailableObjectives)
+                        {
+                            if (item.Magnitude == (int)objective["current-magnitude"]!)
+                            {
+                                CurrentObjective = item;
+                                break;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        ObjectiveConfig objectiveConfig = new ObjectiveConfig();
+                        objectiveConfig.ObjectiveKey = ((JsonArray)defaultConfig["lambda-manager"]!["objective-keys"]!)[0]!.ToString();
+                        objectiveConfig.Magnitude = (int)objective["magnitude"]!;
+                        objectiveConfig.NA = (double)objective["NA"]!;
+                        objectiveConfig.Achromatic = (bool)objective["achromatic"]!;
+                        objectiveConfig.Multiple = (double)objective["multiple"]!;
+                        objectiveConfig.WorkingDistance = objective["WD"]?.ToString();
+                        ObjParaList.Clear();
+                        ObjParaList.Add(objectiveConfig);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         public void WriteDefaultConfigPreference(string path)
         {
             string result = File.ReadAllText(path);
@@ -290,15 +486,15 @@ namespace Global
 
                 if (ledJsonBF![objList[i]] != null)
                 {
-                    ObjLEDListBF[i] = gainJsonBF![objList[i]]!.GetValue<int>();
+                    ObjLEDListBF[i] = ledJsonBF![objList[i]]!.GetValue<int>();
                 };
                 if (ledJsonDF![objList[i]] != null)
                 {
-                    ObjLEDListDF[i] = gainJsonDF![objList[i]]!.GetValue<int>();
+                    ObjLEDListDF[i] = ledJsonDF![objList[i]]!.GetValue<int>();
                 };
                 if (ledJsonRI![objList[i]] != null)
                 {
-                    ObjLEDListRI[i] = gainJsonRI![objList[i]]!.GetValue<int>();
+                    ObjLEDListRI[i] = ledJsonRI![objList[i]]!.GetValue<int>();
                 };
                 if (StepXJson![objList[i]] != null)
                 {

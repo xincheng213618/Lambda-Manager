@@ -19,40 +19,57 @@ namespace Global
     {
         private static WaitContorl _instance;
         private static readonly object _locker = new();
-        public static WaitContorl GetInstance() {  lock (_locker) { return  _instance ??= new WaitContorl(); }  }
 
+        public static WaitContorl GetInstance()
+        {
+            lock (_locker) { _instance ??= new WaitContorl(); }
+            return _instance;
+        }
+
+
+        private bool _isWait = false;
+        public  bool IsWait
+        {
+            get { return _isWait; }
+            set { _isWait = value; }
+        }
         public TextBox textBox = new TextBox() { Text = "计算中" };
         private Grid WaitWindow;
 
         public WaitContorl()
         {
-
-            if (Application.Current.MainWindow.FindName("stageConfig") is Grid stageConfig && stageConfig.Parent is Grid MainGrid)
+            try
             {
-                WaitWindow = new Grid();
-                Grid.SetRow(WaitWindow, 1);
-                Grid.SetColumnSpan(WaitWindow, 3);
-
-                MainGrid.Children.Add(WaitWindow);
-
-                WaitWindow.Visibility = Visibility.Collapsed;
-
-                Grid grid1 = new Grid() { Background = Brushes.Black, Opacity = 0.3 };
-                WaitWindow.Children.Add(grid1);
-
-                Border border1 = new Border() { Background = new SolidColorBrush(Color.FromRgb(55, 59, 65)), Height = 150, Width = 550, CornerRadius = new CornerRadius(10) };
-                Border border2 = new Border() { Background = new SolidColorBrush(Color.FromRgb(72, 77, 79)), Height = 100, Width = 500, CornerRadius = new CornerRadius(5) };
-                Grid grid2 = new Grid() { Margin = new Thickness(10) };
-                ProgressBar progressBar = new ProgressBar() { Height = 20, VerticalAlignment = VerticalAlignment.Bottom, IsIndeterminate = true, Foreground = new SolidColorBrush(Color.FromRgb(110, 166, 70)), Background = new SolidColorBrush(Color.FromRgb(36, 38, 39)) };
-                grid2.Children.Add(textBox);
-                grid2.Children.Add(progressBar);
-                border2.Child = grid2;
-                border1.Child = border2;
-                WaitWindow.Children.Add(border1);
-                WaitWindow.MouseRightButtonUp += delegate
+                Grid stageConfig = (Grid)Application.Current.MainWindow.FindName("stageConfig");
+                if ( stageConfig.Parent is Grid MainGrid)
                 {
+                    WaitWindow = new Grid();
+                    Grid.SetRow(WaitWindow, 1);
+                    Grid.SetColumnSpan(WaitWindow, 3);
+
+                    MainGrid.Children.Add(WaitWindow);
                     WaitWindow.Visibility = Visibility.Collapsed;
-                };
+                    Grid grid1 = new Grid() { Background = Brushes.Black, Opacity = 0.3 };
+                    WaitWindow.Children.Add(grid1);
+                    Border border1 = new Border() { Background = new SolidColorBrush(Color.FromRgb(55, 59, 65)), Height = 150, Width = 550, CornerRadius = new CornerRadius(10) };
+                    Border border2 = new Border() { Background = new SolidColorBrush(Color.FromRgb(72, 77, 79)), Height = 100, Width = 500, CornerRadius = new CornerRadius(5) };
+                    Grid grid2 = new Grid() { Margin = new Thickness(10) };
+                    ProgressBar progressBar = new ProgressBar() { Height = 20, VerticalAlignment = VerticalAlignment.Bottom, IsIndeterminate = true, Foreground = new SolidColorBrush(Color.FromRgb(110, 166, 70)), Background = new SolidColorBrush(Color.FromRgb(36, 38, 39)) };
+                    grid2.Children.Add(textBox);
+                    grid2.Children.Add(progressBar);
+                    border2.Child = grid2;
+                    border1.Child = border2;
+                    WaitWindow.Children.Add(border1);
+                    WaitWindow.MouseRightButtonUp += delegate
+                    {
+                        WaitWindow.Visibility = Visibility.Collapsed;
+                    };
+                }
+
+            }
+            catch
+            {
+
             }
         }
 
@@ -65,6 +82,8 @@ namespace Global
                 WaitWindow.Visibility = Visibility.Collapsed;
                 Application.Current.MainWindow.Cursor = Cursors.Arrow;
             }
+
+
         }
 
         /// <summary>

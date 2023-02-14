@@ -18,7 +18,7 @@
         <UI:SplitButton Grid.Column="2" x:Name="Split_Button" Width="80" Height="25" Content="拍照" DropDownPosition="Top" Foreground="White" Background="#333333" Click="Snap_click" MaxDropDownHeight="130" >
             <UI:SplitButton.DropDownContent >
                 <StackPanel Background="#333333" >
-                    <Button Content="多模态拍照" Margin="0"  Width="80" Height="25" FontSize="12" Click="DPC_click"></Button>
+                    <Button Content="多模态拍照" Margin="0"  Width="80" Style="{StaticResource  buttonStyle }" Height="25" FontSize="12" Click="DPC_click"></Button>
                 </StackPanel>
             </UI:SplitButton.DropDownContent>
         </UI:SplitButton>

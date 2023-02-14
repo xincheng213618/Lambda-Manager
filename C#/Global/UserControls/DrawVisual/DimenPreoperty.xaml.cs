@@ -31,8 +31,8 @@ namespace Global.UserControls.DrawVisual
         }
         //InkCanvas ink;
         public static ListView ListView1 { get; set; }
-        public static bool isReverseTran = true;
-        public static bool isForwardTran = true;
+        public static bool isReverseTran = true;  //Listview选择后 成像区选择
+        public static bool isForwardTran = true;  //成像区选择后 listview选择
         private StrokeCollection StrokeCollect= new StrokeCollection();
         private StrokeCollection TextStrokeCollect = new StrokeCollection();
         private bool isReadOnly = false;
@@ -137,7 +137,7 @@ namespace Global.UserControls.DrawVisual
                         {
                             WindowData1.GetInstance().ImageViewState.toolTop.InkSelected = true;
                         }
-
+                        WindowData1.GetInstance().ImageViewState.toolTop.InkMultiSelected = true;
                     }
 
                 }
@@ -162,8 +162,8 @@ namespace Global.UserControls.DrawVisual
             foreach (CustomStroke stroke in strokes2)
             {
                 Stroke stroke1;
-
-                if (stroke is DrawInkMethod.Dim1Stroke || stroke is DrawInkMethod.Dim2Stroke || stroke is DrawInkMethod.Dim3Stroke || stroke is DrawInkMethod.Dim4Stroke || stroke is DrawInkMethod.LineStroke || stroke is DrawInkMethod.ArrowStroke)
+                
+                if (stroke is DrawInkMethod.Dim1Stroke || stroke is DrawInkMethod.Dim2Stroke || stroke is DrawInkMethod.Dim3Stroke|| stroke is DrawInkMethod.Dim4Stroke|| stroke is DrawInkMethod.LineStroke|| stroke is DrawInkMethod.ArrowStroke)
                 {
                     stroke1 = ReCreateDim(stroke, color, stroke.ratio, stroke.textColor, stroke.showLabel, lineWidth, dash, DrawInkMethod.dimenViewModel.Italic, DrawInkMethod.dimenViewModel.Bold, DrawInkMethod.dimenViewModel.UnderLine, DrawInkMethod.dimenViewModel.FontSize, DrawInkMethod.dimenViewModel.FontFam, DrawInkMethod.dimenViewModel.LabelPos);
 
@@ -345,32 +345,70 @@ namespace Global.UserControls.DrawVisual
 
         private CustomStroke ReCreateStroke(CustomStroke cusStroke,Color color, int LineWidth, int dash)
         {
-            return cusStroke.Type switch
+            CustomStroke stroke1;
+            switch (cusStroke.Type)
             {
-                "椭圆" => DrawInkMethod.InkCanvasMethod.ReCreateEllipse(cusStroke.StylusPoints, color, LineWidth, dash),
-                "圆" => DrawInkMethod.InkCanvasMethod.ReCreateCircle(cusStroke.StylusPoints, color, LineWidth, dash),
-                "多边形" => DrawInkMethod.InkCanvasMethod.ReCreatePolygon(cusStroke.StylusPoints, color, LineWidth, dash),
-                "正方形" => DrawInkMethod.InkCanvasMethod.ReCreateSquare(cusStroke.StylusPoints, color, LineWidth, dash),
-               //"曲线" => DrawInkMethod.InkCanvasMethod.ReCreateBesizer(cusStroke.StylusPoints, color, LineWidth, dash),
-               // "曲线1" => DrawInkMethod.InkCanvasMethod.ReCreateQuadraticBesizer(cusStroke.StylusPoints, color, LineWidth, dash),
-                "矩形" => DrawInkMethod.InkCanvasMethod.ReCreateRectangle(cusStroke.StylusPoints, color, LineWidth, dash),
-                "曲线" => DrawInkMethod.InkCanvasMethod.ReCreatePolyBezier(cusStroke.StylusPoints, color, LineWidth, dash),
-                _ => null
-            } ;
+
+                case "椭圆":
+                   stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateEllipse(cusStroke.StylusPoints, color, LineWidth, dash);
+                   return stroke1;
+
+                case "圆":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateCircle(cusStroke.StylusPoints, color, LineWidth, dash);
+                    return stroke1;
+                case "多边形":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreatePolygon(cusStroke.StylusPoints, color, LineWidth, dash);
+                    return stroke1;
+                case "正方形":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateSquare(cusStroke.StylusPoints, color, LineWidth, dash);
+                    return stroke1;
+                //case "曲线":
+                //    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
+                //    return stroke1;
+                //case "曲线1":
+                //    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateQuadraticBesizer(cusStroke.StylusPoints, color, LineWidth, dash);
+                //    return stroke1;
+                case "矩形":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateRectangle(cusStroke.StylusPoints, color, LineWidth, dash);
+                    return stroke1;
+                case "曲线":
+                   stroke1 = DrawInkMethod.InkCanvasMethod.ReCreatePolyBezier(cusStroke.StylusPoints, color, LineWidth, dash);
+                    return stroke1;
+
+
+            }
+
+            return null;
         }
 
         private CustomStroke ReCreateDim(CustomStroke cusStroke, Color color, RatioClass ratio, Color textColor, bool showLabel, int lineWidth, int dash,bool italic, bool bold, bool underLine, int fonSize, FontFamily fontFamily,string labpos)
         {
-            return cusStroke.Type switch
+            CustomStroke stroke1;
+            switch (cusStroke.Type)
             {
-                "标尺 A" => DrawInkMethod.InkCanvasMethod.ReCreateDim1(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
-                "标尺 B" => DrawInkMethod.InkCanvasMethod.ReCreateDim2(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
-                "标尺 C" => DrawInkMethod.InkCanvasMethod.ReCreateDim3(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
-                "标尺 D" => DrawInkMethod.InkCanvasMethod.ReCreateDim4(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
-                "直线" => DrawInkMethod.InkCanvasMethod.ReCreateLine(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
-                "箭头" => DrawInkMethod.InkCanvasMethod.ReCreateArrow(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos),
-            _ => null
-            };
+
+                case "标尺 A":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim1(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic,  bold, underLine, fonSize, fontFamily,labpos);
+                    return stroke1;
+
+                case "标尺 B":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim2(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    return stroke1;
+                case "标尺 C":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim3(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash,italic, bold, underLine, fonSize, fontFamily, labpos);
+                    return stroke1;
+                case "标尺 D":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateDim4(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash,italic, bold, underLine, fonSize, fontFamily, labpos);
+                    return stroke1;
+                case "直线":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateLine(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    return stroke1;
+                case "箭头":
+                    stroke1 = DrawInkMethod.InkCanvasMethod.ReCreateArrow(cusStroke.StylusPoints, color, ratio, textColor, showLabel, lineWidth, dash, italic, bold, underLine, fonSize, fontFamily, labpos);
+                    return stroke1;
+            }
+
+            return null;
         }
 
 
@@ -441,11 +479,16 @@ namespace Global.UserControls.DrawVisual
 
         private void LineShapeCombo_Loaded(object sender, RoutedEventArgs e)
         {
+
+           // ink = WindowData.GetInstance().inkVisuals[DrawInkMethod.ActiveWindow].inkCanvas;
             LineWidthUpdown.ValueChanged += (s, e) =>
             {
-                if (!isReadOnly)
-                    ReDrawVisual(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.LineWidth, DrawInkMethod.dimenViewModel.DashSelectedIndex);
 
+                if (!isReadOnly)
+                {
+
+                    ReDrawVisual(DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.LineWidth, DrawInkMethod.dimenViewModel.DashSelectedIndex);
+                }
             };
 
         }
@@ -453,8 +496,10 @@ namespace Global.UserControls.DrawVisual
         private void _colorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             if (!isReadOnly)
-                ReDrawVisual(DrawInkMethod.ActiveInk, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.LineWidth, DrawInkMethod.dimenViewModel.DashSelectedIndex);
+            {
 
+                ReDrawVisual(DrawInkMethod.InkAll[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas, DrawInkMethod.dimenViewModel.SelectedAccentColor, DrawInkMethod.dimenViewModel.LineWidth, DrawInkMethod.dimenViewModel.DashSelectedIndex);
+            }
         }
 
 
@@ -464,7 +509,14 @@ namespace Global.UserControls.DrawVisual
             listview.ItemsSource = DrawInkMethod.StrokesCollection;
             DrawInkMethod.StrokesCollection.CollectionChanged += delegate
             {
-                objectManageGrid.Visibility = DrawInkMethod.StrokesCollection.Count > 0 ?Visibility.Visible :Visibility.Collapsed;
+                if (DrawInkMethod.StrokesCollection.Count > 0)
+                {
+                    objectManageGrid.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    objectManageGrid.Visibility = Visibility.Collapsed;
+                }
             };
 
         }

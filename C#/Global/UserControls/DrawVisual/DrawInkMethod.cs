@@ -1,4 +1,5 @@
-﻿using Global.Mode;
+﻿using GalleryView;
+using Global.Mode;
 using Global.UserControls.DrawVisual;
 using Lambda;
 using System;
@@ -20,22 +21,61 @@ using System.Windows.Media.Imaging;
 namespace Global
 {
 
+    public class CustomStroke : Stroke
+    {
+        public CustomStroke(StylusPointCollection points) : base(points)
+        {
+            StylusPoints = points.Clone();
+        }
+        public int Dash { get; set; }
+        public int LineWidth { get; set; }
+        public int Index { get; set; }
+        public string Type { get; set; }
+        public string Type1 { get; set; }
+        public Color ColorBru { get; set; }
+        public Point CenterPoint { get; set; }
+        public Point SizePoint { get; set; }
+        public FormattedText customTextInput { get; set; }
+        public int Fontsize { get; set; }
+        public FontFamily FontFamily { get; set; }
+        public bool Bold { get; set; }
+        public bool Italic { get; set; }
+        public bool UnderLine { get; set; }
+        public bool showLabel { get; set; }
+        public RatioClass ratio { get; set; }
+        public Color textColor { get; set; }
+        public string LabPos { get; set; }
+        public double length { get; set; }
+        public double angle { get; set; }
+        public int dimSelectIndex { get; set; }
+        public List<Point> PointList { get; set; } = new List<Point>();
+        public Point Point1 { get; set; } = new Point(0, 0);
+        public string Content { get; set; } = "null";
+
+
+    }
+
 
     public class ActiveView : ViewModelBase1
     {
+        private int activeWin = 0;
         public int ActiveWin
         {
-            get => _ActiveWin;
+            get
+            {
+                return activeWin;
+            }
             set
             {
-                if (_ActiveWin != value)
+                if (activeWin != value)
                 {
-                    _ActiveWin = value;
-                    NotifyPropertyChanged();
+                    activeWin = value;
+                    RaisePropertyChanged(nameof(ActiveWin));
                 }
+
             }
+
         }
-        private int _ActiveWin = 0;
     }
     public class ViewsCount : ViewModelBase1
     {
@@ -51,7 +91,7 @@ namespace Global
                 if (viewCount != value)
                 {
                     viewCount = value;
-                    NotifyPropertyChanged();
+                    RaisePropertyChanged(nameof(ViewCount));
                 }
 
             }
@@ -154,6 +194,22 @@ namespace Global
                 }
                 InkAll[ActiveViews.ActiveWin].ActiveWinUpdate();
 
+                LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", ActiveViews.ActiveWin } });
+                if (WindowData1.contextMenuPar.status == 3)
+                {
+                    LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", 0 } });
+                    intToMode(WindowData1.updateStatus, WindowData1.contextMenuPar.mode);
+                }
+                else if (WindowData1.contextMenuPar.status == 1)
+                {
+                    if (WindowData.GetInstance().OperatingMode.SelectViewMode != WindowData1.contextMenuPar.mode)
+                    {
+                        WindowData.GetInstance().OperatingMode.SelectViewMode = WindowData1.contextMenuPar.mode;
+                    }
+
+
+                }
+
             };
 
         }
@@ -189,8 +245,39 @@ namespace Global
                 {
                     Color color = (Color)ColorConverter.ConvertFromString("#6EA646");
                     InkAll[ActiveViews.ActiveWin].Border.BorderBrush = new SolidColorBrush(color);
-                    intToMode(WindowData1.GetInstance().updateStatus, InkAll[ActiveViews.ActiveWin].ActiveMode);
-                    LambdaControl.Trigger("ACTIVE_WINDOW_NUMBER", this, new Dictionary<string, object>() { { "window", ActiveViews.ActiveWin } });
+
+                    LambdaControl.Trigger("VIEW_CONTEXTMENU", this, new Dictionary<string, object>() { { "view", ActiveViews.ActiveWin } });
+                    if(WindowData1.contextMenuPar.status ==1)
+                    {
+                        if(WindowData.GetInstance().OperatingMode.SelectViewMode != WindowData1.contextMenuPar.mode)
+                        {
+                            WindowData.GetInstance().OperatingMode.SelectViewMode = WindowData1.contextMenuPar.mode;
+                        }
+                    }
+                    else if(WindowData1.contextMenuPar.status == 3)
+                    {
+                        if (WindowData1.RepoTogg.IsChecked==true)
+                        {
+                            LambdaControl.Trigger("ZSTACK_GALLERYPATH_TRIGGER", this, new Dictionary<string, object>() { { "mode", WindowData1.contextMenuPar.mode } });
+                           // MessageBox.Show(WindowData1.contextMenuPar.mode.ToString());
+                        }
+                        if (WindowData1.contextMenuPar.modes.Contains(WindowData1.contextMenuPar.mode))
+                        {
+                            intToMode(WindowData1.updateStatus, WindowData1.contextMenuPar.mode);
+
+                        }
+                        else
+                        {
+                            intToMode(WindowData1.updateStatus,6);
+
+                            Gallery.products.Clear();
+                        }
+
+
+                    }
+                   
+
+                    LambdaControl.Trigger("ACTIVE_WINDOW_NUMBER", this, new Dictionary<string, object>() { { "window", DrawInkMethod.ActiveViews.ActiveWin } });
             
                     DrawInkMethod.ActiveInk = WindowData1.GetInstance().inkVisuals[DrawInkMethod.ActiveViews.ActiveWin].inkCanvas;
                     DrawInkMethod.defdimenViewModel.DefDimReadOnly = false;
@@ -205,8 +292,8 @@ namespace Global
                     {
                         WindowData1.GetInstance().ImageViewState.toolTop.InkSelected =false;
                         WindowData1.GetInstance().ImageViewState.toolTop.InkAllSelected = false;
+                        WindowData1.GetInstance().ImageViewState.toolTop.InkMultiSelected = false;
                     }
-                    
 
                 }
                 InkAll[ActiveViews.ActiveWin].ActiveWinUpdate();
@@ -238,8 +325,9 @@ namespace Global
 
             switch (i)
             {
-
+               
                 case 0:
+
                     if (update.BFToggEnable)
                     {
                         update.BFCheckEnable = true;
@@ -279,6 +367,15 @@ namespace Global
                         update.PCCheckEnable = true;
                     }
                   
+                    break;
+                case 6:
+
+                    update.BFCheckEnable = false;
+                    update.DFCheckEnable = false;
+                    update.RICheckEnable = false;
+                    update.QPCheckEnable = false;
+                    update.DPCheckEnable = false;
+                    update.PCCheckEnable = false;
                     break;
 
             }

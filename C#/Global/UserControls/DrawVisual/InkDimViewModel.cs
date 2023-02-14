@@ -27,9 +27,10 @@ namespace Global.UserControls.DrawVisual
 				if (color != value)
 				{
 					color = value;
-                    NotifyPropertyChanged();
-                }
-            }
+					//RaisePropertyChanged(nameof(DimColor));
+					RaisePropertyChanged(() => DimColor);
+				}
+			}
 		}
 		public Color TextColor
 		{
@@ -39,9 +40,10 @@ namespace Global.UserControls.DrawVisual
 				if (textcolor != value)
 				{
 					textcolor = value;
-                    NotifyPropertyChanged();
-                }
-            }
+					//RaisePropertyChanged(nameof(TextColor));
+					RaisePropertyChanged(() => TextColor);
+				}
+			}
 		}
 
 		
@@ -54,7 +56,7 @@ namespace Global.UserControls.DrawVisual
 				if (length != value)
 				{
 					length = value;
-					NotifyPropertyChanged();
+					RaisePropertyChanged(nameof(DimLength));
 				}
 			}
 		}
@@ -70,9 +72,9 @@ namespace Global.UserControls.DrawVisual
 				if (_dimPos != value)
 				{
 					_dimPos = value;
-                    NotifyPropertyChanged();
-                }
-            }
+					RaisePropertyChanged(nameof(DimPos));
+				}
+			}
 		}
 
 

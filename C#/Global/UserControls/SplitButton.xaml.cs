@@ -29,7 +29,7 @@ namespace Global.UserControls.DrawVisual
         private void Snap_click(object sender, RoutedEventArgs e)
         {
 
-            LambdaControl.Trigger("SNAPSHOT", this, new Dictionary<string, object> { });
+            
         }
 
         private void DPC_click(object sender, RoutedEventArgs e)

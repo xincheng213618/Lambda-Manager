@@ -42,22 +42,15 @@ namespace Global
         public TabControl tabControl;
         private ToggleButton histogramTogg;
         public List<ToggleButton> DrawingModeList;
-        Gallery galleryView;
+        public Gallery galleryView;
         GalleryView.GalleryTool galleryTool;
-        ToggleButton RepoTogg;
+        public static ToggleButton RepoTogg = new ToggleButton();
         Histogram histogram;
+        public SplitButtonEraser SplitButtonErase;
+        public SplitButtonSelect SplitButtonSelec;
+        
 
-        private void ViewsUpdateActiveWin(int viewCount)
-        {
-            if (viewCount>DrawInkMethod.ActiveViews.ActiveWin)
-            {
-
-            }
-            else
-            {
-                DrawInkMethod.ActiveViews.ActiveWin = 0;
-            }
-        }
+       
         public async void MultiEraseEnable()
         {
             await Task.Delay(200);
@@ -82,19 +75,6 @@ namespace Global
             };
 
             if (Application.Current.MainWindow.FindName("grid0") is not Grid) return;
-
-            try
-            {
-                TabControl tabControl = (TabControl)mainwin.FindName("leftTab");    //采集配置 改为 采集设置
-                TabItem tabItem = (TabItem)tabControl.Items[1];
-                tabItem.Header = "采集设置";
-            }
-            catch
-            {
-
-            }
-
-
             try
             {
                 // Add Histogram
@@ -129,7 +109,6 @@ namespace Global
                     if (inkVisuals[0] != null && inkVisuals[0].inkCanvas.Strokes.Contains(inkVisuals[0].profileStroke))
                         inkVisuals[0].DrawProfile();
                 };
-
                 profile.lb.MouseMove += delegate
                 {
                     profileModel.Ratio2 = profile.lb.X / profile.DataPoints.Count;
@@ -371,6 +350,11 @@ namespace Global
                 BindingOperations.SetBinding(QpiTogg, ToggleButton.IsCheckedProperty, b51);
                 Binding b61 = new Binding("PCCheckEnable");
                 BindingOperations.SetBinding(PCTogg, ToggleButton.IsCheckedProperty, b61);
+
+                //Binding b7 = new Binding("RepoChecked");
+                //BindingOperations.SetBinding(RepoTogg, ToggleButton.IsCheckedProperty, b7);
+                //b7.Source = ImageViewState.toolRight;
+
                 // WrapPanel1.DataContext = updateStatus;
 
                 ContentControl quarter = new ContentControl();
@@ -414,33 +398,7 @@ namespace Global
                 repo.Template = (ControlTemplate)resourceDictionary["repo"];
                 RepoTogg.Content = repo;
 
-                RepoTogg.Checked += (s, e) =>
-                {
-                    if (histogramTogg.IsChecked == true)
-                    {
-                        histogramTogg.IsChecked = false;
-                    }
-                    if (ImageViewState.toolTop.ProfileChecked == true)
-                    {
-                        ImageViewState.toolTop.ProfileChecked = false;
-                    }
-
-
-                    stackPanelParent.RowDefinitions[2].Height = new GridLength(210, GridUnitType.Pixel);
-                    galleryView.Visibility = Visibility.Visible;
-                    galleryTool.Visibility = Visibility.Visible;
-                    LambdaControl.Trigger("ZSTACK_GALLERY", this, new Dictionary<string, object> { });
-
-                };
-
-                RepoTogg.Unchecked += (s, e) =>
-                {
-                    stackPanelParent.RowDefinitions[2].Height = new GridLength(0, GridUnitType.Pixel);
-                    galleryView.Visibility = Visibility.Collapsed;
-                    galleryTool.Visibility = Visibility.Collapsed;
-
-                };
-
+              
 
                 List<ToggleButton> RightTools2 = new List<ToggleButton>() { BFTogg, DFTogg, RITogg, DPTogg, QpiTogg, PCTogg, _3DTogg, CubeTogg };
 
@@ -461,177 +419,7 @@ namespace Global
 
                 }
 
-                List<ToggleButton> RightTools1 = new List<ToggleButton>() { QuaterTogg, DualTogg };
-
-                foreach (var item in RightTools1)
-                {
-                    item.Checked += delegate (object sender, RoutedEventArgs e)
-                    {
-                        foreach (var item1 in RightTools1)
-                        {
-                            if (item1 != item)
-                            {
-                                if (item1.IsChecked == true)
-                                    item1.IsChecked = false;
-                            }
-                        }
-
-                    };
-
-                }
-
-
-                Popup popup = new Popup();
-                popup.AllowsTransparency = true;
-                popup.PopupAnimation = PopupAnimation.Slide;
-                Binding binding8 = new Binding();
-                popup.PlacementTarget = QuaterTogg;
-                // Point point = Mouse.GetPosition(QuaterTogg);
-                popup.HorizontalOffset = -86;
-                popup.VerticalOffset = -25;
-                popup.StaysOpen = false;
-                QuaterPopup quaterPopup = new QuaterPopup();
-
-                popup.Child = quaterPopup;
-                QuaterTogg.MouseEnter += delegate
-                {
-                    popup.IsOpen = true;
-
-                };
-                popup.Closed += delegate { popup.IsOpen = false; };
-                ;
-
-                quaterPopup.dual.Checked += delegate
-                {
-                    if (QuaterTogg.IsChecked == true)
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
-                        histogramTogg.IsChecked = false;
-                        histogramTogg.IsEnabled = false;
-                        DrawInkMethod.ViewsCount.ViewCount = 2;
-                       // DrawInkMethod.ActiveViews.ActiveWin = 0;
-                    
-
-
-                    }
-                    else
-                    {
-                        QuaterTogg.IsChecked = true;
-                    }
-                    popup.IsOpen = false;
-                };
-
-                quaterPopup.four.Checked += delegate
-                {
-                    if (QuaterTogg.IsChecked == true)
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
-
-                        histogramTogg.IsChecked = false;
-                        histogramTogg.IsEnabled = false;
-                        DrawInkMethod.ViewsCount.ViewCount = 4;
-                        // DrawInkMethod.ActiveViews.ActiveWin = 0;
-
-
-                    }
-                    else
-                    {
-                        QuaterTogg.IsChecked = true;
-                    }
-                    popup.IsOpen = false;
-
-                };
-                quaterPopup.six.Checked += delegate
-                {
-
-                    if (QuaterTogg.IsChecked == true)
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
-
-                        histogramTogg.IsChecked = false;
-                        histogramTogg.IsEnabled = false;
-                        DrawInkMethod.ViewsCount.ViewCount = 6;
-                        // DrawInkMethod.ActiveViews.ActiveWin = 0;
-
-
-                    }
-                    else
-                    {
-                        QuaterTogg.IsChecked = true;
-                    }
-                    popup.IsOpen = false;
-                };
-                void FourWindowTogg_Checked(object sender, RoutedEventArgs e)
-                {
-                    if ((bool)quaterPopup.four.IsChecked)
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FOURTH_WINDOW } });
-                        DrawInkMethod.ViewsCount.ViewCount = 4;
-                        histogramTogg.IsChecked = false;
-                        histogramTogg.IsEnabled = false;
-
-                    }
-                    else if ((bool)quaterPopup.six.IsChecked)
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SIXTH_WINDOW } });
-                        DrawInkMethod.ViewsCount.ViewCount = 6;
-                        histogramTogg.IsChecked = false;
-                        histogramTogg.IsEnabled = false;
-                    }
-                    else if ((bool)quaterPopup.dual.IsChecked)
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.SECOND_WINDOW } });
-                        DrawInkMethod.ViewsCount.ViewCount = 2;
-                        histogramTogg.IsChecked = false;
-                        histogramTogg.IsEnabled = false;
-
-                    }
-                   
-
-                }
-
-
-                DualTogg.Click += delegate
-                {
-                    if (DualTogg.IsChecked == false)
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW } });
-                        if (histogramTogg.IsEnabled == false)
-                        {
-                            histogramTogg.IsEnabled = true;
-                        }
-                       
-                    }
-                    else
-                    {
-                        LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.DOUBLE_WINDOW } });
-                    }
-                    DrawInkMethod.ViewsCount.ViewCount = 1;
-                };
-                QuaterTogg.Checked += FourWindowTogg_Checked;
-                QuaterTogg.Unchecked += delegate
-                {
-                    LambdaControl.Trigger("QUATER_CLICKED0", mainwin, new Dictionary<string, object> { { "mode", (int)ViewWindowMode.FIRST_WINDOW } });
-                    if (histogramTogg.IsEnabled == false)
-                    {
-                        histogramTogg.IsEnabled = true;
-                    }
-                    if (inkVisuals[0] != null)
-                    {
-                       
-                        inkVisuals[0].BorderBrush =new SolidColorBrush(Colors.Transparent);
-                        WindowData1.GetInstance().inkVisuals[0].Border.BorderBrush = new SolidColorBrush(Colors.Transparent);
-                       // DrawInkMethod.ActiveViews.ActiveWin = 0;
-                    }
-                    DrawInkMethod.ViewsCount.ViewCount = 1;
-                };
-
-
-
               
-
-
-
 
             }
             catch (Exception ex)
@@ -639,7 +427,7 @@ namespace Global
                 System.Windows.MessageBox.Show(ex.Message);
 
             }
-            // histogramtogg
+            // histogramtogg   //leftToolBar
             try
             {
                 DockPanel leftToolBar = (DockPanel)mainwin.FindName("leftToolbar");
@@ -748,6 +536,16 @@ namespace Global
                             }
                             else
                             {
+                                if (monoTogg.IsChecked == true)
+                                {
+                                    monoTogg.IsChecked = false;
+                                    LambdaControl.Trigger("MONO_CLICKED", this, new Dictionary<string, object> {  });
+                                };
+                                if(divtogg.IsChecked == true)
+                                {
+                                    divtogg.IsChecked = false;
+                                    LambdaControl.Trigger("DIVIDER_CLICKED", this, new Dictionary<string, object> { });
+                                }
                                 colorbarTogg.IsEnabled = true;
                                 monoTogg.IsEnabled = false;
                                 divtogg.IsEnabled = false;
@@ -760,6 +558,16 @@ namespace Global
                         }
                         else
                         {
+                            if (monoTogg.IsChecked == true)
+                            {
+                                monoTogg.IsChecked = false;
+                                LambdaControl.Trigger("MONO_CLICKED", this, new Dictionary<string, object> { });
+                            };
+                            if (divtogg.IsChecked == true)
+                            {
+                                divtogg.IsChecked = false;
+                                LambdaControl.Trigger("DIVIDER_CLICKED", this, new Dictionary<string, object> { });
+                            }
                             monoTogg.IsEnabled = false;
                             divtogg.IsEnabled = false;
                             colorbarTogg.IsEnabled = false;
@@ -906,9 +714,9 @@ namespace Global
                 forwardButton.Margin = new Thickness(0, 0, 0, 0);
 
                 Button backwardButton = (Button)bottomToolbar.Children[3];
-                Binding backwardEnbale = new Binding("Current");
-                backwardEnbale.Converter = new ValueToEnableConverter();
-                backwardEnbale.Source = progressBarModel;
+                Binding backwardEnbale = new Binding("BackwardEnbale");
+                //backwardEnbale.Converter = new ValueToEnableConverter();
+                backwardEnbale.Source = updateStatus;
                 backwardButton.SetBinding(Button.IsEnabledProperty, backwardEnbale);
 
 
@@ -1338,43 +1146,7 @@ namespace Global
                     System.Windows.MessageBox.Show(ex.Message);
                 }
 
-                //ToggleButton selectAllTogg  = ((ToggleButton)topToolbar.Children[21]);
-                //selectAllTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkAllSelected"));
-                //selectAllTogg.Margin = new Thickness(3, 0, 3, 0);
-
-                //selectAllTogg.Padding = new Thickness(-1, -1, 0, 0);
-                //ContentControl selectedAll = new ContentControl();
-                //selectedAll.Template = (ControlTemplate)resourceDictionary["allSelected"];
-                //selectAllTogg.Content = selectedAll;
-
-
-
-                ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[19]);
-                ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, new Binding("TextChecked"));
-                ToggleButtonText.Margin = new Thickness(3, 0, 3, 0);
-                ToggleButtonText.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl text = new ContentControl();
-                text.Template = (ControlTemplate)resourceDictionary["text"];
-                ToggleButtonText.Content = text;
-
-
-
-                //ToggleButton selectTogg = ((ToggleButton)topToolbar.Children[20]);
-                //selectTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkSelected"));
-                //selectTogg.Visibility = Visibility.Visible; //
-                //selectTogg.Margin = new Thickness(3, 0, 3, 0);
-
-                //selectTogg.Padding = new Thickness(-1, -1, 0, 0);
-                //ContentControl select1 = new ContentControl();
-                //select1.Template = (ControlTemplate)resourceDictionary["singleSelected"];
-                //selectTogg.Content = select1;
-
-
-
-
-
-                //
-                //
+               
                 // delete Arrow
                 ToggleButton ToggleButtonLine = ((ToggleButton)topToolbar.Children[14]);
                 ToggleButtonLine.SetBinding(ToggleButton.IsCheckedProperty, new Binding("LineChecked"));
@@ -1427,23 +1199,23 @@ namespace Global
                 polygon.Template = (ControlTemplate)resourceDictionary["polygon"];
                 ToggleButtonPolygon.Content = polygon;
 
-                ToggleButton toggleButtonE = new ToggleButton() { Width=24,Height=22};
-                Button button1 = new Button() { Width = 24, Height = 22 };
-                topToolbar.Children.Add(toggleButtonE);
-                topToolbar.Children.Add(button1);
 
+                
 
+                ToggleButton ToggleButtonText = ((ToggleButton)topToolbar.Children[19]);
+                ToggleButtonText.SetBinding(ToggleButton.IsCheckedProperty, new Binding("TextChecked"));
+                ToggleButtonText.Margin = new Thickness(3, 0, 3, 0);
+                ToggleButtonText.Padding = new Thickness(-1, -1, 0, 0);
+                ContentControl text = new ContentControl();
+                text.Template = (ControlTemplate)resourceDictionary["text"];
+                ToggleButtonText.Content = text;
 
-                ToggleButton selectTogg = ((ToggleButton)topToolbar.Children[20]);
-                selectTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkSelected"));
-                selectTogg.Visibility = Visibility.Visible; //
-                selectTogg.Margin = new Thickness(3, 0, 3, 0);
+               
 
-                selectTogg.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl select1 = new ContentControl();
-                select1.Template = (ControlTemplate)resourceDictionary["singleSelected"];
-                selectTogg.Content = select1;
-                selectTogg.MouseDoubleClick += (s, e) =>
+                SplitButtonSelec = ((SplitButtonSelect)topToolbar.Children[20]);
+                SplitButtonSelec.SelectToggle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkSelected"));
+
+                SplitButtonSelec.SelectToggle.MouseDoubleClick += (s, e) =>
                 {
                     Application.Current.Dispatcher.Invoke(delegate
                     {
@@ -1455,25 +1227,10 @@ namespace Global
 
                 };
 
-                ToggleButton selectAllTogg = ((ToggleButton)topToolbar.Children[21]);
-                selectAllTogg.SetBinding(ToggleButton.IsCheckedProperty, new Binding("InkAllSelected"));
-                selectAllTogg.Margin = new Thickness(3, 0, 3, 0);
 
-                selectAllTogg.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl selectedAll = new ContentControl();
-                selectedAll.Template = (ControlTemplate)resourceDictionary["allSelected"];
-                selectAllTogg.Content = selectedAll;
-
-
-                ToggleButton ToggleButtonEraser = ((ToggleButton)topToolbar.Children[22]);
-                ToggleButtonEraser.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
-                ToggleButtonEraser.Margin = new Thickness(3, 0, 3, 0);
-
-                ToggleButtonEraser.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl eraser = new ContentControl();
-                eraser.Template = (ControlTemplate)resourceDictionary["eraser"];
-                ToggleButtonEraser.Content = eraser;
-                ToggleButtonEraser.MouseDoubleClick += (s, e) =>
+                SplitButtonErase = ((SplitButtonEraser)topToolbar.Children[21]);
+                SplitButtonErase.eraseToggle.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
+                SplitButtonErase.eraseToggle.MouseDoubleClick += (s, e) =>
                 {
                     Application.Current.Dispatcher.Invoke(delegate
                     {
@@ -1484,32 +1241,10 @@ namespace Global
                     });
 
                 };
-                //ToggleButtonEraser.PreviewMouseDoubleClick += (s, e) =>
-                //{
-                //    if (e.ChangedButton == MouseButton.Left)
-                //    {
-                //        ImageViewState.toolTop.EraserChecked = true;
-                //    }
-
-                // };
 
 
-                Button EraserAll = ((Button)topToolbar.Children[23]);
-               // EraserAll.SetBinding(ToggleButton.IsCheckedProperty, new Binding("EraserChecked"));
-                EraserAll.Margin = new Thickness(3, 0, 3, 0);
-
-                EraserAll.Padding = new Thickness(-1, -1, 0, 0);
-                ContentControl eraserA = new ContentControl();
-                eraserA.Template = (ControlTemplate)resourceDictionary["eraserAll"];
-                EraserAll.Content = eraserA;
-
-
-
-
-
-                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonFocus, ToggleButtonRuler, ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, selectTogg, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon, selectAllTogg };
-                DrawingModeList = new List<ToggleButton>() { ToggleButtonRuler, ToggleButtonProfile, ToggleButtonEraser, ToggleButtonText, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon };
-              
+                List<ToggleButton> Tools = new List<ToggleButton>() { ToggleButtonSelect, ToggleButtonInline, ToggleButtonMove, ToggleButtonFocus, ToggleButtonRuler, ToggleButtonProfile, ToggleButtonText, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon ,SplitButtonSelec.SelectToggle, SplitButtonErase.eraseToggle };
+                DrawingModeList = new List<ToggleButton>() { ToggleButtonRuler, ToggleButtonProfile,ToggleButtonText, ToggleButtonLine, ToggleButtonCurve, ToggleButtonCircle, ToggleButtonRectangle, ToggleButtonPolygon , SplitButtonErase.eraseToggle };
                 foreach (var item in Tools)
                 {
 
@@ -1629,91 +1364,8 @@ namespace Global
 
                 }
 
-                WrapPanel bottomToolBar1 = (WrapPanel)mainwin.FindName("bottomToolbar");
-                galleryView = new Gallery();
-
-                Border imagingView = (Border)mainwin.FindName("imagingView");
-                StackPanel stackPanel1 = (StackPanel)mainwin.FindName("bottomView");
-
-
-                stackPanel1.Children.Add(galleryView);
-                galleryView.Visibility = Visibility.Collapsed;
-                Binding widthBingding = new Binding();
-                widthBingding.Source = imagingView;
-                widthBingding.Path = new PropertyPath("ActualWidth");
-                galleryView.SetBinding(UserControl.WidthProperty, widthBingding);
-
-                galleryTool = Gallery.galleryTool;
-                galleryTool.HorizontalAlignment = HorizontalAlignment.Right;
-                galleryTool.Margin = new Thickness(0, 0, 10, 0);
-                galleryTool.Visibility = Visibility.Collapsed;
-                //bottomToolBar1.Children.Add(gallyTool);
-
-                Grid grid1 = new Grid();
-
-
-                Border border = (Border)bottomToolBar1.Parent;
-                border.Child = grid1;
-                grid1.Children.Add(bottomToolBar1);
-                grid1.Children.Add(galleryTool);
-
-                galleryView.mode.PropertyChanged += (s, e) =>
-
-                {
-                    if (e.PropertyName == "CurrentMode")
-                    {
-                       // MessageBox.Show("2");
-                        switch (galleryView.mode.CurrentMode)
-                        {
-                            case "BF":
-                                if (updateStatus.BFCheckEnable == false)
-                                {
-                                    updateStatus.BFCheckEnable= true;
-                                };
-                                break;
-                            case "DF":
-                                if (updateStatus.DFCheckEnable == false)
-                                {
-                                    updateStatus.DFCheckEnable = true;
-
-                                };
-                                break;
-                            case "DP":
-                                if (updateStatus.DPCheckEnable == false)
-                                {
-                                    updateStatus.DPCheckEnable = true;
-
-                                };
-                                break;
-                            case "RI":
-                                if (updateStatus.RICheckEnable == false)
-                                {
-                                    updateStatus.RICheckEnable = true;
-
-                                };
-                                break;
-                            case "QP":
-                                if (updateStatus.QPCheckEnable == false)
-                                {
-                                    updateStatus.QPCheckEnable = true;
-
-                                };
-                                break;
-                            case "PC":
-                                if (updateStatus.PCCheckEnable == false)
-                                {
-                                    updateStatus.PCCheckEnable = true;
-
-                                };
-                                break;
-
-
-                        }
-
-                    }
-
-
-                };
+               
+               
 
 
 
@@ -1723,19 +1375,18 @@ namespace Global
                 System.Windows.MessageBox.Show(ex.Message);
             }
 
-            // 拍照回显，拍照后继续预览
+            // 多窗口拍照 当前焦点窗口
             try
             {
-                
+               
                 Grid stageAcquisition = (Grid)mainwin.FindName("stageAcquisition");
                 DockPanel dockPanel = (DockPanel)stageAcquisition.Children[1];
                 StackPanel stackPanel1 = (StackPanel)dockPanel.Children[1];
-                Button Snap = (Button)stackPanel1.Children[1];
-                Snap.Click += (s, e) =>
+                SplitButton Snap = (SplitButton)stackPanel1.Children[1];
+                Snap.Split_Button.Click += (s, e) =>
                 {
-                    int mode = WindowData.GetInstance().setting.otherMode.SnapMode.Value;
-                    //MessageBox.Show(mode.ToString());
-                    LambdaControl.Trigger("SNAP_SHOT1", this, new Dictionary<string, object> { { "mode", mode } });
+                    int view = DrawInkMethod.ActiveViews.ActiveWin;
+                    LambdaControl.Trigger("SNAP_SHOT", this, new Dictionary<string, object> { { "view", view } });
 
                 };
             }

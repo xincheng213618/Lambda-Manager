@@ -28,7 +28,22 @@ namespace Global.UserControls
 
         private void RadioButton_checked(object sender, RoutedEventArgs e)
         {
-
+            //MessageBox.Show("1111");
+            //if (e.OriginalSource is RadioButton radio)
+            //{
+            //    if (radio.Name == "dual")
+            //    {
+            //        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", 2 } });
+            //    }
+            //    else if (radio.Name == "four")
+            //    {
+            //        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", 4 } });
+            //    }
+            //    else if (radio.Name == "six")
+            //    {
+            //        LambdaControl.Trigger("QUATER_CLICKED0", this, new Dictionary<string, object> { { "mode", 6 } });
+            //    }
+            //}
         }
     }
 }

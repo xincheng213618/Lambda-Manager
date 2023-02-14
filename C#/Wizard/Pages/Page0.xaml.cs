@@ -39,33 +39,58 @@ namespace Wizard
         string u = "https://v3.xincheng213618.com:18888/register";
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            // GetMacAddress();
-           // request.SN = request.RegisterInfo.SN1+
-
-            string json= HttpRequest1(uri, request);
-            RegisterBack regBack = JsonSerializer.Deserialize<RegisterBack>(json, new JsonSerializerOptions());
-            regBack.Message = "该用户已经注册,是否重新注册到新设备？";
-            if (regBack?.State  == 0)
+            try
             {
-              MessageBox.Show("注册成功 ！" , "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                List<string> Macs = GetMacAddress();
+                request.MacAddress = Macs[0];
+                request.SN = request.RegisterInfo.SN1 + request.RegisterInfo.SN2 + request.RegisterInfo.SN3 + request.RegisterInfo.SN4;
+                RegisterOnline();
+
+            }
+            catch
+            {
+                MessageBoxResult result = MessageBox.Show("是否离线注册！", "信息提示", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    RegisterOffline();
+                }
+            }
+           
+          
+            
+
+        }
+
+
+
+
+        private void RegisterOnline()
+        {
+
+            string json = HttpRequest1(uri, request);
+            RegisterBack regBack = JsonSerializer.Deserialize<RegisterBack>(json, new JsonSerializerOptions());
+            //regBack.Message = "该用户已经注册,是否重新注册到新设备？";
+            if (regBack?.State == 0)
+            {
+                MessageBox.Show("注册成功 ！", "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
                 Content = new Page2(Window);
                 PageNavigate();
             }
             else
             {
-               if(regBack.Message == "该用户已经注册")
+                if (regBack.Message == "该用户已经注册")
                 {
                     MessageBox.Show("注册失败 ！" + regBack.Message.ToString(), "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                else if(regBack.Message == "该用户已经注册,是否重新注册到新设备？")
+                else if (regBack.Message == "该用户已经注册,是否重新注册到新设备？")
                 {
-                    
+
                     MessageBoxResult result = MessageBox.Show("注册失败 ！" + regBack.Message.ToString(), "信息提示", MessageBoxButton.OKCancel, MessageBoxImage.Question);
                     switch (result)
                     {
-                        case MessageBoxResult.Yes:
-                           
-                          
+                        case MessageBoxResult.OK:
+
+
                             break;
                         case MessageBoxResult.No:
                             MessageBox.Show("注册失败 ！", "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -73,10 +98,11 @@ namespace Wizard
 
                     }
                 }
-                else if (regBack.Message == "该用户不是有效购买用户")
+                else if (regBack.Message == "该注册码无效")
                 {
+                    
 
-                    MessageBox.Show("注册失败 ！" + regBack.Message.ToString(), "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("注册失败 ！" + "该用户不是有效购买用户", "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 }
                 else
@@ -84,15 +110,27 @@ namespace Wizard
                     MessageBox.Show("注册失败 ！" + regBack.Message.ToString(), "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 }
-                
-                
-                
-                
+
+
+
+
             }
 
 
-
         }
+
+        private void RegisterOffline()
+        {
+            //  request 字符串加密
+            string keys;
+            MessageBox.Show("keys ！" + "请把当前字符串发送给公司客服人员(微信或邮件等方式)", "信息提示", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+
+
+
+
+
 
         public string HttpRequest1(string uri, Request request)
         {
@@ -104,7 +142,7 @@ namespace Wizard
             dic.Add("mac-address", request.MacAddress);
             dic.Add("equip-identify", request.EquipID);
             string message = HttpRequest.Post(uri, dic);
-            MessageBox.Show(message);
+           // MessageBox.Show(message);
             return message;
         }
 
@@ -136,7 +174,7 @@ namespace Wizard
             //}
 
         }
-        public void GetMacAddress()
+        public List<string>  GetMacAddress()
         {
             List<string> macs = new List<string>();
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -145,15 +183,20 @@ namespace Wizard
                 macs.Add(ni.GetPhysicalAddress().ToString());
             }
 
+            return macs;
 
         }
+
+
 
         private void PageNavigate()
         {
             Dispatcher.BeginInvoke(new Action(() => Window.frame.Navigate(Content)));
         }
 
+        private void CreateButton1_Click(object sender, RoutedEventArgs e)
+        {
 
-
+        }
     }
 }

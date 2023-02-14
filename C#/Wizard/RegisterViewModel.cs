@@ -33,7 +33,7 @@ namespace Wizard
             }
         }
 
-        private string macAddress= "add44444";
+        private string macAddress= "";
 
         public string MacAddress
         {
@@ -105,7 +105,7 @@ namespace Wizard
                 NotifyPropertyChanged("ContactNumber");
             }
         }
-        private string sn1 = "0123456";
+        private string sn1 = "D822D1";
         public string SN1
         {
             get { return sn1; }
@@ -115,7 +115,7 @@ namespace Wizard
                 NotifyPropertyChanged("SN1");
             }
         }
-        private string sn2 = "0123456";
+        private string sn2 = "10E8C1";
         public string SN2
         {
             get { return sn2; }
@@ -125,7 +125,7 @@ namespace Wizard
                 NotifyPropertyChanged("SN2");
             }
         }
-        private string sn3 = "0123456";
+        private string sn3 = "CE535A";
         public string SN3
         {
             get { return sn3; }
@@ -135,7 +135,7 @@ namespace Wizard
                 NotifyPropertyChanged("SN3");
             }
         }
-        private string sn4 = "0123456";
+        private string sn4 = "6797C8";
         public string SN4
         {
             get { return sn4; }
