@@ -127,7 +127,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\C#\AboutMsg\AboutMsg.csproj" />
     <ProjectReference Include="..\..\C#\ACE\ACE.csproj" />
-    <ProjectReference Include="..\..\C#\ConfigObjective\ConfigObjective.csproj" />
     <ProjectReference Include="..\..\C#\ConfigSetting\ConfigSetting.csproj" />
     <ProjectReference Include="..\..\C#\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\..\C#\Register\Register.csproj" />

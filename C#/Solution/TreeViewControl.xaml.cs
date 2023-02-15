@@ -231,14 +231,10 @@ namespace Solution
                 //追加在显示的时候显示触发
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
-                List<HotKeys> hotKeysList = new List<HotKeys>();
-                hotKeysList.Add(new HotKeys() { Name = "打开当前工程", Hotkey = new Hotkey(Key.O, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = OpenSolution });
-                hotKeysList.Add(new HotKeys() { Name = "新建工程", Hotkey = new Hotkey(Key.N, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = NewCreat });
-                hotKeysList.Add(new HotKeys() { Name = "关闭当前工程", Hotkey = new Hotkey(Key.W, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler = SolutionClose });
-                foreach (var hotKeys in hotKeysList)
-                {
-                    Application.Current.MainWindow.AddHotKeys(hotKeys);
-                }
+                Application.Current.MainWindow.AddHotKeys(new HotKeys("打开当前工程", new Hotkey(Key.O, ModifierKeys.Control), OpenSolution));
+                Application.Current.MainWindow.AddHotKeys(new HotKeys("新建工程", new Hotkey(Key.N, ModifierKeys.Control), NewCreat));
+                Application.Current.MainWindow.AddHotKeys(new HotKeys("关闭当前工程", new Hotkey(Key.W, ModifierKeys.Control), SolutionClose));
+
             }
         }
 
@@ -477,7 +473,7 @@ namespace Solution
             Config.ConfigSet();
         }
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {

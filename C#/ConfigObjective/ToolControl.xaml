@@ -630,7 +630,7 @@
                     <Border Margin="10,5,5,5">
                         <StackPanel Orientation="Vertical">
                             <StackPanel x:Name="StackPanelMul" Orientation="Horizontal" >
-                                <StackPanel x:Name="ZwisePanel" Visibility="{Binding ElementName=ToggleButton503,Path=IsChecked,Converter={ StaticResource bool2VisibilityConverter}}" >
+                                <StackPanel x:Name="ZwisePanel" Visibility="Visible" >
                                     <DockPanel Margin="0,2">
                                         <TextBlock Text="Z-绝对坐标" FontSize="14" x:Name="ZAbsolute"  Width="70" Margin="0,0,3,0" VerticalAlignment="Center" Foreground="White" />
                                         <ToggleButton  x:Name="ToggleButton5221" Style="{StaticResource CheckButton1}" IsChecked="{Binding Path=ZAbsolute,Mode=TwoWay}"  Width="50" Margin="2" Checked="ToggleButton5221_Checked" Unchecked="ToggleButton5221_Unchecked"/>

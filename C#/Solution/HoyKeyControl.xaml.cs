@@ -27,7 +27,6 @@ namespace Solution
             this.HotKeys = hotKeys;
             InitializeComponent();
             this.DataContext = HotKeys;
-            HotkeyTextBox.Text = HotKeys.Hotkey.ToString();
         }
 
         private static bool HasKeyChar(Key key) => key is
@@ -64,7 +63,6 @@ namespace Solution
             if (key is Key.Delete or Key.Back or Key.Escape && modifiers == ModifierKeys.None)
             {
                 HotKeys.Hotkey = Hotkey.None;
-                HotkeyTextBox.Text = HotKeys.Hotkey.ToString();
                 return;
             }
 
@@ -85,7 +83,6 @@ namespace Solution
 
             // Set value
             HotKeys.Hotkey = new Hotkey(key, modifiers);
-            HotkeyTextBox.Text = HotKeys.Hotkey.ToString();
         }
     }
 }

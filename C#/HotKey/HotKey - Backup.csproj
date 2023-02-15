@@ -8,9 +8,8 @@
     <Platforms>AnyCPU;x64</Platforms>
     <ImplicitUsings>disable</ImplicitUsings>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>XinCheng.HotKey</Title>
-	<Authors>xincheng</Authors>
+    <Title>HotKey</Title>
 	<AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <PackageId>XinCheng.HotKey</PackageId>
+	<Authors>xincheng</Authors>
   </PropertyGroup>
 </Project>

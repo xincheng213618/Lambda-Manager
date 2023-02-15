@@ -8,6 +8,7 @@
         Title="HotKeyManger" Height="450" Width="800" Background="#444444">
     <Grid >
         <StackPanel x:Name="HotKeyStackPanel">
+            <Button Content="重置热键" Click="Button_Click" />
         </StackPanel>
     </Grid>
 </Window>

@@ -61,8 +61,14 @@ def register():
             print(sql)
             aa = cursor.execute(sql)
             if (aa != 0):
-                resu = {'state': 1, 'message': "该注册码已经注册"}
-                return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+                bb = cursor.fetchall();
+                print(bb[0])
+                if(bb[0][3] ==mac_address):
+                    resu = {'state': 1, 'message': "该用户已经注册"}
+                    return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+                else:
+                    resu = {'state': 1, 'message': "该用户已经注册过，是否重新注册到新设备？"}
+                    return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
 
 
@@ -127,7 +133,7 @@ def unregister():
             db.commit()
             if (aa==0):
 
-                resu = {'state': 0, 'message': "找不到已经注册的信息", }
+                resu = {'state': 1, 'message': "找不到已经注册的信息", }
                 return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
             else:
                 resu = {'state': 0, 'message': "取消注册成功", }

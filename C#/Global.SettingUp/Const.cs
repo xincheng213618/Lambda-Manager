@@ -21,7 +21,7 @@ namespace Global.SettingUp
         /// <summary>
         /// 相机分辨率
         /// </summary>
-        public static List<string> CameraResolution = new() { "RGB32 (1280x960)", "RGB64 (2448x2048)" };
+        public static List<string> CameraResolution = new() { "RGB32 (1280x960)", "RGB32 (2448x1836)" };
 
 
     }

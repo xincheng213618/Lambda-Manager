@@ -59,7 +59,7 @@ namespace HotKey.WindowHotKey
             hotkeys.Control = control;
             hotkeys.IsRegistered = WindowHotKey.Register(control, hotkeys.Hotkey, hotkeys.HotKeyHandler);
             HotKeysList.Add(hotkeys);
-            return true;
+            return hotkeys.IsRegistered;
         }
 
         public bool Register(Hotkey hotkey, HotKeyCallBackHanlder callBack)

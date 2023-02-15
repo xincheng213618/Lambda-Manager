@@ -28,5 +28,13 @@ namespace Solution
                 HotKeyStackPanel.Children.Add(new HoyKeyControl(hotKeys));
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in HotKeys.HotKeysDefaultHotkey)
+            {
+                item.Key.Hotkey = item.Value;
+            }
+        }
     }
 }

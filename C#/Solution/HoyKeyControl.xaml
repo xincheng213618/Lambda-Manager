@@ -4,14 +4,46 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Solution" 
+             xmlns:cv="clr-namespace:Solution.Converter" 
              xmlns:hotKey="clr-namespace:HotKey;assembly=HotKey"
              d:DataContext="{d:DesignInstance Type=hotKey:HotKeys}"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="30" d:DesignWidth="800">
+    <UserControl.Resources>
+        <cv:BoolToStringConverer  x:Key="BoolToStringConverer"/>
+        <cv:HotKeyToStringConverer  x:Key="HotKeyToStringConverer"/>
+
+        
+        <ControlTemplate x:Key="CheckBoxEx" TargetType="{x:Type CheckBox}">
+            <StackPanel Orientation="Horizontal">
+                <Border x:Name="border" BorderThickness="1.5" CornerRadius="7" Width="40" BorderBrush="#aaa" Background="#6DA347">
+                    <Grid x:Name="togglebutton" HorizontalAlignment="Right" >
+                        <Border x:Name="border1" Width="15" Height="15" CornerRadius="7" Background="White"/>
+                    </Grid>
+                    <Border.Effect>
+                        <DropShadowEffect Color="Gray" BlurRadius="7" ShadowDepth="0" Opacity="0.5" />
+                    </Border.Effect>
+                </Border>
+                <ContentPresenter x:Name="contentPresenter"  RecognizesAccessKey="True" Grid.Column="1"   Margin="{TemplateBinding Padding}"  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"    Focusable="False"/>
+            </StackPanel>
+            <!--定义触发器-->
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="false">
+                    <Setter TargetName="border" Property="Background" Value="#595959"/>
+                    <Setter TargetName="togglebutton" Property="HorizontalAlignment" Value="Left"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter TargetName="border1" Property="Background" Value="#333333"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
     <StackPanel Orientation="Horizontal" >
         <Label Content="{Binding Name}" Width="100"/>
-        <TextBox  x:Name="HotkeyTextBox"  Width="200" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" IsReadOnlyCaretVisible="False" IsUndoEnabled="False"  PreviewKeyDown="HotkeyTextBox_PreviewKeyDown" >
+        <TextBox  x:Name="HotkeyTextBox"  Text="{Binding Hotkey,Converter={StaticResource HotKeyToStringConverer},Mode=OneWay}" Width="200" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" IsReadOnlyCaretVisible="False" IsUndoEnabled="False"  PreviewKeyDown="HotkeyTextBox_PreviewKeyDown" >
         </TextBox>
-        <Label Content="{Binding IsRegistered}" Width="100"/>
+        <Label Content="{Binding IsRegistered,Converter={StaticResource BoolToStringConverer}}" Width="100"/>
+        <CheckBox  Template="{StaticResource CheckBoxEx}" Content="全局模式" IsChecked="{Binding IsGlobal}"  VerticalContentAlignment="Center" Padding="5,0" VerticalAlignment="Center"/>
     </StackPanel>
 </UserControl>

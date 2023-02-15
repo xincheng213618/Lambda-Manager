@@ -76,27 +76,27 @@ namespace Global
 
         public void AddHandleOfflineRegister()
         {
-            Grid AncestorGrid = (Grid)mainwin.Content;
-            Grid grid1 = (Grid)AncestorGrid.Children[0];
-            StackPanel stackPanel = (StackPanel)grid1.Children[2];
-            Menu menu = (Menu)stackPanel.Children[0];
-            MenuItem menuItem1 = (MenuItem)menu.Items[1];
-            ItemCollection menuItems = menuItem1.Items;
-            foreach (MenuItem item in menuItems)
-            {
-                if (item.Header.ToString() == "离线注册")
-                {
-                    item.Click += (s, e) =>
-                    {
-                        MessageBox.Show("读取register.pkg文件");
-                        string path = Environment.CurrentDirectory;
-                        string path0 = Path.Combine(path, "register.pkg");
-                        string path1 = Path.Combine(path, "register");
-                        UserRegister.OffLineRegister.Registering(path,path0, path1);
-                    };
-                }
+            //Grid AncestorGrid = (Grid)mainwin.Content;
+            //Grid grid1 = (Grid)AncestorGrid.Children[0];
+            //StackPanel stackPanel = (StackPanel)grid1.Children[2];
+            //Menu menu = (Menu)stackPanel.Children[0];
+            //MenuItem menuItem1 = (MenuItem)menu.Items[1];
+            //ItemCollection menuItems = menuItem1.Items;
+            //foreach (MenuItem item in menuItems)
+            //{
+            //    if (item.Header.ToString() == "离线注册")
+            //    {
+            //        item.Click += (s, e) =>
+            //        {
+            //            MessageBox.Show("读取register.pkg文件");
+            //            string path = Environment.CurrentDirectory;
+            //            string path0 = Path.Combine(path, "register.pkg");
+            //            string path1 = Path.Combine(path, "register");
+            //            UserRegister.OffLineRegister.Registering(path,path0, path1);
+            //        };
+            //    }
 
-            }
+            //}
         }
 
         private void UpdateAcquireHeader()

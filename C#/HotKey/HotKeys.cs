@@ -21,18 +21,32 @@ namespace HotKey
     public class HotKeys : INotifyPropertyChanged
     {
         public static readonly List<HotKeys> HotKeysList = new List<HotKeys>();
+        public static readonly Dictionary<HotKeys,Hotkey> HotKeysDefaultHotkey = new Dictionary<HotKeys, Hotkey>();
 
         public HotKeys()
         {
             HotKeysList.Add(this);
         }
+
+        /// <summary>
+        /// 这种方式初始化会保留初始参数
+        /// </summary>
+        public HotKeys(string name, Hotkey hotkey , HotKeyCallBackHanlder hotKeyCallBackHanlder)
+        {
+            HotKeysList.Add(this);
+            HotKeysDefaultHotkey.Add(this,hotkey);
+            Name = name;
+            Hotkey = hotkey;
+            HotKeyHandler += hotKeyCallBackHanlder;
+        }
+
         public Control Control { get; set; }
 
         public string Name { get => _Name; set { if (value == _Name) return; _Name = value; NotifyPropertyChanged(); } }
         private string _Name = string.Empty;
 
 
-        public HotKeyCallBackHanlder HotKeyHandler;
+        public HotKeyCallBackHanlder HotKeyHandler { get; set; }
         public Hotkey Hotkey
         {
             get => _Hotkey;  set  
@@ -53,10 +67,50 @@ namespace HotKey
             }
         }
         private Hotkey _Hotkey = Hotkey.None;
+        public HotKeyKinds Kinds
+        {
+            get => _Kinds; set
+            {
+                if (value == _Kinds) return;
+                if (_Kinds == HotKeyKinds.Global)
+                {
+                    GlobalHotKeyManager.GetInstance(Window.GetWindow(Control)).UnRegister(this);
+                }
+                else
+                {
+                    WindowHotKeyManager.GetInstance(Control).UnRegister(this);
+                }
+                _Kinds = value;
+                if (_Kinds == HotKeyKinds.Global)
+                {
+                    IsRegistered = GlobalHotKeyManager.GetInstance(Window.GetWindow(Control)).Register(this);
+                }
+                else
+                {
+                    IsRegistered = WindowHotKeyManager.GetInstance(Control).Register(this);
+                }
 
 
-        public HotKeyKinds Kinds { get => _Kinds; set { if (value == _Kinds) return; _Kinds = value; NotifyPropertyChanged(); } }
+                NotifyPropertyChanged();
+            }
+        }
         private HotKeyKinds _Kinds = HotKeyKinds.Windows;
+
+
+        public bool IsGlobal
+        {
+            get => Kinds == HotKeyKinds.Global; set
+            {
+                if (value)
+                {
+                    Kinds = HotKeyKinds.Global;
+                }
+                else
+                {
+                    Kinds = HotKeyKinds.Windows;
+                }
+            }
+        }
 
 
 

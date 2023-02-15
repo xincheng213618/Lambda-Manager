@@ -27,7 +27,7 @@ namespace ConfigObjective
         WindowData1 windowData1;
         public ToolControl()
         {
-            Validate();
+            //Validate();
             windowData = WindowData.GetInstance();
             windowData1 = WindowData1.GetInstance();
             WindowData1.GetInstance();
