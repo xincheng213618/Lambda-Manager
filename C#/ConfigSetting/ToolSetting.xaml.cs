@@ -54,16 +54,9 @@ namespace ConfigSetting
             int port = 53618;
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
             Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            try
-            {
-                sssss.Connect(localEndPoint);
-                string aaa = "LambdaStart";
-                sssss.Send(Encoding.UTF8.GetBytes(aaa));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            sssss.Connect(localEndPoint);
+            string aaa = "LambdaStart";
+            sssss.Send(Encoding.UTF8.GetBytes(aaa));
         }
 
         public ObservableCollection<FirmwareUpdate> firmwareUpdates;
@@ -77,7 +70,7 @@ namespace ConfigSetting
                 Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
                 IsFirstLoad = false;
 
-                Task.Run(() => SocketTest());
+                _ = Task.Run(() => SocketTest());
 
                 Calibration.GetInstance();
                 SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;

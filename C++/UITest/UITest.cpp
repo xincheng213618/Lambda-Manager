@@ -646,6 +646,13 @@ int HardwareCalibration(char* jsonchar) {
 	return 0;
 }
 
+CAMERA_API int CameraSettingResolution(char* mode)
+{
+	Logger::Log1(Severity::INFO, mode);
+
+	return 0;
+}
+
 CAMERA_API int Read_img(char* FilePath)
 {
 	Logger::Log1(Severity::INFO, FilePath);

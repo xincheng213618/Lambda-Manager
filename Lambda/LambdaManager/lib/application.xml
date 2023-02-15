@@ -7,6 +7,11 @@
 				<input name="GrifExportAsJson" type="#string" />
 			</action>
 		</procedure>
+		<procedure name="CameraSettingResolution" event="CAMERA_SETTING_RESOLUTION">
+			<action name="CameraSettingResolution">
+				<input name="mode" type="string" />
+			</action>
+		</procedure>
 		
 		
 		

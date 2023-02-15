@@ -43,6 +43,8 @@ extern "C" CAMERA_API  GrifFile ReadFileInfo(char* FilePath);
 extern "C" CAMERA_API  int GrifExportAs(char* GrifExportAsJson);
 extern "C" CAMERA_API int HardwareCalibration(char* json);
 
+extern "C" CAMERA_API int CameraSettingResolution(char* mode);
+
 enum HardwareCalibrationType
 {
 	/// <summary>

@@ -44,53 +44,53 @@ namespace Grid
 
         private void OpenSocket()
         {
-            //int port = 52100;
-            //int MaxConnection = 10;
-
-            //IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-            //Socket socketLister = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //socketLister.Bind(localEndPoint);
-            //try
-            //{
-            //    socketLister.Listen(MaxConnection);
-            //    Console.WriteLine("服务器Socket监听已经打开...");
-            //    while (true)
-            //    {
-            //        Socket clientSocket = socketLister.Accept();
-            //        Environment.Exit(0);
-            //    }
-            //}
-            //catch 
-            //{
-            //    Environment.Exit(0);
-            //}
-
             int port = 53618;
+            int MaxConnection = 10;
+
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-            Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            Socket socketLister = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socketLister.Bind(localEndPoint);
             try
             {
-                sssss.Connect(localEndPoint);
-                string aaa = "LambdaStart";
-                sssss.Send(Encoding.UTF8.GetBytes(aaa));
-
-                while (true)//定义一个循环接收返回数据
+                socketLister.Listen(MaxConnection);
+                Console.WriteLine("服务器Socket监听已经打开...");
+                while (true)
                 {
-                    byte[] data = new byte[1024];
-                    sssss.Receive(data);//接收返回数据
-                    string stringData = Encoding.UTF8.GetString(data);
-                    if (!string.IsNullOrWhiteSpace(stringData))
-                    {
-                        MessageBox.Show(stringData);
-                        Environment.Exit(0);
-                        break;
-                    }
+                    Socket clientSocket = socketLister.Accept();
+                    Environment.Exit(0);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message);
+                Environment.Exit(0);
             }
+
+            //int port = 53618;
+            //IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+            //Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            //try
+            //{
+            //    sssss.Connect(localEndPoint);
+            //    string aaa = "LambdaStart";
+            //    sssss.Send(Encoding.UTF8.GetBytes(aaa));
+
+            //    while (true)//定义一个循环接收返回数据
+            //    {
+            //        byte[] data = new byte[1024];
+            //        sssss.Receive(data);//接收返回数据
+            //        string stringData = Encoding.UTF8.GetString(data);
+            //        if (!string.IsNullOrWhiteSpace(stringData))
+            //        {
+            //            MessageBox.Show(stringData);
+            //            Environment.Exit(0);
+            //            break;
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
 
 
         }
