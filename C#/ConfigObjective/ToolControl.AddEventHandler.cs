@@ -14,6 +14,7 @@ using Global.Common.Extensions;
 using ConfigObjective.UserControls;
 using System.Linq;
 using System.Text.Json;
+using Global.Common.MVVM;
 
 namespace ConfigObjective
 {

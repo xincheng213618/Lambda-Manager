@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using Global.Setting.Mode;
 using Global.UserControls.DrawVisual;
+using Global.Common.MVVM;
 
 namespace Global
 {

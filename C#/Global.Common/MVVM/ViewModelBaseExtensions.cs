@@ -9,27 +9,24 @@ namespace Global.Common.MVVM
     /// </summary>
     public static class ViewModeBaseExtensions
     {
-        /// <summary>
-        /// 导出json
-        /// </summary>
-        //public static string ToJson(this ViewModelBase This)
-        //{
-        //    return Json.ToJson(This);
-        //}
+        public static string ToJson(this ViewModelBase This)
+        {
+            return Json.ToJson(This);
+        }
 
-        //public static int ToJsonFile(this ViewModelBase This, string filePath)
-        //{
-        //    return Json.ToJsonFile(This, filePath, false);
-        //}
+        public static int ToJsonFile(this ViewModelBase This, string filePath)
+        {
+            return Json.ToJsonFile(This, filePath, false);
+        }
 
-        //public static string ToXML(this ViewModelBase This)
-        //{
-        //    return This.SerializeXml();
-        //}
+        public static string ToXML(this ViewModelBase This)
+        {
+            return This.SerializeXml();
+        }
 
-        //public static int ToXMLFile(this ViewModelBase This, string filePath)
-        //{
-        //    return XML.ToXMLFile(This, filePath);
-        //}
+        public static int ToXMLFile(this ViewModelBase This, string filePath)
+        {
+            return XML.ToXMLFile(This, filePath);
+        }
     }
 }
