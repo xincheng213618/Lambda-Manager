@@ -23,6 +23,9 @@ namespace HotKey
         public static readonly List<HotKeys> HotKeysList = new List<HotKeys>();
         public static readonly Dictionary<HotKeys,Hotkey> HotKeysDefaultHotkey = new Dictionary<HotKeys, Hotkey>();
 
+        /// <summary>
+        /// 设置为默认方法
+        /// </summary>
         public static void SetDefault()
         {
             foreach (var item in HotKeysDefaultHotkey)
