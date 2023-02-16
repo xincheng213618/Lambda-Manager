@@ -49,14 +49,22 @@ namespace ConfigSetting
             InitializeComponent();
         }
 
-        public void SocketTest()
+        public void SocketCloseGrid()
         {
-            int port = 53618;
-            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-            Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            sssss.Connect(localEndPoint);
-            string aaa = "LambdaStart";
-            sssss.Send(Encoding.UTF8.GetBytes(aaa));
+            try
+            {
+                int port = 53618;
+                IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+                Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                sssss.Connect(localEndPoint);
+                string aaa = "LambdaStart";
+                sssss.Send(Encoding.UTF8.GetBytes(aaa));
+            }
+            catch
+            {
+
+            }
+
         }
 
         public ObservableCollection<FirmwareUpdate> firmwareUpdates;
@@ -70,7 +78,7 @@ namespace ConfigSetting
                 Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
                 IsFirstLoad = false;
 
-                _ = Task.Run(() => SocketTest());
+                _ = Task.Run(() => SocketCloseGrid());
 
                 Calibration.GetInstance();
                 SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;

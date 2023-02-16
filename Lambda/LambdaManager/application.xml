@@ -2,13 +2,6 @@
 <root title="NJUST-SCIL多模显微镜" left="300" middle="closed" maximize="true">
 	<singlecompoent path ="application1.xml"/>
 	<singlecompoent path ="lib\application.xml"/>
-
-	<component name="MainWindow" lib="Register.dll" mount="menu:帮助/注册(_R)"/>
-	<component name="AboutMsgWindow" lib="AboutMsg.dll" mount="menu:帮助/关于(_A)"/>
-	
-	<component name="TreeViewControl" lib="Solution.dll" mount="PROJECT:0"/>
-	<component name="ToolSetting" lib="ConfigSetting.dll" mount="PROCESS:0"/>
-	<component name="UserControl1" lib="Process.dll" mount="process:0"/>
 	
 	<!--<singlecompoent path ="lib1\application.xml"/>-->
 	<!--<singlecompoent path ="lib2\application.xml"/>-->

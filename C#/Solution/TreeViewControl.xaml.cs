@@ -229,6 +229,31 @@ namespace Solution
                 viewbox.Width = double.NaN;
 
                 //追加在显示的时候显示触发
+                if (recentFileList.RecentFiles.Count > 0)
+                {
+                    string FullName = recentFileList.RecentFiles[0];
+                    if (File.Exists(FullName))
+                    {
+                        if (Config.ConfigRead(FullName) == 0)
+                        {
+                            SolutionFullName = FullName;
+
+                            TreeViewInitialized(FullName);
+                            SolutionExplorers[0].IsExpanded = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("上次打开的项目无效");
+                            recentFileList.RemoveFile(FullName);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"找不到{FullName}");
+                        recentFileList.RemoveFile(FullName);
+                    }
+                }
+                //追加在显示的时候显示触发
                 LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
                 Config.ConfigSet();
                 Application.Current.MainWindow.AddHotKeys(new HotKeys("打开当前工程", new Hotkey(Key.O, ModifierKeys.Control), OpenSolution));
@@ -477,30 +502,7 @@ namespace Solution
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {
-            if (recentFileList.RecentFiles.Count > 0)
-            {
-                string FullName = recentFileList.RecentFiles[0];
-                if (File.Exists(FullName))
-                {
-                    if (Config.ConfigRead(FullName) == 0)
-                    {
-                        SolutionFullName = FullName;
 
-                        TreeViewInitialized(FullName);
-                        SolutionExplorers[0].IsExpanded = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("上次打开的项目无效");
-                        recentFileList.RemoveFile(FullName);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show($"找不到{FullName}");
-                    recentFileList.RemoveFile(FullName);
-                }
-            }
 
         }
 

@@ -22,7 +22,7 @@ namespace ACE.Global
             string result = File.ReadAllText(FileName);
             JsonObject lamdbda = (JsonObject)JsonNode.Parse(result);
 
-            string base64 = lamdbda[Key]?.ToString();
+            string base64 = lamdbda?[Key]?.ToString();
             if (string.IsNullOrEmpty(base64)) return null;
             string info = Encoding.UTF8.GetString(Convert.FromBase64String(base64));
             if (string.IsNullOrEmpty(info)) return null;

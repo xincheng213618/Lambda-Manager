@@ -46,8 +46,8 @@ namespace Global
         GalleryView.GalleryTool galleryTool;
         public static ToggleButton RepoTogg = new ToggleButton();
         Histogram histogram;
-        public SplitButtonEraser SplitButtonErase;
-        public SplitButtonSelect SplitButtonSelec;
+        public SplitButtonEraser SplitButtonErase = new SplitButtonEraser();
+        public SplitButtonSelect SplitButtonSelec = new SplitButtonSelect();
         
 
        

@@ -405,7 +405,11 @@ namespace Global
 
                 }
             }
-            File.WriteAllText(path, defaultConfig.ToJsonString());
+            try
+            {
+                File.WriteAllText(path, defaultConfig.ToJsonString());
+            }
+            catch { }
         }
 
 

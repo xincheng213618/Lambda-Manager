@@ -42,38 +42,38 @@ namespace ACE
             //return s;
 
 
-            AESHelper.DecryptFileName = "application.sys";
-            byte[] data = AESHelper.Decrypt();
+            //AESHelper.DecryptFileName = "application.sys";
+            //byte[] data = AESHelper.Decrypt();
 
-            if (data != null)
-                return Encoding.UTF8.GetString(data);
+            //if (data != null)
+            //    return Encoding.UTF8.GetString(data);
 
-            MessageBox.Show("软件注册信息损坏，请联系厂家修复。");
-            return null;
+            //MessageBox.Show("软件注册信息损坏，请联系厂家修复。");
+            //return null;
         }
 
         public static string? GetExpireDate()
         {
             return "2025/1/1";
-            if (File.Exists("application.xml")) 
-                return null;
-            try
-            {
-                var RegisterInfos = IRegisterInfo.Get();
-                if (RegisterInfos != null)
-                {
-                    DateTime dt = Convert.ToDateTime(RegisterInfos.ExpirationDate);
-                    return dt.ToString("yyyy/MM/dd");
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch
-            {
-                return "1970/1/1";
-            }
+            //if (File.Exists("application.xml")) 
+            //    return null;
+            //try
+            //{
+            //    var RegisterInfos = IRegisterInfo.Get();
+            //    if (RegisterInfos != null)
+            //    {
+            //        DateTime dt = Convert.ToDateTime(RegisterInfos.ExpirationDate);
+            //        return dt.ToString("yyyy/MM/dd");
+            //    }
+            //    else
+            //    {
+            //        return null;
+            //    }
+            //}
+            //catch
+            //{
+            //    return "1970/1/1";
+            //}
         }
 
     }

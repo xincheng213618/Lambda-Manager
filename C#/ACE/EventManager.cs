@@ -44,12 +44,16 @@ namespace ACE
         List<MD5Info> mD5Infos;
         public bool ParsingXml()
         {
+#pragma warning disable CS8604 // 引用类型参数可能为 null。
+#pragma warning disable CS8601 // 引用类型赋值可能为 null。
             mD5Infos = (from c in Root.Descendants("md5").Descendants("dll")
              select new MD5Info
              {
                  path = c.Attribute((XName?)"path")?.Value,
                  md5 = c.Attribute((XName?)"md5")?.Value,
              }).ToList();
+#pragma warning restore CS8601 // 引用类型赋值可能为 null。
+#pragma warning restore CS8604 // 引用类型参数可能为 null。
 
             return true;
         }

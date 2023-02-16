@@ -68,12 +68,26 @@ namespace Lambda.UI.Extension
         {
             if (index == 25)
             {
-                Button jec =(Button)  window.FindName("_25");
+                Button jec =(Button)window.FindName("_25");
                 StackPanel stackPanel = (StackPanel)jec.Parent;
                 stackPanel.Children.Remove(jec);
                 stackPanel.Children.Add((UIElement)element);
+            };
+            if (index == 51)
+            {
+                ToggleButton tog = (ToggleButton)window.FindName("_51");
+                WrapPanel  wrapPanel = (WrapPanel)tog.Parent;
+                wrapPanel.Children.Remove(tog);
+                wrapPanel.Children.Add((UIElement)element);
+            };
+            if (index == 52)
+            {
+                ToggleButton tog = (ToggleButton)window.FindName("_52");
+                WrapPanel wrapPanel = (WrapPanel)tog.Parent;
+                wrapPanel.Children.Remove(tog);
+                wrapPanel.Children.Add((UIElement)element);
             }
-           
+
         }
 
         public static void RegisterWindow(Window window)
@@ -87,6 +101,14 @@ namespace Lambda.UI.Extension
             ToggleButton toggleButton =(ToggleButton)stackPanel.Children[0];
             Main.RegisterName("_25", button);
             Main.RegisterName("_24", toggleButton);
+            //toptoolbar 
+           
+            WrapPanel wrapPanel = (WrapPanel)window.FindName("topToolbar");
+            ToggleButton toggleArrow =(ToggleButton)wrapPanel.Children[20];
+            ToggleButton toggleEraser = (ToggleButton)wrapPanel.Children[21];
+            Main.RegisterName("_51", toggleArrow);
+            Main.RegisterName("_52", toggleEraser);
+
         }
 
         public static void ResizeElement(double width,double height,int index, Window window)
