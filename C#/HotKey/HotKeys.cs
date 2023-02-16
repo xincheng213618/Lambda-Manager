@@ -23,6 +23,18 @@ namespace HotKey
         public static readonly List<HotKeys> HotKeysList = new List<HotKeys>();
         public static readonly Dictionary<HotKeys,Hotkey> HotKeysDefaultHotkey = new Dictionary<HotKeys, Hotkey>();
 
+        public static void SetDefault()
+        {
+            foreach (var item in HotKeysDefaultHotkey)
+            {
+                item.Key.Hotkey = Hotkey.None;
+            }
+            foreach (var item in HotKeysDefaultHotkey)
+            {
+                item.Key.Hotkey = item.Value;
+            }
+        }
+
         public HotKeys()
         {
             HotKeysList.Add(this);

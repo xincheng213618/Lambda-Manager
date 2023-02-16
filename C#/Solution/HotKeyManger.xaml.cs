@@ -31,10 +31,7 @@ namespace Solution
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in HotKeys.HotKeysDefaultHotkey)
-            {
-                item.Key.Hotkey = item.Value;
-            }
+            HotKeys.SetDefault();
         }
     }
 }
