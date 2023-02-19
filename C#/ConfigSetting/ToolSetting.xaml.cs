@@ -51,19 +51,19 @@ namespace ConfigSetting
 
         public void SocketCloseGrid()
         {
-            try
-            {
-                int port = 53618;
-                IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-                Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                sssss.Connect(localEndPoint);
-                string aaa = "LambdaStart";
-                sssss.Send(Encoding.UTF8.GetBytes(aaa));
-            }
-            catch
-            {
+            //try
+            //{
+            //    int port = 53618;
+            //    IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
+            //    Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            //    sssss.Connect(localEndPoint);
+            //    string aaa = "LambdaStart";
+            //    sssss.Send(Encoding.UTF8.GetBytes(aaa));
+            //}
+            //catch
+            //{
 
-            }
+            //}
 
         }
 

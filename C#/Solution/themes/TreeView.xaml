@@ -120,6 +120,8 @@
                             <Run Text=" -"/>
                             <Run Text="{Binding FileSize}"/>
             </TextBlock>
+            <TextBlock  Text="{Binding IsSelected}"/>
+
             <StackPanel.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="删除(_D)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
@@ -134,7 +136,7 @@
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-        <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  ContextMenu="{Binding ContextMenu}" >
+        <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}">
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">

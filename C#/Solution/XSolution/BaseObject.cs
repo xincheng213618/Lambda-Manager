@@ -74,6 +74,9 @@ namespace XSolution
         public bool IsSelected { get => _IsSelected; set { _IsSelected = value; NotifyPropertyChanged(); } }
         private bool _IsSelected = false;
 
+        public bool IsMulSelected { get => _IsMulSelected; set { _IsMulSelected = value; NotifyPropertyChanged(); } }
+        private bool _IsMulSelected = false;
+
 
 
         public RelayCommand AddChildren { get; set; }
@@ -102,6 +105,7 @@ namespace XSolution
 
         }
 
+        public bool DeleteShowDialog = true;
 
         public BaseObject(string FullName)
         {
@@ -123,6 +127,12 @@ namespace XSolution
 
             DeleteCommand = new RelayCommand(delegate
             {
+                if (!DeleteShowDialog)
+                {
+                    Parent.RemoveChild(this);
+                    return;
+                }
+
                 if (MessageBox1.Show("即将删除文件", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     Parent.RemoveChild(this);

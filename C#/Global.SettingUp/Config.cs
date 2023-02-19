@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lambda;
+using System;
 
 namespace Global.SettingUp
 {
@@ -19,17 +20,39 @@ namespace Global.SettingUp
 
         public static int ConfigRead(string FileName)
         {
-            return ConfigReadEvent?.Invoke(FileName) ?? 0;
+            try
+            {
+                return ConfigReadEvent?.Invoke(FileName) ?? 0;
+            }
+            catch (Exception ex)
+            {
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+                return -1;
+            }
         }
 
         public static void ConfigSet()
         {
-            ConfigSetEvent?.Invoke();
+            try
+            {
+                ConfigSetEvent?.Invoke();
+            }
+            catch ( Exception ex)
+            {
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR,Text = ex.Message});
+            }
         }
 
         public static void ConfigWrite(string FileName)
         {
-            ConfigWriteEvent?.Invoke(FileName);
+            try
+            {
+                ConfigWriteEvent?.Invoke(FileName);
+            }
+            catch (Exception ex)
+            {
+                LambdaControl.Log(new Message() { Severity = Severity.ERROR, Text = ex.Message });
+            }
         }
     }
 }

@@ -259,16 +259,58 @@ namespace Solution
                 Application.Current.MainWindow.AddHotKeys(new HotKeys("打开当前工程", new Hotkey(Key.O, ModifierKeys.Control), OpenSolution));
                 Application.Current.MainWindow.AddHotKeys(new HotKeys("新建工程", new Hotkey(Key.N, ModifierKeys.Control), NewCreat));
                 Application.Current.MainWindow.AddHotKeys(new HotKeys("关闭当前工程", new Hotkey(Key.W, ModifierKeys.Control), SolutionClose));
+                SolutionTreeView.ContextMenu = new ContextMenu();
+                SolutionTreeView.ContextMenuOpening += SolutionTreeView_ContextMenuOpening;
 
             }
         }
+
+        private void SolutionTreeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (SolutionTreeView.SelectedItems.Count == 1)
+            {
+                if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is GrifFile baseObject)
+                {
+                    SolutionTreeView.ContextMenu = baseObject.ContextMenu;
+                }
+            }
+            if (SolutionTreeView.SelectedItems.Count > 1)
+            {
+                SolutionTreeView.ContextMenu = new ContextMenu();
+                MenuItem menuItem = new MenuItem() { Header = "删除(_D)" };
+                menuItem.Click +=(s,e) =>
+                {
+                    Dictionary<GrifFile, Action<object>> Actionlist = new Dictionary<GrifFile, Action<object>>();
+                    foreach (BaseObject item in SolutionTreeView.SelectedItems)
+                    {
+                        if (item is GrifFile baseObject)
+                        {
+                            Actionlist.Add(baseObject, baseObject.DeleteCommand.Execute);
+                        }
+                    }
+
+                    foreach (var item in Actionlist)
+                    {
+                        item.Key.DeleteShowDialog = false;
+                        item.Value(item.Key);
+                    }
+                };
+                SolutionTreeView.ContextMenu.Items.Add(menuItem);
+
+
+            }
+
+
+
+        }
+
 
         public ObservableCollection<SolutionExplorer> SolutionExplorers = new ObservableCollection<SolutionExplorer>();
         private Point SelectPoint;
 
         private BaseObject LastReNameObject;
-        private TreeViewItem SelectedTreeViewItem;
-        private TreeViewItem LastSelectedTreeViewItem;
+        private MultiSelectTreeViewItem SelectedTreeViewItem;
+        private MultiSelectTreeViewItem LastSelectedTreeViewItem;
 
         private string solutionDir;
 
@@ -321,16 +363,26 @@ namespace Solution
             HitTestResult result = VisualTreeHelper.HitTest(SolutionTreeView, SelectPoint);
             if (result != null)
             {
-                TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
+                MultiSelectTreeViewItem item = ViewHelper.FindVisualParent<MultiSelectTreeViewItem>(result.VisualHit);
                 if (item == null)
                     return;
 
                 if (SelectedTreeViewItem != null && SelectedTreeViewItem != item && SelectedTreeViewItem.DataContext is BaseObject viewModeBase)
                 {
                     viewModeBase.IsEditMode = false;
+                    if (LastSelectedTreeViewItem?.DataContext is BaseObject baseObject)
+                    {
+                        viewModeBase.IsSelected = true;
+                        baseObject.IsSelected = true;
+
+                    }
                 }
                 SelectedTreeViewItem = item;
+
                 LastSelectedTreeViewItem = item;
+
+
+
                 if (SolutionExplorers.Count != 1 && item.DataContext is SolutionExplorer solutionExplorer)
                 {
                     ///判断当前工程配置不是现在的，不重复读取

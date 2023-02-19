@@ -9,6 +9,9 @@
     <Grid >
         <StackPanel x:Name="HotKeyStackPanel">
             <Button Content="重置热键" Click="Button_Click" />
+            <Button Content="保存热键" Click="ButtonSave_Click" />
+            <Button Content="加载热键" Click="ButtonLoad_Click" />
+
         </StackPanel>
     </Grid>
 </Window>

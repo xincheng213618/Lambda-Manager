@@ -12,15 +12,40 @@ DB = 'grid'
 PORT = 3306
 CHARSET = 'utf8'
 
-'''
-flask： web框架，通过flask提供的装饰器@server.route()将普通函数转换为服务
-登录接口，需要传url、username、passwd
-'''
+
 # 创建一个服务，把当前这个python文件当做一个服务
 server = flask.Flask(__name__,static_folder='', static_url_path='')
 
-# server.config['JSON_AS_ASCII'] = False
-# @server.route()可以将普通函数转变为服务 登录接口的路径、请求方式
+
+@server.route('/Userlogin', methods=['post'])
+def Userlogin():
+    name = request.values.get('name')
+    legal_address = request.values.get('legal_address')
+    email_address = request.values.get('email_address')
+    contact_number = request.values.get('contact_number')
+    user_class = request.values.get('user_class')
+    if not name:
+        resu = {'state': 1, 'message': '姓名不能为空'}
+        return json.dumps(resu, ensure_ascii=False)
+
+    db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,  use_unicode=True)
+    cursor = db.cursor()
+    sql = "SELECT * FROM  `user` WHERE `name` = '%s'" % (name);
+    print(sql)
+    if (cursor.execute(sql) !=0):
+        return {'state': 0, 'message': '','userid':cursor.fetchall()[0][0]};
+    else:
+        create_date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        sql = "INSERT INTO `user` (name, legal_address, email_address, contact_number,user_class) \
+               VALUES (%s, '%s', '%s','%s',%s)" % \
+              (name, legal_address, email_address, contact_number, 0)
+        print(sql)
+        cursor.execute(sql)
+        db.commit()
+        sql = "SELECT * FROM  `user` WHERE `name` = '%s'" % (name);
+        cursor.execute(sql)
+        return {'state': 0, 'message': '','userid':cursor.fetchall()[0][0]};
+
 
 @server.route('/register', methods=['post'])
 def register():
@@ -34,7 +59,7 @@ def register():
         resu = {'state': 1, 'message': '参数不能存在空值'}
         return json.dumps(resu, ensure_ascii=False)
     if not checkSN(sn):
-        resu = {'state': 1, 'message': '注册码参数异常'}
+        resu = {'state': 1, 'message': '序列号参数异常'}
         return json.dumps(resu, ensure_ascii=False)
     if not checkMac(mac_address):
         resu = {'state': 1, 'message': 'Mac地址参数异常'}
@@ -53,7 +78,7 @@ def register():
             print(sql)
             aa = cursor.execute(sql)
             if (aa == 0):
-                resu = {'state': 1, 'message': "该注册码无效"}
+                resu = {'state': 1, 'message': "该序列号无效"}
                 return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
 
@@ -69,7 +94,6 @@ def register():
                 else:
                     resu = {'state': 1, 'message': "该用户已经注册过，是否重新注册到新设备？"}
                     return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
-
 
 
             sql = "SELECT * FROM  `register-info` WHERE `mac_address` = '%s'" %(mac_address);
@@ -98,7 +122,6 @@ def register():
     else:
         resu = {'state': 1, 'message': '参数不能为空！'}
         return json.dumps(resu, ensure_ascii=False)
-
 
 @server.route('/unregister', methods=['post'])
 def unregister():
@@ -150,9 +173,6 @@ def root():
     return render_template("index.html")
 
 
-@server.route('/generateSNCode', methods=['get'])
-def generateSNCode():
-    return render_template("generateSNCode.html")
 
 
 def checkSN(sn):
@@ -170,6 +190,9 @@ def checkMac(mac):
     if re.match(r"^\s*([0-9a-fA-F]{2,2}){5,5}[0-9a-fA-F]{2,2}\s*$", mac): return True
     return False
 
+@server.route('/generateSNCode', methods=['get'])
+def generateSNCode():
+    return render_template("generateSNCode.html")
 
 @server.route('/generateSNCode', methods=['post'])
 def generateSNCodepost():
@@ -183,10 +206,10 @@ def generateSNCodepost():
         resu = {'state': 1, 'message': '参数不能存在空值'}
         return json.dumps(resu, ensure_ascii=False)
     if not checkSN(sn):
-        resu = {'state': 1, 'message': '注册码参数异常'}
+        resu = {'state': 1, 'message': '序列号参数异常'}
         return json.dumps(resu, ensure_ascii=False)
 
-    resu = {'state': 0, 'message': '注册码添加成功'}
+    resu = {'state': 0, 'message': '序列号添加成功'}
     return json.dumps(resu, ensure_ascii=False)
 
 @server.route('/checkregister', methods=['post'])
@@ -199,7 +222,7 @@ def checkregister():
         resu = {'state': 1, 'message': '参数不能存在空值'}
         return json.dumps(resu, ensure_ascii=False)
     if not checkSN(sn):
-        resu = {'state': 1, 'message': '注册码参数异常'}
+        resu = {'state': 1, 'message': '序列号参数异常'}
         return json.dumps(resu, ensure_ascii=False)
 
     sn = sn.strip().replace("-", "")
@@ -256,11 +279,26 @@ def GetRegion():
     resu = {'state': 0, 'message': '','list':vendorlist}
     return json.dumps(resu, ensure_ascii=False)
 
+@server.route('/getModule', methods=['get'])
+def GetModule():
+    db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT, use_unicode=True)
+    cursor = db.cursor()
+    sql ="SELECT `name`,`code` FROM `grid`.`charging-module`"
+    num = cursor.execute(sql)
+    module = cursor.fetchall()
+    modulelist = []
+    for row in module:
+        modulelist.append(row[0]);
+    resu = {'state': 0, 'message': '','list':modulelist}
+    return json.dumps(resu, ensure_ascii=False)
+
 
 import random,string
 @server.route("/GeneraSNCode",methods =['post'])
 def GeneraSNCode():
     vendor = request.values.get('vendor')
+    moudle = request.values.get('moudle')
+
     if not vendor:
         resu = {'state': 1, 'message': '参数不能存在空值'}
         return json.dumps(resu, ensure_ascii=False)
@@ -268,18 +306,23 @@ def GeneraSNCode():
     db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
                          use_unicode=True)
     cursor = db.cursor()
-    sql ="SELECT `name` FROM `grid`.`vendor` WHERE `name` = '%s'" % (vendor);
+    sql ="SELECT `id`,`name` FROM `grid`.`vendor` WHERE `name` = '%s'" % (vendor);
     num = cursor.execute(sql);
     if (num == 0):
         resu = {'state': 1, 'message': '找不到供应商，请重新输入或者注册'}
         return json.dumps(resu, ensure_ascii=False)
+
+    vendor_id =cursor.fetchall()[0][0]
     sn =''.join(random.sample(string.ascii_letters + string.digits, 24)).upper()
+
+    sql = "INSERT INTO `grid`.`serial-number` (`sn`, `vendor_id`, `module_id`, `effect_months`,`create_date` ) VALUES ('%s', %s, 1, '%s','%s')" % (sn,vendor_id,time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()));
+    print(sql)
+    num = cursor.execute(sql);
+    db.commit()
     print(sn)
     pattern = re.compile('.{6}')
     sn ='-'.join(pattern.findall(sn))
-    print(sn)
     resu = {'state': 0, 'message': '','sn':sn}
-
     return  json.dumps(resu, ensure_ascii=False)
 @server.route('/addSNCode', methods=['post'])
 def addSNCode():
@@ -290,7 +333,7 @@ def addSNCode():
         resu = {'state': 1, 'message': '参数不能存在空值'}
         return json.dumps(resu, ensure_ascii=False)
     if not checkSN(sn):
-        resu = {'state': 1, 'message': '注册码参数异常'}
+        resu = {'state': 1, 'message': '序列号参数异常'}
         return json.dumps(resu, ensure_ascii=False)
     sn =sn.strip().replace("-","")
     try:
@@ -310,6 +353,8 @@ def addSNCode():
     except Exception:
         resu = {'state': 1, 'message': "数据库连接失败"}
     return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
+
+
 
 
 

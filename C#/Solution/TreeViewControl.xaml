@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:local="clr-namespace:XSolution"
+             xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=WPFMultiSelectTreeView" 
              mc:Ignorable="d" 
              d:DesignWidth="300" Initialized="UserControl_Initialized" Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -123,76 +125,147 @@
             
 
             <Border BorderThickness="0"  CornerRadius="4"  Padding="0" Height="auto">
-                <TreeView x:Name="SolutionTreeView"  BorderThickness="0">
-                    <TreeView.ItemContainerStyle>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="MinHeight" Value="21"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            <Setter Property="Padding" Value="2,4,2,3"/>
-                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-                            <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
-                                        <StackPanel>
-                                            <Border Name="Bd"  Background="{TemplateBinding Background}"  Padding="{TemplateBinding Padding}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="15"/>
-                                                        <ColumnDefinition  />
-                                                    </Grid.ColumnDefinitions>
-                                                    <ToggleButton x:Name="Expander"  Grid.Column="0" Style="{DynamicResource TreeViewToggleButtonStyle}" IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"  ClickMode="Press"/>
-                                                    <ContentPresenter Grid.Column="1" x:Name="PART_Header"  ContentSource="Header" />
-                                                </Grid>
-                                            </Border>
-                                            <ItemsPresenter x:Name="ItemsHost"/>
-                                        </StackPanel>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsExpanded" Value="false">
-                                                <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
-                                            </Trigger>
-                                            <Trigger Property="HasItems" Value="false">
-                                                <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
-                                            </Trigger>
-                                            <MultiTrigger>
-                                                <MultiTrigger.Conditions>
-                                                    <Condition Property="HasHeader" Value="false"/>
-                                                    <Condition Property="Width" Value="Auto"/>
-                                                </MultiTrigger.Conditions>
-                                            </MultiTrigger>
-                                            <MultiTrigger>
-                                                <MultiTrigger.Conditions>
-                                                    <Condition Property="HasHeader" Value="false"/>
-                                                    <Condition Property="Height" Value="Auto"/>
-                                                </MultiTrigger.Conditions>
-                                                <Setter TargetName="PART_Header" Property="MinHeight" Value="21"/>
-                                            </MultiTrigger>
-                                            <Trigger Property="IsSelected" Value="true">
-                                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectedListItem}"/>
-                                                <!--<Setter Property="Foreground" Value="{StaticResource SelectedListItemForeground}"/>-->
-                                                <Setter Property="Style" TargetName="Expander" Value="{DynamicResource TreeViewSelectedToggleButtonStyle}"/>
-                                            </Trigger>
-                                            <MultiTrigger>
-                                                <MultiTrigger.Conditions>
-                                                    <Condition Property="IsMouseOver" SourceName="Bd" Value="true"/>
-                                                    <Condition Property="IsSelected" Value="false"/>
-                                                </MultiTrigger.Conditions>
-                                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MouseOverListItem}"/>
-                                            </MultiTrigger>
-                                            <Trigger Property="IsEnabled" Value="false">
-                                                <Setter Property="Foreground" Value="{DynamicResource TreeViewDisabledForeground}"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TreeView.ItemContainerStyle>
-                </TreeView>
+                <StackPanel>
+                    <Controls:MultiSelectTreeView	Name="SolutionTreeView" >
+                        <Controls:MultiSelectTreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type Controls:MultiSelectTreeViewItem}">
+                                <Setter Property="DisplayName" Value="{Binding DisplayName, Mode=TwoWay}"/>
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                                <Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}"/>
+                                <Setter Property="IsVisible" Value="{Binding IsVisible, Mode=TwoWay}"/>
+                                <Setter Property="IsEditable" Value="{Binding IsEditable, Mode=TwoWay}"/>
+                                <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
+                                <Setter Property="Remarks" Value="{Binding Remarks, Mode=TwoWay}"/>
+                                <Setter Property="ContentTemplateEdit">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <!--
+									NOTE:
+									Instead of using a ContentControl which selects an editor template,
+									you could directly define an editor template here which then applies
+									to all item data types.
+									EXAMPLE:
+									<StackPanel Orientation="Horizontal">
+										<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
+										<Controls:EditTextBox
+											Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											Padding="2,0,0,0"/>
+									</StackPanel>
+									-->
+                                            <ContentControl
+										Content="{Binding}"
+										ContentTemplateSelector="{StaticResource EditorTemplateSelector}"/>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <!--
+						The RemarksTemplate property defines a DataTemplate that is applied instead
+						of the normal viewing DataTemplate. If you do not need remarks
+						functionality or the default template is good for you, then you can omit
+						this Setter.
+						-->
+                                <Setter Property="RemarksTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <TextBlock VerticalAlignment="Center" Margin="3,0,0,0" Foreground="#a0ff0000" FontStyle="Italic" Text="{Binding}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Controls:MultiSelectTreeView.ItemContainerStyle>
+                    </Controls:MultiSelectTreeView>
+
+
+
+                    <TreeView   BorderThickness="0">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}" >
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="MinHeight" Value="21"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="2,4,2,3"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                                <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type TreeViewItem}"  >
+                                            <StackPanel>
+                                                <Border Name="Bd" DataContext=""  Background="{TemplateBinding Background}"  Padding="{TemplateBinding Padding}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="15"/>
+                                                            <ColumnDefinition  />
+                                                        </Grid.ColumnDefinitions>
+                                                        <ToggleButton x:Name="Expander"  Grid.Column="0" Style="{DynamicResource TreeViewToggleButtonStyle}" IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"  ClickMode="Press"/>
+                                                        <ContentPresenter Grid.Column="1" x:Name="PART_Header"  ContentSource="Header" />
+                                                    </Grid>
+                                                </Border>
+                                                <ItemsPresenter x:Name="ItemsHost"/>
+                                            </StackPanel>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsExpanded" Value="false">
+                                                    <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+
+                                                <Trigger Property="HasItems" Value="false">
+                                                    <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                                                </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="HasHeader" Value="false"/>
+                                                        <Condition Property="Width" Value="Auto"/>
+                                                    </MultiTrigger.Conditions>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="HasHeader" Value="false"/>
+                                                        <Condition Property="Height" Value="Auto"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="PART_Header" Property="MinHeight" Value="21"/>
+                                                </MultiTrigger>
+
+
+                                                <Trigger Property="IsSelected" Value="true">
+                                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectedListItem}"/>
+                                                    <!--<Setter Property="Foreground" Value="{StaticResource SelectedListItemForeground}"/>-->
+                                                    <Setter Property="Style" TargetName="Expander" Value="{DynamicResource TreeViewSelectedToggleButtonStyle}"/>
+                                                </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" SourceName="Bd" Value="true"/>
+                                                        <Condition Property="IsSelected" Value="false"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MouseOverListItem}"/>
+                                                </MultiTrigger>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="Foreground" Value="{DynamicResource TreeViewDisabledForeground}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </StackPanel>
+
             </Border>
         </StackPanel>
         <Grid x:Name="leftGrid" Visibility="Hidden" Background="Transparent" Panel.ZIndex="999" Opacity="0.7" Width="20" Margin="0,38,0,2" HorizontalAlignment="Right" >
