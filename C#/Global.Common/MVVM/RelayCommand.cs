@@ -1,44 +1,31 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Input;
 
-namespace Global.Common  
+namespace Global.Common
 {
     /// <summary>
-    /// 中继命令
+    ///  Implements the <see cref="ICommand"/> interface
     /// </summary>
-    public class RelayCommand : ICommand
+    public sealed class RelayCommand : ICommand
     {
-        
-        private readonly Action<object> execute;
+        public readonly Action<object> execute;
+        public readonly Predicate<object> canExecute;
 
-        private readonly Func<object,bool> canExecute;
-
-        public RelayCommand(Action<object> execute, Func<object,bool> canExecute)
+        //Func<object,bool> =>Predicate<object> ss
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute =null)
         {
             this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
-        {
-            if (canExecute != null)
-            {
-                return canExecute(parameter);
-            }
-            return true;
-        }
+        bool ICommand.CanExecute(object? parameter) => canExecute is null || canExecute(parameter);
 
-        public event EventHandler? CanExecuteChanged
+        event EventHandler? ICommand.CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public void Execute(object parameter)
-        {
-            execute(parameter);
-
-        }
+         void ICommand.Execute(object? parameter) => execute(parameter);
     }
 }

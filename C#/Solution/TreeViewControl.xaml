@@ -126,7 +126,7 @@
 
             <Border BorderThickness="0"  CornerRadius="4"  Padding="0" Height="auto">
                 <StackPanel>
-                    <Controls:MultiSelectTreeView	Name="SolutionTreeView" >
+                    <Controls:MultiSelectTreeView  Foreground="{DynamicResource ForegroundBrush}"  Background="{DynamicResource WindowBackgroundBrush}"	x:Name="SolutionTreeView" >
                         <Controls:MultiSelectTreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type Controls:MultiSelectTreeViewItem}">
                                 <Setter Property="DisplayName" Value="{Binding DisplayName, Mode=TwoWay}"/>

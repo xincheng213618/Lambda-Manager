@@ -88,6 +88,11 @@ namespace XSolution
                     watcher2.Renamed += Watcher_Renamed;
                     watcher2.EnableRaisingEvents = true;
                 }
+                else
+                {
+                    AddChild(new ProjectFolder(dic.FullName));
+
+                }
             }
 
 

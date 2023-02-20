@@ -25,6 +25,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Runtime.InteropServices;
+using Global.SettingUp.Menu;
 
 namespace Solution
 {
@@ -43,6 +44,12 @@ namespace Solution
             InitializeComponent();
             IniCommand();
             this.DataContext = SoftwareConfig.SolutionSetting;
+        }
+
+        [MenuAttribute(Headers = "Test")]
+        public  MenuItem ATest()
+        {
+            return new MenuItem();
         }
 
         private void AddMenu()
@@ -285,7 +292,7 @@ namespace Solution
                     {
                         if (item is GrifFile baseObject)
                         {
-                            Actionlist.Add(baseObject, baseObject.DeleteCommand.Execute);
+                            Actionlist.Add(baseObject, baseObject.DeleteCommand.execute);
                         }
                     }
 
@@ -404,7 +411,7 @@ namespace Solution
                     //这里因为考虑到和lambda接轨，所以暂时不拆出来，合并类和基类的扩展中
                     if (item.DataContext is GrifFile grifFile)
                     {
-                        grifFile.OpenFileCommand.Execute(grifFile);
+                        grifFile.OpenFileCommand.execute(grifFile);
                     }
                     else if (item.DataContext is ProjectFile projectFile1)
                     {
