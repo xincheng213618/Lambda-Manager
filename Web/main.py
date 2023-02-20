@@ -322,6 +322,8 @@ def GeneraSNCode():
     print(sn)
     pattern = re.compile('.{6}')
     sn ='-'.join(pattern.findall(sn))
+    # smtpdemo.receivers =["114803203@qq.com"]
+    smtpdemo.sendmail("Grid序列号",  "尊敬的" +vendor +":\n\r" +"您购买的序列号为： \n\r"  +sn);
     resu = {'state': 0, 'message': '','sn':sn}
     return  json.dumps(resu, ensure_ascii=False)
 @server.route('/addSNCode', methods=['post'])
@@ -354,6 +356,19 @@ def addSNCode():
         resu = {'state': 1, 'message': "数据库连接失败"}
     return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
+import  smtpdemo
+@server.route('/sendsmtp', methods=['post'])
+def sendsmtp():
+    print("sendsmtp11")
+    subject = request.values.get('subject')
+    content = request.values.get('sssss')
+    if subject:
+        smtpdemo.sendmail("subject", "SNCode \n\r SSSSddd");
+        resu = {'state': 0, 'message': "发送成功"}
+        return json.dumps(resu, ensure_ascii=False)
+    else:
+        resu = {'state': -1, 'message': "Sucess"}
+        return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
 
 
 
