@@ -16,7 +16,7 @@ namespace Global.SettingUp.PC
                     timer?.Dispose();
                     timer = new Timer(TimeRun, null, 0, value);
                 }
-            }
+            }    
         }
         public int _UpdateSpeed = 1000;
 

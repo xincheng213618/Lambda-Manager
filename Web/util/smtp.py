@@ -34,11 +34,11 @@ def sendmail(subject,content):
         s.login(mail_user, mail_pass)
         s.sendmail(mail_user, receivers, message.as_string())
         print("邮件发送成功")
-        return "邮件发送成功"
+        return 0
 
     except smtplib.SMTPDataError as e :
         print(e.args)
-        return e
+        return -1
 
 
 def addfile(MIMENonMultipart,filename):

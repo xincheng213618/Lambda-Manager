@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 
 namespace Solution
 {
+
     /// <summary>
     /// HoyKeyControl.xaml 的交互逻辑
     /// </summary>
