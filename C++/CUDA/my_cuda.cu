@@ -1,4 +1,5 @@
 #include "my_cuda.cuh"
+#include <cuda_runtime.h>
 
 #define PI 3.14159265358979323846
 

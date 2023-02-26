@@ -149,22 +149,23 @@
             .form-horizontal .form-group i {
                 left: 45px;
             }
-
             .form-horizontal .btn {
                 padding: 5px 100px;
             }
         }
+
     </style>
 </head>
 <body>
 <div class="demo form-bg">
-    <div class="container">
+    <div class="main">
+            <div class="container" >
         <div class="row">
             <div class="col-md-offset-3 col-md-6">
                 <form class="form-horizontal">
                     <span class="heading">生成序列号</span>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="inputPassword1" list="browsers" autocomplete="on" placeholder="分销商名称">
+                        <input  class="form-control" id="inputPassword1" list="browsers" autocomplete="on" placeholder="分销商名称">
                         <datalist id="browsers">
                         </datalist>
                         <i class="fa fa-lock"></i>
@@ -176,22 +177,32 @@
                             <option>算法模块加强版</option>
                         </select>
                     </div>
-                    <div id="divtime" class="form-group">
-                        <input type="email" class="form-control" id="inputPassword3" placeholder="有效期信息">
+                    <div id="divtime" class="form-group"  style="display: none">
+                        <input  class="form-control" id="inputPassword3" placeholder="有效期信息">
                         <i class="fa fa-lock"></i>
                     </div>
                     <div id="localapp" class="form-group" align="center">
                         <input id="box1" type="button" type="submit" @click="vuefunction()"  value="生成" class="btn btn-default"></input>
-                        <input id="box2" type="button" type="submit" @click="vuefunction()"  value="导出" class="btn btn-default"></input>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="inputPassword4" placeholder="序列号">
+                        <input  class="form-control" id="inputPassword4" placeholder="序列号">
                         <i class="fa fa-lock"></i>
+                    </div>
+
+                   <div class="form-group">
+                        <input type="email" class="form-control" id="inputPassword5" placeholder="Email">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div id="divmail" class="form-group" align="center">
+                        <input id="box1" type="button" type="submit" @click="sendeamil()"  value="发送邮件测试" class="btn btn-default"></input>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    </div>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -238,6 +249,33 @@
                 }
             }
         }
+    })
+
+    new Vue({
+        el:"#divmail",
+        methods:{
+            sendeamil:function (){
+                var input = document.getElementById("inputPassword5");
+                var vendor = document.getElementById("inputPassword1");
+                var sn = document.getElementById("inputPassword4");
+                if (sn.value==""){
+                    return;
+                }
+                if(input.value ==""){
+                    return;
+                }
+
+                url ="/sendsmtp"
+                var postforms = new FormData();
+                postforms.append("subject", "Grid序列号")
+                postforms.append("content", "尊敬的" + vendor.value + ":\n\r" + "您购买的序列号为： \n\r" +sn.value)
+                postforms.append("receivers", input.value)
+                axios.post(url, postforms).then(response => {
+                                    alert("false")
+                })
+            }
+        }
+
     })
 
     new Vue({
