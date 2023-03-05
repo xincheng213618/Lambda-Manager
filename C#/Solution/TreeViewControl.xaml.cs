@@ -671,55 +671,13 @@ namespace Solution
             HandyControl.Controls.Growl.Info("此功能在测试中");
             LambdaControl.Dispatch("VideoTest", this, new Dictionary<string, object>());
         }
-        int zzz = 0;
 
-        private async void Button_Click_4(object sender, RoutedEventArgs e)
+        private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
 
             HotKeyManger hotKeyManger = new HotKeyManger();
             hotKeyManger.Show();
-
-
-            //int port = 53618;
-            //IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-            //Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            //zzz++;
-            //try
-            //{
-            //    sssss.Connect(localEndPoint);
-            //    string aaa = zzz%2==0?"0":"1";
-            //    sssss.Send(Encoding.UTF8.GetBytes(aaa));
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //sssss.Close();
-            //string Arguments = string.Empty;
-            //if (Environment.OSVersion.Version.Major == 6)
-            //{
-            //    Arguments = "/c gpupdate /force /wait:0 && ie4uinit.exe -ClearIconCache";
-            //    Arguments = "/c gpupdate /force /wait:0 && ie4uinit.exe -ClearIconCache";
-
-
-            //}
-            //else if (Environment.OSVersion.Version.Major > 6)
-            //{
-            //    Arguments = "/c ie4uinit.exe -show";
-            //}
-            //ProcessStartInfo info = new ProcessStartInfo
-            //{
-            //    WindowStyle = ProcessWindowStyle.Hidden,
-            //    UseShellExecute = false,
-            //    FileName = "cmd.exe",
-            //    CreateNoWindow = true,
-            //    RedirectStandardOutput = true,
-            //    Arguments = Arguments
-            //};
-            //Process process = Process.Start(info);
-            //process.WaitForExit();
-
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)

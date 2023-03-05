@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace HotKey
 {
@@ -21,9 +20,7 @@ namespace HotKey
     [Serializable]
     public class HotKeys : INotifyPropertyChanged
     {
-        [JsonIgnore]
         public static readonly List<HotKeys> HotKeysList = new List<HotKeys>();
-        [JsonIgnore]
         public static readonly Dictionary<HotKeys,Hotkey> HotKeysDefaultHotkey = new Dictionary<HotKeys, Hotkey>();
 
         /// <summary>
@@ -57,12 +54,10 @@ namespace HotKey
             Hotkey = hotkey;
             HotKeyHandler += hotKeyCallBackHanlder;
         }
-        [JsonIgnore]
         public Control Control { get; set; }
 
         public string Name { get => _Name; set { if (value == _Name) return; _Name = value; NotifyPropertyChanged(); } }
         private string _Name = string.Empty;
-        [JsonIgnore]
         public HotKeyCallBackHanlder HotKeyHandler { get; set; }
         public Hotkey Hotkey
         {
@@ -113,7 +108,6 @@ namespace HotKey
         }
         private HotKeyKinds _Kinds = HotKeyKinds.Windows;
 
-        [JsonIgnore]
         public bool IsGlobal
         {
             get => Kinds == HotKeyKinds.Global; set
@@ -134,11 +128,10 @@ namespace HotKey
         /// <summary>
         /// 不允许外部写入
         /// </summary>
-        [JsonIgnore]
         public bool IsRegistered { get => _IsRegistered; internal set { _IsRegistered = value; NotifyPropertyChanged(); } }
         private bool _IsRegistered = false;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

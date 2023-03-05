@@ -35,7 +35,11 @@ namespace HotKey
         private static readonly object locker = new object();
         public static HotKeyHelper GetInstance()
         {
-            lock (locker) { return instance ??= new HotKeyHelper(); }
+            lock (locker) {
+                if (instance == null)
+                    instance = new HotKeyHelper();
+            }
+            return instance;
         }
 
         public static Dictionary<int, HotKeys> HotKeysList = new Dictionary<int, HotKeys>();
