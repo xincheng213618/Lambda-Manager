@@ -33,13 +33,11 @@ namespace Solution
         public SeriesExportAsWindow(SeriesProjectManager seriesProjectManager)
         {
             this.SeriesProject = new SeriesProjectManager(seriesProjectManager.FullName);
-            this.SeriesProject.ExportIni();
-
+            Task.Run(SeriesProject.ExportIni);
+            ;
             ProjectExportAs = new ProjectExportAs() { Kinds = SeriesExportKinds.mp4, FullName = seriesProjectManager.FullName, PhotoTime = false };
             this.DataContext = ProjectExportAs;
             InitializeComponent();
-
-
         }
         public SeriesExportAsWindow(SeriesProjectManager seriesProjectManager,SeriesExportKinds seriesExportKinds)
         {

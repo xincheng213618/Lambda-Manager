@@ -282,34 +282,9 @@ namespace Solution
                 stackPanel.Margin = new Thickness(2, 2, 2, 0);
                 viewbox.Width = double.NaN;
 
-                //追加在显示的时候显示触发
-                if (recentFileList.RecentFiles.Count > 0)
-                {
-                    string FullName = recentFileList.RecentFiles[0];
-                    if (File.Exists(FullName))
-                    {
-                        if (Config.ConfigRead(FullName) == 0)
-                        {
-                            SolutionFullName = FullName;
+                Task.Run(Task_Loaded);
 
-                            TreeViewInitialized(FullName);
-                            SolutionExplorers[0].IsExpanded = true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("上次打开的项目无效");
-                            recentFileList.RemoveFile(FullName);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show($"找不到{FullName}");
-                        recentFileList.RemoveFile(FullName);
-                    }
-                }
-                //追加在显示的时候显示触发
-                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
-                Config.ConfigSet();
+
                 Application.Current.MainWindow.AddHotKeys(new HotKeys("打开当前工程", new Hotkey(Key.O, ModifierKeys.Control), OpenSolution));
                 Application.Current.MainWindow.AddHotKeys(new HotKeys("新建工程", new Hotkey(Key.N, ModifierKeys.Control), NewCreat));
                 Application.Current.MainWindow.AddHotKeys(new HotKeys("关闭当前工程", new Hotkey(Key.W, ModifierKeys.Control), SolutionClose));
@@ -319,40 +294,71 @@ namespace Solution
             }
         }
 
-        private void SolutionTreeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            if (SolutionTreeView.SelectedItems.Count == 1)
-            {
-                if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is GrifFile baseObject)
-                {
-                    SolutionTreeView.ContextMenu = baseObject.ContextMenu;
-                }
-            }
-            if (SolutionTreeView.SelectedItems.Count > 1)
-            {
-                SolutionTreeView.ContextMenu = new ContextMenu();
-                MenuItem menuItem = new MenuItem() { Header = "删除(_D)" };
-                menuItem.Click +=(s,e) =>
-                {
-                    Dictionary<GrifFile, Action<object>> Actionlist = new Dictionary<GrifFile, Action<object>>();
-                    foreach (BaseObject item in SolutionTreeView.SelectedItems)
-                    {
-                        if (item is GrifFile baseObject)
-                        {
-                            Actionlist.Add(baseObject, baseObject.DeleteCommand.execute);
+
+        private async void Task_Loaded() {
+            await Task.Delay(100);
+            Application.Current.Dispatcher.Invoke( () => {
+                //追加在显示的时候显示触发
+                if (recentFileList.RecentFiles.Count > 0) {
+                    string FullName = recentFileList.RecentFiles[0];
+                    if (File.Exists(FullName)) {
+                        if (Config.ConfigRead(FullName) == 0) {
+                            SolutionFullName = FullName;
+
+                            TreeViewInitialized(FullName);
+                            SolutionExplorers[0].IsExpanded = true;
+                        }
+                        else {
+                            MessageBox.Show("上次打开的项目无效");
+                            recentFileList.RemoveFile(FullName);
                         }
                     }
-
-                    foreach (var item in Actionlist)
-                    {
-                        item.Key.DeleteShowDialog = false;
-                        item.Value(item.Key);
+                    else {
+                        MessageBox.Show($"找不到{FullName}");
+                        recentFileList.RemoveFile(FullName);
                     }
-                };
-                SolutionTreeView.ContextMenu.Items.Add(menuItem);
-
-
+                }
+                //追加在显示的时候显示触发
+                LambdaControl.Trigger("UpdateSolutionPath", this, SolutionDir);
+                Config.ConfigSet();
             }
+            );
+
+
+        }
+
+        private void SolutionTreeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            //if (SolutionTreeView.SelectedItems.Count == 1)
+            //{
+            //    if (SelectedTreeViewItem != null && SelectedTreeViewItem.DataContext is GrifFile baseObject)
+            //    {
+            //        SolutionTreeView.ContextMenu = baseObject.ContextMenu;
+            //    }
+            //}
+            //if (SolutionTreeView.SelectedItems.Count > 1)
+            //{
+            //    SolutionTreeView.ContextMenu = new ContextMenu();
+            //    MenuItem menuItem = new MenuItem() { Header = "删除(_D)" };
+            //    menuItem.Click +=(s,e) =>
+            //    {
+            //        Dictionary<GrifFile, Action<object>> Actionlist = new Dictionary<GrifFile, Action<object>>();
+            //        foreach (BaseObject item in SolutionTreeView.SelectedItems)
+            //        {
+            //            if (item is GrifFile baseObject)
+            //            {
+            //                Actionlist.Add(baseObject, baseObject.DeleteCommand.execute);
+            //            }
+            //        }
+
+            //        foreach (var item in Actionlist)
+            //        {
+            //            item.Key.DeleteShowDialog = false;
+            //            item.Value(item.Key);
+            //        }
+            //    };
+            //    SolutionTreeView.ContextMenu.Items.Add(menuItem);
+            //}
 
 
 
@@ -363,8 +369,8 @@ namespace Solution
         private Point SelectPoint;
 
         private BaseObject LastReNameObject;
-        private MultiSelectTreeViewItem SelectedTreeViewItem;
-        private MultiSelectTreeViewItem LastSelectedTreeViewItem;
+        private TreeViewItem SelectedTreeViewItem;
+        private TreeViewItem LastSelectedTreeViewItem;
 
         private string solutionDir;
 
@@ -417,7 +423,7 @@ namespace Solution
             HitTestResult result = VisualTreeHelper.HitTest(SolutionTreeView, SelectPoint);
             if (result != null)
             {
-                MultiSelectTreeViewItem item = ViewHelper.FindVisualParent<MultiSelectTreeViewItem>(result.VisualHit);
+                TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
                 if (item == null)
                     return;
 

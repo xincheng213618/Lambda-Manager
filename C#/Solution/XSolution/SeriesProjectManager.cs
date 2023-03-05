@@ -94,43 +94,15 @@ namespace XSolution
             CanReName = false;
             Visibility = Visibility.Visible;
 
-            PoejectExportAs = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
+            PoejectExportAs = new RelayCommand(a=> new SeriesExportAsWindow(this).ShowDialog(), a => CanExport);
+            ExportAsMp4Command = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.mp4).ShowDialog(), a => CanExport);
+            ExportAsAVICommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.avi).ShowDialog(), a => CanExport);
+            ExportAsTiffCommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.tiff).ShowDialog(), a => CanExport);
+            ExportAsJPEGCommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.jpeg).ShowDialog(), a => CanExport);
+            ExportAsPNGCommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.png).ShowDialog(), a => CanExport);
+            ExportAsBMPCommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.bmp).ShowDialog(), a => CanExport);
 
-            ExportAsMp4Command = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this,SeriesExportKinds.mp4);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
-            ExportAsAVICommand = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.avi);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
-            ExportAsTiffCommand = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this,SeriesExportKinds.tiff);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
-            ExportAsJPEGCommand = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.jpeg);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
-            ExportAsPNGCommand = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.png);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
-            ExportAsBMPCommand = new RelayCommand(delegate
-            {
-                SeriesExportAsWindow GrifExportAsWindow = new SeriesExportAsWindow(this, SeriesExportKinds.bmp);
-                GrifExportAsWindow.ShowDialog();
-            }, (object value) => { return true; });
-
+            CanExport = true;
 
             watcher = new FileSystemWatcher(SeriesFolderPath)
             {
@@ -144,61 +116,65 @@ namespace XSolution
             Task.Run(CalculSize);
         }
 
-        public void ExportIni()
+        public bool CanExport { get; set; }
+
+        public bool ExportIni()
         {
-            if (DirectoryInfo == null) return;
+            if (DirectoryInfo == null) return false;
+            try {
+                ExportChildren = new ObservableCollection<BaseObject>();
+                AllGrifChildren = new ObservableCollection<GrifFile>();
 
-            ExportChildren = new ObservableCollection<BaseObject>();
-            AllGrifChildren = new ObservableCollection<GrifFile>();
+                Meta = new SeriesProjectMeta();
 
-            Meta = new SeriesProjectMeta();
+                foreach (var Dpoint in DirectoryInfo.GetDirectories()) {
+                    ProjectFolder projectFolderDpoint = new ProjectFolder(Dpoint.FullName);
 
-            foreach (var Dpoint in DirectoryInfo.GetDirectories())
-            {
-                ProjectFolder projectFolderDpoint = new ProjectFolder(Dpoint.FullName);
+                    string FullName = Dpoint.Name;
+                    var point = FullName.Split('_');
+                    int X = int.Parse(point[0]);
+                    int Y = int.Parse(point[1]);
+                    Point point1 = new Point(X, Y);
+                    if (!Meta.DicPoints.ContainsKey(point1))
+                        Meta.DicPoints.Add(point1, new List<GrifFile>());
 
-                string FullName = Dpoint.Name;
-                var point = FullName.Split('_');
-                int X = int.Parse(point[0]);
-                int Y = int.Parse(point[1]);
-                Point point1 = new Point(X, Y);
-                if (!Meta.DicPoints.ContainsKey(point1))
-                    Meta.DicPoints.Add(point1, new List<GrifFile>());
+                    foreach (var Dz in Dpoint.GetDirectories()) {
+                        ProjectFolder projectFolderDz = new ProjectFolder(Dz.FullName);
+                        Dictionary<GrifFileOperatingMode, ProjectFolder> DicOMs = new Dictionary<GrifFileOperatingMode, ProjectFolder>();
 
-                foreach (var Dz in Dpoint.GetDirectories())
-                {
-                    ProjectFolder projectFolderDz = new ProjectFolder(Dz.FullName);
-                    Dictionary<GrifFileOperatingMode, ProjectFolder> DicOMs = new Dictionary<GrifFileOperatingMode, ProjectFolder>();
+                        int Zstep = int.Parse(Dz.Name);
+                        if (!Meta.DicZ.ContainsKey(Zstep))
+                            Meta.DicZ.Add(Zstep, new List<GrifFile>());
 
-                    int Zstep = int.Parse(Dz.Name);
-                    if (!Meta.DicZ.ContainsKey(Zstep))
-                        Meta.DicZ.Add(Zstep, new List<GrifFile>());
+                        foreach (var image in Dz.GetDirectories()) {
+                            foreach (var Dmode in image.GetFiles()) {
+                                GrifFile grifFile = new GrifFile(Dmode.FullName);
+                                if (!DicOMs.ContainsKey(grifFile.OperatingMode))
+                                    DicOMs.Add(grifFile.OperatingMode, new ProjectFolder("Virtual") { Name = grifFile.OperatingModeString,CanReName =false });
+                                DicOMs[grifFile.OperatingMode].AddChild(grifFile);
 
-                    foreach (var image in Dz.GetDirectories())
-                    {
-                        foreach (var Dmode in image.GetFiles())
-                        {
-                            GrifFile grifFile = new GrifFile(Dmode.FullName);
-                            if (!DicOMs.ContainsKey(grifFile.OperatingMode))
-                                DicOMs.Add(grifFile.OperatingMode, new ProjectFolder("Virtual") { Name = grifFile.OperatingModeString });
-                            DicOMs[grifFile.OperatingMode].AddChild(grifFile);
+                                AllGrifChildren.Add(grifFile);
+                                Meta.DicPoints[point1].Add(grifFile);
+                                Meta.DicZ[Zstep].Add(grifFile);
 
-                            AllGrifChildren.Add(grifFile);
-                            Meta.DicPoints[point1].Add(grifFile);
-                            Meta.DicZ[Zstep].Add(grifFile);
+                                if (!Meta.DicOM.ContainsKey(grifFile.OperatingMode))
+                                    Meta.DicOM.Add(grifFile.OperatingMode, new List<GrifFile>());
+                                Meta.DicOM[grifFile.OperatingMode].Add(grifFile);
+                            }
 
-                            if (!Meta.DicOM.ContainsKey(grifFile.OperatingMode))
-                                Meta.DicOM.Add(grifFile.OperatingMode, new List<GrifFile>());
-                            Meta.DicOM[grifFile.OperatingMode].Add(grifFile);
                         }
-
+                        foreach (var Dmode1 in DicOMs)
+                            projectFolderDz.AddChild(Dmode1.Value);
+                        projectFolderDpoint.AddChild(projectFolderDz);
                     }
-                    foreach (var Dmode1 in DicOMs)
-                        projectFolderDz.AddChild(Dmode1.Value);
-                    projectFolderDpoint.AddChild(projectFolderDz);
+                    AddChild(projectFolderDpoint);
                 }
-                AddChild(projectFolderDpoint);
+                return true;
             }
+            catch {
+                return false;
+            }
+
 
         }
 
@@ -343,7 +319,6 @@ namespace XSolution
             }
         }
 
-        private string tempname;
         public override bool IsEditMode
         {
             get { return _IsEditMode; }
@@ -352,27 +327,21 @@ namespace XSolution
                 _IsEditMode = value;
                 if (!_IsEditMode)
                 {
-                    string oldpath = FullName;
-                    string newpath = oldpath.Substring(0, oldpath.LastIndexOf("\\") + 1) + Name;
+                    string newpath = FullName[..(FullName.LastIndexOf("\\") + 1)] + Name;
                     if (newpath != FullName)
                     {
-                        try
-                        {
+                        string oldpath = FullName;
+                        try {
                             Directory.Move(oldpath, newpath);
                             FullName = newpath;
-                            tempname = Name;
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show("文件名冲突" + ex.Message);
-                            Name = tempname;
+                            Name = DirectoryInfo.Name;
                             _IsEditMode = true;
                         }
                     }
-                }
-                else
-                {
-                    tempname = Name;
                 }
                 NotifyPropertyChanged();
             }

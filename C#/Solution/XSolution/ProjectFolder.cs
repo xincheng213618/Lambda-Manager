@@ -22,9 +22,6 @@ namespace XSolution
 
         public SolutionExplorer SolutionExplorer   { get => this.GetAncestor<SolutionExplorer>();   }
 
-        public ProjectFolder()
-        {
-        }
 
         public DirectoryInfo DirectoryInfo { get; set; }
 

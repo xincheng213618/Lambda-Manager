@@ -25,15 +25,13 @@ namespace XSolution
         public string[] SupportExtensions();
     };
 
-    public class ProjectFile : BaseObject, IProjectFile
-    {
+
+    public class ProjectFile : BaseObject, IProjectFile {
         /// <summary>
         /// 图标
         /// </summary>
         public ImageSource Icon { get =>_Icon; set { _Icon = value; NotifyPropertyChanged(); } }
         private ImageSource _Icon;
-
-
 
         /// <summary>
         /// 文件大小
@@ -45,24 +43,23 @@ namespace XSolution
         public RelayCommand AttributesCommand { get; set; }
 
 
-
         protected FileInfo FileInfo;
 
         /// <summary>
         /// 文件是否存在
         /// </summary>
-        public bool Exists { get => FileInfo.Exists; }
+        public bool IsExists { get => FileInfo.Exists; }
 
         public ProjectFile(string FullName) : base(FullName)
         {
             FileInfo = new FileInfo(FullName);
-            Name = Path.GetFileNameWithoutExtension(FileInfo.Name); ;
-            Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
-
-            OpenFileCommand = new RelayCommand((o)=>Process.Start("explorer.exe", FullName), (object value) => { return Exists; });
-            AttributesCommand = new RelayCommand((o) => FileProperties.ShowFileProperties(FullName) , (object value) => { return Exists; });
-
-            Task.Run(CalculSize);
+            Name = Path.GetFileNameWithoutExtension(FileInfo.Name); 
+            if (IsExists) {
+                Icon = FileIcon.GetFileIcon(FullName).ToImageSource();
+                Task.Run(CalculSize);
+            }
+            OpenFileCommand = new RelayCommand(a=>Process.Start("explorer.exe", FullName), a => IsExists);
+            AttributesCommand = new RelayCommand(a => FileProperties.ShowFileProperties(FullName) ,a=> IsExists);
         }
 
    

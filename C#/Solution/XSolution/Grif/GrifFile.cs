@@ -102,7 +102,6 @@ namespace XSolution
             {
                 this.OperatingMode = ConverOperatingMode(str);
             }
-
             ContextMenu = new ContextMenu();
             ContextMenu.Items.Add(new MenuItem() { Header = "打开(_O)", Command = OpenFileCommand, CommandParameter = this });
             ContextMenu.Items.Add(new MenuItem() { Header = "删除(_D)", Command = DeleteCommand, CommandParameter = this });
@@ -122,6 +121,8 @@ namespace XSolution
             ContextMenu.Items.Add(new MenuItem() { Header = "取消隐藏", Command = VisibilityUnHidden, CommandParameter = this });
             ContextMenu.Items.Add(new MenuItem() { Header = "属性(_R)" , Command = AttributesCommand ,CommandParameter =this});
         }
+
+
 
         #region Public Properties
         /// <summary>

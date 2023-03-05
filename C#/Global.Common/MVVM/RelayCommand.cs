@@ -12,7 +12,7 @@ namespace Global.Common
         public readonly Predicate<object> canExecute;
 
         //Func<object,bool> =>Predicate<object> ss
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute =null)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
         {
             this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute;

@@ -14,7 +14,6 @@ namespace XSolution
         public static SolutionGlobal GetInstance() { lock (_locker) { return _instance ??= new SolutionGlobal(); } }
 
 
-
         Dictionary<string[], Type> ProjectFileDic = new Dictionary<string[], Type>() { };
 
         List<Type> ProjectFileTypeList = new List<Type>();

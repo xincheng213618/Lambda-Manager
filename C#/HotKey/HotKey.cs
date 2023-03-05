@@ -18,6 +18,7 @@ namespace HotKey
     [Serializable]
     public class Hotkey
     {
+        
         #region static
         public readonly static Hotkey None = new Hotkey(Key.None,ModifierKeys.None);
         public static bool IsNullOrEmpty(Hotkey hotkey) => hotkey != null && hotkey != None;

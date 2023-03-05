@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0-preview.1.23110.8" />
-    <PackageReference Include="WPFMultiSelectTreeView" Version="1.0.14" />
   </ItemGroup>  
   
   

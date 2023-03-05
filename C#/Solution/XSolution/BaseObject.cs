@@ -14,18 +14,40 @@ using System.Xml.Linq;
 
 namespace XSolution
 {
-    /// <summary>
-    /// 工程文件的基础Object
-    /// 继承自ViewModeBase的
-    /// </summary>
-    public class BaseObject : DependencyObject, INotifyPropertyChanged, IComparable
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
+
+
+    public abstract class BObject: DependencyObject,INotifyPropertyChanged {
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// 触发消息通知事件
         /// </summary>
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public interface IFileInfo {
+        public FileInfo FileInfo { get; protected set; } 
+
+        public string Name { get; set; }
+    }
+
+
+    public interface BObjectOperations {
+        public abstract bool CanOpen { get; }
+        public abstract void Open();
+        public abstract bool CanCopy { get; }
+        public abstract void Copy();
+        public abstract bool CanReName { get; }
+        public abstract void ReName();
+        public abstract bool CanDelete { get; }
+        public abstract void Delete();
+    }
+
+    /// <summary>
+    /// 工程文件的基础Object
+    /// 继承自ViewModeBase的
+    /// </summary>
+    public class BaseObject : BObject, IComparable, BObjectOperations {
 
         /// <summary>
         /// 显示的子集
@@ -74,8 +96,6 @@ namespace XSolution
         public bool IsSelected { get => _IsSelected; set { _IsSelected = value; NotifyPropertyChanged(); } }
         private bool _IsSelected = false;
 
-        public bool IsMulSelected { get => _IsMulSelected; set { _IsMulSelected = value; NotifyPropertyChanged(); } }
-        private bool _IsMulSelected = false;
 
 
 
@@ -96,14 +116,6 @@ namespace XSolution
         public RelayCommand DeleteCommand { get; set; }
 
 
-
-        /// <summary>
-        /// 允许空构造
-        /// </summary>
-        public BaseObject() 
-        {
-
-        }
 
         public bool DeleteShowDialog = true;
 
@@ -144,7 +156,7 @@ namespace XSolution
 
         public virtual void AddChildDialog(object obj)
         {
-
+            
         }
 
 
@@ -189,22 +201,9 @@ namespace XSolution
             RemoveChildEventHandler?.Invoke(this, new EventArgs());
         }
 
-        /// <summary>
-        /// 是否允许重命名
-        /// </summary>
-        public virtual bool CanReName { get; set; } = true;
-
-        /// <summary>
-        /// 是否允许复制
-        /// </summary>
-        public virtual bool CanCopy  { get; set; } = false;
-
-        /// <summary>
-        /// 是否允许删除
-        /// </summary>
-        public virtual bool CanDelete { get; set; } = true;
 
 
+        public bool CanEditMode => CanReName;
 
 
         /// <summary>
@@ -212,8 +211,8 @@ namespace XSolution
         /// </summary>
         public virtual bool IsEditMode
         {
-            get { return _IsEditMode; }
-            set { _IsEditMode = value; NotifyPropertyChanged(); }
+            get { return CanEditMode && _IsEditMode; }
+            set { if (!CanEditMode) return;  _IsEditMode = value; NotifyPropertyChanged(); }
         }
         protected bool _IsEditMode = false;
 
@@ -248,6 +247,8 @@ namespace XSolution
                 NotifyPropertyChanged();
             }
         }
+
+
         protected string _FullName;
 
 
@@ -257,6 +258,36 @@ namespace XSolution
             else if (obj == this) return 0;
             else if (obj is BaseObject baseObject) return Global.Common.NativeMethods.Shlwapi.StrCmpLogicalW(Name, baseObject.Name);
             else return -1;
+        }
+        /// <summary>
+        /// 是否允许重命名
+        /// </summary>
+        public virtual bool CanReName { get; set; } = true;
+
+        /// <summary>
+        /// 是否允许复制
+        /// </summary>
+        public virtual bool CanCopy { get; set; } = false;
+
+        /// <summary>
+        /// 是否允许删除
+        /// </summary>
+        public virtual bool CanDelete { get; set; } = true;
+
+
+        public bool CanOpen { get; set; } = true;
+
+
+        public void Open() {
+            throw new NotImplementedException();
+        }
+
+        public void Copy() {
+            throw new NotImplementedException();
+        }
+
+        public void ReName() {
+            throw new NotImplementedException();
         }
     }
 
