@@ -1,30 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grid后台管理系统</title>
-    <style>
-        body {
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            text-align: center;
-            padding: 50px;
-        }
-    </style>
-</head>
-<body>
-<div>
-
-</div>
-
-<p>
-    <a href="/vendor" target="_self" style="color:#000000" rel="noopener noreferrer">代理商</a>
-</p>
-</p>
-</body>
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+  <h1>Index</h1>
+  <p class="important">
 
 
-</html>
+{% endblock %}

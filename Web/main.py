@@ -1,5 +1,5 @@
 import flask, json
-from flask import render_template, request, jsonify
+from flask import render_template,send_from_directory, request, jsonify
 
 import time
 
@@ -12,10 +12,18 @@ DB = 'grid'
 PORT = 3306
 CHARSET = 'utf8'
 
-import re
 # 创建一个服务，把当前这个python文件当做一个服务
 server = flask.Flask(__name__, static_folder='', static_url_path='')
 
+import re,os
+@server.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(server.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@server.route('/js/', methods=['get', 'post'])
+def my_list():
+    return 'list'
 
 @server.route('/Userlogin', methods=['post'])
 def Userlogin():
@@ -89,6 +97,10 @@ def register():
                            VALUES ('%s', '%s', '%s','%s',0)" % \
                           (name, legal_address, email_address, contact_number)
                     num = cursor.execute(sql)
+                    db.commit()
+
+                    sql = "SELECT * FROM  `user` WHERE `name` = '%s'" % (name);
+                    num = cursor.execute(sql)
                     result = cursor.fetchall();
                     print(result)
                     user_id = result[0][0]
@@ -96,7 +108,8 @@ def register():
                 else:
                     user_id = result[0][0]
 
-            except:
+            except Exception as e:
+                print(e.args)
                 resu = {'state': 1, 'message': "用戶信息格式不正确，请检查register_info"}
                 return jsonify(resu)  # 将字典转换为json串, json是字符串
 
@@ -156,7 +169,12 @@ def register():
 
         return jsonify(resu)
 
+def returnMsg(Msg=""):
 
+    if not Msg or Msg == "":
+        return jsonify({'state': 0, 'message': ''})
+    Msg =str(Msg)
+    return jsonify("{'state': 1, 'message': "+Msg+"}")
 @server.route('/unregister', methods=['post'])
 def unregister():
     sn = request.values.get('sn')
@@ -329,8 +347,15 @@ def checkregister():
         resu = {'state': 1, 'message': "数据库连接失败"}
     return jsonify(resu)  # 将字典转换为json串, json是字符串
 
+@server.route('/js/<id>')
+def js(id):
+    return send_from_directory(os.path.join(server.root_path, 'static/js'),id, as_attachment=True)
+@server.route('/css/<id>')
+def css(id):
+    return send_from_directory(os.path.join(server.root_path, 'static/css'),id, as_attachment=True)
 
 from webinterface import *
 if __name__ == '__main__':
+    server.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
     server.register_blueprint(web_interface, url_prefix='/web-interface')
     server.run(debug=True,port=18888, host='0.0.0.0',  ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));

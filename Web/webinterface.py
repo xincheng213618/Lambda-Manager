@@ -1,8 +1,5 @@
 from main import *
-from flask import  Blueprint,request
-
-
-
+from flask import Blueprint,request,jsonify
 
 @server.route('/', methods=['get'])
 def root():
@@ -12,6 +9,93 @@ def root():
 def generateSNCode():
     return render_template("generateSNCode.html")
 
+@server.route('/orderadd', methods=['get','POST'])
+def orderadd():
+    if request.method == 'GET':
+        return render_template("orderadd.html")
+    elif request.method == "POST":
+        vendor = request.values.get("vendor")
+        moudle = request.values.get("moudle")
+        payment = request.values.get("payment")
+        effectdate = request.values.get("effectdate")
+
+        if not payment:
+            payment = 0
+        try:
+            db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
+                                 use_unicode=True)
+            cursor = db.cursor()
+
+            sql = "SELECT `id`,`name` FROM `grid`.`vendor` WHERE `name` = '%s'" % (vendor);
+            num = cursor.execute(sql);
+            if (num == 0):
+                return returnMsg("找不到供应商，请重新输入或者注册")
+
+            vendor_id =  cursor.fetchall()[0][0]
+
+            sql = "SELECT `id`,`name` FROM `grid`.`charging-module` WHERE `name` = '%s'" % (moudle);
+            num = cursor.execute(sql);
+            if (num == 0):
+                return returnMsg("版本信息有误")
+
+            module_id = cursor.fetchall()[0][0]
+
+
+            effect_date = time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(effectdate, "%Y-%m-%d"))
+            sql = "INSERT INTO `grid`.`order` (`user_id`, `serial_id`, `payment`, `effect_date`, `expire_date`, `create_date`) VALUES (%s, %s, %s, '%s', '2023-03-02 18:51:50', '%s')"%(vendor_id,module_id,payment,effect_date,create_date);
+            print(sql)
+            num = cursor.execute(sql)
+            db.commit()
+            print(num)
+            if (num == 1):
+                return returnMsg()
+
+            else:
+                return returnMsg("插入失败")
+        except Exception as e:
+            print(e.args)
+            return returnMsg(e.args)
+
+
+
+
+def orderadd1(user_id,serial_id,payment,effect_date,expire_date):
+    create_date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    try:
+        db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
+                             use_unicode=True)
+        cursor = db.cursor()
+
+        sql = "INSERT INTO `grid`.`order` (`user_id`, `serial_id`, `payment`, `effect_date`, `expire_date`, `create_date`) VALUES (%s, %s, %s, '%s', '2023-03-02 18:51:50', '%s')" % (
+        user_id, serial_id, payment, effect_date, create_date);
+        print(sql)
+        num = cursor.execute(sql)
+        db.commit()
+        print(num)
+        if (num == 1):
+            return returnMsg()
+        else:
+            return returnMsg("插入失败")
+    except Exception as e:
+        return returnMsg(e.args)
+
+
+
+@server.route('/upload', methods=['get'])
+def upload():
+    return render_template("upload.html")
+
+import os
+@server.route('/uploader',methods=['GET','POST'])
+def uploader():
+    if request.method == 'POST':
+        f = request.files['file']
+        print(request.files)
+        f.save(f.filename)
+        return 'file uploaded successfully'
+
+    else:
+        return render_template('upload.html')
 
 @server.route('/manager', methods=['get'])
 def manager():
@@ -51,10 +135,9 @@ def GetRegion():
     return jsonify(resu)
 
 import uuid
-
+import  util.redistaic
 @server.route('/email_captcha/')
 def email_captcha():
-    print("22222")
     email = request.args.get('email')
     if not email:
         resu = {'code': 1, 'message': '请输入验证码'}
@@ -63,16 +146,59 @@ def email_captcha():
     生成随机验证码，保存到memcache中，然后发送验证码，与用户提交的验证码对比
     '''
     captcha = str(uuid.uuid1())[:6]  # 随机生成6位验证码
+
+    util.redistaic.SetValue(email,captcha)
+
     # 给用户提交的邮箱发送邮件
     try:
         smtp.receivers = email
-        smtp.sendmail('Grid邮箱验证码','您的验证码是：%s' % captcha)  # 发送
+        # smtp.sendmail('Grid邮箱验证码','您的验证码是：%s' % captcha)  # 发送
+        smtp.sendmail('Grid邮箱验证码','您的验证码是：http://127.0.0.1:18888/email_captcha_Vaild/%s?email=%s' % (captcha,email))  # 发送
         resu = {'code': 0, 'message': ''}
         return jsonify(resu)
     except Exception as e:
         resu = {'code': 1, 'message': e.args}
         return jsonify(resu)
-        return
+
+
+
+from werkzeug.routing import BaseConverter
+class RegexConverter(BaseConverter):
+    def __init__(self, url_map, *args):
+        super(RegexConverter, self).__init__(url_map)
+        self.url = url_map
+        self.regex = args[0]   # 正则的匹配规则
+
+    def to_python(self, value):
+        return value
+server.url_map.converters['reg'] = RegexConverter   # 注册url转换类
+@server.route('/email_captcha_Vaild/<reg(".*?"):captcha>',methods=['get'])
+def email_captcha_Vaild1(captcha):
+    print(captcha)
+    email = request.args.get('email')
+    if not email:
+        resu = {'code': 1, 'message':"请输入email"}
+        return jsonify(resu)
+    if captcha == util.redistaic.GetValue(email):
+        resu = {'code': 0, 'message':"验证通过"}
+        return jsonify(resu)
+    else:
+        resu = {'code': 1, 'message':"您输入的验证码有误"}
+        return jsonify(resu)
+
+@server.route('/email_captcha_Vaild',methods=['post'])
+def email_captcha_Vaild():
+    email = request.values.get('email')
+    captcha = request.values.get('captcha')
+    if captcha == util.redistaic.GetValue(email):
+        resu = {'code': 0, 'message':"验证通过"}
+        return jsonify(resu)
+    else:
+        resu = {'code': 1, 'message':"您输入的验证码有误"}
+        return jsonify(resu)
+
+
+
 
 
 @server.route('/getModule', methods=['get'])
@@ -112,8 +238,16 @@ def GeneraSNCode():
     vendor_id = cursor.fetchall()[0][0]
     sn = ''.join(random.sample(string.ascii_letters + string.digits, 24)).upper()
 
-    sql = "INSERT INTO `grid`.`serial-number` (`sn`, `vendor_id`, `module_id`, `effect_months`,`create_date` ) VALUES ('%s', %s, 1, '%s','%s')" % (
-    sn, vendor_id, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+    sql = "SELECT `id`,`name` FROM `grid`.`charging-module` WHERE `name` = '%s'" % (moudle);
+    num = cursor.execute(sql);
+    if (num == 0):
+        resu = {'state': 1, 'message': '找不到供应商，请重新输入或者注册'}
+        return jsonify(resu)
+
+    module_id = cursor.fetchall()[0][0]
+
+    sql = "INSERT INTO `grid`.`serial-number` (`sn`, `vendor_id`, `module_id`, `effect_months`,`create_date` ) VALUES ('%s', %s, %s, '%s','%s')" % (
+    sn, vendor_id, module_id,time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()));
     print(sql)
     num = cursor.execute(sql);
@@ -189,5 +323,4 @@ def sendsmtp():
 web_interface = Blueprint("web-interface", __name__)
 @web_interface.route('/Userlogin1', methods=['get'])
 def Userlogin1():
-    print("Aaaa")
     return jsonify({'state': 0, 'message': '', 'userid': 0});

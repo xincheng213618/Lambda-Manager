@@ -26,9 +26,45 @@ using System.Net;
 using System.Text;
 using System.Runtime.InteropServices;
 using Global.SettingUp.Menu;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace Solution
 {
+
+    public interface ITranslator {
+        string Translate(string text);
+    }
+    [Export(typeof(ITranslator))]
+    public class GoogleTranslator : ITranslator {
+        public string Translate(string text) {
+            // Here, I would connect to Google translate and do the work.
+            return "Translated by Google Translator";
+        }
+    }
+    [Export(typeof(ITranslator))]
+    public class BingTranslator : ITranslator {
+        public string Translate(string text) {
+            return "Translated by Bing";
+        }
+    }
+    
+    public class GeneralController  {
+
+        [ImportingConstructor]
+        public GeneralController([ImportMany] IEnumerable<ITranslator> Translator) {
+            this.Translator = Translator;
+
+        }
+        public IEnumerable<ITranslator> Translator { get; set; }
+
+        public string Translate(string text) {
+            return "2222";
+        }
+    }
+
 
     /// <summary>
     /// TreeViewControl.xaml 的交互逻辑
@@ -44,6 +80,17 @@ namespace Solution
             InitializeComponent();
             IniCommand();
             this.DataContext = SoftwareConfig.SolutionSetting;
+
+            //AggregateCatalog catalog = new AggregateCatalog();
+
+            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(TreeViewControl).Assembly));
+            //CompositionContainer _container = new CompositionContainer(catalog);
+            //GeneralController generalController = new GeneralController();
+            //_container.ComposeParts(this);
+            //_container.ComposeParts(generalController);
+            //_container.SatisfyImportsOnce(generalController);
+
+
         }
 
         [MenuAttribute(Headers = "Test")]

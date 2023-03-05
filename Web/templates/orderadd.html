@@ -1,10 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="demo form-bg">
+    <div id="app" class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6">
+                    <form class="form-horizontal">
+                        <span class="heading">添加订单</span>
+                        <div class="form-group">
+                            <input class="form-control" id="input1" list="browsers" autocomplete="on"
+                                   placeholder="分销商名称">
+                            <datalist id="browsers">
+                            </datalist>
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div class="form-group">
+                            <select v-model="key" @change="onChange($event)" class="form-control" id="moudleSelect">
+                                <option disabled value="">请选择</option>
+                                <option>基础版</option>
+                                <option>算法模块加强版</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="input2" placeholder="金额">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div id="divtime" class="form-group">
+                            <input class="form-control" id="input3"  v-on:change="signalChange" type="date" min="2022-03-02" max="2050-12-31" placeholder="有效期信息">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div id="localapp" class="form-group" align="center">
+                            <input id="inputsubmit"  type="submit" @click="submit($event)" value="提交" disabled="disabled" class="btn btn-default"></input>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var datalist = document.getElementById("browsers");
+        console.log(datalist)
+        getRegionurl = "/getRegion"
+        axios.get(getRegionurl)
+            .then(function (response) {
+                for (var o in response.data.list) {
+                    var option = document.createElement("option");
+                    option.text = response.data.list[o]
+                    console.log(option)
+                    datalist.appendChild(option);
+                }
+            })
+    }
+
+new Vue({
+    el:"#app",
+    methods:{
+     signalChange: function(evt){
+         var  inputsubmit =document.getElementById("inputsubmit")
+         inputsubmit.disabled ="";
+         this.$emit("change", evt)},
+        submit:function (event){
+             event.preventDefault();
+            var vendor =document.getElementById("input1");
+            var moudle =document.getElementById("moudleSelect");
+            var payment =document.getElementById("input2");
+            var effectdata =document.getElementById("input3");
+
+            var postforms = new FormData();
+            postforms.append("vendor", vendor.value)
+            postforms.append("moudle", moudle.value)
+            postforms.append("payment", payment.value)
+            postforms.append("effectdate", effectdata.value)
+
+            url = "/orderadd"
+            axios.post(url, postforms).then(response => {
+                    if (response.data.state==0)
+                        alert("插入成功")
+            })
+
+
+
+        }
+
+
+    }
+})
+
+</script>
+
+
+
+{% endblock %}

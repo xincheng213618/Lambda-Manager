@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="shortcut icon"  href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    {% block head %}
+        <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/zzsc.css">
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            -webkit-tap-highlight-color: rgba(18, 18, 18, 0);
+        }
+
+        #page {
+            min-heigth: 100%;
+            postion: relative;
+            -webkit-tap-highlight-color: rgba(18, 18, 18, 0);
+        }
+
+
+
+        #header {
+            position: fixed;
+            height: 4rem;
+            width: 100%;
+            right: 0;
+            top: 0;
+            z-index: 999;
+            background-color: #FFFFFF;
+            text-align: center;
+        }
+
+        .AppHeader {
+            -webkit-box-shadow: 0 1px 3px hsl(0deg 0% 7% / 10%);
+            box-shadow: 0 1px 3px hsl(0deg 0% 7% / 10%);
+        }
+
+        #footer {
+            max-width: 640px;
+            min-width: 320px;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            background-color: #ffffff;
+        }
+
+        #content {
+            padding-bottom: 30px;
+            padding-top: 60px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="page">
+    <div id="header" class="AppHeader" >
+        <a href="/" target="_self" style="color:#000000">目录</a>
+        <a href="/generateSNCode" target="_self" style="color:#000000">生成序列号</a>
+        <a href="/vendoradd" target="_self" style="color:#000000" rel="noopener noreferrer">添加代理商</a>
+        <a href="/vendorlogin" target="_self" style="color:#000000" rel="noopener noreferrer">代理商管理序列号页面</a>
+        <a href="/upload" target="_self" style="color:#000000" rel="noopener noreferrer">模块上传页面</a>
+        <a href="/orderadd" target="_self" style="color:#000000"
+           rel="noopener noreferrer">付费记录统计添加页面</a>
+        <a href="/generateSNCode" target="_self" style="color:#000000" rel="noopener noreferrer">付费记录导出统计 </a>
+        <a href="/generateSNCode" target="_self" style="color:#000000" rel="noopener noreferrer">管理员登录 </a>
+    </div>
+        <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

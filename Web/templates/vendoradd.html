@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
+{% extends "layout.html" %}
+
+{% block head %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -155,8 +155,9 @@
         }
 
     </style>
-</head>
-<body>
+{% endblock  %}
+{% block content %}
+
 <div class="demo form-bg">
     <div class="main">
             <div class="container" >
@@ -177,14 +178,13 @@
                                class="btn btn-default"></input>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" id="input3"  autocomplete="on"
-                               placeholder="邮箱地址">
+                        <input class="form-control" id="in_email"  autocomplete="on" placeholder="邮箱地址">
                     </div>
                     <div id="div_email_code">
-                        <input type="text" name="email_code" id="email_code" placeholder="邮箱验证码"/>
+                        <input type="text" name="email_code" id="in_captcha" placeholder="邮箱验证码"/>
                         <input id="box3" type="button" type="submit" @click="sendemailcode()" value="发送验证码"
                                class="btn btn-default"/>
-                        <input id="box4" type="button" type="submit" @click="sendemailcode()" value="验证"
+                        <input id="box4" type="button" type="submit" @click="validation()" value="验证"
                                   class="btn btn-default"/>
                     </div>
 
@@ -201,26 +201,41 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript">
+
+
+
 new Vue({
-    el:"#box3",
+    el:"#div_email_code",
     methods:{
         sendemailcode:function (){
-            var input3 = document.getElementById("input3");
-                if(input3.value ==""){
+            var in_email = document.getElementById("in_email");
+                if(in_email.value ==""){
                     alert("请输入正确的Email地址")
                     return;
                 }
                 url ="/email_captcha"
-                axios.get(url +"?email="+ input3.value).then(response => {
+                axios.get(url +"?email="+ in_email.value).then(response => {
                                     alert("发送成功")
                 })
-
-
-
+        },
+        validation:function (){
+            var in_email = document.getElementById("in_email");
+            var in_captcha = document.getElementById("in_captcha");
+                var postforms = new FormData();
+                postforms.append("email", in_email.value)
+                postforms.append("captcha", in_captcha.value)
+                url ="/email_captcha_Vaild"
+                axios.post(url,postforms).then(response => {
+                    if (response.data.statue==0)
+                        alert("插入成功")
+                })
 
         }
+
+
     }
 })
+
+
 </script>
-</body>
-</html>
+{% endblock  %}

@@ -1,14 +1,17 @@
+{% extends "layout.html" %}
+
 <!DOCTYPE html>
 <html lang="zh">
-<head>
+{% block head %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grid序列号生成页面-南京理工大学智能成像研究院有限责任公司</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/zzsc.css">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/zzsc.css">
     <style type="text/css">
+
         .form-bg {
             padding: 2em 0;
         }
@@ -149,14 +152,17 @@
             .form-horizontal .form-group i {
                 left: 45px;
             }
+
             .form-horizontal .btn {
                 padding: 5px 100px;
             }
         }
 
     </style>
-</head>
+{% endblock %}
+
 <body>
+{% block content %}
 <div class="demo form-bg">
     <div class="main">
             <div class="container" >
@@ -319,5 +325,9 @@
         }
     })
 </script>
+
+
+{% endblock %}
+
 </body>
 </html>

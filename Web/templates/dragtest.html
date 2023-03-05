@@ -37,18 +37,20 @@
     <div class="src">
         <div class="dragabled">
             <div class="txt" id="txt">
+                <p draggable="true">SSSSSSSS</p>
                 所有的文字都可拖拽。
                 <p draggable="true">此段文字设置了属性draggable="true"</p>
             </div>
             <div class="url" id="url">
                 <a href="http://weiqinl.com" target="_blank">我是url:http://weiqinl.com</a>
             </div>
-            <img class="img" id="tupian1" src="img1.png" alt="图片1" />
-            <img class="img" id="tupian2" src="img2.png" alt="图片2" />
+            <img class="img" id="tupian1" src="static/img/hue.png" alt="图片1" />
+            <img class="img" id="tupian2" src="static/img/hue.png" alt="图片2" />
         </div>
         <div id='target' class="dropabled target">Drop Here</div>
     </div>
     <script>
+
         var dragSrc = document.getElementById('txt')
         var target = document.getElementById('target')
 
@@ -72,7 +74,6 @@
         target.ondragenter = handle_enter
         target.ondragover = handle_over
         target.ondragleave = handle_leave
-
         target.ondrop = handle_drop
 
         function handle_enter(e) {
