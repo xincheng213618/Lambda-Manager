@@ -269,8 +269,6 @@ namespace Solution
                 Grid grid = new Grid();
                 tabItem.Content = grid;
                 grid.Children.Add(scrollViewer);
-                stackPanel.Children.Remove(this);
-                grid.Children.Add(this);
 
                 Viewbox viewbox1 = new Viewbox() { Child = SoulutionButtonPanel1, VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
                 viewbox1.SetBinding(Viewbox.HeightProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualHeight") });
@@ -687,6 +685,7 @@ namespace Solution
         {
             HandyControl.Controls.Growl.Info("此功能在测试中");
         }
+
 
 
     }
