@@ -230,8 +230,10 @@ namespace XSolution
         public string Name
         {
             get { return _Name; }
-            set { _Name = value;  NotifyPropertyChanged();}
+            set { _Name = value; 
+                NotifyPropertyChanged();}
         }
+
         protected string _Name;
 
 
@@ -278,15 +280,15 @@ namespace XSolution
         public bool CanOpen { get; set; } = true;
 
 
-        public void Open() {
+        public virtual void Open() {
             throw new NotImplementedException();
         }
 
-        public void Copy() {
+        public virtual void Copy() {
             throw new NotImplementedException();
         }
 
-        public void ReName() {
+        public virtual void ReName() {
             throw new NotImplementedException();
         }
     }

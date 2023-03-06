@@ -193,6 +193,7 @@ namespace XSolution
                 NotifyPropertyChanged();
             }
         }
+        
 
 
         private void OnAddNewProject(object value)

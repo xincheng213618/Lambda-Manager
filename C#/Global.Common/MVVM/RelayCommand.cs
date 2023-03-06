@@ -8,17 +8,17 @@ namespace Global.Common
     /// </summary>
     public sealed class RelayCommand : ICommand
     {
-        public readonly Action<object> execute;
-        public readonly Predicate<object> canExecute;
+        public readonly Action<object> Execute;
+        public readonly Predicate<object> CanExecute;
 
         //Func<object,bool> =>Predicate<object> ss
         public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
         {
-            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.canExecute = canExecute;
+            this.Execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this.CanExecute = canExecute;
         }
 
-        bool ICommand.CanExecute(object? parameter) => canExecute is null || canExecute(parameter);
+        bool ICommand.CanExecute(object? parameter) => CanExecute is null || CanExecute(parameter);
 
         event EventHandler? ICommand.CanExecuteChanged
         {
@@ -26,6 +26,6 @@ namespace Global.Common
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-         void ICommand.Execute(object? parameter) => execute(parameter);
+         void ICommand.Execute(object? parameter) => Execute(parameter);
     }
 }

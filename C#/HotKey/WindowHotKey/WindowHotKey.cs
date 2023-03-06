@@ -27,7 +27,7 @@ namespace HotKey.WindowHotKey
             {
                 control.PreviewKeyUp += (s,e)=> 
                 {
-                    e.Handled = true;
+                    //e.Handled = true;
                     ModifierKeys modifiers = Keyboard.Modifiers;
                     if (Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
                         modifiers |= ModifierKeys.Windows;

@@ -16,7 +16,7 @@ namespace Solution
         private void IniCommand()
         {
             ApplicationCommands.Delete.InputGestures.Add(new KeyGesture(Key.Delete, ModifierKeys.None, "Del"));
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, this.ExecutedCommand, this.CanExecuteCommand));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, this.ExecutedCommand, (s,e) => { if (e.Parameter is BaseObject baseObject) e.CanExecute = false; }));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, this.ExecutedCommand, this.CanExecuteCommand));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, this.ExecutedCommand, this.CanExecuteCommand));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, this.ExecutedCommand, this.CanExecuteCommand));

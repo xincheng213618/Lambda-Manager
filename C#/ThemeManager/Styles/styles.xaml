@@ -2287,10 +2287,7 @@
                                               IsChecked="{Binding Path=IsExpanded,
                                     RelativeSource={RelativeSource TemplatedParent}}"
                                               ClickMode="Press"/>
-                                <ContentPresenter Grid.Column="1" x:Name="PART_Header"  ContentSource="Header" />
-
-
-
+                                <ContentPresenter Grid.Column="1" x:Name="PART_Header"  ContentSource="Header"  />
                             </Grid>
                         </Border>
                         <ItemsPresenter x:Name="ItemsHost"/>

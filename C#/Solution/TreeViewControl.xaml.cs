@@ -265,12 +265,12 @@ namespace Solution
                 AddMenu();
                 tabItem.AllowDrop = true;
                 tabItem.Drop += TreeViewControl_Drop;
-
-                HeaderStackPanel.Children.Remove(SoulutionButtonPanel1);
+                ((Panel)SoulutionButtonPanel1.Parent).Children.Remove(SoulutionButtonPanel1);
                 Grid grid = new Grid();
                 tabItem.Content = grid;
                 grid.Children.Add(scrollViewer);
-
+                stackPanel.Children.Remove(this);
+                grid.Children.Add(this);
 
                 Viewbox viewbox1 = new Viewbox() { Child = SoulutionButtonPanel1, VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
                 viewbox1.SetBinding(Viewbox.HeightProperty, new Binding() { Source = viewbox, Path = new PropertyPath("ActualHeight") });
@@ -464,7 +464,7 @@ namespace Solution
                     //这里因为考虑到和lambda接轨，所以暂时不拆出来，合并类和基类的扩展中
                     if (item.DataContext is GrifFile grifFile)
                     {
-                        grifFile.OpenFileCommand.execute(grifFile);
+                        grifFile.OpenFileCommand.Execute(grifFile);
                     }
                     else if (item.DataContext is ProjectFile projectFile1)
                     {
@@ -472,10 +472,7 @@ namespace Solution
                     }
                     if (item.DataContext is SeriesProjectManager seriesProjectManager1)
                     {
-                        LambdaControl.Trigger("CLOSE_OPEN_SERIAL", this, new Dictionary<string, object>() { });
-                        await Task.Delay(300);
-                        LambdaControl.Trigger("seriesProjectManager", this, seriesProjectManager1.FullName);
-                        LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
+                        seriesProjectManager1.OpenCommand.Execute(seriesProjectManager1);
                     }
                 }
             }
@@ -690,7 +687,6 @@ namespace Solution
         {
             HandyControl.Controls.Growl.Info("此功能在测试中");
         }
-
 
 
     }

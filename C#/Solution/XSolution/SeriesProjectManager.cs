@@ -13,6 +13,8 @@ using Tool;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Animation;
 using XSolution.SeriesProject;
+using Global.SettingUp.Mode.Hardware;
+using Lambda;
 
 namespace XSolution
 {
@@ -88,6 +90,8 @@ namespace XSolution
         public RelayCommand ExportAsPNGCommand { get; set; }
         public RelayCommand ExportAsBMPCommand { get; set; }
 
+        public RelayCommand OpenCommand { get; set; }
+
 
         public SeriesProjectManager(string SeriesFolderPath) : base(SeriesFolderPath)
         {
@@ -101,7 +105,7 @@ namespace XSolution
             ExportAsJPEGCommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.jpeg).ShowDialog(), a => CanExport);
             ExportAsPNGCommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.png).ShowDialog(), a => CanExport);
             ExportAsBMPCommand = new RelayCommand(a => new SeriesExportAsWindow(this, SeriesExportKinds.bmp).ShowDialog(), a => CanExport);
-
+            OpenCommand = new RelayCommand(a => Open());
             CanExport = true;
 
             watcher = new FileSystemWatcher(SeriesFolderPath)
@@ -114,6 +118,14 @@ namespace XSolution
             watcher.Renamed += Watcher_Renamed;
             watcher.EnableRaisingEvents = true;
             Task.Run(CalculSize);
+        }
+
+        public override async void Open() {
+
+            LambdaControl.Trigger("CLOSE_OPEN_SERIAL", this, new Dictionary<string, object>() { });
+            await Task.Delay(300);
+            LambdaControl.Trigger("seriesProjectManager", this, FullName);
+            LambdaControl.Trigger("PREVIEW_CLOSE", this, new Dictionary<string, object>() { });
         }
 
         public bool CanExport { get; set; }

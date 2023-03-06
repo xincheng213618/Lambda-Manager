@@ -24,8 +24,8 @@ namespace Solution
 
         RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
 
-        public ObservableCollection<SoulutionInfo> SoulutionInfos = new ObservableCollection<SoulutionInfo>();
-        public ObservableCollection<SoulutionInfo> SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>();
+        public ObservableCollection<SoulutionInfo> SoulutionInfos { get; set; }= new ObservableCollection<SoulutionInfo>();
+        public ObservableCollection<SoulutionInfo> SoulutionInfosShow { get; set; }
 
         private void BaseWindow_Initialized(object sender, EventArgs e)
         {
@@ -37,8 +37,8 @@ namespace Solution
                     SoulutionInfos.Add(new SoulutionInfo() { Name = fileInfo.Name, FullName = fileInfo.FullName, CreationTime = fileInfo.CreationTime.ToString("yyyy/MM/dd H:mm") });
                 }
             }
-            SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>(SoulutionInfos);
-            ListView1.ItemsSource = SoulutionInfosCopy;
+            SoulutionInfosShow = new ObservableCollection<SoulutionInfo>(SoulutionInfos);
+            ListView1.ItemsSource = SoulutionInfosShow;
 
         }
 
@@ -82,10 +82,10 @@ namespace Solution
             if (sender is Button button&& button.Tag is SoulutionInfo soulutioninfo)
             {
                 SoulutionInfos.Remove(soulutioninfo);
-                SoulutionInfosCopy.Remove(soulutioninfo);
+                SoulutionInfosShow.Remove(soulutioninfo);
                 recentFileList.RemoveFile(soulutioninfo.FullName);
 
-                if (!string.IsNullOrEmpty(Searchbox.Text)&&SoulutionInfosCopy.Count == 0)
+                if (!string.IsNullOrEmpty(Searchbox.Text)&&SoulutionInfosShow.Count == 0)
                 {
                     SearchNoneText.Visibility = Visibility.Visible;
                     SearchNoneText.Text = "未找到" + Searchbox.Text + "相关项目";
@@ -111,14 +111,14 @@ namespace Solution
             }
             else
             {
-                SoulutionInfosCopy = new ObservableCollection<SoulutionInfo>();
+                SoulutionInfosShow = new ObservableCollection<SoulutionInfo>();
                 foreach (var item in SoulutionInfos)
                 {
                     if (item.FullName.Contains(textBox.Text))
-                        SoulutionInfosCopy.Add(item);
+                        SoulutionInfosShow.Add(item);
                 }
-                ListView1.ItemsSource = SoulutionInfosCopy;
-                if (SoulutionInfosCopy.Count == 0)
+                ListView1.ItemsSource = SoulutionInfosShow;
+                if (SoulutionInfosShow.Count == 0)
                 {
                     SearchNoneText.Visibility = Visibility.Visible;
                     SearchNoneText.Text = "未找到" + textBox.Text + "相关项目";

@@ -33,5 +33,10 @@ namespace Solution
                 }
             }
         }
+        private void TreeViewItem_Initialized(object sender, EventArgs e) {
+            if (sender is StackPanel stackPanel && stackPanel.Parent is Grid grid) {
+                grid.ContextMenu = stackPanel.ContextMenu;
+            }
+        }
     }
 }

@@ -65,7 +65,7 @@
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:SeriesProjectManager}" ItemsSource="{Binding VisualChildren}" >
-        <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
+        <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}" Loaded="TreeViewItem_Initialized"  >
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="/Solution;component/images/图片2.png" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
@@ -74,6 +74,7 @@
             </TextBlock>
             <StackPanel.ContextMenu>
                 <ContextMenu >
+                    <MenuItem Header="打开(_O)" Command="{Binding OpenCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="删除(_D)" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="重命名(_M)" Command="{x:Static XSolution:Commands.ReName}" CommandParameter="{Binding .}"/>
                     <MenuItem Header="复制(_Y)" Command="{x:Static ApplicationCommands.Copy}" CommandParameter="{Binding .}" />
@@ -136,7 +137,7 @@
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-        <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}">
+        <StackPanel Background="Red" Style="{StaticResource style_treeViewItem_panel}" ContextMenu="{Binding ContextMenu}">
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
