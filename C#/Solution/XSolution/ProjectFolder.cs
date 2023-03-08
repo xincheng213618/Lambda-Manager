@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -204,8 +205,8 @@ namespace XSolution
 
             VisualChildren.Remove(baseObject);
             base.RemoveChild(baseObject);
-
         }
+
         public override int CompareTo(object obj)
         {
             if (obj == null) return -1;

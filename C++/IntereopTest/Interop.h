@@ -273,4 +273,4 @@ struct Cellinfo
 	double Roundness;
 };
 
-extern "C" INTEROP_API int CellinfoTest(std::vector<Cellinfo>*Cellinfos);
+extern "C" INTEROP_API int CellinfoTest(Cellinfo* Cellinfos);

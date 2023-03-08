@@ -6,6 +6,7 @@ from flask import  url_for
 import webinterface
 if __name__ == '__main__':
     server.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
-
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        print("test")
     server.register_blueprint(web_interface, url_prefix='/web-interface')
     server.run(debug=True, port=18888, host='0.0.0.0');

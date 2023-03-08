@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+
+{% block head %}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,12 +15,8 @@
             padding: 50px;
         }
     </style>
-</head>
-<body>
-<div>
-
-</div>
-
+{% endblock %}
+{% block content %}
 <p>
     <a href="/generateSNCode" target="_self" style="color:#000000" >生成序列号</a>
 </p>
@@ -40,7 +37,6 @@
 </p>
     <a href="/generateSNCode" target="_self" style="color:#000000" rel="noopener noreferrer">管理员登录 </a>
 <p>
-</body>
 
 
-</html>
+{% endblock %}

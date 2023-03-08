@@ -494,6 +494,14 @@
 			</action>
 		</procedure>
 
+		<procedure name="CellinfoTest" event="CellinfoTest" arg="Cellinfos">
+			<action name="CellinfoTest">
+				<input name="Cellinfos" type="handle"/>
+			</action>
+		</procedure>
+
+		
+
 		<procedure name="UpdateDisplayMode" event="NATIVE_UPDATE_DISPLAY_MODE">
 			<action name="UpdateDisplayMode">
 			</action>
@@ -524,6 +532,7 @@
 			<action name="Test304"/>
 			<action name="Test305" async="true"/>
 		</procedure>
+
 	</component>
 
 
@@ -531,12 +540,13 @@
 		<procedure name="start">
 			<action name="UpdateStageInformation"/>
 		</procedure>
+		
 	</component>
 
 	<component name="Event object is array" lib="lib\InteropTest.dll" >
 
 	</component>
-	<component name="CUDA" lib="lib/CUDA.dll">
+	<!--<component name="CUDA" lib="lib/CUDA.dll">
 		<procedure name="FFTCUDA_img" event="FFTCUDA_img">
 			<action name="FFTCUDA_img">
 			</action>
@@ -559,7 +569,7 @@
 			<action name="NativeTestCudaTime" >
 			</action>
 		</procedure>
-	</component>
+	</component>-->
 	
 	
 	<!--<component name="CUDAPhaseToPC" lib="lib/CUDAPhaseToPC.dll">

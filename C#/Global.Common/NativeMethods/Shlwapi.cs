@@ -9,7 +9,7 @@ namespace Global.Common.NativeMethods
 {
     public static class Shlwapi
     {
-        [System.Runtime.InteropServices.DllImport("Shlwapi.dll", CharSet = CharSet.Unicode)]
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode)]
         public static extern int StrCmpLogicalW(string param1, string param2);
 
     }

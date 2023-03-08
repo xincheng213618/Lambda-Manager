@@ -132,7 +132,8 @@ namespace Grid
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
 
 
-            await Task.Delay(60000);
+            //await Task.Delay(60000);
+            await Task.Delay(1000);
             App.Current.MainWindow.Close();
             Close();
         }

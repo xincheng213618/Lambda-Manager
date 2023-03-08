@@ -687,18 +687,10 @@ struct Cellinfo
 
 int test() {
 
-	std::vector<Cellinfo> Cellinfos;
-
-	Cellinfos.push_back({ 1,1,1,2222,4444,5555 });
-	Cellinfos.push_back({ 1,2,1,2222,4444,5555 });
+	Cellinfo Cellinfos{ 1,1,1,2222,4444,5555 };
 
 	Event::Trigger("CellinfoTest", &Cellinfos);
-}
-
-
-#include "Customfile.h"
-GrifFile ReadFileInfo(char* FilePath) {
-	return ReadFileHeader(FilePath);
+	return 0;
 }
 
 CAMERA_API int GrifExportAs(char* GrifExportAsJson)
@@ -713,6 +705,7 @@ bool IsCameraConnection = false;
 bool IsStageConnection = true;
 bool IsLightConnection = false;
 int VideoTest() {
+	test();
 	IsCameraConnection = !IsCameraConnection;
 	IsStageConnection = !IsStageConnection;
 	IsLightConnection = !IsLightConnection;
@@ -825,12 +818,12 @@ int CameraSettingExposure(int mode,double exposure)
 	j["y"] = std::to_string(y);
 	Event::Trigger("UPDATE_STAGE_MOVE", &j);
 	a++;
-	std::vector<Cellinfo> Cellinfos;
+	//std::vector<Cellinfo> Cellinfos;
 
-	Cellinfos.push_back({ 1,1,1,2222,4444,5555 });
-	Cellinfos.push_back({ 1,2,1,2222,4444,5555 });
+	//Cellinfos.push_back({ 1,1,1,2222,4444,5555 });
+	//Cellinfos.push_back({ 1,2,1,2222,4444,5555 });
 
-	Event::Trigger("CellinfoTest", &Cellinfos);
+	//Event::Trigger("CellinfoTest", &Cellinfos);
 	
 
 

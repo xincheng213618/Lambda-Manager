@@ -42,7 +42,8 @@ def orderadd():
 
 
             effect_date = time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(effectdate, "%Y-%m-%d"))
-            sql = "INSERT INTO `grid`.`order` (`user_id`, `serial_id`, `payment`, `effect_date`, `expire_date`, `create_date`) VALUES (%s, %s, %s, '%s', '2023-03-02 18:51:50', '%s')"%(vendor_id,module_id,payment,effect_date,create_date);
+            expire_date = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime("2038-01-01", "%Y-%m-%d"))
+            sql = "INSERT INTO `grid`.`order` (`user_id`, `serial_id`, `payment`, `effect_date`, `expire_date`, `create_date`) VALUES (%s, %s, %s, '%s', '%s', '%s')"%(vendor_id,module_id,payment,effect_date,expire_date,create_date);
             print(sql)
             num = cursor.execute(sql)
             db.commit()
@@ -246,9 +247,10 @@ def GeneraSNCode():
 
     module_id = cursor.fetchall()[0][0]
 
+    expire_date = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime("2038-01-01", "%Y-%m-%d"))
+    create_date =time.strftime("%Y-%m-%d %H:%M:%S", time.localtime());
     sql = "INSERT INTO `grid`.`serial-number` (`sn`, `vendor_id`, `module_id`, `effect_months`,`create_date` ) VALUES ('%s', %s, %s, '%s','%s')" % (
-    sn, vendor_id, module_id,time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()));
+    sn, vendor_id, module_id,expire_date,create_date );
     print(sql)
     num = cursor.execute(sql);
     db.commit()
