@@ -263,7 +263,7 @@ extern "C" INTEROP_API int Test303();
 extern "C" INTEROP_API int Test304();
 extern "C" INTEROP_API int Test305();
 
-struct Cellinfo
+typedef struct Cellinfo
 {
 	int ID;
 	double PointX;
@@ -271,6 +271,6 @@ struct Cellinfo
 	double Areas;
 	double Perimeter;
 	double Roundness;
-};
+}Cellinfo;
 
 extern "C" INTEROP_API int CellinfoTest(Cellinfo* Cellinfos);

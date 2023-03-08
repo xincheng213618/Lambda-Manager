@@ -674,7 +674,7 @@ int SleepTest() {
 #include <imgproc/types_c.h>
 
 
-struct Cellinfo
+typedef struct Cellinfo
 {
 	int ID;
 	double PointX;
@@ -682,7 +682,7 @@ struct Cellinfo
 	double Areas;
 	double Perimeter;
 	double Roundness;
-};
+}Cellinfo;
 
 
 int test() {
