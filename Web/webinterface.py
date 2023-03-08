@@ -247,7 +247,8 @@ def GeneraSNCode():
 
     module_id = cursor.fetchall()[0][0]
 
-    if (module_id==0)
+    if (module_id==0):
+        expire_date = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime("2050-01-01", "%Y-%m-%d"))
     expire_date = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime("2050-01-01", "%Y-%m-%d"))
     create_date =time.strftime("%Y-%m-%d %H:%M:%S", time.localtime());
     sql = "INSERT INTO `grid`.`serial-number` (`sn`, `vendor_id`, `module_id`, `effect_months`,`create_date` ) VALUES ('%s', %s, %s, '%s','%s')" % (

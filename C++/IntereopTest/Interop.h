@@ -273,4 +273,4 @@ typedef struct Cellinfo
 	double Roundness;
 }Cellinfo;
 
-extern "C" INTEROP_API int CellinfoTest(Cellinfo* Cellinfos);
+extern "C" INTEROP_API int CellinfoTest(Cellinfo& Cellinfos);

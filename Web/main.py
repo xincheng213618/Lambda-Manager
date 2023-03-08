@@ -13,7 +13,7 @@ PORT = 3306
 CHARSET = 'utf8'
 
 # 创建一个服务，把当前这个python文件当做一个服务
-app = flask.Flask(__name__, static_folder='', static_url_path='')
+app = flask.Flask(__name__)
 
 import re,os
 @app.route('/favicon.ico')
@@ -354,8 +354,10 @@ def js(id):
 def css(id):
     return send_from_directory(os.path.join(app.root_path, 'static/css'), id, as_attachment=True)
 
+from applications import add_app
 from webinterface import *
 if __name__ == '__main__':
     app.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
     app.register_blueprint(web_interface, url_prefix='/web-interface')
+    add_app(app)
     app.run(debug=True, port=18888, host='0.0.0.0', ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));
