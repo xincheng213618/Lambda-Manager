@@ -1,15 +1,15 @@
 from main import *
 from flask import Blueprint,request,jsonify
 
-@server.route('/', methods=['get'])
+@app.route('/', methods=['get'])
 def root():
     return render_template("index.html")
 
-@server.route('/generateSNCode', methods=['get'])
+@app.route('/generateSNCode', methods=['get'])
 def generateSNCode():
     return render_template("generateSNCode.html")
 
-@server.route('/orderadd', methods=['get','POST'])
+@app.route('/orderadd', methods=['get', 'POST'])
 def orderadd():
     if request.method == 'GET':
         return render_template("orderadd.html")
@@ -82,12 +82,12 @@ def orderadd1(user_id,serial_id,payment,effect_date,expire_date):
 
 
 
-@server.route('/upload', methods=['get'])
+@app.route('/upload', methods=['get'])
 def upload():
     return render_template("upload.html")
 
 import os
-@server.route('/uploader',methods=['GET','POST'])
+@app.route('/uploader', methods=['GET', 'POST'])
 def uploader():
     if request.method == 'POST':
         f = request.files['file']
@@ -98,27 +98,27 @@ def uploader():
     else:
         return render_template('upload.html')
 
-@server.route('/manager', methods=['get'])
+@app.route('/manager', methods=['get'])
 def manager():
     return render_template("manager.html")
 
-@server.route('/vendor', methods=['get'])
+@app.route('/vendor', methods=['get'])
 def vendor():
     return render_template("vendor.html")
 
-@server.route('/vendoradd', methods=['get'])
+@app.route('/vendoradd', methods=['get'])
 def vendoradd():
     return render_template("vendoradd.html")
 
-@server.route('/vendorlogin', methods=['get'])
+@app.route('/vendorlogin', methods=['get'])
 def vendorlogin():
     return render_template("vendorlogin.html")
 
-@server.route('/dragtest', methods=['get'])
+@app.route('/dragtest', methods=['get'])
 def dragtest():
     return render_template("dragtest.html")
 
-@server.route('/getRegion', methods=['get'])
+@app.route('/getRegion', methods=['get'])
 def GetRegion():
     db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
                          use_unicode=True)
@@ -137,7 +137,7 @@ def GetRegion():
 
 import uuid
 import  util.redistaic
-@server.route('/email_captcha/')
+@app.route('/email_captcha/')
 def email_captcha():
     email = request.args.get('email')
     if not email:
@@ -172,8 +172,8 @@ class RegexConverter(BaseConverter):
 
     def to_python(self, value):
         return value
-server.url_map.converters['reg'] = RegexConverter   # 注册url转换类
-@server.route('/email_captcha_Vaild/<reg(".*?"):captcha>',methods=['get'])
+app.url_map.converters['reg'] = RegexConverter   # 注册url转换类
+@app.route('/email_captcha_Vaild/<reg(".*?"):captcha>', methods=['get'])
 def email_captcha_Vaild1(captcha):
     print(captcha)
     email = request.args.get('email')
@@ -187,7 +187,7 @@ def email_captcha_Vaild1(captcha):
         resu = {'code': 1, 'message':"您输入的验证码有误"}
         return jsonify(resu)
 
-@server.route('/email_captcha_Vaild',methods=['post'])
+@app.route('/email_captcha_Vaild', methods=['post'])
 def email_captcha_Vaild():
     email = request.values.get('email')
     captcha = request.values.get('captcha')
@@ -202,7 +202,7 @@ def email_captcha_Vaild():
 
 
 
-@server.route('/getModule', methods=['get'])
+@app.route('/getModule', methods=['get'])
 def GetModule():
     db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT, use_unicode=True)
     cursor = db.cursor()
@@ -218,7 +218,7 @@ def GetModule():
 
 import random, string
 
-@server.route("/GeneraSNCode", methods=['post'])
+@app.route("/GeneraSNCode", methods=['post'])
 def GeneraSNCode():
     vendor = request.values.get('vendor')
     moudle = request.values.get('moudle')
@@ -247,7 +247,8 @@ def GeneraSNCode():
 
     module_id = cursor.fetchall()[0][0]
 
-    expire_date = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime("2038-01-01", "%Y-%m-%d"))
+    if (module_id==0)
+    expire_date = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime("2050-01-01", "%Y-%m-%d"))
     create_date =time.strftime("%Y-%m-%d %H:%M:%S", time.localtime());
     sql = "INSERT INTO `grid`.`serial-number` (`sn`, `vendor_id`, `module_id`, `effect_months`,`create_date` ) VALUES ('%s', %s, %s, '%s','%s')" % (
     sn, vendor_id, module_id,expire_date,create_date );
@@ -260,14 +261,12 @@ def GeneraSNCode():
     # smtpdemo.receivers =["114803203@qq.com"]
     resu = {'state': 0, 'message': '', 'sn': sn}
     return jsonify(resu)
-
-
 def sendemailSN(receivers, vendor, sn):
     smtp.receivers = receivers
     smtp.sendmail("Grid序列号", "尊敬的" + vendor + ":\n\r" + "您购买的序列号为： \n\r" + sn)
 
 
-@server.route('/addSNCode', methods=['post'])
+@app.route('/addSNCode', methods=['post'])
 def addSNCode():
     sn = request.values.get('sn')
     print(sn)
@@ -299,7 +298,7 @@ def addSNCode():
 
 
 from util import smtp
-@server.route('/sendsmtp', methods=['post'])
+@app.route('/sendsmtp', methods=['post'])
 def sendsmtp():
     print("发送邮件")
     subject = request.values.get('subject')

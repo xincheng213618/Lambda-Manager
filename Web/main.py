@@ -13,19 +13,19 @@ PORT = 3306
 CHARSET = 'utf8'
 
 # 创建一个服务，把当前这个python文件当做一个服务
-server = flask.Flask(__name__, static_folder='', static_url_path='')
+app = flask.Flask(__name__, static_folder='', static_url_path='')
 
 import re,os
-@server.route('/favicon.ico')
+@app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(server.root_path, 'static'),
+    return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-@server.route('/js/', methods=['get', 'post'])
+@app.route('/js/', methods=['get', 'post'])
 def my_list():
     return 'list'
 
-@server.route('/Userlogin', methods=['post'])
+@app.route('/Userlogin', methods=['post'])
 def Userlogin():
     name = request.values.get('name')
     legal_address = request.values.get('legal_address')
@@ -55,7 +55,7 @@ def Userlogin():
         return {'state': 0, 'message': '', 'userid': cursor.fetchall()[0][0]};
 
 
-@server.route('/register', methods=['post'])
+@app.route('/register', methods=['post'])
 def register():
     user_id = 1
     sn = request.values.get('sn')
@@ -175,7 +175,7 @@ def returnMsg(Msg=""):
         return jsonify({'state': 0, 'message': ''})
     Msg =str(Msg)
     return jsonify("{'state': 1, 'message': "+Msg+"}")
-@server.route('/unregister', methods=['post'])
+@app.route('/unregister', methods=['post'])
 def unregister():
     sn = request.values.get('sn')
     register_info = request.values.get('register-info')
@@ -277,7 +277,7 @@ def checkMac(mac):
 
 
 
-@server.route('/generateSNCode', methods=['post'])
+@app.route('/generateSNCode', methods=['post'])
 def generateSNCodepost():
     sn = request.values.get('sn')
     areaCode = request.values.get("areaCode")
@@ -298,7 +298,7 @@ def generateSNCodepost():
 
 
 
-@server.route('/checkregister', methods=['post'])
+@app.route('/checkregister', methods=['post'])
 def checkregister():
     sn = request.values.get('sn')
     print(sn)
@@ -347,15 +347,15 @@ def checkregister():
         resu = {'state': 1, 'message': "数据库连接失败"}
     return jsonify(resu)  # 将字典转换为json串, json是字符串
 
-@server.route('/js/<id>')
+@app.route('/js/<id>')
 def js(id):
-    return send_from_directory(os.path.join(server.root_path, 'static/js'),id, as_attachment=True)
-@server.route('/css/<id>')
+    return send_from_directory(os.path.join(app.root_path, 'static/js'), id, as_attachment=True)
+@app.route('/css/<id>')
 def css(id):
-    return send_from_directory(os.path.join(server.root_path, 'static/css'),id, as_attachment=True)
+    return send_from_directory(os.path.join(app.root_path, 'static/css'), id, as_attachment=True)
 
 from webinterface import *
 if __name__ == '__main__':
-    server.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
-    server.register_blueprint(web_interface, url_prefix='/web-interface')
-    server.run(debug=True,port=18888, host='0.0.0.0',  ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));
+    app.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
+    app.register_blueprint(web_interface, url_prefix='/web-interface')
+    app.run(debug=True, port=18888, host='0.0.0.0', ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));
