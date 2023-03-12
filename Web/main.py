@@ -297,7 +297,6 @@ def generateSNCodepost():
 
 
 
-
 @app.route('/checkregister', methods=['post'])
 def checkregister():
     sn = request.values.get('sn')
@@ -347,17 +346,44 @@ def checkregister():
         resu = {'state': 1, 'message': "数据库连接失败"}
     return jsonify(resu)  # 将字典转换为json串, json是字符串
 
-@app.route('/js/<id>')
-def js(id):
-    return send_from_directory(os.path.join(app.root_path, 'static/js'), id, as_attachment=True)
-@app.route('/css/<id>')
-def css(id):
-    return send_from_directory(os.path.join(app.root_path, 'static/css'), id, as_attachment=True)
+# @app.route('/js/<id>')
+# def js(id):
+#     return send_from_directory(os.path.join(app.root_path, 'static/js'), id, as_attachment=True)
 
-from applications import add_app
+@app.route('/checkregisterdata', methods=['post'])
+def checkregisterdata():
+    sn = request.values.get('sn')
+    if not sn:
+        resu = {'state': 1, 'message': '参数不能存在空值'}
+        return jsonify(resu)
+    if not checkSN(sn):
+        resu = {'state': 1, 'message': '序列号参数异常'}
+        return jsonify(resu)
+    try:
+        db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT, use_unicode=True)
+        cursor = db.cursor()
+        sql = "SELECT * FROM `grid`.`serial-number` WHERE `sn` = '%s'" % (sn)
+        print(sql)
+        aa = cursor.execute(sql)
+        print(aa)
+        if (aa == 0):
+            resu = {'state': 1, 'message': '找不到注册信息'}
+            return jsonify(resu)  # 将字典转换为json串, json是字符
+        else:
+            res = cursor.fetchall()
+
+
+            resu = {'state': 0, 'message': '0','sn':res[0][1],'effect_months': res[0][4]}
+            return jsonify(resu)  # 将字典转换为json串, json是字符串
+    except Exception:
+        resu = {'state': 1, 'message': "数据库连接失败"}
+    return jsonify(resu)  # 将字典转换为json串, json是字符串
+
+
+
+
 from webinterface import *
 if __name__ == '__main__':
     app.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
-    app.register_blueprint(web_interface, url_prefix='/web-interface')
-    add_app(app)
+    # add_app(app)
     app.run(debug=True, port=18888, host='0.0.0.0', ssl_context=('v3.xincheng213618.com_bundle.crt', 'v3.xincheng213618.com.key'));

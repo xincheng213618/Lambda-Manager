@@ -688,8 +688,9 @@ typedef struct Cellinfo
 int test() {
 
 	Cellinfo Cellinfos{ 1,1,1,2222,4444,5555 };
+	int i = 10;
+	Event::Trigger("CellinfoTest", &Cellinfos,&i);
 
-	Event::Trigger("CellinfoTest", &Cellinfos);
 	return 0;
 }
 
@@ -714,6 +715,8 @@ int VideoTest() {
 	j3["IsStageConnection"] = (int)IsStageConnection;
 	j3["IsLightConnection"] = IsLightConnection;
 	Event::Trigger("LambdaNotifyPropertyChanged",&j3);
+
+
 	//Event::Trigger("STAGE_INI_CLOSE");
 
 

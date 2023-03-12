@@ -118,6 +118,7 @@ namespace Grid
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                Environment.Exit(0);
             }
             TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接"; 
             await Task.Delay(500);
@@ -135,9 +136,9 @@ namespace Grid
             //await Task.Delay(60000);
             await Task.Delay(1000);
             App.Current.MainWindow.Close();
-            Close();
+            Environment.Exit(0);
         }
-
+        
         private void TexoBoxMsg_TextChanged(object sender, TextChangedEventArgs e)
         {
             //TexoBoxMsg.SelectionStart = TexoBoxMsg.;

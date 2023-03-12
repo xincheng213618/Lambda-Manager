@@ -320,9 +320,23 @@ def sendsmtp():
         resu = {'state': code, 'message': msg}
         return jsonify(resu)  # 将字典转换为json串, json是字符串
 
+@app.route('/vendor/data', methods=['get'])
+def login_log():
+    db = pymysql.connect(host=HOST, user=USER, passwd=PASSWD, db=DB, charset=CHARSET, port=PORT,
+                         use_unicode=True)
+    cursor = db.cursor()
+    create_date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    sql  ="SELECT * FROM `grid`.`vendor` LIMIT 0,1000"
+    aa = cursor.execute(sql)
+    res =cursor.fetchall()
+    data = []
+    for i in res:
+        vendor={}
+        vendor['id'] =i[0]
+        vendor['name'] =i[1]
+        vendor['address'] =i[2]
+        vendor['contact_number'] =i[3]
+        data.append(vendor)
 
-
-web_interface = Blueprint("web-interface", __name__)
-@web_interface.route('/Userlogin1', methods=['get'])
-def Userlogin1():
-    return jsonify({'state': 0, 'message': '', 'userid': 0});
+    resu = {'code':0 , 'message': '','data':data}
+    return jsonify(resu);

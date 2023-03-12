@@ -644,12 +644,12 @@ int Test212(void* a) {
 }
 
 
- int CellinfoTest(Cellinfo& Cellinfos)
+ int CellinfoTest(Cellinfo& Cellinfos,int* i)
  {
 	 //Cellinfos->push_back({ 5,1,1,2222,4444,5555 });
 	 //Cellinfos->push_back({ 6,2,1,2222,4444,5555 });
 	 Cellinfos.Areas = 13;
-	 Logger::Log2(Severity::INFO, L" SDT event array: [%d,...], size: %d", Cellinfos.Areas);
+	 Logger::Log2(Severity::INFO, L" SDT event array: [%d,%d...], size: %d", Cellinfos.Areas,i);
 
 	 return 0;
  }

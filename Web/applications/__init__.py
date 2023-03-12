@@ -1,6 +1,9 @@
 import os
 
-from  .extensions import init_plugs
+from applications.extensions import init_plugs
+from applications.view import init_view
+from applications.common.script import init_script
+
 # def create_app(config_name=None):
 #     app = Flask(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 #
@@ -27,5 +30,8 @@ from  .extensions import init_plugs
 
 def add_app(app):
     init_plugs(app)
+    init_view(app)
+    init_script(app)
+
 
 

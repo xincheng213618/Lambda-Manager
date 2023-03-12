@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
 <head>
-    <link rel="shortcut icon"  href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     {% block head %}
         <title>{% block title %}{% endblock %} - My Webpage</title>
     {% endblock %}
@@ -80,26 +79,6 @@
             <a href="/" target="_self" style="color:#000000;font-size: 30px">Grid后台管理系统</a>
         </div>
     </div>
-  <aside style="padding: 10px 24px">
-    <ul>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-    </ul>
-  </aside>
   <main>
       <div id="content">
           {% block content %}

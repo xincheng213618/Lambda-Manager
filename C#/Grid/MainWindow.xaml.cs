@@ -60,7 +60,7 @@ namespace Grid
                 Directory.CreateDirectory(DirectoryPath1 + "\\" + "Video");
                 Directory.CreateDirectory(DirectoryPath1 + "\\" + "Image");
 
-                StreamResourceInfo info1 = Application.GetResourceStream(new Uri("/Grid;component/默认.gprj", UriKind.Relative));
+                StreamResourceInfo info1 = Application.GetResourceStream(new Uri("/Grid;component/default1.gprj", UriKind.Relative));
                 string FullPath1 = DirectoryPath1 + "\\默认.gprj";
                 using (FileStream fileStream = File.Create(FullPath1))
                 {
