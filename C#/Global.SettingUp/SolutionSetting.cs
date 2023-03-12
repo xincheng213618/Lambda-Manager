@@ -127,6 +127,9 @@ namespace Global.SettingUp
         public ImageResolutionOptions ImageResolutionSaveOptions { get => _ImageResolutionSaveOptions; set { if (_ImageResolutionSaveOptions == value) return; _ImageResolutionSaveOptions = value; LambdaControl.Trigger("ImageResolutionSaveOptionsChanged", this, new Dictionary<string, object>() { { "Type", (int)value } }); WriteRegValue((int)value); NotifyPropertyChanged(); ImageResolutionSaveOptionsChanged?.Invoke(value); } }
         private ImageResolutionOptions _ImageResolutionSaveOptions = (ImageResolutionOptions)ReadRegValue(1, nameof(ImageResolutionSaveOptions));
 
+
+
+
     }
 
 }

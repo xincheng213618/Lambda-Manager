@@ -38,6 +38,8 @@ namespace Global.SettingUp.Hardware
         private string _InstallSize = string.Empty;
 
 
+
+
         /// <summary>
         /// 物镜配置
         /// </summary>
