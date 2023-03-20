@@ -114,7 +114,7 @@
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:ProjectFile}" ItemsSource="{Binding VisualChildren}" >
-        <StackPanel Background="Transparent" Style="{StaticResource style_treeViewItem_panel}"  >
+        <StackPanel  Style="{StaticResource style_treeViewItem_panel}"  >
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">
@@ -137,7 +137,7 @@
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate DataType="{x:Type XSolution:GrifFile}" ItemsSource="{Binding VisualChildren}" >
-        <StackPanel Background="Red" Style="{StaticResource style_treeViewItem_panel}" ContextMenu="{Binding ContextMenu}">
+        <StackPanel  Style="{StaticResource style_treeViewItem_panel}" ContextMenu="{Binding ContextMenu}">
             <Image  Style="{StaticResource style_treeViewItem_icon}" Source="{Binding Icon}" />
             <local:EditableTextBlock   Style="{StaticResource EditableTextBlockStyle}" IsEditMode="{Binding IsEditMode}" Content="{Binding .}"/>
             <TextBlock  FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}">

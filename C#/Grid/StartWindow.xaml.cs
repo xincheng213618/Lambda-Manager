@@ -38,8 +38,8 @@ namespace Grid
         {
             labelVersion.Content = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
             Dispatcher.BeginInvoke(new Action(async () => await DetectionhardwareAsync()));
-            Thread thread = new Thread(OpenSocket);
-            thread.Start();
+            //Thread thread = new Thread(OpenSocket);
+            //thread.Start();
         }
 
         private void OpenSocket()

@@ -29,7 +29,7 @@ namespace Grid
         }
 
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Grid\\SolutionHistory") };
 
         readonly string StatusBarRegPath = "Software\\Grid";
 
@@ -40,7 +40,7 @@ namespace Grid
             string DirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Grid\\Default";
             string DirectoryPath1 = DirectoryPath + "1";
 
-            if (recentFileList.RecentFiles.Count ==0|| !Directory.Exists(DirectoryPath) ||!Directory.Exists(DirectoryPath1))
+            if (recentFileList.RecentFiles.Count == 0 || !Directory.Exists(DirectoryPath) ||!Directory.Exists(DirectoryPath1))
             {
                 if (!Directory.Exists(DirectoryPath))
                     Directory.CreateDirectory(DirectoryPath);

@@ -113,6 +113,11 @@ namespace Solution
 
         private void Button_Close_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(newCreatViewMode.Name))
+                {
+                this.Close();
+
+            }
             string SolutionDirectoryPath = newCreatViewMode.DirectoryPath + "\\" + newCreatViewMode.Name;
 
             if (Directory.Exists(SolutionDirectoryPath))

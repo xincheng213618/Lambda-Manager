@@ -30,6 +30,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel;
 using System.Reflection;
+using System.Collections.Concurrent;
 
 namespace Solution
 {
@@ -74,6 +75,7 @@ namespace Solution
 
         public TreeViewControl()
         {
+            ConcurrentQueue
             Window window = Application.Current.MainWindow;
             if (window != null)
                 window.Closing += Window_Closed;
@@ -605,7 +607,7 @@ namespace Solution
             Config.ConfigSet();
         }
 
-        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Zircon\\Grid\\SolutionHistory") };
+        RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Grid\\SolutionHistory") };
 
         private void UserControl_Initialized(object sender, EventArgs e)
         {

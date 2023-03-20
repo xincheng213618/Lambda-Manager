@@ -94,7 +94,14 @@ public class ConfigUILibrary: ILambdaUI
         {
             uIPlugin.side = side;
             UIPlugins.Add(uIPlugin);
-            LoadConfigPanel(uIPlugin);
+
+            try {
+                LoadConfigPanel(uIPlugin);
+            }
+            catch (Exception ex) {
+                
+            }
+
         }
     }
 
