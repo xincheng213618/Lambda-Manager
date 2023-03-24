@@ -28,7 +28,6 @@ namespace Grid
         public StartWindow()
         {
             //WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
             InitializeComponent();
             Left = SystemParameters.WorkArea.Right - this.Width;
             Top = SystemParameters.WorkArea.Bottom - this.Height;
@@ -37,7 +36,7 @@ namespace Grid
         private void Window_Initialized(object sender, EventArgs e)
         {
             labelVersion.Content = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
-            Dispatcher.BeginInvoke(new Action(async () => await DetectionhardwareAsync()));
+            Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
             //Thread thread = new Thread(OpenSocket);
             //thread.Start();
         }
@@ -46,7 +45,6 @@ namespace Grid
         {
             int port = 53618;
             int MaxConnection = 10;
-
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
             Socket socketLister = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socketLister.Bind(localEndPoint);
@@ -64,46 +62,8 @@ namespace Grid
             {
                 Environment.Exit(0);
             }
-
-            //int port = 53618;
-            //IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Loopback, port);
-            //Socket sssss = new Socket(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            //try
-            //{
-            //    sssss.Connect(localEndPoint);
-            //    string aaa = "LambdaStart";
-            //    sssss.Send(Encoding.UTF8.GetBytes(aaa));
-
-            //    while (true)//定义一个循环接收返回数据
-            //    {
-            //        byte[] data = new byte[1024];
-            //        sssss.Receive(data);//接收返回数据
-            //        string stringData = Encoding.UTF8.GetString(data);
-            //        if (!string.IsNullOrWhiteSpace(stringData))
-            //        {
-            //            MessageBox.Show(stringData);
-            //            Environment.Exit(0);
-            //            break;
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-
-
         }
 
-
-
-        private async Task DetectionhardwareAsync()
-        {
-            await Task.Delay(1);
-
-            //StartLabel.Content = "初始化性能计数器";
-            _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
-        }
 
         private async Task InitializedOver()
         {
@@ -120,30 +80,24 @@ namespace Grid
                 MessageBox.Show(ex.Message);
                 Environment.Exit(0);
             }
-            TexoBoxMsg.Text += Environment.NewLine + "检测硬件连接"; 
+            TextBoxMsg.Text += Environment.NewLine + "检测硬件连接"; 
             await Task.Delay(500);
-            TexoBoxMsg.Text += Environment.NewLine + "初始化配置信息";  
+            TextBoxMsg.Text += Environment.NewLine + "初始化配置信息";  
             await Task.Delay(300);
-            TexoBoxMsg.Text += Environment.NewLine + "初始化主控";
+            TextBoxMsg.Text += Environment.NewLine + "初始化主控";
             await Task.Delay(300);
-            TexoBoxMsg.Text += Environment.NewLine + "初始化相机";
+            TextBoxMsg.Text += Environment.NewLine + "初始化相机";
             await Task.Delay(300);
-            TexoBoxMsg.Text += Environment.NewLine + "初始化位移台";
+            TextBoxMsg.Text += Environment.NewLine + "初始化位移台";
             await Task.Delay(300);
-            TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
-
-
-            //await Task.Delay(60000);
+            TextBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             await Task.Delay(1000);
-            App.Current.MainWindow.Close();
             Environment.Exit(0);
         }
         
-        private void TexoBoxMsg_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxMsg_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //TexoBoxMsg.SelectionStart = TexoBoxMsg.;
-            //将控件内容滚动到当前插入符号位置
-            TexoBoxMsg.ScrollToEnd();
+            TextBoxMsg.ScrollToEnd();
         }
     }
 }

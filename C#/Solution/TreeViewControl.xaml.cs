@@ -75,7 +75,6 @@ namespace Solution
 
         public TreeViewControl()
         {
-            ConcurrentQueue
             Window window = Application.Current.MainWindow;
             if (window != null)
                 window.Closing += Window_Closed;

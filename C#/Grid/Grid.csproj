@@ -8,9 +8,10 @@
 	  <UseWindowsForms>True</UseWindowsForms>
 	  <ApplicationIcon>Grid.ico</ApplicationIcon>
     <Platforms>AnyCPU;x64</Platforms>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>Grid</Title>
     <PackageReadmeFile></PackageReadmeFile>
+    <IsPublishable>False</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="config.gprj" />
     <None Remove="default.gprj" />
-    <None Remove="default1.gprj" />
     <None Remove="Image\background.tif" />
     <None Remove="Image\background1.png" />
     <None Remove="Image\Grid.png" />
@@ -27,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="default.gprj" />
     <Content Include="Grid.ico" />
   </ItemGroup>
 
@@ -42,11 +42,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="config.gprj" />
+    <Resource Include="default.gprj" />
     <Resource Include="Image\background.tif" />
     <Resource Include="Image\background1.png" />
     <Resource Include="Image\Grid.png" />
     <Resource Include="Image\ZIRCON.png" />
-    <Resource Include="default1.gprj" />
   </ItemGroup>
 
   <ItemGroup>
