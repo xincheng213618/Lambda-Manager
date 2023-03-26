@@ -146,7 +146,7 @@ cv::Mat CustomFile::ReadFile(string path)
 	inFile.read((char*)&grifMat, sizeof(GrifMatFile));
 	if (grifMat.compression == 1)
 	{
-		char* i2stream = new char[grifMat.destLen];
+		char* i2stream = (char*)malloc(grifMat.srcLen);
 		// Read the pixels from the stringstream
 		inFile.read(i2stream, grifMat.destLen);
 
@@ -154,15 +154,21 @@ cv::Mat CustomFile::ReadFile(string path)
 		uLongf destLen2 = (uLongf)grifMat.destLen;
 		uLongf srcLen = (uLongf)grifMat.srcLen;
 
+
 		int des = uncompress((Bytef*)o2stream, &srcLen, (Bytef*)i2stream, destLen2);
 		return cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, o2stream);
+		cv::Mat mat1 = cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, o2stream);
+		free(o2stream);
+		free(i2stream);
+		return mat1;
 	}
 	else if (grifMat.compression == 0)
 	{
-		char* data = new char[grifMat.srcLen];
+		char* data = (char*)malloc(grifMat.srcLen);
 		// Read the pixels from the stringstream
 		inFile.read(data, grifMat.srcLen);
 		cv::Mat mat1 = cv::Mat(grifMat.rows, grifMat.cols, grifMat.type, data);
+		free(data);
 		return mat1;
 	}
 	return cv::Mat::zeros(0, 0, CV_8UC3);
