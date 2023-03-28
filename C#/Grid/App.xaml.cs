@@ -60,7 +60,7 @@ namespace Grid {
 
             if (File.Exists(ConfigGridPath)) {
                 FileInfo fileInfo = new FileInfo(ConfigGridPath);
-                if (fileInfo.CreationTime < Convert.ToDateTime("2023/03/23"))
+                if (fileInfo.LastWriteTime < Convert.ToDateTime("2023/03/23"))
                     File.Delete(ConfigGridPath);
             }
 
@@ -97,6 +97,7 @@ namespace Grid {
             }
 
             RecentFileList recentFileList = new RecentFileList() { Persister = new RegistryPersister("Software\\Grid\\SolutionHistory") };
+            recentFileList.Clear();
             if (recentFileList.RecentFiles.Count == 0) {
                 recentFileList.InsertFile(DefaultGridPath);
             }

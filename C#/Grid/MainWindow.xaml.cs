@@ -43,17 +43,11 @@ namespace Grid
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Window windows1 = new Window() { Topmost = true };
-            windows1.Show();
-            Window windows = new Window() { Topmost =true};
-            windows.ShowDialog();
-
-            //StartWindow startWindow = new StartWindow();
-            //startWindow.Show();
-            //startWindow.Closed += delegate
-            //{
-            //    this.Close();
-            //};
+            StartWindow startWindow = new StartWindow();
+            startWindow.Show();
+            startWindow.Closed += delegate {
+                this.Close();
+            };
         }
 
 

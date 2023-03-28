@@ -5,22 +5,35 @@ using Lambda;
 using LambdaManager.Core;
 using LambdaManager.Mode;
 using Global.Common.Extensions;
+using System.Windows.Forms;
+
 namespace LambdaManager.Features;
 
-public class UIEvents
-{
+public class UIEvents {
 
     private static UIEvents instance;
     private static readonly object locker = new();
 
-    public static UIEvents GetInstance()
-    {
+    public static UIEvents GetInstance() {
         lock (locker) { return instance ??= new UIEvents(); }
     }
-    private UIEvents()
-    {
+    private UIEvents() {
         Common.AddEventHandler("UPDATE_STATUS", OnUpdateStatus, once: false);
+        Common.AddEventHandler("FPS_INDEX_CHANNGED", FPS_INDEX_CHANNGED, once: false);
     }
+
+    private bool FPS_INDEX_CHANNGED(object sender, EventArgs e) {
+        int? index = LambdaArgs.GetEventData(e).GetInt("index");
+        if (index.HasValue) {
+            //对窗口的FPS操作置于0
+            //Common.Views[index.Value].FPS = index.Value;
+            //a3.i.b(0);
+        }
+
+
+        return true;
+    }
+
 
     public UpdateStatus updateStatus = new UpdateStatus();
 
