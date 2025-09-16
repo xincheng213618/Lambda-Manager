@@ -8,6 +8,7 @@ using LambdaManager.Conversion;
 using LambdaManager.DataType;
 using LambdaManager.DataType.SigTable;
 using LambdaUtils;
+using LambdaManager.NativeInvokers;
 
 namespace LambdaManager.Core
 {
@@ -347,6 +348,8 @@ namespace LambdaManager.Core
 
         private static int Exec(Function function, List<object?>? args)
         {
+            return NativeInvoker.Exec(function, args);
+
             EntryPoint entry = function.EntryPoint;
             if (entry == null)
             {
@@ -359,6 +362,8 @@ namespace LambdaManager.Core
             }
             IntPtr fp = entry.FuncAddr;
             string code = entry.Code;
+
+
             if (args == null || args!.Count == 0)
             {
                 return S1.Invoke(fp);
@@ -393,6 +398,24 @@ namespace LambdaManager.Core
                 _ => -1,
             };
         }
+
+        // 和你现有映射保持一致（可按需调整）
+        // '0' => byte, '1' => short, '2' => int, '3' => long, 
+        // '4' => decimal, '5' => double, '6' => float, '7' => IntPtr
+        public enum ArgCode 
+        {
+            U8 = '0',
+            I16 = '1',
+            I32 = '2',
+            I64 = '3',
+            Decimal = '4',
+            F64 = '5',
+            F32 = '6',
+            Ptr = '7'
+        }
+
+
+
 
         private static void AddReferredToVariable(ExecInfo info)
         {
