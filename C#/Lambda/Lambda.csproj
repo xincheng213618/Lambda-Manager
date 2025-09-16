@@ -3,7 +3,7 @@
     <AssemblyName>Lambda</AssemblyName>
     <UseWPF>True</UseWPF>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>Preview</LangVersion>
