@@ -38,7 +38,7 @@ namespace LambdaManager
         PROJECT
     }
 
-    partial class MainWindow : BaseWindow
+    partial class MainWindow : Window
     {
         private bool multiMode;
         private bool multiChannel;
