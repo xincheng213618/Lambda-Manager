@@ -1,4 +1,5 @@
 ﻿using Lambda;
+using log4net;
 using System;
 
 namespace LambdaManager.Core
@@ -7,6 +8,8 @@ namespace LambdaManager.Core
 
     public static class Log
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Log));
+
         public static LogWritetHandler? LogWrite;
 
         public static void Report(Message message)
@@ -15,6 +18,7 @@ namespace LambdaManager.Core
             {
                 LogWrite?.Invoke(message);
             });
+            log.Info(message.Text);
         }
 
         public static void Report2(Message message)
