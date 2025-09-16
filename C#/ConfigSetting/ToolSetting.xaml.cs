@@ -1,39 +1,27 @@
 ﻿using Global.Common;
 using Global.Common.Extensions;
+using Global.RecentFile;
 using Global.SettingUp;
 using Global.SettingUp.Configure;
+using Global.SettingUp.Hardware;
 using Global.SettingUp.PC;
-using HotKey;
 using Lambda;
 using NvAPIWrapper.GPU;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Net.Sockets;
-using System.Net;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Markup;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThemeManager;
-using System.IO;
-using Global.Common.Util;
 using Wizard;
-using System.Xml.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using Global.SettingUp.Hardware;
-using Microsoft.VisualBasic.Logging;
-using Global.RecentFile;
-using System.Text.Unicode;
-using System.Text;
-using System.Windows.Input;
 
 namespace ConfigSetting
 {
@@ -165,10 +153,6 @@ namespace ConfigSetting
 
                 if (Application.Current.MainWindow.FindName("msgList") is ComboBox combobox)
                 {
-
-                    Application.Current.MainWindow.AddHotKeys(new HotKeys() { Name = "日志切换", Hotkey = new Hotkey(Key.L, ModifierKeys.Control), Kinds = HotKeyKinds.Windows, HotKeyHandler =delegate{
-                        SoftwareConfig.WindowSetting.IsShowLog = !SoftwareConfig.WindowSetting.IsShowLog; }
-                    });;
 
 
                     combobox.Visibility = SoftwareConfig.WindowSetting.IsShowLog ? Visibility.Visible : Visibility.Hidden;

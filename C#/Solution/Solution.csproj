@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>True</UseWPF>
 	<UseWindowsForms>True</UseWindowsForms> 
@@ -31,7 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
-    <ProjectReference Include="..\HotKey\HotKey.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>

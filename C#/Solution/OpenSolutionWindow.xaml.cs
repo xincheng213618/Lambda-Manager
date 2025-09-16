@@ -1,5 +1,4 @@
 ﻿using Global.RecentFile;
-using HotKey;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;

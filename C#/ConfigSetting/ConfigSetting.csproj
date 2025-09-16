@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,10 +26,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
-    <ProjectReference Include="..\HotKey\HotKey.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
-    <ProjectReference Include="..\Wizard\Wizard.csproj" />
   </ItemGroup>
 
   <ItemGroup>

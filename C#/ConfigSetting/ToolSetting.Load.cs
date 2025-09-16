@@ -3,7 +3,6 @@ using Global.Common.Extensions;
 using Global.SettingUp;
 using Global.SettingUp.Configure;
 using Global.SettingUp.PC;
-using HotKey;
 using Lambda;
 using NvAPIWrapper.GPU;
 using System;
@@ -206,19 +205,6 @@ namespace ConfigSetting
             CameraCalibrationButton.DataContext = SoftwareConfig.HardwareSetting;
             StageCalibrationButton.DataContext = SoftwareConfig.HardwareSetting;
             LightCalibrationButton.DataContext = SoftwareConfig.HardwareSetting;
-
-            foreach (var item in HotKeyHelper.HotKeysList)
-			{
-
-				TextBlock textBlock = new TextBlock() { Text = item.Value.Name };
-				TextBlock textBlock1 = new TextBlock() { Text = item.Value.Hotkey.ToString() };
-
-				DockPanel dockPanel = new DockPanel();
-
-				dockPanel.Children.Add(textBlock);
-				dockPanel.Children.Add(textBlock1);
-				UniformGrifHotKey.Children.Add(dockPanel);
-			}
 		}
 
 

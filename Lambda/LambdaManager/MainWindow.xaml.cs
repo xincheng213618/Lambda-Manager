@@ -405,6 +405,10 @@ namespace LambdaManager
                 item.Visibility = ((!visible) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
+
+        private void RadioButton1_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 
 

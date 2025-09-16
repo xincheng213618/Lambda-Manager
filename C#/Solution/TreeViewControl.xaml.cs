@@ -1,36 +1,22 @@
-﻿using XSolution;
+﻿using Global.Common;
+using Global.RecentFile;
+using Global.SettingUp;
+using Global.SettingUp.Menu;
+using Lambda;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using Lambda;
 using Tool;
-using Global.Common;
-using System.Threading.Tasks;
-using HotKey;
-using Global.SettingUp;
-using System.Windows.Data;
-using System.Linq;
-using Global.RecentFile;
-using ThemeManager.Controls;
-using System.Net.Http;
-using System.Net.NetworkInformation;
-using Microsoft.Win32;
-using System.Diagnostics;
-using System.Net.Sockets;
-using System.Net;
-using System.Text;
-using System.Runtime.InteropServices;
-using Global.SettingUp.Menu;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel;
-using System.Reflection;
-using System.Collections.Concurrent;
+using XSolution;
 
 namespace Solution
 {
@@ -283,10 +269,6 @@ namespace Solution
 
                 Task.Run(Task_Loaded);
 
-
-                Application.Current.MainWindow.AddHotKeys(new HotKeys("打开当前工程", new Hotkey(Key.O, ModifierKeys.Control), OpenSolution));
-                Application.Current.MainWindow.AddHotKeys(new HotKeys("新建工程", new Hotkey(Key.N, ModifierKeys.Control), NewCreat));
-                Application.Current.MainWindow.AddHotKeys(new HotKeys("关闭当前工程", new Hotkey(Key.W, ModifierKeys.Control), SolutionClose));
                 SolutionTreeView.ContextMenu = new ContextMenu();
                 SolutionTreeView.ContextMenuOpening += SolutionTreeView_ContextMenuOpening;
 
@@ -677,9 +659,6 @@ namespace Solution
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             HandyControl.Controls.Growl.Info("此功能还在开发中，暂停使用");
-
-            HotKeyManger hotKeyManger = new HotKeyManger();
-            hotKeyManger.Show();
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
