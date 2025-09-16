@@ -1,31 +1,15 @@
-﻿using Global.Common;
-using Global.Common.Extensions;
+﻿using Global.Common.Extensions;
 using Global.SettingUp;
-using Global.SettingUp.Configure;
-using Global.SettingUp.PC;
 using Lambda;
-using NvAPIWrapper.GPU;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Sockets;
-using System.Net;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using ThemeManager;
-using System.IO;
-using Global.Common.Util;
-using System.Xml.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace ConfigSetting
 {
@@ -34,22 +18,6 @@ namespace ConfigSetting
 
 		public void InitEmun()
 		{
-			ThemeCombox.ItemsSource = from e1 in Enum.GetValues(typeof(Theme)).Cast<Theme>()
-									  select new KeyValuePair<Theme, string>(e1, e1.ToDescription());
-			ThemeCombox.SelectedValuePath = "Key";
-			ThemeCombox.DisplayMemberPath = "Value";
-			ThemeCombox.SelectedIndex = (int)SoftwareConfig.WindowSetting.PhotoOptions;
-			ThemeCombox.SelectionChanged += (s, e) =>
-			{
-				if (ThemeCombox.SelectedItem is KeyValuePair<Theme, string> KeyValue && KeyValue.Key is Theme theme)
-					Application.Current.ApplyTheme(theme);
-			};
-
-			ThemeManagers.ThemeChanged += (s) =>
-			{
-				ThemeCombox.SelectedIndex = (int)s;
-			};
-
 
 			PhotoOptionsCombox.ItemsSource = from e1 in Enum.GetValues(typeof(PhotoOptions)).Cast<PhotoOptions>()
 											 select new KeyValuePair<PhotoOptions, string>(e1, e1.ToDescription());

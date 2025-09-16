@@ -1,5 +1,4 @@
-﻿using Global.Common;
-using Global.Common.Extensions;
+﻿using Global.Common.Extensions;
 using Global.RecentFile;
 using Global.SettingUp;
 using Global.SettingUp.Configure;
@@ -17,10 +16,8 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ThemeManager;
 
 namespace ConfigSetting
 {
@@ -31,7 +28,6 @@ namespace ConfigSetting
     {
         public ToolSetting()
         {
-            Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
             //最优先的部分
             InitializeComponent();
         }
@@ -62,12 +58,10 @@ namespace ConfigSetting
             if (IsFirstLoad && this.Parent is StackPanel stackPanel1 && stackPanel1.Parent is Viewbox viewbox1 && viewbox1.Parent is ScrollViewer scrollViewer1)
             {
                 Application.Current.MainWindow.Title = "";
-                Application.Current.ApplyTheme(ThemeManagers.CurrentUITheme);
                 IsFirstLoad = false;
 
                 _ = Task.Run(() => SocketCloseGrid());
 
-                Calibration.GetInstance();
                 SystemSettingGrid.DataContext = SoftwareConfig.HardwareSetting.PerformanceSetting;
                 OutOfMemorySign.Source = System.Drawing.SystemIcons.Warning.ToImageSource();
 
@@ -127,9 +121,6 @@ namespace ConfigSetting
                         }
                     }
 
-                    WizardWindow mainWindow = new WizardWindow();
-                    mainWindow.ShowDialog();
-                    TouchDown:
                     if (SoftwareConfig.HardwareSetting.IsIniWizard)
                     {
                         SystemCommands.RestoreWindow(Application.Current.MainWindow);
@@ -562,8 +553,6 @@ namespace ConfigSetting
                 recentFileList = new RecentFileList() { Persister = new RegistryPersister(item) };
                 recentFileList.Clear();
             }
-            MessageBox1.Show("缓存清理完成");
-            MessageBox1.ShowAgain("缓存清理完成","sss", false);
 
         }
     }

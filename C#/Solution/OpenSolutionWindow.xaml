@@ -1,60 +1,53 @@
-﻿<Base:BaseWindow x:Class="Solution.OpenSolutionWindow"
+﻿<Window x:Class="Solution.OpenSolutionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Solution"
-        xmlns:Base ="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
         mc:Ignorable="d"
         Height="500" Width="800" MinWidth="500" MinHeight="450"  WindowStyle="ToolWindow" Background="{DynamicResource GlobalBackgroundBrush}" WindowStartupLocation="CenterScreen" Initialized="BaseWindow_Initialized">
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ThemeManager;component/Styles/Dark.xaml"/>
-                <ResourceDictionary Source="/ThemeManager;component/styles/Styles.xaml" />          
-            </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                <Setter Property="Padding" Value="4,1"/>
-                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+        <Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Padding" Value="4,1"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="true">
-                                <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsSelected" Value="true">
-                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SelectedListItem}"/>
-                                </Trigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="true"/>
-                                        <Condition Property="IsSelected" Value="false"/>
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SelectedListItem}"/>
-                                </MultiTrigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Foreground" Value="{StaticResource DisabledMenuForeground}"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SelectedListItem}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="true"/>
+                                    <Condition Property="IsSelected" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SelectedListItem}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{StaticResource DisabledMenuForeground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
-            </Style>
+        </Style>
 
-        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <TextBlock Text="打开" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-20,0,0"/>
@@ -160,4 +153,4 @@
 
 
     </Grid>
-</Base:BaseWindow>
+</Window>

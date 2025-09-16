@@ -105,7 +105,7 @@ namespace XSolution
                         }
                         catch (Exception ex)
                         {
-                            MessageBox1.Show("文件名冲突:" + ex.Message,"Grid");
+                            MessageBox.Show("文件名冲突:" + ex.Message,"Grid");
                             return;
                         }
                     }
@@ -126,7 +126,7 @@ namespace XSolution
             }
             catch (Exception ex)
             {
-                MessageBox1.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 

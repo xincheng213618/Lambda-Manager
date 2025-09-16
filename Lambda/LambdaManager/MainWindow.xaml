@@ -6,8 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager"                 
-        xmlns:Base="clr-namespace:ThemeManager.Controls;assembly=ThemeManager"
-        Background="{DynamicResource GlobalBackgroundBrush}"  Width="1280"  Height="720" MinWidth="1024" MinHeight="576" Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
+        Background="{DynamicResource GlobalBackground}"  Width="1280"  Height="720" MinWidth="1024" MinHeight="576" Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <Window.Resources>
         <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="5, 0, 0, 0" />

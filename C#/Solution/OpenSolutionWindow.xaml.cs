@@ -2,18 +2,16 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ThemeManager.Controls;
 
 namespace Solution
 {
     /// <summary>
     /// NewCreatWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class OpenSolutionWindow : BaseWindow
+    public partial class OpenSolutionWindow : Window
     {
         public OpenSolutionWindow()
         {
@@ -92,11 +90,6 @@ namespace Solution
             }
         }
 
-
-        private void SearchBar_OnSearchStarted(object sender, HandyControl.Data.FunctionEventArgs<string> e)
-        {
-
-        }
 
         private void Searchbox_TextChanged(object sender, TextChangedEventArgs e)
         {

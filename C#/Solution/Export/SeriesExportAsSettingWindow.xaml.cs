@@ -1,18 +1,14 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using ThemeManager.Controls;
-using Tool;
-using XSolution;
+﻿using Global.Common.Extensions;
 using System;
-using System.Windows.Documents;
-using System.Windows.Media;
-using XSolution.SeriesProject;
 using System.Collections.Generic;
 using System.Linq;
-using Global.Common.Extensions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Net;
+using XSolution;
 
 namespace Solution
 {
@@ -22,7 +18,7 @@ namespace Solution
     /// <summary>
     /// Window1.xaml 的交互逻辑
     /// </summary>
-    public partial class SeriesExportAsSettingWindow : BaseWindow
+    public partial class SeriesExportAsSettingWindow : Window
     {
         public SeriesProjectManager SeriesProject;
 

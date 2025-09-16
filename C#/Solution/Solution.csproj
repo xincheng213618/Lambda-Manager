@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ColorVision.UI" Version="1.3.6.4" />
     <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0-preview.1.23110.8" />
   </ItemGroup>  
   
@@ -32,7 +33,6 @@
     <ProjectReference Include="..\Global.Common\Global.Common.csproj" />
     <ProjectReference Include="..\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
-    <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>

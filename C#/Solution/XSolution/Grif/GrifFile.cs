@@ -82,11 +82,6 @@ namespace XSolution
 
         public GrifFile(string FullName) : base(FullName)
         {
-            Icon = new BitmapImage(new Uri(ThemeManager.ThemeManagers.CurrentUITheme == ThemeManager.Theme.Dark ? $"/Solution;component/images/grif1.png": $"/Solution;component/images/grif.png", UriKind.Relative));
-            ThemeManager.ThemeManagers.ThemeChanged += (s) =>
-            {
-                Icon = new BitmapImage(new Uri(s == ThemeManager.Theme.Dark ? $"/Solution;component/images/grif1.png" : $"/Solution;component/images/grif.png", UriKind.Relative));
-            };
             GrifFileMeta = GrifFileManger.GetInstance().ReadGrifFileInfo(FullName);
             AttributesCommand = new RelayCommand(OpenAttributes, (value) => { return true; });
             ExportAsTiffCommand = new RelayCommand((o) => { new GrifExportAsWindow(this, GrifExportKinds.tiff).ShowDialog(); }, (object value) => { return true; });
@@ -135,7 +130,6 @@ namespace XSolution
         private void OpenAttributes(object value)
         {
             GrifFileMeta grifFile = GrifFileMeta;
-            MessageBox1.Show($"Name:{grifFile.Name}\n\rx:{grifFile.x}\n\ry:{grifFile.y}\n\rz:{grifFile.z}", this.Name + "属性");
         }
 
         public static GrifFileOperatingMode ConverOperatingMode(string OperatingMode)

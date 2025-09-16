@@ -32,7 +32,7 @@ namespace LambdaManager
             ConfigLibrary = new ConfigLibrary();
             Log.LogWrite += AddMessage;
 
-            labelVersion.Content = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
+            labelVersion.Text = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
             Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 Load();

@@ -1,3 +1,11 @@
+using ColorVision.UI.Menus;
+using Global.SettingUp.PC;
+using Lambda;
+using LambdaCore;
+using LambdaManager.Core;
+using LambdaManager.Features;
+using LambdaManager.Properties;
+using LambdaManager.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,18 +15,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Markup;
-using Global.Common.Extensions;
-using Global.SettingUp.PC;
-using Lambda;
-using LambdaCore;
-using LambdaManager.Core;
-using LambdaManager.Features;
-using LambdaManager.Mode;
-using LambdaManager.Properties;
-using LambdaManager.Utils;
-using ThemeManager;
-using ThemeManager.Controls;
 
 namespace LambdaManager
 {
@@ -61,6 +57,9 @@ namespace LambdaManager
         PerformanceSetting statusBarGlobal = new PerformanceSetting();
         private void Window_Initialized(object sender, EventArgs e)
         {
+            MenuManager.GetInstance().Menu = menu;
+            MenuManager.GetInstance().LoadMenuItemFromAssembly();
+
             ViewManager.GetInstance().ViewChanged += ViewChanged;
             allfpsState.DataContext = ViewManager.GetInstance();
             if (Common.ViewGrid is ViewGrid viewGrid)
@@ -75,53 +74,6 @@ namespace LambdaManager
             //performDock.DataContext = statusBarGlobal;
             msgList.ItemsSource = Messagess;
             statusBar.DataContext = UIEvents.GetInstance().updateStatus;
-
-            MenuItem MenuThemes = new MenuItem() { Header = Properties.Resources._Theme};
-            foreach (var item in Enum.GetValues(typeof(Theme)).Cast<Theme>())
-            {
-                MenuItem menu = new MenuItem()
-                {
-                    Header = item.ToDescription(),
-                    Tag = item,
-                    IsChecked = ThemeManagers.CurrentUITheme == item,
-                };
-
-                menu.Click += (s, e) =>
-                {
-                    if (s is MenuItem menuItem && menuItem.Tag is Theme theme)
-                    {
-                        Application.Current.ApplyTheme(theme);
-                    }
-                };
-                ThemeManagers.ThemeChanged += delegate 
-                {
-                    foreach (var item in MenuThemes.Items)
-                    {
-                        if (item is MenuItem menuItem)
-                        {
-                            if (menuItem.Tag is Theme theme && theme == ThemeManagers.CurrentUITheme)
-                            {
-                                menuItem.IsChecked = true;
-                            }
-                            else
-                            {
-                                menuItem.IsChecked = false;
-                            }
-                        }
- 
-                    }
-                };
-                MenuThemes.Items.Add(menu);
-            }
-
-
-
-            MenuItem Toolmenu = new MenuItem() { Header = Properties.Resources._Tool };
-            Toolmenu.Items.Add(MenuThemes);
-            MenuItem Filemenu = new MenuItem() { Header = Properties.Resources._File };
-            menu.Items.Add(Filemenu);
-            menu.Items.Add(Toolmenu);
-            menu.Items.Add(new MenuItem() { Header = Properties.Resources._Help });
         }
 
         public void ViewChanged(object sender, ViewChangedEvent e)

@@ -1,14 +1,11 @@
-﻿using Global.Common;
+﻿using ColorVision.Themes.Controls;
+using Global.Common;
 using Global.RecentFile;
-using HandyControl.Properties.Langs;
 using System;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using ThemeManager.Controls;
-using Tool;
 
 namespace Solution
 {
@@ -66,7 +63,7 @@ namespace Solution
     /// <summary>
     /// NewCreatWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class NewCreatWindow : BaseWindow
+    public partial class NewCreatWindow : Window
     {
         public NewCreatWindow()
         {

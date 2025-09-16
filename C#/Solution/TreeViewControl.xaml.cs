@@ -1,7 +1,5 @@
-﻿using Global.Common;
-using Global.RecentFile;
+﻿using Global.RecentFile;
 using Global.SettingUp;
-using Global.SettingUp.Menu;
 using Lambda;
 using System;
 using System.Collections.Generic;
@@ -21,24 +19,6 @@ using XSolution;
 namespace Solution
 {
 
-    public interface ITranslator {
-        string Translate(string text);
-    }
-    [Export(typeof(ITranslator))]
-    public class GoogleTranslator : ITranslator {
-        public string Translate(string text) {
-            // Here, I would connect to Google translate and do the work.
-            return "Translated by Google Translator";
-        }
-    }
-    [Export(typeof(ITranslator))]
-    public class BingTranslator : ITranslator {
-        public string Translate(string text) {
-            return "Translated by Bing";
-        }
-    }
-    
-
     /// <summary>
     /// TreeViewControl.xaml 的交互逻辑
     /// </summary>
@@ -52,93 +32,8 @@ namespace Solution
                 window.Closing += Window_Closed;
             InitializeComponent();
             IniCommand();
-            this.DataContext = SoftwareConfig.SolutionSetting;
         }
 
-        [MenuAttribute(Headers = "Test")]
-        public  MenuItem ATest()
-        {
-            return new MenuItem();
-        }
-
-        private void AddMenu()
-        {
-            if (Application.Current.MainWindow.FindName("menu") is Menu menu)
-            {
-                MenuItem FileMenuItem = null;
-                foreach (var item in menu.Items.Cast<MenuItem>().ToList())
-                {
-                    if (item.Header.ToString().Contains("文件"))
-                    {
-                        FileMenuItem = item;
-                        menu.Items.Remove(item);
-                        break;
-                    }
-                };
-                FileMenuItem ??= new MenuItem();
-                FileMenuItem.Header = "文件(_F)";
-                menu.Items.Insert(0, FileMenuItem);
-
-                MenuItem CloseMenuItem = new MenuItem() { Header = "退出(_X)" };
-                CloseMenuItem.InputGestureText = "Alt + F4";
-                CloseMenuItem.Click += (s, e) =>
-                {
-                    Application.Current.MainWindow.Close();
-                };
-                FileMenuItem.Items.Insert(FileMenuItem.Items.Count, CloseMenuItem);
-
-                MenuItem RecentListMenuItem = null;
-
-                foreach (var item in FileMenuItem.Items.Cast<MenuItem>().ToList())
-                {
-                    if (item.Header.ToString().Contains("最近使用过的工程文件"))
-                    {
-                        RecentListMenuItem = item;
-                        FileMenuItem.Items.Remove(item);
-                        break;
-                    }
-                };
-
-
-                RecentListMenuItem ??= new MenuItem();
-                RecentListMenuItem.Header = "最近使用过的文件(_F)";
-                FileMenuItem.Items.Insert(FileMenuItem.Items.Count - 1, RecentListMenuItem);
-                RecentListMenuItem.SubmenuOpened +=  (s, e) =>
-                {
-                    var firstMenuItem = RecentListMenuItem.Items[0];
-                    foreach (var item in recentFileList.RecentFiles)
-                    {
-                        MenuItem menuItem = new MenuItem();
-                        menuItem.Header = item;
-                        menuItem.Click += (sender, e) =>
-                        {
-                            this.OpenSolution(item);
-                        };
-                        RecentListMenuItem.Items.Add(menuItem);
-                    };
-                    RecentListMenuItem.Items.Remove(firstMenuItem);
-
-                };
-                RecentListMenuItem.SubmenuClosed += (s, e) => {
-                    RecentListMenuItem.Items.Clear();
-                    RecentListMenuItem.Items.Add(new MenuItem());
-                };
-                RecentListMenuItem.Items.Add(new MenuItem());
-
-
-                MenuItem NewMenuItem = new MenuItem() { Header = "新建(_N)" };
-                NewMenuItem.InputGestureText = "Ctrl + N";
-                NewMenuItem.Click += (s, e) => NewCreat();
-
-                MenuItem OpenMenuItem = new MenuItem() { Header = "打开(_O)" };
-                OpenMenuItem.InputGestureText = "Ctrl + O";
-                OpenMenuItem.Click += (s, e) => OpenSolution();
-
-                FileMenuItem.Items.Insert(0, NewMenuItem);
-                FileMenuItem.Items.Insert(1, OpenMenuItem);
-            }
-
-        }
 
 
         private void TreeViewControl_Drop(object sender, DragEventArgs e)
@@ -221,7 +116,6 @@ namespace Solution
         {
             if (IsFirstLoad && this.Parent is StackPanel stackPanel && stackPanel.Parent is Viewbox viewbox && viewbox.Parent is ScrollViewer scrollViewer && scrollViewer.Parent is TabItem tabItem)
             {
-                AddMenu();
                 tabItem.AllowDrop = true;
                 tabItem.Drop += TreeViewControl_Drop;
                 ((Panel)SoulutionButtonPanel1.Parent).Children.Remove(SoulutionButtonPanel1);
@@ -359,7 +253,7 @@ namespace Solution
         {
             if (SoftwareConfig.SolutionSetting.IsSupportMultiProject && SolutionExplorers.Count > 1)
             {
-                MessageBox1.Show(Application.Current.MainWindow, "多工程情况下参数自动保存");
+                MessageBox.Show(Application.Current.MainWindow, "多工程情况下参数自动保存");
             }
             if (!string.IsNullOrEmpty(SolutionFullName))
             {
@@ -376,7 +270,7 @@ namespace Solution
             HitTestResult result = VisualTreeHelper.HitTest(SolutionTreeView, SelectPoint);
             if (result != null)
             {
-                TreeViewItem item = ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
+                TreeViewItem item = Tool.ViewHelper.FindVisualParent<TreeViewItem>(result.VisualHit);
                 if (item == null)
                     return;
 

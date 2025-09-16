@@ -145,7 +145,7 @@ namespace XSolution
                     return;
                 }
 
-                if (MessageBox1.Show("即将删除文件", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("即将删除文件", "Grid", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     Parent.RemoveChild(this);
                 };

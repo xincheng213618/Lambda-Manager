@@ -1,15 +1,12 @@
-﻿using XSolution;
-using System.Windows;
-using ThemeManager.Controls;
-using System.Windows.Controls;
-using Microsoft.Win32;
+﻿using Global.Common.MVVM;
 using Lambda;
+using Microsoft.Win32;
 using System;
-using System.Linq;
 using System.IO;
-using Global.Common;
-using Global.Common.MVVM;
-using Global.Common.Extensions;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using XSolution;
 
 namespace Solution
 {
@@ -17,7 +14,7 @@ namespace Solution
     /// <summary>
     /// GrifExportAsWindow1.xaml 的交互逻辑
     /// </summary>
-    public partial class GrifExportAsWindow : BaseWindow
+    public partial class GrifExportAsWindow : Window
     {
         public BaseObject BaseObject;
 
@@ -58,7 +55,7 @@ namespace Solution
         {
             if (File.Exists(grifExportAs.ExportFullName))
             {
-                if (MessageBox1.Show("\n\r此目标已经存在该文件，是否覆盖\n\r", "Grid", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                if (MessageBox.Show("\n\r此目标已经存在该文件，是否覆盖\n\r", "Grid", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 {
                     return;
                 }
