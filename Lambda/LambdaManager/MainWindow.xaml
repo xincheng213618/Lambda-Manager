@@ -454,7 +454,7 @@
                 </StatusBarItem>
 
             </StatusBar>
-            <ComboBox Name="msgList"  Visibility="Collapsed" Grid.Column="4" Grid.Row="2" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Width="400" Height="30">
+            <ComboBox Name="msgList"  Grid.Column="4" Grid.Row="2" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Width="400" Height="30">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Path=Text}"/>
