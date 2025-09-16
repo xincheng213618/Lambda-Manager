@@ -38,20 +38,6 @@ namespace Solution
         }
     }
     
-    public class GeneralController  {
-
-        [ImportingConstructor]
-        public GeneralController([ImportMany] IEnumerable<ITranslator> Translator) {
-            this.Translator = Translator;
-
-        }
-        public IEnumerable<ITranslator> Translator { get; set; }
-
-        public string Translate(string text) {
-            return "2222";
-        }
-    }
-
 
     /// <summary>
     /// TreeViewControl.xaml 的交互逻辑
@@ -67,17 +53,6 @@ namespace Solution
             InitializeComponent();
             IniCommand();
             this.DataContext = SoftwareConfig.SolutionSetting;
-
-            //AggregateCatalog catalog = new AggregateCatalog();
-
-            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(TreeViewControl).Assembly));
-            //CompositionContainer _container = new CompositionContainer(catalog);
-            //GeneralController generalController = new GeneralController();
-            //_container.ComposeParts(this);
-            //_container.ComposeParts(generalController);
-            //_container.SatisfyImportsOnce(generalController);
-
-
         }
 
         [MenuAttribute(Headers = "Test")]
@@ -161,9 +136,6 @@ namespace Solution
 
                 FileMenuItem.Items.Insert(0, NewMenuItem);
                 FileMenuItem.Items.Insert(1, OpenMenuItem);
-                //FileMenuItem.Items.Insert(2, new Separator());
-
-                //FileMenuItem.Items.Insert(FileMenuItem.Items.Count-2, new Separator());
             }
 
         }

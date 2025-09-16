@@ -19,9 +19,11 @@ namespace XSolution
 
         public bool IsExists => FileInfo.Exists;
         public SolutionConfig(string FullPath){
+
             FileInfo = new FileInfo(FullPath);
+            RootDirectoryInfo = new DirectoryInfo(Path.GetDirectoryName(FileInfo.FullName));
+
             if (FileInfo.Exists) {
-                RootDirectoryInfo = new DirectoryInfo(Path.GetDirectoryName(FileInfo.FullName));
             }
         }
     }
@@ -57,6 +59,12 @@ namespace XSolution
 
         public SolutionExplorer(string FullPath):base(FullPath)
         {
+
+            if (!File.Exists(FullPath))
+            {
+                string content = "1111";
+                File.WriteAllText(FullPath, content);
+            }
             Config = new SolutionConfig(FullPath);
 
 

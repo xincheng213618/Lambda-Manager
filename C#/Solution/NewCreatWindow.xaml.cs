@@ -136,6 +136,7 @@ namespace Solution
                 }
             }
             Directory.CreateDirectory(SolutionDirectoryPath);
+
             newCreatViewMode.recentFileList.InsertFile(newCreatViewMode.DirectoryPath);
 
             IsCreate = true;
