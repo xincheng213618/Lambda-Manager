@@ -42,19 +42,6 @@ namespace LambdaManager
             _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
         }
 
-        public static string GetExpireDate()
-        {
-            string ACEFileName = $"{Directory.GetCurrentDirectory()}/ACE.dll";
-            if (!File.Exists(ACEFileName))
-                return null;
-            var assembly = System.Reflection.Assembly.LoadFile($"{Directory.GetCurrentDirectory()}/ACE.dll");
-            if (assembly == null)
-                return null;
-            var type = assembly.GetType("ACE.AES");
-            string? s = type.InvokeMember("GetExpireDate", System.Reflection.BindingFlags.InvokeMethod, null, null, null)?.ToString();
-            return s;
-        }
-
         public void AddMessage(Message message)
         {
             Application.Current.Dispatcher.Invoke(delegate

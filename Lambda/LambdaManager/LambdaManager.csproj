@@ -125,7 +125,6 @@
     <Resource Include="resources\icons\top-eraser.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\C#\ACE\ACE.csproj" />
     <ProjectReference Include="..\..\C#\Global.SettingUp\Global.SettingUp.csproj" />
     <ProjectReference Include="..\..\C#\Solution\Solution.csproj" />
     <ProjectReference Include="..\..\C#\ThemeManager\ThemeManager.csproj" />
