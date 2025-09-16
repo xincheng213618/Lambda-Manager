@@ -73,18 +73,9 @@ namespace LambdaManager
             Application.Current.MainWindow = mainWindow;
             ConfigUILibrary = new ConfigUILibrary(mainWindow);
             ConfigLibrary.lambdaUI = ConfigUILibrary;
+            Log.LogWrite -= AddMessage;
 
-            if (num == true)
-            {
-                Log.LogWrite -= AddMessage;
-
-                ConfigLibrary.InitializeLibrary();
-            }
-            else
-            {
-                MessageBox.Show("主控初始化失败");
-            }
-
+            ConfigLibrary.InitializeLibrary();
             TexoBoxMsg.Text += Environment.NewLine + "正在打开主窗口";
             ConfigLibrary.LoadUIComponents();
             mainWindow.Show();
