@@ -1,3 +1,4 @@
+using ColorVision.Themes;
 using ColorVision.UI.Menus;
 using Global.SettingUp.PC;
 using Lambda;
@@ -51,6 +52,7 @@ namespace LambdaManager
         public MainWindow()
         {
             InitializeComponent();
+            this.ApplyCaption();
             ChangeMiddleViewVisibility(false);
         }
 

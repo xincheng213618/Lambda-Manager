@@ -40,25 +40,24 @@
                 <ColumnDefinition Width="*"  MinWidth="400"/>
                 <ColumnDefinition Width="145" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Grid>
-                    <Button MouseDoubleClick="Button_MouseDoubleClick"  BorderThickness="0" Padding="0" Margin="5,5,5,5">
-                        <Image Source="/resources/icons/application-icon.png"  Stretch="Uniform" Height="26"/>
-                    </Button>
-                </Grid>
-                <Menu  DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" />
-            </StackPanel>
+            <Border Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <Menu  DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置"  Click="RadioButton1_Click"/>
+                        <RadioButton x:Name="RadioButton2" IsChecked="True" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked" />
+                        <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked" />
+                        <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked" />
+                        <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked" />
+                    </StackPanel>
+
+                </StackPanel>
+               
+            </Border>
 
 
 
 
-            <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置"  Click="RadioButton1_Click"/>
-                <RadioButton x:Name="RadioButton2" IsChecked="True" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked" />
-                <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked" />
-                <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked" />
-                <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked" />
-            </StackPanel>
 
         </Grid>
 
