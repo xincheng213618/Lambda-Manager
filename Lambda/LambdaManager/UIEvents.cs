@@ -5,7 +5,6 @@ using Lambda;
 using LambdaManager.Core;
 using LambdaManager.Mode;
 using Global.Common.Extensions;
-using System.Windows.Forms;
 
 namespace LambdaManager.Features;
 

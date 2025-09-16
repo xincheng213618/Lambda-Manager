@@ -35,19 +35,11 @@ namespace LambdaManager
         {
             ConfigLibrary = new ConfigLibrary();
             Log.LogWrite += AddMessage;
-            if (DateTime.Now > Convert.ToDateTime(GetExpireDate() ?? "2025/1/1"))
-            {
-                MessageBox.Show("过期了");
-                this.Close();
-            }
-            else
-            {
-                labelVersion.Content = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
-                Thread thread = new Thread(Load);
-                thread.Start();
-                _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
-            }
 
+            labelVersion.Content = string.Format("V3.0 - {0}", File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath).ToString("yyyy/MM/dd"));
+            Thread thread = new Thread(Load);
+            thread.Start();
+            _ = Dispatcher.BeginInvoke(new Action(async () => await InitializedOver()));
         }
 
         public static string GetExpireDate()

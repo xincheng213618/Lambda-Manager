@@ -29,6 +29,7 @@
     <ProjectReference Include="..\HotKey\HotKey.csproj" />
     <ProjectReference Include="..\Lambda\Lambda.csproj" />
     <ProjectReference Include="..\ThemeManager\ThemeManager.csproj" />
+    <ProjectReference Include="..\Wizard\Wizard.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -24,7 +24,6 @@ using System.Windows.Media.Imaging;
 using ThemeManager;
 using System.IO;
 using Global.Common.Util;
-using Wizard;
 using System.Xml.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
