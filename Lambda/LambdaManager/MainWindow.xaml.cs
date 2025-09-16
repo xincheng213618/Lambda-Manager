@@ -61,14 +61,6 @@ namespace LambdaManager
             MenuManager.GetInstance().LoadMenuItemFromAssembly();
 
             ViewManager.GetInstance().ViewChanged += ViewChanged;
-            allfpsState.DataContext = ViewManager.GetInstance();
-            if (Common.ViewGrid is ViewGrid viewGrid)
-            {
-                mainView.Children.Clear();
-                mainView.Children.Add(viewGrid.mainView);
-            }
-
-
 
             Log.LogWrite += AddMessage;
             //performDock.DataContext = statusBarGlobal;
@@ -78,8 +70,6 @@ namespace LambdaManager
 
         public void ViewChanged(object sender, ViewChangedEvent e)
         {
-            if (e.View.Index ==0)
-                fpsState.DataContext = e.View;
         }
 
         private readonly Severity logLevel = (Severity)Enum.Parse(typeof(Severity), Settings.Default.LogLevel, ignoreCase: true);
@@ -164,7 +154,6 @@ namespace LambdaManager
             return side switch
             {
                 Side.MIDDLE => materialView,
-                Side.BOTTOM => bottomView,
                 Side.ACQUIRE => acquireView,
                 Side.PROJECT => projectView,
                 Side.REPORT => reportView,
