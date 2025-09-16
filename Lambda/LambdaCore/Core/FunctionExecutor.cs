@@ -1,14 +1,13 @@
+using Lambda;
+using LambdaManager.Conversion;
+using LambdaManager.DataType;
+using LambdaManager.NativeInvokers;
+using LambdaUtils;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Lambda;
-using LambdaManager.Conversion;
-using LambdaManager.DataType;
-using LambdaManager.DataType.SigTable;
-using LambdaUtils;
-using LambdaManager.NativeInvokers;
 
 namespace LambdaManager.Core
 {
@@ -168,7 +167,7 @@ namespace LambdaManager.Core
             int result = -1;
             try
             {
-                result = Exec(info.Function, args);
+                result = NativeInvoker.Exec(info.Function, args);
                 return result;
             }
             catch (Exception ex)
@@ -345,77 +344,6 @@ namespace LambdaManager.Core
                     return value;
             }
         }
-
-        private static int Exec(Function function, List<object?>? args)
-        {
-            return NativeInvoker.Exec(function, args);
-
-            EntryPoint entry = function.EntryPoint;
-            if (entry == null)
-            {
-                Log.Report(new Message
-                {
-                    Severity = Severity.ERROR,
-                    Text = "函数不存在"
-                });
-                return -1;
-            }
-            IntPtr fp = entry.FuncAddr;
-            string code = entry.Code;
-
-
-            if (args == null || args!.Count == 0)
-            {
-                return S1.Invoke(fp);
-            }
-            return args!.Count switch
-            {
-                1 => S1.Invoke(code, fp, args),
-                2 => S2.Invoke(code, fp, args),
-                3 => S3.Invoke(code, fp, args),
-                4 => code[0] switch
-                {
-                    '0' => S40.Invoke0(code, fp, args),
-                    '1' => S41.Invoke1(code, fp, args),
-                    '2' => S42.Invoke2(code, fp, args),
-                    '6' => S46.Invoke6(code, fp, args),
-                    '3' => S43.Invoke3(code, fp, args),
-                    '5' => S45.Invoke5(code, fp, args),
-                    '4' => S44.Invoke4(code, fp, args),
-                    '7' => S47.Invoke7(code, fp, args),
-                    _ => -1,
-                },
-                5 => S5.Invoke(code, fp, args),
-                6 => code[0] switch
-                {
-                    '2' => S62.Invoke2(code, fp, args),
-                    '6' => S66.Invoke6(code, fp, args),
-                    '3' => S63.Invoke3(code, fp, args),
-                    '5' => S65.Invoke5(code, fp, args),
-                    '7' => S67.Invoke7(code, fp, args),
-                    _ => -1,
-                },
-                _ => -1,
-            };
-        }
-
-        // 和你现有映射保持一致（可按需调整）
-        // '0' => byte, '1' => short, '2' => int, '3' => long, 
-        // '4' => decimal, '5' => double, '6' => float, '7' => IntPtr
-        public enum ArgCode 
-        {
-            U8 = '0',
-            I16 = '1',
-            I32 = '2',
-            I64 = '3',
-            Decimal = '4',
-            F64 = '5',
-            F32 = '6',
-            Ptr = '7'
-        }
-
-
-
 
         private static void AddReferredToVariable(ExecInfo info)
         {
