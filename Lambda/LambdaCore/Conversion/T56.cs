@@ -7,62 +7,26 @@ public class T56
 {
 	public static object ToDouble(TypeInfo info, object value)
 	{
-		switch (info.Id)
-		{
-		case 10:
-		case 11:
-			return Convert.ToDouble((bool)value);
-		case 12:
-			return Convert.ToDouble((int)value);
-		case 13:
-		case 14:
-		case 22:
-			return Convert.ToDouble((byte)value);
-		case 17:
-		case 18:
-		case 21:
-			return Convert.ToDouble((sbyte)value);
-		case 20:
-			return Convert.ToDouble((char)value);
-		case 23:
-		case 24:
-		case 25:
-			return Convert.ToDouble((short)value);
-		case 27:
-		case 28:
-			return Convert.ToDouble((ushort)value);
-		case 30:
-		case 31:
-		case 32:
-			return Convert.ToDouble((int)value);
-		case 35:
-		case 36:
-			return Convert.ToDouble((uint)value);
-		case 40:
-		case 42:
-		case 61:
-			return Convert.ToDouble((long)value);
-		case 41:
-		case 60:
-			return (info.Size == 4) ? Convert.ToDouble((int)value) : Convert.ToDouble((long)value);
-		case 45:
-			return Convert.ToDouble((ulong)value);
-		case 46:
-			return (info.Size == 4) ? Convert.ToDouble((uint)value) : Convert.ToDouble((ulong)value);
-		case 50:
-		case 51:
-			return Convert.ToDouble((float)value);
-		case 55:
-		case 56:
-			return value;
-		case 62:
-			return (info.Size == 8) ? Convert.ToDouble((double)value) : Convert.ToDouble((decimal)value);
-		case 65:
-		case 66:
-		case 67:
-			return Convert.ToDouble((decimal)value);
-		default:
-			return value;
-		}
-	}
+        return info.Id switch
+        {
+            10 or 11 => Convert.ToDouble((bool)value),
+            12 => Convert.ToDouble((int)value),
+            13 or 14 or 22 => Convert.ToDouble((byte)value),
+            17 or 18 or 21 => Convert.ToDouble((sbyte)value),
+            20 => Convert.ToDouble((char)value),
+            23 or 24 or 25 => Convert.ToDouble((short)value),
+            27 or 28 => Convert.ToDouble((ushort)value),
+            30 or 31 or 32 => Convert.ToDouble((int)value),
+            35 or 36 => Convert.ToDouble((uint)value),
+            40 or 42 or 61 => Convert.ToDouble((long)value),
+            41 or 60 => (info.Size == 4) ? Convert.ToDouble((int)value) : Convert.ToDouble((long)value),
+            45 => Convert.ToDouble((ulong)value),
+            46 => (info.Size == 4) ? Convert.ToDouble((uint)value) : Convert.ToDouble((ulong)value),
+            50 or 51 => Convert.ToDouble((float)value),
+            55 or 56 => value,
+            62 => (info.Size == 8) ? Convert.ToDouble((double)value) : Convert.ToDouble((decimal)value),
+            65 or 66 or 67 => Convert.ToDouble((decimal)value),
+            _ => value,
+        };
+    }
 }

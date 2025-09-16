@@ -7,62 +7,26 @@ public class T45
 {
 	public static object ToUInt64(TypeInfo info, object value)
 	{
-		switch (info.Id)
-		{
-		case 10:
-		case 11:
-			return Convert.ToUInt64((bool)value);
-		case 12:
-			return Convert.ToUInt64((int)value);
-		case 13:
-		case 14:
-		case 22:
-			return Convert.ToUInt64((byte)value);
-		case 17:
-		case 18:
-		case 21:
-			return Convert.ToUInt64((sbyte)value);
-		case 20:
-			return Convert.ToUInt64((char)value);
-		case 23:
-		case 24:
-		case 25:
-			return Convert.ToUInt64((short)value);
-		case 27:
-		case 28:
-			return Convert.ToUInt64((ushort)value);
-		case 30:
-		case 31:
-		case 32:
-			return Convert.ToUInt64((int)value);
-		case 35:
-		case 36:
-			return Convert.ToUInt64((uint)value);
-		case 40:
-		case 42:
-		case 61:
-			return Convert.ToUInt64((long)value);
-		case 41:
-		case 60:
-			return (info.Size == 4) ? Convert.ToUInt64((int)value) : Convert.ToUInt64((long)value);
-		case 45:
-			return value;
-		case 46:
-			return (info.Size == 4) ? Convert.ToUInt64((uint)value) : Convert.ToUInt64((ulong)value);
-		case 50:
-		case 51:
-			return Convert.ToUInt64((float)value);
-		case 55:
-		case 56:
-			return Convert.ToUInt64((double)value);
-		case 62:
-			return (info.Size == 8) ? Convert.ToUInt64((double)value) : Convert.ToUInt64((decimal)value);
-		case 65:
-		case 66:
-		case 67:
-			return Convert.ToUInt64((decimal)value);
-		default:
-			return value;
-		}
-	}
+        return info.Id switch
+        {
+            10 or 11 => Convert.ToUInt64((bool)value),
+            12 => Convert.ToUInt64((int)value),
+            13 or 14 or 22 => Convert.ToUInt64((byte)value),
+            17 or 18 or 21 => Convert.ToUInt64((sbyte)value),
+            20 => Convert.ToUInt64((char)value),
+            23 or 24 or 25 => Convert.ToUInt64((short)value),
+            27 or 28 => Convert.ToUInt64((ushort)value),
+            30 or 31 or 32 => Convert.ToUInt64((int)value),
+            35 or 36 => Convert.ToUInt64((uint)value),
+            40 or 42 or 61 => Convert.ToUInt64((long)value),
+            41 or 60 => (info.Size == 4) ? Convert.ToUInt64((int)value) : Convert.ToUInt64((long)value),
+            45 => value,
+            46 => (info.Size == 4) ? Convert.ToUInt64((uint)value) : Convert.ToUInt64((ulong)value),
+            50 or 51 => Convert.ToUInt64((float)value),
+            55 or 56 => Convert.ToUInt64((double)value),
+            62 => (info.Size == 8) ? Convert.ToUInt64((double)value) : Convert.ToUInt64((decimal)value),
+            65 or 66 or 67 => Convert.ToUInt64((decimal)value),
+            _ => value,
+        };
+    }
 }

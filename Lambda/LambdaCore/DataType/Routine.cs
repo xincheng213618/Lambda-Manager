@@ -10,7 +10,7 @@ public class Routine
 
 	public List<Function>? Functions { get; set; }
 
-	public Dictionary<Location, LocationConverter>? Referring { get; set; }
+	public Dictionary<Location, LocationConverter>? Referring { get; set; } = new Dictionary<Location, LocationConverter>();
 
 	public Dictionary<Function, List<Location>>? Referred { get; set; }
 

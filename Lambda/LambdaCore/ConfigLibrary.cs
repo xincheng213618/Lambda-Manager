@@ -1333,10 +1333,7 @@ namespace LambdaManager
             if (source != null && target != null)
             {
                 Dictionary<Location, LocationConverter> referring = routine.Referring;
-                if (referring == null)
-                {
-                    referring = (routine.Referring = new Dictionary<Location, LocationConverter>());
-                }
+
                 TypeInfo typeInfo = link.GetSourceType();
                 List<CastType> castTypes = link.CastTypes;
                 Converter converter = null;

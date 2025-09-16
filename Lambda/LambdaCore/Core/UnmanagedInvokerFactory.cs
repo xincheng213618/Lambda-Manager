@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
-namespace LambdaManager.NativeInvokers
+namespace LambdaManager.Core
 {
     // 和你现有映射保持一致（可按需调整）
     // '0' => byte, '1' => short, '2' => int, '3' => long, 

@@ -7,62 +7,26 @@ public class T14
 {
 	public static object ToByte(TypeInfo info, object value)
 	{
-		switch (info.Id)
-		{
-		case 10:
-		case 11:
-			return Convert.ToByte((bool)value);
-		case 12:
-			return Convert.ToByte((int)value);
-		case 13:
-		case 14:
-		case 22:
-			return value;
-		case 17:
-		case 18:
-		case 21:
-			return Convert.ToByte((sbyte)value);
-		case 20:
-			return Convert.ToByte((char)value);
-		case 23:
-		case 24:
-		case 25:
-			return Convert.ToByte((short)value);
-		case 27:
-		case 28:
-			return Convert.ToByte((ushort)value);
-		case 30:
-		case 31:
-		case 32:
-			return Convert.ToByte((int)value);
-		case 35:
-		case 36:
-			return Convert.ToByte((uint)value);
-		case 40:
-		case 42:
-		case 61:
-			return Convert.ToByte((long)value);
-		case 41:
-		case 60:
-			return (info.Size == 4) ? Convert.ToByte((int)value) : Convert.ToByte((long)value);
-		case 45:
-			return Convert.ToByte((ulong)value);
-		case 46:
-			return (info.Size == 4) ? Convert.ToByte((uint)value) : Convert.ToByte((ulong)value);
-		case 50:
-		case 51:
-			return Convert.ToByte((float)value);
-		case 55:
-		case 56:
-			return Convert.ToByte((double)value);
-		case 62:
-			return (info.Size == 8) ? Convert.ToByte((double)value) : Convert.ToByte((decimal)value);
-		case 65:
-		case 66:
-		case 67:
-			return Convert.ToByte((decimal)value);
-		default:
-			return value;
-		}
-	}
+        return info.Id switch
+        {
+            10 or 11 => Convert.ToByte((bool)value),
+            12 => Convert.ToByte((int)value),
+            13 or 14 or 22 => value,
+            17 or 18 or 21 => Convert.ToByte((sbyte)value),
+            20 => Convert.ToByte((char)value),
+            23 or 24 or 25 => Convert.ToByte((short)value),
+            27 or 28 => Convert.ToByte((ushort)value),
+            30 or 31 or 32 => Convert.ToByte((int)value),
+            35 or 36 => Convert.ToByte((uint)value),
+            40 or 42 or 61 => Convert.ToByte((long)value),
+            41 or 60 => (info.Size == 4) ? Convert.ToByte((int)value) : Convert.ToByte((long)value),
+            45 => Convert.ToByte((ulong)value),
+            46 => (info.Size == 4) ? Convert.ToByte((uint)value) : Convert.ToByte((ulong)value),
+            50 or 51 => Convert.ToByte((float)value),
+            55 or 56 => Convert.ToByte((double)value),
+            62 => (info.Size == 8) ? Convert.ToByte((double)value) : Convert.ToByte((decimal)value),
+            65 or 66 or 67 => Convert.ToByte((decimal)value),
+            _ => value,
+        };
+    }
 }

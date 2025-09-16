@@ -33,11 +33,42 @@ namespace LambdaManager.Core
 
     public class TypeInfo
     {
-        private static int[] nonJsonTypes = new int[11]
+        private static readonly Dictionary<int, Func<TypeInfo, object, object>> TypeReaders = new()
         {
-        13, 14, 17, 18, 20, 21, 22, 80, 81, 82,
-        83
+            [10] = (info, ptr) => Read<bool>(ptr),
+            [12] = (info, ptr) => Read<int>(ptr),
+            [13] = (info, ptr) => Read<byte>(ptr),
+            [17] = (info, ptr) => Read<sbyte>(ptr),
+            [20] = (info, ptr) => Read<char>(ptr),
+            [23] = (info, ptr) => Read<short>(ptr),
+            [27] = (info, ptr) => Read<ushort>(ptr),
+            [30] = (info, ptr) => Read<int>(ptr),
+            [35] = (info, ptr) => Read<uint>(ptr),
+            [40] = (info, ptr) => Read<long>(ptr),
+            [41] = (info, ptr) => info.Size == 4 ? Read<int>(ptr) : Read<long>(ptr),
+            [45] = (info, ptr) => Read<ulong>(ptr),
+            [46] = (info, ptr) => info.Size == 4 ? Read<uint>(ptr) : Read<ulong>(ptr),
+            [50] = (info, ptr) => Read<float>(ptr),
+            [55] = (info, ptr) => Read<double>(ptr),
+            [62] = (info, ptr) => info.Size == 8 ? Read<double>(ptr) : Read<decimal>(ptr),
+            [65] = (info, ptr) => Read<decimal>(ptr),
+            [71] = (info, ptr) => Read<IntPtr>(ptr),
+            // 字符串类可以继续扩展
         };
+
+        private static unsafe T Read<T>(object address)
+        {
+            return *(T*)(void*)(IntPtr)address;
+        }
+        public static object ToValue(TypeInfo info, object address)
+        {
+            if (TypeReaders.TryGetValue(info.Id, out var reader))
+                return reader(info, address);
+
+            throw new Exception("error: get value of void pointer is not allowed");
+        }
+
+
 
         public int Id { get; set; }
 
@@ -185,6 +216,11 @@ namespace LambdaManager.Core
             return T66.ToDecimal(this, value);
         }
 
+        private static int[] nonJsonTypes = new int[11]
+{
+        13, 14, 17, 18, 20, 21, 22, 80, 81, 82,
+        83
+};
         public bool IsJsonType()
         {
             return Array.IndexOf(nonJsonTypes, Id) == -1;

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LambdaManager.NativeInvokers
+namespace LambdaManager.Core
 {
     public static class NativeInvoker
     {

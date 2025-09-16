@@ -1,7 +1,7 @@
 using Lambda;
 using LambdaManager.Conversion;
 using LambdaManager.DataType;
-using LambdaManager.NativeInvokers;
+using LambdaManager.Core;
 using LambdaUtils;
 using System;
 using System.Collections.Generic;
