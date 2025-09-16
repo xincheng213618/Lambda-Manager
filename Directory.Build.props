@@ -1,11 +1,11 @@
 <Project>
 
   <PropertyGroup>
-    <Copyright>Copyright (C) 2023 Xin Corporation</Copyright>
-    <AssemblyCompany>Xin Corp.</AssemblyCompany>
-    <AssemblyCopyright>Copyright (C) 2023 Xin Corporation</AssemblyCopyright>
+    <Copyright>Copyright (C) 2023 Xin</Copyright>
+    <AssemblyCompany>Xin</AssemblyCompany>
+    <AssemblyCopyright>Copyright (C) 2023 Xin</AssemblyCopyright>
     <AssemblyProduct>Lambda</AssemblyProduct>
-    <Company>Xin Corporation</Company>
+    <Company>Xin</Company>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Platforms>x64;ARM64</Platforms>
     <PackageTags>Lambda</PackageTags>
