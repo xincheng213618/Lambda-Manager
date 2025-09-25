@@ -1,0 +1,61 @@
+<UserControl x:Class="LambdaManager.Controls.LeftPanelControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="RadiusBorder" TargetType="{x:Type Border}">
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="#BDBDBD"/>
+            <Setter Property="Border.CornerRadius" Value="5" />
+        </Style>
+    </UserControl.Resources>
+    
+    <Border Style="{StaticResource RadiusBorder}" CornerRadius="5,5,0,0">
+        <TabControl x:Name="leftTab">
+            <TabItem Header="工程" IsSelected="True">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <Viewbox VerticalAlignment="Top" Stretch="Uniform">
+                        <StackPanel Name="projectView" Margin="10,10,10,20">
+                        </StackPanel>
+                    </Viewbox>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="采集配置" Visibility="{Binding IsAcquirePhaseVisible, Converter={StaticResource bool2VisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <Viewbox VerticalAlignment="Top" Stretch="Uniform">
+                        <StackPanel Name="acquireView">
+                        </StackPanel>
+                    </Viewbox>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="图像处理" Visibility="{Binding IsProcessPhaseVisible, Converter={StaticResource bool2VisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <Viewbox VerticalAlignment="Top" Stretch="Uniform">
+                        <StackPanel Name="processView" Margin="0,5,0,5">
+                        </StackPanel>
+                    </Viewbox>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="图像分析" Visibility="{Binding IsAnalysisPhaseVisible, Converter={StaticResource bool2VisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <Viewbox VerticalAlignment="Top" Stretch="Uniform">
+                        <StackPanel Name="analysisView" Margin="0,5,0,5">
+                        </StackPanel>
+                    </Viewbox>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="报告生成" Visibility="{Binding IsReportPhaseVisible, Converter={StaticResource bool2VisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <Viewbox VerticalAlignment="Top" Stretch="Uniform">
+                        <StackPanel Name="reportView" Margin="0,5,0,5">
+                        </StackPanel>
+                    </Viewbox>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Border>
+</UserControl>
