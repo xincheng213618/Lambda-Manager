@@ -21,6 +21,9 @@ using System.Windows.Input;
 
 namespace LambdaManager
 {
+    /// <summary>
+    /// 面板位置枚举，用于标识不同的UI面板区域
+    /// </summary>
     public enum Side
     {
         TOP,
@@ -312,6 +315,22 @@ namespace LambdaManager
         {
             ChangeMiddleViewVisibility(visible: false);
         }
+        #endregion
+
+        #region Legacy Support Methods
+        /// <summary>
+        /// 添加消息 - 保持向后兼容性
+        /// </summary>
+        /// <param name="message">消息对象</param>
+        public void AddMessage(Message message)
+        {
+            ViewModel?.AddMessage(message);
+        }
+
+        /// <summary>
+        /// 获取左侧Tab控件的引用 - 用于相位切换
+        /// </summary>
+        public TabControl LeftTab => leftPanelControl?.TabControl;
         #endregion
     }
 

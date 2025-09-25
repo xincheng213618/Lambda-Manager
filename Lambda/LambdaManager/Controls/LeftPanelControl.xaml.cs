@@ -30,5 +30,22 @@ namespace LambdaManager.Controls
                 _ => null
             };
         }
+
+        /// <summary>
+        /// 设置选中的Tab索引
+        /// </summary>
+        /// <param name="index">Tab索引</param>
+        public void SetSelectedTabIndex(int index)
+        {
+            if (leftTab != null && index >= 0 && index < leftTab.Items.Count)
+            {
+                leftTab.SelectedIndex = index;
+            }
+        }
+
+        /// <summary>
+        /// 获取Tab控件引用
+        /// </summary>
+        public TabControl TabControl => leftTab;
     }
 }

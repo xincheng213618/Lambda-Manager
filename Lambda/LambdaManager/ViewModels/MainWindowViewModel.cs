@@ -204,6 +204,34 @@ namespace LambdaManager.ViewModels
         private void OnPhaseSelectionExecute(object parameter)
         {
             LambdaControl.Trigger("PHASE_CHECKED", this, EventArgs.Empty);
+            
+            // 处理Tab切换逻辑
+            if (parameter is System.Windows.Controls.RadioButton radioButton)
+            {
+                var mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+                var leftTab = mainWindow?.LeftTab;
+                
+                if (leftTab != null && leftTab.SelectedIndex != 0)
+                {
+                    switch (radioButton.Name)
+                    {
+                        case "RadioButton2":
+                            leftTab.SelectedIndex = 1;
+                            break;
+                        case "RadioButton3":
+                            leftTab.SelectedIndex = 2;
+                            break;
+                        case "RadioButton4":
+                            leftTab.SelectedIndex = 3;
+                            break;
+                        case "RadioButton5":
+                            leftTab.SelectedIndex = 4;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
         #endregion
 
