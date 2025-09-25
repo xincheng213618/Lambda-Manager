@@ -26,12 +26,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Controls\**" />
-    <EmbeddedResource Remove="Controls\**" />
-    <None Remove="Controls\**" />
-    <Page Remove="Controls\**" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="app.manifest" />
     <None Remove="Image\ZIRCON.png" />
     <None Remove="resources\icons\application-icon.png" />

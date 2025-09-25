@@ -7,6 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local ="clr-namespace:LambdaManager"      
         xmlns:im ="clr-namespace:ColorVision.ImageEditor;assembly=ColorVision.ImageEditor"
+        xmlns:controls="clr-namespace:LambdaManager.Controls"
         Background="{DynamicResource GlobalBackground}"  Width="1280"  Height="720" MinWidth="1024" MinHeight="576" Loaded="Window_Loaded"   Initialized="Window_Initialized" SizeChanged="Window_SizeChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered" >
     <Window.Resources>
         <Style x:Key="MessageBlock" TargetType="{x:Type TextBlock}">
@@ -44,11 +45,11 @@
                 <StackPanel Orientation="Horizontal">
                     <Menu  DockPanel.Dock="Left" Name="menu" Background="Transparent" VerticalAlignment="Center" />
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置"  Click="RadioButton1_Click"/>
-                        <RadioButton x:Name="RadioButton2" IsChecked="True" Style="{DynamicResource PhaseButton}" Content="采集" Checked="RadioButton_Checked" />
-                        <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Checked="RadioButton_Checked" />
-                        <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Checked="RadioButton_Checked" />
-                        <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Checked="RadioButton_Checked" />
+                        <RadioButton x:Name="RadioButton1" Style="{DynamicResource PhaseButton}" Content="配置"  Command="{Binding PhaseSelectionCommand}"/>
+                        <RadioButton x:Name="RadioButton2" IsChecked="True" Style="{DynamicResource PhaseButton}" Content="采集" Command="{Binding PhaseSelectionCommand}" />
+                        <RadioButton x:Name="RadioButton3" Style="{DynamicResource PhaseButton}" Content="处理" Command="{Binding PhaseSelectionCommand}" />
+                        <RadioButton x:Name="RadioButton4" Style="{DynamicResource PhaseButton}" Content="分析" Command="{Binding PhaseSelectionCommand}" />
+                        <RadioButton x:Name="RadioButton5" Style="{DynamicResource PhaseButton}" Content="报告" Command="{Binding PhaseSelectionCommand}" />
                     </StackPanel>
 
                 </StackPanel>
@@ -73,128 +74,42 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border  Style="{StaticResource RadiusBorder}" CornerRadius="5,5,0,0">
-                <TabControl  x:Name="leftTab">
-                    <TabItem Header="工程" IsSelected="True" >
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform" >
-                                <StackPanel Name="projectView" Margin="10,10,10,20"  >
-                                </StackPanel>
-                            </Viewbox>
-                        </ScrollViewer>
-                    </TabItem>
-                    <TabItem Header="采集配置" Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton2,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
-                                <StackPanel Name="acquireView">
-                                </StackPanel>
-                            </Viewbox>
-                        </ScrollViewer>
-                    </TabItem>
-                    <TabItem Header="图像处理" Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton3,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
-                                <StackPanel Name="proessView" Margin="0,5,0,5">
-                                </StackPanel>
-                            </Viewbox>
-                        </ScrollViewer>
-                    </TabItem>
-                    <TabItem Header="图像分析" Visibility="{Binding ElementName=RadioButton4,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton4,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
-                                <StackPanel Name="analysisView" Margin="0,5,0,5">
-                                </StackPanel>
-                            </Viewbox>
-                        </ScrollViewer>
-                    </TabItem>
-                    <TabItem Header="报告生成" Visibility="{Binding ElementName=RadioButton5,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ElementName=RadioButton5,Path=IsChecked,Converter ={StaticResource bool2VisibilityConverter}}">
-                            <Viewbox VerticalAlignment="Top" Stretch="Uniform"  >
-                                <StackPanel Name="reportView" Margin="0,5,0,5">
-                                </StackPanel>
-                            </Viewbox>
-                        </ScrollViewer>
-                    </TabItem>
-                </TabControl>
-            </Border>
 
+            <!-- 左侧面板 -->
+            <controls:LeftPanelControl x:Name="leftPanelControl" Grid.Column="0" Grid.Row="0" />
 
-            <DockPanel Grid.Row="1" Margin="5">
-                <ToggleButton Width="95" Height="25" DockPanel.Dock="Left"  Style="{DynamicResource IndicateButton}" Click="Button_Click">预览</ToggleButton>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <ToggleButton Width="95"  Style="{DynamicResource IndicateButton}" Click="Button_Click_1">开始采集</ToggleButton>
-                    <Button Width="70" Height="25" DockPanel.Dock="Right" Click="Button_Click_2">拍照</Button>
-                </StackPanel>
-                <TextBlock />
-            </DockPanel>
+            <!-- 左侧控制面板 -->
+            <controls:ControlPanelControl x:Name="controlPanelControl" 
+                                          Grid.Column="0" Grid.Row="1" 
+                                          PreviewCommand="{Binding PreviewCommand}"
+                                          StartAcquireCommand="{Binding StartAcquireCommand}"
+                                          SnapshotCommand="{Binding SnapshotCommand}" />
+
+            <!-- 左侧分割器 -->
             <GridSplitter Name="LeftSplitter" Grid.Column="1" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="LeftSplitter_MouseDoubleClick" >
                 <Control.Background>
                     <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
                 </Control.Background>
             </GridSplitter>
-            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
-                <Border Style="{StaticResource RadiusBorder}">
-                    <StackPanel Name="materialView" Margin="2,2,4,2">
-                        <TextBlock>Workspace 1</TextBlock>
-                    </StackPanel>
-                </Border>
-            </ScrollViewer>
-            <StackPanel Grid.Row="2" Grid.Column="2" Margin="5" Orientation="Horizontal">
-                <Button Width="60" Margin="10,0,10,0" Click="Button_Click_3">多模态</Button>
-                <Button Width="60" Margin="0,0,10,0" Click="Button_Click_4">多通道</Button>
-            </StackPanel>
+
+            <!-- 中间面板 -->
+            <controls:MiddlePanelControl x:Name="middlePanelControl" 
+                                         Grid.Column="2" Grid.RowSpan="2"
+                                         MultiModeCommand="{Binding ToggleMultiModeCommand}"
+                                         MultiChannelCommand="{Binding ToggleMultiChannelCommand}" />
+
+            <!-- 中间分割器 -->
             <GridSplitter Name="MiddleSplitter" Grid.Column="3" HorizontalAlignment="Center" Width="6" Margin="2,0,2,0" MouseDoubleClick="MiddleSplitter_MouseDoubleClick">
                 <Control.Background>
                     <ImageBrush ImageSource="/Resources/Icons/splitter.png" Stretch="Uniform" />
                 </Control.Background>
             </GridSplitter>
-            <Grid Column="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <Border Name="imagingView" Style="{StaticResource RadiusBorder}" Background="{DynamicResource WindowBackgroundBrush}" Padding="3">
-                    <im:ImageView/>
-                </Border>
-            </Grid>
 
-            <StatusBar Name="statusBar"  Background="Transparent"  Grid.Row="2" Grid.Column="4" Height="22">
-                <StatusBar.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <DockPanel/>
-                    </ItemsPanelTemplate>
-                </StatusBar.ItemsPanel>
-                <StatusBarItem>
-                    <TextBlock Name="imageUnit"/>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="2">
-                    <TextBlock Name="imageX" Text="{Binding Path=ImageX}"/>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="3">
-                    <TextBlock Name="imageY" Text="{Binding Path=ImageY}"/>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="4">
-                    <TextBlock Name="imageZ" Text="{Binding Path=ImageZ}"/>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="6">
-                    <TextBlock Name="imageSize" Text="{Binding Path=ImageSize}"/>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="8">
-                    <TextBlock Name="imageFocus" Text="{Binding Path=ImageFocus}" />
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="10" >
-                    <TextBlock Name="imageCreateTime" Text="{Binding Path=CreateTime}" />
-                </StatusBarItem>
+            <!-- 右侧面板 -->
+            <controls:RightPanelControl x:Name="rightPanelControl" Grid.Column="4" Grid.Row="0" DataContext="{Binding}" />
 
-            </StatusBar>
-            <ComboBox Name="msgList"  Grid.Column="4" Grid.Row="2" SelectedIndex="0" BorderThickness="0" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Width="400" Height="30">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Path=Text}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <!-- 状态栏 -->
+            <controls:StatusBarControl x:Name="statusBarControl" Grid.Row="1" Grid.Column="4" />
         </Grid>
 
         <Grid Name="stageConfig" Row="1">

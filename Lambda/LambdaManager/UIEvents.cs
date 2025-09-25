@@ -5,22 +5,37 @@ using Lambda;
 using LambdaManager.Core;
 using LambdaManager.Mode;
 using Global.Common.Extensions;
+using LambdaManager.Services;
 
 namespace LambdaManager.Features;
 
+/// <summary>
+/// UI事件处理类，负责管理UI相关的事件和状态更新
+/// </summary>
 public class UIEvents {
 
     private static UIEvents instance;
     private static readonly object locker = new();
+    private readonly IMessageService _messageService;
 
+    /// <summary>
+    /// 获取单例实例
+    /// </summary>
+    /// <returns>UIEvents实例</returns>
     public static UIEvents GetInstance() {
         lock (locker) { return instance ??= new UIEvents(); }
     }
+
     private UIEvents() {
+        _messageService = MessageService.Instance;
         Common.AddEventHandler("UPDATE_STATUS", OnUpdateStatus, once: false);
         Common.AddEventHandler("FPS_INDEX_CHANNGED", FPS_INDEX_CHANNGED, once: false);
+        Common.AddEventHandler("UPDATE_PANEL_STATE", OnUpdatePanelState, once: false);
     }
 
+    /// <summary>
+    /// FPS索引改变事件处理
+    /// </summary>
     private bool FPS_INDEX_CHANNGED(object sender, EventArgs e) {
         int? index = LambdaArgs.GetEventData(e).GetInt("index");
         if (index.HasValue) {
@@ -29,14 +44,18 @@ public class UIEvents {
             //a3.i.b(0);
         }
 
-
         return true;
     }
 
-
+    /// <summary>
+    /// 状态更新数据
+    /// </summary>
     public UpdateStatus updateStatus = new UpdateStatus();
 
-    private  bool OnUpdateStatus(object sender, EventArgs e)
+    /// <summary>
+    /// 状态更新事件处理
+    /// </summary>
+    private bool OnUpdateStatus(object sender, EventArgs e)
     {
         Dictionary<string, object>? eventData = LambdaArgs.GetEventData(e);
         if (eventData == null)
@@ -69,7 +88,9 @@ public class UIEvents {
         return true;
     }
 
-
+    /// <summary>
+    /// 面板状态更新事件处理
+    /// </summary>
     private static bool OnUpdatePanelState(object sender, EventArgs e)
     {
         Dictionary<string, object> dict = LambdaArgs.GetEventData(e);
@@ -105,6 +126,9 @@ public class UIEvents {
         return true;
     }
 
+    /// <summary>
+    /// 特定面板状态更新处理
+    /// </summary>
     private static bool OnUpdateSpecificPanelState(MainWindow main, string s, bool? visible)
     {
         if (!(s == "LEFT"))
