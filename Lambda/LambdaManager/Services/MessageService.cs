@@ -2,9 +2,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using LambdaCore;
+using Lambda;
 
 namespace LambdaManager.Services
-{
+{ 
+
     /// <summary>
     /// 消息服务实现，集中管理消息通知和分发
     /// </summary>

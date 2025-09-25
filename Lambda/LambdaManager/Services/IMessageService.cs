@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using LambdaCore;
+using Lambda;
 
 namespace LambdaManager.Services
 {

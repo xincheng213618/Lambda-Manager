@@ -94,6 +94,7 @@ namespace LambdaManager
         /// </summary>
         private void Window_Initialized(object sender, EventArgs e)
         {
+            ViewModel = new MainWindowViewModel();
             // 初始化菜单管理器
             MenuManager.GetInstance().Menu = menu;
             MenuManager.GetInstance().LoadMenuItemFromAssembly();
@@ -102,7 +103,7 @@ namespace LambdaManager
             ViewManager.GetInstance().ViewChanged += ViewChanged;
 
             // 设置日志写入到消息服务
-            Log.LogWrite += _messageService.AddMessage;
+            //Log.LogWrite += _messageService.AddMessage;
             
             // 设置状态栏数据上下文
             statusBarControl.SetStatusDataContext(ViewModel.UpdateStatus);

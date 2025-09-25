@@ -86,8 +86,8 @@
     <Content Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ColorVision.ImageEditor" Version="1.3.6.9" />
-    <PackageReference Include="ColorVision.UI" Version="1.3.6.4" />
+    <PackageReference Include="ColorVision.ImageEditor" Version="1.3.7.3" />
+    <PackageReference Include="ColorVision.UI" Version="1.3.7.8" />
   </ItemGroup>
 	<ItemGroup>
 		<Resource Include="Image\ZIRCON.png" />
